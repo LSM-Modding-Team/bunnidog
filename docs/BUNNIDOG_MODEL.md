@@ -15,7 +15,7 @@ of its tawny outer face; the slightly taller image-right ear exposes the pink
 interior. Their different shapes and twist follow the original photo. Their bases sit inside the skull. Front legs bend
 and spread differently; paws turn outward and have four unequal digits with
 short nails. Shoulder and hip roots extend inside the torso. The coat combines
-short fine fur texture with sparse surface strands; the chest and inner forelegs
+short fine fur texture without individual strand geometry; the chest and inner forelegs
 show pink, sparsely-haired skin.
 
 The default build follows the reference's stocky proportions: the chest and

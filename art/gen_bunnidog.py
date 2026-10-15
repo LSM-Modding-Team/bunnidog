@@ -107,7 +107,7 @@ def smooth_normals():
 
 def pack_uvs():
     x, y, shelf = 2, HEAD_H + 4, 0
-    # Height-sorted shelves avoid wasting most of the small tier atlases on
+    # Height-sorted shelves avoid wasting most of the compact atlas on
     # a few tall patches. Face order in the mesh remains unchanged.
     for t in TILES:
         if t['material'] == 'face':
