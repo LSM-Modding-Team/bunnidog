@@ -38,6 +38,8 @@ contact and regression checks for head UV/lighting continuity. The user's
 screenshots establish prior in-game Low/Ultra rendering, not confirmation of
 this fix. Final in-game lighting and performance still need gameplay review.
 
+**Branch preference:** work directly on `main`; do not create additional branches.
+
 **Delivery preference:** do not attach or link JARs in chat. The user downloads
 builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 

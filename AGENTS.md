@@ -8,6 +8,8 @@ are obsolete. The user's current request determines scope.
 - Complete the requested change through implementation and appropriate validation.
   Do not limit work to 2–6 files, one API, or one feature fragment per turn.
   Do not start unrelated roadmap work when fixing a reported issue.
+- Work directly on `main`. Do not create additional branches unless the user
+  explicitly requests one.
 - Preserve existing uncommitted work and player saves. Use Git diffs to review
   changes; do not reset the checkout, delete `run/`, or commit/push unasked.
 - Run actual Gradle compilation for Java/resource/model changes when available:
