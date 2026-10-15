@@ -10,13 +10,17 @@ import com.bunnidogs.mod.layout.DenShape;
 import com.bunnidogs.mod.layout.Settlement;
 import com.bunnidogs.mod.layout.TunnelShape;
 import com.bunnidogs.mod.registry.ModBlocks;
+import com.bunnidogs.mod.registry.ModBiomeTags;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -28,13 +32,14 @@ final class WarrenTunnels {
     private static final int STRIDE = 4;
     private static final DenShape.Kind[] KINDS = DenShape.Kind.values();
 
-    static TunnelShape.Network plan(WorldGenLevel world, BlockPos origin, Settlement layout, long seed) {
-        return TunnelShape.plan(layout, seed, new Terrain(origin, world, p -> world.getBlockState(p)) {
+    static TunnelShape.Network plan(WorldGenLevel world, BlockPos origin, Settlement layout, long seed, boolean surface, boolean open) {
+        TunnelShape.Terrain terrain = new Terrain(origin, world, p -> world.getBlockState(p)) {
             @Override public Integer surface(int x, int z) {
-                BlockPos floor = WarrenFeature.groundAt(world, origin.getX() + x, origin.getY(), origin.getZ() + z, true);
+                BlockPos floor = WarrenFeature.groundAt(world, origin.getX() + x, origin.getY(), origin.getZ() + z, surface);
                 return floor == null ? null : floor.getY() - origin.getY();
             }
-        });
+        };
+        return open ? TunnelShape.planOpen(layout,seed,terrain) : TunnelShape.plan(layout,seed,terrain);
     }
 
     static TunnelShape.Network plan(Structure.GenerationContext context, BlockPos origin, Settlement layout, long seed) {
@@ -42,7 +47,7 @@ final class WarrenTunnels {
         Map<Long, NoiseColumn> columns = new HashMap<>();
         Function<BlockPos, BlockState> reader = p -> columns.computeIfAbsent(key(p.getX(), p.getZ()),
                 ignored -> context.chunkGenerator().getBaseColumn(p.getX(), p.getZ(), context.heightAccessor(), context.randomState())).getBlock(p.getY());
-        return TunnelShape.plan(layout, seed, new Terrain(origin, EmptyBlockGetter.INSTANCE, reader) {
+        TunnelShape.Terrain terrain = new Terrain(origin, EmptyBlockGetter.INSTANCE, reader) {
             private final Map<Long, Integer> heights = new HashMap<>();
 
             @Override public Integer surface(int x, int z) {
@@ -52,7 +57,10 @@ final class WarrenTunnels {
                 TunnelShape.Pos p = new TunnelShape.Pos(x, y, z);
                 return solid(new TunnelShape.Pos(x, y - 1, z)) && replaceable(p) && replaceable(new TunnelShape.Pos(x, y + 1, z)) ? y : null;
             }
-        });
+        };
+        boolean end = context.biomeSource().getNoiseBiome(origin.getX() >> 2, origin.getY() >> 2, origin.getZ() >> 2,
+                context.randomState().sampler()).is(ModBiomeTags.lineage(Lineage.END));
+        return end ? TunnelShape.planOpen(layout,seed,terrain) : TunnelShape.plan(layout,seed,terrain);
     }
 
     private abstract static class Terrain implements TunnelShape.Terrain {
@@ -131,7 +139,7 @@ final class WarrenTunnels {
         }
     }
 
-    private static BlockState state(DenShape.Kind kind, Lineage style) {
+    static BlockState state(DenShape.Kind kind, Lineage style) {
         return switch (kind) {
             case AIR -> Blocks.AIR.defaultBlockState();
             case FILL -> WarrenPalette.get(style, WarrenPalette.Role.FILL);
@@ -141,6 +149,13 @@ final class WarrenTunnels {
             case NEST -> ModBlocks.NEST.get().defaultBlockState();
             case HAY -> WarrenPalette.get(style, WarrenPalette.Role.HAY);
             case LANTERN -> Blocks.LANTERN.defaultBlockState();
+            case CEILING_LANTERN -> Blocks.LANTERN.defaultBlockState().setValue(LanternBlock.HANGING, true);
+            case BARREL -> Blocks.BARREL.defaultBlockState();
+            case WATER -> Blocks.WATER.defaultBlockState();
+            case GLASS -> Blocks.GLASS.defaultBlockState();
+            case ROOTS -> Blocks.HANGING_ROOTS.defaultBlockState();
+            case HATCH_X, HATCH_Z -> ModBlocks.GUAVA_TRAPDOOR.get().defaultBlockState().setValue(TrapDoorBlock.OPEN, true)
+                    .setValue(TrapDoorBlock.FACING, kind == DenShape.Kind.HATCH_X ? Direction.EAST : Direction.NORTH);
         };
     }
 

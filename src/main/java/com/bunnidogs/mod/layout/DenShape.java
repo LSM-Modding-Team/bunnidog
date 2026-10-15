@@ -61,7 +61,9 @@ public final class DenShape {
         /** The style's fill block: the den's ceiling lining. */ FILL,
         /** A Nest block. */ NEST,
         /** A hay block of the style. */ HAY,
-        /** A lantern standing on the block below it. */ LANTERN
+        /** A lantern standing on the block below it. */ LANTERN,
+        // Append only: saved underground cell tuples use these ordinals.
+        BARREL, WATER, GLASS, ROOTS, HATCH_X, HATCH_Z, CEILING_LANTERN
     }
 
     public record Cell(int dx, int dy, int dz, Kind kind) {}

@@ -67,7 +67,7 @@ public final class CellarShape {
         return top;
     }
 
-    private static List<Pos> find(Settlement settlement, Settlement.House house, TunnelShape.Terrain terrain,
+    static List<Pos> find(Settlement settlement, Settlement.House house, TunnelShape.Terrain terrain,
             Map<Pos, DenShape.Kind> cells, List<TunnelShape.Mouth> mouths, Pos start) {
         ArrayDeque<Node> queue = new ArrayDeque<>();
         Set<Pos> seen = new HashSet<>();
@@ -131,7 +131,12 @@ public final class CellarShape {
                 && cells.get(p.offset(0, 2, 0)) == DenShape.Kind.AIR && full(cells.get(p.offset(0, -1, 0)));
     }
 
-    private static boolean full(DenShape.Kind kind) { return kind != null && kind != DenShape.Kind.AIR && kind != DenShape.Kind.LANTERN; }
+    static boolean full(DenShape.Kind kind) {
+        return kind != null && switch (kind) {
+            case AIR, LANTERN, CEILING_LANTERN, WATER, ROOTS, HATCH_X, HATCH_Z -> false;
+            default -> true;
+        };
+    }
 
     private static boolean reserved(Settlement settlement, int x, int z) {
         for (Settlement.House h : settlement.houses()) {
@@ -141,7 +146,7 @@ public final class CellarShape {
         return false;
     }
 
-    private static Map<Pos, DenShape.Kind> build(Settlement settlement, TunnelShape.Terrain terrain, Map<Pos, DenShape.Kind> existing,
+    static Map<Pos, DenShape.Kind> build(Settlement settlement, TunnelShape.Terrain terrain, Map<Pos, DenShape.Kind> existing,
             List<TunnelShape.Mouth> mouths, Pos start, List<Pos> steps) {
         Map<Pos, DenShape.Kind> out = new LinkedHashMap<>();
         for (Pos step : steps) {
@@ -186,7 +191,7 @@ public final class CellarShape {
         return out;
     }
 
-    private static boolean safe(TunnelShape.Terrain terrain, Pos p) {
+    static boolean safe(TunnelShape.Terrain terrain, Pos p) {
         if (!terrain.diggable(p) || !terrain.dry(p)) return false;
         for (int[] d : AROUND) if (!terrain.dry(p.offset(d[0], 0, d[1]))) return false;
         return terrain.dry(p.offset(0, -1, 0)) && terrain.dry(p.offset(0, 1, 0));

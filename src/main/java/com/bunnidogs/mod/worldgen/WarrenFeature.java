@@ -9,6 +9,7 @@ import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Lineage;
 import com.bunnidogs.mod.layout.DenShape;
 import com.bunnidogs.mod.layout.HouseShape;
+import com.bunnidogs.mod.layout.HouseDetails;
 import com.bunnidogs.mod.layout.PathShape;
 import com.bunnidogs.mod.layout.PropShape;
 import com.bunnidogs.mod.layout.Settlement;
@@ -26,6 +27,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.LanternBlock;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -130,8 +135,9 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
             BunnidogsMod.LOGGER.info("Warren gave up at {} ({} kind): no room for the trunk", floor, kind);
             return new Built(0, 0, 0, 0, 0);
         }
-        TunnelShape.Network underground = surfaceOnly && settlement.level() >= 2
-                ? WarrenTunnels.plan(level, floor, settlement, rng.nextLong()) : TunnelShape.Network.empty();
+        boolean open = !surfaceOnly || style == Lineage.END;
+        TunnelShape.Network underground = open || settlement.level() >= 2
+                ? WarrenTunnels.plan(level, floor, settlement, rng.nextLong(), surfaceOnly, open) : TunnelShape.Network.empty();
         if (!underground.cells().isEmpty()) {
             WarrenTunnels.place(level, floor, WarrenTunnels.encode(underground), null, style);
         }
@@ -144,7 +150,7 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
                     ? floor
                     : groundAt(level, floor.getX() + cluster.dx(), floor.getY(), floor.getZ() + cluster.dz(), surfaceOnly);
             boolean networkDen = underground.dens().contains(clusterIndex++);
-            int here = at == null ? NO_CLUSTER : buildCluster(level, at, cluster.shape(), rng, surfaceOnly, style, settlement.level() == 1, networkDen);
+            int here = at == null ? NO_CLUSTER : buildCluster(level, at, cluster.shape(), rng, surfaceOnly, style, settlement.level() == 1 && !open, networkDen);
             if (here == NO_CLUSTER) {
                 if (trees == 0 && cluster.dx() == 0 && cluster.dz() == 0) {
                     BunnidogsMod.LOGGER.info("Warren gave up at {} ({} kind): no room for the trunk", floor, kind);
@@ -199,6 +205,10 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
      * structure piece) decides the guava-wood tier ({@link HouseShape#tierFor}). Returns false, having changed nothing, if it does not fit.
      */
     static boolean buildHouse(WorldGenLevel level, int x, int y, int z, Settlement.House house, boolean surface, Lineage style, int devLevel) {
+        return buildHouse(level,x,y,z,house,surface,style,devLevel,true);
+    }
+
+    static boolean buildHouse(WorldGenLevel level, int x, int y, int z, Settlement.House house, boolean surface, Lineage style, int devLevel, boolean woodDetails) {
         BlockPos centre = groundAt(level, x, y, z, surface);
         if (centre == null) {
             return false;
@@ -255,12 +265,33 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
                 case PLANK_SLAB -> WarrenPalette.get(style, WarrenPalette.Role.PLANK_SLAB);
                 case FOUNDATION -> WarrenPalette.get(style, WarrenPalette.Role.RING_A);
             };
+            if (woodDetails && devLevel == 4 && WarrenPalette.houseForm(style) == HouseShape.Form.MOUND && cell.dy() == 1
+                    && (Math.abs(cell.dx()) + Math.abs(cell.dz()) == 1)
+                    && (cell.dx() != house.doorDx() || cell.dz() != house.doorDz())) state = Blocks.GLASS.defaultBlockState();
             level.setBlock(base.offset(cell.dx(), cell.dy(), cell.dz()), state, FLAGS);
         }
         // H3b (docs/HOME_SPECS.md): the floor block under the hollow centre becomes a Nest, so a house is a home for one dog. The hollow is
         // two (mound) or three (tower, loft) blocks high and its doorway is two high, so a dog standing on the nest has room and a way in.
         // After the cells, so nothing above overwrites it, and set the way H3 sets the nests beside the burrows (a point of interest).
         level.setBlock(base.below(), ModBlocks.NEST.get().defaultBlockState(), FLAGS);
+        if (woodDetails) {
+            for (HouseDetails.Cell cell : HouseDetails.cells(house.doorDx(),house.doorDz(),WarrenPalette.houseForm(style),devLevel)) {
+                BlockPos at = base.offset(cell.dx(),cell.dy(),cell.dz());
+                if (!GuavaTree.replaceable(level.getBlockState(at))) continue;
+                Direction facing = cell.facingX() > 0 ? Direction.EAST : cell.facingX() < 0 ? Direction.WEST
+                        : cell.facingZ() > 0 ? Direction.SOUTH : Direction.NORTH;
+                BlockState detail = switch (cell.kind()) {
+                    // Generated doors start open so existing dogs retain access to their house Nests.
+                    case DOOR_LOWER, DOOR_UPPER -> ModBlocks.GUAVA_DOOR.get().defaultBlockState().setValue(DoorBlock.FACING,facing)
+                            .setValue(DoorBlock.OPEN,true).setValue(DoorBlock.HALF,cell.kind() == HouseDetails.Kind.DOOR_LOWER ? DoubleBlockHalf.LOWER : DoubleBlockHalf.UPPER);
+                    case SHUTTER -> ModBlocks.GUAVA_TRAPDOOR.get().defaultBlockState().setValue(TrapDoorBlock.FACING,facing).setValue(TrapDoorBlock.OPEN,true);
+                    case BEAM -> WarrenPalette.get(style,WarrenPalette.Role.BEAM);
+                    case LANTERN -> Blocks.LANTERN.defaultBlockState().setValue(LanternBlock.HANGING,true);
+                };
+                if (cell.kind() == HouseDetails.Kind.LANTERN && !level.getBlockState(at.above()).isFaceSturdy(level,at.above(),Direction.DOWN)) continue;
+                level.setBlock(at,detail,FLAGS);
+            }
+        }
         return true;
     }
 

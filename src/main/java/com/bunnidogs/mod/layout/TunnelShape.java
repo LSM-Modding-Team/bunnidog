@@ -23,13 +23,13 @@ public final class TunnelShape {
 
     /** Immutable plan: only rooms connected to a fitted surface entrance survive. */
     public record Network(List<Cell> cells, Set<Integer> dens, List<Mouth> mouths,
-            List<CellarShape.Cellar> cellars, Set<DenShape.Pos> pathExclusions) {
-        public static Network empty() { return new Network(List.of(), Set.of(), List.of(), List.of(), Set.of()); }
+            List<CellarShape.Cellar> cellars, Set<DenShape.Pos> pathExclusions, List<UndergroundRooms.Feature> features) {
+        public static Network empty() { return new Network(List.of(), Set.of(), List.of(), List.of(), Set.of(), List.of()); }
     }
 
     /** Spare house candidates must not close a fitted mound or its doorstep in the command/feature generator. */
     public static boolean blocksHouse(Network network, Settlement.House house) {
-        for (Cell cell : network.cells()) if (houseOccupies(house, cell.pos().x(), cell.pos().z())) return true;
+        for (DenShape.Pos p : network.pathExclusions()) if (houseOccupies(house, p.dx(), p.dz())) return true;
         return network.mouths().stream().anyMatch(m -> houseOccupies(house, m.doorstep().x(), m.doorstep().z()));
     }
 
@@ -46,10 +46,10 @@ public final class TunnelShape {
         boolean dry(Pos pos);
     }
 
-    private record Room(int index, Settlement.Cluster tree, int surface, DenShape.Den den, Map<Pos, DenShape.Kind> cells) {
+    private record Room(int index, Settlement.Cluster tree, int surface, int half, int height, DenShape.Den den, Map<Pos, DenShape.Kind> cells) {
         int floor() { return surface - DenShape.DEPTH; }
         boolean contains(int x, int z) {
-            return Math.max(Math.abs(x - tree.dx()), Math.abs(z - tree.dz())) <= DenShape.HALF;
+            return Math.max(Math.abs(x - tree.dx()), Math.abs(z - tree.dz())) <= half;
         }
     }
 
@@ -60,7 +60,16 @@ public final class TunnelShape {
 
     /** Dens under the trees, spokes below the surface paths, and entrances clear of the planned surface buildings. */
     public static Network plan(Settlement settlement, long seed, Terrain terrain) {
-        if (settlement.level() < 2) return Network.empty();
+        return plan(settlement,seed,terrain,false);
+    }
+
+    /** U6b: cave, Nether and End floors use visible open stair cuts rather than surface entrance mounds. */
+    public static Network planOpen(Settlement settlement, long seed, Terrain terrain) {
+        return plan(settlement,seed,terrain,true);
+    }
+
+    private static Network plan(Settlement settlement, long seed, Terrain terrain, boolean open) {
+        if (!open && settlement.level() < 2) return Network.empty();
         List<Room> rooms = new ArrayList<>();
         for (int i = 0; i < settlement.clusters().size(); i++) {
             Settlement.Cluster tree = settlement.clusters().get(i);
@@ -74,9 +83,12 @@ public final class TunnelShape {
                 }
             }
             if (!trunkFits) continue;
-            Map<Pos, DenShape.Kind> cells = roomCells(tree.dx(), top - DenShape.DEPTH, tree.dz());
+            boolean hall = settlement.level() == 5 && i == 0;
+            int half = hall ? 3 : DenShape.HALF;
+            int height = hall ? 4 : DenShape.HEIGHT;
+            Map<Pos, DenShape.Kind> cells = roomCells(tree.dx(), top - DenShape.DEPTH, tree.dz(), half, height);
             if (fits(cells, terrain) && supported(cells, terrain)) {
-                rooms.add(new Room(i, tree, top, DenShape.generate(new Random(seed + 31L * i)), cells));
+                rooms.add(new Room(i, tree, top, half, height, DenShape.generate(new Random(seed + 31L * i)), cells));
             }
         }
         List<Link> links = new ArrayList<>();
@@ -90,6 +102,18 @@ public final class TunnelShape {
                 }
             }
         }
+        if (settlement.level() == 5) {
+            List<Room> outer = rooms.stream().filter(r -> r.index() != 0)
+                    .sorted(java.util.Comparator.comparingDouble(r -> Math.atan2(r.tree().dz(),r.tree().dx()))).toList();
+            if (outer.size() == 4) for (int i = 0; i < outer.size(); i++) {
+                Room from = outer.get(i), to = outer.get((i+1)%outer.size());
+                // Different elevations already have stepped spokes; avoid cutting
+                // a second route through another corridor's stair supports.
+                if (from.floor() != to.floor()) continue;
+                Map<Pos,DenShape.Kind> ring = linkCells(from,to,true);
+                if (!ring.isEmpty() && fits(ring,terrain) && supported(ring,terrain)) links.add(new Link(from.index(),to.index(),ring));
+            }
+        }
         List<Entrance> entrances = new ArrayList<>();
         for (Room room : rooms) {
             int count = 0;
@@ -97,7 +121,8 @@ public final class TunnelShape {
                 boolean found = false;
                 for (int shift : new int[]{0, -1, 1, -2, 2}) {
                     for (int radius = DenShape.MIN_RADIUS; radius <= DenShape.MAX_RADIUS; radius++) {
-                        Entrance entrance = entrance(settlement, room, dir, radius, shift, rooms, links, entrances, terrain);
+                        Entrance entrance = open ? openEntrance(settlement,room,dir,radius,shift,rooms,links,entrances,terrain)
+                                : entrance(settlement, room, dir, radius, shift, rooms, links, entrances, terrain);
                         if (entrance != null) {
                             entrances.add(entrance);
                             count++;
@@ -123,11 +148,21 @@ public final class TunnelShape {
         Map<Pos, DenShape.Kind> out = new LinkedHashMap<>();
         for (Room room : rooms) if (reachable.contains(room.index())) out.putAll(room.cells());
         for (Link link : links) {
-            if (reachable.contains(link.from()) && reachable.contains(link.to())) out.putAll(link.cells());
+            if (reachable.contains(link.from()) && reachable.contains(link.to())) {
+                for (var cell : link.cells().entrySet()) {
+                    // Intersecting corridors share their air volume. A side wall
+                    // must not seal a previously carved spoke or hall opening.
+                    if (out.get(cell.getKey()) != DenShape.Kind.AIR) out.put(cell.getKey(),cell.getValue());
+                }
+            }
         }
         for (Entrance e : entrances) out.putAll(e.cells());
         for (Room room : rooms) {
             if (!reachable.contains(room.index())) continue;
+            if (room.half() == 3) {
+                furnishHall(out, room);
+                continue;
+            }
             for (DenShape.Cell c : room.den().furnishing()) {
                 // Jittered spokes may enter one block off the middle of a side. Keep lights/bedding away from all room edges.
                 int dx = c.kind() == DenShape.Kind.NEST ? c.dx() : c.dx() > 0 ? 0 : 1;
@@ -135,21 +170,43 @@ public final class TunnelShape {
                 out.put(new Pos(room.tree().dx() + dx, room.surface() + c.dy(), room.tree().dz() + dz), c.kind());
             }
         }
-        List<Mouth> mouths = entrances.stream().map(e -> new Mouth(e.room(), e.doorstep())).toList();
+        List<Mouth> mouths = new ArrayList<>(entrances.stream().map(e -> new Mouth(e.room(), e.doorstep())).toList());
+        UndergroundRooms.Result extras = open ? new UndergroundRooms.Result(List.of(),Set.of())
+                : UndergroundRooms.add(settlement, terrain, out, reachable, mouths);
         CellarShape.Result cellars = CellarShape.add(settlement, terrain, out, mouths);
         Set<DenShape.Pos> excluded = new HashSet<>(cellars.pathExclusions());
+        excluded.addAll(extras.pathExclusions());
         for (Entrance e : entrances) e.cells().keySet().forEach(p -> excluded.add(new DenShape.Pos(p.x(), p.z())));
+        List<UndergroundRooms.Feature> features = new ArrayList<>(extras.features());
+        if (settlement.level() == 5 && reachable.contains(0)) {
+            Room hall = rooms.stream().filter(r -> r.index() == 0).findFirst().orElseThrow();
+            features.add(new UndergroundRooms.Feature(UndergroundRooms.Type.HALL, new Pos(0,hall.floor(),0)));
+        }
         return new Network(out.entrySet().stream().map(e -> new Cell(e.getKey(), e.getValue())).toList(),
-                Set.copyOf(reachable), mouths, cellars.cellars(), Set.copyOf(excluded));
+                Set.copyOf(reachable), List.copyOf(mouths), cellars.cellars(), Set.copyOf(excluded), List.copyOf(features));
     }
 
-    private static Map<Pos, DenShape.Kind> roomCells(int x, int floor, int z) {
+    private static void furnishHall(Map<Pos, DenShape.Kind> out, Room room) {
+        int x = room.tree().dx(), z = room.tree().dz(), floor = room.floor();
+        for (int[] p : new int[][]{{-3,-3},{0,-3},{3,-3},{-3,0},{3,0},{-3,3},{0,3},{3,3}}) {
+            out.put(new Pos(x + p[0], floor - 1, z + p[1]), DenShape.Kind.NEST);
+        }
+        for (int dx : new int[]{-2, 2}) for (int dz : new int[]{-2, 2}) {
+            out.put(new Pos(x + dx, floor, z + dz), DenShape.Kind.HAY);
+            out.put(new Pos(x + dx, floor + 1, z + dz), DenShape.Kind.LANTERN);
+        }
+        for (int dx = -1; dx <= 1; dx++) for (int dz = -1; dz <= 1; dz++) {
+            out.put(new Pos(x + dx, floor + 3, z + dz), DenShape.Kind.ROOTS);
+        }
+    }
+
+    private static Map<Pos, DenShape.Kind> roomCells(int x, int floor, int z, int half, int height) {
         Map<Pos, DenShape.Kind> out = new LinkedHashMap<>();
-        int shell = DenShape.HALF + 1;
+        int shell = half + 1;
         for (int dx = -shell; dx <= shell; dx++) {
             for (int dz = -shell; dz <= shell; dz++) {
-                for (int dy = -1; dy <= DenShape.HEIGHT; dy++) {
-                    boolean inside = Math.abs(dx) <= DenShape.HALF && Math.abs(dz) <= DenShape.HALF && dy >= 0 && dy < DenShape.HEIGHT;
+                for (int dy = -1; dy <= height; dy++) {
+                    boolean inside = Math.abs(dx) <= half && Math.abs(dz) <= half && dy >= 0 && dy < height;
                     out.put(new Pos(x + dx, floor + dy, z + dz), inside ? DenShape.Kind.AIR : DenShape.Kind.FILL);
                 }
             }
@@ -157,17 +214,76 @@ public final class TunnelShape {
         return out;
     }
 
+    private static Entrance openEntrance(Settlement settlement, Room room, DenShape.Dir dir, int radius, int shift,
+            List<Room> rooms, List<Link> links, List<Entrance> previous, Terrain terrain) {
+        int ox = room.tree().dx() - dir.dz * shift, oz = room.tree().dz() + dir.dx * shift;
+        DenShape.Pos edge = DenShape.at(dir,radius,0);
+        Integer doorY = terrain.surface(ox+edge.dx(),oz+edge.dz());
+        if (doorY == null || radius < room.half()+DenShape.DEPTH+doorY-room.surface()) return null;
+        DenShape.Pos outer = DenShape.at(dir,radius+1,0);
+        Integer stepY = terrain.surface(ox+outer.dx(),oz+outer.dz());
+        if (stepY == null || stepY > doorY || doorY-stepY > 1) return null;
+        Pos doorstep = new Pos(ox+outer.dx(),stepY,oz+outer.dz());
+        if (!terrain.solid(doorstep.offset(0,-1,0))) return null;
+        for (int y = stepY; y <= doorY+1; y++) if (!terrain.replaceable(new Pos(doorstep.x(),y,doorstep.z()))) return null;
+        Map<Pos,DenShape.Kind> cells = new LinkedHashMap<>();
+        for (int u = radius; u > room.half(); u--) {
+            DenShape.Pos column = DenShape.at(dir,u,0);
+            int x = ox+column.dx(), z = oz+column.dz();
+            int stand = room.surface()+DenShape.standDy(doorY-room.surface(),radius,u);
+            if (!terrain.solid(new Pos(x,stand-1,z))) return null;
+            Integer surface = terrain.surface(x,z);
+            if (surface == null) return null;
+            for (int y = stand; y < stand+(u == radius ? 2 : 3); y++) cells.put(new Pos(x,y,z),DenShape.Kind.AIR);
+            if (stand+3 < surface) cells.put(new Pos(x,stand+3,z),DenShape.Kind.FILL);
+        }
+        Set<DenShape.Pos> columns = new HashSet<>();
+        cells.keySet().forEach(p -> columns.add(new DenShape.Pos(p.x(),p.z())));
+        columns.add(new DenShape.Pos(doorstep.x(),doorstep.z()));
+        for (DenShape.Pos p : columns) {
+            if (Math.max(Math.abs(p.dx()),Math.abs(p.dz())) > Settlement.MAX_EXTENT) return null;
+            for (Settlement.Cluster t : settlement.clusters()) if (t != room.tree() && Math.max(Math.abs(p.dx()-t.dx()),Math.abs(p.dz()-t.dz())) <= 3) return null;
+            for (Settlement.House h : settlement.houses()) if (houseOccupies(h,p.dx(),p.dz())) return null;
+            for (Settlement.Prop prop : settlement.props()) if (Math.max(Math.abs(p.dx()-prop.dx()),Math.abs(p.dz()-prop.dz())) <= 1) return null;
+            for (Room other : rooms) if (other != room && other.contains(p.dx(),p.dz())) return null;
+            for (Link link : links) if (link.cells().keySet().stream().anyMatch(q -> q.x() == p.dx() && q.z() == p.dz())) return null;
+            for (Entrance e : previous) if (e.doorstep().x() == p.dx() && e.doorstep().z() == p.dz()
+                    || e.cells().keySet().stream().anyMatch(q -> q.x()==p.dx() && q.z()==p.dz())) return null;
+        }
+        return fits(cells,terrain) ? new Entrance(room.index(),doorstep,cells) : null;
+    }
+
     /** Follow the same long-axis-first spoke as PathShape; room interiors retain their own level floors. */
     private static Map<Pos, DenShape.Kind> linkCells(Room from, Room to) {
+        return linkCells(from,to,false);
+    }
+
+    private static Map<Pos, DenShape.Kind> linkCells(Room from, Room to, boolean perimeter) {
         List<DenShape.Pos> route = new ArrayList<>();
         int x = from.tree().dx(), z = from.tree().dz();
-        boolean alongX = Math.abs(to.tree().dx() - x) >= Math.abs(to.tree().dz() - z);
         route.add(new DenShape.Pos(x, z));
-        for (int axis = 0; axis < 2; axis++) {
-            if (alongX == (axis == 0)) {
-                while (x != to.tree().dx()) { x += Integer.signum(to.tree().dx() - x); route.add(new DenShape.Pos(x, z)); }
-            } else {
-                while (z != to.tree().dz()) { z += Integer.signum(to.tree().dz() - z); route.add(new DenShape.Pos(x, z)); }
+        if (perimeter) {
+            // Loop around the hall, inside the satellite anchors. The outer corners are
+            // beneath the houses and leave no solid ground for their descending ramps.
+            int cornerX = Math.abs(x) > Math.abs(z) ? x - Integer.signum(x) * 3
+                    : to.tree().dx() - Integer.signum(to.tree().dx()) * 3;
+            int cornerZ = Math.abs(z) > Math.abs(x) ? z - Integer.signum(z) * 3
+                    : to.tree().dz() - Integer.signum(to.tree().dz()) * 3;
+            int[][] waypoints = Math.abs(x) > Math.abs(z)
+                    ? new int[][]{{cornerX,z},{cornerX,cornerZ},{to.tree().dx(),cornerZ},{to.tree().dx(),to.tree().dz()}}
+                    : new int[][]{{x,cornerZ},{cornerX,cornerZ},{cornerX,to.tree().dz()},{to.tree().dx(),to.tree().dz()}};
+            for (int[] point : waypoints) {
+                while (x != point[0]) { x += Integer.signum(point[0] - x); route.add(new DenShape.Pos(x,z)); }
+                while (z != point[1]) { z += Integer.signum(point[1] - z); route.add(new DenShape.Pos(x,z)); }
+            }
+        } else {
+            boolean alongX = Math.abs(to.tree().dx() - x) >= Math.abs(to.tree().dz() - z);
+            for (int axis = 0; axis < 2; axis++) {
+                if (alongX == (axis == 0)) {
+                    while (x != to.tree().dx()) { x += Integer.signum(to.tree().dx() - x); route.add(new DenShape.Pos(x, z)); }
+                } else {
+                    while (z != to.tree().dz()) { z += Integer.signum(to.tree().dz() - z); route.add(new DenShape.Pos(x, z)); }
+                }
             }
         }
         List<DenShape.Pos> gap = route.stream().filter(p -> !from.contains(p.dx(), p.dz()) && !to.contains(p.dx(), p.dz())).toList();
@@ -194,7 +310,18 @@ public final class TunnelShape {
             out.put(stand.offset(0, -1, 0), DenShape.Kind.FILL);
             for (int dy = 0; dy < 3; dy++) out.put(stand.offset(0, dy, 0), DenShape.Kind.AIR);
         }
-        // Short spokes are lit by the lanterns in the two adjoining dens (never more than 5 gap columns).
+        // Spokes are short; the longer perimeter ring also has recessed lamps every eight columns.
+        if (perimeter) for (int i = 3; i < stands.size(); i += 8) {
+            Pos stand = stands.get(i);
+            for (int[] d : AROUND) {
+                Pos lamp = stand.offset(d[0],1,d[1]);
+                if (stands.stream().anyMatch(p -> p.x() == lamp.x() && p.z() == lamp.z())) continue;
+                if (out.get(lamp) == DenShape.Kind.FILL && out.get(lamp.offset(0,-1,0)) == DenShape.Kind.FILL) {
+                    out.put(lamp,DenShape.Kind.LANTERN);
+                    break;
+                }
+            }
+        }
         return out;
     }
 
@@ -210,7 +337,7 @@ public final class TunnelShape {
             low = Math.min(low, y);
         }
         int doorDy = top - room.surface();
-        if (top - low > MAX_PAD_SLOPE || !DenShape.canReachDen(doorDy, radius)) return null;
+        if (top - low > MAX_PAD_SLOPE || radius < room.half() + DenShape.DEPTH + doorDy) return null;
         Map<Pos, DenShape.Kind> cells = new LinkedHashMap<>();
         for (DenShape.Pos p : DenShape.padColumns(dir, radius)) {
             int x = ox + p.dx(), z = oz + p.dz();

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "PPP"
+  ],
+  "key": {
+    "P": "bunnidogs:guava_planks"
+  },
+  "result": {
+    "id": "bunnidogs:guava_trapdoor",
+    "count": 2
+  }
+}

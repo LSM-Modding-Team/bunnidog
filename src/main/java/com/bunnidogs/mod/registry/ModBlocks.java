@@ -4,6 +4,7 @@ import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.block.GeneticsTableBlock;
 import com.bunnidogs.mod.block.GeneticsTableBlockEntity;
 import com.bunnidogs.mod.block.GuavaFruitBlock;
+import com.bunnidogs.mod.block.GuavaWoodBlocks;
 import com.bunnidogs.mod.block.GuavaSaplingBlock;
 import com.bunnidogs.mod.block.SeedCropBlock;
 import com.bunnidogs.mod.block.SeedCropBlockEntity;
@@ -13,6 +14,8 @@ import com.bunnidogs.mod.block.TrophyPedestalBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -99,6 +102,17 @@ public final class ModBlocks {
 
     public static final DeferredBlock<FenceBlock> GUAVA_FENCE = BLOCKS.registerBlock("guava_fence", FenceBlock::new,
             props -> props.strength(2.0F, 3.0F).sound(SoundType.WOOD));
+
+    public static final DeferredBlock<GuavaWoodBlocks.Door> GUAVA_DOOR = BLOCKS.registerBlock("guava_door", GuavaWoodBlocks.Door::new,
+            props -> props.strength(3.0F).noOcclusion().ignitedByLava());
+    public static final DeferredBlock<GuavaWoodBlocks.Trapdoor> GUAVA_TRAPDOOR = BLOCKS.registerBlock("guava_trapdoor", GuavaWoodBlocks.Trapdoor::new,
+            props -> props.strength(3.0F).noOcclusion().ignitedByLava());
+    public static final DeferredBlock<GuavaWoodBlocks.Button> GUAVA_BUTTON = BLOCKS.registerBlock("guava_button", GuavaWoodBlocks.Button::new,
+            props -> props.strength(0.5F).noCollision().ignitedByLava());
+    public static final DeferredBlock<GuavaWoodBlocks.PressurePlate> GUAVA_PRESSURE_PLATE = BLOCKS.registerBlock("guava_pressure_plate", GuavaWoodBlocks.PressurePlate::new,
+            props -> props.strength(0.5F).noCollision().ignitedByLava());
+    public static final DeferredBlock<FenceGateBlock> GUAVA_FENCE_GATE = BLOCKS.registerBlock("guava_fence_gate",
+            props -> new FenceGateBlock(WoodType.OAK,props), props -> props.strength(2.0F,3.0F).ignitedByLava());
 
     public static final DeferredBlock<TintedParticleLeavesBlock> GUAVA_LEAVES = BLOCKS.registerBlock("guava_leaves",
             props -> new TintedParticleLeavesBlock(0.0F, props),

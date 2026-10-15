@@ -4,6 +4,7 @@ import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.client.model.BunnidogModelLayer;
 import com.bunnidogs.mod.client.renderer.BunnidogRenderer;
 import com.bunnidogs.mod.client.renderer.TrophyPedestalRenderer;
+import com.bunnidogs.mod.client.renderer.GeneticsTableRenderer;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModEntities;
 
@@ -26,5 +27,6 @@ public final class BunnidogsClient {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.BUNNIDOG.get(), BunnidogRenderer::new);
         event.registerBlockEntityRenderer(ModBlocks.TROPHY_PEDESTAL_BE.get(), TrophyPedestalRenderer::new);
+        event.registerBlockEntityRenderer(ModBlocks.GENETICS_TABLE_BE.get(), GeneticsTableRenderer::new);
     }
 }

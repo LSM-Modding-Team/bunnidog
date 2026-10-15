@@ -8,7 +8,6 @@ import java.util.Random;
 
 import com.bunnidogs.mod.genetics.Lineage;
 import com.bunnidogs.mod.layout.DenShape;
-import com.bunnidogs.mod.registry.ModBlocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
@@ -211,16 +210,7 @@ final class WarrenDen {
     }
 
     private static BlockState state(DenShape.Kind kind, Lineage style) {
-        return switch (kind) {
-            case AIR -> Blocks.AIR.defaultBlockState();
-            case WALL -> WarrenPalette.get(style, WarrenPalette.Role.WALL);
-            case ROOF -> WarrenPalette.get(style, WarrenPalette.Role.ROOF);
-            case BEAM -> WarrenPalette.get(style, WarrenPalette.Role.BEAM);
-            case FILL -> WarrenPalette.get(style, WarrenPalette.Role.FILL);
-            case NEST -> ModBlocks.NEST.get().defaultBlockState();
-            case HAY -> WarrenPalette.get(style, WarrenPalette.Role.HAY);
-            case LANTERN -> Blocks.LANTERN.defaultBlockState();
-        };
+        return WarrenTunnels.state(kind, style);
     }
 
     /** Air, or something soft and plain to dig out: not a fluid, not a container, nothing harder than stone (the rule of the old burrow holes). */

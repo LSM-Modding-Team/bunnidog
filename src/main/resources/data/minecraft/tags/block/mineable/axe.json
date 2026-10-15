@@ -10,6 +10,11 @@
     "bunnidogs:guava_stairs",
     "bunnidogs:guava_slab",
     "bunnidogs:guava_fence",
-    "bunnidogs:nest"
+    "bunnidogs:nest",
+    "bunnidogs:guava_door",
+    "bunnidogs:guava_trapdoor",
+    "bunnidogs:guava_button",
+    "bunnidogs:guava_pressure_plate",
+    "bunnidogs:guava_fence_gate"
   ]
 }

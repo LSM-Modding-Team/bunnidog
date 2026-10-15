@@ -1,9 +1,11 @@
 import com.bunnidogs.mod.layout.DenShape;
 import com.bunnidogs.mod.layout.HouseShape;
+import com.bunnidogs.mod.layout.HouseDetails;
 import com.bunnidogs.mod.layout.PathShape;
 import com.bunnidogs.mod.layout.Settlement;
 import com.bunnidogs.mod.layout.TunnelShape;
 import com.bunnidogs.mod.layout.TunnelShape.Pos;
+import com.bunnidogs.mod.layout.UndergroundRooms;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
@@ -28,6 +30,7 @@ public final class WarrenNetworkCheck {
     public static void main(String[] args) {
         int networks = 0;
         int cellarRamps = 0;
+        Map<UndergroundRooms.Type, Integer> features = new java.util.EnumMap<>(UndergroundRooms.Type.class);
         for (int level = 2; level <= 5; level++) {
             int levelCellars = 0;
             for (long seed = 0; seed < 24; seed++) {
@@ -41,6 +44,16 @@ public final class WarrenNetworkCheck {
                 chunkPartitions(network);
                 checkCellars(settlement, network, terrain);
                 levelCellars += network.cellars().size();
+                network.features().forEach(f -> features.merge(f.type(),1,Integer::sum));
+                if (level == 5 && network.dens().contains(0)) {
+                    long nursery = network.cells().stream().filter(c -> c.kind() == DenShape.Kind.NEST && c.pos().y() == -6
+                            && Math.max(Math.abs(c.pos().x()),Math.abs(c.pos().z())) <= 3).count();
+                    require(nursery == 8,"The grand-tree hall must keep eight nursery Nests");
+                    Settlement.Cluster east = settlement.clusters().stream().max(java.util.Comparator.comparingInt(Settlement.Cluster::dx)).orElseThrow();
+                    Settlement.Cluster south = settlement.clusters().stream().max(java.util.Comparator.comparingInt(Settlement.Cluster::dz)).orElseThrow();
+                    require(network.cells().stream().anyMatch(c -> c.pos().equals(new Pos(east.dx()-3,-5,south.dz()-3)) && c.kind() == DenShape.Kind.AIR),
+                            "A level-five village must have the outer tunnel ring, too");
+                }
                 for (Settlement.House house : settlement.houses().subList(0, Settlement.housesFor(level))) {
                     require(!TunnelShape.blocksHouse(network, house), "Network must leave planned houses and their doorsteps free");
                 }
@@ -50,6 +63,7 @@ public final class WarrenNetworkCheck {
             cellarRamps += levelCellars;
         }
         require(networks >= 85, "Most flat layouts must fit entrances around existing buildings");
+        for (UndergroundRooms.Type type : UndergroundRooms.Type.values()) require(features.getOrDefault(type,0) > 0, "Missing planned feature: " + type);
         Settlement settlement = Settlement.generate(new Random(7), 5);
         Ground wet = new Ground();
         wet.water.add(new Pos(0, -5, 0));
@@ -89,8 +103,21 @@ public final class WarrenNetworkCheck {
         };
         reachable(TunnelShape.plan(settlement, 7, cliff), cliff, false);
         require(TunnelShape.plan(Settlement.generate(new Random(0), 1), 0, new Ground()).cells().isEmpty(), "Level 1 keeps its existing layout");
+        for (int level = 1; level <= 5; level++) {
+            Ground cave = new Ground() {
+                @Override public boolean solid(Pos p) { return p.y() >= 6 || super.solid(p); }
+                @Override public boolean replaceable(Pos p) { return p.y() < 6 && super.replaceable(p); }
+            };
+            for (int seed = 0; seed < 8; seed++) {
+                TunnelShape.Network open = TunnelShape.planOpen(Settlement.generate(new Random(seed),level),seed,cave);
+                if (seed == 1) require(!open.dens().isEmpty(), "Cave/Nether/End floors need accessible dens at level " + level);
+                require(open.cells().stream().noneMatch(c -> c.kind() == DenShape.Kind.WALL || c.kind() == DenShape.Kind.ROOF || c.kind() == DenShape.Kind.BEAM), "Open entrances must not add surface mounds");
+                try { reachable(open,cave,false); }
+                catch (AssertionError error) { throw new AssertionError("open level " + level + ", seed " + seed + ": " + error.getMessage(),error); }
+            }
+        }
         System.out.println("Warren network OK: " + networks + " flat layouts, " + cellarRamps
-                + " cellar ramps; sloped/cliff terrain, fluid/protected-block fallback, house/path clearance and chunk partitions");
+                + " cellar ramps, " + features + "; terrain fallback, house/path clearance and chunk partitions");
     }
 
     private static void checkCellars(Settlement settlement, TunnelShape.Network network, Ground terrain) {
@@ -105,6 +132,15 @@ public final class WarrenNetworkCheck {
                             c.kind() == HouseShape.Kind.OPEN ? DenShape.Kind.AIR : DenShape.Kind.FILL);
                 }
                 built.put(new Pos(house.dx(), top - 1, house.dz()), DenShape.Kind.NEST);
+                for (HouseDetails.Cell detail : HouseDetails.cells(house.doorDx(),house.doorDz(),form,settlement.level())) {
+                    Pos p = new Pos(house.dx()+detail.dx(),top+detail.dy(),house.dz()+detail.dz());
+                    if (built.containsKey(p) ? built.get(p) != DenShape.Kind.AIR : !terrain.replaceable(p)) continue;
+                    built.put(p,switch (detail.kind()) {
+                        case DOOR_LOWER, DOOR_UPPER, SHUTTER -> DenShape.Kind.HATCH_X;
+                        case BEAM -> DenShape.Kind.BEAM;
+                        case LANTERN -> DenShape.Kind.CEILING_LANTERN;
+                    });
+                }
             }
             // Model the surface paving after the house pieces, respecting the exclusions consumed by both world generators.
             for (PathShape.Cell p : PathShape.network(settlement.clusters(), settlement.houses().subList(0, Settlement.housesFor(settlement.level())), settlement.props())) {
@@ -159,6 +195,10 @@ public final class WarrenNetworkCheck {
             if (joined) for (TunnelShape.Cell c : network.cells()) if (c.kind() == DenShape.Kind.NEST) {
                 require(seen.contains(new Pos(c.pos().x(), c.pos().y() + 1, c.pos().z())), "Dens must share one traversable network");
             }
+            if (joined) for (UndergroundRooms.Feature f : network.features()) {
+                Pos p = f.type() == UndergroundRooms.Type.CISTERN ? new Pos(f.centre().x()+2,f.centre().y(),f.centre().z()) : f.centre();
+                if (f.type() != UndergroundRooms.Type.SKYLIGHT) require(seen.contains(p), "A landmark room or hall must be reachable: " + f);
+            }
         }
         Set<Pos> allReachable = new HashSet<>();
         // Walk from all entrances together to check every retained nest, including separate fitted components.
@@ -177,16 +217,30 @@ public final class WarrenNetworkCheck {
         for (TunnelShape.Cell c : network.cells()) if (c.kind() == DenShape.Kind.NEST) {
             require(allReachable.contains(new Pos(c.pos().x(), c.pos().y() + 1, c.pos().z())), "Unreachable nest at " + c.pos());
         }
+        for (TunnelShape.Cell c : network.cells()) if (c.kind() == DenShape.Kind.WATER) {
+            for (int[] d : new int[][]{{1,0,0},{-1,0,0},{0,0,1},{0,0,-1},{0,-1,0}}) {
+                Pos p = new Pos(c.pos().x()+d[0],c.pos().y()+d[1],c.pos().z()+d[2]);
+                require(cells.get(p) == DenShape.Kind.WATER || solid(p,cells,terrain), "Cistern water must be contained: " + p);
+            }
+        }
     }
 
     private static boolean solid(Pos p, Map<Pos, DenShape.Kind> cells, Ground terrain) {
         DenShape.Kind kind = cells.get(p);
-        return kind == null ? terrain.solid(p) : kind != DenShape.Kind.AIR;
+        return kind == null ? terrain.solid(p) : switch (kind) {
+            case AIR, WATER, ROOTS, HATCH_X, HATCH_Z -> false;
+            default -> true;
+        };
     }
 
     private static boolean standable(Pos p, Map<Pos, DenShape.Kind> cells, Ground terrain) {
-        return !solid(p, cells, terrain) && !solid(new Pos(p.x(), p.y() + 1, p.z()), cells, terrain)
-                && solid(new Pos(p.x(), p.y() - 1, p.z()), cells, terrain);
+        Pos below = new Pos(p.x(), p.y() - 1, p.z());
+        DenShape.Kind floor = cells.get(below);
+        boolean supported = floor == null ? terrain.solid(below) : switch (floor) {
+            case AIR, WATER, ROOTS, HATCH_X, HATCH_Z, LANTERN, CEILING_LANTERN -> false;
+            default -> true;
+        };
+        return !solid(p, cells, terrain) && !solid(new Pos(p.x(), p.y() + 1, p.z()), cells, terrain) && supported;
     }
 
     private static void chunkPartitions(TunnelShape.Network network) {

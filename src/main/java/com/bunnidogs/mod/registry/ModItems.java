@@ -32,6 +32,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
@@ -136,6 +137,12 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> GUAVA_STAIRS = ITEMS.registerSimpleBlockItem(ModBlocks.GUAVA_STAIRS);
     public static final DeferredItem<BlockItem> GUAVA_SLAB = ITEMS.registerSimpleBlockItem(ModBlocks.GUAVA_SLAB);
     public static final DeferredItem<BlockItem> GUAVA_FENCE = ITEMS.registerSimpleBlockItem(ModBlocks.GUAVA_FENCE);
+    public static final DeferredItem<DoubleHighBlockItem> GUAVA_DOOR = ITEMS.registerItem("guava_door",
+            props -> new DoubleHighBlockItem(ModBlocks.GUAVA_DOOR.get(),props));
+    public static final DeferredItem<BlockItem> GUAVA_TRAPDOOR = ITEMS.registerSimpleBlockItem(ModBlocks.GUAVA_TRAPDOOR);
+    public static final DeferredItem<BlockItem> GUAVA_BUTTON = ITEMS.registerSimpleBlockItem(ModBlocks.GUAVA_BUTTON);
+    public static final DeferredItem<BlockItem> GUAVA_PRESSURE_PLATE = ITEMS.registerSimpleBlockItem(ModBlocks.GUAVA_PRESSURE_PLATE);
+    public static final DeferredItem<BlockItem> GUAVA_FENCE_GATE = ITEMS.registerSimpleBlockItem(ModBlocks.GUAVA_FENCE_GATE);
     /** The Trophy Pedestal (drops D8a). */
     public static final DeferredItem<BlockItem> TROPHY_PEDESTAL = ITEMS.registerSimpleBlockItem(ModBlocks.TROPHY_PEDESTAL);
 
@@ -313,6 +320,11 @@ public final class ModItems {
             event.accept(GUAVA_STAIRS.get());
             event.accept(GUAVA_SLAB.get());
             event.accept(GUAVA_FENCE.get());
+            event.accept(GUAVA_DOOR.get());
+            event.accept(GUAVA_TRAPDOOR.get());
+            event.accept(GUAVA_BUTTON.get());
+            event.accept(GUAVA_PRESSURE_PLATE.get());
+            event.accept(GUAVA_FENCE_GATE.get());
         }
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             // One plain sample seed (two default parents, quality 0) so a seed can be had in creative mode.

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button",
+  "textures": {
+    "texture": "bunnidogs:block/guava_planks"
+  }
+}

@@ -7,6 +7,8 @@ import com.bunnidogs.mod.network.ModNetwork;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -78,6 +80,7 @@ public class GeneticsTableBlock extends Block implements EntityBlock {
             }
             default -> { }
         }
+        level.playSound(null,pos,SoundEvents.WOODEN_BUTTON_CLICK_ON,SoundSource.BLOCKS,0.25F,1.2F);
         return InteractionResult.SUCCESS;
     }
 

@@ -1,6 +1,6 @@
-# WARREN_PLAN: readable warrens — U1, U6a, U2 and U3 implemented
+# WARREN_PLAN: readable warrens — U1–U6 implemented
 
-**Historical plan acceptance (session 45, third turn): ACCEPTED. The user said "good, integrate it into the documentation"; no pick of section 9 was changed, so every bold pick stands (they can still change any of them). U1/U6a are recorded below; U2/U3 are implemented in sections 14–15.** Chunks U1-U7 (section 8). Test command stays `/bunnidogs warren <level> surface`.
+**Current (2026-10-15): U1–U6 are implemented; U7 remains optional and requires a separate request. U2/U3 received broad "good, works well" user feedback. New U4/U5/U6b have build/layout evidence, with gameplay pending.** The accepted design is preserved in sections 1–11; implementation details and departures are in sections 12–18. Test command: `/bunnidogs warren <level> surface` (omit `surface` for cave floors).
 Supersedes the burrow-hole part of Phase 4g/6b (`WarrenShape.burrows`, `WarrenFeature.dig`); everything else (levels = trees, houses, paths, landmarks, styles, nests, night) stays.
 
 ## 1. The problem (user, session 45)
@@ -148,9 +148,8 @@ When U1 is built: update FEATURES (the mouths and the den), HOME_SPECS (nests), 
 ## 14. U2: higher-level dens and tunnels (2026-10-15)
 
 Implemented for newly planned level 2–5 surface-kind settlements, both natural
-structures and `/bunnidogs warren <level> surface`. U1's level-1 implementation
-and cave-kind features retain their behavior. U3 is implemented in section 15; U4–U6b remain planned. The grand
-tree currently has an ordinary den, not U5's hall.
+structures and `/bunnidogs warren <level> surface`. U3 is implemented in section
+15; later sections describe U4/U5 enrichment and U6b's open floor entrances.
 
 - `layout/TunnelShape.java` plans a lined 5x5x3 den five blocks below each fitted
   tree, joins the central room to satellites along the same long-axis-first
@@ -236,4 +235,76 @@ ground. Walk in/out of houses normally, take a covered ramp beside a doorstep,
 and follow it into a den. Paths should stop short of ramp openings, not replace
 the steps. Then repeat in a new natural village and reload across chunk borders.
 Use the usual `NestX/Y/Z` and night checks to confirm that dogs can use both
-house and den Nests. U4's landmark rooms are the next planned feature.
+house and den Nests. The user subsequently reported the U2/U3 batch works well;
+individual checks above were not itemized.
+
+## 16. U4: landmark rooms and extra entrances (2026-10-15)
+
+`layout/UndergroundRooms.java` enriches the retained surface network from level
+3 onward. A haystack can have a 3x3x3 pantry with an empty barrel, hay and a
+lantern. A well can have a 5x5x3 cistern: a recessed 3x3 pool, dry perimeter
+ledge and a glass-lined water shaft meeting the surface well. A market stall
+can have a barrel cellar and a nearby ramp with an initially open guava hatch.
+At level 5 the farm can have a side/back entrance into the same network. These
+are full-block stair ramps, with no ladders. Suitable den corners get a small
+glass ground cap, a shaft and a hanging lantern below it.
+
+Rooms require a flat 3x3 landmark pad and a safe supported shell; their original
+ground remains available for subsequent surface prop fitting. Bounded searches
+join new rooms to existing walking columns. New shell walls preserve old air,
+new water/glass cannot overwrite an old passage or furnishing, and later ramps
+preserve all fitted entrance doorsteps. Only complete connected additions are
+retained. Unfit details are omitted without cancelling the existing warren.
+Barrels are decoration/storage blocks, with no generated loot or feeding logic.
+
+The structure saves these cells in its existing TUNNEL payload. New kinds are
+appended after the existing `DenShape.Kind` values, preserving their ordinals;
+never reorder them. Entrances/skylights extend the saved path exclusions.
+Generated villages are not retrofitted, and no genome/entity format changes.
+
+Validation covers landmark reachability, water containment, ordinary den routes,
+protected/fluid fallback, house/path clearance and chunk ownership. Play-test
+`/bunnidogs warren 3 surface` and `5 surface`, find rooms beneath landmarks,
+check the well water after block updates/reload, and walk the market/farm ramps.
+Natural generation, light/fluid updates and dog use still need gameplay review.
+
+## 17. U5: grand-tree hall and loop (2026-10-15)
+
+The central level-5 den is now a lined 7x7 room, four blocks high, with eight
+floor Nests around its edge, four hay/lantern positions and hanging roots in the
+central ceiling. Its floor remains five blocks below the tree; the original
+surface and trunk support remain intact. Spokes join the four satellite dens.
+Compatible same-elevation satellites also have a loop around the hall, inset
+from their anchors to leave solid ground for house ramps. The longer loop has
+recessed wall lanterns roughly every eight gap columns. Shared corridor air is
+preserved when their shells overlap. On unsuitable terrain individual links
+may be omitted; rooms still require a fitted route to an entrance.
+
+Headless fixtures check all eight Nests, the loop, every entrance's access to
+the retained dens, and house cellar routes after surface construction. The
+model is unchanged. In Minecraft, generate a new level-5 surface village,
+inspect its hall/roots, walk the loop and inspect night Nest claims. U7's second
+floor remains unimplemented until separately requested.
+
+## 18. U6b: cave, Nether and End floors (2026-10-15)
+
+`TunnelShape.planOpen` fits lined dens at levels 1–5 and cuts visible stair
+entrances into the floor, without above-ground mound walls or roofs. Each
+stair has supported full-block steps and clearance into a connected den. Cave
+and Nether feature generation use live floor queries; End surface generation
+uses the same open variant. Rejected rooms retain old holes and surface Nests.
+U4's surface-landmark enrichment is skipped for the open variant; fitted house
+cellar ramps and the level-5 hall remain available.
+
+Natural End villages use the existing separate `bunnidogs:warren_end_village`
+structure. The planner detects the End biome tag using the generation context's
+biome source/sampler. The Overworld structure's biome tag is unchanged. New
+pieces save `WarrenVersion=2`; older pieces default to 1 and preserve the old
+End level-1 fallback. V1c also saves `WoodDetails`, default false for old starts,
+so pre-existing house pieces retain their original appearance.
+
+Try `/bunnidogs warren 1` in a cave/Nether floor with enough solid depth, and
+`/bunnidogs warren 5 surface` in the End. Locate a fresh natural End village
+with `/locate structure bunnidogs:warren_end_village`, walk its stairs, cross
+chunk borders and reload. Synthetic cave fixtures for every level pass;
+dimension-specific natural generation and dog navigation await gameplay review.

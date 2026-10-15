@@ -54,6 +54,8 @@ public class WarrenPiece extends StructurePiece {
     private final boolean networkDen;
     private final int[] tunnelCells;
     private final int[] pathExclusions;
+    private final boolean woodDetails;
+    private final int generationVersion;
 
     public WarrenPiece(int kind, int index, long seed, int level, int centreX, int centreZ, int y) {
         this(kind, index, seed, level, centreX, centreZ, y, false, new int[0]);
@@ -75,6 +77,8 @@ public class WarrenPiece extends StructurePiece {
         this.networkDen = networkDen;
         this.tunnelCells = tunnelCells.clone();
         this.pathExclusions = pathExclusions.clone();
+        this.woodDetails = true;
+        this.generationVersion = 2;
     }
 
     public WarrenPiece(CompoundTag tag) {
@@ -89,6 +93,8 @@ public class WarrenPiece extends StructurePiece {
         this.networkDen = tag.getBooleanOr("NetworkDen", false);
         this.tunnelCells = tag.getIntArray("TunnelCells").orElseGet(() -> new int[0]);
         this.pathExclusions = tag.getIntArray("PathExclusions").orElseGet(() -> new int[0]);
+        this.woodDetails = tag.getBooleanOr("WoodDetails",false);
+        this.generationVersion = tag.getIntOr("WarrenVersion",1);
     }
 
     /** The layout of the settlement this piece belongs to: the same for every piece and every call (same seed, same level). */
@@ -138,6 +144,8 @@ public class WarrenPiece extends StructurePiece {
         tag.putBoolean("NetworkDen", networkDen);
         if (tunnelCells.length > 0) tag.putIntArray("TunnelCells", tunnelCells);
         if (pathExclusions.length > 0) tag.putIntArray("PathExclusions", pathExclusions);
+        tag.putBoolean("WoodDetails",woodDetails);
+        tag.putInt("WarrenVersion",generationVersion);
     }
 
     @Override
@@ -163,12 +171,13 @@ public class WarrenPiece extends StructurePiece {
         if (kind == CLUSTER) {
             BlockPos ground = WarrenFeature.groundAt(world, x, y, z, true);
             if (ground != null) {
-                WarrenFeature.buildCluster(world, ground, s.clusters().get(index).shape(), new Random(seed + 31L * index), true, style, level == 1, networkDen);
+                WarrenFeature.buildCluster(world, ground, s.clusters().get(index).shape(), new Random(seed + 31L * index), true, style,
+                        level == 1 && (style != Lineage.END || generationVersion < 2), networkDen);
             }
         } else if (kind == PROP) {
             WarrenFeature.buildProp(world, x, y, z, s.props().get(index), true, style);
         } else {
-            WarrenFeature.buildHouse(world, x, y, z, s.houses().get(index), true, style, level);
+            WarrenFeature.buildHouse(world, x, y, z, s.houses().get(index), true, style, level,woodDetails);
         }
     }
 

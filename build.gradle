@@ -223,6 +223,15 @@ tasks.register('checkWarrenNetwork', JavaExec) {
     javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
 }
 tasks.named('check').configure { dependsOn tasks.named('checkWarrenNetwork') }
+tasks.register('checkWoodAssets', JavaExec) {
+    group = 'verification'
+    description = 'Validate guava mechanism states, asset references, recipes, tags and door drops.'
+    dependsOn tasks.named('modelCheckClasses')
+    classpath = sourceSets.modelCheck.runtimeClasspath
+    mainClass = 'WoodAssetsCheck'
+    javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
+}
+tasks.named('check').configure { dependsOn tasks.named('checkWoodAssets') }
 tasks.register('checkBunnidogModel', JavaExec) {
     group = 'verification'
     description = 'Load and render the actual Bunnidog mesh and check animation invariants headlessly.'

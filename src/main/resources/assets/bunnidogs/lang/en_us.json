@@ -73,5 +73,10 @@
   "item.bunnidogs.nest": "Nest",
   "advancement.bunnidogs.enter_warren.title": "Welcome to the Warren",
   "advancement.bunnidogs.enter_warren.description": "Bunnidogs live in dens under their guava trees. Find an earth mound, walk in and follow the slope down",
-  "structure.bunnidogs.warren_village": "Bunnidog Warren"
+  "structure.bunnidogs.warren_village": "Bunnidog Warren",
+  "block.bunnidogs.guava_door": "Guava Door",
+  "block.bunnidogs.guava_trapdoor": "Guava Trapdoor",
+  "block.bunnidogs.guava_button": "Guava Button",
+  "block.bunnidogs.guava_pressure_plate": "Guava Pressure Plate",
+  "block.bunnidogs.guava_fence_gate": "Guava Fence Gate"
 }

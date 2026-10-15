@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_trapdoor_open",
+  "textures": {
+    "texture": "bunnidogs:block/guava_trapdoor"
+  },
+  "render_type": "minecraft:cutout"
+}

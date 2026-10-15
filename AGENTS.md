@@ -8,10 +8,22 @@ are obsolete. The user's current request determines scope.
 - Complete the requested change through implementation and appropriate validation.
   Do not limit work to 2–6 files, one API, or one feature fragment per turn.
   Do not start unrelated roadmap work when fixing a reported issue.
+- Continuation preference: when the user says "continue", advance through as much
+  accepted roadmap work as the available turn/context budget reasonably permits,
+  in coherent, validated batches. Do not stop after one small feature by default.
+  Reserve enough budget to finish implementation, run checks, update the current
+  status, review the diff, commit and push to `main`, and check the GitHub build
+  artifact. These continuation requests authorize that commit/push without another
+  confirmation. Optional items explicitly requiring a separate request (such as
+  U7) still require that request; do not invent unplanned features to fill time.
+  Account-level usage/quota is not visible: do not claim to know an exact remaining
+  allowance. Use the available work budget and leave a precise handoff when needed.
 - Work directly on `main`. Do not create additional branches unless the user
   explicitly requests one.
 - Preserve existing uncommitted work and player saves. Use Git diffs to review
-  changes; do not reset the checkout, delete `run/`, or commit/push unasked.
+  changes; do not reset the checkout or delete `run/`. Commit/push when explicitly
+  requested or under the standing continuation authorization above; preserve
+  unrelated user changes rather than including them in a development batch.
 - Run actual Gradle compilation for Java/resource/model changes when available:
   `./gradlew build` (Windows: `gradlew.bat build`), JDK 25. Report the actual
   result. Syntax parsing is a fallback, not evidence that the mod compiles.
