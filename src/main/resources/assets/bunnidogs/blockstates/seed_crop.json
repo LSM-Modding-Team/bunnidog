@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "bunnidogs:block/seed_crop_stage0"
+    },
+    "age=1": {
+      "model": "bunnidogs:block/seed_crop_stage1"
+    },
+    "age=2": {
+      "model": "bunnidogs:block/seed_crop_stage2"
+    },
+    "age=3": {
+      "model": "bunnidogs:block/seed_crop_stage3"
+    },
+    "age=4": {
+      "model": "bunnidogs:block/seed_crop_stage4"
+    },
+    "age=5": {
+      "model": "bunnidogs:block/seed_crop_stage5"
+    },
+    "age=6": {
+      "model": "bunnidogs:block/seed_crop_stage6"
+    },
+    "age=7": {
+      "model": "bunnidogs:block/seed_crop_stage7"
+    }
+  }
+}

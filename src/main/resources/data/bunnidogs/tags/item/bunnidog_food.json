@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "bunnidogs:guava",
+    "bunnidogs:golden_guava",
+    "bunnidogs:diamond_guava",
+    "bunnidogs:netherite_guava",
+    "bunnidogs:nether_star_guava",
+    "bunnidogs:beacon_guava",
+    "bunnidogs:dragon_egg_guava",
+    "bunnidogs:command_block_guava"
+  ]
+}

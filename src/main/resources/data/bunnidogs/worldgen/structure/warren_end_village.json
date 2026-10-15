@@ -1,0 +1,7 @@
+{
+  "type": "bunnidogs:warren_village",
+  "biomes": "#bunnidogs:lineage_end",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "bunnidogs:guava_log",
+    "bunnidogs:genetics_table",
+    "bunnidogs:guava_planks",
+    "bunnidogs:stripped_guava_log",
+    "bunnidogs:guava_wood",
+    "bunnidogs:stripped_guava_wood",
+    "bunnidogs:guava_stairs",
+    "bunnidogs:guava_slab",
+    "bunnidogs:guava_fence",
+    "bunnidogs:nest"
+  ]
+}

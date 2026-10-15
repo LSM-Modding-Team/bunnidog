@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "P": "bunnidogs:guava_planks"
+  },
+  "pattern": [
+    "PPP"
+  ],
+  "result": {
+    "id": "bunnidogs:guava_slab",
+    "count": 6
+  }
+}

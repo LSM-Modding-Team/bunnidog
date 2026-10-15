@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "bunnidogs:guava_log",
+    "bunnidogs:stripped_guava_log",
+    "bunnidogs:guava_wood",
+    "bunnidogs:stripped_guava_wood"
+  ]
+}

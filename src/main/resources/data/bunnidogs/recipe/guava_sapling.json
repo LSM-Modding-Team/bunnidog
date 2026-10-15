@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "bunnidogs:guava"
+  ],
+  "result": {
+    "id": "bunnidogs:guava_sapling"
+  }
+}

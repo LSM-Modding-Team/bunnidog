@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "bunnidogs:mutant_marrow",
+    "minecraft:fermented_spider_eye",
+    "minecraft:glass_bottle"
+  ],
+  "result": {
+    "id": "bunnidogs:mutagen"
+  }
+}

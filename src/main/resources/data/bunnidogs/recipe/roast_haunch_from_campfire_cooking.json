@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "ingredient": "bunnidogs:prime_haunch",
+  "result": {
+    "id": "bunnidogs:roast_haunch"
+  },
+  "experience": 0.5,
+  "cookingtime": 600
+}

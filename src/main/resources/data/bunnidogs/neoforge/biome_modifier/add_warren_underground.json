@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#bunnidogs:lineage_cave",
+  "features": "bunnidogs:warren_underground",
+  "step": "underground_decoration"
+}

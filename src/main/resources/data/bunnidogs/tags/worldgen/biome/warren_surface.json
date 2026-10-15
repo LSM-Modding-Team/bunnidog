@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#bunnidogs:lineage_meadow",
+    "#bunnidogs:lineage_tundra",
+    "#bunnidogs:lineage_desert",
+    "#bunnidogs:lineage_swamp",
+    "#bunnidogs:lineage_mountain"
+  ]
+}

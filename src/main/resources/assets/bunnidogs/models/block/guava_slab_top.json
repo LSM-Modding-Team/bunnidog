@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "bunnidogs:block/guava_planks",
+    "top": "bunnidogs:block/guava_planks",
+    "side": "bunnidogs:block/guava_planks"
+  }
+}

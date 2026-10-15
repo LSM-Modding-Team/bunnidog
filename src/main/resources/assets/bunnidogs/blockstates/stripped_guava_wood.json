@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "bunnidogs:block/stripped_guava_wood"
+    },
+    "axis=z": {
+      "model": "bunnidogs:block/stripped_guava_wood",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "bunnidogs:block/stripped_guava_wood",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

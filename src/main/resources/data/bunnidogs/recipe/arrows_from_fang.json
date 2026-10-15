@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "F": "bunnidogs:fang",
+    "S": "minecraft:stick",
+    "P": "minecraft:feather"
+  },
+  "pattern": [
+    "F",
+    "S",
+    "P"
+  ],
+  "result": {
+    "id": "minecraft:arrow",
+    "count": 4
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "W": "bunnidogs:whisker",
+    "C": "minecraft:copper_ingot",
+    "S": "minecraft:stick"
+  },
+  "pattern": [
+    "W",
+    "C",
+    "S"
+  ],
+  "result": {
+    "id": "minecraft:brush"
+  }
+}

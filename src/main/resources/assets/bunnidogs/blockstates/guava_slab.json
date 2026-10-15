@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "bunnidogs:block/guava_slab"
+    },
+    "type=double": {
+      "model": "bunnidogs:block/guava_planks"
+    },
+    "type=top": {
+      "model": "bunnidogs:block/guava_slab_top"
+    }
+  }
+}

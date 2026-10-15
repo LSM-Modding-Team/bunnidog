@@ -1,0 +1,79 @@
+package com.bunnidogs.mod.layout;
+
+import java.util.Optional;
+
+import com.bunnidogs.mod.genetics.Pedigree;
+import com.bunnidogs.mod.genetics.Tissue;
+
+/**
+ * What the Genetics Table window shows (T2 and T3, docs/TABLE_SPECS.md): the samples on slot A and slot B. One spread per sample that is there,
+ * in the order A, B: the sheet of the animal it came from, headed {@code Table: sample A} / {@code Table: sample B}. With both slots full
+ * there is a third spread, the FORECAST of the litter A x B ({@link ForecastSheet}), and the window pages over the three with Previous / Next.
+ * Pure Java, like {@link SeedSheet}: the screen only draws what this lays out, and the text form below is what the server sends.
+ *
+ * <p>Wire text: {@code A|B}, each side the {@link Tissue} text ({@code genome/stats}) or nothing for an empty slot, for example
+ * {@code 33-33-33-33-33-33/0,0,0,0,0|} (only A) or {@code |22-32-00-10-00-01/3,-1,0,2,12} (only B).
+ */
+public record TableSheet(Optional<Tissue> a, Optional<Tissue> b) {
+    public static final String SEPARATOR = "|";
+
+    /** The text form. Round-trips through {@link #parse}. */
+    @Override
+    public String toString() {
+        return this.a.map(Tissue::toString).orElse("") + SEPARATOR + this.b.map(Tissue::toString).orElse("");
+    }
+
+    /** Parses the text form; empty if it has no separator or if neither slot holds a readable sample (nothing to show). */
+    public static Optional<TableSheet> parse(String text) {
+        if (text == null) {
+            return Optional.empty();
+        }
+        int bar = text.indexOf(SEPARATOR);
+        if (bar < 0) {
+            return Optional.empty();
+        }
+        TableSheet sheet = new TableSheet(slot(text.substring(0, bar)), slot(text.substring(bar + 1)));
+        return sheet.spreadCount() == 0 ? Optional.empty() : Optional.of(sheet);
+    }
+
+    private static Optional<Tissue> slot(String text) {
+        return text.isBlank() ? Optional.empty() : Tissue.parse(text);
+    }
+
+    /** One spread per sample on the table, plus the forecast when both are there: 0, 1 or 3. */
+    public int spreadCount() {
+        int samples = (this.a.isPresent() ? 1 : 0) + (this.b.isPresent() ? 1 : 0);
+        return samples == 2 ? samples + 1 : samples;
+    }
+
+    /** True for the last spread of a table with two samples (the forecast, spread 2): it has no sample of its own and no portrait. */
+    public boolean isForecast(int n) {
+        return this.a.isPresent() && this.b.isPresent() && n >= 2;
+    }
+
+    /** Which slot spread {@code n} shows: 0 = A, 1 = B (with only one sample, its slot whatever {@code n} is; meaningless for the forecast, see {@link #isForecast}). */
+    public int slotOf(int n) {
+        if (this.a.isPresent() && this.b.isPresent()) {
+            return Math.max(0, Math.min(n, 1));
+        }
+        return this.a.isPresent() ? 0 : 1;
+    }
+
+    /** The sample spread {@code n} shows ({@code n} clamped into range; call only when {@link #spreadCount} is above 0 and {@link #isForecast} is false). */
+    public Tissue sample(int n) {
+        return slotOf(n) == 0 ? this.a.orElseThrow() : this.b.orElseThrow();
+    }
+
+    /** The sample of spread {@code n} as a sheet entry (for the portrait). */
+    public Pedigree.Entry entry(int n) {
+        return SheetLayout.sampleEntry(sample(n));
+    }
+
+    /** Spread {@code n} of the table window: sample A, sample B, then the forecast. */
+    public Page.Spread spread(int n, Metrics m) {
+        if (isForecast(n)) {
+            return ForecastSheet.spread(this.a.orElseThrow(), this.b.orElseThrow(), m);
+        }
+        return SheetLayout.tableSample(sample(n), slotOf(n) == 0, m);
+    }
+}

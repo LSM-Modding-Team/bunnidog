@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "ingredient": "bunnidogs:raw_bunnidog_flesh",
+  "result": {
+    "id": "bunnidogs:cooked_bunnidog_flesh"
+  },
+  "experience": 0.35,
+  "cookingtime": 600
+}

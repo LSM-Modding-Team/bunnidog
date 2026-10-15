@@ -1,0 +1,11 @@
+{
+  "structures": [
+    { "structure": "bunnidogs:warren_village", "weight": 1 }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 8,
+    "separation": 3,
+    "salt": 1482203911
+  }
+}

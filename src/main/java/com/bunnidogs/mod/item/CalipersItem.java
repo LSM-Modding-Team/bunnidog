@@ -1,0 +1,122 @@
+package com.bunnidogs.mod.item;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
+
+import com.bunnidogs.mod.block.SeedCropBlockEntity;
+import com.bunnidogs.mod.genetics.Readout;
+import com.bunnidogs.mod.genetics.Seed;
+import com.bunnidogs.mod.genetics.Tissue;
+import com.bunnidogs.mod.network.ModNetwork;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+
+/**
+ * The Calipers (Phase 5): measure, do not touch. They show the exact genes and stats of what they touch (windows since Phase 8 S6 and S8; the chat only for a non-player and for the "holds no genes" note):
+ * <ul>
+ *   <li>right-click a bunnidog: its sheet opens in a window (Phase 8 S6: {@code Bunnidog#mobInteract} sends the animal to the
+ *       player's client, see {@code network/ModNetwork}); before S6 its genome, stats and drift were printed in the chat
+ *       ({@link #send}, still the fallback for a non-player);</li>
+ *   <li>a bunnidog seed in the OTHER hand, right-click into the air: the seed's window opens (Phase 8 S8: quality, litter,
+ *       mutation chance, drift, then the mother's and the father's sheets) ({@link #use}); either hand may hold the calipers;</li>
+ *   <li>(drops D7a) a Tissue Sample in the OTHER hand, right-click into the air: its window opens, one sheet of the animal it
+ *       was taken from (S8) ({@link #use});</li>
+ *   <li>right-click a planted seed crop: the window of the seed inside it ({@link #useOn}).</li>
+ * </ul>
+ * The texts come from the pure class {@link Readout}. Messages are sent on the server only; both sides return SUCCESS
+ * so the arm swings.
+ */
+public class CalipersItem extends Item {
+    public CalipersItem(Properties properties) {
+        super(properties);
+    }
+
+    /** Sends the lines to the player's chat: the first one (the headline) gold, the details grey. Call on the server. */
+    public static void send(Player player, List<String> lines) {
+        for (int i = 0; i < lines.size(); i++) {
+            player.sendSystemMessage(Component.literal(lines.get(i))
+                    .withStyle(i == 0 ? ChatFormatting.GOLD : ChatFormatting.GRAY));
+        }
+    }
+
+    /** Opens the window of a seed on a real player's screen (Phase 8 S8); a non-player gets the chat lines, as before. Call on the server. */
+    private static void showSeed(Player player, Seed seed) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            ModNetwork.sendSeed(serverPlayer, seed);
+        } else {
+            send(player, Readout.seed(seed));
+        }
+    }
+
+    /** Opens the window of a Tissue Sample on a real player's screen (Phase 8 S8); a non-player gets the chat lines. Call on the server. */
+    private static void showSample(Player player, Tissue tissue) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            ModNetwork.sendSample(serverPlayer, tissue);
+        } else {
+            send(player, Readout.tissue(tissue));
+        }
+    }
+
+    /** A seed or a Tissue Sample in the other hand is read; with nothing there the click passes (so the calipers do nothing in the air). */
+    @Override
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
+        InteractionHand other = hand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
+        ItemStack held = player.getItemInHand(other);
+        Optional<Seed> seed = SeedItem.read(held);
+        if (seed.isPresent()) {
+            if (!level.isClientSide()) {
+                showSeed(player, seed.get());
+            }
+            return InteractionResult.SUCCESS;
+        }
+        Optional<Tissue> tissue = TissueSampleItem.read(held);
+        if (tissue.isEmpty()) {
+            return InteractionResult.PASS;
+        }
+        if (!level.isClientSide()) {
+            showSample(player, tissue.get());
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+    /** Reads the seed planted in a seed crop; any other block passes. */
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        Level level = context.getLevel();
+        Player player = context.getPlayer();
+        if (player == null || !(level.getBlockEntity(context.getClickedPos()) instanceof SeedCropBlockEntity crop)) {
+            return InteractionResult.PASS;
+        }
+        if (!level.isClientSide()) {
+            Optional<Seed> seed = crop.seed();
+            if (seed.isPresent()) {
+                showSeed(player, seed.get());
+            } else {
+                player.sendSystemMessage(Component.literal("This crop holds no genes.").withStyle(ChatFormatting.GRAY));
+            }
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display,
+            Consumer<Component> lines, TooltipFlag flag) {
+        super.appendHoverText(stack, context, display, lines, flag);
+        lines.accept(Component.literal("Right-click a bunnidog: its sheet opens").withStyle(ChatFormatting.GRAY));
+        lines.accept(Component.literal("Right-click a planted seed: its window opens").withStyle(ChatFormatting.GRAY));
+        lines.accept(Component.literal("Or hold a seed or a tissue sample in the other hand: its window opens").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(Component.literal("Off hand when you kill: a Tissue Sample").withStyle(ChatFormatting.DARK_GRAY));
+    }
+}

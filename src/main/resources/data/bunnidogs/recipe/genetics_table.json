@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "W": "bunnidogs:whisker",
+    "C": "minecraft:copper_ingot",
+    "P": "#minecraft:planks"
+  },
+  "pattern": [
+    "WCW",
+    "PPP",
+    "P P"
+  ],
+  "result": {
+    "id": "bunnidogs:genetics_table"
+  }
+}

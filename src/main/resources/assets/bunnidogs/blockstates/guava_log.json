@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "bunnidogs:block/guava_log"
+    },
+    "axis=z": {
+      "model": "bunnidogs:block/guava_log",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "bunnidogs:block/guava_log",
+      "x": 90,
+      "y": 90
+    }
+  }
+}
