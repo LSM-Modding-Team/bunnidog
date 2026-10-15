@@ -1,10 +1,14 @@
 # Chunks: one line each (newest first)
 
-Status is what the USER reported: WORKS = compiled and played, COMPILES = compiled, behaviour not itemized, NOT COMPILED = delivered, no report yet.
+Historical statuses below record what the user reported at the time: WORKS = compiled and played, COMPILES = compiled, behaviour not itemized, NOT COMPILED = delivered, no report yet.
+Current build/headless/gameplay evidence lives in `START_HERE.md`. Old NOT COMPILED entries are historical, not claims that the current checkout fails to build.
 Full text of every chunk (files, decisions, compile risks): `docs/history/CHUNKS_FULL.md` (grep the id). Newer chunks: the spec file of the feature.
 
 | Chunk | What | Status |
 |---|---|---|
+| Low-only + smooth head | Preserve approved Low positions; surface-derived head normals and continuous UV chart; remove presets/config; GitHub build artifacts | BUILD + HEADLESS PASS; nearest-filtered preview inspected; in-game fix pending |
+| Graphics tiers + facial depth | Four client detail levels, Medium default, optional distance reduction, deeper anatomical face in every tier | BUILD + ALL-TIER HEADLESS PASS; previews inspected; in-game/FPS pending |
+| Codex workflow + temple fix | Smooth photo-to-scalp transition, preserve mesh; workspace instructions, portable headless model check/CI and optional source package | BUILD + HEADLESS PASS; preview inspected; fixed texture in-game pending |
 | U6a | Advancement "Welcome to the Warren" (enter the surface warren structure), data only + lang | NOT COMPILED |
 | U1 | Level 1 surface warrens: a den under the tree with the nests, a lantern and hay, and up to 2 mouths (mound + slope); the old holes only as a fallback | NOT COMPILED |
 | U2-U7 | Readable warrens, the rest of docs/WARREN_PLAN.md section 8: U2 tunnels, U3 cellars, U4 pantry/cistern, U5 hall, U6b cave variants, U7 optional | PLANNED |

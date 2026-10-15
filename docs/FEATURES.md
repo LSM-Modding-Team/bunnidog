@@ -94,3 +94,9 @@ Hold the Calipers in one hand and a seed (or a Tissue Sample) in the other and r
 **Villages of guava wood (V1a, session 44, not compiled yet):** in NEW villages, the houses now show the village's level. Level 2: the mound house gets a guava-log frame round its doorway. Level 3 and up: a guava cottage (earth or stone below, guava planks above, log corners, a guava slab roof); in desert, mountain, Nether and End villages the tower gets log corner posts. Test with `/bunnidogs warren 2`, `/bunnidogs warren 3` and so on (the level is the number of trees). Old villages and levels 1 are unchanged; doorways are still open (doors come with W3).
 
 **Villages of guava wood, part 2 (V1b, session 44, not compiled yet):** in NEW villages: level 4 houses stand on a course of stone (cobblestone in the meadow, stone bricks in the tundra, sandstone in the desert, mud bricks in the swamp, nether bricks in the Nether...), level 5 mound houses get a loft with three windows under a taller slab roof, and the well, the stall and the lamp posts are guava wood in every biome (guava fence posts, guava slab roofs). Test with `/bunnidogs warren 4` and `/bunnidogs warren 5` (the level is the number of trees).
+
+## Lightweight model
+
+All bunnidogs use the same lightweight model (the previous Low preset). There
+is no graphics menu or distance switching. Coat, ear, leg and build genes still
+change their appearance. See `docs/GRAPHICS.md` for rendering details.

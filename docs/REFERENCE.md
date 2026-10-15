@@ -14,42 +14,14 @@ pale, bald, wide-eyed creature with tall ears on a tan dog body, held in a hand)
 3. In a creative world: `/summon bunnidogs:bunnidog`. `./gradlew build` makes the jar in `build/libs/`.
 The user opens the folder in IntelliJ IDEA (recommended) as a Gradle project.
 
-## Development process (small chunks), full text
-The loop that worked in session 7 (Calipers -> recorded parents -> Pedigree Book): **one small chunk per turn, delivered as a zip, confirmed by the user's compile, then the next one.**
+## Development workflow
 
-**1. Start of a session**
-* Read `START_HERE.md` (status, doc map). Read other docs only for the area you are about to touch. Before any API lookup, the QUICK INDEX of `docs/API_NOTES.md` (do not re-verify what the index lists).
-* Do not ask the user for a template or a status form: loose words are enough ("it compiled", "works", "continue with X"). If they name the next thing, do that; if they just say "continue", take the next item of the roadmap.
-
-**2. Pick ONE chunk**
-A chunk is one feature the user can compile and try in a couple of minutes. Rules of thumb (all met by the session 7 chunks):
-* One item/block/command or one small behaviour change; about 2-6 new files, nothing sprawling. If an idea needs more, split it and do the first half.
-* No new Minecraft API if it can be avoided: copy a pattern that already COMPILED (see the QUICK INDEX). If a new name is unavoidable, verify it in the NeoForge sources first (see the research playbook), keep it to ONE, and flag it as the likeliest compile problem.
-* Logic that can be pure Java goes into `genetics/` (testable here); the Minecraft glue stays thin.
-* Pick a size Claude is SURE to finish AND package (the user's words, session 7: "a length you are SURE you can manage to finish and present the updated .zip before running out of tokens"). When in doubt, cut the chunk, never the docs or the zip.
-* Say what was deliberately left out (naming a lineage, a GUI, ...) so it is not mistaken for forgotten.
-
-**3. Build it, in this order** (so that running out of room can only ever cost polish, never a broken zip)
-1. Code and resources (item/class, registration, JSON, lang, recipe; art through its `art/gen_*.py` script, look at the preview image once).
-2. `java tools/ParseAll.java src/main/java` (syntax of every file).
-3. Add a SMALL group to `tools/GenomeCheck.java` (exact assertions on real numbers, resources by file reading, glue by grepping the key lines and their order), then run the self-check ONCE. If an old count-style check breaks because of a new file (e.g. the recipe-file count), update it. If a new test fails, first decide whether the TEST or the code is wrong (session 7: a test used invalid genomes). No sabotage rounds, no re-runs for show (see "User preferences").
-4. Docs (below), then the zip, then `present_files`. The reply is short: what it does, what is NOT compiled, what to try, what is next.
-
-**4. Docs to touch in every chunk (the whole list; keep each edit small)**
-* `START_HERE.md`: the CURRENT STATUS block (last delivered chunk, what is unconfirmed, next candidates). This is the one file that must always be true.
-* `docs/CHUNKS.md`: one line for the chunk (id, what, status). Flip the previous chunk's status when the user reports.
-* The spec file of the feature (`docs/HOME_SPECS.md`, `TABLE_SPECS.md`, ...): a short "what chunk X did / differently from the plan" section. For a feature without a spec file: `docs/history/CHUNKS_FULL.md`, new row at the top (files, what was tested here, likeliest compile problems).
-* `docs/API_NOTES.md`: a QUICK INDEX row for anything newly looked up (status SOURCE or ASSUMED until the user compiles).
-* `docs/DESIGN.md`: a short "decisions made without asking" section (and a line in its Contents if it opens a new area); `docs/FEATURES.md`: one paragraph on how to use the feature in game.
-* `docs/history/SESSION_LOG.md`: 2-4 lines for the session. `docs/ROADMAP.md`: only if the plan changed.
-* Never mark anything COMPILES / WORKS on your own: only the user's report does that (see "Who does what" in START_HERE).
-
-**5. Deliver**
-* Zip the project WITHOUT `run/` and `build/` (`zip -qr ... -x 'bunnidogs-mod/run/*' 'bunnidogs-mod/build/*'`) to the outputs folder, always the same name `bunnidogs-mod.zip`, then present it.
-
-**6. After the user reports**
-* "Compiled well" -> flip the chunk to COMPILES in `docs/CHUNKS.md` and in the START_HERE status block; "works" -> WORKS. Compile errors -> fix them first, in the files they name, before any new chunk; then deliver the fixed zip (a fix is its own tiny chunk).
-* If the user says "continue" while earlier chunks are still unconfirmed: say so in one line, keep the new chunk small, and mention which compile errors belong to which chunk (errors are told apart by file).
+`AGENTS.md` contains the current Codex instructions; `README.md` has portable
+build, preview, model-check and source-package commands. Work continues in the
+checkout, using Git diffs and real Gradle builds. A ZIP is only a transfer format.
+Update relevant docs and distinguish compile/headless/preview/gameplay evidence.
+Old chunk sizes and user-only compilation rules are archived in
+`docs/history/CLAUDE_WORKFLOW.md` and no longer apply.
 
 ## Project layout
 
@@ -89,7 +61,7 @@ Tools: `tools/ParseAll.java` (syntax check of all sources), `tools/GenomeCheck.j
 ### Annotated file list (older, by phase; still accurate where it names a file)
 ```
 art/gen_bunnidog.py            SINGLE SOURCE OF TRUTH for the model + textures (see "Art pipeline")
-art/bunnidog.bbmodel           generated; open in Blockbench (Bedrock format) to preview/tweak
+art/bunnidog.bbmodel           generated; open in Blockbench (Free Model mesh) to preview/tweak
 art/bunnidog_texture_preview.png  all coats side by side, 4x
 genetics/Cross.java + layout/ForecastSheet.java (T3: the litter forecast and its two pages) + layout/TableSheet.java + network/TablePayload.java (T2: the table window's spreads and its payload) + block/GeneticsTableBlock.java + block/GeneticsTableBlockEntity.java (two slots since T2) + genetics/TableUse.java + art/gen_table.py (the 3 table textures + `table_preview.png`) + docs/TABLE_SPECS.md (the Genetics Table plan, T1), item/WornEarTagItem.java + art/gen_worn_ear_tag.py (the worn tag texture + client item + model + `worn_ear_tag_preview.png`, D8e), block/TrophyPedestalBlock.java + block/TrophyPedestalBlockEntity.java (D8a, D8b), client/renderer/TrophyPedestalRenderer.java + TrophyPedestalRenderState.java (D8c), art/gen_legends.py (the 5 legend textures + client items + models + `legends_preview.png`, D8d), art/gen_pedestal.py (Trophy Pedestal textures + `pedestal_preview.png`, D8a), art/gen_dust.py (starlit dust texture + client item + model + `dust_preview.png`, D7b), art/gen_tissue.py (tissue sample texture + client item + model + `tissue_preview.png`, D7a), art/gen_marrow.py (mutant marrow texture + client item + model + `marrow_preview.png`, D6b), art/gen_mutagen.py (mutagen texture + client item + model, D6a), art/gen_haunch.py (prime + roast haunch textures + client items + models + `haunch_preview.png`, D5), art/gen_pelts.py (the 12 pelts + tag, from the entity's COATS, D2), art/gen_materials.py (sinew, whisker, fang textures + client items + models, D4), art/gen_flesh.py (raw + cooked bunnidog flesh, D1), art/gen_guava.py, art/gen_seed.py, art/gen_seed_crop.py, art/gen_juice.py  the 16x16 textures (the 7 guava tiers: one palette each in TIERS, same keys as GuavaTier ids; seed; the 8 embryo crop pictures; the 2 juice bottles) + art/*_preview.png
 tools/GenomeCheck.java         plain-Java self-check of the genetics package (see "Genetics self-check")
@@ -162,45 +134,42 @@ src/main/templates/META-INF/neoforge.mods.toml   templated from gradle.propertie
 docs/                          see START_HERE.md (the doc map)
 ```
 
-## Genetics self-check (run after ANY change in genetics/ or the coat list)
-(Do NOT run it by default: only when pure logic changed, at most once per turn, see "User preferences". No sabotage rounds unless the user asks.)
-From the project root (needs only a JDK/JRE with the compiler module; no Gradle, no Minecraft):
-```
-java -m jdk.compiler/com.sun.tools.javac.Main -Xlint:all -d /tmp/gcheck src/main/java/com/bunnidogs/mod/genetics/*.java src/main/java/com/bunnidogs/mod/layout/*.java tools/GenomeCheck.java
-java -cp /tmp/gcheck GenomeCheck          # prints "N checks, 0 failures"; exit code 1 on failure
-```
-(With a normal JDK use `javac` instead of the first command.) It also verifies that every Coat allele has a texture file, that every wild allele is handed out by exactly its lineage's recipe,
-that mutation never creates wild alleles, and the `/summon` cheat sheet (end of this file) (1,249,333 checks at the end of session 4, 1,249,970 at the end of session 5, 1,250,139 after the first half of session 6, 1,261,162 at the end of session 6).
-It is deliberately NOT under `src/test`: Gradle 9 fails a build whose test task finds no tests.
+## Focused verification
 
-### How the self-check is organized (extend it the same way; this is the pattern every phase since 4b used)
-* **Pure logic** goes into `genetics/` and gets exhaustive checks (e.g. every pair of guava tiers, not a few samples). If a piece of entity behaviour has any logic in it, move that logic into `genetics/` so it can be tested (`GuavaMemory` came out of `Bunnidog` for this reason).
-* **Resources** are checked by reading the files: one loop over the table (`GuavaTier.values()`, the coat list, ...) asserts each entry has its client item, model, 16x16 PNG, lang key, tag entry, recipe and art palette. Adding a table entry without its files fails the run.
-* **Minecraft glue** (cannot be compiled here) is checked by grepping the source for the exact lines that matter, including their ORDER (e.g. the held tier is read before `super.mobInteract`), and for things that must be gone (e.g. the old hard-coded `0.0D` quality).
-  Such checks are brittle by design: when you rename something on purpose, update the grep. Helpers in `GenomeCheck`: `compact(json)` (strips all whitespace: never use it on text with spaces), `pngSize(bytes)`, `near(..)`, `check(..)`.
-* **Test the checks once per new group** (a check that never failed proves nothing): copy `src tools art` to `/tmp/mut`, break one thing with `sed` (wrong recipe ingredient, `average` as a sum, delete a guard, swap two lines), recompile and run, expect "N failures", restore from the real tree, repeat.
-  A sabotage that is NOT caught is either a real hole or an equivalent mutant (same observable behaviour, e.g. a redundant condition): decide which before moving on. Session 5 ran 10 of these for 4e.
-* Checking the glue for syntax: `java tools/ParseAll.java src/main/java` ("parsed N files, 0 errors"). It does not resolve names; the user's compile does.
+`./gradlew build` compiles the actual mod. `./gradlew checkBunnidogModel`
+loads its mesh with the Minecraft runtime, exercises the smooth renderer and
+checks normals, UVs, winding, foot contact across leg genes and baby reset.
+The latter's source is in `tools/model/`, separate from the shipped mod.
+Neither command launches the game or proves resource reload/gameplay behavior.
+
+The legacy `tools/GenomeCheck.java` harness covers pure rules plus resource and
+source-text assertions. Run it only for relevant genetics/layout changes, not
+art, documentation or routine glue changes. On a Unix shell with JDK 25:
+
+```sh
+mkdir -p build/genetics-check
+javac -d build/genetics-check src/main/java/com/bunnidogs/mod/genetics/*.java src/main/java/com/bunnidogs/mod/layout/*.java tools/GenomeCheck.java
+java -cp build/genetics-check GenomeCheck
+```
+
+Keep new assertions focused on meaningful behavior and a few exact cases.
+Existing source-string checks are legacy checks, not a pattern to expand.
+Do not perform mutation/sabotage rounds or rerun large checks for show.
 
 ## Art pipeline (important — keep using it)
-`python3 art/gen_bunnidog.py` (needs `pip install pillow`) regenerates, from the `PARTS` list, the `COATS` palettes and
-`paint_texture(coat)`: one texture PNG per coat (`bunnidog_<coat>.png`), `art/bunnidog.bbmodel`, the preview sheet and
-`BunnidogModelLayer.java`. Coat names in `COATS` MUST match the Coat alleles in `genetics/Gene.java` (the self-check
+`python3 art/gen_bunnidog.py` (install `art/requirements.txt`) regenerates, from the `PARTS` list, the `COATS` palettes and
+`paint_texture(coat)` plus the sculpt in `art/sculpt_bunnidog.py`: one texture PNG per coat (`bunnidog_<coat>.png`), `art/bunnidog.bbmodel`, the preview sheet and
+`BunnidogModelLayer.java` and `models/entity/bunnidog.mesh`. Coat names in `COATS` MUST match the Coat alleles in `genetics/Gene.java` (the self-check
 enforces it). A new coat = one palette entry + one allele; the face never changes. It converts Blockbench space (y-up) to Java
 model space (y-down, ground at y=24; X/Z rotation signs flip). To change the shape or the painting, edit the
 script and re-run — do not edit the generated Java or the PNG directly. Animation is separate (BunnidogModel).
-Model budget: 10 cubes, 64x64 textures, all four legs share one UV island, ears/head/body have separate islands so
-coat/face overlays can be layered later. Gene proportions (ears, legs, build) are done with per-part scale in `BunnidogModel.applyProportions`, not extra
-models.
+The contour-led model uses authored anatomical surfaces from `art/sculpt_bunnidog.py`, photographic source textures from `art/reference/`, and twelve 512x512 atlases. `BunnidogMesh.java` renders per-vertex normals for smooth lighting. The Blockbench export is a Free Model mesh. `python3 art/preview_bunnidog.py` (Pillow + NumPy) renders the actual geometry and textures. Gene proportions (ears, legs, build) use per-part scale in `BunnidogModel.applyProportions`. See `docs/BUNNIDOG_MODEL.md` for the mesh format and validation.
 
 ## Conventions
 * Mod id `bunnidogs`, package `com.bunnidogs.mod`. Register everything through `DeferredRegister`s in `registry/`.
 * Client-only code stays under `client/` and is registered with `@EventBusSubscriber(value = Dist.CLIENT)`.
 * Prefer data-driven and texture-layer solutions over new classes ("cheap to program, looks like a lot of content").
-* When unsure of a Minecraft API, FIRST read the QUICK INDEX in API_NOTES.md (most names are already settled there, with the exact file to open), THEN look it up in NeoForge's repo tests instead of guessing,
-  and write the result back into the index. Prefer designs that need only names that are already COMPILED; if a name is unverifiable (`isInLove()`), build the state yourself in pure Java.
-  The sandbox could reach `github.com` and `raw.githubusercontent.com` in sessions 1-3 (not Maven, not Gradle servers); in session 4 bash had
-  NO network at all, and `web_search` + `web_fetch` on docs.neoforged.net worked instead. Check which one you have before planning research.
+* For Minecraft APIs, consult `docs/API_NOTES.md`, then resolved Minecraft/NeoForge source and real compilation. Record useful findings with version and evidence; do not treat old sandbox limitations as present constraints.
 * Say clearly when something is unverified/uncompiled. Do not claim it works until the user has run it. A compile confirms names and types only; data files (recipes, models, tags, blockstates) are open until the game has loaded them.
 * Tables drive content: one enum/table per ladder (coats, lineages, guava tiers) -> items, textures, lang, recipes and self-check loops all follow it. Adding a rung = one table entry + its files; the self-check fails until they all exist.
 * `genetics/` stays free of Minecraft imports (use `java.util.random.RandomGenerator`; the entity adapts with
@@ -213,19 +182,21 @@ models.
   temperament and gate themselves in `canUse()`.
 
 ## Dev environment notes
-* NeoForge 26.x RENAMED events and its javadoc still mentions the old names (`BlockEvent.BreakEvent` is now `event.level.block.BreakBlockEvent`; the javadoc of `BlockSnapshot` still says BreakEvent). When verifying an event, grep for its CLASS DECLARATION (`class .*Break.*Event`), never for a name found in a comment.
-* Session 4 part 7: bash reached github.com again. A sparse clone of NeoForge 26.2.x (tests, patches, src; 33 MB, under a minute) is the best way to verify APIs:
-  `git init; git remote add origin https://github.com/neoforged/NeoForge; git config core.sparseCheckout true; printf 'tests\npatches\nsrc\n' > .git/info/sparse-checkout;
-  git fetch --depth 1 origin 26.2.x; git checkout FETCH_HEAD`, then grep `tests/` for real usage. Vanilla sources are still absent (only patches), so purely vanilla names stay unverifiable.
-* Checking the Minecraft glue without Minecraft: `java tools/ParseAll.java src/main/java` (syntax only). Compiling the glue with javac and no Minecraft jars gives hundreds of
-  missing-symbol errors; grep their `symbol:` lines for names of OUR classes to catch cross-class mistakes (weak: javac skips checks on expressions of unresolved types).
-* Authoring sandbox (Claude): JRE 21 WITHOUT `javac` but WITH the compiler module -> use
-  `java -m jdk.compiler/com.sun.tools.javac.Main`. `apt` cannot install a JDK there. Python + Pillow are available.
-  A parse-only syntax checker for all sources is a ~20-line JavacTask#parse program (see session 2 approach).
-* The dev client runs from `run/` inside the project (separate from the user's normal .minecraft). Settings and test
-  worlds persist there. Exclude `run/` and `build/` from zips.
-* First `runClient` takes ~10+ min (it recompiles Minecraft); later launches are fast. Gradle shows "executing"
-  until the game window is closed — that is normal, not a hang.
+
+- JDK 25 and the checked-in Gradle wrapper are the supported build environment.
+  Dependency downloads need network access; configure the environment's proxy
+  and trust store when necessary, without committing credentials or local paths.
+- Resolved Minecraft sources are available through the Gradle/IDE development
+  setup; prefer them and compiler errors over assumptions from older versions.
+  `docs/API_NOTES.md` records useful API findings and their original evidence.
+- NeoForge event javadocs can mention renamed classes: verify the declaration
+  and real usage, not just a name in a comment.
+- `java tools/ParseAll.java src/main/java` checks syntax only, as an optional
+  fallback when dependency access prevents compilation.
+- `run/` contains development settings and saves. Gradle's `runClient` remains
+  running while the game window is open. Never delete worlds to fix a build.
+- `packageProject` excludes build output, caches, local IDE state and runtime
+  directories. Inspect the archive before sharing; never add secrets to source.
 
 ## User preferences (learned)
 * The user writes in Spanish ("Continuar", "continúa") or English (session 5, part 2) depending on the day: answer in the language of their message; these docs and the code stay in English.
@@ -239,12 +210,12 @@ models.
   silly game objects, not a surreal writing tone.
 * Wants everything set up so it can be resumed from this zip without redoing work.
 * **A feature must be readable in the world, not only in the docs (session 45):** the user took the warrens (a tree and a few 2-deep holes) for a worldgen bug and did not know the word. Before building anything the player is meant to understand, ask "would someone who has never read the docs know what this is and that it is on purpose?" Prefer a visible structure that explains itself (a doorway, a lit slope, dogs that use it) over a hidden mechanic; explain the one new word in the game (advancement, lang) and in FEATURES. They also like "underground and surface" settlements with creative variety, built level by level.
-* **The user is the one who compiles** (session 7: "I'm the one who compiles, it seems that was never stated in the docs"); see "Who does what" at the top. And: **small chunks**, one per turn ("Development process").
-* **Plan first, then specifics, then code (session 13, drops):** for a big feature the user asked for a cohesive plan in `docs/` and the zip, then a walk through the specifics over the next messages, "still not coding anything". Do not start the code of a plan until the user says so; keep the plan's numbers as discussable starting values. (Third turn: the user answered "go with your picks" to Claude's recommendations on the last open questions, so on a small leftover decision Claude may propose a pick and the user can accept it in one line.)
+* Codex now builds locally when the environment supports it. The old user-only compilation and fixed chunk-size constraints are retired.
+* **Plan first, then specifics, then code (session 13, drops):** for a big feature the user asked for a cohesive plan in `docs/` and the zip, then a walk through the specifics over the next messages, "still not coding anything". When the current request is explicitly planning-only, do not start implementation until requested; keep the plan's numbers as discussable starting values. (Third turn: the user answered "go with your picks" to Claude's recommendations on the last open questions, so on a small leftover decision Claude may propose a pick and the user can accept it in one line.)
 * **Verification effort (session 6, said twice: "Stop doing so many checks, you're wasting time and resources" and then "once per change is still too much, your checks mean millions of checks"):**
   The default is NOT to run the self-check. Run it only when pure-logic code changed in a way a bug could hide in (`genetics/`, `layout/`), never after glue, resource, art or doc-only changes, and never more than once in a turn.
   No sabotage/mutation rounds, no "prove the check can fail" experiments, no repeated re-runs. New tests stay small: hundreds of samples, not tens of thousands (the layout tests were cut from 20,000 samples to 300 each); prefer a handful of exact assertions on real numbers.
-  Do not report check counts as a selling point. The user compiles and plays the glue themselves, so effort goes into reading the real API sources before writing glue code, and into short, clear docs. If something is doubtful, say so in one line instead of running experiments.
+  Do not report check counts as a selling point. Use Gradle to compile the Minecraft glue and report gameplay validation separately. If something is doubtful, say so in one line instead of running experiments.
 
 ## Debug cheat sheet (copied from the old Phase 3/4 notes; `tools/GenomeCheck.java` verifies the /summon genomes)
 Genome text = ears coat legs build temperament fertility, two hex digits each (`/summon bunnidogs:bunnidog ~ ~ ~ {Genome:".."}`). Other debug commands: `/bunnidogs genome | lineage | seed | hatch | warren [1-5] [surface] | drops [simulate n]`.

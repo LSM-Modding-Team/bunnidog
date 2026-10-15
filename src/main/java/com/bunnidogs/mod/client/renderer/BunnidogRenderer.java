@@ -2,6 +2,7 @@ package com.bunnidogs.mod.client.renderer;
 
 import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.client.model.BunnidogModel;
+import com.bunnidogs.mod.client.model.BunnidogModelLayer;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Allele;
 import com.bunnidogs.mod.genetics.Gene;
@@ -16,7 +17,7 @@ public class BunnidogRenderer extends MobRenderer<Bunnidog, BunnidogRenderState,
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(
             Identifier.fromNamespaceAndPath(BunnidogsMod.MODID, "bunnidog"), "main");
 
-    /** One texture per Coat allele, indexed by allele id: textures/entity/bunnidog_<coat name>.png (art pipeline). */
+    /** One lightweight atlas per expressed coat allele. */
     private static final Identifier[] TEXTURES = buildTextures();
 
     private static Identifier[] buildTextures() {
@@ -29,7 +30,7 @@ public class BunnidogRenderer extends MobRenderer<Bunnidog, BunnidogRenderState,
     }
 
     public BunnidogRenderer(EntityRendererProvider.Context context) {
-        super(context, new BunnidogModel(context.bakeLayer(LAYER)), 0.35F);
+        super(context, new BunnidogModel(BunnidogModelLayer.sculpt(context.bakeLayer(LAYER))), 0.35F);
     }
 
     @Override

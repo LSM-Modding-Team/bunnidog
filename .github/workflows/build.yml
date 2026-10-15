@@ -1,6 +1,9 @@
 name: Build
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -22,4 +25,11 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build checkBunnidogModel
+
+      - name: Upload mod JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: bunnidogs-${{ github.sha }}
+          path: build/libs/*.jar
+          if-no-files-found: error

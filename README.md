@@ -1,17 +1,64 @@
-# Bunnidogs (NeoForge, Minecraft 26.2)
+# Bunnidogs
 
-A small creature with a baby's face, a bunny's ears and a dog's body, and a full breeding/genetics mod around it: seeds and guavas, warrens and villages, drops, a Pedigree Book, a Genetics Table, homes.
+A NeoForge mod for Minecraft 26.2: a baby-faced creature with rabbit ears and a
+dog's body, plus breeding, genetics, guavas, warrens, homes and pedigree tools.
+Requires JDK 25. The checked-in Gradle wrapper selects the project Gradle version.
 
-**Run:** `./gradlew runClient`, then in a creative world `/summon bunnidogs:bunnidog`. **Build:** `./gradlew build` (JDK 25; first run downloads a lot).
-**Play guide:** `docs/FEATURES.md` (how to use every feature; start with "Breed them").
-**Dev client options:** `dev/options.txt` is copied to `run/options.txt` the first time the client runs from a fresh checkout (only if that file is missing).
+## Build and play
 
-Checks that need no Minecraft: `java tools/ParseAll.java src/main/java` (syntax of every source) and the genetics/layout self-check (commands in `docs/REFERENCE.md`, "Genetics self-check").
-Regenerate art: `pip install pillow`, then `python3 art/gen_bunnidog.py` (other textures: `art/gen_*.py`).
+```sh
+./gradlew build
+./gradlew runClient
+```
 
-## Continuing with Claude
-Upload this whole zip in a new conversation and say what happened with the last build, in your own words: **"it worked, continue"**, **"it compiled"**, or paste the compile errors. Claude reads `START_HERE.md` (current status, what to do, where everything is) and does the next small chunk.
-Claude cannot compile: you build and run, Claude writes code and does syntax/logic checks only.
+On Windows use `gradlew.bat` in place of `./gradlew`. The first build downloads
+Minecraft/NeoForge dependencies. Output: `build/libs/bunnidogs-1.0.0.jar`.
+Install it in a compatible NeoForge instance, or summon in the development client
+with `/summon bunnidogs:bunnidog`. Client settings and worlds persist in `run/`;
+`dev/options.txt` supplies initial settings only when none exist.
 
-## Docs at a glance
-`START_HERE.md` (read first) / `docs/CHUNKS.md` (status of every chunk) / `docs/ROADMAP.md` (what is next) / `docs/REFERENCE.md` (layout, conventions, process) / `docs/DESIGN.md` (game design) / `docs/API_NOTES.md` (verified Minecraft API facts) / `docs/*_SPECS.md` and `docs/WARREN_PLAN.md` (feature plans) / `docs/history/` (everything old).
+## Model and downloads
+
+The former Low model is now the only model: 2,172 quads, 8,688 vertices and
+512px coat atlases. Graphics presets and distance switching have been removed.
+The head uses continuous UVs and surface-derived normals to avoid horizontal
+texture and lighting bands, preserving the approved Low geometry and nose.
+See [rendering details](docs/GRAPHICS.md).
+
+Download builds from GitHub **Actions → Build → a successful run → Artifacts**.
+The artifact ZIP contains the installable JAR. The workflow runs on pushes and
+pull requests, and can also be started manually. A green build establishes
+compilation and headless checks; final appearance still needs gameplay review.
+
+## Working with Codex
+
+Open this folder in Codex and describe the change. Keep using the same checkout;
+there is no need to upload the project again after each message. Codex reads
+`AGENTS.md` and `START_HERE.md`, edits the project, runs relevant checks, and
+reports what passed and what still needs gameplay review. Review the workspace
+Git diff. Existing uncommitted work and saves are preserved.
+
+```sh
+./gradlew checkBunnidogModel  # real mesh loading/render path, no game window
+./gradlew packageProject     # optional portable source ZIP in build/distributions
+```
+
+The headless model check covers mesh integrity, smooth normals, rendering and
+gene/baby ground contact; use `runClient` for appearance, motion and performance.
+See [current status](START_HERE.md), [player guide](docs/FEATURES.md),
+[roadmap](docs/ROADMAP.md), and [architecture/reference](docs/REFERENCE.md).
+
+## Art
+
+Install Python 3 with NumPy and Pillow, preferably in a virtual environment:
+
+```sh
+python -m pip install -r art/requirements.txt
+python art/gen_bunnidog.py
+python art/preview_bunnidog.py
+```
+
+Regeneration updates the twelve 512px coat atlases, binary mesh, generated Java skeleton
+and editable `art/bunnidog.bbmodel`. Inspect `art/bunnidog_model_preview.png`.
+See [model details](docs/BUNNIDOG_MODEL.md). Other art has its own `art/gen_*.py`
+script. Generated outputs are committed so ordinary Java builds need no Python.

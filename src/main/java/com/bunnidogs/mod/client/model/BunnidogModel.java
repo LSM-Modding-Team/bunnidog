@@ -9,7 +9,8 @@ import net.minecraft.util.Mth;
 
 /**
  * Bunnidog model: hand-written ANIMATION and GENE PROPORTIONS only.
- * The geometry (cubes, pivots, UVs) is in the GENERATED {@link BunnidogModelLayer}.
+ * The skeleton/loader is in GENERATED {@link BunnidogModelLayer}; the connected
+ * textured mesh is generated alongside it by art/gen_bunnidog.py.
  *
  * Genes are applied here with per-part scale (no extra models): ears grow up from their base, legs stretch and lift
  * the whole body so the paws still touch the ground, build widens the body and thickens the legs.
@@ -17,8 +18,8 @@ import net.minecraft.util.Mth;
  */
 public class BunnidogModel extends EntityModel<BunnidogRenderState> {
     private static final float DEG_TO_RAD = (float) Math.PI / 180.0F;
-    /** Height of the leg cube in the generated model, in model pixels. */
-    private static final float LEG_LENGTH = 4.0F;
+    /** Ground-to-hip distance shared with the generated skeleton. */
+    private static final float LEG_LENGTH = BunnidogModelLayer.LEG_LENGTH;
     /** Ground level in model space (y-down, feet at y=24). */
     private static final float GROUND_Y = 24.0F;
     /**
@@ -26,7 +27,7 @@ public class BunnidogModel extends EntityModel<BunnidogRenderState> {
      * If pups ever look TINY in game, vanilla is already shrinking babies too: set PUP_SCALE to 1.0F.
      */
     private static final float PUP_SCALE = 0.65F;
-    private static final float PUP_HEAD_SCALE = 1.25F;
+    private static final float PUP_HEAD_SCALE = 1.08F;
 
     private final ModelPart rootPart;
     private final ModelPart body;
@@ -61,13 +62,13 @@ public class BunnidogModel extends EntityModel<BunnidogRenderState> {
         applyPupSize(state);
 
         // Head follows where the mob is looking.
-        this.head.xRot = state.xRot * DEG_TO_RAD;
-        this.head.yRot = state.yRot * DEG_TO_RAD;
+        this.head.xRot += Mth.clamp(state.xRot, -30.0F, 30.0F) * DEG_TO_RAD;
+        this.head.yRot += Mth.clamp(state.yRot, -55.0F, 55.0F) * DEG_TO_RAD;
 
         // Trotting legs (diagonal pairs move together, like a dog).
         float pos = state.walkAnimationPos;
         float speed = state.walkAnimationSpeed;
-        float swing = Mth.cos(pos * 0.6662F) * 1.2F * speed;
+        float swing = Mth.cos(pos * 0.6662F) * 0.85F * speed;
         this.legFr.xRot = swing;
         this.legBl.xRot = swing;
         this.legFl.xRot = -swing;

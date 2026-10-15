@@ -199,3 +199,37 @@ idea {
         downloadJavadoc = true
     }
 }
+
+// Focused integration check against the resolved Minecraft runtime, without a GUI.
+// Separate source set keeps the check out of the shipped mod JAR.
+sourceSets {
+    modelCheck {
+        java.srcDir 'tools/model'
+        compileClasspath = sourceSets.main.output + sourceSets.main.runtimeClasspath
+        runtimeClasspath = output + compileClasspath
+    }
+}
+tasks.register('checkBunnidogModel', JavaExec) {
+    group = 'verification'
+    description = 'Load and render the actual Bunnidog mesh and check animation invariants headlessly.'
+    dependsOn tasks.named('modelCheckClasses')
+    classpath = sourceSets.modelCheck.runtimeClasspath
+    mainClass = 'BunnidogModelCheck'
+    javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
+    workingDir = layout.buildDirectory.dir('model-check').get().asFile
+    doFirst { workingDir.mkdirs() }
+}
+
+tasks.register('packageProject', Zip) {
+    group = 'distribution'
+    description = 'Create a portable source project without caches, saves or build output.'
+    archiveFileName = 'bunnidogs-project.zip'
+    destinationDirectory = layout.buildDirectory.dir('distributions')
+    from(layout.projectDirectory) {
+        into 'bunnidogs-mod'
+        exclude '.git/**', '.gradle/**', 'build/**', 'run/**', 'run-data/**',
+                'logs/**', 'repo/**', '.idea/**', '.vscode/**', '.run/**',
+                '.venv/**', '**/__pycache__/**', '**/*.pyc', '.env', '.env.*',
+                '*.iml', '.DS_Store'
+    }
+}
