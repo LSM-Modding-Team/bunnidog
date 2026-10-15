@@ -1,6 +1,6 @@
 # TABLE_SPECS — the Genetics Table (plan, session 36)
 
-**CURRENT (2026-10-15): T1–T3 work. T4 is implemented and compiles; its in-game appearance/sound still needs review.**
+**CURRENT (2026-10-15): T1–T3 work. T4 is implemented; the user confirms the d7f39a9 release compiled and worked in game. Individual cases were not itemized.**
 
 The user picked the Genetics Table from the open roadmap (session 35: "Genetics Table (block, uses whiskers)"). The roadmap only had one line
 for it ("the block version of the Calipers", DESIGN line 423: "a Genetics Table block can show the same `genetics/Readout` lines later"),
@@ -64,5 +64,6 @@ still applies.
 
 Successful store, swap, take and read actions play one quiet wooden-button click
 from the server. Empty/invalid actions remain silent. The table never consumes a
-sample. Gradle compilation and model checks pass; inspect A only, A+B, swap,
-take, chunk reload and the sound in Minecraft before calling T4 gameplay-tested.
+sample. Gradle compilation and model checks pass. The user reports the release compiled
+and worked in game; A only, A+B, swap, take, chunk reload and sound remain useful
+regression checks, without separate reported results.

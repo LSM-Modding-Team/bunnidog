@@ -14,10 +14,19 @@ are obsolete. The user's current request determines scope.
   Reserve enough budget to finish implementation, run checks, update the current
   status, review the diff, commit and push to `main`, and check the GitHub build
   artifact. These continuation requests authorize that commit/push without another
-  confirmation. Optional items explicitly requiring a separate request (such as
-  U7) still require that request; do not invent unplanned features to fill time.
+  confirmation. A completed feature, commit or push is a checkpoint, not by
+  itself a reason to stop a continuation. Continue into the next useful work
+  while budget permits; reserve time for final validation and delivery.
   Account-level usage/quota is not visible: do not claim to know an exact remaining
   allowance. Use the available work budget and leave a precise handoff when needed.
+- Design latitude: the user authorizes and encourages substantial additions or
+  changes beyond the written roadmap when they fit the mod, including custom
+  loot tables, block behavior and mechanics. Use judgment and proceed without
+  another approval loop; document the rationale, update affected plans and
+  validate the result. This supersedes older planned-only or optional-feature
+  approval gates. Preserve saves, established design goals and the current task
+  scope; an explicit pause on development still applies. Do not add features
+  merely to consume budget or divert a focused fix into unrelated development.
 - Work directly on `main`. Do not create additional branches unless the user
   explicitly requests one.
 - Preserve existing uncommitted work and player saves. Use Git diffs to review

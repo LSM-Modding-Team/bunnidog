@@ -1,6 +1,6 @@
 # WARREN_PLAN: readable warrens — U1–U6 implemented
 
-**Current (2026-10-15): U1–U6 are implemented; U7 remains optional and requires a separate request. U2/U3 received broad "good, works well" user feedback. New U4/U5/U6b have build/layout evidence, with gameplay pending.** The accepted design is preserved in sections 1–11; implementation details and departures are in sections 12–18. Test command: `/bunnidogs warren <level> surface` (omit `surface` for cave floors).
+**Current (2026-10-15): U1–U6 are implemented; U7 remains an optional candidate under the user's broader design permission. U2/U3 received broad "good, works well" user feedback. U4/U5/U6b pass build/layout checks, and the user confirms the d7f39a9 release compiled and worked in game. Individual cases were not itemized.** The accepted design is preserved in sections 1–11; implementation details and departures are in sections 12–18. Test command: `/bunnidogs warren <level> surface` (omit `surface` for cave floors).
 Supersedes the burrow-hole part of Phase 4g/6b (`WarrenShape.burrows`, `WarrenFeature.dig`); everything else (levels = trees, houses, paths, landmarks, styles, nests, night) stays.
 
 ## 1. The problem (user, session 45)
@@ -99,7 +99,7 @@ Order if the user says nothing: U1, U6 (the advancement part), U2, U3, U4, U5, U
 4. **D4 Advancement** for the surface warren (**yes**) / no.
 5. **D5 Cave, Nether, End warrens:** later, as in U6 (**yes**) / do them in U1.
 6. **D6 Depth and size:** den 5x5x3 at dy -5, slope 1x2, hall 7x7x4 (**as written**) / bigger.
-7. **D7 U7** (a second floor under the hall): **later, only if the user asks**.
+7. **D7 U7** (a second floor under the hall): **originally opt-in; now an optional candidate under the user's broader design permission**.
 
 ## 10. Left out on purpose
 
@@ -266,7 +266,8 @@ Validation covers landmark reachability, water containment, ordinary den routes,
 protected/fluid fallback, house/path clearance and chunk ownership. Play-test
 `/bunnidogs warren 3 surface` and `5 surface`, find rooms beneath landmarks,
 check the well water after block updates/reload, and walk the market/farm ramps.
-Natural generation, light/fluid updates and dog use still need gameplay review.
+The user confirms the release worked in game; natural generation, light/fluid
+updates and dog use were not separately itemized.
 
 ## 17. U5: grand-tree hall and loop (2026-10-15)
 
@@ -284,7 +285,7 @@ Headless fixtures check all eight Nests, the loop, every entrance's access to
 the retained dens, and house cellar routes after surface construction. The
 model is unchanged. In Minecraft, generate a new level-5 surface village,
 inspect its hall/roots, walk the loop and inspect night Nest claims. U7's second
-floor remains unimplemented until separately requested.
+floor remains unimplemented and optional under the broader design permission.
 
 ## 18. U6b: cave, Nether and End floors (2026-10-15)
 
@@ -307,4 +308,5 @@ Try `/bunnidogs warren 1` in a cave/Nether floor with enough solid depth, and
 `/bunnidogs warren 5 surface` in the End. Locate a fresh natural End village
 with `/locate structure bunnidogs:warren_end_village`, walk its stairs, cross
 chunk borders and reload. Synthetic cave fixtures for every level pass;
-dimension-specific natural generation and dog navigation await gameplay review.
+the user confirms the release worked in game, without itemizing dimension-specific
+natural generation or dog navigation.

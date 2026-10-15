@@ -45,6 +45,16 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-15
 
+The user reports **"everything compiled and worked this run"** for the
+`d7f39a9` release, confirming U4/U5/U6b/T4/W3/V1c as a working gameplay batch.
+Individual dimension, chunk-order, reload, fluid/light and navigation cases
+were not itemized; do not invent results for those separate cases.
+
+Current request: update documentation and add GitHub Actions artifact delivery
+to LSM Mod. **Bunnidogs feature development is paused** until the user resumes
+it. The user also grants standing latitude for substantial coherent additions
+beyond the roadmap; see `AGENTS.md`.
+
 The U2/U3 batch received the user's "good, works well" gameplay feedback.
 That confirms the batch broadly; natural chunk order, night home claims and
 reload behavior were not individually reported.
@@ -85,9 +95,9 @@ water containment, hall Nests/loop, cave entrances, slopes, cliffs, protected
 terrain, cellar clearance with the new house details, and chunk partitions.
 `checkWoodAssets` checks complete native state coverage, model/texture links,
 recipes, wood tags and door loot. The generated guava texture preview was
-inspected. These are compiler, headless and preview results; **this new batch
-still needs gameplay review**, especially natural generation/reload, fluid and
-light updates, dog navigation, mechanism interactions and table vial placement.
+inspected. The user subsequently confirmed compilation and gameplay for this
+release. The individual cases above remain useful regression checks, rather
+than separately reported test results.
 
 Try `/bunnidogs warren 3 surface` and `5 surface` on open flat ground; inspect
 rooms beneath landmarks, follow the hall loop, and use house/market/farm ramps.
@@ -117,8 +127,8 @@ evidence at delivery, not the current ability to build the project.
   confirmation without itemized gameplay reports. Do not infer new evidence.
 - U1–U6 are implemented. The next accepted development area is D1–D4 diets
   (a seventh gene, feeding, grazing and hunting), starting with compatibility
-  planning in `docs/FIXES_PLAN.md`. U7 and W4 remain optional, separately
-  requested work. See `docs/ROADMAP.md`.
+  planning in `docs/FIXES_PLAN.md`. U7 and W4 remain optional candidates under
+  the user's broader design permission. See `docs/ROADMAP.md`.
 
 ## Document map
 | Job | Open |

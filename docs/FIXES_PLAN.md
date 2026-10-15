@@ -2,7 +2,7 @@
 
 **Warrens (mouths, dens, tunnels, cellars, hall) are covered in `docs/WARREN_PLAN.md`. House materials and doors are covered here.**
 
-**CURRENT (2026-10-15): F1–F3, W1/W1b/W2 and V1a/V1b work. W3 and V1c are implemented, with Gradle/resource/layout checks passing; gameplay is pending. V2 was superseded by HOME_SPECS.md. D1–D4 diets remain planned; W4 remains optional. See `docs/ROADMAP.md`.**
+**CURRENT (2026-10-15): F1–F3, W1/W1b/W2 and V1a/V1b work. W3 and V1c pass Gradle/resource/layout checks; the user confirms the d7f39a9 release compiled and worked in game. V2 was superseded by HOME_SPECS.md. D1–D4 diets remain planned; W4 remains optional. See `docs/ROADMAP.md`.**
 
 **Status (session 41): F1, F2/F3a, F3b, W1, W1b and W2 WORK (user). V2 is SUPERSEDED by `docs/HOME_SPECS.md` (a Nest block dogs claim like villagers claim beds; the user rejected the hardcoded home of V2a). Section 5.3 below is kept as history only. Everything else here is unchanged.**
 **(Older line, session 40, fourth turn: F1, F2/F3a, F3b, W1 and W1b WORK; W2 (stairs, slab, fence; `art/gen_wood_parts.py`) was coded, NOT COMPILED. The FENCE GATE moved from W2 to W3 (it needs a `WoodType`). Next: W3, or V2 first if the user wants the dogs fixed sooner.)**
@@ -75,8 +75,8 @@ Most of the "usual crafts" come for free by joining the tags: `minecraft:planks`
 
 - **4.1 W1 — the base:** `guava_planks`; recipe 1 log -> 4 planks (plus a tag `bunnidogs:guava_logs` for the recipe); `stripped_guava_log`; `guava_wood` and `stripped_guava_wood` (bark on all sides) with their 3-to-3 recipe; the tags above; axe-stripping log -> stripped log and wood -> stripped wood (NeoForge hook for tool-modified state; ASSUMED name, verify); `mineable/axe`; loot tables (drop themselves); art through `art/gen_guava_wood.py` (planks and stripped textures; look at the preview once).
 - **4.2 W2 — shapes (works):** stairs, slab and fence. Recipes are the vanilla shapes with guava planks. Fence gate moved to W3.
-- **4.3 W3 — mechanisms (implemented):** door, trapdoor, wooden button, pressure plate and fence gate. Thin subclasses expose the protected 26.2 constructors; `BlockSetType.OAK` and `WoodType.OAK` provide native wooden behavior/sounds without registering a duplicate wood type. The door uses `DoubleHighBlockItem` and lower-half-only loot. Five vanilla-shaped recipes, block/item wood tags and axe tags accompany the blocks. `art/gen_wood_interactives.py` uses checked-in 26.2 vanilla JSON templates and the custom guava plank texture; it generates the cutout door/trapdoor textures, models and preview. `checkWoodAssets` verifies all state combinations, model/texture links, recipes, tags and door loot. Preview inspected; actual placement, breaking, redstone, projectile activation, connectivity and sound need gameplay review.
-- **4.4 W4 — optional, heavy:** signs, hanging signs, boat, chest boat. Signs need a block entity type that accepts our blocks, a sign screen/renderer hook and models; boats need an entity type, a renderer and a model layer. This is more work than W1-W3 together. **Recommendation: build W1-W3, then ask whether W4 is wanted.**
+- **4.3 W3 — mechanisms (implemented):** door, trapdoor, wooden button, pressure plate and fence gate. Thin subclasses expose the protected 26.2 constructors; `BlockSetType.OAK` and `WoodType.OAK` provide native wooden behavior/sounds without registering a duplicate wood type. The door uses `DoubleHighBlockItem` and lower-half-only loot. Five vanilla-shaped recipes, block/item wood tags and axe tags accompany the blocks. `art/gen_wood_interactives.py` uses checked-in 26.2 vanilla JSON templates and the custom guava plank texture; it generates the cutout door/trapdoor textures, models and preview. `checkWoodAssets` verifies all state combinations, model/texture links, recipes, tags and door loot. Preview inspected; the user confirms the release worked in game. Placement, breaking, redstone, projectile activation, connectivity and sound were not separately itemized.
+- **4.4 W4 — optional, heavy:** signs, hanging signs, boat, chest boat. Signs need a block entity type that accepts our blocks, a sign screen/renderer hook and models; boats need an entity type, a renderer and a model layer. This is more work than W1-W3 together. **Optional candidate under the user's broader design permission; plan its scope before implementation.**
 - Settlement use: V1 needs only W1 (+ W2 for slabs/stairs/fences, W3 for doors).
 
 ---
@@ -114,7 +114,7 @@ Optional dressing is omitted where terrain blocks it. The pure `HouseDetails`
 layout is separate from legacy `HouseShape`; `WarrenPiece` saves `WoodDetails`
 and defaults it to false for old starts. Existing villages are not rebuilt.
 Terrain checks cover cellar routes with both house styles and the new dressing;
-in-game appearance and dog navigation still need review.
+the user confirms the release worked in game; appearance and dog navigation were not separately itemized.
 
 ### 5.3 V2 — bunnidogs are anchored to their home
 Today nothing remembers where a warren dog was born. Plan:

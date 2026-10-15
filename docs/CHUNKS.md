@@ -6,12 +6,12 @@ Full text of every chunk (files, decisions, compile risks): `docs/history/CHUNKS
 
 | Chunk | What | Status |
 |---|---|---|
-| V1c | Initially open guava house doors, shutters, level-4 cottage windows and level-5 doorstep lamps; old-start dressing flag | BUILD + LAYOUT/MODEL CHECKS PASS; gameplay pending |
-| W3 | Guava door/trapdoor/button/pressure plate/fence gate, crafting, tags, loot and generated assets | BUILD + RESOURCE CHECKS PASS; texture preview inspected; gameplay pending |
-| T4 | Synced A/B vial display on Genetics Table and successful-interaction click | BUILD + MODEL CHECKS PASS; gameplay pending |
-| U6b | Cave/Nether/End dens with open floor stair cuts; separate natural End structure retained | BUILD + LAYOUT CHECKS PASS; gameplay pending |
-| U5 | Grand-tree 7x7x4 nursery hall, eight Nests, roots, lights and satellite loop | BUILD + LAYOUT CHECKS PASS; gameplay pending |
-| U4 | Pantry, well cistern, market cellar/hatch, farm entrance and skylights | BUILD + LAYOUT CHECKS PASS; gameplay pending |
+| V1c | Initially open guava house doors, shutters, level-4 cottage windows and level-5 doorstep lamps; old-start dressing flag | WORKS: user confirms d7f39a9 batch; build/layout/model checks pass |
+| W3 | Guava door/trapdoor/button/pressure plate/fence gate, crafting, tags, loot and generated assets | WORKS: user confirms d7f39a9 batch; build/resource checks pass; preview inspected |
+| T4 | Synced A/B vial display on Genetics Table and successful-interaction click | WORKS: user confirms d7f39a9 batch; build/model checks pass |
+| U6b | Cave/Nether/End dens with open floor stair cuts; separate natural End structure retained | WORKS: user confirms d7f39a9 batch; build/layout checks pass |
+| U5 | Grand-tree 7x7x4 nursery hall, eight Nests, roots, lights and satellite loop | WORKS: user confirms d7f39a9 batch; build/layout checks pass |
+| U4 | Pantry, well cistern, market cellar/hatch, farm entrance and skylights | WORKS: user confirms d7f39a9 batch; build/layout checks pass |
 | U3 | Covered cellar ramps beside house doorsteps; join the underground network, preserve house Nests/doors and save path exclusions | BUILD + LAYOUT/MODEL CHECKS PASS; user: "good, works well" for U2/U3 batch |
 | U2 | Level 2–5 surface dens, lit connecting tunnels, terrain-tested entrances and saved chunk-owned underground cells | BUILD + LAYOUT CHECKS PASS; user: "good, works well" for U2/U3 batch |
 | Low-only + smooth head | Preserve approved Low positions; surface-derived head normals and continuous UV chart; remove presets/config; GitHub build artifacts | BUILD + HEADLESS PASS; nearest-filtered preview inspected; in-game fix pending |
@@ -19,7 +19,7 @@ Full text of every chunk (files, decisions, compile risks): `docs/history/CHUNKS
 | Codex workflow + temple fix | Smooth photo-to-scalp transition, preserve mesh; workspace instructions, portable headless model check/CI and optional source package | BUILD + HEADLESS PASS; preview inspected; fixed texture in-game pending |
 | U6a | Advancement "Welcome to the Warren" (enter the surface warren structure), data only + lang | NOT COMPILED |
 | U1 | Level 1 surface warrens: a den under the tree with the nests, a lantern and hay, and up to 2 mouths (mound + slope); the old holes only as a fallback | NOT COMPILED |
-| U7 | Optional second floor beneath the hall | PLANNED; separate request required |
+| U7 | Optional second floor beneath the hall | OPTIONAL CANDIDATE; broader design permission applies |
 | UW0 | Plan: readable underground warrens (mouths, dens, tunnels, cellars; docs/WARREN_PLAN.md) | ACCEPTED |
 | H3b | A Nest in the floor of every burrow house (the hollow centre), so each house is a home for one dog | NOT COMPILED |
 | V1b | Villages of guava wood, second step: level 4 cottages get a stone foundation course, level 5 cottages a loft; well, stall and lamp posts use guava fence and slab in every lineage | WORKS |

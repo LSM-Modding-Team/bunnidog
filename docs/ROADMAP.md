@@ -9,7 +9,8 @@ night/reload/chunk-order checks were not itemized).
 U4 landmark rooms, U5 grand-tree hall/loop, U6b cave/Nether/End dens, T4 table
 sample display, W3 guava mechanisms and V1c house details are implemented.
 Gradle, model, resource and terrain/layout checks pass; the guava texture preview
-was inspected. These six new stages still need gameplay review.
+was inspected. The user reports "everything compiled and worked this run" for
+the six-stage `d7f39a9` release; individual edge cases were not itemized.
 Delivered, not individually confirmed: **U6a** advancement, **U1** level-1 dens
 and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
@@ -19,12 +20,17 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 |---|---|---|---|---|
 | **D1–D4 (diets)** | Seventh gene, then feeding, grazing and hunting; audit every `Gene.COUNT` consumer and old six-gene saves/items first | Accepted picks in `FIXES_PLAN.md` section 7 | Largest remaining item; implement in coherent stages with compatibility checks | `FIXES_PLAN.md` section 6 |
 
-## Optional work (only on a separate request)
+## Optional candidates
+
+The user now authorizes substantial coherent additions and mechanic changes
+beyond the written plan, without another confirmation. These candidates are
+optional design choices, not approval gates. Honor the current development
+pause and choose useful work rather than filling a quota.
 
 | Item | What | Needs | Spec |
 |---|---|---|---|
 | U7 | A second floor under the hall | U5 | `WARREN_PLAN.md` 5, decision D7 |
 | W4 | Signs, hanging signs, boats | W3 | `FIXES_PLAN.md` 4.4 |
 
-## Ideas without a spec (the user must ask; write a plan first)
+## Ideas without a spec (design before implementing)
 Leash; Gene Splicer / Purebred registry / Show Ring / Apex boss (the old "Phase 6 artificial lineage tools"); settlement life (the old 6d); living harvest instead of death-only drops; environment effects of lineages (cold resistance, heat tolerance, night vision, ...). More ideas: `docs/DESIGN.md`, section "Ideas".
