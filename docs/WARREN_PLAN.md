@@ -1,13 +1,13 @@
-# WARREN_PLAN: warrens you can read (session 45, PLAN ONLY, nothing is coded)
+# WARREN_PLAN: readable warrens — U1, U6a, U2 and U3 implemented
 
-**Status (session 45, third turn): ACCEPTED. The user said "good, integrate it into the documentation"; no pick of section 9 was changed, so every bold pick stands (they can still change any of them). Nothing is coded; the next chunk is U1 (section 8).** Chunks U1-U7 (section 8). Test command stays `/bunnidogs warren <level> surface`.
+**Historical plan acceptance (session 45, third turn): ACCEPTED. The user said "good, integrate it into the documentation"; no pick of section 9 was changed, so every bold pick stands (they can still change any of them). U1/U6a are recorded below; U2/U3 are implemented in sections 14–15.** Chunks U1-U7 (section 8). Test command stays `/bunnidogs warren <level> surface`.
 Supersedes the burrow-hole part of Phase 4g/6b (`WarrenShape.burrows`, `WarrenFeature.dig`); everything else (levels = trees, houses, paths, landmarks, styles, nests, night) stays.
 
 ## 1. The problem (user, session 45)
 
 > "i didn't even know what 'warren' meant, and i thought it was bugged and generated with random erosion-like 2-block-deep holes."
 
-What a player really meets today (read from the code, not guessed): 55% of all settlements are level 1 = ONE guava tree, a disc of coarse dirt, **3-4 holes that are one block wide and two deep**
+At plan acceptance, the existing implementation generated: 55% of all settlements are level 1 = ONE guava tree, a disc of coarse dirt, **3-4 holes that are one block wide and two deep**
 (`WarrenFeature.dig` removes the ground block and the one under it), a Nest beside each hole and 2-4 dogs standing around. A hole of that size is a dead end with nothing in it.
 It looks like a worldgen bug because nothing says "somebody lives down there", and the word "warren" appears nowhere in the game itself (only in `/bunnidogs warren`, `/locate`).
 Higher levels have houses and landmarks, but the holes are still just holes, and the houses are closed one-block rooms that lead nowhere.
@@ -143,3 +143,97 @@ When U1 is built: update FEATURES (the mouths and the den), HOME_SPECS (nests), 
 * **What it does:** a task advancement "Welcome to the Warren" in the Adventure tab, granted when the player is inside a piece of a `bunnidogs:warren_village` structure; its description is the only in-game place that explains the word (dens under guava trees, walk into a mound, follow the slope).
 * **Not covered:** cave, Nether and End warrens (Features, no structure id); the `/bunnidogs warren` command (a Feature too). Natural worlds or `/locate structure bunnidogs:warren_village` only.
 * **Likeliest problem:** a field name in the JSON. The log names the file at pack load; deleting the file is safe.
+
+
+## 14. U2: higher-level dens and tunnels (2026-10-15)
+
+Implemented for newly planned level 2–5 surface-kind settlements, both natural
+structures and `/bunnidogs warren <level> surface`. U1's level-1 implementation
+and cave-kind features retain their behavior. U3 is implemented in section 15; U4–U6b remain planned. The grand
+tree currently has an ordinary den, not U5's hall.
+
+- `layout/TunnelShape.java` plans a lined 5x5x3 den five blocks below each fitted
+  tree, joins the central room to satellites along the same long-axis-first
+  spokes as `PathShape`, and fits up to two mouths per room. Entrances may shift
+  one or two blocks sideways so they can fit between existing buildings without
+  changing the surface layout. All writes and doorsteps stay within MAX_EXTENT.
+- Room elevations follow the terrain at their trees. Connecting corridors have
+  three-block clearance, use full-block steps with at most one block of rise,
+  and are omitted if the elevation difference cannot fit in their available run.
+  The short gaps (at most five columns) receive light from the adjoining den
+  lanterns. Lanterns/bedding sit near the centre to keep jittered tunnel entries
+  clear; Nests remain in the floor corners.
+- Every room, corridor and mouth is tested against read-only terrain before
+  writing. Fluids in or adjacent to the shell, protected blocks, unsupported
+  floors/ceilings or blocked trunks reject that part. Only components connected
+  to a fitted mouth survive. Rejected rooms keep the old holes and surface Nests;
+  a fully rejected plan writes nothing. Rare dense surface layouts may leave no
+  room for an entrance even on flat ground. Spare house candidates in the feature
+  generator are skipped if they would close a fitted mouth or its doorstep.
+- `worldgen/WarrenTunnels.java` adapts live terrain for the debug feature and
+  cached base-noise columns for structure planning. `WarrenStructure` creates
+  one TUNNEL piece before the surface pieces. `WarrenPiece` saves the exact
+  `(dx,dy,dz,kind)` cell tuples in `TunnelCells` and each cluster's `NetworkDen`
+  flag, so terrain changes and generation order cannot move the plan. Cell
+  kinds use the existing DenShape.Kind order; preserve that order in future
+  versions. Each chunk writes only its own columns, with a box encompassing all
+  planned heights. A later structure/feature conflict can still make the writer
+  skip a column containing fluid, a block entity or a hard protected block.
+- Previously saved starts have no new fields and retain their old behavior.
+  This change does not rebuild existing villages or alter genome/entity saves.
+
+**Validation:** real `./gradlew build --no-daemon` passes. The new
+`checkWarrenNetwork` task is part of Gradle `check`/`build`; it exercises connected
+flat layouts at all four levels, deterministic plans, building/doorstep clearance,
+slopes in four directions, cliffs, flooded/protected rooms, blocked trunks and
+chunk partitions at positive/negative borders. All 94 nonempty plans out of the
+96 flat samples connect every nest to every entrance; two dense layouts safely
+fall back. The existing genetics/layout suite also passes. These checks use
+synthetic terrain and do not establish in-game pathfinding, lighting, appearance,
+POI claims, natural generation or save/reload behavior.
+
+**Play test:** on open flat grass run `/bunnidogs warren 2 surface` through
+`5 surface`, several times at different spots. Walk into a mound and between
+dens; look for 3–4 floor Nests and a lantern in each fitted room. Check dogs'
+`NestX/Y/Z` and `/time set 13000`. Then locate a newly generated natural village,
+cross its chunk borders from different directions, leave/reload, and check the
+same routes. The advancement still requires a natural structure, not the command.
+
+
+## 15. U3: house cellar ramps (2026-10-15)
+
+Implemented in `layout/CellarShape.java`, attached to U2's fitted network by
+`TunnelShape`. A fitted house can have a covered ramp branching sideways beside
+its doorstep and descending into a den or connecting corridor. This side branch
+keeps the front door and normal yard approach usable within the existing 3x3
+house footprint; the house's centre-floor Nest stays intact. There is no
+separate new cellar room in U3.
+
+The bounded deterministic search uses at most ten horizontal steps, descending
+at most one block at a time, with three-high clearance. It avoids planned houses,
+doorsteps, landmarks and shallow tree roots; only complete routes reaching an
+existing underground walking column are retained. Floors, roofs and side walls
+are lined, with a recessed lantern where a new side wall permits it. Unfitted
+houses retain their existing behavior. The planner tests both house styles and
+all affected terrain before adding any ramp cells.
+
+Natural structures save ramp cells in the same TUNNEL piece as U2. PATH pieces
+also save `PathExclusions` as `(dx,dz)` pairs so paving cannot overwrite a ramp
+opening or mound, regardless of chunk order or a saved-piece reload. The debug
+feature uses the same exclusions. Old saved starts without this field retain
+their old path behavior; existing villages are not rebuilt.
+
+Validation: `./gradlew build checkBunnidogModel --no-daemon` passes. The focused
+network check fits 289 cellar ramps across the existing flat-layout fixtures and
+checks their complete step routes after both house styles and surface paving.
+It also exercises slopes, fluid/protected terrain, unchanged front-door access,
+building clearance and chunk ownership. The existing genetics/layout suite
+passes. Minecraft generation, navigation, lighting and reload behavior remain
+unconfirmed by gameplay.
+
+Play test: generate `/bunnidogs warren 3 surface` or `5 surface` on flat open
+ground. Walk in/out of houses normally, take a covered ramp beside a doorstep,
+and follow it into a den. Paths should stop short of ramp openings, not replace
+the steps. Then repeat in a new natural village and reload across chunk borders.
+Use the usual `NestX/Y/Z` and night checks to confirm that dogs can use both
+house and den Nests. U4's landmark rooms are the next planned feature.

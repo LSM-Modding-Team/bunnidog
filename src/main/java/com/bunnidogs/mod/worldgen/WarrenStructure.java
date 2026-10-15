@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import com.bunnidogs.mod.layout.Settlement;
+import com.bunnidogs.mod.layout.TunnelShape;
 import com.bunnidogs.mod.registry.ModStructures;
 import com.mojang.serialization.MapCodec;
 
@@ -36,10 +37,16 @@ public class WarrenStructure extends Structure {
         int cz = chunk.getMinBlockZ() + 4 + context.random().nextInt(8);
         int cy = height(context, cx, cz);
         Settlement layout = Settlement.generate(new Random(layoutSeed), level);
+        BlockPos origin = new BlockPos(cx, cy, cz);
+        TunnelShape.Network underground = WarrenTunnels.plan(context, origin, layout, layoutSeed);
         return Optional.of(new GenerationStub(new BlockPos(cx, cy, cz), builder -> {
+            if (!underground.cells().isEmpty()) {
+                builder.addPiece(new WarrenPiece(WarrenPiece.TUNNEL, 0, layoutSeed, level, cx, cz, cy, false, WarrenTunnels.encode(underground)));
+            }
             for (int i = 0; i < layout.clusters().size(); i++) {
                 Settlement.Cluster c = layout.clusters().get(i);
-                builder.addPiece(new WarrenPiece(WarrenPiece.CLUSTER, i, layoutSeed, level, cx, cz, height(context, cx + c.dx(), cz + c.dz())));
+                builder.addPiece(new WarrenPiece(WarrenPiece.CLUSTER, i, layoutSeed, level, cx, cz,
+                        height(context, cx + c.dx(), cz + c.dz()), underground.dens().contains(i), new int[0]));
             }
             for (int i = 0; i < WarrenPiece.houseCount(layout, level); i++) {
                 Settlement.House h = layout.houses().get(i);
@@ -49,7 +56,8 @@ public class WarrenStructure extends Structure {
                 Settlement.Prop p = layout.props().get(i);
                 builder.addPiece(new WarrenPiece(WarrenPiece.PROP, i, layoutSeed, level, cx, cz, height(context, cx + p.dx(), cz + p.dz())));
             }
-            builder.addPiece(new WarrenPiece(WarrenPiece.PATH, 0, layoutSeed, level, cx, cz, cy));
+            builder.addPiece(new WarrenPiece(WarrenPiece.PATH, 0, layoutSeed, level, cx, cz, cy,
+                    false, new int[0], WarrenTunnels.pathExclusions(underground)));
         }));
     }
 

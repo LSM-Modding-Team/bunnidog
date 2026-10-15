@@ -203,12 +203,26 @@ idea {
 // Focused integration check against the resolved Minecraft runtime, without a GUI.
 // Separate source set keeps the check out of the shipped mod JAR.
 sourceSets {
+    warrenCheck {
+        java.srcDir 'tools/warren'
+        compileClasspath = sourceSets.main.output
+        runtimeClasspath = output + compileClasspath
+    }
     modelCheck {
         java.srcDir 'tools/model'
         compileClasspath = sourceSets.main.output + sourceSets.main.runtimeClasspath
         runtimeClasspath = output + compileClasspath
     }
 }
+tasks.register('checkWarrenNetwork', JavaExec) {
+    group = 'verification'
+    description = 'Check underground connectivity, terrain fallback and chunk ownership without starting Minecraft.'
+    dependsOn tasks.named('warrenCheckClasses')
+    classpath = sourceSets.warrenCheck.runtimeClasspath
+    mainClass = 'WarrenNetworkCheck'
+    javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
+}
+tasks.named('check').configure { dependsOn tasks.named('checkWarrenNetwork') }
 tasks.register('checkBunnidogModel', JavaExec) {
     group = 'verification'
     description = 'Load and render the actual Bunnidog mesh and check animation invariants headlessly.'

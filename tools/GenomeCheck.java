@@ -5780,13 +5780,7 @@ public class GenomeCheck {
                 }
             }
         }
-        // a level 1 settlement is only built with a den; the glue, by grep
-        Path src = Path.of("src/main/java/com/bunnidogs/mod");
-        String wf = Files.readString(src.resolve("worldgen/WarrenFeature.java"));
-        String wp = Files.readString(src.resolve("worldgen/WarrenPiece.java"));
-        check(wf.contains("boolean denBuilt = den && surface && WarrenDen.build(level, floor, style, rng);") && wf.contains("if (!denBuilt) {"), "buildCluster builds the den first and the old holes and surface nests only without one");
-        check(wf.contains("settlement.level() == 1") && wp.contains("true, style, level == 1)"), "the Feature and the structure piece ask for a den exactly at level 1");
-        check(wf.indexOf("boolean denBuilt") < wf.indexOf("for (WarrenShape.Spot spot : warren.dogs())"), "the den is built before the dogs");
+        // U2 terrain behaviour is checked by tools/warren/WarrenNetworkCheck.java.
     }
 
     private static boolean isSolid(Set<String> air, Set<String> solid, int x, int y, int z) {

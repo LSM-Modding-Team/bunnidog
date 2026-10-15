@@ -7,10 +7,12 @@ import java.util.Random;
 import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Lineage;
+import com.bunnidogs.mod.layout.DenShape;
 import com.bunnidogs.mod.layout.HouseShape;
 import com.bunnidogs.mod.layout.PathShape;
 import com.bunnidogs.mod.layout.PropShape;
 import com.bunnidogs.mod.layout.Settlement;
+import com.bunnidogs.mod.layout.TunnelShape;
 import com.bunnidogs.mod.layout.WarrenShape;
 import com.bunnidogs.mod.registry.ModBiomeTags;
 import com.bunnidogs.mod.registry.ModBlocks;
@@ -124,14 +126,25 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
         // one style for the whole settlement: the lineage of the biome at its centre (Phase 6f)
         Lineage style = ModBiomeTags.lineageAt(level, floor);
         Settlement settlement = requestedLevel <= 0 ? Settlement.generate(rng) : Settlement.generate(rng, requestedLevel);
+        if (!GuavaTree.fits(level, floor, settlement.clusters().getFirst().shape().tree())) {
+            BunnidogsMod.LOGGER.info("Warren gave up at {} ({} kind): no room for the trunk", floor, kind);
+            return new Built(0, 0, 0, 0, 0);
+        }
+        TunnelShape.Network underground = surfaceOnly && settlement.level() >= 2
+                ? WarrenTunnels.plan(level, floor, settlement, rng.nextLong()) : TunnelShape.Network.empty();
+        if (!underground.cells().isEmpty()) {
+            WarrenTunnels.place(level, floor, WarrenTunnels.encode(underground), null, style);
+        }
         int trees = 0;
         int dogs = 0;
         List<Settlement.Cluster> builtTrees = new ArrayList<>();
+        int clusterIndex = 0;
         for (Settlement.Cluster cluster : settlement.clusters()) {
             BlockPos at = trees == 0 && cluster.dx() == 0 && cluster.dz() == 0
                     ? floor
                     : groundAt(level, floor.getX() + cluster.dx(), floor.getY(), floor.getZ() + cluster.dz(), surfaceOnly);
-            int here = at == null ? NO_CLUSTER : buildCluster(level, at, cluster.shape(), rng, surfaceOnly, style, settlement.level() == 1);
+            boolean networkDen = underground.dens().contains(clusterIndex++);
+            int here = at == null ? NO_CLUSTER : buildCluster(level, at, cluster.shape(), rng, surfaceOnly, style, settlement.level() == 1, networkDen);
             if (here == NO_CLUSTER) {
                 if (trees == 0 && cluster.dx() == 0 && cluster.dz() == 0) {
                     BunnidogsMod.LOGGER.info("Warren gave up at {} ({} kind): no room for the trunk", floor, kind);
@@ -150,6 +163,7 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
             if (houses == wanted) {
                 break;
             }
+            if (TunnelShape.blocksHouse(underground, house)) continue;
             if (buildHouse(level, floor.getX() + house.dx(), floor.getY(), floor.getZ() + house.dz(), house, surfaceOnly, style, trees)) {
                 houses++;
                 builtHouses.add(house);
@@ -167,12 +181,13 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
         }
         int paths = 0;
         for (PathShape.Cell cell : PathShape.network(builtTrees, builtHouses, builtProps)) {
+            if (underground.pathExclusions().contains(new DenShape.Pos(cell.dx(), cell.dz()))) continue;
             if (layPath(level, floor.getX() + cell.dx(), floor.getY(), floor.getZ() + cell.dz(), surfaceOnly, style)) {
                 paths++;
             }
         }
-        BunnidogsMod.LOGGER.info("Warren built at {} ({} kind, {} style): {} of {} trees, {} of {} houses, {} bunnidogs, {} path blocks, {} of {} landmarks",
-                floor, kind, style.key(), trees, settlement.level(), houses, wanted, dogs, paths, props, propsWanted);
+        BunnidogsMod.LOGGER.info("Warren built at {} ({} kind, {} style): {} of {} trees, {} of {} houses, {} bunnidogs, {} path blocks, {} of {} landmarks; {} network dens, {} entrances, {} cellar ramps",
+                floor, kind, style.key(), trees, settlement.level(), houses, wanted, dogs, paths, props, propsWanted, underground.dens().size(), underground.mouths().size(), underground.cellars().size());
         return new Built(trees, houses, dogs, paths, props);
     }
 
@@ -360,6 +375,10 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
      * minimum of a warren, are taken from the patch around the trunk).
      */
     static int buildCluster(WorldGenLevel level, BlockPos floor, WarrenShape warren, Random rng, boolean surface, Lineage style, boolean den) {
+        return buildCluster(level, floor, warren, rng, surface, style, den, false);
+    }
+
+    static int buildCluster(WorldGenLevel level, BlockPos floor, WarrenShape warren, Random rng, boolean surface, Lineage style, boolean den, boolean networkDen) {
         if (!GuavaTree.fits(level, floor, warren.tree())) {
             return NO_CLUSTER;
         }
@@ -373,9 +392,9 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
             }
         }
         GuavaTree.place(level, floor, warren.tree());
-        // U1 (docs/WARREN_PLAN.md): a level 1 surface warren gets a den under the tree with the nests in it and mounds with a slope leading
-        // down. If the ground does not allow a den (WarrenDen changes nothing then), the old holes and surface nests below are built instead.
-        boolean denBuilt = den && surface && WarrenDen.build(level, floor, style, rng);
+        // U2 has already placed fitted higher-level networks. U1 still builds its own level-1 den here.
+        // Without a fitted den, retain the old holes and surface nests.
+        boolean denBuilt = networkDen || den && surface && WarrenDen.build(level, floor, style, rng);
         if (!denBuilt) {
             for (WarrenShape.Spot spot : warren.burrows()) {
                 BlockPos ground = groundAt(level, floor.getX() + spot.dx(), floor.getY(), floor.getZ() + spot.dz(), surface);

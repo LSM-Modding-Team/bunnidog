@@ -40,6 +40,7 @@ Git diff. Existing uncommitted work and saves are preserved.
 
 ```sh
 ./gradlew checkBunnidogModel  # real mesh loading/render path, no game window
+./gradlew checkWarrenNetwork  # terrain, connectivity and chunk ownership (also part of build)
 ./gradlew packageProject     # optional portable source ZIP in build/distributions
 ```
 

@@ -100,6 +100,19 @@ Status words: **COMPILED** = the user's compile accepted it (names and types are
 | Is the player sneaking (Genetics Table T1, session 36) | `player.isShiftKeyDown()` (`Entity`; also `isSecondaryUseActive()`, vanilla's own "suppress block use" test). Vanilla skips a block's use while sneaking WITH something in a hand, so "sneak + both hands empty" is the way to give a block a sneak action | SOURCE (session 36; not compiled) | `tests/.../debug/entity/player/PlayerEventTests.java:130` and `tests/.../oldtest/client/rendering/CustomParticleTypeTest.java:72` (`isShiftKeyDown()`), `tests/.../oldtest/AttachmentSyncTest.java:129,139` and `patches/net/minecraft/server/level/ServerPlayerGameMode.java.patch:130` (`isSecondaryUseActive`, the suppress rule) |
 | Blocks, block entities, Fortune, commands, renderers, biome modifiers, spawn placement | see the sections named after the phase that used them | COMPILED | "Session 4, part 8" (4d), "Verified from NeoForge 26.2.x sources in session 2" (1), "Session 4" (3) |
 
+### U2: saved underground plans (2026-10-15)
+
+Verified against resolved Minecraft 26.2 sources and the Gradle compiler:
+`ChunkGenerator.getBaseColumn(x, z, heightAccessor, randomState)` returns a
+`NoiseColumn`; `getBlock(y)` samples its states without loading world chunks.
+`getBaseHeight(..., Heightmap.Types.WORLD_SURFACE_WG, ...)` supplies the matching
+surface height. `BlockState.isCollisionShapeFullBlock(BlockGetter, BlockPos)`
+checks den/slope support. `CompoundTag.putIntArray` and optional `getIntArray`,
+plus `getBooleanOr`, save fitted cells and the per-cluster den flag. U3 uses
+the same int-array API for saved `PathExclusions`; it adds no new Minecraft API. The natural
+planner uses `EmptyBlockGetter.INSTANCE` for the vanilla base-state hardness and
+collision queries; the command path uses its live `WorldGenLevel`.
+
 ### Traps that cost time before
 * The javadoc of NeoForge lags behind its code (old event names). Trust class declarations and `import` lines.
 * `registerGoals()` runs inside the super constructor, before any field initializer of the subclass (see `docs/REFERENCE.md` "Conventions"). Fields with initializers are fine for state the super constructor never touches (`Bunnidog.guavaMemory`).

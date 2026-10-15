@@ -4,13 +4,12 @@ Each item is one or a few small chunks. "Needs" = what must exist first. The use
 
 ## Done (do not redo)
 Genome, breeding, wild lineages, bred stats and Bloom, seeds and crops, guava ladder (8 tiers), juice and infusion, warrens and villages (levels 1-5, houses, paths, landmarks, styles by biome, meeting tree), guava wood (log, leaves, planks, stripped forms, stairs, slab, fence), Calipers, Pedigree Book and sheet windows (S1-S8), Ear Tags, drops (D1-D8: pelts, flesh, materials, Mutagen, Marrow, Tissue Sample, Starlit Dust, legends, Trophy Pedestal, worn tag), Genetics Table T1-T3, bug batch F1-F3, Nest + claiming homes (H1-H4, H3b delivered).
+U2/U3 are implemented: connected higher-level dens/tunnels plus covered house cellar ramps. Gradle, model and terrain/layout checks pass; gameplay remains unconfirmed.
 Delivered, not yet confirmed: **U6a** (advancement), **U1** (level 1 dens and mouths), **H3b** (a Nest in the floor of every burrow house). V1a, V1b, H3 and H4 WORK.
 
 ## Planned, in the order I would take them
 | Item | What | Needs | Size / risk | Spec |
 |---|---|---|---|---|
-| **U2** | Joined dens and tunnels for levels 2-5 (a `TUNNEL` piece, lights) | U1 | medium | `WARREN_PLAN.md` 8 |
-| **U3** | Cellar ramps from the houses into the tunnels | U2 | small-medium | `WARREN_PLAN.md` 8 |
 | **U4** | Pantry, cistern under the well, stall cellar, back door at the farm, skylights | U2 | medium | `WARREN_PLAN.md` 8 |
 | **U5** | Hall under the grand tree (level 5) | U2 | small | `WARREN_PLAN.md` 8 |
 | **U6b** | Cave, Nether and End variants (den cut into the floor, no mouth) | U1 | small-medium | `WARREN_PLAN.md` 8 |

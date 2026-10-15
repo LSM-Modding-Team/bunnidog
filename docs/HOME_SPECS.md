@@ -1,6 +1,6 @@
 # HOME_SPECS — bunnidogs find their own home (session 41, second turn)
 
-**CURRENT (session 45): H1-H4 work; H3b and U1 delivered (sections 10, 11), not compiled: the nests of a level 1 surface warren are in its den (docs/WARREN_PLAN.md). Chunk status: docs/CHUNKS.md.**
+**CURRENT (2026-10-15): H1-H4 have prior gameplay reports. U1 and U2 put Nests in fitted surface dens at levels 1–5; H3b keeps a Nest in each built house. The current Gradle build and U2 layout checks pass; den pathfinding and home claims need gameplay review. See START_HERE.md and docs/WARREN_PLAN.md.**
 
 **Status (session 44): H1-H4 WORK (user). H3b (nests in houses) is plan only.** This REPLACES the hardcoded home of V2a (`restrictTo(treeFloor, 16)` at spawn),
 which the user rejected: "it should work like it does with villagers, some conditions that make it determine its home instead of a
@@ -99,10 +99,23 @@ nest between a mated pair (`maxTickets` 2 is the one-number change if the user w
 * **ASSUMED (runtime):** a dog fits through the doorway and stands on the nest block; the reach test targets the block above the nest (`nest.above()`), which is the hollow's lowest air block. If dogs never claim house nests, look at R4 first (the doorway may be too narrow for the path finder), then at the POI registration during worldgen (H3's assumption).
 * **Left out on purpose:** a bed-like furnishing, a second nest per house, a nest per tower floor.
 
-## 11. Nests in the dens (session 45, WARREN_PLAN U1; BUILT for level 1 surface warrens, NOT COMPILED; level 2+ still use H3's surface nests)
+## 11. Nests in the dens (U1 and U2; current build passes, gameplay pending)
 
 * The 3-4 nests of a warren stop standing beside surface holes (H3's `WarrenShape.nests()`) and stand on the floor of the **den** under the tree (a new pure `DenShape.nests()`). A house keeps its own nest in the hollow (H3b). Player-placed nests are unchanged.
-* **Rules R1-R8 do not change.** R3/R4 matter more: a free dog on the surface must find a nest within 24 blocks and the path finder must reach it down the mouth's slope (1 step per block, 2 high). If no dog ever gets `NestX/Y/Z` after U1, look at R4 first.
+* **Rules R1-R8 do not change.** R3/R4 matter more: a free dog on the surface must find a nest within 24 blocks and the path finder must reach it down the mouth's slope (1 step per block, 3 high). If no dog ever gets `NestX/Y/Z` after U1, look at R4 first.
 * H4 (night) then shows the warren: at dusk the surface empties as the dogs walk down their mouth; at dawn they come out. No new behaviour is needed.
 * If a den does not fit the ground, its warren keeps the surface nests of H3 (rare fallback, WARREN_PLAN section 7).
 
+
+U2 extends den Nests to newly planned level 2–5 surface settlements. A retained
+den has a terrain-tested route through the tunnel network to at least one
+fitted entrance; otherwise its cluster retains surface Nests. Three or four
+Nests replace the den floor's corner blocks. House Nests and H2/H4 rules are
+unchanged. Pure traversal checks establish player-sized geometric access,
+not Minecraft navigation or successful POI claims.
+
+U3 adds covered cellar ramps beside fitted house doorsteps, joining the retained
+underground network. It preserves each house's centre-floor Nest and front-door
+access; house claiming and night goals use their existing rules. Surface paths
+skip saved ramp columns. Check both house Nests and den Nests in a newly
+generated village; pure traversal checks are not confirmation of navigation.
