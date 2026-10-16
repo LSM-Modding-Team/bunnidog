@@ -4,6 +4,7 @@ The growing progression needs an in-game reference. The Field Guide covers
 founders, genes, breeding/seeds/quality, pedigree, Nests and transport, food,
 bell gatherings, living care, adaptations, table/splicing, stable lines,
 shows, materials, legendary drops, the Apex and infused juice.
+The gardening pages include Calipers work status and new fitted corner troughs.
 
 Craft one with a vanilla book and any guava (the existing bunnidog-food tag).
 Obtaining a guava unlocks its recipe. An additional independent 35% pantry loot

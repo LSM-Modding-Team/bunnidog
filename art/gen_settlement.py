@@ -51,9 +51,20 @@ def main():
           'message.bunnidogs.trough.empty':'Empty trough. Add food; use a hoe to toggle resident gardening.',
           'message.bunnidogs.trough.stock':'Stored: %s x %s. Sneak-empty: withdraw. Hoe: toggle gardening.',
           'message.bunnidogs.trough.tending.on':'Gardening enabled. Healthy residents tend matching ripe crops beside this trough.',
-          'message.bunnidogs.trough.tending.off':'Gardening disabled. Residents still eat stored food.'})
+          'message.bunnidogs.trough.tending.off':'Gardening disabled. Residents still eat stored food.',
+          'message.bunnidogs.care.gardening':'Gardening: %s',
+          'message.bunnidogs.gardening.ready':'ready to search; needs an enabled trough, room for matching ripe food and a safe path',
+          'message.bunnidogs.gardening.unavailable':'not a resident worker',
+          'message.bunnidogs.gardening.adult':'needs an adult',
+          'message.bunnidogs.gardening.full_health':'needs full health',
+          'message.bunnidogs.gardening.home':'needs a claimed Nest',
+          'message.bunnidogs.gardening.daytime':'rests at night',
+          'message.bunnidogs.gardening.transported':'paused while led or riding',
+          'message.bunnidogs.gardening.danger':'paused by danger or a recent attack',
+          'message.bunnidogs.gardening.outside_home':'needs to be within 16 blocks of its Nest',
+          'message.bunnidogs.gardening.griefing_off':'needs mob griefing enabled'})
         path.write_text(json.dumps(value,indent=2)+'\n')
-    preview = Image.new('RGBA',(800,280),(46,43,42,255)); d = ImageDraw.Draw(preview)
+    preview = Image.new('RGBA',(1100,300),(46,43,42,255)); d = ImageDraw.Draw(preview)
     preview.alpha_composite(feed.resize((160,160),Image.Resampling.NEAREST),(620,20))
     for fill in range(4):
         ox = 85+fill*145
@@ -69,6 +80,19 @@ def main():
                     ([(x,Y,z),(X,Y,z),(X,Y,Z),(x,Y,Z)],(167,127,66) if is_feed else (192,132,81))]:
                 d.polygon([p(*v) for v in vertices],fill=(100,144,56) if is_leaf else color,outline=(46,35,25))
         d.text((ox-20,245),'Gardening on' if fill >= 2 else 'Manual stock',fill=(232,218,188))
+    d.text((825,25),'New farm: same 3 x 3 footprint',fill=(232,218,188))
+    for x in range(-2,2):
+        for z in range(-2,2):
+            color = (74,99,51)
+            label = ''
+            if x >= -1 and z >= -1:
+                color,label = ((139,93,52),'T') if (x,z) == (-1,-1) else ((55,110,161),'~') if (x,z) == (0,0) else ((161,152,65),'C')
+            elif (x,z) in ((-2,-1),(-1,-2)):
+                color,label = (104,134,72),'Walk'
+            px,pz = 825+(x+2)*53,70+(z+2)*44
+            d.rectangle((px,pz,px+49,pz+40),fill=color)
+            d.text((px+7,pz+12),label,fill=(240,232,211))
+    d.text((825,258),'T: empty enabled trough; C: crops',fill=(232,218,188))
     preview.save(ROOT/'art/settlement_preview.png')
     print('Generated trough models, food texture, crafting, unlock, drops and source preview.')
 

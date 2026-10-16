@@ -45,6 +45,23 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
+**Settlement L5 — work readiness and farm troughs:** sneak-use Calipers now
+includes gardening, sharing the AI's own blockers and saved recovery snapshot.
+Ready means ready to search, with trough/crop/path requirements stated; reading
+does not search or change state. New WarrenVersion 4 farms can fit an empty,
+enabled trough in one corner, replacing one wheat crop and its soil within the
+old 3×3 footprint. Two outside walking neighbours must already be dry, supported
+and clear; otherwise all eight crops remain. End mushroom plots and old saved
+starts keep their prior layout. Stock is preserved on repeat generation.
+
+Extended existing native fixtures/gardening cases cover fitted/fallback/legacy
+farms, stock/support, shared blockers and read-only recovery. All four rotated
+footprints retain seven crops in the focused layout check. Actual build checks
+and all eighteen server scenarios pass; farm and guide previews inspected.
+The initial fixture caught the native test roof in its terrain scan; clearing
+that enclosure fixes the fixture. Client/natural-generation review remains
+pending. See `docs/SETTLEMENT_LIFE.md` L5.
+
 **P2 — Apex preparation:** empty-hand crucible use reports distinct offering
 progress and names missing legends. Summoning refusals name the first missing
 item. Use main-hand Calipers with a Tissue Sample in the off hand on a crucible

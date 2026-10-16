@@ -2,6 +2,7 @@ import com.bunnidogs.mod.layout.DenShape;
 import com.bunnidogs.mod.layout.HouseShape;
 import com.bunnidogs.mod.layout.HouseDetails;
 import com.bunnidogs.mod.layout.PathShape;
+import com.bunnidogs.mod.layout.PropShape;
 import com.bunnidogs.mod.layout.Settlement;
 import com.bunnidogs.mod.layout.TunnelShape;
 import com.bunnidogs.mod.layout.TunnelShape.Pos;
@@ -30,6 +31,13 @@ public final class WarrenNetworkCheck {
     }
 
     public static void main(String[] args) {
+        for (int turns = 0; turns < 4; turns++) {
+            var farm = PropShape.cells(PropShape.Kind.FARM,turns,true);
+            require(farm.stream().filter(c -> c.mat() == PropShape.Mat.TROUGH).count() == 1,"Each rotated working farm needs one trough");
+            require(farm.stream().allMatch(c -> Math.abs(c.dx()) <= 1 && Math.abs(c.dz()) <= 1),"Working farms must retain the old footprint");
+            require(farm.stream().filter(c -> c.mat() == PropShape.Mat.WHEAT || c.mat() == PropShape.Mat.CARROTS
+                    || c.mat() == PropShape.Mat.POTATOES).count() == 7,"The corner trough must retain seven crops");
+        }
         int networks = 0;
         int cellarRamps = 0;
         Map<UndergroundRooms.Type, Integer> features = new java.util.EnumMap<>(UndergroundRooms.Type.class);

@@ -24,7 +24,6 @@ import net.minecraft.world.level.block.CaveVines;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.NetherWartBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -43,12 +42,7 @@ final class GardenGoal extends Goal {
     private record Harvest(ItemStack produce, BlockState reset) {}
     GardenGoal(Bunnidog dog) { this.dog = dog; this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK)); }
     private boolean wanted() {
-        return this.dog.acceptsCare() && this.dog.level() instanceof ServerLevel server
-                && server.getGameRules().get(GameRules.MOB_GRIEFING)
-                && Gardening.eligible(!this.dog.isBaby(),this.dog.getHealth() >= this.dog.getMaxHealth(),this.dog.homeNest() != null,
-                        this.dog.homeNight(),this.dog.beingTransported(),this.dog.getTarget() != null
-                        || this.dog.getLastHurtByMob() != null && this.dog.tickCount-this.dog.getLastHurtByMobTimestamp() < 200,
-                        this.dog.gardeningWait() == 0) && this.dog.foodWithinHome(this.dog.blockPosition());
+        return this.dog.gardeningStatus() == Gardening.Status.READY;
     }
     private FeedingTroughBlockEntity trough(BlockPos pos) {
         var level = this.dog.level();

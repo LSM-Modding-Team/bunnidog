@@ -6,6 +6,8 @@ import com.bunnidogs.mod.block.FeedingTroughBlock;
 import com.bunnidogs.mod.block.FeedingTroughBlockEntity;
 import com.bunnidogs.mod.genetics.Lineage;
 import com.bunnidogs.mod.layout.DenShape;
+import com.bunnidogs.mod.layout.PropShape;
+import com.bunnidogs.mod.layout.Settlement;
 import com.bunnidogs.mod.layout.SettlementFixtures;
 import com.bunnidogs.mod.layout.TunnelShape.Pos;
 import com.bunnidogs.mod.registry.ModBlocks;
@@ -68,5 +70,44 @@ public final class FixturesGameTest {
         var legacy = new WarrenPiece(saved).createTag(context);
         h.assertTrue(!legacy.contains("LifeFixtures") && legacy.getIntOr("WarrenVersion",0) == 2,
                 "Old saved starts must retain their version and empty furniture plan");
+        farm(h);
+    }
+    private static void farm(GameTestHelper h) {
+        var level = h.getLevel();
+        for (int x = 1; x < 8; x++) for (int z = 1; z < 8; z++) {
+            h.setBlock(x,0,z,Blocks.GRASS_BLOCK);
+            // Surface fitting scans above the template; remove its native barrier roof too.
+            for (int y = 1; y <= 8; y++) h.setBlock(x,y,z,Blocks.AIR);
+        }
+        var centre = h.absolutePos(new BlockPos(4,1,4));
+        var prop = new Settlement.Prop(PropShape.Kind.FARM,0,0,0);
+        var corner = centre.offset(-1,0,-1);
+        // Legacy starts use exactly their old crop layout.
+        h.assertTrue(WarrenFeature.buildProp(level,centre.getX(),centre.getY(),centre.getZ(),prop,true,Lineage.MEADOW),
+                "Legacy farms must still fit");
+        h.assertTrue(level.getBlockState(corner).is(Blocks.WHEAT) && level.getBlockState(corner.below()).is(Blocks.FARMLAND),
+                "Old farm generation must keep its corner crop and soil: " + level.getBlockState(corner) + " / " + level.getBlockState(corner.below()));
+        for (int x = 3; x <= 5; x++) for (int z = 3; z <= 5; z++) {
+            h.setBlock(x,0,z,Blocks.GRASS_BLOCK); h.setBlock(x,1,z,Blocks.AIR);
+        }
+        h.setBlock(2,1,3,Blocks.CHEST);
+        h.assertTrue(WarrenFeature.buildProp(level,centre.getX(),centre.getY(),centre.getZ(),prop,true,Lineage.MEADOW,true)
+                && level.getBlockState(corner).is(Blocks.WHEAT) && level.getBlockState(corner.west()).is(Blocks.CHEST),
+                "Blocked walking space must omit only the trough and preserve the obstacle");
+        for (int x = 3; x <= 5; x++) for (int z = 3; z <= 5; z++) {
+            h.setBlock(x,0,z,Blocks.GRASS_BLOCK); h.setBlock(x,1,z,Blocks.AIR);
+        }
+        h.setBlock(2,1,3,Blocks.AIR);
+        h.assertTrue(WarrenFeature.buildProp(level,centre.getX(),centre.getY(),centre.getZ(),prop,true,Lineage.MEADOW,true),
+                "A safely fitted new farm must build");
+        var stock = (FeedingTroughBlockEntity)level.getBlockEntity(corner);
+        h.assertTrue(stock != null && stock.food().isEmpty() && stock.getBlockState().getValue(FeedingTroughBlock.TENDING)
+                && stock.getBlockState().getValue(FeedingTroughBlock.FILL) == 0
+                && level.getBlockState(corner.below()).isFaceSturdy(level,corner.below(),net.minecraft.core.Direction.UP),
+                "A new farm needs an empty enabled trough on solid support, leaving stock type open");
+        stock.insert(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.CARROT,3));
+        WarrenFeature.buildProp(level,centre.getX(),centre.getY(),centre.getZ(),prop,true,Lineage.MEADOW,true);
+        h.assertTrue(level.getBlockEntity(corner) == stock && stock.food().getCount() == 3,
+                "Repeat farm placement must preserve the existing trough and stock");
     }
 }

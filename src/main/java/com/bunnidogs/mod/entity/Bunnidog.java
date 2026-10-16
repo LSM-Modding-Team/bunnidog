@@ -15,6 +15,7 @@ import com.bunnidogs.mod.genetics.Sampling;
 import com.bunnidogs.mod.genetics.Fleece;
 import com.bunnidogs.mod.genetics.Splicing;
 import com.bunnidogs.mod.genetics.Grooming;
+import com.bunnidogs.mod.genetics.Gardening;
 import com.bunnidogs.mod.genetics.Home;
 import com.bunnidogs.mod.genetics.EarTag;
 import com.bunnidogs.mod.genetics.Genome;
@@ -83,6 +84,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -396,12 +398,22 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.nextForageTick = this.level().getGameTime() + Foraging.MEAL_COOLDOWN;
     }
 
-    int gardeningWait() {
+    public int gardeningWait() {
         return (int)Math.clamp(this.nextGardenTick-this.level().getGameTime(),0L,
-                (long)com.bunnidogs.mod.genetics.Gardening.REST_TICKS);
+                (long)Gardening.REST_TICKS);
+    }
+    /** The same cheap snapshot serves the AI and Calipers; it does not search for crops or paths. */
+    public Gardening.Status gardeningStatus() {
+        if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel server)) return Gardening.Status.UNAVAILABLE;
+        var status = Gardening.status(!this.isBaby(),this.getHealth() >= this.getMaxHealth(),
+                this.homeNest() != null,this.homeNight(),this.beingTransported(),this.getTarget() != null
+                || this.getLastHurtByMob() != null && this.tickCount-this.getLastHurtByMobTimestamp() < 200,this.gardeningWait() == 0);
+        if (status != Gardening.Status.READY) return status;
+        if (!this.foodWithinHome(this.blockPosition())) return Gardening.Status.OUTSIDE_HOME;
+        return server.getGameRules().get(GameRules.MOB_GRIEFING) ? status : Gardening.Status.GRIEFING_OFF;
     }
     void finishedGardening() {
-        this.nextGardenTick = this.level().getGameTime()+com.bunnidogs.mod.genetics.Gardening.REST_TICKS;
+        this.nextGardenTick = this.level().getGameTime()+Gardening.REST_TICKS;
     }
 
     @Override protected void playEatingSound() { this.playSound(SoundEvents.GENERIC_EAT.value(), 0.5F, 1.1F); }

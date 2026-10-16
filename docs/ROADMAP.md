@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L5 adds Calipers gardening readiness/recovery and safely fitted empty enabled
+troughs in new farm corners, retaining the old footprint and legacy starts.
+AI and inspection share eligibility; unsupported walking space keeps the old
+farm layout. See `SETTLEMENT_LIFE.md`.
+
 P2 adds a read-only Calipers/sample Apex forecast and crucible offering readiness,
 sharing combat rules and ring scans with real summoning. Native preview/cost
 preservation and actual boss values pass; guide expanded to 27 pages. See
@@ -115,7 +120,6 @@ filling a quota, and honor any explicit pause in the current request.
 | Item | What | Needs | Spec |
 |---|---|---|---|
 | Living harvest extensions | Additional renewable materials beyond fleece and brushed whiskers, with conservative yields/recovery | C1–C3 | `CARE_SPECS.md`; define each source/yield before coding |
-| Resident work clarity | Calipers work readiness and carefully fitted surface garden troughs | L3/L4 | Define bounded placement/readout before coding |
 | Additional lineage behavior | Useful cave/terrain adaptations beyond current fire/cold/fall/poison/cactus/levitation rules | A1/A2 | Follow expressed genes; preserve native hazards and breeding tradeoffs |
 
 ## Ideas without a spec (design before implementing)

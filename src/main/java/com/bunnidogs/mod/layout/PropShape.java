@@ -12,8 +12,8 @@ import java.util.List;
  * <li>level 2: a HAYSTACK with a barrel (the feed store);</li>
  * <li>level 3: a WELL (cobblestone ring, water inside, a little roof on four posts);</li>
  * <li>level 4: a market STALL (four posts, a slab canopy, barrel, pumpkin and melon on the counter);</li>
- * <li>level 5, the village: a FARM plot (water in the middle, wheat, carrots and potatoes around it; the carrots are for show now
- *     that the bunnidogs eat guavas) and a lamp PLAZA (paving, a hay bale to sit on and four lanterns on posts).</li>
+ * <li>level 5, the village: a FARM plot (water, wheat and roots, optionally one fitted corner trough for resident gardening)
+ *     and a lamp PLAZA (paving, a hay bale to sit on and four lanterns on posts).</li>
  * </ul>
  * Cell (0, 0, 0) is the first air block above the ground; {@code dy = -1} is the ground block itself (paving, water, farmland).
  * The world code ({@code worldgen/WarrenFeature#buildProp}) turns each {@link Mat} into a block.
@@ -23,7 +23,7 @@ public final class PropShape {
 
     public enum Kind { HAYSTACK, WELL, STALL, FARM, PLAZA }
 
-    public enum Mat { HAY, BARREL, COBBLE, MOSSY, WATER, FENCE, SLAB, LANTERN, PUMPKIN, MELON, FARMLAND, WHEAT, CARROTS, POTATOES }
+    public enum Mat { HAY, BARREL, COBBLE, MOSSY, WATER, FENCE, SLAB, LANTERN, PUMPKIN, MELON, FARMLAND, WHEAT, CARROTS, POTATOES, FILL, TROUGH }
 
     /** One block of a landmark, relative to the centre column. */
     public record Cell(int dx, int dy, int dz, Mat mat) {}
@@ -54,6 +54,10 @@ public final class PropShape {
 
     /** The cells of a landmark turned {@code turns} quarter turns (only the stall and the haystack are not symmetric). Order: ground level up. */
     public static List<Cell> cells(Kind kind, int turns) {
+        return cells(kind,turns,false);
+    }
+    /** New starts may replace one corner crop and its farmland, without extending the footprint. */
+    public static List<Cell> cells(Kind kind, int turns, boolean garden) {
         List<Cell> raw = new ArrayList<>();
         switch (kind) {
             case HAYSTACK -> {
@@ -111,8 +115,9 @@ public final class PropShape {
                 for (int dx = -1; dx <= 1; dx++) {
                     for (int dz = -1; dz <= 1; dz++) {
                         if (dx != 0 || dz != 0) {
-                            raw.add(new Cell(dx, -1, dz, Mat.FARMLAND));
-                            raw.add(new Cell(dx, 0, dz, dz == 0 ? Mat.CARROTS : dx == 0 ? Mat.POTATOES : Mat.WHEAT));
+                            boolean trough = garden && dx == -1 && dz == -1;
+                            raw.add(new Cell(dx, -1, dz, trough ? Mat.FILL : Mat.FARMLAND));
+                            raw.add(new Cell(dx, 0, dz, trough ? Mat.TROUGH : dz == 0 ? Mat.CARROTS : dx == 0 ? Mat.POTATOES : Mat.WHEAT));
                         }
                     }
                 }

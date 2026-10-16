@@ -1,4 +1,4 @@
-# Settlement life L1–L4
+# Settlement life L1–L5
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
@@ -75,6 +75,35 @@ Protection refusals also back off for a minute before trying again.
 Interruptions preserve the crop and home. Higher-priority feeding, danger,
 breeding, temptation and home routines interrupt; gardening precedes idle visits.
 No existing barrel/chest is inspected or restocked.
+
+## L5: gardening clarity and working farms
+
+Sneak-use Calipers for a fifth, gardening row in the care snapshot. It uses
+the AI's own eligibility result: adult/full health/Nest, home boundary, danger,
+night, leads/rides, recovery and mobGriefing. Rest uses rounded-up minutes:seconds.
+"Ready to search" still needs an enabled trough, room for matching ripe food
+and a safe path; inspection does no crop/POI/path search and changes no state.
+
+New WarrenVersion 4 farms can replace one corner wheat crop and its farmland
+with an empty enabled trough on solid palette support. The old 3×3 footprint,
+central water and seven other crops remain. Its two outside walking neighbours
+must already be dry, supported and clear at the farm's fitted height; otherwise
+the farm keeps all eight crops and omits only the trough. Corner rotation follows
+the existing prop rotation. No paths, entrances or extra terrain are replaced.
+Empty stock allows the first matching harvest to choose its food type. End
+mushroom plots retain the old layout because mushrooms are not supported work.
+The existing anchor chunk owns the entire prop, including the corner trough;
+saved versions 1–3 retain their old farm layout. Existing den furniture and its
+two starter guavas are unchanged. Repeat placement preserves existing stock.
+
+The extended native fixtures/gardening cases cover old/new farms, blocked
+walking space, support, empty enabled stock, repeat preservation and agreement
+between work blockers/recovery and the read-only Calipers snapshot. Focused
+layout checks cover all corner rotations, retained crops and footprint.
+Actual build checks and all eighteen native scenarios pass. The first farm
+fixture scanned its native barrier roof as terrain; the fixture now clears
+the scan window. Farm and guide previews inspected. Natural terrain/chunk order
+and client Calipers formatting remain gameplay review.
 
 ## Evidence
 

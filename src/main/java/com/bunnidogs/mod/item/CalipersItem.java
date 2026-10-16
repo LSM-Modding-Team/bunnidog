@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 import com.bunnidogs.mod.block.SeedCropBlockEntity;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Gene;
+import com.bunnidogs.mod.genetics.Gardening;
 import com.bunnidogs.mod.genetics.Grooming;
 import com.bunnidogs.mod.genetics.Sampling;
 import com.bunnidogs.mod.genetics.Readout;
@@ -71,6 +72,9 @@ public class CalipersItem extends Item {
                 : !healthy ? health : recovery(dog.groomingWait()));
         careRow(player, "splicing", dog.isBaby() ? adult : !healthy ? health
                 : dog.splicingWait() > 0 ? recovery(dog.splicingWait()) : Component.translatable("message.bunnidogs.care.splice_ready"));
+        var work = dog.gardeningStatus();
+        careRow(player, "gardening", work == Gardening.Status.RESTING ? recovery(dog.gardeningWait())
+                : Component.translatable("message.bunnidogs.gardening." + work.name().toLowerCase(Locale.ROOT)));
     }
 
     private static Component recovery(int ticks) {

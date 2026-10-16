@@ -6,6 +6,7 @@ import com.bunnidogs.mod.block.GuavaFruitBlock;
 import com.bunnidogs.mod.genetics.Gardening;
 import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Genome;
+import com.bunnidogs.mod.item.CalipersItem;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModEntities;
 import com.bunnidogs.mod.registry.ModItems;
@@ -59,11 +60,18 @@ public final class GardeningGameTest {
                 h.assertTrue(!new GardenGoal(dog).canUse(),"Plain dogs must not tend another diet's carrots");
                 dog.setGenome(Genome.DEFAULT.with(Gene.DIET,0,2).with(Gene.DIET,1,2));
                 dog.setHealth(dog.getMaxHealth()-1);
-                h.assertTrue(!new GardenGoal(dog).canUse(),"Injured residents must seek care rather than work");
+                h.assertTrue(!new GardenGoal(dog).canUse() && dog.gardeningStatus() == Gardening.Status.FULL_HEALTH,
+                        "AI and work readout must agree that injury blocks work");
                 dog.setHealth(dog.getMaxHealth());
                 level.getGameRules().set(GameRules.MOB_GRIEFING,false,level.getServer());
-                h.assertTrue(!new GardenGoal(dog).canUse(),"Mob-griefing off must prevent crop tending");
+                h.assertTrue(!new GardenGoal(dog).canUse() && dog.gardeningStatus() == Gardening.Status.GRIEFING_OFF,
+                        "AI and readout must agree when mob-griefing prevents crop tending");
                 level.getGameRules().set(GameRules.MOB_GRIEFING,true,level.getServer());
+                var beforeRead = dog.homeNest();
+                CalipersItem.showCare(player,dog);
+                h.assertTrue(dog.gardeningStatus() == Gardening.Status.READY && dog.homeNest().equals(beforeRead)
+                        && dog.gardeningWait() == 0 && trough.food().isEmpty() && level.getBlockState(cropPos).equals(ripe),
+                        "A readiness snapshot must leave crops, stock, home and work recovery untouched");
                 var goal = new GardenGoal(dog);
                 h.assertTrue(goal.canUse(),"A healthy forager must find the enabled trough and reachable ripe carrots");
                 goal.start();
@@ -73,7 +81,9 @@ public final class GardeningGameTest {
                 h.assertTrue(level.getBlockState(cropPos).equals(carrot.getStateForAge(0)) && trough.food().is(Items.CARROT)
                         && trough.food().getCount() == 1 && dog.gardeningWait() == Gardening.REST_TICKS,
                         "One job must reset one crop, stock exactly one produce and start saved recovery");
-                h.assertTrue(!new GardenGoal(dog).canUse(),"Fresh work recovery must block a second job");
+                CalipersItem.showCare(player,dog);
+                h.assertTrue(!new GardenGoal(dog).canUse() && dog.gardeningStatus() == Gardening.Status.RESTING
+                        && dog.gardeningWait() == Gardening.REST_TICKS,"Reading recovery must not reset or bypass the second-job refusal");
                 var output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess());
                 dog.saveWithoutId(output);
                 var saved = output.buildResult();
@@ -90,7 +100,8 @@ public final class GardeningGameTest {
                 h.assertTrue(!new GardenGoal(dog).canUse(),"Different stock must prevent another crop from being harvested");
                 trough.takeAll();
                 level.clockManager().setTotalTicks(clock,13000);
-                h.assertTrue(!new GardenGoal(dog).canUse(),"Night must stop resident work");
+                h.assertTrue(!new GardenGoal(dog).canUse() && dog.gardeningStatus() == Gardening.Status.DAYTIME,
+                        "AI and work readout must agree about night rest");
                 level.clockManager().setTotalTicks(clock,1000);
                 var interrupted = new GardenGoal(dog);
                 h.assertTrue(interrupted.canUse(),"Ready residents may resume a garden job by day");
@@ -99,7 +110,8 @@ public final class GardeningGameTest {
                 h.assertTrue(!interrupted.canContinueToUse(),"Changing the expressed Diet must immediately interrupt an incompatible crop job");
                 dog.setGenome(Genome.DEFAULT.with(Gene.DIET,0,2).with(Gene.DIET,1,2));
                 dog.setLeashedTo(player,false);
-                h.assertTrue(!interrupted.canContinueToUse(),"A lead must immediately interrupt gardening");
+                h.assertTrue(!interrupted.canContinueToUse() && dog.gardeningStatus() == Gardening.Status.TRANSPORTED,
+                        "A lead must immediately interrupt gardening and explain the pause");
                 interrupted.stop(); dog.removeLeash();
                 h.assertTrue(level.getBlockState(cropPos).equals(ripe) && trough.food().isEmpty()
                         && dog.homeNest().equals(h.absolutePos(new BlockPos(1,1,1))),"Interruptions must preserve crops, stock and home");

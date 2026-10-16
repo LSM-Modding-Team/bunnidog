@@ -57,7 +57,7 @@ client gameplay review.
 
 ## C4: Quick care readout
 
-Sneak-use Calipers on an animal to print a server-side chat snapshot of all four
+Sneak-use Calipers on an animal to print a server-side chat snapshot of the four
 care activities: sampling, fleece, grooming and splicing. Each row gives the
 current eligibility requirement or, if eligible, ready/recovery time. Recovery
 uses rounded-up minutes:seconds, so a partial second is not reported as ready.
@@ -65,6 +65,11 @@ Splicing readiness describes the recipient; a donor sample and Mutagen are still
 needed. Normal Calipers use opens the existing genetics sheet. Reading changes
 no animal, items or timers and introduces no payload, saved data or sync field.
 The actual Gradle build passes; client use remains a manual gameplay check.
+
+Settlement L5 adds a fifth gardening row with its full-health/home/day/danger/
+transport/mobGriefing requirements and saved recovery. It shares the AI's cheap
+eligibility result, and states the enabled trough/ripe matching food/path needs
+without performing a work search. See `SETTLEMENT_LIFE.md`.
 
 ## A1/A2: Expressed environmental adaptations
 

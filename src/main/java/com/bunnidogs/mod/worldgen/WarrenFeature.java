@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.bunnidogs.mod.BunnidogsMod;
+import com.bunnidogs.mod.block.FeedingTroughBlock;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Lineage;
 import com.bunnidogs.mod.layout.DenShape;
@@ -184,7 +185,7 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
         List<Settlement.Prop> builtProps = new ArrayList<>();
         int propsWanted = surfaceOnly ? PropShape.kindsFor(trees).size() : 0;
         for (Settlement.Prop prop : settlement.props().subList(0, Math.min(propsWanted, settlement.props().size()))) {
-            if (buildProp(level, floor.getX() + prop.dx(), floor.getY(), floor.getZ() + prop.dz(), prop, true, style)) {
+            if (buildProp(level, floor.getX() + prop.dx(), floor.getY(), floor.getZ() + prop.dz(), prop, true, style,true)) {
                 props++;
                 builtProps.add(prop);
             }
@@ -306,6 +307,9 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
      * (paving, water, farmland). Returns whether it was built.
      */
     static boolean buildProp(WorldGenLevel level, int x, int y, int z, Settlement.Prop prop, boolean surface, Lineage style) {
+        return buildProp(level,x,y,z,prop,surface,style,false);
+    }
+    static boolean buildProp(WorldGenLevel level, int x, int y, int z, Settlement.Prop prop, boolean surface, Lineage style, boolean garden) {
         BlockPos centre = groundAt(level, x, y, z, surface);
         if (centre == null) {
             return false;
@@ -336,7 +340,9 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
             }
         }
         BlockPos base = new BlockPos(x, top, z);
-        List<PropShape.Cell> cells = PropShape.cells(prop.kind(), prop.turns());
+        boolean fittedGarden = garden && prop.kind() == PropShape.Kind.FARM && style != Lineage.END
+                && fitsGarden(level,base,prop.turns());
+        List<PropShape.Cell> cells = PropShape.cells(prop.kind(), prop.turns(),fittedGarden);
         for (PropShape.Cell cell : cells) {
             if (cell.dy() >= 0 && !GuavaTree.replaceable(level.getBlockState(base.offset(cell.dx(), cell.dy(), cell.dz())))) {
                 return false;
@@ -353,9 +359,24 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
         return true;
     }
 
+    /** The corner stays inside the old farm; both outside neighbours must already offer safe walking space. */
+    private static boolean fitsGarden(WorldGenLevel level, BlockPos base, int turns) {
+        var corner = PropShape.cells(PropShape.Kind.FARM,turns,true).stream().filter(c -> c.mat() == PropShape.Mat.TROUGH).findFirst().orElseThrow();
+        BlockPos pos = base.offset(corner.dx(),0,corner.dz());
+        for (BlockPos p : List.of(pos,pos.offset(Integer.signum(corner.dx()),0,0),pos.offset(0,0,Integer.signum(corner.dz())))) {
+            if (!level.hasChunkAt(p) || !level.getBlockState(p).isAir() || !level.getBlockState(p.above()).isAir()
+                    || !level.getFluidState(p).isEmpty() || !level.getFluidState(p.above()).isEmpty()) return false;
+            if (!p.equals(pos) && !level.getBlockState(p.below()).isFaceSturdy(level,p.below(),Direction.UP)) return false;
+        }
+        return true;
+    }
+
     private static BlockState propBlock(Lineage style, PropShape.Mat mat) {
         return switch (mat) {
             case HAY -> WarrenPalette.get(style, WarrenPalette.Role.HAY);
+            case FILL -> WarrenPalette.get(style, WarrenPalette.Role.FILL);
+            case TROUGH -> ModBlocks.FEEDING_TROUGH.get().defaultBlockState()
+                    .setValue(FeedingTroughBlock.TENDING,true);
             case COBBLE -> WarrenPalette.get(style, WarrenPalette.Role.RING_A);
             case MOSSY -> WarrenPalette.get(style, WarrenPalette.Role.RING_B);
             case FENCE -> WarrenPalette.get(style, WarrenPalette.Role.FENCE);
