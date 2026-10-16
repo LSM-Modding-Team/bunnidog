@@ -1,5 +1,20 @@
 # Bunnidogs: how to use each feature in game
 
+**Apex (G4):** craft an Apex Crucible (`OMO/ODO/OOO`: obsidian, Mutant
+Marrow, diamond). Place five Trophy Pedestals at its height, using any five of
+the eight ring slots: three blocks N/E/S/W or two blocks diagonally. Display a
+Titan Haunch, Gilded Foot, Moon Sinew, Listening Shell and Everbloom. Offer a
+Tissue Sample to summon a hostile boss with that source line's appearance and
+adaptations. The donor stays intact; five legends and one sample are spent on
+success (creative keeps them). Clear dry room above it; Peaceful and a nearby
+living Apex prevent the ritual. Empty-hand use explains the setup.
+
+Watch its charge, dodge pounces and leave the stomp's four-block reach. At half
+health it becomes faster and stronger. A player victory gives an Apex Crest
+that opens the original line's sheet or stands on a Trophy Pedestal; the first
+victory earns Apex of the Line and 200 XP. Bosses reject food, care, leads and
+rides. See `docs/APEX_SPECS.md` for exact rules.
+
 **Settlement life (L1/L2):** craft a Feeding Trough with seven planks and one
 iron ingot (`P P/PIP/PPP`). Add food in the main hand, inspect empty-handed,
 sneak with both hands empty to withdraw. It holds 16 of one food type; injured
@@ -167,7 +182,7 @@ Hold the Calipers in one hand and a seed (or a Tissue Sample) in the other and r
 
 **Pedestal shows its item (drops D8c, works):** the item on a Trophy Pedestal floats above its plate and turns slowly (everyone nearby sees it; it is still there after a reload). The chat lines of the previous chunk are gone. Next: the legends (D8d).
 
-**The five legends (drops D8d, works):** an adult bunnidog killed by a player can now drop a **legend** for every stat bred to 100 points or more: a **Titan Haunch** (Vitality), **Gilded Foot** (Swiftness), **Moon Sinew** (Leap), **Listening Shell** (Senses) or **Everbloom** (Bloom). The chance is 2% at 100 points, 4% at 200, 8% at 400 and 15% from 750; Looting does not help, pups and mob kills give nothing, and each stat rolls on its own. The Calipers line and `/bunnidogs drops` list them (`titan haunch 8%`) once a stat reaches 100. They are plain epic-rarity items (also in the creative Ingredients tab, `/give @s bunnidogs:everbloom`) and their use is to stand on a Trophy Pedestal. To try it without breeding for generations: `/summon bunnidogs:bunnidog ~ ~ ~ {Stats:"400,0,0,0,0"}`, then `/bunnidogs drops simulate 1000`. The art is regenerated with `python3 art/gen_legends.py`. Next: the worn ear tag (D8e).
+**The five legends (drops D8d, works):** an adult bunnidog killed by a player can now drop a **legend** for every stat bred to 100 points or more: a **Titan Haunch** (Vitality), **Gilded Foot** (Swiftness), **Moon Sinew** (Leap), **Listening Shell** (Senses) or **Everbloom** (Bloom). The chance is 2% at 100 points, 4% at 200, 8% at 400 and 15% from 750; Looting does not help, pups and mob kills give nothing, and each stat rolls on its own. The Calipers line and `/bunnidogs drops` list them (`titan haunch 8%`) once a stat reaches 100. They are plain epic-rarity items (also in the creative Ingredients tab, `/give @s bunnidogs:everbloom`) and can stand on a Trophy Pedestal or fund the Apex ritual described above. To try it without breeding for generations: `/summon bunnidogs:bunnidog ~ ~ ~ {Stats:"400,0,0,0,0"}`, then `/bunnidogs drops simulate 1000`. The art is regenerated with `python3 art/gen_legends.py`. Next: the worn ear tag (D8e).
 
 **Worn Ear Tag (drops D8e, works):** clip an Ear Tag on a bunnidog and, when it dies, it leaves a **Worn Ear Tag** behind: a weathered tag whose tooltip shows the `BD-XXXXXX` code the animal wore. It always drops (pup or adult, any cause, no luck involved); an untagged animal leaves nothing. It cannot be clipped onto another animal; stand it on a Trophy Pedestal as a keepsake. One sample is in the creative Tools tab, and `/give @s bunnidogs:worn_ear_tag[bunnidogs:worn_tag_code="BD-3F7A2C"]` writes one by hand. The art is regenerated with `python3 art/gen_worn_ear_tag.py`.
 

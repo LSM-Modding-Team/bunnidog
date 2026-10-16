@@ -55,7 +55,7 @@ public final class GuavaGameTest extends GameTestInstance {
     @SubscribeEvent
     public static void registerTests(RegisterGameTestsEvent event) {
         var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.AllOf());
-        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "show", "grooming", "settlement"}) {
+        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "show", "grooming", "settlement", "apex"}) {
             event.registerTest(id(name), new GuavaGameTest(name, new TestData<>(environment, id("empty"), 100, 0, true)));
         }
     }
@@ -73,6 +73,7 @@ public final class GuavaGameTest extends GameTestInstance {
             case "registry" -> RegistryGameTest.run(h);
             case "table_planning" -> TablePlanningGameTest.run(h);
             case "show" -> ShowGameTest.run(h);
+            case "apex" -> ApexGameTest.run(h);
             case "grooming" -> GroomingGameTest.run(h);
             case "settlement" -> { SettlementGameTest.run(h); return; }
             case "transport" -> transport(h);

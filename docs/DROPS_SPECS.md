@@ -1,5 +1,11 @@
 # Bunnidog drops: the specifics (session 13, second and third turn)
 
+Current endgame addition: G4 now consumes one of each legendary drop from a
+Trophy Pedestal ring to summon a source-line Apex. A credited player victory
+drops its lineage-bearing Apex Crest instead of ordinary bunnidog materials;
+`mobDrops` applies. See `APEX_SPECS.md`. Historical future references below
+record the original drops design.
+
 **CURRENT (session 43): ALL DONE: chunks D1-D8e are coded and work (D7b compiles; its behaviour was not itemized). The status lines below are from the planning sessions. Chunk status: docs/CHUNKS.md.**
 
 **Care update (2026-10-16):** C1 adds live Tissue Samples using a Sampling

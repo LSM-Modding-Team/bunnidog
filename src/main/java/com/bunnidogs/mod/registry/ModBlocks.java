@@ -13,6 +13,7 @@ import com.bunnidogs.mod.block.GuavaSaplingBlock;
 import com.bunnidogs.mod.block.SeedCropBlock;
 import com.bunnidogs.mod.block.SeedCropBlockEntity;
 import com.bunnidogs.mod.block.TrophyPedestalBlock;
+import com.bunnidogs.mod.block.ApexCrucibleBlock;
 import com.bunnidogs.mod.block.TrophyPedestalBlockEntity;
 
 import net.minecraft.core.registries.Registries;
@@ -161,6 +162,9 @@ public final class ModBlocks {
     /** The Trophy Pedestal (drops D8a): a display stand (D8b: it holds one item, see {@link TrophyPedestalBlockEntity}); its item is registered in {@link ModItems}. Loot: data/bunnidogs/loot_table/blocks/trophy_pedestal.json. */
     public static final DeferredBlock<TrophyPedestalBlock> TROPHY_PEDESTAL = BLOCKS.registerBlock("trophy_pedestal", TrophyPedestalBlock::new,
             props -> props.strength(2.0F).sound(SoundType.STONE).noOcclusion());
+
+    public static final DeferredBlock<ApexCrucibleBlock> APEX_CRUCIBLE = BLOCKS.registerBlock("apex_crucible", ApexCrucibleBlock::new,
+            props -> props.strength(5, 1200).requiresCorrectToolForDrops().sound(SoundType.STONE));
 
     /** The Genetics Table (T1, docs/TABLE_SPECS.md): a lab bench that holds and reads one Tissue Sample ({@link GeneticsTableBlockEntity}); its item is registered in {@link ModItems}. Loot: data/bunnidogs/loot_table/blocks/genetics_table.json. */
     public static final DeferredBlock<GeneticsTableBlock> GENETICS_TABLE = BLOCKS.registerBlock("genetics_table", GeneticsTableBlock::new,

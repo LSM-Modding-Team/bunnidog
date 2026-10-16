@@ -4,6 +4,9 @@ import java.util.Random;
 
 import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.entity.Bunnidog;
+import com.bunnidogs.mod.entity.Apex;
+import com.bunnidogs.mod.genetics.Tissue;
+import com.bunnidogs.mod.item.ApexCrestItem;
 import com.bunnidogs.mod.genetics.Drops;
 import com.bunnidogs.mod.item.TissueSampleItem;
 import com.bunnidogs.mod.item.WornEarTagItem;
@@ -13,6 +16,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -44,8 +48,17 @@ public final class BunnidogDrops {
         if (!(event.getEntity() instanceof Bunnidog dog) || !(dog.level() instanceof ServerLevel level)) {
             return;                                                  // only bunnidogs, and only on the server
         }
+        if (dog instanceof Apex) {
+            if (event.isRecentlyHit() && level.getGameRules().get(GameRules.MOB_DROPS)) event.getDrops().add(new ItemEntity(level, dog.getX(), dog.getY(), dog.getZ(),
+                    ApexCrestItem.create(new Tissue(dog.genome(), dog.stats()))));
+            if (dog.getKillCredit() instanceof ServerPlayer player) {
+                var achievement = level.getServer().getAdvancements().get(Identifier.fromNamespaceAndPath("bunnidogs", "apex_of_the_line"));
+                if (achievement != null) player.getAdvancements().award(achievement, "defeated");
+            }
+            return;
+        }
         if (!level.getGameRules().get(GameRules.MOB_DROPS)) {
-            return;                                                  // our drops come from this event, not vanilla's loot step: honour the game rule here
+            return; // Our event drops must honour the native game rule too.
         }
         DamageSource source = event.getSource();
         int looting = 0;

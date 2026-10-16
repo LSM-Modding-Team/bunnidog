@@ -119,7 +119,11 @@ public final class PedigreeScreen extends Screen {
 
     /** The Tissue Sample window (Phase 8 S8): one sheet of the animal the sample was taken from. */
     public PedigreeScreen(Tissue sample) {
-        super(Component.literal("Tissue Sample"));
+        this(sample, Component.literal("Tissue Sample"));
+    }
+
+    public PedigreeScreen(Tissue sample, Component title) {
+        super(title);
         this.book = new Pedigree();
         this.single = null;
         this.sample = sample;

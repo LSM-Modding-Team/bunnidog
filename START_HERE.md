@@ -45,6 +45,27 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
+**G4 — Apex of the Line:** a craftable Apex Crucible uses a Tissue Sample and
+five legendary drops displayed on Trophy Pedestals to summon the source line's
+boss. Its original seven pairs and bred points persist exactly, while native
+Scale 1.8 and bounded combat attributes amplify the look and challenge. Warned
+pounces/stomps, half-health enrage, persistent cooldowns and a native tracked
+boss bar complete the encounter. Care, Nests, breeding, leads and rides are
+excluded; Peaceful and unsafe/duplicate rituals refuse without spending items.
+A credited player kill gives one Epic Apex Crest with the original source sheet,
+no ordinary animal materials/refunded legends, and Apex of the Line (200 XP
+once). The crest saves on the existing pedestal. Native packets/components
+reuse protocol 6. See `docs/APEX_SPECS.md` for recipe and ring positions.
+
+`./gradlew build runGameTestServer --no-daemon` passes all fifteen mod scenarios
+plus native sanity. The encounter case covers real block interactions, missing/
+blocked/active refusals, costs, source/attribute bounds, immediate scaled
+clearance, domestic-tool refusal, save/load, both attacks, native kill drops,
+advancement and crest persistence. The headless model check passed at the same
+batch's initial checkpoint; approved creature mesh/atlases are unchanged.
+Crucible/crest preview inspected. Client fight pacing/visuals, multiplayer and
+full unload/reload still need gameplay review.
+
 **Settlement L1/L2:** Feeding Troughs hold up to 16 matching food items with
 saved components, four visible fill levels, main-hand insertion, empty-hand
 inspection and sneak-empty withdrawal. Injured adult residents find loaded,
@@ -210,7 +231,7 @@ genetic item components through save/load, exact vehicle/content drops, native
 sign validity/tickers and two-sided text/color/glow/wax persistence, lead/ride
 goal suspension and restoration, and Nest reassignment/ticket protection.
 Tests and their empty structure fixture are excluded from the shipped JAR.
-The server suite now contains fourteen mod scenarios (plus the native runner's
+The server suite now contains fifteen mod scenarios (plus the native runner's
 always-pass sanity test); current local evidence is recorded in the batch above.
 GitHub Actions now runs `build checkBunnidogModel runGameTestServer` before
 uploading the artifact. `checkGuavaBoats` is part of `build` and checks native

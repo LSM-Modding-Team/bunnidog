@@ -1,0 +1,31 @@
+{
+  "parent": "bunnidogs:champion_line",
+  "criteria": {
+    "defeated": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "defeated"
+    ]
+  ],
+  "rewards": {
+    "experience": 200
+  },
+  "display": {
+    "icon": {
+      "id": "bunnidogs:apex_crest"
+    },
+    "title": {
+      "translate": "advancement.bunnidogs.apex.title"
+    },
+    "description": {
+      "translate": "advancement.bunnidogs.apex.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  }
+}

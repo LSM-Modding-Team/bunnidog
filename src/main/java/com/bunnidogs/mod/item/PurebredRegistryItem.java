@@ -37,6 +37,7 @@ public final class PurebredRegistryItem extends Item {
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity entity, InteractionHand hand) {
         if (!(entity instanceof Bunnidog dog) || !dog.isAlive()) return InteractionResult.PASS;
+        if (!dog.acceptsCare()) return InteractionResult.PASS;
         if (player.level().isClientSide()) return InteractionResult.SUCCESS;
         // Native creative interaction supplies a temporary copy; records belong on the actual held book.
         stack = player.getItemInHand(hand);

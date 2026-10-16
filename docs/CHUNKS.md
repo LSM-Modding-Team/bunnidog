@@ -6,6 +6,7 @@ Full text of every chunk (files, decisions, compile risks): `docs/history/CHUNKS
 
 | Chunk | What | Status |
 |---|---|---|
+| G4 | Apex Crucible, sample-defined persistent boss, five legendary offerings, warned attacks/enrage/boss bar and readable source-line crest | BUILD + NATIVE ENCOUNTER/SAVE/REWARD CASE PASS; art preview inspected; manual gameplay pending |
 | L2 | Short noon gatherings at loaded native bells; reachable home-bounded standing spots, no ticket claims, danger/transport interruption and rest | BUILD + NATIVE GATHERING CASE PASS; manual gameplay pending |
 | L1 | Saved 16-item Feeding Trough, visible fill, insert/inspect/withdraw, diet-aware resident meals and shared forage recovery | BUILD + NATIVE STOCK/SAVE/FOOD/INTERACTION CASE PASS; preview inspected; client gameplay pending |
 | Care C4 | Sneak-Calipers care snapshot: eligibility and recovery for sampling, fleece, grooming and splicing; normal sheet use retained | BUILD PASS; client interaction pending |

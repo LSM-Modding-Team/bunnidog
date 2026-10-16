@@ -161,6 +161,9 @@ public final class ModItems {
             props -> new BoatItem(ModEntities.GUAVA_CHEST_BOAT.get(), props), props -> props.stacksTo(1));
     /** The Trophy Pedestal (drops D8a). */
     public static final DeferredItem<BlockItem> TROPHY_PEDESTAL = ITEMS.registerSimpleBlockItem(ModBlocks.TROPHY_PEDESTAL);
+    public static final DeferredItem<BlockItem> APEX_CRUCIBLE = ITEMS.registerSimpleBlockItem(ModBlocks.APEX_CRUCIBLE);
+    public static final DeferredItem<com.bunnidogs.mod.item.ApexCrestItem> APEX_CREST = ITEMS.registerItem("apex_crest",
+            com.bunnidogs.mod.item.ApexCrestItem::new, props -> props.stacksTo(1).rarity(Rarity.EPIC));
 
     /** The Genetics Table's block item (T1): crafted from 2 whiskers, a copper ingot and 5 planks (data/bunnidogs/recipe/genetics_table.json). */
     public static final DeferredItem<BlockItem> GENETICS_TABLE = ITEMS.registerSimpleBlockItem(ModBlocks.GENETICS_TABLE);
@@ -306,11 +309,11 @@ public final class ModItems {
      * Gilded Foot (Swiftness), the Moon Sinew (Leap), the Listening Shell (Senses) and the Everbloom (Bloom). Plain EPIC items: their use is
      * to stand on the Trophy Pedestal (docs/DROPS_SPECS.md sections 7 and 8; the Apex they were meant for is not planned). Art: {@code art/gen_legends.py}.
      */
-    public static final DeferredItem<Item> TITAN_HAUNCH = ITEMS.registerItem("titan_haunch", Item::new, props -> props.rarity(Rarity.EPIC));
-    public static final DeferredItem<Item> GILDED_FOOT = ITEMS.registerItem("gilded_foot", Item::new, props -> props.rarity(Rarity.EPIC));
-    public static final DeferredItem<Item> MOON_SINEW = ITEMS.registerItem("moon_sinew", Item::new, props -> props.rarity(Rarity.EPIC));
-    public static final DeferredItem<Item> LISTENING_SHELL = ITEMS.registerItem("listening_shell", Item::new, props -> props.rarity(Rarity.EPIC));
-    public static final DeferredItem<Item> EVERBLOOM = ITEMS.registerItem("everbloom", Item::new, props -> props.rarity(Rarity.EPIC));
+    public static final DeferredItem<Item> TITAN_HAUNCH = ITEMS.registerItem("titan_haunch", com.bunnidogs.mod.item.ApexOfferingItem::new, props -> props.rarity(Rarity.EPIC));
+    public static final DeferredItem<Item> GILDED_FOOT = ITEMS.registerItem("gilded_foot", com.bunnidogs.mod.item.ApexOfferingItem::new, props -> props.rarity(Rarity.EPIC));
+    public static final DeferredItem<Item> MOON_SINEW = ITEMS.registerItem("moon_sinew", com.bunnidogs.mod.item.ApexOfferingItem::new, props -> props.rarity(Rarity.EPIC));
+    public static final DeferredItem<Item> LISTENING_SHELL = ITEMS.registerItem("listening_shell", com.bunnidogs.mod.item.ApexOfferingItem::new, props -> props.rarity(Rarity.EPIC));
+    public static final DeferredItem<Item> EVERBLOOM = ITEMS.registerItem("everbloom", com.bunnidogs.mod.item.ApexOfferingItem::new, props -> props.rarity(Rarity.EPIC));
 
     /** Everything a bunnidog will eat, fall in love over, and grow up faster on. */
     public static final TagKey<Item> BUNNIDOG_FOOD = TagKey.create(Registries.ITEM,
@@ -344,6 +347,7 @@ public final class ModItems {
             event.accept(EAR_TAG.get());
             event.accept(WornEarTagItem.create("BD-3F7A2C"), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.accept(TROPHY_PEDESTAL.get());
+            event.accept(APEX_CRUCIBLE.get());
             event.accept(GENETICS_TABLE.get());
             event.accept(NEST.get());
         }
@@ -388,6 +392,7 @@ public final class ModItems {
             event.accept(MOON_SINEW.get());
             event.accept(LISTENING_SHELL.get());
             event.accept(EVERBLOOM.get());
+            event.accept(APEX_CREST.get());
             // One plain sample (the default genome, no bred points) so a sample can be had in creative mode.
             event.accept(TissueSampleItem.create(Genome.DEFAULT, Stats.ZERO), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }

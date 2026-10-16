@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OMO",
+    "ODO",
+    "OOO"
+  ],
+  "key": {
+    "O": "minecraft:obsidian",
+    "M": "bunnidogs:mutant_marrow",
+    "D": "minecraft:diamond"
+  },
+  "result": {
+    "id": "bunnidogs:apex_crucible"
+  }
+}

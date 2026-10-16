@@ -43,7 +43,10 @@ Bonus location: an isolated island where a lineage evolved with no contact (uniq
 Pedigree Book (auto-logs family trees, lets you name a lineage), Mutagen (forces a mutation next litter),
 Gene Splicer (late game: move a fully bred-true allele between animals, costs donor health), Purebred status
 (stable 5 generations -> bonus + registry title), Show Ring (contests judged on gene rarity/symmetry).
-Endgame: **The Apex**, a boss version of the player's own line, stats maxed and looking like their line.
+Endgame: **The Apex**, a boss version of the player's own line. G4 implements
+its source-sample ritual, amplified bounded combat stats, inherited look and
+adaptations, five legendary offerings and readable lineage crest. The original
+bred points remain intact in the source/crest. See `APEX_SPECS.md`.
 
 ### Bloat layer (hangs off the breeding loop; add any time)
 Blocks: Breeding Pen, Nesting Box, Genetics Table, Specimen Jar, Trophy Pedestal. Tools: Leash, Ear Tag, Calipers,

@@ -271,7 +271,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
      * (base x gene multiplier x stat multiplier). Keeps the health FRACTION, so a fresh
      * bunnidog stays at full health when its genome (and so its max health) is replaced, and a hurt one stays hurt.
      */
-    private void applyGenetics() {
+    protected void applyGenetics() {
         Traits t = this.traits();
         float oldMax = this.getMaxHealth();
         float fraction = oldMax > 0.0F ? this.getHealth() / oldMax : 1.0F;
@@ -312,7 +312,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
                 this.entityData.set(DATA_FLEECE_READY,true);
             }
             if (this.level() instanceof ServerLevel serverLevel) {
-                this.nestHome.tick(serverLevel, !this.isBaby());   // H2: a homeless adult looks for a free Nest, a dog with one checks it
+                if (this.acceptsCare()) this.nestHome.tick(serverLevel, !this.isBaby());
             }
         }
     }
@@ -588,8 +588,11 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         return this.getLeashData() != null || this.isPassenger();
     }
 
+    /** Domestic routines and tools are inappropriate for the summoned Apex. */
+    public boolean acceptsCare() { return true; }
+
     public NestHome.MoveResult moveHomeTo(ServerLevel level, BlockPos destination) {
-        if (level != this.level()) return NestHome.MoveResult.INVALID;
+        if (level != this.level() || !this.acceptsCare()) return NestHome.MoveResult.INVALID;
         return this.nestHome.moveTo(level, destination);
     }
 
@@ -642,7 +645,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     }
     @Override
     public boolean isShearable(@org.jspecify.annotations.Nullable Player player, ItemStack item, Level level, BlockPos pos) {
-        return this.isAlive() && Fleece.ready(this.genome(),!this.isBaby(),
+        return this.acceptsCare() && this.isAlive() && Fleece.ready(this.genome(),!this.isBaby(),
                 this.getHealth(),this.getMaxHealth(),this.entityData.get(DATA_FLEECE_READY));
     }
     @Override

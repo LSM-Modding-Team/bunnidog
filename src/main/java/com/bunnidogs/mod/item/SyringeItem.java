@@ -22,6 +22,10 @@ public final class SyringeItem extends Item {
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
         if (!(target instanceof Bunnidog dog) || !dog.isAlive()) return InteractionResult.PASS;
         if (dog.level().isClientSide()) return InteractionResult.SUCCESS;
+        if (!dog.acceptsCare()) {
+            player.sendOverlayMessage(Component.translatable("message.bunnidogs.apex.no_care"));
+            return InteractionResult.SUCCESS;
+        }
         if (!Sampling.healthy(dog.getHealth(),dog.getMaxHealth())) {
             player.sendOverlayMessage(Component.translatable("message.bunnidogs.sampling.hurt"));
             return InteractionResult.SUCCESS;

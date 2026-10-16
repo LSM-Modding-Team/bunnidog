@@ -2,6 +2,7 @@ package com.bunnidogs.mod.registry;
 
 import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.entity.Bunnidog;
+import com.bunnidogs.mod.entity.Apex;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -32,6 +33,12 @@ public final class ModEntities {
                     .build(ResourceKey.create(Registries.ENTITY_TYPE,
                             Identifier.fromNamespaceAndPath(BunnidogsMod.MODID, "bunnidog"))));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<Apex>> APEX =
+            ENTITIES.register("apex", () -> EntityType.Builder.of(Apex::new, MobCategory.MONSTER)
+                    .sized(.6F, .9F).clientTrackingRange(12).notInPeaceful().noLootTable()
+                    .build(ResourceKey.create(Registries.ENTITY_TYPE,
+                            Identifier.fromNamespaceAndPath(BunnidogsMod.MODID, "apex"))));
+
     /** Native boats keep vehicle physics, passenger rules, inventory saves and drops. Suppliers avoid item-registry cycles. */
     public static final DeferredHolder<EntityType<?>, EntityType<Boat>> GUAVA_BOAT =
             ENTITIES.register("guava_boat", () -> EntityType.Builder.<Boat>of(
@@ -49,6 +56,7 @@ public final class ModEntities {
     /** Registered on the mod event bus from {@link BunnidogsMod}. */
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(BUNNIDOG.get(), Bunnidog.createAttributes().build());
+        event.put(APEX.get(), Apex.createAttributes().build());
     }
 
     /**

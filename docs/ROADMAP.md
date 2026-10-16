@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+G4 completes the Apex: sample-defined boss, five legendary pedestal offerings,
+crucible, bounded inherited combat attributes, warned attacks/enrage, native
+boss bar and readable/displayable source-line crest. Ritual refusals/costs,
+combat, saves and player-kill rewards pass the native encounter case; the build
+passes. See `APEX_SPECS.md`.
+
 Settlement L1/L2 adds a saved Feeding Trough and noon bell visits. Resident
 feeding respects expressed diets, home bounds and shared forage recovery.
 Gatherings use loaded native bell POIs without claiming villager tickets and
@@ -90,4 +96,4 @@ filling a quota, and honor any explicit pause in the current request.
 | Additional lineage behavior | Useful cave/terrain adaptations beyond current fire/cold/fall/poison/cactus/levitation rules | A1/A2 | Follow expressed genes; preserve native hazards and breeding tradeoffs |
 
 ## Ideas without a spec (design before implementing)
-Apex boss (the remaining old "Phase 6 artificial lineage tool"); further settlement life beyond troughs/bell visits; further renewable materials and lineage adaptations. Gene Splicer G1, its table preview T5, Purebred Registry G2 and Show Ring G3 are implemented. Native leads and Nest reassignment are H5; live tissue samples, woolly fleece, brushed whiskers and inherited protections are C1–C3/A1–A2. More ideas: `docs/DESIGN.md`, section "Ideas".
+Further settlement life beyond troughs/bell visits; further renewable materials and lineage adaptations. Gene Splicer G1, its table preview T5, Purebred Registry G2 and Show Ring G3 and Apex G4 are implemented. Native leads and Nest reassignment are H5; live tissue samples, woolly fleece, brushed whiskers and inherited protections are C1–C3/A1–A2. More ideas: `docs/DESIGN.md`, section "Ideas".

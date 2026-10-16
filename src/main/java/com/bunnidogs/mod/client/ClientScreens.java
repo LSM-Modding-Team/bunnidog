@@ -46,6 +46,10 @@ public final class ClientScreens {
         Minecraft.getInstance().gui.setScreen(new PedigreeScreen(sample));
     }
 
+    public static void openCrest(Tissue source) {
+        Minecraft.getInstance().gui.setScreen(new PedigreeScreen(source, Component.translatable("item.bunnidogs.apex_crest")));
+    }
+
     /** Opens the window of a Genetics Table (T2): sample A's sheet, then sample B's, turned with Previous / Next. */
     public static void openTable(TableSheet table) {
         var client = Minecraft.getInstance();

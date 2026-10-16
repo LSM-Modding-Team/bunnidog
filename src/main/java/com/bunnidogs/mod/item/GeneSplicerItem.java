@@ -40,6 +40,10 @@ public final class GeneSplicerItem extends Item {
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
         if (!(target instanceof Bunnidog dog) || !dog.isAlive()) return InteractionResult.PASS;
+        if (!dog.acceptsCare()) {
+            if (!dog.level().isClientSide()) player.sendOverlayMessage(Component.translatable("message.bunnidogs.apex.no_care"));
+            return InteractionResult.SUCCESS;
+        }
         if (player.isShiftKeyDown()) return select(player.getItemInHand(hand),player);
         if (dog.level().isClientSide()) return InteractionResult.SUCCESS;
         if (dog.isBaby() || !Sampling.healthy(dog.getHealth(),dog.getMaxHealth())) return refuse(player,"health");
