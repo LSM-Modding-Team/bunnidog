@@ -150,5 +150,18 @@
   "message.bunnidogs.groom.senses": "Loose whiskers need at least +10 bred Senses points.",
   "message.bunnidogs.groom.wait": "This bunnidog needs %s more seconds before another grooming.",
   "message.bunnidogs.groom.done": "Collected one loose whisker. This bunnidog needs ten minutes between groomings.",
-  "tooltip.bunnidogs.ribbon.blank": "No winning record on this ribbon."
+  "tooltip.bunnidogs.ribbon.blank": "No winning record on this ribbon.",
+  "tooltip.bunnidogs.calipers.care": "Sneak-use a bunnidog: care readiness and recovery times",
+  "message.bunnidogs.care.header": "Care status: %s",
+  "message.bunnidogs.care.sampling": "Sampling: %s",
+  "message.bunnidogs.care.fleece": "Fleece: %s",
+  "message.bunnidogs.care.grooming": "Grooming: %s",
+  "message.bunnidogs.care.splicing": "Splicing: %s",
+  "message.bunnidogs.care.ready": "ready",
+  "message.bunnidogs.care.wait": "recovering (%s remaining)",
+  "message.bunnidogs.care.adult": "needs an adult",
+  "message.bunnidogs.care.health": "needs at least half health",
+  "message.bunnidogs.care.woolly": "needs expressed woolly build",
+  "message.bunnidogs.care.senses": "needs at least +%s bred Senses",
+  "message.bunnidogs.care.splice_ready": "recipient ready; donor sample and Mutagen required"
 }

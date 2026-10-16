@@ -1,5 +1,10 @@
 # Bunnidogs: how to use each feature in game
 
+**Care status (C4):** sneak-use Calipers on a bunnidog to see sampling, fleece,
+grooming and splicing readiness in chat, including recovery times and eligibility
+requirements. Normal use opens its genetics sheet as before. The readout is a
+snapshot and costs nothing.
+
 **Show Ring (G3):** craft a Judging Stand with ` B /PGP/PWP`: book, any planks,
 gold ingot and any wool. Lead a bred adult within six blocks and use the stand
 with an empty main hand or a lead. It needs all seven gene pairs fixed, at least

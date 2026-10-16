@@ -2,9 +2,14 @@ package com.bunnidogs.mod.item;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 import com.bunnidogs.mod.block.SeedCropBlockEntity;
+import com.bunnidogs.mod.entity.Bunnidog;
+import com.bunnidogs.mod.genetics.Gene;
+import com.bunnidogs.mod.genetics.Grooming;
+import com.bunnidogs.mod.genetics.Sampling;
 import com.bunnidogs.mod.genetics.Readout;
 import com.bunnidogs.mod.genetics.Seed;
 import com.bunnidogs.mod.genetics.Tissue;
@@ -49,6 +54,33 @@ public class CalipersItem extends Item {
             player.sendSystemMessage(Component.literal(lines.get(i))
                     .withStyle(i == 0 ? ChatFormatting.GOLD : ChatFormatting.GRAY));
         }
+    }
+
+    /** Server-side care snapshot. No items, timers or animal state are changed. */
+    public static void showCare(Player player, Bunnidog dog) {
+        player.sendSystemMessage(Component.translatable("message.bunnidogs.care.header", dog.getDisplayName()).withStyle(ChatFormatting.GOLD));
+        boolean healthy = Sampling.healthy(dog.getHealth(), dog.getMaxHealth());
+        Component health = Component.translatable("message.bunnidogs.care.health");
+        Component adult = Component.translatable("message.bunnidogs.care.adult");
+        careRow(player, "sampling", !healthy ? health : recovery(dog.samplingWait()));
+        careRow(player, "fleece", dog.isBaby() ? adult
+                : !dog.genome().expressed(Gene.BUILD).name().equals("woolly") ? Component.translatable("message.bunnidogs.care.woolly")
+                : !healthy ? health : recovery(dog.fleeceWait()));
+        careRow(player, "grooming", dog.isBaby() ? adult
+                : !Grooming.developed(dog.stats()) ? Component.translatable("message.bunnidogs.care.senses", Grooming.MIN_SENSES)
+                : !healthy ? health : recovery(dog.groomingWait()));
+        careRow(player, "splicing", dog.isBaby() ? adult : !healthy ? health
+                : dog.splicingWait() > 0 ? recovery(dog.splicingWait()) : Component.translatable("message.bunnidogs.care.splice_ready"));
+    }
+
+    private static Component recovery(int ticks) {
+        if (ticks == 0) return Component.translatable("message.bunnidogs.care.ready");
+        int seconds = (ticks + 19) / 20;
+        return Component.translatable("message.bunnidogs.care.wait", String.format(Locale.ROOT, "%d:%02d", seconds / 60, seconds % 60));
+    }
+
+    private static void careRow(Player player, String activity, Component status) {
+        player.sendSystemMessage(Component.translatable("message.bunnidogs.care." + activity, status).withStyle(ChatFormatting.GRAY));
     }
 
     /** Opens the window of a seed on a real player's screen (Phase 8 S8); a non-player gets the chat lines, as before. Call on the server. */
@@ -115,6 +147,7 @@ public class CalipersItem extends Item {
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack, context, display, lines, flag);
         lines.accept(Component.literal("Right-click a bunnidog: its sheet opens").withStyle(ChatFormatting.GRAY));
+        lines.accept(Component.translatable("tooltip.bunnidogs.calipers.care").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.literal("Right-click a planted seed: its window opens").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.literal("Or hold a seed or a tissue sample in the other hand: its window opens").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.literal("Off hand when you kill: a Tissue Sample").withStyle(ChatFormatting.DARK_GRAY));

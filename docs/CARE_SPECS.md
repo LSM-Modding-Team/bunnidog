@@ -55,6 +55,17 @@ client gameplay review.
 - Native brushing sound/action-bar feedback explains success, required Senses,
   health/adulthood and remaining recovery. No new item or synced field is needed.
 
+## C4: Quick care readout
+
+Sneak-use Calipers on an animal to print a server-side chat snapshot of all four
+care activities: sampling, fleece, grooming and splicing. Each row gives the
+current eligibility requirement or, if eligible, ready/recovery time. Recovery
+uses rounded-up minutes:seconds, so a partial second is not reported as ready.
+Splicing readiness describes the recipient; a donor sample and Mutagen are still
+needed. Normal Calipers use opens the existing genetics sheet. Reading changes
+no animal, items or timers and introduces no payload, saved data or sync field.
+The actual Gradle build passes; client use remains a manual gameplay check.
+
 ## A1/A2: Expressed environmental adaptations
 
 | Expressed trait | Benefit |

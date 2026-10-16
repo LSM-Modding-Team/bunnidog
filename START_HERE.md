@@ -45,6 +45,13 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
+**Care C4 — quick care readout:** sneak-use Calipers on a bunnidog for a server
+chat snapshot of sampling, fleece, grooming and splicing readiness. It explains
+age/health/build/Senses requirements and shows recovery as minutes:seconds when
+eligible. Splicing readiness still requires donor materials. Normal use keeps
+opening the genetics sheet. No animal, item, timer, save or protocol change.
+Actual build checks pass; manual client interaction remains pending.
+
 **G3 — Show Ring:** a craftable Judging Stand awards bronze/silver/gold ribbons
 for balanced stable bred adults. Require recorded birth parents, all seven
 gene pairs fixed, half health, and every bred stat at least +5/+20/+50. Lead an

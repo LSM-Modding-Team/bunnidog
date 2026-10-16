@@ -6,6 +6,7 @@ Full text of every chunk (files, decisions, compile risks): `docs/history/CHUNKS
 
 | Chunk | What | Status |
 |---|---|---|
+| Care C4 | Sneak-Calipers care snapshot: eligibility and recovery for sampling, fleece, grooming and splicing; normal sheet use retained | BUILD PASS; client interaction pending |
 | G3 | Judging Stand, balanced stable-adult milestones, read-only scorecard, saved highest award, three readable/displayable ribbons and Champion Line | BUILD + NATIVE SHOW/SNAPSHOT/SAVE CASE PASS; art preview inspected; client gameplay pending |
 | Care C3 | Vanilla Brush gathers one loose whisker from healthy Senses +10 adults every ten minutes; native wear, saved recovery and creative behavior | BUILD + NATIVE GROOMING CASE PASS; manual gameplay pending |
 | A2 | Expressed moss Poison immunity, sand cactus immunity and void Levitation immunity; native hooks and active-effect changes follow genome | BUILD + EXTENDED NATIVE EFFECT/DAMAGE CASE PASS; manual gameplay pending |

@@ -402,9 +402,11 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         ItemStack held = player.getItemInHand(hand);
         if (held.getItem() instanceof CalipersItem) {
             // Phase 5: the Calipers measure instead of feeding or riding; they never reach vanilla's feeding code.
-            // Phase 8 S6: a real player gets the sheet WINDOW (the server sends the animal, the client opens the screen); anything else keeps the chat readout.
+            // Normal use opens the sheet; sneak-use reports a server-side care snapshot in chat.
             if (!this.level().isClientSide()) {
-                if (player instanceof ServerPlayer serverPlayer) {
+                if (player.isShiftKeyDown()) {
+                    CalipersItem.showCare(player, this);
+                } else if (player instanceof ServerPlayer serverPlayer) {
                     ModNetwork.sendSheet(serverPlayer, new Pedigree.Entry(this.genome(), this.motherGenome(), this.fatherGenome(), Optional.of(this.getUUID()), this.earTag(), Optional.of(this.stats()), this.isBaby()));
                 } else {
                     CalipersItem.send(player, Readout.animal(this.genome(), this.stats(), this.isBaby(), this.motherGenome(), this.fatherGenome(), this.earTag()));
