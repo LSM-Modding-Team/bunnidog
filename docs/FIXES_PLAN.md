@@ -2,7 +2,7 @@
 
 **Warrens (mouths, dens, tunnels, cellars, hall) are covered in `docs/WARREN_PLAN.md`. House materials and doors are covered here.**
 
-**CURRENT (2026-10-16): F1–F3, W1–W3 and V1 work (user confirms d7f39a9). Diet D1–D4, W4a signs and W4b boats are implemented. W4 has compiler, resource and server GameTest evidence; client gameplay remains pending. V2 was superseded by HOME_SPECS.md, including H5 transport/rehoming. See `docs/ROADMAP.md`.**
+**CURRENT (2026-10-16): F1–F3, W1–W3 and V1 work (user confirms d7f39a9). Diet D1–D5, W4a signs and W4b boats are implemented. W4/D5 have compiler, resource and native server evidence; client gameplay remains pending. V2 was superseded by HOME_SPECS.md, including H5 transport/rehoming. See `docs/ROADMAP.md`.**
 
 **Status (session 41): F1, F2/F3a, F3b, W1, W1b and W2 WORK (user). V2 is SUPERSEDED by `docs/HOME_SPECS.md` (a Nest block dogs claim like villagers claim beds; the user rejected the hardcoded home of V2a). Section 5.3 below is kept as history only. Everything else here is unchanged.**
 **(Older line, session 40, fourth turn: F1, F2/F3a, F3b, W1 and W1b WORK; W2 (stairs, slab, fence; `art/gen_wood_parts.py`) was coded, NOT COMPILED. The FENCE GATE moved from W2 to W3 (it needs a `WoodType`). Next: W3, or V2 first if the user wants the dogs fixed sooner.)**
@@ -162,7 +162,7 @@ Today nothing remembers where a warren dog was born. Plan:
 
 ---
 
-## 6. Diets (D1-D4)
+## 6. Diets (D1–D5)
 
 ### 6.1 The idea, restated
 Genes decide what ELSE a bunnidog can eat. The **guava stays the favourite and the ONLY food that makes them breed**, so the whole seed/quality loop is untouched. Some bunnidogs hunt on their own. That finally gives the hay blocks and the level-5 farm a purpose.
@@ -244,6 +244,32 @@ Actual feeding, crop changes, pathfinding, prey kills and save/reload still need
 gameplay review.
 
 ---
+
+### 6.5 Diet D5: resident shore fishing (2026-10-16)
+
+The expressed Fisher diet now uses the existing bounded HuntGoal for native
+cod, salmon and tropical fish (`bunnidogs:fishing_prey`). Hunter/omnivore diets
+retain their land-prey tag; Fisher never targets that land list, and pufferfish
+are excluded by default. Existing adult/health/Nest/day/home/lead/ride/combat
+rules, eight-block searches, four candidate path attempts and maximum 20-second
+pursuit remain. No terrain loading or swimming/navigation override is added.
+
+A prey already within native melee reach need not first produce a complete
+navigation path. This permits a reachable fish by a dry bank, without granting
+deep-water pursuit. Native melee, damage and fish drops apply. Only the dog's
+own selected prey kill heals it for 4 HP and starts the shared saved 30-second
+`ForageWait`; healthy residents do not hunt for sport. Gene changes interrupt
+incompatible targets. Players, babies, bunnidogs, tame animals and allies retain
+their unconditional protection even if a data pack changes prey tags.
+
+The new native case checks the land/puffer exclusions, real home/shore lookup,
+health/night/lead refusals, gene-change interruption, a real native cod kill,
+exact healing, saved food recovery and refusal to chain another fish.
+The pure diet check retains distinct land/fish preferences. The Field Guide
+now has 30 pages. Actual build checks and all twenty native scenarios pass;
+guide preview inspected. The fixture allows native melee's initial twenty-tick
+gate and uses a contained pond/dry bank before exercising the real kill.
+Natural pond travel, deeper water and multiplayer ecology need gameplay review.
 
 ## 7. Decisions (ALL ACCEPTED by the user: "go with your picks", session 39)
 1. **Q1 Diet:** new 7th gene (A, recommended) or derived from existing genes (B)?

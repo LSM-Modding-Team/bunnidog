@@ -7,6 +7,7 @@ shows, materials, legendary drops, the Apex and infused juice.
 The gardening pages include Calipers work status and new fitted corner troughs.
 Living-dust care has its own page explaining combined yields and shared recovery.
 The terrain page explains inherited stepping and partial slow-block resistance.
+Shore fishing explains resident Fisher prey, needs, healing and recovery.
 
 Craft one with a vanilla book and any guava (the existing bunnidog-food tag).
 Obtaining a guava unlocks its recipe. An additional independent 35% pantry loot
@@ -17,7 +18,7 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Twenty-nine pages use the ordinary written-book screen. Page 1 has eleven clickable
+Thirty pages use the ordinary written-book screen. Page 1 has eleven clickable
 chapter links; every other page links back to the contents. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.

@@ -427,7 +427,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     @Override
     public boolean killedEntity(ServerLevel level, LivingEntity victim, DamageSource source) {
         boolean result = super.killedEntity(level, victim, source);
-        if (victim == this.huntingTarget && this.diet().hunts() && this.foodWithinHome(victim.blockPosition())) {
+        if (victim == this.huntingTarget && this.diet().seeksPrey() && this.foodWithinHome(victim.blockPosition())) {
             this.ateForage(Foraging.HUNT_HEAL);
         }
         return result;

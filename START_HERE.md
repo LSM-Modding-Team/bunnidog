@@ -1,531 +1,156 @@
 # Current project status
 
-Read `AGENTS.md` for the Codex workflow and `README.md` for build/run commands.
-This file records current evidence and pending work; historical process rules
-in `docs/history/` do not apply. Follow the current request, not an automatic
-next-chunk loop. Code and documentation use English; replies follow the user.
+Read `AGENTS.md` for the continuation workflow, `README.md` for build/run commands,
+and only the specifications/source relevant to the next batch. Historical sandbox,
+upload and approval routines in `docs/history/` do not apply. User requests and
+standing design latitude determine scope; a feature or push is a checkpoint.
 
-## Project
+## Project and delivery
 
-Bunnidogs is a NeoForge 26.2.0.88 mod for Minecraft 26.2, Java 25 and Gradle
-9.2.1. Pure breeding and layout rules live in `genetics/` and `layout/`.
-A **warren** includes dens, entrance mounds (mouths) and tunnels; a **settlement**
-is the warren plus its surface structures (levels 1–5).
+Bunnidogs targets Minecraft 26.2 / NeoForge 26.2.0.88, Java 25 and Gradle 9.2.1.
+Pure rules live in `genetics/` and `layout/`; native glue and client code remain
+separate. A warren contains dens, mouths and tunnels; a settlement includes its
+surface trees, houses, paths and landmarks (levels 1–5).
 
-## Current visual work — 2026-10-15
+Work directly on `main`, preserving player saves and unrelated changes. Push
+coherent validated batches under the standing continuation authorization.
+The user downloads JARs from GitHub Actions artifacts; never attach/link a local
+JAR in chat. Discover `get_usage_limits` at substantial starts/checkpoints. It
+is not exposed in this session: use available work budget without inventing quota.
 
-The approved sculpt has a photographic baby face, separate human and rabbit
-ears, compact robust body, outward paws and short fur. Keep those proportions
-and imperfections; recognizability takes priority over a Minecraft-like style.
-Sources and regeneration: `docs/BUNNIDOG_MODEL.md`.
+## Latest gameplay work — 2026-10-16
 
-The user compared Low and Ultra in Minecraft, prefers Low (including its nose),
-and requested removing the other tiers and the graphics configuration. The
-sole model is now the approved Low geometry: 2,172 quads / 8,688 vertices, twelve
-512px coat atlases. Presets, distance switching and unused runtime assets are
-removed. Face/ear/body vertex positions match the previous Low model exactly.
+- **Diet D5, shore fishing:** injured adult Fishers hunt reachable tagged cod,
+  salmon and tropical fish near their Nest. Hunter/omnivore land prey stays
+  separate; pufferfish are excluded by default. A selected prey kill heals 4 HP
+  and shares saved 30-second food recovery. Existing bounds, night, transport,
+  danger and protected-creature rules apply. Gene changes interrupt incompatible
+  prey. See `docs/FIXES_PLAN.md` 6.5.
+- **A4, terrain:** hoofed legs add 0.4 native step height (ordinary adult: one
+  full block). Fleet legs/lean builds reduce soul-sand/honey lost speed by
+  25%/50%, combining to 75%. Cobwebs, Slowness and damage remain. Named transient
+  bonuses preserve external bases, update on gene edits and restore once after
+  loading; Apex copies inherit them. See `docs/CARE_SPECS.md` A4.
+- **L6, local supplies:** fresh underground and surface feed-store/market barrels
+  use eight lineage food tables. Each gives 1–2 guavas, 1–3 small local food rolls
+  and an independent 35% Field Guide chance. Native deferred loot, existing keys/
+  seeds/stock and emptied barrels are preserved. Surface fitting refuses block
+  entities under its pad. See `docs/SETTLEMENT_LIFE.md` L6.
+- **C5, living dust:** one Brush use gathers one whisker at Senses +10, one
+  glowstone dust from expressed glow, and one Starlit Dust from expressed
+  starborn with Bloom +20, for every applicable product. Adults must be at least
+  half healthy. All products share one wear and saved ten-minute grooming rest;
+  overflow drops normally. Calipers names products. See `docs/CARE_SPECS.md` C5.
+- **L5, work clarity:** sneak-Calipers shares the AI's gardening eligibility and
+  recovery snapshot, without crop/path searches. New WarrenVersion 4 farms can
+  fit an empty enabled corner trough inside the old 3×3 footprint, retaining
+  seven crops. Two outside walking neighbours must already be safe; otherwise
+  all eight crops remain. End mushroom plots and saved versions 1–3 keep their
+  previous layout. See `docs/SETTLEMENT_LIFE.md` L5.
 
-Horizontal bands had two causes: area-weighted head normals biased by unequal
-ring spacing, and independently sampled photo patches. Head normals now follow
-derivatives of the authored surface; neighboring head polygons share one
-continuous UV chart. Maximum normal change across closely spaced front rings
-fell from 0.478 to 0.038. No geometry was added. See `docs/GRAPHICS.md` and
-`art/bunnidog_smooth_head.png` (nearest-filtered software preview).
+The native Field Guide now has 30 translated pages and eleven contents links.
+`art/gen_guide.py` owns its text/icon/preview, including gardening, forecasts,
+renewable care, terrain traits and fishing. `art/gen_pantries.py` owns the eight
+new loot tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
-Validation: real Gradle build and headless checks passed for the lightweight
-mesh. The check covers winding, coat atlases, rendering, normals, gene/baby foot
-contact and regression checks for head UV/lighting continuity. The user's
-screenshots establish prior in-game Low/Ultra rendering, not confirmation of
-this fix. Final in-game lighting and performance still need gameplay review.
+## Implemented systems — do not redo
 
-**Branch preference:** work directly on `main`; do not create additional branches.
-
-**Delivery preference:** do not attach or link JARs in chat. The user downloads
-builds from GitHub. Actions now uploads the validated JAR as a run artifact.
-
-## Current gameplay work — 2026-10-16
-
-**A4 — inherited terrain movement:** hoofed legs add 0.4 native step height,
-allowing ordinary adults to walk up a full block while retaining their half
-fall damage. Fleet legs/lean builds reduce soul-sand/honey slowing by 25%/50%,
-combining to 75% less lost speed. Cobwebs, Slowness and other hazards remain.
-Named transient bonuses preserve external attributes, update on gene edits and
-restore once after loading; Apex copies inherit them. Approved anatomy, stats,
-gene order, animal fields and protocol 6 remain compatible. Gene hovers and
-the Field Guide explain the benefits; the guide now has 29 pages.
-
-The existing native adaptation case now checks real ledge collision, hidden
-traits, native slow-block math, Slowness and repeated saves with external bases.
-Actual build and all nineteen native scenarios pass; guide preview inspected.
-Client movement feel and long-term terrain balance remain gameplay review.
-See `docs/CARE_SPECS.md` A4.
-
-**Settlement L6 — local supplies:** newly placed underground pantries and
-surface feed-store/market barrels use eight lineage food tables. Each has
-1–2 guavas, 1–3 small local-food rolls and the independent 35% Field Guide
-chance. Tundra fish, cave berries, swamp mushrooms, Nether fungi/wart and End
-chorus match local inherited diets. Existing unopened legacy loot and filled/
-emptied containers are preserved. Surface fitting rejects block entities under
-its pad, preventing repeat stores above existing containers.
-
-The new native pantry case covers real loot rolls for all lineages, native
-key/seed saves, owner chunks, legacy/player stock and both surface store kinds.
-Actual build and all nineteen native scenarios pass; guide preview inspected.
-The native case distinguishes opening from clearing deferred loot, and confirms
-repeat surface placement is refused above old containers. Natural chunk order
-and client exploration remain gameplay review. See `docs/SETTLEMENT_LIFE.md` L6.
-
-**Care C5 — living dust:** one Brush use gathers all qualifying products:
-one loose whisker at Senses +10, one glowstone dust from an expressed glow coat,
-and one Starlit Dust from expressed starborn with Bloom +20. Adults must be at
-least half healthy. All products share one tool wear and the saved ten-minute
-grooming recovery; overflow drops normally. Hidden traits yield nothing and
-the animal's health/genes/stats are preserved. Calipers names available products,
-gene hovers explain the sources and the Field Guide now has 28 pages.
-
-The existing native grooming case now checks hidden traits, Bloom thresholds,
-exact individual/combined yield, one shared wear/recovery and full inventory.
-Actual build and all eighteen native scenarios pass; the updated guide preview
-is inspected. Client use and production balance remain gameplay review. See
-`docs/CARE_SPECS.md` C5.
-
-**Settlement L5 — work readiness and farm troughs:** sneak-use Calipers now
-includes gardening, sharing the AI's own blockers and saved recovery snapshot.
-Ready means ready to search, with trough/crop/path requirements stated; reading
-does not search or change state. New WarrenVersion 4 farms can fit an empty,
-enabled trough in one corner, replacing one wheat crop and its soil within the
-old 3×3 footprint. Two outside walking neighbours must already be dry, supported
-and clear; otherwise all eight crops remain. End mushroom plots and old saved
-starts keep their prior layout. Stock is preserved on repeat generation.
-
-Extended existing native fixtures/gardening cases cover fitted/fallback/legacy
-farms, stock/support, shared blockers and read-only recovery. All four rotated
-footprints retain seven crops in the focused layout check. Actual build checks
-and all eighteen server scenarios pass; farm and guide previews inspected.
-The initial fixture caught the native test roof in its terrain scan; clearing
-that enclosure fixes the fixture. Client/natural-generation review remains
-pending. See `docs/SETTLEMENT_LIFE.md` L5.
-
-**P2 — Apex preparation:** empty-hand crucible use reports distinct offering
-progress and names missing legends. Summoning refusals name the first missing
-item. Use main-hand Calipers with a Tissue Sample in the off hand on a crucible
-for source appearance, health, normal/enraged melee damage, inherited defenses,
-awareness, pursuit increase and approximate pounce height. Readiness and spawning
-share one loaded eight-slot scan; preview rules/base defenses are shared with
-the real boss. No entity, item cost, GUI, payload or saved field is introduced.
-The Field Guide now has 28 pages and eleven contents links.
-
-The combined actual build/server run passes all eighteen scenarios. The extended
-native Apex case confirms read-only inspection/forecast and the actual boss's
-matching normal/enraged health/damage/defenses. A3's model check passed during
-this continuation; geometry/atlases remain approved. Guide preview inspected;
-client chat formatting/input remains gameplay review. See `docs/APEX_SPECS.md`.
-
-**A3 — physical defenses and glow:** expressed slate adds four native Armor
-points; stocky/chonker builds add 15%/30% knockback resistance. Named transient
-modifiers preserve external bases/equipment, update on genome edits and restore
-once after loading. Apex copies combine them with existing boss defenses.
-The recessive glow coat now stays self-lit using native model block lighting,
-while carriers keep ordinary lighting. Nearby blocks/spawns and the approved
-mesh/atlases are unchanged. Gene hovers and the Field Guide explain the traits.
-
-Combined Gradle build, headless model check and all eighteen server scenarios
-pass. The extended native adaptation case covers ordinary damage, real knockback,
-hidden alleles, repeated loads with external armor, genome edits and boss bases.
-The headless check covers visible/carried glow lighting plus the approved mesh.
-Software lighting preview inspected; actual client lighting/combat balance still
-need gameplay review. See `docs/CARE_SPECS.md` A3.
-
-**Settlement L3/L4 — furnished dens and gardening:** newly fitted dens include
-one trough with two starter guavas; developed central rooms (levels 3–5) also
-fit a native gathering bell. Separate saved/chunk-owned `LifeFixtures` metadata
-and WarrenVersion 3 preserve older starts, floor Nests, exits and existing stock.
-No repeat-placement refill. The same planning serves natural and command builds.
-
-Use a hoe on a trough to toggle resident gardening; green markers show enabled
-mode. Crafted/old troughs default off; generated ones start on. Healthy adult
-residents with a Nest gather matching ripe crops/fruit beside enabled troughs,
-one produce per job and a saved minute of rest. Native grief/protection rules,
-full/mismatching stock, diets, home bounds, night and transport are respected.
-Supported crops/fruit remain planted after tending.
-The Field Guide now has 26 pages and ten contents links, including gardening.
-
-Actual build and eighteen server scenarios (seventeen mod + native sanity) pass.
-The added cases cover native fixture stock/placement/legacy metadata, hoe use,
-carrot/guava work, refusals, transport and saved work recovery. Focused layout
-checks retain Nest/room connectivity with furniture treated as full obstacles.
-Trough/guide previews inspected; natural chunk order, client visuals and long
-multiplayer routines remain gameplay review. See `docs/SETTLEMENT_LIFE.md`.
-
-**P1 — Field Guide:** craft a vanilla book with any guava for a 27-page native
-book covering the complete progression, with clickable contents/return links.
-An independent 35% warren-pantry pool helps explorers find it; existing food
-rolls persist and filled containers are not refilled. Uses native translated
-written-book content and packets, with no custom screen or protocol change.
-Actual build passes, icon/representative page preview inspected and one long
-paragraph shortened against the existing conservative font-width estimate.
-Native book opening/click APIs are verified from resolved 26.2 sources.
-The final combined `build runGameTestServer` passes all fifteen mod scenarios
-plus native sanity, including server loading of the new book/recipe/loot data.
-Client navigation/fonts and pantry discovery remain gameplay review.
-See `docs/FIELD_GUIDE.md`.
-
-**G4 — Apex of the Line:** a craftable Apex Crucible uses a Tissue Sample and
-five legendary drops displayed on Trophy Pedestals to summon the source line's
-boss. Its original seven pairs and bred points persist exactly, while native
-Scale 1.8 and bounded combat attributes amplify the look and challenge. Warned
-pounces/stomps, half-health enrage, persistent cooldowns and a native tracked
-boss bar complete the encounter. Care, Nests, breeding, leads and rides are
-excluded; Peaceful and unsafe/duplicate rituals refuse without spending items.
-A credited player kill gives one Epic Apex Crest with the original source sheet,
-no ordinary animal materials/refunded legends, and Apex of the Line (200 XP
-once). The crest saves on the existing pedestal. Native packets/components
-reuse protocol 6. See `docs/APEX_SPECS.md` for recipe and ring positions.
-
-`./gradlew build runGameTestServer --no-daemon` passes all fifteen mod scenarios
-plus native sanity. The encounter case covers real block interactions, missing/
-blocked/active refusals, costs, source/attribute bounds, immediate scaled
-clearance, domestic-tool refusal, save/load, both attacks, native kill drops,
-advancement and crest persistence. The headless model check passed at the same
-batch's initial checkpoint; approved creature mesh/atlases are unchanged.
-Crucible/crest preview inspected. Client fight pacing/visuals, multiplayer and
-full unload/reload still need gameplay review.
-
-**Settlement L1/L2:** Feeding Troughs hold up to 16 matching food items with
-saved components, four visible fill levels, main-hand insertion, empty-hand
-inspection and sneak-empty withdrawal. Injured adult residents find loaded,
-reachable matching food within eight blocks and the existing home boundary.
-One meal heals 2 HP and shares the saved 30-second forage cooldown, without love
-or world/crop edits. Craft `P P/PIP/PPP` (any planks, iron). Healthy adult
-residents also visit nearby vanilla bells from clock ticks 6,000–9,000 for up to
-20 seconds, resting a minute afterward. Gatherings keep homes/villager tickets
-intact and yield to danger, food, transport and night. Player-placed/native bells
-work with existing settlements; generation layouts are unchanged.
-Build and the native stock/food/home/gathering case pass. There are fourteen
-mod server scenarios plus native sanity. The trough preview was inspected;
-client visuals and multiplayer routines remain gameplay review. See
-`docs/SETTLEMENT_LIFE.md`. Existing genome/save formats and protocol 6 persist.
-
-**Care C4 — quick care readout:** sneak-use Calipers on a bunnidog for a server
-chat snapshot of sampling, fleece, grooming and splicing readiness. It explains
-age/health/build/Senses requirements and shows recovery as minutes:seconds when
-eligible. Splicing readiness still requires donor materials. Normal use keeps
-opening the genetics sheet. No animal, item, timer, save or protocol change.
-Actual build checks pass; manual client interaction remains pending.
-
-**G3 — Show Ring:** a craftable Judging Stand awards bronze/silver/gold ribbons
-for balanced stable bred adults. Require recorded birth parents, all seven
-gene pairs fixed, half health, and every bred stat at least +5/+20/+50. Lead an
-adult within six blocks and use the stand empty-handed or with a lead. Sneak-use
-with both hands empty for a read-only scorecard. Saved `ShowAward` prevents the
-same/lower tier being claimed again across stands/reloads; future positive IDs
-are preserved. Judging keeps the animal and its leash intact. Each ribbon holds
-the winning adult's complete pedigree snapshot, opens its sheet in air, and can
-stand on the existing Trophy Pedestal. Gold grants Champion Line once per player
-(100 XP). Recipe: ` B /PGP/PWP` (book, any planks, gold ingot, any wool). The
-registry unlocks the recipe. See `docs/SHOW_SPECS.md`.
-
-**Care C3 — loose whiskers:** use a vanilla Brush on a healthy adult bred to
-Senses +10 for one whisker. It costs one Brush durability and starts ten minutes
-of saved animal recovery (`GroomWait`), preserving genes/stats/health/age. Pups,
-injured animals, insufficient points and recovery refuse without wear. Creative
-keeps the tool but retains recovery. Old animals load ready. Hover Senses on a
-sheet for the rule. Existing death drops are unchanged; see `docs/CARE_SPECS.md`.
-
-Combined Gradle build/server checks pass, including native judging and grooming,
-award/refusal boundaries, non-destructive preview, creative/tool break behavior,
-advancement progress, saved awards/recovery and ribbon/pedestal snapshots.
-There are thirteen mod scenarios plus the native sanity test. Generated stand/
-ribbon textures and the geometry preview were inspected; client gameplay remains
-pending. No new item payload, sync field, genome format or protocol change.
-
-**A2 — swamp/desert/End protection:** expressed moss coat now prevents Poison,
-sand prevents native cactus damage, and void prevents Levitation. Hidden copies
-grant nothing, and other damage/effects retain their role. Setting an immune
-genome clears its already-active blocked effect; changing away restores normal
-susceptibility. Existing native protection/effect hooks still apply. Readouts
-explain the benefits; allele order, stats, models, saves and protocol 6 stay the
-same. The extended native adaptation case covers actual effect/damage behavior,
-hidden alleles and changing genes; combined build/server evidence passes.
-See `docs/CARE_SPECS.md`. Manual gameplay remains pending.
-
-**T5/T6 + G2 — breeding laboratory and stable lines:** two Genetics Table samples
-now give five spreads: A, B, existing look/stat forecast, inherited-copy odds,
-and both-direction splice plans. Carry/fixed odds include hidden recessives;
-hovers show the chance of at least one success in an uncrowded litter. The
-Two Copies heading also forecasts a pup with all seven pairs fixed. Splice plans
-use the actual tool rule and show exact pairs, expression and refusal without
-spending samples. Reading with a Gene Splicer in the main hand opens that page.
-The existing `A|B` payload and saved slots are unchanged.
-
-Craft a **Purebred Registry** from a vanilla book, gold ingot and whisker.
-Use it on a bred adult with recorded parents and matching copies in all seven
-genes, including Diet. It keeps the first representative's snapshot for up to
-24 distinct stable genomes; air opens a linked index and the normal animal
-sheets. Registration is reusable and non-destructive, awarding **Breeds True**
-and 25 XP once per player. Hover GENOME on any animal/sample sheet for fixed-pair
-progress and the remaining mixed genes. It uses the existing pedigree component;
-the ordinary Pedigree Book and network protocol 6 remain unchanged.
-
-Native creative item interaction supplies a temporary copy. Registry writes and
-Gene Splicer selection on animals now target the actual held item. Focused
-server cases establish creative registration, qualification/refusals, snapshots,
-native advancement progress, item/table saves and read preservation. The combined
-build/server run passes all eleven mod scenarios plus native sanity; the focused
-breeding-lab check covers probability math, registry capacity and page clearance.
-The legacy genetics run found one obsolete H1 assertion expecting the pre-H5
-plain Nest block; that assertion was corrected and its H1 section rechecked.
-Registry icon/layout previews are separate from client gameplay, which remains
-pending. See `docs/REGISTRY_SPECS.md`, `docs/TABLE_SPECS.md` 7 and
-`art/lab_preview.png` (substitute font/layout only).
-
-**G1 — Gene Splicer:** a rare 16-use tool copies a donor's expressed allele
-into one selected gene of a healthy adult. Sneak-use in air or on a bunnidog
-cycles the seven genes; selection is shown in the tooltip/action bar and saved
-on the tool. Put a donor Tissue Sample in the other hand and carry Mutagen;
-normal use on the recipient consumes one of each and one tool use. The less
-dominant recipient copy is replaced (first copy on a tie). An already-carried
-donor allele is refused, so breeding is still needed to fix a homozygous pair.
-Bred stats are not copied; relative health and birth ancestry are preserved.
-The animal needs one minute between splices, saved as remaining `SpliceWait`.
-Recipe: `DMD / CIC /  I ` (diamond, Mutant Marrow, copper, iron). Native tool
-interaction, seven-gene isolation, costs/refusals, stats/health, selection and
-animal saves pass the focused server case. The new icon preview was inspected.
-See `docs/SPLICER_SPECS.md`. Current network protocol is **6**, requiring
-matching updated clients/server for the new selection component.
-
-**U8 — warren wayfinding:** newly planned underground networks have guava wall
-signs for dens, the nursery, pantries, cisterns, markets, farms, the lower commons
-and fitted exits where a safe wall fits. Green glowing text is readable in the
-tunnels. The pure planner saves relative positions, facing and label IDs in a
-separate `Wayfinding` array on the TUNNEL piece; old starts load with no labels.
-Each sign and its support share a chunk. Placement follows that chunk's tunnel
-columns, skips missing supports/occupied blocks and preserves existing or edited
-signs on repeat calls. Signs remain editable. Normal command/feature generation
-uses the same planner. Existing cell IDs and bounding boxes are unchanged.
-
-**Care C1/C2:** the new 32-use Sampling Syringe takes the existing Tissue Sample
-from a living adult or pup at half health or better. It preserves health, age,
-genes, stats and breeding state; the animal needs five minutes of recovery.
-Craft with iron ingot / glass bottle / stick diagonally, or use
-`/give @s bunnidogs:syringe`. Healthy adults expressing woolly build now yield
-two white wool with vanilla shears every ten minutes. Pelts and existing death
-drops retain their role. Sampling/fleece recovery timers are saved separately
-as remaining ticks; missing old tags mean ready. Fleece readiness is synced to
-clients; current matching clients/server use network version **6**. The animal's
-approved model stays intact. `art/gen_syringe.py` generates the new tool assets;
-its nearest-filtered icon preview was inspected.
-
-**Adaptations A1:** expressed ember coat grants fire/lava immunity; expressed
-snow coat or woolly build prevents powder-snow freezing; expressed hoofed legs
-halve native fall damage. Hidden alleles confer no benefit. These traits can be
-crossbred, following ordinary dominance; they are not tied to spawn biome.
-Gene hover/readout text explains the effects. Existing allele IDs, genome
-formats, bred-stat curves and approved creature geometry are unchanged.
-
-`./gradlew build runGameTestServer --no-daemon` passes. New focused checks cover
-saved/chunk-owned labels and player edits, native syringe use/cost/recovery,
-live pup genetics, creative use, real fire/fall damage and native fleece drops,
-refusals, save/load and regrowth. The existing server, resource, diet and layout
-checks pass with the additions. Client visuals, natural structure chunk order
-and full world unload/reload remain gameplay review. See `docs/CARE_SPECS.md`
-and `docs/WARREN_PLAN.md` 20 for the new rules.
-
-**W4b — guava boats and chest boats** completes the guava wood set. Five guava
-planks in the native boat recipe craft a two-seat boat; combining it with a
-chest crafts a one-seat boat with 27 inventory slots. Both stack to one and
-appear in Tools & Utilities. Native 26.2 vehicle classes preserve paddling,
-passenger rules, inventories, names and their own item drops. Native model
-layers use guava hull/paddle atlases; chest panels remain the native chest.
-Regenerate with `python3 art/gen_wood_boats.py`; the texture preview was inspected.
-
-**H5 — transport and rehoming:** leads and vehicle rides suspend home/food
-navigation and Nest searches/checks, retaining the saved home. Pending saved
-leashes also suspend those goals while vanilla restores the holder. After
-release/disembarking, normal behavior resumes. Nest checks skip unloaded chunks.
-While leading dogs, right-click a Nest with an empty hand or a lead to rehome
-the nearest led adult within eight blocks. A route and a free destination
-ticket are required; only then is the previous ticket released. Occupied,
-unreachable and invalid destinations preserve the old claim. The lead stays
-attached; a quiet click and action-bar message confirm the move. Pups cannot
-claim homes. The existing `bunnidogs:nest` ID, saved coordinates, POI and assets
-are preserved.
-
-Development-only server GameTests cover boat seating, full chest inventory and
-genetic item components through save/load, exact vehicle/content drops, native
-sign validity/tickers and two-sided text/color/glow/wax persistence, lead/ride
-goal suspension and restoration, and Nest reassignment/ticket protection.
-Tests and their empty structure fixture are excluded from the shipped JAR.
-The server suite now contains seventeen mod scenarios (plus the native runner's
-always-pass sanity test); current local evidence is recorded in the batch above.
-GitHub Actions now runs `build checkBunnidogModel runGameTestServer` before
-uploading the artifact. `checkGuavaBoats` is part of `build` and checks native
-layers/paddles/chest geometry, renderer texture paths, crafting/unlocks and tags.
-Client rowing appearance, sign editors, multiplayer input and natural chunk
-unload/reload remain manual gameplay checks.
-
-**W4a — guava signs and hanging signs** is implemented. Two craftable items
-cover standing/wall signs and ceiling/wall hanging signs, with all native
-rotations, attachments and waterlogging. Six guava planks plus a stick craft
-three signs; six stripped guava logs plus two iron chains craft six hanging
-signs. Both stack to 16 and appear in Functional Blocks. Recipes unlock when
-the matching wood is obtained. Wall variants share their item's name and loot.
-
-The four blocks use native sign classes and block entities, extended through
-NeoForge's `BlockEntityTypeAddBlocksEvent`. A namespaced guava WoodType selects
-the custom editor backgrounds; vanilla handles front/back text, dye, glowing
-ink, wax, editing locks, packets and saves. In 26.2 the boards are regular block
-models, so no custom renderer or model layer is needed. Generated cutout models,
-UV textures, GUI backgrounds and item icons come from `art/gen_wood_signs.py`;
-the nearest-filtered texture preview was inspected. Existing villages are not
-dressed with generated signs in this batch.
-
-`./gradlew build checkBunnidogModel --no-daemon` passes. `checkWoodAssets` now
-covers all four sign states/attachments, model and texture links, editor sizes,
-recipes/unlocks, tags and drops. Server tests now establish native block-entity
-validity, editing-lock tickers and two-sided text/color/glow/wax save/load.
-Actual editor use, dye/glow/wax interactions, hanging chains and support removal need gameplay
-review. Try `/give @s bunnidogs:guava_sign` and
-`/give @s bunnidogs:guava_hanging_sign`. W4b boats/chest boats are implemented above.
-
-The preceding batch implemented **Diet D1–D4**, **U7** and **warren pantry loot**.
-These are new changes with compiler/headless evidence; gameplay is pending.
-
-- Diet is the seventh inherited gene: plain, grazer, forager, hunter, rare
-  omnivore and seven lineage diets. All guavas still breed. Additional accepted
-  foods heal 2 HP or grow an unlocked pup; healthy adults refuse them. Temptation
-  follows the expressed diet. Food tags are extendable data.
-- Injured adults with a Nest graze or hunt by day, within 16 blocks of home.
-  Grazers use hay/grass/ripe wheat; foragers use ripe root crops. Crops reset
-  without drops, hay stays, changed blocks respect mob griefing and protection
-  hooks. Hunters take tagged adult prey (chickens/rabbits by default), heal 4 HP
-  for their own selected kill, and exclude babies, players, bunnidogs, tame pets
-  and allies. Searches are bounded; meals share a saved 30-second cooldown.
-- Old six-pair animals, seeds, samples, books, table contents and infused juice
-  load with plain/plain Diet. New writes use seven pairs / 56 bits. Client sync
-  preserves a signed 32-bit high word; the original first six genes and all
-  allele IDs stay put. Network version 6 requires updated matching clients.
-  Sheet and forecast layouts fit all seven rows; approved creature geometry is
-  unchanged. Diet adds no body/stat drift or juice effect.
-- A fitted level-5 hall can have a 5x5x3 lower commons six blocks deeper, reached
-  by full-block stairs, with four more Nests, a lamp and supply barrel. Unsafe
-  terrain omits this floor; the upper nursery stays intact. New pantry/market/
-  commons barrels contain modest food/guava loot; old containers are not refilled.
-
-`checkDiets` is now part of Gradle `build` and covers old/new payloads, sync,
-inheritance, food/home/prey policies, tags and seven-row page clearance. The
-existing genetics/layout suite passes. `checkWarrenNetwork` covers upper/lower
-Nests, stair access, slopes, deep fluids/protected blocks and chunk ownership.
-`./gradlew build checkBunnidogModel --no-daemon` passes, including diet,
-network, wood and model checks. A temporary layout-only preview from actual Page
-data was inspected (test font and portrait placeholder, not a game screenshot).
-GitHub delivery is verified for the pushed commit.
-Use `docs/FIXES_PLAN.md` 6.4 for exact diets/rules and `docs/WARREN_PLAN.md` 19
-for the lower commons. Gameplay checks should cover feeding versus love, a pup,
-ripe crops with mob griefing on/off, a hunter's kill, night interruption and
-save/reload; generate fresh level-5 villages to inspect U7 and barrel contents.
-
-The user reports **"everything compiled and worked this run"** for the
-`d7f39a9` release, confirming U4/U5/U6b/T4/W3/V1c as a working gameplay batch.
-Individual dimension, chunk-order, reload, fluid/light and navigation cases
-were not itemized; do not invent results for those separate cases.
-
-The user has resumed Bunnidogs development; diets and their food goals are
-implemented above, preserving old six-gene data. The user grants standing latitude for substantial coherent additions beyond the roadmap;
-usage-aware continuation and delivery instructions are in `AGENTS.md`.
-
-The U2/U3 batch received the user's "good, works well" gameplay feedback.
-That confirms the batch broadly; natural chunk order, night home claims and
-reload behavior were not individually reported.
-
-The previous working release implemented these six stages:
-
-- **U4:** fitted pantry/barrels under haystacks, well cisterns with glass-lined
-  water shafts and dry ledges, market cellars with open hatches, farm entrances
-  and small glazed skylights. Decorations do not automate storage or feeding.
-- **U5:** a 7x7x4 hall under the level-5 grand tree, eight floor Nests, hanging
-  roots and four hay/lantern positions. Spokes connect its satellite dens; a lit
-  loop around the hall also links satellites at compatible elevations.
-- **U6b:** cave, Nether and End floors use open stair cuts into dens instead of
-  above-ground mounds, including level 1. End natural villages use the existing
-  separate `bunnidogs:warren_end_village` structure; its biome tag stays separate
-  from the Overworld structure.
-- **T4:** stationary A/B Tissue Sample vials on the Genetics Table, plus a quiet
-  click for successful interactions. Existing sample saves/sync are reused.
-- **W3:** craftable guava door, trapdoor, wooden button, pressure plate and fence
-  gate, using vanilla oak interaction/redstone rules and custom guava assets.
-- **V1c:** new houses get initially open guava doors; levels 4–5 get shutters,
-  level 4 cottages get glass windows, and level 5 has a hanging doorstep lamp.
-  Open doors preserve dog access; no door-opening AI was added.
-
-Terrain fitting remains conservative: fluids/protected blocks, blocked trunks,
-unsupported shells or crowded entrances can omit rooms, ramps or a whole
-network. U4 rooms require a flat landmark pad. Unfitted tree clusters retain old
-holes and surface Nests. Natural structures save exact underground cells and
-path exclusions, then write only chunk-owned columns. New cell kinds are
-append-only. `WoodDetails` and `WarrenVersion` preserve old saved starts' house
-geometry and End fallback. Existing villages and genome/entity saves are not
-rebuilt or changed. Later conflicts can still cause a protected column to be
-skipped.
-
-Validation: `./gradlew build checkBunnidogModel --no-daemon` and the existing
-pure genetics/layout suite pass. `checkWarrenNetwork` covers connectivity,
-water containment, hall Nests/loop, cave entrances, slopes, cliffs, protected
-terrain, cellar clearance with the new house details, and chunk partitions.
-`checkWoodAssets` checks complete native state coverage, model/texture links,
-recipes, wood tags and door loot. The generated guava texture preview was
-inspected. The user subsequently confirmed compilation and gameplay for this
-release. The individual cases above remain useful regression checks, rather
-than separately reported test results.
-
-Try `/bunnidogs warren 3 surface` and `5 surface` on open flat ground; inspect
-rooms beneath landmarks, follow the hall loop, and use house/market/farm ramps.
-In a cave or the Nether try `/bunnidogs warren 1` (no `surface`); in the End try
-`/bunnidogs warren 5 surface`. Find fresh natural villages with
-`/locate structure bunnidogs:warren_village` or
-`/locate structure bunnidogs:warren_end_village`, cross chunk borders and reload.
-Use `/time set 13000` and inspect dogs' `NestX/Y/Z` for home behavior.
-See `docs/WARREN_PLAN.md` sections 16–18 for the new generation details.
-
-## Earlier gameplay status and pending work
-
-The current art work does not establish that every older gameplay feature works.
-The historical ledger is `docs/CHUNKS.md`; its old NOT COMPILED labels describe
-evidence at delivery, not the current ability to build the project.
-
-- U6a adds the warren-entry advancement. Test in a naturally generated structure
-  (use `/locate structure bunnidogs:warren_village`); the feature generated with
-  `/bunnidogs warren 1 surface` does not trigger a structure advancement.
-- U1 adds a level-1 surface den, 3–4 Nests, lantern and entrance mounds around
-  the tree, falling back to old holes on unsuitable ground. H3b adds house Nests.
-  Runtime pathfinding and home claims remain unconfirmed. Test
-  `/bunnidogs warren 1 surface` on flat grass: enter the mounds, descend to the
-  lit den, inspect nearby dogs' `NestX/Y/Z`, and set time to 13000 for sleeping.
-  Levels 3–5 should also have claimable house Nests.
-- Earlier user reports are preserved in the ledger. D7b, 7a and 6h had compile
-  confirmation without itemized gameplay reports. Do not infer new evidence.
-- U1–U7, Diet D1–D4, W1–W4 and H5 transport/rehoming are implemented;
-  coherent new work is authorized under the user's broader design
-  permission. See `docs/ROADMAP.md`.
-
-## Document map
-| Job | Open |
+| Area | Current behavior and specification |
 |---|---|
-| Status of any chunk, one line each | `docs/CHUNKS.md` (detail: grep the id in `docs/history/CHUNKS_FULL.md`) |
-| What to build next, prerequisites | `docs/ROADMAP.md` |
-| A Minecraft/NeoForge API name | `docs/API_NOTES.md` (QUICK INDEX, top; grep the lookup table) |
-| Project layout, conventions, self-check details, art pipeline, dev environment, user preferences in full | `docs/REFERENCE.md` |
-| How a feature is used in game (player view) | `docs/FEATURES.md` |
-| Why the game is designed this way, decisions per chunk | `docs/DESIGN.md` (Contents at the top; `grep -n '^## ' docs/DESIGN.md`) |
-| Warren redesign: mouths, dens, tunnels, cellars (U1-U7) | `docs/WARREN_PLAN.md` (U1–U7 implemented) |
-| Homes / Nests / H-chunks | `docs/HOME_SPECS.md` (H1–H5 and H3b implemented) |
-| Living samples, woolly fleece and inherited environmental protection | `docs/CARE_SPECS.md` |
-| Donor-allele introgression, Gene Splicer controls/costs | `docs/SPLICER_SPECS.md` |
-| Stable bred-line registration and qualification | `docs/REGISTRY_SPECS.md` |
-| Judging Stand, show tiers and winning ribbon snapshots | `docs/SHOW_SPECS.md` |
-| Feeding Trough and daytime bell gatherings | `docs/SETTLEMENT_LIFE.md` |
-| Genetics Table | `docs/TABLE_SPECS.md` (T1–T4 implemented; current evidence at top) |
-| Drops / loot | `docs/DROPS_PLAN.md` (why) + `docs/DROPS_SPECS.md` (numbers, wins). All of D1-D8 done |
-| Pedigree Book, Calipers window, "the sheet" | `docs/SHEET_SPECS.md` (S1-S8 done; wins over older Phase 8 notes) |
-| Wood (W1–W4 done), villages (V1 done), diets (D1–D4 implemented) | `docs/FIXES_PLAN.md` sections 4, 5, 6 (V2 superseded by HOME_SPECS) |
-| Old phase status, old session notes, old roadmap, old API research | `docs/history/` (never needed to continue) |
+| Genetics and breeding | Seven genes, inherited pairs, bred stats/Bloom, eight guava tiers, litter seeds/crops, infused juice. `docs/FEATURES.md`, `docs/FIXES_PLAN.md` 6 |
+| Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets and forecasts. `docs/SHEET_SPECS.md` S1–S8 |
+| Laboratory | Two sample slots, vial display, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T6 |
+| Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
+| Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
+| Care | Live Tissue Samples, woolly fleece, whiskers/dust, saved recoveries and sneak-Calipers care/work status. `docs/CARE_SPECS.md` C1–C5 |
+| Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow and terrain movement. `docs/CARE_SPECS.md` A1–A4 |
+| Homes | Claimable Nests, day tether/night return, floor Nests, native leads/rides, safe led-adult reassignment. `docs/HOME_SPECS.md` H1–H5 |
+| Settlement life | Saved trough stock, diet healing, noon bell visits, fitted den furniture, hoe-controlled gardening and local stores. `docs/SETTLEMENT_LIFE.md` L1–L6 |
+| Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
+| Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
+| Drops and endgame | Pelts/materials, Mutagen/Marrow/Tissue/Dust, five stat legends and pedestals. Sample-defined Apex ritual, inherited combat, warned attacks/enrage, boss bar and source-line crest. `docs/DROPS_SPECS.md`, `docs/APEX_SPECS.md` |
+| Apex preparation | Crucible missing-offering status; main-hand Calipers/off-hand sample forecasts real boss values without spending or spawning. `docs/APEX_SPECS.md` P2 |
+
+## Save and implementation constraints
+
+- Keep gene/allele IDs append-only. Old six-pair data loads with plain/plain
+  Diet; current genomes use seven pairs / 56 bits and mask the signed high sync
+  word. Current network protocol is **6**; matching client/server versions apply.
+- Preserve whole item components in samples, books, table slots, vehicles,
+  troughs and trophies. Existing inventories and containers are never restocked.
+- Structures save fitted tunnel cells, path exclusions, labels and optional
+  `LifeFixtures`; column-owned underground writes preserve later containers,
+  fluids and hard blocks. Surface props remain anchor-owned. `WoodDetails` and
+  `WarrenVersion` preserve old starts; do not regenerate existing villages.
+- Native terrain fitting can omit unsafe rooms, ramps, furniture or networks.
+  Floor Nests, exits, water containment and existing player edits must stay safe.
+- Named transient genetic modifiers preserve external attributes and reapply
+  after native load. Care/food/work rest saves remaining ticks and pauses while
+  unloaded. Apex is excluded from domestic tools, breeding, Nests and transport.
+
+## Approved visuals
+
+The sole model is approved **Low**, 2,172 quads / 8,688 vertices with twelve
+512px coat atlases. Preserve the photographic baby face, human/rabbit ears,
+compact robust body, outward paws, short fur and source imperfections. Do not
+restore tiers, distance switching or graphics configuration. Sources:
+`art/sculpt_bunnidog.py`, `art/gen_bunnidog.py`, `art/reference/`.
+
+The latest head-lighting fix uses authored surface-derivative normals and one
+continuous front UV chart; no geometry was added. Closely spaced front-ring
+normal change fell from 0.478 to 0.038. Software preview inspected. The user's
+prior Low/Ultra screenshots establish earlier rendering; final client lighting
+and performance of the fix remain gameplay review. See `docs/BUNNIDOG_MODEL.md`
+and `docs/GRAPHICS.md`. This continuation does not alter creature geometry,
+atlases, renderer or animation.
+
+## Validation and evidence
+
+Use actual Java 25 compilation. In the current workspace:
+
+```sh
+source /workspace/.bunnidog-setup/activate.sh
+./gradlew build runGameTestServer --no-daemon
+```
+
+`build` includes focused diet, breeding-lab, wood/boat asset and warren checks.
+Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions runs
+`build checkBunnidogModel runGameTestServer` before uploading its commit artifact.
+Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
+requires it; do not repeat passing checks without a relevant change or concern.
+
+L5, C5, L6 and A4 pass actual builds and native server cases. L5 covers fitted/
+fallback/legacy farms and shared work status; C5 exact combined products and
+inventory overflow; L6 actual loot for all eight lineages and container saves/
+preservation; A4 real collision stepping and native slow-block math. The final
+Diet D5 run passes all **twenty** native scenarios (nineteen mod + native sanity),
+including a real shore-fish kill, exact healing and saved meal recovery. Its
+fixture allows native melee's twenty-tick startup window and keeps the bank dry.
+Farm and affected guide previews inspected. Each published checkpoint's GitHub
+build also checks the approved model before making an artifact.
+
+Native tests establish server behavior, not complete client or natural-world
+play. Remaining review includes client interaction/lighting/book fonts, natural
+chunk order/travel/unload, long multiplayer routines and progression balance.
+Native sign validity/tickers/text/color/glow/wax, boat inventory/drop/save,
+transport/home tickets, care/tools, laboratory/show/registry and Apex encounter
+checks already pass. Keep their evidence in the relevant specs.
+
+Earlier user feedback: U2/U3 received “good, works well”; the six-stage `d7f39a9`
+release (U4/U5/U6b/T4/W3/V1c) received “everything compiled and worked this run”.
+Individual edge cases were not itemized. These reports do not confirm newer
+features. U6a's entry advancement needs a natural structure rather than a
+command feature; U1/H3b natural home/den review remains useful.
+
+## Continuing
+
+`docs/ROADMAP.md` lists optional next work; coherent additions beyond it are
+already authorized. Prefer useful habitat/resident behavior or clarity, define
+bounded rules first, and complete meaningful batches through build and delivery.
+For terrain review use `/bunnidogs warren 1 surface`, `3 surface`, `5 surface`,
+cave/Nether `1`, End `5 surface`, and natural structure lookup:
+`/locate structure bunnidogs:warren_village` or `bunnidogs:warren_end_village`.
+
+API lookups: `docs/API_NOTES.md`. Player reference: `docs/FEATURES.md`.
+Conventions/art/environment: `docs/REFERENCE.md`. Original decisions and old
+chunk evidence: `docs/DESIGN.md`, `docs/CHUNKS.md`, `docs/history/`.

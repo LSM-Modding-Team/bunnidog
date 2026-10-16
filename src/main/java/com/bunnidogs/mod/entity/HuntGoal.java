@@ -8,7 +8,7 @@ import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.player.Player;
 
-/** A wounded hunter adult takes one reachable adult prey near its claimed Nest; never overrides retaliation. */
+/** A wounded hunter/fisher adult takes matching reachable prey near its Nest; never overrides retaliation. */
 final class HuntGoal extends MeleeAttackGoal {
     private final Bunnidog dog;
     private LivingEntity prey;
@@ -19,19 +19,23 @@ final class HuntGoal extends MeleeAttackGoal {
 
     private boolean valid(LivingEntity candidate) {
         return candidate.isAlive() && this.dog.foodWithinHome(candidate.blockPosition())
-                && Foraging.prey(candidate.is(ModDietTags.PREY), candidate.isBaby(),
+                && Foraging.prey(candidate.is(this.dog.diet().fishes() ? ModDietTags.FISH_PREY : ModDietTags.PREY), candidate.isBaby(),
                         candidate instanceof Player, candidate instanceof Bunnidog,
                         candidate instanceof TamableAnimal tame && tame.isTame(), this.dog.isAlliedTo(candidate));
     }
 
     @Override public boolean canUse() {
-        if (!this.dog.diet().hunts() || !this.dog.canForage() || this.dog.getTarget() != null
+        if (!this.dog.diet().seeksPrey() || !this.dog.canForage() || this.dog.getTarget() != null
                 || this.dog.level().getGameTime() < this.nextSearch) return false;
         this.nextSearch = this.dog.level().getGameTime() + Foraging.SEARCH_INTERVAL;
         this.prey = this.dog.level().getEntitiesOfClass(LivingEntity.class, this.dog.getBoundingBox().inflate(Foraging.SEARCH_RADIUS), this::valid)
                 .stream().filter(p -> this.dog.getSensing().hasLineOfSight(p))
                 .sorted(Comparator.comparingDouble(p -> this.dog.distanceToSqr(p))).limit(4)
-                .filter(p -> { var path = this.dog.getNavigation().createPath(p,0); return path != null && path.canReach(); })
+                .filter(p -> {
+                    if (this.dog.isWithinMeleeAttackRange(p)) return true;
+                    var path = this.dog.getNavigation().createPath(p,0);
+                    return path != null && path.canReach();
+                })
                 .findFirst().orElse(null);
         if (this.prey == null) return false;
         // Super's actual path test decides whether the selected prey can be pursued.
@@ -42,7 +46,7 @@ final class HuntGoal extends MeleeAttackGoal {
     }
 
     @Override public boolean canContinueToUse() {
-        return this.prey != null && this.dog.getTarget() == this.prey && this.dog.canForage() && this.dog.diet().hunts()
+        return this.prey != null && this.dog.getTarget() == this.prey && this.dog.canForage() && this.dog.diet().seeksPrey()
                 && this.valid(this.prey) && this.ticks < Foraging.HUNT_TICKS && super.canContinueToUse();
     }
     @Override public void start() { this.ticks = 0; super.start(); }

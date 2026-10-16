@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 27 pages from first warren to Apex, with clickable chapter/contents links.
+open 30 pages from first warren to Apex, with clickable chapter/contents links.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 
@@ -32,15 +32,33 @@ expressed glow coat stays bright in darkness; a hidden copy does not. It lights
 the animal rather than nearby blocks. Crossbreeding can combine coat/build/leg
 benefits. Gene hovers explain them, including on samples and forecasts.
 
+**Terrain traits (A4):** hoofed adults walk up one-block ledges and keep their
+half fall damage. Fleet legs reduce soul-sand/honey slowing by 25%, lean builds
+by 50%; the two combine to 75%. Cobwebs, Slowness and other hazards remain.
+
+**Shore fishing (Diet D5):** injured adult Fishers can hunt reachable cod,
+salmon and tropical fish near their Nest by day. A selected kill heals 4 HP and
+starts the shared 30-second food rest. They leave land prey/pufferfish alone;
+full health, night, leads/rides and combat pause hunting.
+
+**Local supplies (L6):** search new feed stores, markets and underground
+pantries for guavas and local foods, such as tundra fish, cave glow berries,
+swamp mushrooms, Nether wart/fungi and End chorus fruit. The independent 35%
+Field Guide chance remains. Existing or emptied barrels never refill.
+
 **Resident gardens (L3/L4):** newly fitted dens have a trough with two starter
 guavas, and levels 3–5 also fit a central gathering bell. Use a hoe on any trough
-to toggle gardening (green markers = on). Healthy adult residents with a Nest
+to toggle gardening (green markers = on). Fully healthy adult residents with a Nest
 can gather matching ripe food within three blocks, one item per minute of work
 recovery. Keep walking space beside the trough and mob griefing enabled. Crops
 reset rather than breaking; food enters the trough, with no seed/bonus drops.
 Old/crafted troughs start off. New generated ones start on. Empty a guava-stocked
 trough before asking it to store another food. Existing stock never refills by
 generation. Foods still follow the gardener's expressed Diet.
+New farms may fit an empty enabled trough in one corner, retaining seven crops
+inside the same footprint. Blocked walking space keeps the old eight-crop farm.
+Sneak-use Calipers for gardening blockers and recovery; ready means ready to
+search for an enabled trough, compatible ripe food and a safe route (L5).
 
 **Settlement life (L1/L2):** craft a Feeding Trough with seven planks and one
 iron ingot (`P P/PIP/PPP`). Add food in the main hand, inspect empty-handed,
@@ -51,7 +69,7 @@ gather around nearby vanilla bells at noon; visits stop for injury, danger,
 leads/rides and night. Place a bell within 12 blocks of home with walking space.
 
 **Care status (C4):** sneak-use Calipers on a bunnidog to see sampling, fleece,
-grooming and splicing readiness in chat, including recovery times and eligibility
+grooming, splicing and gardening readiness in chat, including recovery times and eligibility
 requirements. Normal use opens its genetics sheet as before. The readout is a
 snapshot and costs nothing.
 
@@ -64,10 +82,12 @@ Awards keep the animal alive and led. Each animal gets its highest tier once;
 reloads and other stands cannot repeat it. Use a ribbon in air to read the
 winner, or display it on a Trophy Pedestal. Gold earns Champion Line once.
 
-**Grooming (Care C3):** use a vanilla Brush on a healthy adult with +10 bred
-Senses for one loose whisker, at one durability and ten minutes of recovery.
-Pups and animals below half health refuse. This neither harms the animal nor
-changes its genes or points; the existing whisker recipes work normally.
+**Grooming (Care C3/C5):** use a vanilla Brush on an adult at least half healthy.
+Senses +10 gives one loose whisker, expressed glow gives one glowstone dust,
+and expressed starborn with Bloom +20 gives one Starlit Dust. All qualifying
+products arrive together for one durability and ten minutes of shared recovery.
+Pups refuse. Health, genes and points stay intact; full inventories drop the
+products normally. Hidden copies do not yield dust.
 
 **More inherited protection (A2):** moss coats resist Poison, sand coats resist
 cactus damage, and void coats resist Levitation. Each requires the expressed

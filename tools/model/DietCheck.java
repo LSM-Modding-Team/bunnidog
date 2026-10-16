@@ -89,6 +89,8 @@ public final class DietCheck {
         require(Foraging.canGraze(Diet.GRAZER,Foraging.Meal.WHEAT,true) && !Foraging.canGraze(Diet.GRAZER,Foraging.Meal.PRODUCE,true),"Grazers eat wheat, not root crops");
         require(Foraging.canGraze(Diet.FORAGER,Foraging.Meal.PRODUCE,true) && !Foraging.canGraze(Diet.FORAGER,Foraging.Meal.HAY,true),"Foragers eat produce, not hay");
         require(!Foraging.canGraze(Diet.PLAIN,Foraging.Meal.HAY,true) && Diet.OMNIVORE.hunts() && Diet.MOUNTAIN_GRAZER.grazesHay(),"Diet activities follow expressed food preferences");
+        require(Diet.FISHER.fishes() && Diet.FISHER.seeksPrey() && !Diet.FISHER.hunts()
+                && !Diet.HUNTER.fishes() && !Diet.OMNIVORE.fishes(),"Fishing must retain its own food/prey preference");
         require(Foraging.prey(true,false,false,false,false,false),"Tagged adult prey is eligible");
         require(!Foraging.prey(false,false,false,false,false,false),"Untagged creatures are not prey");
         for (int flag = 1; flag < 6; flag++) {

@@ -55,7 +55,7 @@ public final class GuavaGameTest extends GameTestInstance {
     @SubscribeEvent
     public static void registerTests(RegisterGameTestsEvent event) {
         var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.AllOf());
-        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "show", "grooming", "settlement", "apex", "fixtures", "gardening", "pantry"}) {
+        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "show", "grooming", "settlement", "apex", "fixtures", "gardening", "pantry", "fishing"}) {
             event.registerTest(id(name), new GuavaGameTest(name, new TestData<>(environment, id("empty"), 100, 0, true)));
         }
     }
@@ -77,6 +77,7 @@ public final class GuavaGameTest extends GameTestInstance {
             case "fixtures" -> com.bunnidogs.mod.worldgen.FixturesGameTest.run(h);
             case "pantry" -> com.bunnidogs.mod.worldgen.PantryGameTest.run(h);
             case "gardening" -> { GardeningGameTest.run(h); return; }
+            case "fishing" -> { FishingGameTest.run(h); return; }
             case "grooming" -> GroomingGameTest.run(h);
             case "settlement" -> { SettlementGameTest.run(h); return; }
             case "transport" -> transport(h);

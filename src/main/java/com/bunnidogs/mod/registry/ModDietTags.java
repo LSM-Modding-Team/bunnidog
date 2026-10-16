@@ -21,6 +21,8 @@ public final class ModDietTags {
                     name -> TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(BunnidogsMod.MODID, "diet/" + name))));
     public static final TagKey<EntityType<?>> PREY = TagKey.create(Registries.ENTITY_TYPE,
             Identifier.fromNamespaceAndPath(BunnidogsMod.MODID, "prey"));
+    public static final TagKey<EntityType<?>> FISH_PREY = TagKey.create(Registries.ENTITY_TYPE,
+            Identifier.fromNamespaceAndPath(BunnidogsMod.MODID, "fishing_prey"));
     public static boolean accepts(Diet diet, ItemStack stack) {
         return diet.tags().stream().anyMatch(name -> stack.is(FOODS.get(name)));
     }

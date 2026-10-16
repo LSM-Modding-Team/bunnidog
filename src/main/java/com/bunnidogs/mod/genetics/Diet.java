@@ -9,7 +9,7 @@ public enum Diet {
     FORAGER("forager", "Carrots, potatoes, beetroot, apples and berries.", List.of("forager")),
     HUNTER("hunter", "Raw meat; wounded adults hunt small prey near their Nest.", List.of("hunter")),
     OMNIVORE("omnivore", "Grazer, forager and hunter foods; can graze and hunt.", List.of("grazer", "forager", "hunter")),
-    FISHER("fisher", "Raw fish.", List.of("fisher")),
+    FISHER("fisher", "Raw fish; wounded adults hunt reachable fish near their Nest.", List.of("fisher")),
     DESERT_BROWSER("desert_browser", "Cactus and dried kelp.", List.of("desert")),
     MUSHROOM_EATER("mushroom_eater", "Red and brown mushrooms.", List.of("swamp")),
     CAVE_FORAGER("cave_forager", "Glow berries.", List.of("cave")),
@@ -29,6 +29,8 @@ public enum Diet {
     public boolean grazesHay() { return tags.contains("grazer"); }
     public boolean grazesCrops() { return grazesHay() || tags.contains("forager"); }
     public boolean hunts() { return tags.contains("hunter"); }
+    public boolean fishes() { return this == FISHER; }
+    public boolean seeksPrey() { return hunts() || fishes(); }
     public static Diet of(Genome genome) { return named(genome.expressed(Gene.DIET).name()); }
     public static Diet named(String key) {
         for (Diet diet : values()) if (diet.key.equals(key)) return diet;
