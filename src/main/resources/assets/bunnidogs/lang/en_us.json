@@ -98,5 +98,18 @@
   "tooltip.bunnidogs.syringe.recovery": "Five minutes of recovery between samples.",
   "message.bunnidogs.sampling.hurt": "Help this bunnidog recover to at least half health first.",
   "message.bunnidogs.sampling.wait": "This bunnidog needs %s more seconds before sampling.",
-  "message.bunnidogs.sampling.taken": "Tissue Sample collected."
+  "message.bunnidogs.sampling.taken": "Tissue Sample collected.",
+  "item.bunnidogs.gene_splicer": "Gene Splicer",
+  "tooltip.bunnidogs.gene_splicer.select": "Sneak-use to select a gene.",
+  "tooltip.bunnidogs.gene_splicer.donor": "Other hand: donor Tissue Sample. Use on a healthy adult.",
+  "tooltip.bunnidogs.gene_splicer.cost": "Costs one sample and one Mutagen per splice.",
+  "tooltip.bunnidogs.gene_splicer.copy": "Copies one allele; breed to fix the trait. Bred stats stay.",
+  "message.bunnidogs.splice.selected": "Selected gene: %s",
+  "message.bunnidogs.splice.health": "Splicing needs an adult at least half healthy.",
+  "message.bunnidogs.splice.wait": "This bunnidog needs %s more seconds before another splice.",
+  "message.bunnidogs.splice.donor": "Hold a donor Tissue Sample in the other hand.",
+  "message.bunnidogs.splice.carried": "This bunnidog already carries that allele. Breed to fix the trait.",
+  "message.bunnidogs.splice.mutagen": "Carry one Mutagen for this splice.",
+  "message.bunnidogs.splice.done": "Spliced %s: %s. The donor allele may be carried without showing.",
+  "tooltip.bunnidogs.gene_splicer.slot": "Replaces the less dominant copy of the selected gene."
 }

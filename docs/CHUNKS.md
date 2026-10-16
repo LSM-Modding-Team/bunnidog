@@ -6,6 +6,7 @@ Full text of every chunk (files, decisions, compile risks): `docs/history/CHUNKS
 
 | Chunk | What | Status |
 |---|---|---|
+| G1 | Gene Splicer inserts one donor expressed allele; selected gene/component, Mutagen/sample cost, preserved stats, recovery and saves | BUILD + FOCUSED SERVER/GENETICS CASE PASS; new icon preview inspected; client gameplay pending |
 | Care C2 | Native shears gather two wool from healthy woolly adults; saved ten-minute regrowth and synced readiness | BUILD + SERVER GAMETEST PASS; client gameplay pending |
 | A1 | Expressed ember fire immunity, snow/woolly freeze protection and hoofed fall reduction; gene explanations | BUILD + NATIVE DAMAGE GAMETEST PASS; client gameplay pending |
 | Care C1 | Reusable non-lethal Sampling Syringe, existing sample data, health/recovery gates, saved five-minute recovery | BUILD + SERVER GAMETEST PASS; new icon preview inspected; client gameplay pending |

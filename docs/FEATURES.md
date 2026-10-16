@@ -63,10 +63,20 @@ can be sampled too. It has 32 uses; a dog needs five minutes between samples.
 The ordinary sample works with Calipers and the Genetics Table. Recovery is
 saved, and refusal costs no durability.
 
+**Gene Splicer (G1):** craft `DMD / CIC /  I ` using diamonds, Mutant Marrow,
+copper and iron, or `/give @s bunnidogs:gene_splicer`. Sneak-use to select a
+gene. Hold a donor Tissue Sample in the other hand, carry a Mutagen, then use
+the tool on a healthy adult. It copies the donor's expressed allele into the
+recipient's less-dominant copy, preserving its bred stats and relative health.
+Already-carried alleles are refused: breed carriers to make a trait homozygous.
+One successful splice costs a sample, Mutagen and one of 16 tool uses; the animal
+needs one minute before another splice. Tool selection and recovery are saved.
+Server checks pass; client interaction is pending. See `docs/SPLICER_SPECS.md`.
+
 **Woolly fleece (Care C2):** healthy adults expressing woolly build yield two
 white wool with vanilla shears, then regrow it in ten minutes. Pups and ordinary
 builds cannot be sheared. Health, genes and the approved model stay intact.
-Recovery persists across saves; both sides need the updated version 5 protocol.
+Recovery persists across saves; both sides need the current version 6 protocol.
 
 **Inherited adaptations (A1):** ember coats resist fire and lava; snow coats
 and woolly builds cannot freeze in powder snow; hoofed legs halve fall damage.
@@ -185,7 +195,7 @@ grazers accept hay/wheat/grass, foragers accept produce/berries, hunters accept
 raw meat, and the rare omnivore combines those three. Wild lineages also have
 fish, desert plants, mushrooms, glow berries, mountain greenery, Nether fungi
 or chorus diets. Old animals/items gain plain Diet and retain their old genes.
-Both server and client need this update (network version 4).
+Both server and client need the current matching update (network version 6).
 
 **Food near home:** injured adults with a claimed Nest can seek meals by day,
 within 16 blocks of the Nest. Grazers nibble hay, grass or ripe wheat; foragers

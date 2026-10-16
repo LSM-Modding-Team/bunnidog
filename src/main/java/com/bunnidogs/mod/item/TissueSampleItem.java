@@ -20,7 +20,7 @@ import net.minecraft.world.item.component.TooltipDisplay;
  * The Tissue Sample (drops D7a, docs/DROPS_SPECS.md 2.5): a vial holding the genes of the bunnidog that dropped it, in the data
  * component {@code bunnidogs:tissue_data} ({@link Tissue#toString()}, the same pattern as the seed and the infused juice). It does
  * nothing by itself: hold it in one hand and the Calipers in the other, right-click the air, and the Calipers read it
- * ({@link CalipersItem#use}). The Gene Splicer of a later chunk will use it as an ingredient.
+ * ({@link CalipersItem#use}). The Gene Splicer consumes it as a donor; a Sampling Syringe can collect it non-lethally.
  */
 public class TissueSampleItem extends Item {
     public TissueSampleItem(Properties properties) {

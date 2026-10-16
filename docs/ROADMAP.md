@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+G1 implements the Gene Splicer: one donor expressed allele enters a selected
+gene at a sample/Mutagen/tool cost, preserving bred stats and requiring breeding
+to fix a homozygote. Selection and recovery persist. Native server interaction
+and focused genetics/material/save checks pass; client gameplay is pending.
+See `SPLICER_SPECS.md`.
+
 U8 adds saved, chunk-owned guava room/exit labels to newly planned warrens,
 preserving old starts and player edits. Care C1/C2 adds a non-lethal Sampling
 Syringe and renewable wool from healthy woolly adults. A1 gives expressed
@@ -56,4 +62,4 @@ filling a quota, and honor any explicit pause in the current request.
 | Additional lineage behavior | Useful cave/swamp/End adaptations beyond current fire/cold/fall rules | A1 | Follow expressed genes; preserve native hazards and breeding tradeoffs |
 
 ## Ideas without a spec (design before implementing)
-Gene Splicer / Purebred registry / Show Ring / Apex boss (the old "Phase 6 artificial lineage tools"); settlement life (the old 6d); further renewable materials and lineage adaptations. Native leads and Nest reassignment are implemented as H5; live tissue samples, woolly fleece and fire/cold/fall adaptations are C1/C2/A1. More ideas: `docs/DESIGN.md`, section "Ideas".
+Purebred registry / Show Ring / Apex boss (the remaining old "Phase 6 artificial lineage tools"); settlement life (the old 6d); further renewable materials and lineage adaptations. Gene Splicer G1 is implemented; a future table preview is a useful candidate. Native leads and Nest reassignment are H5; live tissue samples, woolly fleece and fire/cold/fall adaptations are C1/C2/A1. More ideas: `docs/DESIGN.md`, section "Ideas".

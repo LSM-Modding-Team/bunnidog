@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_marrow": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "bunnidogs:mutant_marrow"
+          }
+        ]
+      }
+    },
+    "has_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bunnidogs:gene_splicer"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_marrow",
+      "has_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:gene_splicer"
+    ]
+  }
+}

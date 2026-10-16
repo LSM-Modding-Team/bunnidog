@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DMD",
+    "CIC",
+    " I "
+  ],
+  "key": {
+    "D": "minecraft:diamond",
+    "M": "bunnidogs:mutant_marrow",
+    "C": "minecraft:copper_ingot",
+    "I": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "bunnidogs:gene_splicer"
+  }
+}

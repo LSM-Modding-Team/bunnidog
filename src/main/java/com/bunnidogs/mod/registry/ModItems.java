@@ -15,6 +15,7 @@ import com.bunnidogs.mod.genetics.Seed;
 import com.bunnidogs.mod.genetics.Stats;
 import com.bunnidogs.mod.item.CalipersItem;
 import com.bunnidogs.mod.item.SyringeItem;
+import com.bunnidogs.mod.item.GeneSplicerItem;
 import com.bunnidogs.mod.item.EarTagItem;
 import com.bunnidogs.mod.item.GuavaItem;
 import com.bunnidogs.mod.item.JuiceItem;
@@ -117,6 +118,9 @@ public final class ModItems {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> SEED_DATA =
             COMPONENTS.registerComponentType("seed_data",
                     builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SPLICE_GENE =
+            COMPONENTS.registerComponentType("splice_gene",
+                    builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.VAR_INT));
 
     /** The bunnidog seed (Phase 4c). Create stacks with {@link SeedItem#create(Seed)}, read them with {@link SeedItem#read}. */
     public static final DeferredItem<SeedItem> SEED = ITEMS.registerItem("seed", SeedItem::new, props -> props);
@@ -174,6 +178,8 @@ public final class ModItems {
     public static final DeferredItem<CalipersItem> CALIPERS = ITEMS.registerItem("calipers", CalipersItem::new, props -> props.stacksTo(1));
     public static final DeferredItem<SyringeItem> SYRINGE = ITEMS.registerItem("syringe", SyringeItem::new,
             props -> props.durability(com.bunnidogs.mod.genetics.Sampling.TOOL_USES));
+    public static final DeferredItem<GeneSplicerItem> GENE_SPLICER = ITEMS.registerItem("gene_splicer",GeneSplicerItem::new,
+            props -> props.durability(com.bunnidogs.mod.genetics.Splicing.TOOL_USES).rarity(Rarity.RARE));
 
     /** The Ear Tag (Phase 5d): clip it on a bunnidog for a permanent registration code. Crafted from an iron nugget and paper (data/bunnidogs/recipe/ear_tag.json). */
     public static final DeferredItem<EarTagItem> EAR_TAG = ITEMS.registerItem("ear_tag", EarTagItem::new, props -> props);
@@ -315,6 +321,7 @@ public final class ModItems {
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(CALIPERS.get());
             event.accept(SYRINGE.get());
+            event.accept(GENE_SPLICER.get());
             event.accept(GUAVA_BOAT.get());
             event.accept(GUAVA_CHEST_BOAT.get());
             event.accept(PEDIGREE_BOOK.get());

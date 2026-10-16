@@ -37,7 +37,8 @@ client gameplay review.
 - `FleeceWait` saves clamped remaining ticks. A synced readiness boolean handles
   client prediction and becomes ready when server time reaches the deadline.
   Missing old data means ready; regrowth pauses across unloading. Network version
-  5 requires matching updated clients and server.
+  5 introduced that sync; current protocol 6 also includes splicer selection and
+  requires matching updated clients and server.
 
 ## A1: Expressed environmental adaptations
 

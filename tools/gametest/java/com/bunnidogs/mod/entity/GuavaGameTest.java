@@ -55,7 +55,7 @@ public final class GuavaGameTest extends GameTestInstance {
     @SubscribeEvent
     public static void registerTests(RegisterGameTestsEvent event) {
         var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.AllOf());
-        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece"}) {
+        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing"}) {
             event.registerTest(id(name), new GuavaGameTest(name, new TestData<>(environment, id("empty"), 100, 0, true)));
         }
     }
@@ -69,6 +69,7 @@ public final class GuavaGameTest extends GameTestInstance {
             case "sampling" -> SamplingGameTest.run(h);
             case "adaptations" -> AdaptationsGameTest.run(h);
             case "fleece" -> { FleeceGameTest.run(h); return; }
+            case "splicing" -> SplicingGameTest.run(h);
             case "transport" -> transport(h);
             case "rehoming" -> { rehoming(h); return; }
             default -> h.fail("Unknown integration scenario: " + this.scenario);

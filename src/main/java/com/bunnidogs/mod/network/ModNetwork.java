@@ -21,7 +21,7 @@ public final class ModNetwork {
     private ModNetwork() {}
 
     /** The network version: bump it when a payload changes shape. */
-    public static final String VERSION = "5";
+    public static final String VERSION = "6";
 
     public static void register(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar(VERSION);
