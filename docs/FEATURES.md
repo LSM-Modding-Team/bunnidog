@@ -118,7 +118,30 @@ Vanilla handles dyes, glow ink, ink sacs and honeycomb waxing. Breaking a wall
 form returns its corresponding sign item. Recipes unlock from the matching
 wood; stacks hold 16. Build/resource checks pass and the texture preview was
 inspected; in-game interactions and text persistence need gameplay review.
-Regenerate assets with `python3 art/gen_wood_signs.py`. Boats remain pending.
+Regenerate assets with `python3 art/gen_wood_signs.py`. Server GameTests now
+confirm native sign validity/tickers and both text faces, colors, glow and wax
+through save/load; actual client editing and placement still need review.
+
+**Guava boats (W4b):** craft a two-seat boat with five guava planks (`P P / PPP`),
+then combine it with a chest for a one-seat boat with 27 inventory slots. Both
+are in Tools & Utilities; commands are `/give @s bunnidogs:guava_boat` and
+`/give @s bunnidogs:guava_chest_boat`. Native vehicle rules handle paddles,
+passengers, chest access and drops. The hull/paddles use guava wood; the chest
+retains its native appearance. Server tests cover seats, names, inventory and
+genetic item data across save/load, and exact destruction drops. Texture preview
+inspected; client rowing/menu use remains pending. Regenerate with
+`python3 art/gen_wood_boats.py`.
+
+**Moving a bunnidog (H5):** native leads and boat rides suspend home/food
+navigation and Nest searches while preserving its home. Let it off the lead or
+boat and normal behavior resumes. To move its home, lead it to a free Nest and
+right-click the Nest with an empty hand or a lead. This moves the nearest led
+adult within eight blocks, provided it can reach the Nest. One click moves one
+resident; an occupied/unreachable Nest leaves the old home intact. The lead
+stays attached, and a quiet click/action-bar message confirms success. Pups
+cannot claim a Nest. The old Nest becomes available only after a successful
+move. Server interaction and ticket tests pass; manual multiplayer use remains
+pending.
 
 **House details (V1c):** new level 2–5 houses have guava doors, initially open.
 Level 4 cottages gain glass windows; levels 4–5 have shutters, and level 5 has a

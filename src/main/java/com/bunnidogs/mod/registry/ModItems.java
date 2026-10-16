@@ -35,6 +35,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.HangingSignItem;
+import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
@@ -149,6 +150,10 @@ public final class ModItems {
             props -> new SignItem(ModBlocks.GUAVA_SIGN.get(), ModBlocks.GUAVA_WALL_SIGN.get(), props), props -> props.stacksTo(16));
     public static final DeferredItem<HangingSignItem> GUAVA_HANGING_SIGN = ITEMS.registerItem("guava_hanging_sign",
             props -> new HangingSignItem(ModBlocks.GUAVA_HANGING_SIGN.get(), ModBlocks.GUAVA_WALL_HANGING_SIGN.get(), props), props -> props.stacksTo(16));
+    public static final DeferredItem<BoatItem> GUAVA_BOAT = ITEMS.registerItem("guava_boat",
+            props -> new BoatItem(ModEntities.GUAVA_BOAT.get(), props), props -> props.stacksTo(1));
+    public static final DeferredItem<BoatItem> GUAVA_CHEST_BOAT = ITEMS.registerItem("guava_chest_boat",
+            props -> new BoatItem(ModEntities.GUAVA_CHEST_BOAT.get(), props), props -> props.stacksTo(1));
     /** The Trophy Pedestal (drops D8a). */
     public static final DeferredItem<BlockItem> TROPHY_PEDESTAL = ITEMS.registerSimpleBlockItem(ModBlocks.TROPHY_PEDESTAL);
 
@@ -306,6 +311,8 @@ public final class ModItems {
         }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(CALIPERS.get());
+            event.accept(GUAVA_BOAT.get());
+            event.accept(GUAVA_CHEST_BOAT.get());
             event.accept(PEDIGREE_BOOK.get());
             event.accept(EAR_TAG.get());
             event.accept(WornEarTagItem.create("BD-3F7A2C"), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);

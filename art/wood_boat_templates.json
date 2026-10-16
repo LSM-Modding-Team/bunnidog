@@ -1,0 +1,114 @@
+{
+  "source": "Minecraft 26.2 native boat items, recipes and recipe-book unlocks.",
+  "files": {
+    "assets/minecraft/items/oak_boat.json": {
+      "model": {
+        "type": "minecraft:model",
+        "model": "minecraft:item/oak_boat"
+      }
+    },
+    "assets/minecraft/models/item/oak_boat.json": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "minecraft:item/oak_boat"
+      }
+    },
+    "data/minecraft/recipe/oak_boat.json": {
+      "type": "minecraft:crafting_shaped",
+      "group": "boat",
+      "key": {
+        "#": "minecraft:oak_planks"
+      },
+      "pattern": [
+        "# #",
+        "###"
+      ],
+      "result": {
+        "id": "minecraft:oak_boat"
+      }
+    },
+    "data/minecraft/advancement/recipes/transportation/oak_boat.json": {
+      "parent": "minecraft:recipes/root",
+      "criteria": {
+        "has_the_recipe": {
+          "conditions": {
+            "recipe": "minecraft:oak_boat"
+          },
+          "trigger": "minecraft:recipe_unlocked"
+        },
+        "in_water": {
+          "conditions": {
+            "block": "minecraft:water"
+          },
+          "trigger": "minecraft:enter_block"
+        }
+      },
+      "requirements": [
+        [
+          "has_the_recipe",
+          "in_water"
+        ]
+      ],
+      "rewards": {
+        "recipes": [
+          "minecraft:oak_boat"
+        ]
+      }
+    },
+    "assets/minecraft/items/oak_chest_boat.json": {
+      "model": {
+        "type": "minecraft:model",
+        "model": "minecraft:item/oak_chest_boat"
+      }
+    },
+    "assets/minecraft/models/item/oak_chest_boat.json": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "minecraft:item/oak_chest_boat"
+      }
+    },
+    "data/minecraft/recipe/oak_chest_boat.json": {
+      "type": "minecraft:crafting_shapeless",
+      "group": "chest_boat",
+      "ingredients": [
+        "minecraft:chest",
+        "minecraft:oak_boat"
+      ],
+      "result": {
+        "id": "minecraft:oak_chest_boat"
+      }
+    },
+    "data/minecraft/advancement/recipes/transportation/oak_chest_boat.json": {
+      "parent": "minecraft:recipes/root",
+      "criteria": {
+        "has_boat": {
+          "conditions": {
+            "items": [
+              {
+                "items": "#minecraft:boats"
+              }
+            ]
+          },
+          "trigger": "minecraft:inventory_changed"
+        },
+        "has_the_recipe": {
+          "conditions": {
+            "recipe": "minecraft:oak_chest_boat"
+          },
+          "trigger": "minecraft:recipe_unlocked"
+        }
+      },
+      "requirements": [
+        [
+          "has_the_recipe",
+          "has_boat"
+        ]
+      ],
+      "rewards": {
+        "recipes": [
+          "minecraft:oak_chest_boat"
+        ]
+      }
+    }
+  }
+}

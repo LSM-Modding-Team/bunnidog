@@ -30,12 +30,12 @@ public final class GoHomeGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        return this.dog.homeNest() != null && Home.tooFar(this.distSq());
+        return !this.dog.beingTransported() && this.dog.homeNest() != null && Home.tooFar(this.distSq());
     }
 
     @Override
     public boolean canContinueToUse() {
-        return this.dog.homeNest() != null && !Home.arrived(this.distSq()) && !this.dog.getNavigation().isDone();
+        return !this.dog.beingTransported() && this.dog.homeNest() != null && !Home.arrived(this.distSq()) && !this.dog.getNavigation().isDone();
     }
 
     @Override
@@ -58,7 +58,7 @@ public final class GoHomeGoal extends Goal {
 
     private void walk() {
         BlockPos nest = this.dog.homeNest();
-        if (nest != null) {
+        if (nest != null && !this.dog.beingTransported()) {
             this.dog.getNavigation().moveTo(nest.getX() + 0.5D, nest.getY() + 1.0D, nest.getZ() + 0.5D, SPEED);
         }
     }

@@ -9,6 +9,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacementTypes;
+import net.minecraft.world.entity.vehicle.boat.Boat;
+import net.minecraft.world.entity.vehicle.boat.ChestBoat;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
@@ -29,6 +31,20 @@ public final class ModEntities {
                     .clientTrackingRange(8)
                     .build(ResourceKey.create(Registries.ENTITY_TYPE,
                             Identifier.fromNamespaceAndPath(BunnidogsMod.MODID, "bunnidog"))));
+
+    /** Native boats keep vehicle physics, passenger rules, inventory saves and drops. Suppliers avoid item-registry cycles. */
+    public static final DeferredHolder<EntityType<?>, EntityType<Boat>> GUAVA_BOAT =
+            ENTITIES.register("guava_boat", () -> EntityType.Builder.<Boat>of(
+                    (type, level) -> new Boat(type, level, () -> ModItems.GUAVA_BOAT.get()), MobCategory.MISC)
+                    .noLootTable().sized(1.375F, 0.5625F).eyeHeight(0.5625F).clientTrackingRange(10)
+                    .build(ResourceKey.create(Registries.ENTITY_TYPE,
+                            Identifier.fromNamespaceAndPath(BunnidogsMod.MODID, "guava_boat"))));
+    public static final DeferredHolder<EntityType<?>, EntityType<ChestBoat>> GUAVA_CHEST_BOAT =
+            ENTITIES.register("guava_chest_boat", () -> EntityType.Builder.<ChestBoat>of(
+                    (type, level) -> new ChestBoat(type, level, () -> ModItems.GUAVA_CHEST_BOAT.get()), MobCategory.MISC)
+                    .noLootTable().sized(1.375F, 0.5625F).eyeHeight(0.5625F).clientTrackingRange(10)
+                    .build(ResourceKey.create(Registries.ENTITY_TYPE,
+                            Identifier.fromNamespaceAndPath(BunnidogsMod.MODID, "guava_chest_boat"))));
 
     /** Registered on the mod event bus from {@link BunnidogsMod}. */
     public static void registerAttributes(EntityAttributeCreationEvent event) {

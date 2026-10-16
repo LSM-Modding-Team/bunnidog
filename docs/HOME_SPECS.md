@@ -1,6 +1,6 @@
 # HOME_SPECS — bunnidogs find their own home (session 41, second turn)
 
-**CURRENT (2026-10-15): H1-H4 have prior gameplay reports. U1 and U2 put Nests in fitted surface dens at levels 1–5; H3b keeps a Nest in each built house. The current Gradle build and U2 layout checks pass; den pathfinding and home claims need gameplay review. See START_HERE.md and docs/WARREN_PLAN.md.**
+**CURRENT (2026-10-16): H1-H4 have prior gameplay reports. U1–U7 put Nests in fitted dens/halls; H3b keeps a Nest in each built house. H5 adds transport-aware behavior and player-directed Nest reassignment, with server GameTest evidence and manual gameplay pending. See START_HERE.md and docs/WARREN_PLAN.md.**
 
 **Status (session 44): H1-H4 WORK (user). H3b (nests in houses) is plan only.** This REPLACES the hardcoded home of V2a (`restrictTo(treeFloor, 16)` at spawn),
 which the user rejected: "it should work like it does with villagers, some conditions that make it determine its home instead of a
@@ -28,6 +28,8 @@ one looks for a free nest.
 | R6 | A dog with a home checks every ~200 ticks that the nest block is still there. If not, the home is cleared (the point of interest vanished with the block, its ticket with it) and R2 starts again. | memory expiry |
 | R7 | When a dog DIES, it gives its ticket back, so the nest is free for the next dog. Unloading a chunk does NOT give it back (the dog still owns it). | `releasePoi` on death |
 | R8 | (H4) At dusk an adult with a home walks to it and stays within 2 blocks until dawn; nothing else changes. Rain does not count. | the bedtime schedule |
+| R9 | (H5) Leads, pending saved leads and vehicle rides suspend home/food goals and Nest scans/checks, retaining the home. Normal behavior resumes after release. Unloaded home chunks are skipped during block validation. | player-directed travel |
+| R10 | (H5) A player right-clicking a Nest with an empty hand or a lead can rehome the nearest adult directly leashed to them, within 8 blocks of the Nest. The destination must be reachable and free. Secure its POI ticket before releasing the previous one; failure preserves the old home. | explicit reassignment |
 
 Known limit, same as vanilla beds: a dog removed by a command that is not a kill (`/data`, `discard`) leaves a stale ticket, and its
 nest stays "taken". Breaking and re-placing the nest fixes it. Not worth code now.

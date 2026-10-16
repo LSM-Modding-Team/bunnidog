@@ -6,7 +6,9 @@ Full text of every chunk (files, decisions, compile risks): `docs/history/CHUNKS
 
 | Chunk | What | Status |
 |---|---|---|
-| W4a | Guava signs/hanging signs: native text/editing/saves, four placement forms, custom models/editor textures, recipes/unlocks and drops | BUILD + RESOURCE/MODEL CHECKS PASS; texture preview inspected; gameplay pending |
+| H5 | Leads/rides suspend home/food behavior and Nest scans; empty-hand/lead Nest use rehomes the nearest led adult with safe POI transfer | SERVER GAMETEST + BUILD/HEADLESS evidence; manual gameplay pending |
+| W4b | Guava boat/chest boat, native seating/inventory/saves/drops, guava atlases, crafting/unlocks and tags | SERVER GAMETEST + BUILD/RESOURCE/MODEL evidence; texture preview inspected; client gameplay pending |
+| W4a | Guava signs/hanging signs: native text/editing/saves, four placement forms, custom models/editor textures, recipes/unlocks and drops | BUILD + RESOURCE/MODEL + SERVER SAVE/TICKER CHECKS PASS; texture preview inspected; client gameplay pending |
 | U7 | Terrain-tested lower commons, stairs, four more Nests and a supply barrel beneath the grand-tree hall | BUILD + LAYOUT/MODEL CHECKS PASS; gameplay pending |
 | Pantry supplies | Lazy modest food/guava loot in newly placed pantry/market/commons barrels; protect existing containers | BUILD PASS + RESOURCE REVIEW; gameplay pending |
 | Diet D1–D4 | Seventh inherited gene, legacy data/signed sync, diet feeding and temptation, home-bounded grazing/hunting, seven-row sheets | BUILD + DIET/GENETICS/MODEL CHECKS PASS; gameplay pending |

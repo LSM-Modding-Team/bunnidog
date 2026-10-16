@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "chest_boat",
+  "ingredients": [
+    "minecraft:chest",
+    "bunnidogs:guava_boat"
+  ],
+  "result": {
+    "id": "bunnidogs:guava_chest_boat"
+  }
+}

@@ -16,10 +16,20 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+W4b completes guava boats/chest boats: native vehicles and model layers, custom
+hulls/icons, crafting/unlocks, proper item drops and a 27-slot chest. H5 makes
+home/food navigation respect leads/rides and lets a player rehome the nearest
+led adult by right-clicking a free reachable Nest. The old ticket is retained
+until the destination is secured. See `HOME_SPECS.md` H5 and `FIXES_PLAN.md` 4.4.
+Server GameTests cover vehicles, genetic inventory data, drops, sign persistence,
+transport behavior and Nest-ticket safety; visual/client interaction review
+remains separate. These tests now gate the GitHub artifact.
+
 W4a: guava signs/hanging signs, four native placement forms, custom board/icon/
 editor textures, crafting/unlocks, tags and shared wall loot. Compiler, resource
 state/attachment checks and the model check pass; texture preview inspected.
-See `FIXES_PLAN.md` 4.4. In-game editing and save/reload are pending.
+See `FIXES_PLAN.md` 4.4. Server text/color/glow/wax saves and native tickers now
+pass integration tests; client editing and natural chunk unload/reload remain pending.
 
 Diet D1–D4: inherited seventh gene, compatible old data, dietary feeding and
 temptation, home-bounded grazing/hunting and seven-row sheets/forecasts.
@@ -35,7 +45,7 @@ filling a quota, and honor any explicit pause in the current request.
 
 | Item | What | Needs | Spec |
 |---|---|---|---|
-| W4b | Guava boat and chest boat (W4a signs/hanging signs are implemented) | W3 | `FIXES_PLAN.md` 4.4 |
+| Settlement wayfinding | Use guava signs to label new halls, pantries and entrances; preserve old saved starts | W4a | Design terrain/chunk placement and saved text before coding |
 
 ## Ideas without a spec (design before implementing)
-Leash; Gene Splicer / Purebred registry / Show Ring / Apex boss (the old "Phase 6 artificial lineage tools"); settlement life (the old 6d); living harvest instead of death-only drops; environment effects of lineages (cold resistance, heat tolerance, night vision, ...). More ideas: `docs/DESIGN.md`, section "Ideas".
+Gene Splicer / Purebred registry / Show Ring / Apex boss (the old "Phase 6 artificial lineage tools"); settlement life (the old 6d); living harvest instead of death-only drops; environment effects of lineages (cold resistance, heat tolerance, night vision, ...). Native leads, transport-aware behavior and player-directed Nest reassignment are now implemented as H5. More ideas: `docs/DESIGN.md`, section "Ideas".

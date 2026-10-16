@@ -45,6 +45,39 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
+**W4b — guava boats and chest boats** completes the guava wood set. Five guava
+planks in the native boat recipe craft a two-seat boat; combining it with a
+chest crafts a one-seat boat with 27 inventory slots. Both stack to one and
+appear in Tools & Utilities. Native 26.2 vehicle classes preserve paddling,
+passenger rules, inventories, names and their own item drops. Native model
+layers use guava hull/paddle atlases; chest panels remain the native chest.
+Regenerate with `python3 art/gen_wood_boats.py`; the texture preview was inspected.
+
+**H5 — transport and rehoming:** leads and vehicle rides suspend home/food
+navigation and Nest searches/checks, retaining the saved home. Pending saved
+leashes also suspend those goals while vanilla restores the holder. After
+release/disembarking, normal behavior resumes. Nest checks skip unloaded chunks.
+While leading dogs, right-click a Nest with an empty hand or a lead to rehome
+the nearest led adult within eight blocks. A route and a free destination
+ticket are required; only then is the previous ticket released. Occupied,
+unreachable and invalid destinations preserve the old claim. The lead stays
+attached; a quiet click and action-bar message confirm the move. Pups cannot
+claim homes. The existing `bunnidogs:nest` ID, saved coordinates, POI and assets
+are preserved.
+
+Development-only server GameTests cover boat seating, full chest inventory and
+genetic item components through save/load, exact vehicle/content drops, native
+sign validity/tickers and two-sided text/color/glow/wax persistence, lead/ride
+goal suspension and restoration, and Nest reassignment/ticket protection.
+Tests and their empty structure fixture are excluded from the shipped JAR.
+`./gradlew build checkBunnidogModel runGameTestServer --no-daemon` passes,
+including all four mod scenarios (plus the native runner's always-pass sanity test).
+GitHub Actions now runs `build checkBunnidogModel runGameTestServer` before
+uploading the artifact. `checkGuavaBoats` is part of `build` and checks native
+layers/paddles/chest geometry, renderer texture paths, crafting/unlocks and tags.
+Client rowing appearance, sign editors, multiplayer input and natural chunk
+unload/reload remain manual gameplay checks.
+
 **W4a — guava signs and hanging signs** is implemented. Two craftable items
 cover standing/wall signs and ceiling/wall hanging signs, with all native
 rotations, attachments and waterlogging. Six guava planks plus a stick craft
@@ -63,13 +96,11 @@ dressed with generated signs in this batch.
 
 `./gradlew build checkBunnidogModel --no-daemon` passes. `checkWoodAssets` now
 covers all four sign states/attachments, model and texture links, editor sizes,
-recipes/unlocks, tags and drops. Actual editor use, dye/glow/wax interactions,
-hanging chains, support removal and text across save/reload need gameplay
+recipes/unlocks, tags and drops. Server tests now establish native block-entity
+validity, editing-lock tickers and two-sided text/color/glow/wax save/load.
+Actual editor use, dye/glow/wax interactions, hanging chains and support removal need gameplay
 review. Try `/give @s bunnidogs:guava_sign` and
-`/give @s bunnidogs:guava_hanging_sign`. **W4b boats/chest boats remain pending.**
-An isolated `runServer --initSettings` probe reached vanilla settings creation;
-NeoForge then exited because no server thread was started. This is not a
-successful dedicated-server or gameplay test; no player world was opened.
+`/give @s bunnidogs:guava_hanging_sign`. W4b boats/chest boats are implemented above.
 
 The preceding batch implemented **Diet D1–D4**, **U7** and **warren pantry loot**.
 These are new changes with compiler/headless evidence; gameplay is pending.
@@ -187,8 +218,8 @@ evidence at delivery, not the current ability to build the project.
   Levels 3–5 should also have claimable house Nests.
 - Earlier user reports are preserved in the ledger. D7b, 7a and 6h had compile
   confirmation without itemized gameplay reports. Do not infer new evidence.
-- U1–U7, Diet D1–D4 and W4a signs/hanging signs are implemented. W4b boats/chest
-  boats remain candidates; coherent new work is authorized under the user's broader design
+- U1–U7, Diet D1–D4, W1–W4 and H5 transport/rehoming are implemented;
+  coherent new work is authorized under the user's broader design
   permission. See `docs/ROADMAP.md`.
 
 ## Document map
@@ -205,5 +236,5 @@ evidence at delivery, not the current ability to build the project.
 | Genetics Table | `docs/TABLE_SPECS.md` (T1–T4 implemented; current evidence at top) |
 | Drops / loot | `docs/DROPS_PLAN.md` (why) + `docs/DROPS_SPECS.md` (numbers, wins). All of D1-D8 done |
 | Pedigree Book, Calipers window, "the sheet" | `docs/SHEET_SPECS.md` (S1-S8 done; wins over older Phase 8 notes) |
-| Wood (W1–W4a done, W4b boats pending), villages (V1 done), diets (D1–D4 implemented) | `docs/FIXES_PLAN.md` sections 4, 5, 6 (V2 superseded by HOME_SPECS) |
+| Wood (W1–W4 done), villages (V1 done), diets (D1–D4 implemented) | `docs/FIXES_PLAN.md` sections 4, 5, 6 (V2 superseded by HOME_SPECS) |
 | Old phase status, old session notes, old roadmap, old API research | `docs/history/` (never needed to continue) |

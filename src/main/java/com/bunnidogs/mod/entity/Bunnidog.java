@@ -328,7 +328,7 @@ public class Bunnidog extends Animal {
 
     boolean canForage() {
         BlockPos nest = this.homeNest();
-        return this.level().getGameTime() >= this.nextForageTick
+        return !this.beingTransported() && this.level().getGameTime() >= this.nextForageTick
                 && Foraging.canForage(!this.isBaby(), this.getHealth() < this.getMaxHealth(), nest != null,
                         this.homeNight(), this.getTarget() != null && this.getTarget() != this.huntingTarget)
                 && Foraging.insideHome(nest == null ? Double.POSITIVE_INFINITY : this.blockPosition().distSqr(nest));
@@ -546,6 +546,16 @@ public class Bunnidog extends Animal {
     /** The nest this dog has claimed, or null (H2). Read by {@link GoHomeGoal}. */
     public BlockPos homeNest() {
         return this.nestHome == null ? null : this.nestHome.nest();
+    }
+
+    /** Native leads and vehicle rides take precedence over voluntary home/food navigation. */
+    public boolean beingTransported() {
+        return this.getLeashData() != null || this.isPassenger();
+    }
+
+    public NestHome.MoveResult moveHomeTo(ServerLevel level, BlockPos destination) {
+        if (level != this.level()) return NestHome.MoveResult.INVALID;
+        return this.nestHome.moveTo(level, destination);
     }
 
     // ------------------------------------------------------------------ saving

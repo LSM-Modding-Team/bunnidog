@@ -2,7 +2,7 @@
 
 **Warrens (mouths, dens, tunnels, cellars, hall) are covered in `docs/WARREN_PLAN.md`. House materials and doors are covered here.**
 
-**CURRENT (2026-10-16): F1–F3, W1–W3 and V1 work (user confirms d7f39a9). Diet D1–D4 and W4a signs/hanging signs are implemented; compiler/headless evidence is separate from pending gameplay review. V2 was superseded by HOME_SPECS.md. W4b boats remain a candidate. See `docs/ROADMAP.md`.**
+**CURRENT (2026-10-16): F1–F3, W1–W3 and V1 work (user confirms d7f39a9). Diet D1–D4, W4a signs and W4b boats are implemented. W4 has compiler, resource and server GameTest evidence; client gameplay remains pending. V2 was superseded by HOME_SPECS.md, including H5 transport/rehoming. See `docs/ROADMAP.md`.**
 
 **Status (session 41): F1, F2/F3a, F3b, W1, W1b and W2 WORK (user). V2 is SUPERSEDED by `docs/HOME_SPECS.md` (a Nest block dogs claim like villagers claim beds; the user rejected the hardcoded home of V2a). Section 5.3 below is kept as history only. Everything else here is unchanged.**
 **(Older line, session 40, fourth turn: F1, F2/F3a, F3b, W1 and W1b WORK; W2 (stairs, slab, fence; `art/gen_wood_parts.py`) was coded, NOT COMPILED. The FENCE GATE moved from W2 to W3 (it needs a `WoodType`). Next: W3, or V2 first if the user wants the dogs fixed sooner.)**
@@ -94,12 +94,23 @@ Most of the "usual crafts" come for free by joining the tags: `minecraft:planks`
   with their corresponding item. Both items are in Functional Blocks.
   `checkWoodAssets` covers complete states/attachments, resource links and
   editor sizes, recipe ingredients/yields/unlocks, tags and drops. Gradle build
-  and model checks pass; texture preview inspected. Placement, editor use,
-  dye/glow/wax, support removal and save/reload still need gameplay review.
+  and model checks pass; texture preview inspected. Server tests now cover all
+  native sign forms, tickers and text/color/glow/wax save/load. Placement, editor
+  use, support removal and natural chunk reload still need gameplay review.
   This batch adds craftable signs; it does not place labeled signs in villages.
-- **W4b — candidate:** guava boat and chest boat. Verify 26.2 entity/item,
-  renderer and model-layer APIs and define crafting/drop behavior before
-  implementation. Authorized by the user's broader design permission.
+- **W4b — boats (implemented, 2026-10-16):** native `Boat` and `ChestBoat`
+  entity types with lazy drop-item suppliers, native dimensions/tracking and
+  `BoatItem` placement. Native `BoatRenderer` and `BoatModel` layers use
+  `bunnidogs:boat/guava` (128x64 atlas) and `chest_boat/guava` (128x128 atlas).
+  `art/gen_wood_boats.py` recolors native hull/paddle UV templates to the guava
+  palette, preserving chest panels/lock, and generates item icons, native-shaped
+  recipes, unlocks, names and boat tags. Five planks craft one two-seat boat;
+  a boat plus a chest crafts a one-seat, 27-slot chest boat. Both stack to one
+  and appear in Tools & Utilities. Native destruction drops the matching boat
+  item and chest contents. `checkGuavaBoats` checks layers/animation, renderer
+  paths, atlases, items, recipes/unlocks and tags. Server GameTests cover seat
+  limits, full inventory/component persistence, names and exact drops. Texture
+  preview inspected; client rowing/placement/menu interactions remain manual.
 - Settlement use: V1 needs only W1 (+ W2 for slabs/stairs/fences, W3 for doors).
 
 ---
@@ -243,7 +254,7 @@ gameplay review.
 6. **Order:** F1 -> F2/F3a -> F3b -> W1 -> W2 -> W3 -> V2 -> V1 -> D1-D4 as in section 1, or do the villages before the wood?
 
 ## 8. Left out on purpose
-Leash, the Gene Splicer and other unspecified ideas remain outside this plan. T4 is now implemented in `TABLE_SPECS.md`. Hay is not made edible for *every* bunnidog on purpose: `plain` stays the default so existing lines behave as they do now.
+The Gene Splicer and other unspecified ideas remain outside this plan. Native leads and Nest reassignment now have an implementation/spec under H5 in `HOME_SPECS.md`. T4 is implemented in `TABLE_SPECS.md`. Hay is not made edible for *every* bunnidog on purpose: `plain` stays the default so existing lines behave as they do now.
 
 ## 9. API facts to verify BEFORE each chunk (not verified in session 39: the sandbox had no network)
 `GuavaFruitBlock` shape-update signature (F1) · `GuiGraphicsExtractor#text` with `dropShadow` (F2) · why the portrait fails (F3a log) · tool-modified-state hook for stripping (W1) · `BlockSetType` / `WoodType` registration (W3) · `Mob#restrictTo`, `isWithinRestriction` and whether the restriction is saved (V2) · `Gene.COUNT`-dependent places (D1: grep `Gene.COUNT`).

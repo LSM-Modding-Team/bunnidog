@@ -23,6 +23,7 @@ import net.minecraft.world.level.pathfinder.Path;
  * method names changed in this Minecraft version and were never verified): the walk home is {@link GoHomeGoal}.
  */
 public final class NestHome {
+    public enum MoveResult { MOVED, ALREADY_HOME, OCCUPIED, UNREACHABLE, INVALID }
     /** Marks "no nest" in the saved data (a block Y can never be this). {@link #nest()} is null while there is none. */
     public static final int NO_NEST = Integer.MIN_VALUE;
 
@@ -45,8 +46,30 @@ public final class NestHome {
         return this.nest != null;
     }
 
+    /** Player-directed relocation. Acquire the destination before releasing the old ticket. */
+    public MoveResult moveTo(ServerLevel level, BlockPos destination) {
+        if (this.dog.isBaby() || !level.hasChunkAt(destination) || !level.getBlockState(destination).is(ModBlocks.NEST.get())) {
+            return MoveResult.INVALID;
+        }
+        if (destination.equals(this.nest)) return MoveResult.ALREADY_HOME;
+        if (!this.canReach(destination)) return MoveResult.UNREACHABLE;
+        var taken = level.getPoiManager().take(holder -> holder.is(ModPoi.NEST.getKey()),
+                (holder, pos) -> pos.equals(destination), destination, 1);
+        if (taken.isEmpty()) return MoveResult.OCCUPIED;
+        BlockPos previous = this.nest;
+        this.claim(taken.get());
+        this.rejected.clear();
+        // POI storage can release a remote ticket without requesting its terrain chunk.
+        if (previous != null && level.getPoiManager().exists(previous, holder -> holder.is(ModPoi.NEST.getKey()))) {
+            this.giveBack(level, previous);
+        }
+        return MoveResult.MOVED;
+    }
+
     /** Called from the dog's server tick. Counts down, then looks (R2-R4) or checks (R6). */
     public void tick(ServerLevel level, boolean adult) {
+        // Keep the old home during a journey; do not claim passing Nests or request remote home chunks.
+        if (this.dog.beingTransported()) return;
         this.timer--;
         switch (Home.step(adult, this.hasNest(), this.timer)) {
             case LOOK -> this.look(level);
@@ -99,7 +122,7 @@ public final class NestHome {
     /** R6: the nest block is still there, or the home is forgotten (the block took its ticket with it). */
     private void check(ServerLevel level) {
         this.timer = Home.CHECK_INTERVAL;
-        if (this.nest != null && !level.getBlockState(this.nest).is(ModBlocks.NEST.get())) {
+        if (this.nest != null && level.hasChunkAt(this.nest) && !level.getBlockState(this.nest).is(ModBlocks.NEST.get())) {
             this.forget();
         }
     }

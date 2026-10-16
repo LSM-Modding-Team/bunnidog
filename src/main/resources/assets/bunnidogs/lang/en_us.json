@@ -82,5 +82,14 @@
   "block.bunnidogs.guava_sign": "Guava Sign",
   "block.bunnidogs.guava_wall_sign": "Guava Sign",
   "block.bunnidogs.guava_hanging_sign": "Guava Hanging Sign",
-  "block.bunnidogs.guava_wall_hanging_sign": "Guava Hanging Sign"
+  "block.bunnidogs.guava_wall_hanging_sign": "Guava Hanging Sign",
+  "item.bunnidogs.guava_boat": "Guava Boat",
+  "entity.bunnidogs.guava_boat": "Guava Boat",
+  "item.bunnidogs.guava_chest_boat": "Guava Boat with Chest",
+  "entity.bunnidogs.guava_chest_boat": "Guava Boat with Chest",
+  "message.bunnidogs.nest.moved": "This is now your bunnidog's home. Release the lead when ready.",
+  "message.bunnidogs.nest.already_home": "This bunnidog already lives here.",
+  "message.bunnidogs.nest.occupied": "This Nest already has a resident.",
+  "message.bunnidogs.nest.unreachable": "Your bunnidog cannot reach this Nest.",
+  "message.bunnidogs.nest.adult_required": "Only an adult bunnidog can claim a Nest."
 }

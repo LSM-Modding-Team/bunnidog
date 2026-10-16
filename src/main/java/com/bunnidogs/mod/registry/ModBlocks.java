@@ -2,6 +2,7 @@ package com.bunnidogs.mod.registry;
 
 import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.block.GeneticsTableBlock;
+import com.bunnidogs.mod.block.NestBlock;
 import com.bunnidogs.mod.block.GeneticsTableBlockEntity;
 import com.bunnidogs.mod.block.GuavaFruitBlock;
 import com.bunnidogs.mod.block.GuavaWoodBlocks;
@@ -95,7 +96,7 @@ public final class ModBlocks {
      * villager a bed: its block states are the point-of-interest type {@link ModPoi#NEST}. A plain full block (no shape, no block
      * entity), axe-mineable, drops itself.
      */
-    public static final DeferredBlock<Block> NEST = BLOCKS.registerBlock("nest", Block::new,
+    public static final DeferredBlock<NestBlock> NEST = BLOCKS.registerBlock("nest", NestBlock::new,
             props -> props.strength(0.8F).sound(SoundType.GRASS));
 
     /**

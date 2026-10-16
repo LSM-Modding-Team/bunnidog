@@ -44,7 +44,7 @@ public final class NightHomeGoal extends Goal {
     }
 
     private boolean wanted() {
-        return !this.dog.isBaby() && this.dog.homeNest() != null && this.night();
+        return !this.dog.beingTransported() && !this.dog.isBaby() && this.dog.homeNest() != null && this.night();
     }
 
     @Override
@@ -65,6 +65,7 @@ public final class NightHomeGoal extends Goal {
 
     @Override
     public void tick() {
+        if (!this.wanted()) return;
         if (!Home.nightFar(this.distSq())) {
             // home: stand still until dawn
             if (!this.dog.getNavigation().isDone()) {
@@ -89,7 +90,7 @@ public final class NightHomeGoal extends Goal {
     private void walk() {
         this.retry = Home.NIGHT_RETRY;
         BlockPos nest = this.dog.homeNest();
-        if (nest != null) {
+        if (nest != null && !this.dog.beingTransported()) {
             this.dog.getNavigation().moveTo(nest.getX() + 0.5D, nest.getY() + 1.0D, nest.getZ() + 0.5D, SPEED);
         }
     }

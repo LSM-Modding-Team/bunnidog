@@ -42,12 +42,17 @@ Git diff. Existing uncommitted work and saves are preserved.
 ./gradlew checkBunnidogModel  # real mesh loading/render path, no game window
 ./gradlew checkWarrenNetwork  # terrain, connectivity and chunk ownership (also part of build)
 ./gradlew checkWoodAssets    # guava mechanisms/signs, attachments, resources and crafting (also part of build)
+./gradlew checkGuavaBoats    # native boat layers/paddles, atlases, icons and crafting (also part of build)
 ./gradlew checkDiets         # legacy data, inherited diets, food rules and seven-gene pages (also part of build)
+./gradlew runGameTestServer  # real server: boats, sign persistence, leads/rides and Nest reassignment
 ./gradlew packageProject     # optional portable source ZIP in build/distributions
 ```
 
 The headless model check covers mesh integrity, smooth normals, rendering and
 gene/baby ground contact; use `runClient` for appearance, motion and performance.
+Development-only GameTests live in `tools/gametest` and run in `build/game-test`,
+separate from player saves. Their classes and fixture are excluded from the
+shipped JAR. GitHub Actions runs these server checks before uploading the artifact.
 See [current status](START_HERE.md), [player guide](docs/FEATURES.md),
 [roadmap](docs/ROADMAP.md), and [architecture/reference](docs/REFERENCE.md).
 

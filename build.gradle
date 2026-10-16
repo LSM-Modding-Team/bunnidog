@@ -203,6 +203,12 @@ idea {
 // Focused integration check against the resolved Minecraft runtime, without a GUI.
 // Separate source set keeps the check out of the shipped mod JAR.
 sourceSets {
+    gameTest {
+        java.srcDir 'tools/gametest/java'
+        resources.srcDir 'tools/gametest/resources'
+        compileClasspath = sourceSets.main.output + sourceSets.main.runtimeClasspath
+        runtimeClasspath = output + compileClasspath
+    }
     warrenCheck {
         java.srcDir 'tools/warren'
         compileClasspath = sourceSets.main.output
@@ -213,6 +219,12 @@ sourceSets {
         compileClasspath = sourceSets.main.output + sourceSets.main.runtimeClasspath
         runtimeClasspath = output + compileClasspath
     }
+}
+// Development-only tests participate in the mod during GameTest runs, never in the shipped main JAR.
+neoForge.mods.bunnidogs.sourceSet(sourceSets.gameTest)
+neoForge.runs.gameTestServer {
+    gameDirectory = layout.buildDirectory.dir('game-test').get().asFile
+    logLevel = org.slf4j.event.Level.INFO
 }
 tasks.register('checkWarrenNetwork', JavaExec) {
     group = 'verification'
@@ -232,6 +244,15 @@ tasks.register('checkWoodAssets', JavaExec) {
     javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
 }
 tasks.named('check').configure { dependsOn tasks.named('checkWoodAssets') }
+tasks.register('checkGuavaBoats', JavaExec) {
+    group = 'verification'
+    description = 'Check native guava boat layers, renderer atlases, icons, crafting and tags.'
+    dependsOn tasks.named('modelCheckClasses')
+    classpath = sourceSets.modelCheck.runtimeClasspath
+    mainClass = 'BoatAssetsCheck'
+    javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
+}
+tasks.named('check').configure { dependsOn tasks.named('checkGuavaBoats') }
 tasks.register('checkDiets', JavaExec) {
     group = 'verification'
     description = 'Check diet save compatibility, inheritance, food policies, tags and sheet layout.'
