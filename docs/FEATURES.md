@@ -1,5 +1,10 @@
 # Bunnidogs: how to use each feature in game
 
+**Field Guide (P1):** combine a vanilla book with any guava. Use the book to
+open 24 pages from first warren to Apex, with clickable chapter/contents links.
+It can also appear in unopened warren pantry barrels (35% chance). Native book
+pages, rather than a separate custom screen, explain the progression in-game.
+
 **Apex (G4):** craft an Apex Crucible (`OMO/ODO/OOO`: obsidian, Mutant
 Marrow, diamond). Place five Trophy Pedestals at its height, using any five of
 the eight ring slots: three blocks N/E/S/W or two blocks diagonally. Display a

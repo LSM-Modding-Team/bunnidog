@@ -129,6 +129,21 @@
           ]
         }
       ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.35
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "bunnidogs:field_guide"
+        }
+      ]
     }
   ],
   "random_sequence": "bunnidogs:chests/warren_pantry"

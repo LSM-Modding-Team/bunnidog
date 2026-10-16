@@ -45,6 +45,19 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
+**P1 — Field Guide:** craft a vanilla book with any guava for a 24-page native
+book covering the complete progression, with clickable contents/return links.
+An independent 35% warren-pantry pool helps explorers find it; existing food
+rolls persist and filled containers are not refilled. Uses native translated
+written-book content and packets, with no custom screen or protocol change.
+Actual build passes, icon/representative page preview inspected and one long
+paragraph shortened against the existing conservative font-width estimate.
+Native book opening/click APIs are verified from resolved 26.2 sources.
+The final combined `build runGameTestServer` passes all fifteen mod scenarios
+plus native sanity, including server loading of the new book/recipe/loot data.
+Client navigation/fonts and pantry discovery remain gameplay review.
+See `docs/FIELD_GUIDE.md`.
+
 **G4 — Apex of the Line:** a craftable Apex Crucible uses a Tissue Sample and
 five legendary drops displayed on Trophy Pedestals to summon the source line's
 boss. Its original seven pairs and bred points persist exactly, while native

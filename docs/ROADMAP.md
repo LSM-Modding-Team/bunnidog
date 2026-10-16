@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+P1 adds a craftable native Field Guide: 24 translated pages, contents/return
+links and a 35% independent pantry loot pool. It explains the whole progression
+without new screens or payloads. Build/server loading pass; preview inspected and client
+reading remains pending. See `FIELD_GUIDE.md`.
+
 G4 completes the Apex: sample-defined boss, five legendary pedestal offerings,
 crucible, bounded inherited combat attributes, warned attacks/enrage, native
 boss bar and readable/displayable source-line crest. Ritual refusals/costs,

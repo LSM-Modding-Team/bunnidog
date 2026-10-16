@@ -14,6 +14,7 @@ import com.bunnidogs.mod.genetics.GuavaTier;
 import com.bunnidogs.mod.genetics.Seed;
 import com.bunnidogs.mod.genetics.Stats;
 import com.bunnidogs.mod.item.CalipersItem;
+import com.bunnidogs.mod.item.FieldGuideItem;
 import com.bunnidogs.mod.item.SyringeItem;
 import com.bunnidogs.mod.item.GeneSplicerItem;
 import com.bunnidogs.mod.item.EarTagItem;
@@ -162,6 +163,8 @@ public final class ModItems {
     /** The Trophy Pedestal (drops D8a). */
     public static final DeferredItem<BlockItem> TROPHY_PEDESTAL = ITEMS.registerSimpleBlockItem(ModBlocks.TROPHY_PEDESTAL);
     public static final DeferredItem<BlockItem> APEX_CRUCIBLE = ITEMS.registerSimpleBlockItem(ModBlocks.APEX_CRUCIBLE);
+    public static final DeferredItem<FieldGuideItem> FIELD_GUIDE = ITEMS.registerItem("field_guide", FieldGuideItem::new,
+            props -> props.stacksTo(1));
     public static final DeferredItem<com.bunnidogs.mod.item.ApexCrestItem> APEX_CREST = ITEMS.registerItem("apex_crest",
             com.bunnidogs.mod.item.ApexCrestItem::new, props -> props.stacksTo(1).rarity(Rarity.EPIC));
 
@@ -333,6 +336,7 @@ public final class ModItems {
         }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(CALIPERS.get());
+            event.accept(FIELD_GUIDE.get());
             event.accept(SYRINGE.get());
             event.accept(GENE_SPLICER.get());
             event.accept(GUAVA_BOAT.get());
