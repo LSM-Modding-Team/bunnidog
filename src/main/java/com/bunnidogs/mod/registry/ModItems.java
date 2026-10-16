@@ -192,6 +192,8 @@ public final class ModItems {
     /** The Pedigree Book (Phase 5c): a book and a guava (data/bunnidogs/recipe/pedigree_book.json). */
     public static final DeferredItem<PedigreeBookItem> PEDIGREE_BOOK = ITEMS.registerItem("pedigree_book", PedigreeBookItem::new,
             props -> props.stacksTo(1).rarity(Rarity.UNCOMMON));
+    public static final DeferredItem<com.bunnidogs.mod.item.PurebredRegistryItem> PUREBRED_REGISTRY = ITEMS.registerItem("purebred_registry",
+            com.bunnidogs.mod.item.PurebredRegistryItem::new, props -> props.stacksTo(1).rarity(Rarity.RARE));
 
     /** Bunnidog meat (drops D1): raw is a little better than vanilla rabbit and harmless to eat; cooked (smelting, smoking, campfire, or a bunnidog that dies burning) is steak-like. */
     private static final FoodProperties RAW_FLESH_FOOD = new FoodProperties.Builder().nutrition(3).saturationModifier(0.3F).build();
@@ -325,6 +327,7 @@ public final class ModItems {
             event.accept(GUAVA_BOAT.get());
             event.accept(GUAVA_CHEST_BOAT.get());
             event.accept(PEDIGREE_BOOK.get());
+            event.accept(PUREBRED_REGISTRY.get());
             event.accept(EAR_TAG.get());
             event.accept(WornEarTagItem.create("BD-3F7A2C"), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.accept(TROPHY_PEDESTAL.get());

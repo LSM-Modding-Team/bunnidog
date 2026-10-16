@@ -37,6 +37,7 @@ def main():
           'tooltip.bunnidogs.gene_splicer.cost':'Costs one sample and one Mutagen per splice.',
           'tooltip.bunnidogs.gene_splicer.slot':'Replaces the less dominant copy of the selected gene.',
           'tooltip.bunnidogs.gene_splicer.copy':'Copies one allele; breed to fix the trait. Bred stats stay.',
+          'tooltip.bunnidogs.gene_splicer.preview':'Use a two-sample Genetics Table to preview splicing.',
           'message.bunnidogs.splice.selected':'Selected gene: %s',
           'message.bunnidogs.splice.health':'Splicing needs an adult at least half healthy.',
           'message.bunnidogs.splice.wait':'This bunnidog needs %s more seconds before another splice.',

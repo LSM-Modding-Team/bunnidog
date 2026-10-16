@@ -1,6 +1,7 @@
 # TABLE_SPECS — the Genetics Table (plan, session 36)
 
-**CURRENT (2026-10-15): T1–T3 work. T4 is implemented; the user confirms the d7f39a9 release compiled and worked in game. Individual cases were not itemized.**
+**CURRENT (2026-10-16): T5/T6 add splice plans and inherited-copy forecasts.
+T1–T4 retain their behavior; the user confirmed the d7f39a9 release broadly.**
 
 The user picked the Genetics Table from the open roadmap (session 35: "Genetics Table (block, uses whiskers)"). The roadmap only had one line
 for it ("the block version of the Calipers", DESIGN line 423: "a Genetics Table block can show the same `genetics/Readout` lines later"),
@@ -71,5 +72,43 @@ regression checks, without separate reported results.
 Diet update (2026-10-16): the sample sheets and forecast now include inherited
 Diet as a seventh row. Old loaded six-gene samples normalize to plain Diet
 through the existing tissue parser. Both client and server require network
-version 4. `checkDiets` verifies old table payloads, the diet inheritance odds
+version 4 at introduction (current protocol is 6). `checkDiets` verifies old table payloads, the diet inheritance odds
 and seven-block forecast clearance; the new diet behavior is gameplay-pending.
+
+## 7. T5/T6: plan splices and fix hidden alleles (2026-10-16)
+
+Two readable samples now give **five spreads**, in order: sample A, sample B,
+the existing look/stat forecast, inherited-copy odds, and splice plans. One sample
+still gives just its own sheet. The saved slots and `A|B` payload remain unchanged.
+Analysis spreads have no individual portrait. Use with a Gene Splicer in the main
+hand to open directly on the splice plan; other reads start at sample A.
+
+**T5 — Splice plans:** the left page treats A as recipient/B as donor; the right
+page reverses that direction. All seven genes show the exact before/after code
+pair, the donor's expressed allele and whether it would show or stay hidden.
+Already-carried alleles explicitly refuse. Hover describes the replacement,
+costs and recovery. The page calls the actual pure `Splicing.plan`, so it uses
+the tool's lower-dominance copy rule, including first-copy ties. Reading spends
+nothing and edits no animal. Samples are snapshots; a live animal can have changed.
+
+**T6 — Inherited copies:** left page gives the chance a pup carries at least one
+copy of an allele, including homozygotes and hidden copies. These probabilities
+can overlap and need not add to 100%. The right page gives the chance of two
+matching copies of each allele. Every gene has a full hover even when a long
+summary clips. All probabilities enumerate the four actual parental combinations;
+they are before mutation. Hover also gives the chance of at least one success
+in an uncrowded litter, mixing native rounded litter sizes rather than treating
+the mean as a fractional number of pups. Crowding can reduce that litter.
+
+The **Two Copies** heading shows the probability that all seven pairs are fixed
+in one pup (independent gene probabilities multiplied); its hover gives the
+whole-litter probability and explains that this is not one specific target breed.
+This supports the Purebred Registry (`REGISTRY_SPECS.md`). Hover GENOME on existing
+sheets for a fixed-pair count and remaining mixed genes.
+
+Evidence: the actual build and server suite pass for native registry use, table
+read preservation and saved table inputs. `checkBreedingLab`, included in build,
+checks recessive/carrier/fixed crosses, integer/fractional litter probabilities,
+both-direction splice pages, legacy payloads, page clearance and registry bounds.
+Client navigation, pointer hovers and multiplayer packet delivery remain gameplay
+review. No existing creature geometry or renderer changed.

@@ -16,6 +16,15 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+T5/T6 adds both-direction Gene Splicer plans and inherited-copy forecasts to the
+Genetics Table. It exposes recessive carrier odds, homozygous pairs, whole-litter
+success and all-seven-fixed pup probability. G2 adds a reusable Purebred Registry
+for distinct stable bred adult genomes, linked snapshot sheets and Breeds True.
+Existing item/animal formats and protocol 6 remain unchanged. Creative animal
+interaction now persists splicer selections and registry entries on the held
+stack. Focused math/layout, actual build and server cases pass. See
+`TABLE_SPECS.md` 7 and `REGISTRY_SPECS.md`.
+
 G1 implements the Gene Splicer: one donor expressed allele enters a selected
 gene at a sample/Mutagen/tool cost, preserving bred stats and requiring breeding
 to fix a homozygote. Selection and recovery persist. Native server interaction
@@ -62,4 +71,4 @@ filling a quota, and honor any explicit pause in the current request.
 | Additional lineage behavior | Useful cave/swamp/End adaptations beyond current fire/cold/fall rules | A1 | Follow expressed genes; preserve native hazards and breeding tradeoffs |
 
 ## Ideas without a spec (design before implementing)
-Purebred registry / Show Ring / Apex boss (the remaining old "Phase 6 artificial lineage tools"); settlement life (the old 6d); further renewable materials and lineage adaptations. Gene Splicer G1 is implemented; a future table preview is a useful candidate. Native leads and Nest reassignment are H5; live tissue samples, woolly fleece and fire/cold/fall adaptations are C1/C2/A1. More ideas: `docs/DESIGN.md`, section "Ideas".
+Show Ring / Apex boss (the remaining old "Phase 6 artificial lineage tools"); settlement life (the old 6d); further renewable materials and lineage adaptations. Gene Splicer G1, its table preview T5 and Purebred Registry G2 are implemented. Native leads and Nest reassignment are H5; live tissue samples, woolly fleece and fire/cold/fall adaptations are C1/C2/A1. More ideas: `docs/DESIGN.md`, section "Ideas".

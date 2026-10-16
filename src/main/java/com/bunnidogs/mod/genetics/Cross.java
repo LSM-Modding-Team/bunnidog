@@ -26,6 +26,9 @@ public record Cross(Tissue a, Tissue b) {
     /** One thing the pups can show for a gene, and the chance that a pup shows it. */
     public record Outcome(Allele allele, double chance) {}
 
+    /** Carries at least one copy / has two matching copies, before mutation. */
+    public record Inherited(Allele allele, double carried, double fixed) {}
+
     private static final int COMBINATIONS = 4;
 
     /** The seed these two would make on plain guavas (its quality is only the starborn bonus); the maths below is the seed's own. */
@@ -55,6 +58,43 @@ public record Cross(Tissue a, Tissue b) {
         }
         out.sort(Comparator.comparingDouble(Outcome::chance).reversed().thenComparing(Comparator.comparingInt((Outcome o) -> o.allele().dominance()).reversed()));
         return out;
+    }
+
+    /** All alleles a pup can inherit, including recessive copies hidden by its look. */
+    public List<Inherited> inherited(Gene gene) {
+        Map<Integer, Integer> carried = new LinkedHashMap<>();
+        Map<Integer, Integer> fixed = new LinkedHashMap<>();
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++) {
+                int a = this.a.genome().alleleId(gene, i);
+                int b = this.b.genome().alleleId(gene, j);
+                carried.merge(a, 1, Integer::sum);
+                if (a == b) fixed.merge(a, 1, Integer::sum);
+                else carried.merge(b, 1, Integer::sum);
+            }
+        }
+        return carried.entrySet().stream()
+                .map(e -> new Inherited(gene.allele(e.getKey()), e.getValue() / (double) COMBINATIONS,
+                        fixed.getOrDefault(e.getKey(), 0) / (double) COMBINATIONS))
+                .sorted(Comparator.comparingDouble(Inherited::carried).reversed()
+                        .thenComparing(Comparator.comparingInt((Inherited o) -> o.allele().dominance()).reversed()))
+                .toList();
+    }
+
+    /** At least one success in an uncrowded litter, mixing the actual two possible litter sizes. */
+    public double atLeastOneInLitter(double perPup) {
+        double low = 1.0D - Math.pow(1.0D - perPup, litterLow());
+        if (litterLow() == litterHigh()) return low;
+        double high = 1.0D - Math.pow(1.0D - perPup, litterHigh());
+        double extra = litter() - Math.floor(litter());
+        return low * (1.0D - extra) + high * extra;
+    }
+
+    /** All seven pairs fixed, allowing any matching allele at each gene, before mutation. */
+    public double fixedPupChance() {
+        double chance = 1;
+        for (Gene gene : Gene.values()) chance *= inherited(gene).stream().mapToDouble(Inherited::fixed).sum();
+        return chance;
     }
 
     /** Mean litter size before crowding ({@link Breeding#expectedLitter}). */

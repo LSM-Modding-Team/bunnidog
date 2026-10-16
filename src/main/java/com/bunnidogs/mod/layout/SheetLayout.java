@@ -14,6 +14,7 @@ import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.genetics.Pedigree;
 import com.bunnidogs.mod.genetics.Plain;
 import com.bunnidogs.mod.genetics.Readout;
+import com.bunnidogs.mod.genetics.Purebreds;
 import com.bunnidogs.mod.genetics.Seed;
 import com.bunnidogs.mod.genetics.Stat;
 import com.bunnidogs.mod.genetics.Tissue;
@@ -174,6 +175,7 @@ public final class SheetLayout {
                                 : "Drops cannot be worked out: stats not recorded. Right-click this animal with the book again.", -1);
 
         page.text(0, GENOME_LABEL_Y, "GENOME", Page.Tone.HEAD);
+        page.hotspot(0, GENOME_LABEL_Y, Page.WIDTH, Page.LINE, Purebreds.describe(g), -1);
         if (book != null) {
             page.textRight(Page.WIDTH, GENOME_LABEL_Y, "generation " + book.generationOf(index), Page.Tone.MUTED);
         }

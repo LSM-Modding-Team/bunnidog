@@ -45,6 +45,36 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
+**T5/T6 + G2 — breeding laboratory and stable lines:** two Genetics Table samples
+now give five spreads: A, B, existing look/stat forecast, inherited-copy odds,
+and both-direction splice plans. Carry/fixed odds include hidden recessives;
+hovers show the chance of at least one success in an uncrowded litter. The
+Two Copies heading also forecasts a pup with all seven pairs fixed. Splice plans
+use the actual tool rule and show exact pairs, expression and refusal without
+spending samples. Reading with a Gene Splicer in the main hand opens that page.
+The existing `A|B` payload and saved slots are unchanged.
+
+Craft a **Purebred Registry** from a vanilla book, gold ingot and whisker.
+Use it on a bred adult with recorded parents and matching copies in all seven
+genes, including Diet. It keeps the first representative's snapshot for up to
+24 distinct stable genomes; air opens a linked index and the normal animal
+sheets. Registration is reusable and non-destructive, awarding **Breeds True**
+and 25 XP once per player. Hover GENOME on any animal/sample sheet for fixed-pair
+progress and the remaining mixed genes. It uses the existing pedigree component;
+the ordinary Pedigree Book and network protocol 6 remain unchanged.
+
+Native creative item interaction supplies a temporary copy. Registry writes and
+Gene Splicer selection on animals now target the actual held item. Focused
+server cases establish creative registration, qualification/refusals, snapshots,
+native advancement progress, item/table saves and read preservation. The combined
+build/server run passes all eleven mod scenarios plus native sanity; the focused
+breeding-lab check covers probability math, registry capacity and page clearance.
+The legacy genetics run found one obsolete H1 assertion expecting the pre-H5
+plain Nest block; that assertion was corrected and its H1 section rechecked.
+Registry icon/layout previews are separate from client gameplay, which remains
+pending. See `docs/REGISTRY_SPECS.md`, `docs/TABLE_SPECS.md` 7 and
+`art/lab_preview.png` (substitute font/layout only).
+
 **G1 — Gene Splicer:** a rare 16-use tool copies a donor's expressed allele
 into one selected gene of a healthy adult. Sneak-use in air or on a bunnidog
 cycles the seven genes; selection is shown in the tooltip/action bar and saved
@@ -122,7 +152,7 @@ genetic item components through save/load, exact vehicle/content drops, native
 sign validity/tickers and two-sided text/color/glow/wax persistence, lead/ride
 goal suspension and restoration, and Nest reassignment/ticket protection.
 Tests and their empty structure fixture are excluded from the shipped JAR.
-The server suite now contains nine mod scenarios (plus the native runner's
+The server suite now contains eleven mod scenarios (plus the native runner's
 always-pass sanity test); current local evidence is recorded in the batch above.
 GitHub Actions now runs `build checkBunnidogModel runGameTestServer` before
 uploading the artifact. `checkGuavaBoats` is part of `build` and checks native
@@ -287,6 +317,7 @@ evidence at delivery, not the current ability to build the project.
 | Homes / Nests / H-chunks | `docs/HOME_SPECS.md` (H1–H5 and H3b implemented) |
 | Living samples, woolly fleece and inherited environmental protection | `docs/CARE_SPECS.md` |
 | Donor-allele introgression, Gene Splicer controls/costs | `docs/SPLICER_SPECS.md` |
+| Stable bred-line registration and qualification | `docs/REGISTRY_SPECS.md` |
 | Genetics Table | `docs/TABLE_SPECS.md` (T1–T4 implemented; current evidence at top) |
 | Drops / loot | `docs/DROPS_PLAN.md` (why) + `docs/DROPS_SPECS.md` (numbers, wins). All of D1-D8 done |
 | Pedigree Book, Calipers window, "the sheet" | `docs/SHEET_SPECS.md` (S1-S8 done; wins over older Phase 8 notes) |

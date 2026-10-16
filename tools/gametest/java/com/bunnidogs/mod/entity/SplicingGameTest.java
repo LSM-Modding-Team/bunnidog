@@ -84,5 +84,13 @@ public final class SplicingGameTest {
         var savedTool = TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),itemOut.buildResult()).read("Tool",ItemStack.CODEC).orElseThrow();
         h.assertTrue(GeneSplicerItem.selected(savedTool) == Gene.TEMPERAMENT && savedTool.getDamageValue() == 1,
                 "Tool selection and durability must persist in its component");
+        var creative = h.makeMockPlayer(GameType.CREATIVE);
+        GameType.CREATIVE.updatePlayerAbilities(creative.getAbilities());
+        var creativeTool = new ItemStack(ModItems.GENE_SPLICER.get());
+        creative.setItemInHand(InteractionHand.MAIN_HAND,creativeTool);
+        creative.setShiftKeyDown(true);
+        creative.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
+        h.assertTrue(GeneSplicerItem.selected(creativeTool) == Gene.COAT,
+                "Creative animal interaction must select on the actual tool, not native's temporary copy");
     }
 }

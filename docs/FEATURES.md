@@ -1,5 +1,20 @@
 # Bunnidogs: how to use each feature in game
 
+**Breeding laboratory (T5/T6):** put two Tissue Samples on a Genetics Table and
+read its five spreads: A, B, pup forecast, inherited alleles and splice plans.
+The allele page includes hidden copies and two-copy odds; hover for whole-litter
+success. The Two Copies heading forecasts an all-seven-fixed pup. Splice pages
+show exact pairs in both directions without spending anything. Use the table
+with a Gene Splicer to jump to that plan. Samples are snapshots of their donors.
+
+**Purebred Registry (G2):** shapeless vanilla book + gold ingot + whisker.
+Use on a bred adult with recorded parents and identical copies in all seven
+genes, including Diet. It records up to 24 distinct stable genomes, retaining
+the first representative's adult stats, ear tag and parents. Air opens its index;
+click a line for the full sheet. Registration costs nothing and awards Breeds
+True once (25 XP). Hover GENOME on Calipers/sample sheets to find mixed pairs.
+Matching registered genomes breed true before mutation; stats still drift.
+
 Player-side guide, one paragraph per feature, in the order they were built. Status words like "works" mean the author compiled and played that chunk; the exact status of every chunk is in `docs/CHUNKS.md`.
 
 Breed them: `/give @s bunnidogs:guava 64`, feed a guava to two adults. They drop ONE seed holding both parents' genes (Phase 4c). Plant the seed by right-clicking the top of farmland (Phase 4d): it is an embryo on an umbilical cord that grows through 8 stages (bone meal speeds it up) and, when ripe (ears up, eye open), breaking it births the litter (size depends on the Fertility gene); a tool with Fortune raises the quality. `/bunnidogs hatch` (holding a seed) skips the waiting and `/bunnidogs seed` reads a seed. Its tooltip shows quality, litter and stat drift (F3+H adds the parents).

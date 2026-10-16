@@ -5,6 +5,7 @@ import com.bunnidogs.mod.genetics.Pedigree;
 import com.bunnidogs.mod.genetics.Seed;
 import com.bunnidogs.mod.genetics.Tissue;
 import com.bunnidogs.mod.layout.TableSheet;
+import com.bunnidogs.mod.item.GeneSplicerItem;
 
 import net.minecraft.client.Minecraft;
 
@@ -19,6 +20,10 @@ public final class ClientScreens {
     /** Opens the Pedigree Book window on this log (a snapshot of it). */
     public static void openBook(Pedigree book) {
         Minecraft.getInstance().gui.setScreen(new PedigreeScreen(book));
+    }
+
+    public static void openRegistry(Pedigree registry) {
+        Minecraft.getInstance().gui.setScreen(new PedigreeScreen(registry, true));
     }
 
     /** Opens the sheet of ONE animal that is in no book (the Calipers window, Phase 8 S6): the same screen, no contents, no page turning. */
@@ -38,6 +43,8 @@ public final class ClientScreens {
 
     /** Opens the window of a Genetics Table (T2): sample A's sheet, then sample B's, turned with Previous / Next. */
     public static void openTable(TableSheet table) {
-        Minecraft.getInstance().gui.setScreen(new PedigreeScreen(table));
+        var client = Minecraft.getInstance();
+        boolean splicing = client.player != null && client.player.getMainHandItem().getItem() instanceof GeneSplicerItem;
+        client.gui.setScreen(new PedigreeScreen(table, splicing));
     }
 }

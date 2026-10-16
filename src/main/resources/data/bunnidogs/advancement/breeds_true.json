@@ -1,0 +1,31 @@
+{
+  "parent": "minecraft:husbandry/root",
+  "criteria": {
+    "registered": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "registered"
+    ]
+  ],
+  "display": {
+    "icon": {
+      "id": "bunnidogs:purebred_registry"
+    },
+    "title": {
+      "translate": "advancement.bunnidogs.breeds_true.title"
+    },
+    "description": {
+      "translate": "advancement.bunnidogs.breeds_true.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 25
+  }
+}

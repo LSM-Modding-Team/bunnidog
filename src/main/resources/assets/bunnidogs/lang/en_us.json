@@ -111,5 +111,19 @@
   "message.bunnidogs.splice.carried": "This bunnidog already carries that allele. Breed to fix the trait.",
   "message.bunnidogs.splice.mutagen": "Carry one Mutagen for this splice.",
   "message.bunnidogs.splice.done": "Spliced %s: %s. The donor allele may be carried without showing.",
-  "tooltip.bunnidogs.gene_splicer.slot": "Replaces the less dominant copy of the selected gene."
+  "tooltip.bunnidogs.gene_splicer.slot": "Replaces the less dominant copy of the selected gene.",
+  "item.bunnidogs.purebred_registry": "Purebred Registry",
+  "tooltip.bunnidogs.registry.count": "%s of %s stable lines registered",
+  "tooltip.bunnidogs.registry.use": "Use on an adult to register; use air to open.",
+  "tooltip.bunnidogs.registry.goal": "Needs recorded parents and 7 matching gene pairs.",
+  "tooltip.bunnidogs.registry.snapshot": "One snapshot per genome. No animal or item cost.",
+  "message.bunnidogs.registry.added": "Registered stable line #%s. Its adult genes, stats and parents are recorded.",
+  "message.bunnidogs.registry.already": "This stable line or representative is already registered.",
+  "message.bunnidogs.registry.full": "This registry already holds %s stable lines.",
+  "message.bunnidogs.registry.pup": "Let this pup grow before registering its line.",
+  "message.bunnidogs.registry.parents": "Breed a bunnidog with recorded parents to register its line.",
+  "message.bunnidogs.registry.mixed": "Only %s of %s gene pairs match. Calipers and the Genetics Table show what remains.",
+  "tooltip.bunnidogs.gene_splicer.preview": "Use a two-sample Genetics Table to preview splicing.",
+  "advancement.bunnidogs.breeds_true.title": "Breeds True",
+  "advancement.bunnidogs.breeds_true.description": "Register a bred adult with matching copies in all seven genes."
 }

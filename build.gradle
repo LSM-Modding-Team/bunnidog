@@ -262,6 +262,15 @@ tasks.register('checkDiets', JavaExec) {
     javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
 }
 tasks.named('check').configure { dependsOn tasks.named('checkDiets') }
+tasks.register('checkBreedingLab', JavaExec) {
+    group = 'verification'
+    description = 'Check allele forecasts, splice plans, registry rules and page clearance.'
+    dependsOn tasks.named('modelCheckClasses')
+    classpath = sourceSets.modelCheck.runtimeClasspath
+    mainClass = 'BreedingLabCheck'
+    javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
+}
+tasks.named('check').configure { dependsOn tasks.named('checkBreedingLab') }
 tasks.register('checkBunnidogModel', JavaExec) {
     group = 'verification'
     description = 'Load and render the actual Bunnidog mesh and check animation invariants headlessly.'

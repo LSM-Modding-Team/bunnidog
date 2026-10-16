@@ -44,7 +44,7 @@ public final class DietCheck {
         require(book.entries().size() == 1 && book.entries().getFirst().genome().equals(legacy),"Legacy pedigree entry must survive");
         require(Pedigree.parse(book.toString()).entries().equals(book.entries()),"Upgraded pedigree must round-trip");
         TableSheet table = TableSheet.parse(old+"/1,2,3,4,5|"+old+"/5,4,3,2,1").orElseThrow();
-        require(table.spreadCount() == 3 && table.sample(0).genome().equals(legacy),"Old Genetics Table samples must load");
+        require(table.spreadCount() == 5 && table.sample(0).genome().equals(legacy),"Old Genetics Table samples must load with current analysis spreads");
 
         Genome a = Genome.DEFAULT.with(Gene.DIET,1,Gene.DIET.alleleNamed("grazer").id());
         Genome b = Genome.DEFAULT.with(Gene.DIET,1,Gene.DIET.alleleNamed("hunter").id());

@@ -76,4 +76,5 @@ def main():
     img.save("art/book_preview.png")
     print("wrote art/book_preview.png,", len(spreads), "spreads")
 
-main()
+if __name__ == '__main__':
+    main()

@@ -52,5 +52,10 @@ one copy changes across all seven genes, repeated-splice refusal, native item
 interaction, material preflight/costs, high donor stats staying uncopied,
 relative health, edited-genome/recovery saves and persisted tool selection.
 The icon preview was inspected. Full client controls/multiplayer use remain
-gameplay review. A future preview/table workflow could expose the exact before/
-after pair before spending materials; it is not required for the current tool.
+gameplay review. T5 now adds a read-only Genetics Table preview: place recipient
+and donor samples in A/B, then use the table with a Gene Splicer to jump to exact
+before/after pairs in both directions. All normal table reads can reach it with
+Next. Samples are not consumed; a live recipient can have changed since sampling.
+See `TABLE_SPECS.md` 7. Native creative selection on animals now writes to the
+actual tool rather than the temporary stack copy supplied by Minecraft; a focused
+server regression case covers it.

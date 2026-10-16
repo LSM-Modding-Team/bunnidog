@@ -4966,7 +4966,7 @@ public class GenomeCheck {
         com.bunnidogs.mod.layout.TableSheet both = new com.bunnidogs.mod.layout.TableSheet(Optional.of(ta), Optional.of(tb));
         com.bunnidogs.mod.layout.TableSheet onlyA = new com.bunnidogs.mod.layout.TableSheet(Optional.of(ta), Optional.empty());
         com.bunnidogs.mod.layout.TableSheet onlyB = new com.bunnidogs.mod.layout.TableSheet(Optional.empty(), Optional.of(tb));
-        check(both.spreadCount() == 3 && onlyA.spreadCount() == 1 && onlyB.spreadCount() == 1 && new com.bunnidogs.mod.layout.TableSheet(Optional.empty(), Optional.empty()).spreadCount() == 0, "one spread per sample on the table, plus the forecast when both are there (T3)");
+        check(both.spreadCount() == 5 && onlyA.spreadCount() == 1 && onlyB.spreadCount() == 1 && new com.bunnidogs.mod.layout.TableSheet(Optional.empty(), Optional.empty()).spreadCount() == 0, "one spread per sample on the table, plus the forecast when both are there (T3)");
         check(both.slotOf(0) == 0 && both.slotOf(1) == 1 && both.slotOf(9) == 1 && both.slotOf(-3) == 0 && onlyA.slotOf(0) == 0 && onlyA.slotOf(1) == 0 && onlyB.slotOf(0) == 1, "spread n shows slot n; with one sample, that sample's slot");
         check(both.sample(0).equals(ta) && both.sample(1).equals(tb) && onlyB.sample(0).equals(tb), "each spread shows its own sample");
         // the wire text round-trips; an empty slot is nothing; junk and an empty table open nothing
@@ -4994,7 +4994,7 @@ public class GenomeCheck {
         String net = Files.readString(src.resolve("network/ModNetwork.java"));
         check(net.contains("registrar.playToClient(TablePayload.TYPE, TablePayload.STREAM_CODEC,") && net.contains("TableSheet.parse(payload.table()).ifPresent(ClientScreens::openTable)")
                 && net.contains("PacketDistributor.sendToPlayer(player, new TablePayload(table.toString()))"), "the channel registers the table payload (versioned channel) and the server sends the table's text");
-        check(Files.readString(src.resolve("client/ClientScreens.java")).contains("Minecraft.getInstance().gui.setScreen(new PedigreeScreen(table))"), "the client door opens the table screen");
+        check(Files.readString(src.resolve("client/ClientScreens.java")).contains("client.gui.setScreen(new PedigreeScreen(table, splicing))"), "the client door opens the table screen");
         String screen = Files.readString(src.resolve("client/screen/PedigreeScreen.java"));
         check(screen.contains("public PedigreeScreen(TableSheet table)") && screen.contains("return this.table.spreadCount();") && screen.contains("this.table.spread(this.spread, text -> this.font.width(text))") && screen.contains("buildPortrait(this.table.entry(this.spread))")
                 && screen.split("this\\.table = null;", -1).length - 1 == 4 && screen.contains("return this.single != null || this.sample != null;"), "the screen has the table constructor, pages over the samples and builds each portrait; it is NOT a one-sheet window (it has buttons)");
@@ -5134,10 +5134,10 @@ public class GenomeCheck {
         // the window: a third spread, only with both samples
         com.bunnidogs.mod.layout.TableSheet both = new com.bunnidogs.mod.layout.TableSheet(Optional.of(ta), Optional.of(tb));
         com.bunnidogs.mod.layout.TableSheet onlyA = new com.bunnidogs.mod.layout.TableSheet(Optional.of(ta), Optional.empty());
-        check(both.spreadCount() == 3 && both.isForecast(2) && !both.isForecast(0) && !both.isForecast(1) && !onlyA.isForecast(2) && onlyA.spreadCount() == 1, "the forecast is spread 2, only with both samples");
+        check(both.spreadCount() == 5 && both.isForecast(2) && !both.isForecast(0) && !both.isForecast(1) && !onlyA.isForecast(2) && onlyA.spreadCount() == 1, "the forecast is spread 2, only with both samples");
         check(dump.apply(both.spread(2, m).left()).contains("0|FORECAST") && dump.apply(both.spread(0, m).left()).contains("0|Table: sample A") && dump.apply(both.spread(1, m).left()).contains("0|Table: sample B"), "the window pages A, B, then the forecast");
         String screen = Files.readString(Path.of("src/main/java/com/bunnidogs/mod/client/screen/PedigreeScreen.java"));
-        check(screen.contains("this.table.isForecast(this.spread) ? null : buildPortrait(this.table.entry(this.spread))"), "the screen draws no portrait on the forecast");
+        check(screen.contains("this.table.isAnalysis(this.spread) ? null : buildPortrait(this.table.entry(this.spread))"), "the screen draws no portrait on the forecast");
     }
 
     // ------------------------------------------------------------------ Phase 8, chunk S1: plain words and real units
@@ -5402,7 +5402,7 @@ public class GenomeCheck {
         // the glue, by grep
         Path src = Path.of("src/main/java/com/bunnidogs/mod");
         String blocks = Files.readString(src.resolve("registry/ModBlocks.java"));
-        check(blocks.contains("BLOCKS.registerBlock(\"nest\", Block::new,"), "ModBlocks registers the nest as a plain block");
+        check(blocks.contains("BLOCKS.registerBlock(\"nest\", NestBlock::new,"), "ModBlocks registers the native Nest interaction block (H5)");
         String items = Files.readString(src.resolve("registry/ModItems.java"));
         check(items.contains("NEST = ITEMS.registerSimpleBlockItem(ModBlocks.NEST)") && items.contains("event.accept(NEST.get())"), "ModItems: block item + creative tab");
         String poi = Files.readString(src.resolve("registry/ModPoi.java"));

@@ -40,7 +40,7 @@ public final class GeneSplicerItem extends Item {
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
         if (!(target instanceof Bunnidog dog) || !dog.isAlive()) return InteractionResult.PASS;
-        if (player.isShiftKeyDown()) return select(stack,player);
+        if (player.isShiftKeyDown()) return select(player.getItemInHand(hand),player);
         if (dog.level().isClientSide()) return InteractionResult.SUCCESS;
         if (dog.isBaby() || !Sampling.healthy(dog.getHealth(),dog.getMaxHealth())) return refuse(player,"health");
         if (dog.splicingWait() > 0) {
@@ -79,7 +79,7 @@ public final class GeneSplicerItem extends Item {
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack,context,display,lines,flag);
         lines.accept(Component.translatable("message.bunnidogs.splice.selected",Plain.geneName(selected(stack))).withStyle(ChatFormatting.GOLD));
-        for (String key : new String[]{"select","donor","cost","slot","copy"})
+        for (String key : new String[]{"select","donor","cost","slot","copy","preview"})
             lines.accept(Component.translatable("tooltip.bunnidogs.gene_splicer." + key).withStyle(ChatFormatting.GRAY));
     }
 }

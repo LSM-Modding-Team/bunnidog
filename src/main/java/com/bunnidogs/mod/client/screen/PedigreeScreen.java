@@ -9,6 +9,7 @@ import com.bunnidogs.mod.genetics.Seed;
 import com.bunnidogs.mod.genetics.Tissue;
 import com.bunnidogs.mod.layout.BookContents;
 import com.bunnidogs.mod.layout.Page;
+import com.bunnidogs.mod.layout.RegistryContents;
 import com.bunnidogs.mod.layout.SeedSheet;
 import com.bunnidogs.mod.layout.TableSheet;
 import com.bunnidogs.mod.layout.SheetLayout;
@@ -73,8 +74,9 @@ public final class PedigreeScreen extends Screen {
     private final Tissue sample;
     /** Phase 8 S8: the seed of a seed window (three spreads: the seed, the mother, the father), or null. */
     private final Seed seed;
-    /** Genetics Table T2, T3: the samples of a table window (A's sheet, B's sheet, then the forecast), or null. */
+    /** Genetics Table: A/B samples followed by the breeding and splicing analysis, or null. */
     private final TableSheet table;
+    private final boolean registry;
     private int spread = 0;
     private Page.Spread current;
     private Button previous;
@@ -87,12 +89,17 @@ public final class PedigreeScreen extends Screen {
     private boolean portraitLogged;
 
     public PedigreeScreen(Pedigree book) {
-        super(Component.literal("Pedigree Book"));
+        this(book, false);
+    }
+
+    public PedigreeScreen(Pedigree book, boolean registry) {
+        super(Component.literal(registry ? "Purebred Registry" : "Pedigree Book"));
         this.book = book;
         this.single = null;
         this.sample = null;
         this.seed = null;
         this.table = null;
+        this.registry = registry;
     }
 
     /** The Calipers window (Phase 8 S6): the sheet of one animal that is in no book. */
@@ -103,6 +110,7 @@ public final class PedigreeScreen extends Screen {
         this.sample = null;
         this.seed = null;
         this.table = null;
+        this.registry = false;
     }
 
     /** The Tissue Sample window (Phase 8 S8): one sheet of the animal the sample was taken from. */
@@ -113,6 +121,7 @@ public final class PedigreeScreen extends Screen {
         this.sample = sample;
         this.seed = null;
         this.table = null;
+        this.registry = false;
     }
 
     /** The seed window (Phase 8 S8): the seed, then the mother's and the father's sheets, turned with Previous / Next. */
@@ -123,16 +132,23 @@ public final class PedigreeScreen extends Screen {
         this.sample = null;
         this.seed = seed;
         this.table = null;
+        this.registry = false;
     }
 
     /** The Genetics Table window (T2, T3): the sheet of the sample on slot A, then the one on slot B, then the forecast of their litter, turned with Previous / Next. */
     public PedigreeScreen(TableSheet table) {
+        this(table, false);
+    }
+
+    public PedigreeScreen(TableSheet table, boolean splicing) {
         super(Component.literal("Genetics Table"));
         this.book = new Pedigree();
         this.single = null;
         this.sample = null;
         this.seed = null;
         this.table = table;
+        this.registry = false;
+        if (splicing && table.isAnalysis(TableSheet.SPLICING)) this.spread = TableSheet.SPLICING;
     }
 
     /** True for the windows of ONE sheet (the Calipers on an animal, a Tissue Sample): no buttons, no page turning, no links. */
@@ -140,7 +156,7 @@ public final class PedigreeScreen extends Screen {
         return this.single != null || this.sample != null;
     }
 
-    /** How many spreads this window has: the book's contents and sheets, the seed's three, the table's samples and forecast (1 or 3), or 1. */
+    /** Book contents/sheets, three seed spreads, one/five table spreads, or one standalone sheet. */
     private int spreadCount() {
         if (oneSheet()) {
             return 1;
@@ -255,7 +271,7 @@ public final class PedigreeScreen extends Screen {
         this.next.active = this.spread < spreadCount() - 1;
         if (this.table != null) {
             this.current = this.table.spread(this.spread, text -> this.font.width(text));
-            this.animal = this.table.isForecast(this.spread) ? null : buildPortrait(this.table.entry(this.spread));
+            this.animal = this.table.isAnalysis(this.spread) ? null : buildPortrait(this.table.entry(this.spread));
             return;
         }
         if (this.seed != null) {
@@ -263,7 +279,8 @@ public final class PedigreeScreen extends Screen {
             this.animal = this.spread >= 1 ? buildPortrait(SeedSheet.parentEntry(this.seed, this.spread == 1)) : null;
             return;
         }
-        this.current = BookContents.spread(this.book, this.spread, text -> this.font.width(text));
+        this.current = this.registry ? RegistryContents.spread(this.book, this.spread, text -> this.font.width(text))
+                : BookContents.spread(this.book, this.spread, text -> this.font.width(text));
         this.animal = this.spread >= 1 && this.spread <= this.book.size() ? buildPortrait(this.book.entries().get(this.spread - 1)) : null;
     }
 

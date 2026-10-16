@@ -8,7 +8,7 @@ import com.bunnidogs.mod.genetics.Tissue;
 /**
  * What the Genetics Table window shows (T2 and T3, docs/TABLE_SPECS.md): the samples on slot A and slot B. One spread per sample that is there,
  * in the order A, B: the sheet of the animal it came from, headed {@code Table: sample A} / {@code Table: sample B}. With both slots full
- * there is a third spread, the FORECAST of the litter A x B ({@link ForecastSheet}), and the window pages over the three with Previous / Next.
+ * there are three analysis spreads: pup looks/stats, inherited copies and both-direction splice plans.
  * Pure Java, like {@link SeedSheet}: the screen only draws what this lays out, and the text form below is what the server sends.
  *
  * <p>Wire text: {@code A|B}, each side the {@link Tissue} text ({@code genome/stats}) or nothing for an empty slot, for example
@@ -40,15 +40,24 @@ public record TableSheet(Optional<Tissue> a, Optional<Tissue> b) {
         return text.isBlank() ? Optional.empty() : Tissue.parse(text);
     }
 
-    /** One spread per sample on the table, plus the forecast when both are there: 0, 1 or 3. */
+    public static final int FORECAST = 2;
+    public static final int INHERITANCE = 3;
+    public static final int SPLICING = 4;
+
+    /** One spread per sample, plus look/inheritance/splice plans when both are there: 0, 1 or 5. */
     public int spreadCount() {
         int samples = (this.a.isPresent() ? 1 : 0) + (this.b.isPresent() ? 1 : 0);
-        return samples == 2 ? samples + 1 : samples;
+        return samples == 2 ? 5 : samples;
     }
 
-    /** True for the last spread of a table with two samples (the forecast, spread 2): it has no sample of its own and no portrait. */
+    /** True for the look/stat forecast, spread 2, with two samples. */
     public boolean isForecast(int n) {
-        return this.a.isPresent() && this.b.isPresent() && n >= 2;
+        return this.a.isPresent() && this.b.isPresent() && n == FORECAST;
+    }
+
+    /** Analysis spreads have no individual portrait. */
+    public boolean isAnalysis(int n) {
+        return this.a.isPresent() && this.b.isPresent() && n >= FORECAST;
     }
 
     /** Which slot spread {@code n} shows: 0 = A, 1 = B (with only one sample, its slot whatever {@code n} is; meaningless for the forecast, see {@link #isForecast}). */
@@ -59,7 +68,7 @@ public record TableSheet(Optional<Tissue> a, Optional<Tissue> b) {
         return this.a.isPresent() ? 0 : 1;
     }
 
-    /** The sample spread {@code n} shows ({@code n} clamped into range; call only when {@link #spreadCount} is above 0 and {@link #isForecast} is false). */
+    /** The sample spread {@code n} shows; call only for a nonempty sample spread, never {@link #isAnalysis}. */
     public Tissue sample(int n) {
         return slotOf(n) == 0 ? this.a.orElseThrow() : this.b.orElseThrow();
     }
@@ -69,8 +78,11 @@ public record TableSheet(Optional<Tissue> a, Optional<Tissue> b) {
         return SheetLayout.sampleEntry(sample(n));
     }
 
-    /** Spread {@code n} of the table window: sample A, sample B, then the forecast. */
+    /** Spread {@code n}: A, B, look/stat forecast, inherited alleles, splice plans. */
     public Page.Spread spread(int n, Metrics m) {
+        n = Math.max(0, Math.min(n, spreadCount() - 1));
+        if (isAnalysis(n) && n == SPLICING) return SpliceSheet.spread(this.a.orElseThrow(), this.b.orElseThrow(), m);
+        if (isAnalysis(n) && n == INHERITANCE) return InheritanceSheet.spread(this.a.orElseThrow(), this.b.orElseThrow(), m);
         if (isForecast(n)) {
             return ForecastSheet.spread(this.a.orElseThrow(), this.b.orElseThrow(), m);
         }

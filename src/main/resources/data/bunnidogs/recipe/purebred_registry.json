@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "minecraft:book",
+    "minecraft:gold_ingot",
+    "bunnidogs:whisker"
+  ],
+  "result": {
+    "id": "bunnidogs:purebred_registry"
+  }
+}
