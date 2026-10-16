@@ -1,4 +1,4 @@
-# Settlement life L1–L9
+# Settlement life L1–L10
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
@@ -243,6 +243,40 @@ component-defined capacity and exactly-once stock drops. Its drain hopper uses
 real redstone power so native neighbour updates retain the lock. The guide
 preview is inspected; modded-device compatibility and client contraptions remain
 gameplay review.
+
+## L10: native bell calls
+
+Ring a native bell to request a daytime visit from healthy adult residents,
+without waiting for noon. Hand use, projectiles, redstone and the bell's other
+native ring sources work. The bell must be loaded, within 12 blocks of the
+animal's current Nest and within the native 32-block hearing radius. Animals
+still need to be within their existing home boundary, unled/unmounted, fully
+healthy and free of combat, recent attacks and refuge. The Apex is excluded.
+Night-home routines take precedence. Calls also work in dimensions without a
+day clock; they do not invent a scheduled noon there.
+
+The relay listens to an actual fresh bell ring's native game event instead of
+polling bells or searching remote terrain. Each animal accepts at most one call
+per five seconds, keeps it for ten seconds and consumes it on a search attempt.
+A call can bypass failed-search backoff, but never the existing one-minute
+post-visit rest. Repeated ringing cannot prolong the current twenty-second
+visit or force a feeding/working animal to leave its higher-priority task.
+
+Called and scheduled visits use loaded, dry supported standing spots and full
+home-bounded hazard-checked native paths. One call tries four spots beside its
+exact bell; scheduled visits still inspect at most two bells. Route replans at
+most once per two seconds use the same safety rules. An occupied destination,
+removed bell, changed home, injury, danger, transport or night interrupts the
+visit. No attacks, block changes, Nest/villager-ticket changes or rewards occur.
+The pending call and rate limit are transient and clear on native loading;
+existing saves/protocol remain compatible. The Field Guide grows to 35 pages.
+
+Actual Java 25 build and all twenty-four native cases pass. The new bell case
+exercises the real native ring/event relay, a morning visit after a failed noon
+lookup, safe native routing, injured/led refusals, rapid-ring limiting, changed
+home interruption, post-visit rest, night refusal and Apex exclusion. Existing
+scheduled-gathering cases still pass. The updated guide preview is inspected;
+natural multiplayer bell use and client contraptions remain gameplay review.
 
 ## Evidence
 

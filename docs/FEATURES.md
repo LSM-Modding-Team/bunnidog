@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 34 pages from first warren to Apex, with clickable chapter/contents links.
+open 35 pages from first warren to Apex, with clickable chapter/contents links.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 
@@ -56,6 +56,11 @@ neither distance nor shelter makes an animal immune to harm.
 Nest during thunderstorms. Keep a safe floor and walking space near home.
 Meals, work, home/social routines, breeding, danger and player control take
 priority. Ordinary rain leaves their existing idle routines in place.
+
+**Bell calls (L10):** ring a vanilla bell to call healthy adult residents by day,
+including outside noon. Hand use, redstone and projectiles work. Keep it within
+12 blocks of their Nest and leave safe walking space. Calls use the same short
+visits and minute of rest; injury, danger, leads/rides and night take priority.
 
 **Trough automation (L9):** use hoppers above/beside a trough to supply food.
 A hopper below drains it; power that hopper to retain meals for residents.

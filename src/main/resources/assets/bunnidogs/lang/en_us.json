@@ -241,7 +241,7 @@
   "guide.bunnidogs.page.9.title": "Food and troughs",
   "guide.bunnidogs.page.9.body": "Guavas suit every line; other foods follow Diet. New feed stores, markets and pantries hold local food. Fill a trough near home for healing. Sneak-use with both hands empty to withdraw.",
   "guide.bunnidogs.page.10.title": "Life at home",
-  "guide.bunnidogs.page.10.body": "Healthy adults visit nearby bells at noon. Put a bell within 12 blocks of home and leave walking space. Injury, threats, leads, rides and night interrupt the visit.",
+  "guide.bunnidogs.page.10.body": "Healthy adults visit nearby bells at noon. Ring one to call a daytime visit. Keep it within 12 blocks of home, with walking space. Injury, threats, leads, rides and night interrupt.",
   "guide.bunnidogs.page.11.title": "Gentle sampling",
   "guide.bunnidogs.page.11.body": "Use a Sampling Syringe on an animal at half health or better. It yields one Tissue Sample without harm; recovery takes five minutes. Sneak-use Calipers for care readiness and timers.",
   "guide.bunnidogs.page.12.title": "Wool and whiskers",
@@ -314,5 +314,7 @@
   "guide.bunnidogs.page.33.title": "Storm shelter",
   "guide.bunnidogs.page.33.body": "Idle adults wait under cover near their Nest during thunderstorms. Leave a dry floor, room to stand and a safe route. Meals, work, danger and player control take priority. Normal rain keeps idle routines.",
   "guide.bunnidogs.page.34.title": "Trough automation",
-  "guide.bunnidogs.page.34.body": "Hoppers fill troughs from above or the side; one below drains stock. Keep it powered to hold food. One food stack fits up to 16. Comparators read stock: 0 empty, 15 full. A hoe still controls gardening."
+  "guide.bunnidogs.page.34.body": "Hoppers fill troughs from above or the side; one below drains stock. Keep it powered to hold food. One food stack fits up to 16. Comparators read stock: 0 empty, 15 full. A hoe still controls gardening.",
+  "guide.bunnidogs.page.35.title": "Bell calls",
+  "guide.bunnidogs.page.35.body": "Ring a bell within 12 blocks of a Nest to call healthy adults by day. Redstone and projectiles work too. Leave safe walking space. Visits last up to 20 seconds, with a minute of rest. Leads and care take priority."
 }

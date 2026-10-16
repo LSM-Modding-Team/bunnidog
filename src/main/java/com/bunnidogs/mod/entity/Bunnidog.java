@@ -16,6 +16,7 @@ import com.bunnidogs.mod.genetics.Fleece;
 import com.bunnidogs.mod.genetics.Splicing;
 import com.bunnidogs.mod.genetics.Grooming;
 import com.bunnidogs.mod.genetics.Gardening;
+import com.bunnidogs.mod.genetics.Social;
 import com.bunnidogs.mod.genetics.Home;
 import com.bunnidogs.mod.genetics.EarTag;
 import com.bunnidogs.mod.genetics.Genome;
@@ -181,6 +182,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private long nextSpliceTick;
     private LivingEntity huntingTarget;
     private Mob refugeThreat;
+    private BlockPos calledBell;
+    private long bellCallUntil, nextBellCallTick;
 
     public Bunnidog(EntityType<? extends Bunnidog> type, Level level) {
         super(type, level);
@@ -438,6 +441,16 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     boolean hasCombatTarget() { return this.getTarget() != null && this.getTarget() != this.huntingTarget; }
     void refugeFrom(Mob threat) { this.refugeThreat = threat; }
     public boolean seekingRefuge() { return this.refugeThreat != null && this.refugeThreat.isAlive(); }
+
+    void hearBell(BlockPos bell) {
+        long now = this.level().getGameTime();
+        if (now < this.nextBellCallTick || !BellGatherGoal.willing(this)
+                || bell.distSqr(this.homeNest()) > Social.BELL_RANGE*Social.BELL_RANGE) return;
+        this.calledBell = bell.immutable(); this.bellCallUntil = now+Social.CALL_WINDOW;
+        this.nextBellCallTick = now+Social.CALL_INTERVAL;
+    }
+    BlockPos calledBell() { return this.level().getGameTime() < this.bellCallUntil ? this.calledBell : null; }
+    void forgetBellCall() { this.calledBell = null; }
 
     @Override
     public boolean killedEntity(ServerLevel level, LivingEntity victim, DamageSource source) {
@@ -782,6 +795,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         // H2: a save from before it, or a dog without a nest, has no Y = no nest.
         this.nestHome.restore(input.getIntOr(TAG_NEST_X, 0), input.getIntOr(TAG_NEST_Y, NestHome.NO_NEST), input.getIntOr(TAG_NEST_Z, 0));
         this.refugeThreat = null;
+        this.calledBell = null; this.bellCallUntil = 0; this.nextBellCallTick = 0;
     }
 
     // ------------------------------------------------------------------ behaviour

@@ -7,5 +7,8 @@ public final class Social {
     public static final int BELL_RANGE = 12;
     public static final int VISIT_TICKS = 400;
     public static final int REST_TICKS = 1200;
+    public static final int CALL_RANGE = 32;
+    public static final int CALL_WINDOW = 200;
+    public static final int CALL_INTERVAL = 100;
     public static boolean gatheringTime(long ticks) { long day = Math.floorMod(ticks,24000L); return day >= 6000 && day < 9000; }
 }

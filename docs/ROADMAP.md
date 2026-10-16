@@ -16,6 +16,10 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L10 lets actual bell rings call healthy adult residents by day outside noon.
+Calls are bounded/transient, preserve visit rest and home tickets, and share
+loaded safe paths with scheduled visits. See `SETTLEMENT_LIFE.md`.
+
 L9 adds transactional trough hopper access and comparator stock output, using
 the existing saved stack and its limits/food filters/components. No menu or
 automatic restock is introduced. See `SETTLEMENT_LIFE.md`.

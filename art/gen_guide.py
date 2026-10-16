@@ -13,7 +13,7 @@ PAGES = {
     7: ('Keep a pedigree', 'Use a Pedigree Book on animals to record them. Ear Tags give permanent codes. Calipers also read a seed or sample held in the other hand. Compare parents before choosing a mate.'),
     8: ('Nests and travel', 'An adult claims one free reachable Nest. At night it returns home. Leads and rides pause home routines. While leading it, use a free Nest with an empty hand or lead to move its home.'),
     9: ('Food and troughs', 'Guavas suit every line; other foods follow Diet. New feed stores, markets and pantries hold local food. Fill a trough near home for healing. Sneak-use with both hands empty to withdraw.'),
-    10: ('Life at home', 'Healthy adults visit nearby bells at noon. Put a bell within 12 blocks of home and leave walking space. Injury, threats, leads, rides and night interrupt the visit.'),
+    10: ('Life at home', 'Healthy adults visit nearby bells at noon. Ring one to call a daytime visit. Keep it within 12 blocks of home, with walking space. Injury, threats, leads, rides and night interrupt.'),
     11: ('Gentle sampling', 'Use a Sampling Syringe on an animal at half health or better. It yields one Tissue Sample without harm; recovery takes five minutes. Sneak-use Calipers for care readiness and timers.'),
     12: ('Wool and whiskers', 'Shear a healthy woolly adult for two wool. Brush a healthy adult with Senses +10 for one whisker. Each needs ten minutes of recovery; brushing wears the tool. Pups cannot yield either.'),
     13: ('Useful coats', 'Expressed ember resists fire and lava; moss prevents Poison; sand prevents cactus damage; void prevents Levitation. Hidden copies give no protection. Other dangers still matter.'),
@@ -38,6 +38,7 @@ PAGES = {
     32: ('Find refuge', 'Non-feral residents retreat from visible threats to a safer dry spot near home. Meals and work pause. Leads and rides take over. Feral lines keep their retaliation. No safe route means no retreat.'),
     33: ('Storm shelter', 'Idle adults wait under cover near their Nest during thunderstorms. Leave a dry floor, room to stand and a safe route. Meals, work, danger and player control take priority. Normal rain keeps idle routines.'),
     34: ('Trough automation', 'Hoppers fill troughs from above or the side; one below drains stock. Keep it powered to hold food. One food stack fits up to 16. Comparators read stock: 0 empty, 15 full. A hoe still controls gardening.'),
+    35: ('Bell calls', 'Ring a bell within 12 blocks of a Nest to call healthy adults by day. Redstone and projectiles work too. Leave safe walking space. Visits last up to 20 seconds, with a minute of rest. Leads and care take priority.'),
 }
 INDEX = {2:'Warrens & genes',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
          17:'Registry & shows',19:'Material drops',20:'Apex of the Line',24:'Guava juice',25:'Trough gardening',27:'Boss forecast'}
@@ -86,7 +87,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,1),(495,33),(735,34)]:
+    for x,page in [(255,1),(495,34),(735,35)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         d.text((x+14,35), 'Bunnidogs Guide' if page == 1 else PAGES[page][0], font=bold,fill=(40,39,30))
         if page == 1: body = '\n'.join(INDEX.values())

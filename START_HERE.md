@@ -20,6 +20,12 @@ is not exposed in this session: use available work budget without inventing quot
 
 ## Latest gameplay work — 2026-10-16
 
+- **L10, bell calls:** a real native ring requests nearby healthy residents by
+  day, outside the noon window. Calls use existing home/hearing bounds, a short
+  pending window, rate limiting and the same post-visit rest. Shared safe paths,
+  injury/danger/transport/night and home changes govern both visit types.
+  No new saved fields or tickets. See `docs/SETTLEMENT_LIFE.md` L10.
+
 - **L9, trough automation:** native hoppers supply/extract the existing stack;
   comparators read 0 empty through 15 full. The shared transactional handler
   preserves the 16-item/effective limit, food filters and exact components.
@@ -73,7 +79,7 @@ is not exposed in this session: use available work budget without inventing quot
   all eight crops remain. End mushroom plots and saved versions 1–3 keep their
   previous layout. See `docs/SETTLEMENT_LIFE.md` L5.
 
-The native Field Guide now has 34 translated pages and eleven contents links.
+The native Field Guide now has 35 translated pages and eleven contents links.
 `art/gen_guide.py` owns its text/icon/preview, including gardening, forecasts,
 renewable care, terrain traits and fishing. `art/gen_pantries.py` owns the eight
 new loot tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
@@ -90,7 +96,7 @@ new loot tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Care | Live Tissue Samples, woolly fleece, whiskers/dust, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C6 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow and terrain movement. `docs/CARE_SPECS.md` A1–A4 |
 | Homes | Claimable Nests, day tether/night return, floor Nests, native leads/rides, safe led-adult reassignment. `docs/HOME_SPECS.md` H1–H5 |
-| Settlement life | Saved trough stock/automation, diet healing, noon bell visits, fitted den furniture, gardening, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L9 |
+| Settlement life | Saved trough stock/automation, diet healing, scheduled/called bell visits, fitted furniture, gardening, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L10 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
 | Drops and endgame | Pelts/materials, Mutagen/Marrow/Tissue/Dust, five stat legends and pedestals. Sample-defined Apex ritual, inherited combat, warned attacks/enrage, boss bar and source-line crest. `docs/DROPS_SPECS.md`, `docs/APEX_SPECS.md` |
@@ -176,7 +182,11 @@ abort, empty outputs and stock drops. Its 34-page guide preview is inspected.
 Modded item devices and client contraptions remain gameplay review.
 
 Native tests establish server behavior, not complete client or natural-world
-play. Remaining review includes client interaction/lighting/book fonts, natural
+play. L10 passes the actual build and all twenty-four native cases, including
+the real native ring/event relay, morning visits, safe routes, refusals, home
+changes and rest. The 35-page guide preview is inspected.
+
+Remaining review includes client interaction/lighting/book fonts, natural
 chunk order/travel/unload, long multiplayer routines and progression balance.
 Native sign validity/tickers/text/color/glow/wax, boat inventory/drop/save,
 transport/home tickets, care/tools, laboratory/show/registry and Apex encounter
