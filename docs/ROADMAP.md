@@ -16,6 +16,10 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+C7 makes woolly fleece follow expressed coat palettes, including spotted's
+two-color pair. Total yield, shared recovery and native shears cost stay the
+same; Calipers names the prospective products. See `CARE_SPECS.md`.
+
 L10 lets actual bell rings call healthy adult residents by day outside noon.
 Calls are bounded/transient, preserve visit rest and home tickets, and share
 loaded safe paths with scheduled visits. See `SETTLEMENT_LIFE.md`.

@@ -13,6 +13,7 @@ Refuge explains non-feral residents' bounded response to visible threats.
 Storm shelter explains idle covered waiting and its priority below care/work.
 Trough automation explains hopper supply/drain, food retention and stock signals.
 Bell calls explains daytime ringing, safe walking space and visit recovery.
+Fleece colors explains expressed palettes, mixed spotted yield and Calipers.
 
 Craft one with a vanilla book and any guava (the existing bunnidog-food tag).
 Obtaining a guava unlocks its recipe. An additional independent 35% pantry loot
@@ -23,7 +24,7 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Thirty-five pages use the ordinary written-book screen. Page 1 has eleven clickable
+Thirty-six pages use the ordinary written-book screen. Page 1 has eleven clickable
 chapter links; every other page links back to the contents. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
@@ -41,18 +42,14 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-Actual Gradle build passes. Icon and representative page/index preview inspected;
-the existing conservative text-width estimate identified one long paragraph,
-which was shortened. Native opening/click targets were checked against resolved
-26.2 WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen.
-The final combined build/server run passes all fifteen mod scenarios plus
-native sanity, including loading the new book/recipe/loot resources. GitHub
-delivery is checked for each pushed checkpoint.
-The expanded 33-page guide also passes the actual build and current twenty-two
-native cases; its refuge/storm pages and contents preview are inspected.
-The 34-page automation update passes the build and twenty-three native cases;
-its page/contents preview is inspected.
-The 35-page bell-call update passes the build and twenty-four native cases;
-its page/contents preview is inspected.
-Actual client book navigation, font rendering and pantry discovery need gameplay
-review. No extra server scenario is added for this native-book content change.
+The actual Java 25 build and current twenty-four native server cases pass,
+including loading the new book/recipe/loot resources. The expanded 36-page
+contents/bell-call/fleece preview is inspected with a substitute font. Earlier
+pages were shortened using the conservative native text-area estimate.
+Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
+sources establish the ordinary book/packet/click behavior; no new screen or
+server scenario is required for added page text. Each pushed GitHub build's
+exact-commit artifact is checked.
+
+Actual client navigation, font rendering and natural pantry discovery still
+need gameplay review. Server loading does not establish these client details.

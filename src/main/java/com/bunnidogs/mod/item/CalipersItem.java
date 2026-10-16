@@ -85,7 +85,9 @@ public class CalipersItem extends Item {
         careRow(player, "sampling", !healthy ? health : recovery(dog.samplingWait()));
         careRow(player, "fleece", dog.isBaby() ? adult
                 : !dog.genome().expressed(Gene.BUILD).name().equals("woolly") ? Component.translatable("message.bunnidogs.care.woolly")
-                : !healthy ? health : recovery(dog.fleeceWait()));
+                : !healthy ? health : dog.fleeceWait() > 0 ? recovery(dog.fleeceWait())
+                : Component.translatable("message.bunnidogs.care.fleece_ready",ComponentUtils.formatList(dog.fleeceProducts(),
+                        product -> Component.translatable("message.bunnidogs.care.fleece_product",product.getCount(),product.getHoverName()))));
         var products = Grooming.yields(dog.genome(),dog.stats());
         careRow(player, "grooming", dog.isBaby() ? adult
                 : products.isEmpty() ? Component.translatable("message.bunnidogs.groom.traits",Grooming.MIN_SENSES,Grooming.MIN_STARLIT_BLOOM)

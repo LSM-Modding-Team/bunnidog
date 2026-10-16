@@ -25,9 +25,10 @@ client gameplay review.
 
 ## C2: Woolly fleece
 
-- A healthy adult expressing BUILD `woolly` yields two `minecraft:white_wool`
+- A healthy adult expressing BUILD `woolly` yields two wool in its coat palette
   with ordinary shears. Health must be at least half maximum. Pups keep their
   fleece; ordinary builds and hidden woolly alleles do not yield it.
+  C7 below defines the colors; the original C2 yield was always white.
 - NeoForge `IShearable` integrates with native shears, including tool wear and
   drop spawning. One successful use costs one shear durability and starts ten
   minutes / 12,000 ticks of regrowth. Refusals cost no durability.
@@ -117,6 +118,46 @@ AI readiness, a real trough meal, saved-length recovery, full health, the home
 boundary and read-only inspection. Actual build and all twenty native scenarios
 pass; updated guide preview inspected. Client chat formatting remains gameplay
 review.
+
+## C7: fleece palettes
+
+Woolly fleece now follows the **expressed coat**, giving living decorative lines
+a practical use. The native wool palette approximates the existing fur colors:
+
+| Expressed coat | One successful shearing |
+|---|---|
+| tan, sand | 2 yellow wool |
+| cream, snow | 2 white wool |
+| brown | 2 brown wool |
+| spotted | 1 yellow and 1 brown wool |
+| moss | 2 green wool |
+| glow | 2 cyan wool |
+| pale | 2 light gray wool |
+| slate | 2 gray wool |
+| ember | 2 red wool |
+| void | 2 purple wool |
+
+Only expressed colors count; a hidden recessive glow copy does not add cyan.
+The total stays two, including spotted's mixed pair. Every product shares the
+existing one shears durability and ten-minute saved `FleeceWait`; changing coat
+or build cannot reset or bypass recovery. After regrowth, the next harvest uses
+the then-current expressed coat. Age/health checks, native drop spawning and
+creative shears behavior stay unchanged. Pelts/death drops keep their own roles.
+
+Ready sneak-Calipers names each exact color/count from the same prospective
+native product list used by shearing. Reading starts no recovery and changes
+no animal or item. Ineligible/recovering animals retain their clear requirements
+and timer. Gene hovers and the 36-page Field Guide explain the color source.
+No gene IDs, stat rules, timers, save formats, network fields, sculpt or atlases
+are changed; existing woolly animals use this palette at their next ready shear.
+
+Actual Java 25 build and all twenty-four native cases pass. The extended fleece
+case uses actual player/shears interactions for hidden glow versus tan, cyan
+regrowth after a coat edit, mixed spotted drops and one durability per harvest.
+It checks that a gene edit cannot bypass recovery, native save/load and ticks
+retain/regrow fleece, Calipers is read-only and every palette resolves to real
+wool colors while conserving the two-item total. The guide preview is inspected;
+client interaction and decorative breeding balance remain gameplay review.
 
 ## A1/A2: Expressed environmental adaptations
 

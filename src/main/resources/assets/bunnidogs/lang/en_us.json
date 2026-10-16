@@ -176,6 +176,8 @@
   "message.bunnidogs.foraging.outside_home": "needs to be within 16 blocks of its Nest",
   "message.bunnidogs.care.sampling": "Sampling: %s",
   "message.bunnidogs.care.fleece": "Fleece: %s",
+  "message.bunnidogs.care.fleece_ready": "ready to gather: %s",
+  "message.bunnidogs.care.fleece_product": "%s x %s",
   "message.bunnidogs.care.grooming": "Grooming: %s",
   "message.bunnidogs.care.splicing": "Splicing: %s",
   "message.bunnidogs.care.ready": "ready",
@@ -245,7 +247,7 @@
   "guide.bunnidogs.page.11.title": "Gentle sampling",
   "guide.bunnidogs.page.11.body": "Use a Sampling Syringe on an animal at half health or better. It yields one Tissue Sample without harm; recovery takes five minutes. Sneak-use Calipers for care readiness and timers.",
   "guide.bunnidogs.page.12.title": "Wool and whiskers",
-  "guide.bunnidogs.page.12.body": "Shear a healthy woolly adult for two wool. Brush a healthy adult with Senses +10 for one whisker. Each needs ten minutes of recovery; brushing wears the tool. Pups cannot yield either.",
+  "guide.bunnidogs.page.12.body": "Shear a healthy woolly adult for two wool in coat colors. Brush adults at Senses +10 for one whisker. Each needs ten minutes of recovery. Tools wear once; pups yield neither.",
   "guide.bunnidogs.page.13.title": "Useful coats",
   "guide.bunnidogs.page.13.body": "Expressed ember resists fire and lava; moss prevents Poison; sand prevents cactus damage; void prevents Levitation. Hidden copies give no protection. Other dangers still matter.",
   "guide.bunnidogs.page.14.title": "Physical traits",
@@ -316,5 +318,7 @@
   "guide.bunnidogs.page.34.title": "Trough automation",
   "guide.bunnidogs.page.34.body": "Hoppers fill troughs from above or the side; one below drains stock. Keep it powered to hold food. One food stack fits up to 16. Comparators read stock: 0 empty, 15 full. A hoe still controls gardening.",
   "guide.bunnidogs.page.35.title": "Bell calls",
-  "guide.bunnidogs.page.35.body": "Ring a bell within 12 blocks of a Nest to call healthy adults by day. Redstone and projectiles work too. Leave safe walking space. Visits last up to 20 seconds, with a minute of rest. Leads and care take priority."
+  "guide.bunnidogs.page.35.body": "Ring a bell within 12 blocks of a Nest to call healthy adults by day. Redstone and projectiles work too. Leave safe walking space. Visits last up to 20 seconds, with a minute of rest. Leads and care take priority.",
+  "guide.bunnidogs.page.36.title": "Fleece colors",
+  "guide.bunnidogs.page.36.body": "Woolly adults yield two wool in their coat colors. Spotted gives one yellow and one brown. Glow gives cyan; moss green; ember red; void purple. Hidden coats add nothing. Calipers names the ready yield."
 }

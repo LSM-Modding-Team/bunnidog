@@ -25,7 +25,7 @@ public final class Adaptations {
     public static String explanation(Gene gene, Allele allele) {
         if (gene == Gene.COAT && allele.name().equals("ember")) return "Immune to fire and lava.";
         if (gene == Gene.BUILD && allele.name().equals("woolly"))
-            return "Does not freeze in powder snow. Healthy adults yield two wool with shears every ten minutes.";
+            return "Does not freeze in powder snow. Healthy adults yield two wool in their expressed coat's palette with shears every ten minutes.";
         if (gene == Gene.COAT && allele.name().equals("snow"))
             return "Does not freeze in powder snow.";
         if (gene == Gene.COAT && allele.name().equals("moss")) return "Immune to poison, but not wither or other magic.";

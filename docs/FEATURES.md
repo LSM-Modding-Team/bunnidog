@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 35 pages from first warren to Apex, with clickable chapter/contents links.
+open 36 pages from first warren to Apex, with clickable chapter/contents links.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 
@@ -208,8 +208,11 @@ One successful splice costs a sample, Mutagen and one of 16 tool uses; the anima
 needs one minute before another splice. Tool selection and recovery are saved.
 Server checks pass; client interaction is pending. See `docs/SPLICER_SPECS.md`.
 
-**Woolly fleece (Care C2):** healthy adults expressing woolly build yield two
-white wool with vanilla shears, then regrow it in ten minutes. Pups and ordinary
+**Woolly fleece (Care C2/C7):** healthy adults expressing woolly build yield two
+wool in their expressed coat's palette with vanilla shears, then regrow it in
+ten minutes. Spotted gives one yellow and one brown; glow cyan, moss green,
+ember red and void purple. Calipers names the ready colors/counts. Changing
+genes cannot bypass recovery. Pups and ordinary
 builds cannot be sheared. Health, genes and the approved model stay intact.
 Recovery persists across saves; both sides need the current version 6 protocol.
 

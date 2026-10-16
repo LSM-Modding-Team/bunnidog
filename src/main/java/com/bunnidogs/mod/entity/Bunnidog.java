@@ -714,6 +714,12 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         return (int)Math.clamp(this.nextFleeceTick-this.level().getGameTime(),0L,
                 (long)Fleece.REGROW_TICKS);
     }
+    /** Exact prospective native products, shared by shearing and read-only Calipers. */
+    public List<ItemStack> fleeceProducts() {
+        return Fleece.yields(this.genome()).stream().map(product -> new ItemStack(
+                net.minecraft.world.item.Items.WOOL.pick(net.minecraft.world.item.DyeColor.byName(product.color(),net.minecraft.world.item.DyeColor.WHITE)),
+                product.count())).toList();
+    }
     @Override
     public boolean isShearable(@org.jspecify.annotations.Nullable Player player, ItemStack item, Level level, BlockPos pos) {
         return this.acceptsCare() && this.isAlive() && Fleece.ready(this.genome(),!this.isBaby(),
@@ -725,8 +731,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.nextFleeceTick = level.getGameTime()+Fleece.REGROW_TICKS;
         this.entityData.set(DATA_FLEECE_READY,false);
         this.playSound(SoundEvents.SHEEP_SHEAR,.5F,1.2F);
-        return List.of(new ItemStack(net.minecraft.world.item.Items.WOOL.pick(net.minecraft.world.item.DyeColor.WHITE),
-                Fleece.COUNT));
+        return this.fleeceProducts();
     }
 
     // ------------------------------------------------------------------ saving

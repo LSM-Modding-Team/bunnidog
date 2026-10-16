@@ -20,69 +20,28 @@ is not exposed in this session: use available work budget without inventing quot
 
 ## Latest gameplay work — 2026-10-16
 
-- **L10, bell calls:** a real native ring requests nearby healthy residents by
-  day, outside the noon window. Calls use existing home/hearing bounds, a short
-  pending window, rate limiting and the same post-visit rest. Shared safe paths,
-  injury/danger/transport/night and home changes govern both visit types.
-  No new saved fields or tickets. See `docs/SETTLEMENT_LIFE.md` L10.
-
+- **C7, fleece palettes:** woolly adults yield two wool in their expressed coat's
+  palette. Spotted gives one yellow and one brown; other coats use one color.
+  Ready Calipers names the same products as native shearing. Shared regrowth
+  and tool cost persist across gene changes. See `docs/CARE_SPECS.md` C7.
+- **L10, bell calls:** actual native rings request nearby healthy residents by
+  day, outside noon. Pending calls/rate limits are transient and preserve visit
+  rest, home/hearing bounds and safe paths. Injury, danger, transport, night
+  and home changes interrupt. See `docs/SETTLEMENT_LIFE.md` L10.
 - **L9, trough automation:** native hoppers supply/extract the existing stack;
   comparators read 0 empty through 15 full. The shared transactional handler
-  preserves the 16-item/effective limit, food filters and exact components.
-  Power a hopper below to retain food. No new saves, menu or structure refill.
-  See `docs/SETTLEMENT_LIFE.md` L9.
+  preserves the effective 16-item limit, filters and exact components. Power
+  a hopper below to retain food. No new saves/menu/refill. See L9 in that spec.
 
-- **L8, storm shelter:** idle adults seek dry reachable cover near their Nest
-  during native thunderstorms, then wait there. The bounded low-priority goal
-  yields to care, work, social/home routines, breeding, danger and player control.
-  Ordinary rain keeps existing idle behavior; no new saves, tickets or packets.
-  See `docs/SETTLEMENT_LIFE.md` L8.
+Recent completed work also includes read-only home/food Calipers (C6), bounded
+non-feral threat refuge (L7), low-priority thunderstorm shelter (L8), resident
+shore fishing (Diet D5), native terrain traits (A4), local supplies (L6), living
+dust (C5) and gardening/fitted farm corners (L5). Their full rules and evidence
+are in the care/settlement specs and `docs/FIXES_PLAN.md` 6.5. Do not redo them.
 
-- **L7, refuge:** non-feral adult residents retreat from nearby visible tagged
-  threats to a farther dry spot near home or a bounded local fallback. Native
-  paths must stay loaded, home-bounded and clear of hazards/close threat nodes.
-  Work/food/bell visits pause; leads, rides and gene/home changes interrupt.
-  Health and Nest claims are preserved, with no combat or new save fields.
-  See `docs/SETTLEMENT_LIFE.md` L7.
-
-- **C6, resident needs:** sneak-Calipers shows the Nest coordinates/distance,
-  accepted foods, shared meal recovery and forage blockers. Food AI and readout
-  use the same eligibility snapshot; inspection does not search/load terrain
-  or change tickets/timers/stock. Healthy adults need no healing, and the Apex
-  gets a clear domestic-care refusal. See `docs/CARE_SPECS.md` C6.
-
-- **Diet D5, shore fishing:** injured adult Fishers hunt reachable tagged cod,
-  salmon and tropical fish near their Nest. Hunter/omnivore land prey stays
-  separate; pufferfish are excluded by default. A selected prey kill heals 4 HP
-  and shares saved 30-second food recovery. Existing bounds, night, transport,
-  danger and protected-creature rules apply. Gene changes interrupt incompatible
-  prey. See `docs/FIXES_PLAN.md` 6.5.
-- **A4, terrain:** hoofed legs add 0.4 native step height (ordinary adult: one
-  full block). Fleet legs/lean builds reduce soul-sand/honey lost speed by
-  25%/50%, combining to 75%. Cobwebs, Slowness and damage remain. Named transient
-  bonuses preserve external bases, update on gene edits and restore once after
-  loading; Apex copies inherit them. See `docs/CARE_SPECS.md` A4.
-- **L6, local supplies:** fresh underground and surface feed-store/market barrels
-  use eight lineage food tables. Each gives 1–2 guavas, 1–3 small local food rolls
-  and an independent 35% Field Guide chance. Native deferred loot, existing keys/
-  seeds/stock and emptied barrels are preserved. Surface fitting refuses block
-  entities under its pad. See `docs/SETTLEMENT_LIFE.md` L6.
-- **C5, living dust:** one Brush use gathers one whisker at Senses +10, one
-  glowstone dust from expressed glow, and one Starlit Dust from expressed
-  starborn with Bloom +20, for every applicable product. Adults must be at least
-  half healthy. All products share one wear and saved ten-minute grooming rest;
-  overflow drops normally. Calipers names products. See `docs/CARE_SPECS.md` C5.
-- **L5, work clarity:** sneak-Calipers shares the AI's gardening eligibility and
-  recovery snapshot, without crop/path searches. New WarrenVersion 4 farms can
-  fit an empty enabled corner trough inside the old 3×3 footprint, retaining
-  seven crops. Two outside walking neighbours must already be safe; otherwise
-  all eight crops remain. End mushroom plots and saved versions 1–3 keep their
-  previous layout. See `docs/SETTLEMENT_LIFE.md` L5.
-
-The native Field Guide now has 35 translated pages and eleven contents links.
-`art/gen_guide.py` owns its text/icon/preview, including gardening, forecasts,
-renewable care, terrain traits and fishing. `art/gen_pantries.py` owns the eight
-new loot tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
+The native Field Guide has 36 translated pages and eleven contents links.
+`art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
+lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
 ## Implemented systems — do not redo
 
@@ -93,7 +52,7 @@ new loot tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Laboratory | Two sample slots, vial display, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T6 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
-| Care | Live Tissue Samples, woolly fleece, whiskers/dust, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C6 |
+| Care | Live Tissue Samples, coat-palette woolly fleece, whiskers/dust, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C7 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow and terrain movement. `docs/CARE_SPECS.md` A1–A4 |
 | Homes | Claimable Nests, day tether/night return, floor Nests, native leads/rides, safe led-adult reassignment. `docs/HOME_SPECS.md` H1–H5 |
 | Settlement life | Saved trough stock/automation, diet healing, scheduled/called bell visits, fitted furniture, gardening, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L10 |
@@ -150,47 +109,29 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-L5, C5, L6 and A4 pass actual builds and native server cases. L5 covers fitted/
-fallback/legacy farms and shared work status; C5 exact combined products and
-inventory overflow; L6 actual loot for all eight lineages and container saves/
-preservation; A4 real collision stepping and native slow-block math. The final
-Diet D5 run passes all **twenty** native scenarios (nineteen mod + native sanity),
-including a real shore-fish kill, exact healing and saved meal recovery. Its
-fixture allows native melee's twenty-tick startup window and keeps the bank dry.
-Farm and affected guide previews inspected. Each published checkpoint's GitHub
-build also checks the approved model before making an artifact.
+The current Java 25 build and all **twenty-four** native scenarios pass
+(twenty-three mod cases plus native sanity). Latest coverage includes:
 
-C6 also passes the actual build and all twenty native cases. Its extended
-settlement case checks read-only needs, real meal recovery, healthy animals and
-the home boundary. The updated guide preview is inspected.
+- **L9:** real hopper transfers, effective capacity/components, transaction abort,
+  scheduled comparator changes inside one visual fill level, empty stock and
+  exactly-once break drops. Its drain lock uses actual redstone power.
+- **L10:** real bell/event relay, morning calls after failed-search backoff,
+  safe routes, injured/led refusals, rapid rings, changed home, rest and night.
+  Existing scheduled gatherings remain covered.
+- **C7:** native shears/drop colors, hidden glow, coat changes during recovery,
+  cyan regrowth, spotted's combined yield/one wear, read-only Calipers and all
+  palette names/total yields. Save/readiness cases remain covered.
 
-L7 passes the actual build and all twenty-one native cases, including safer
-routes, routine pauses, lead/feral changes, quiet recovery and occupied refuge
-cancellation. Native path regions are non-loading; sight checks use a loaded
-rectangle. The updated guide preview is inspected. Natural threat balance and
-multiplayer travel remain gameplay review.
+The 36-page guide preview is inspected. Each published GitHub build also checks
+the approved model before uploading its exact-commit artifact. Earlier
+fixture/gardening, diet/fishing, terrain, care/lab/show/registry, transport/Nest,
+refuge/weather, sign/boat and Apex cases remain part of this suite; detailed
+evidence stays in their specifications. Native path regions use non-loading
+getChunkNow and sight guards use normalized loaded bounds.
 
-L8 passes the actual build and all twenty-two native cases. Its new case covers
-real thunder/sky exposure, a complete path beneath a roof, covered waiting,
-lead/clear-weather interruption and native healing-trough preemption. Shared
-navigation also retains the L7 refuge cases. The 33-page guide preview is
-inspected; natural weather balance and client book fonts remain gameplay review.
-
-L9 passes the actual build and all twenty-three native cases, including
-real hopper transfers, comparator scheduling, capacity/components, transaction
-abort, empty outputs and stock drops. Its 34-page guide preview is inspected.
-Modded item devices and client contraptions remain gameplay review.
-
-Native tests establish server behavior, not complete client or natural-world
-play. L10 passes the actual build and all twenty-four native cases, including
-the real native ring/event relay, morning visits, safe routes, refusals, home
-changes and rest. The 35-page guide preview is inspected.
-
-Remaining review includes client interaction/lighting/book fonts, natural
-chunk order/travel/unload, long multiplayer routines and progression balance.
-Native sign validity/tickers/text/color/glow/wax, boat inventory/drop/save,
-transport/home tickets, care/tools, laboratory/show/registry and Apex encounter
-checks already pass. Keep their evidence in the relevant specs.
+Native cases establish server behavior. Client interaction/book fonts/lighting,
+natural chunk order/travel/unload, long multiplayer routines, modded transfer
+devices and progression/decorative breeding balance remain gameplay review.
 
 Earlier user feedback: U2/U3 received “good, works well”; the six-stage `d7f39a9`
 release (U4/U5/U6b/T4/W3/V1c) received “everything compiled and worked this run”.
