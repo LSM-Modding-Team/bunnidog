@@ -55,5 +55,6 @@ public class TissueSampleItem extends Item {
             lines.accept(Component.literal("Holds no genes").withStyle(ChatFormatting.GRAY));
         }
         lines.accept(Component.literal("Hold the Calipers in the other hand to read it").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(Component.translatable("tooltip.bunnidogs.tissue.apex_preview").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

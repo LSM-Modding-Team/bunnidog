@@ -1,9 +1,15 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 26 pages from first warren to Apex, with clickable chapter/contents links.
+open 27 pages from first warren to Apex, with clickable chapter/contents links.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
+
+**Apex preparation (P2):** empty-hand crucible use lists missing legendary
+offerings. Hold Calipers in the main hand and a Tissue Sample in the other, then
+use the crucible to forecast the source line's boss: health, normal/enraged
+attacks, armor, knockback resistance, awareness and motion. Reading preserves
+all items and offerings. The forecast is available before completing the ring.
 
 **Apex (G4):** craft an Apex Crucible (`OMO/ODO/OOO`: obsidian, Mutant
 Marrow, diamond). Place five Trophy Pedestals at its height, using any five of

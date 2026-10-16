@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+P2 adds a read-only Calipers/sample Apex forecast and crucible offering readiness,
+sharing combat rules and ring scans with real summoning. Native preview/cost
+preservation and actual boss values pass; guide expanded to 27 pages. See
+`APEX_SPECS.md`.
+
 A3 adds slate natural armor, stocky/chonker knockback resistance and self-lit
 expressed glow coats. Native modifiers preserve external attributes and cannot
 stack across reloads; bosses inherit them too. Build/model/native cases pass;
@@ -28,7 +33,7 @@ and saved work recovery apply. Legacy starts/stock and crafted trough opt-in
 are preserved. Build/layout/native cases pass; previews inspected. See
 `SETTLEMENT_LIFE.md`. The Field Guide expands to 26 pages.
 
-P1 adds a craftable native Field Guide: 26 translated pages, contents/return
+P1 adds a craftable native Field Guide: 27 translated pages, contents/return
 links and a 35% independent pantry loot pool. It explains the whole progression
 without new screens or payloads. Build/server loading pass; preview inspected and client
 reading remains pending. See `FIELD_GUIDE.md`.
@@ -110,6 +115,7 @@ filling a quota, and honor any explicit pause in the current request.
 | Item | What | Needs | Spec |
 |---|---|---|---|
 | Living harvest extensions | Additional renewable materials beyond fleece and brushed whiskers, with conservative yields/recovery | C1–C3 | `CARE_SPECS.md`; define each source/yield before coding |
+| Resident work clarity | Calipers work readiness and carefully fitted surface garden troughs | L3/L4 | Define bounded placement/readout before coding |
 | Additional lineage behavior | Useful cave/terrain adaptations beyond current fire/cold/fall/poison/cactus/levitation rules | A1/A2 | Follow expressed genes; preserve native hazards and breeding tradeoffs |
 
 ## Ideas without a spec (design before implementing)

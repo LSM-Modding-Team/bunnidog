@@ -21,6 +21,24 @@ dry collision-free space above the crucible and no living Apex within 48 blocks.
 Refusal consumes nothing. No entity, terrain or container is cleared to make room.
 The ritual has no ticking block entity, global search or automatic spawning.
 
+## P2: preparation and forecasts
+
+Empty-hand use reports the number of distinct loaded offerings and names every
+missing legend, alongside setup instructions. Summoning refusals name the first
+missing legend and how many others remain. These use the same eight-slot scan
+as actual summoning, so duplicates cannot inflate readiness. No chunks are loaded.
+
+Use **Calipers in the main hand**, with a valid **Tissue Sample in the off hand**,
+on a crucible to forecast that source's boss. Chat shows appearance, health,
+ordinary/enraged melee damage, natural armor/knockback resistance, awareness,
+enraged pursuit increase and approximate pounce height. The combat rules and
+defense bases are shared with the actual boss. External effects/equipment on a
+later living boss are not part of a source forecast.
+
+Reading neither creates an entity nor spends samples/offerings, and needs no
+building permission. A missing sample explains the hand arrangement. No GUI,
+new packet or saved field is needed; the Field Guide includes a preparation page.
+
 ## Encounter
 
 The Apex retains all seven source gene pairs, coat/body proportions and expressed
@@ -67,3 +85,11 @@ pounce motion, player-kill-only crest, advancement and native pedestal saves.
 Headless model check passed during the batch; the approved mesh is unchanged.
 Crucible/crest texture preview inspected (`art/apex_preview.png`).
 Client encounter pacing, sounds, multiplayer and appearance need gameplay review.
+
+
+P2 evidence: the actual build/server run passes all eighteen scenarios. Native
+empty-hand and Calipers block interactions preserve all offerings and the sample
+with no spawned entity; the later real boss matches forecast health, damage,
+armor/resistance and enraged attack values. Existing partial/blocked/active
+refusals, kill reward and persistence still pass. The expanded guide preview
+was inspected; actual client message layout and hand use remain gameplay review.

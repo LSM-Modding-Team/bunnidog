@@ -30,9 +30,10 @@ PAGES = {
     24: ('Guava juice', 'Craft a guava with a glass bottle. Hold a seed in the main hand and juice in the other, then use the seed to infuse it. The rolled pup genes determine the drink effects. Better seeds improve them.'),
     25: ('Trough gardening', 'Use a hoe to enable trough gardening. A healthy adult with a Nest gathers matching ripe food beside it, then rests a minute. Leave walking space and keep mob griefing on.'),
     26: ('Furnished dens', 'New fitted dens have a trough with two guavas. Levels 3-5 also have a meeting bell. Generated troughs start enabled; old and crafted ones stay manual until you use a hoe.'),
+    27: ('Before the Apex', 'Hold Calipers in the main hand and a Tissue Sample in the other. Use an Apex Crucible for health, attacks and defenses. Empty-hand use lists missing offerings. Reading spends nothing.'),
 }
 INDEX = {2:'Warrens & genes',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
-         17:'Registry & shows',19:'Material drops',20:'Apex of the Line',24:'Guava juice',25:'Trough gardening'}
+         17:'Registry & shows',19:'Material drops',20:'Apex of the Line',24:'Guava juice',25:'Trough gardening',27:'Boss forecast'}
 
 
 def main():
@@ -80,7 +81,7 @@ def main():
         if page == 1: body = '\n'.join(INDEX.values())
         else: body = '\n'.join(textwrap.wrap(PAGES[page][1],25)) + '\n\nContents'
         d.multiline_text((x+14,75),body,font=font,spacing=6,fill=(40,59,36))
-        d.text((x+14,365),f'Page {page} / 26',font=font,fill=(85,77,56))
+        d.text((x+14,365),f'Page {page} / 27',font=font,fill=(85,77,56))
     d.text((15,350),'Book icon + text preview',font=font,fill=(224,217,185))
     d.text((15,375),'Substitute font; native UI pending',font=ImageFont.load_default(),fill=(224,217,185))
     preview.save(ROOT/'art/guide_preview.png')

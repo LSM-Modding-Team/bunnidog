@@ -71,6 +71,7 @@ Exactly one produce goes into the trough; there are no seed/bonus drops.
 Unsupported crops, full/mismatching stock and unripe plants are refused.
 Native mobGriefing and NeoForge grief/destruction protection hooks apply.
 A successful job starts a minute of saved `GardenWait`; old animals load rested.
+Protection refusals also back off for a minute before trying again.
 Interruptions preserve the crop and home. Higher-priority feeding, danger,
 breeding, temptation and home routines interrupt; gardening precedes idle visits.
 No existing barrel/chest is inspected or restocked.

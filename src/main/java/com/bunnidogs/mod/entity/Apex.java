@@ -47,8 +47,8 @@ public final class Apex extends Bunnidog implements Enemy {
         this.refreshDimensions();
     }
     public static AttributeSupplier.Builder createAttributes() {
-        return Bunnidog.createAttributes().add(Attributes.ARMOR, 4)
-                .add(Attributes.KNOCKBACK_RESISTANCE, .5).add(Attributes.SCALE, ApexRules.SCALE);
+        return Bunnidog.createAttributes().add(Attributes.ARMOR,ApexRules.BASE_ARMOR)
+                .add(Attributes.KNOCKBACK_RESISTANCE,ApexRules.BASE_KNOCKBACK_RESISTANCE).add(Attributes.SCALE,ApexRules.SCALE);
     }
     @Override
     protected void applyGenetics() {

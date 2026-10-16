@@ -255,5 +255,18 @@
   "guide.bunnidogs.page.25.title": "Trough gardening",
   "guide.bunnidogs.page.25.body": "Use a hoe to enable trough gardening. A healthy adult with a Nest gathers matching ripe food beside it, then rests a minute. Leave walking space and keep mob griefing on.",
   "guide.bunnidogs.page.26.title": "Furnished dens",
-  "guide.bunnidogs.page.26.body": "New fitted dens have a trough with two guavas. Levels 3-5 also have a meeting bell. Generated troughs start enabled; old and crafted ones stay manual until you use a hoe."
+  "guide.bunnidogs.page.26.body": "New fitted dens have a trough with two guavas. Levels 3-5 also have a meeting bell. Generated troughs start enabled; old and crafted ones stay manual until you use a hoe.",
+  "message.bunnidogs.apex.missing_one": "Missing offering: %s. Empty-hand use checks the ring.",
+  "message.bunnidogs.apex.missing_many": "Missing offering: %s, and %s more. Empty-hand use lists them.",
+  "message.bunnidogs.apex.none_missing": "none \u2014 all five are ready",
+  "message.bunnidogs.apex.offerings_status": "Offerings: %s / 5. Missing: %s.",
+  "message.bunnidogs.apex.preview_hint": "Use main-hand Calipers with a Tissue Sample in the other hand to forecast the Apex.",
+  "message.bunnidogs.apex.forecast_source": "Apex forecast \u2014 %s",
+  "message.bunnidogs.apex.forecast_combat": "Health: %s HP. Melee: %s HP; enraged: %s HP.",
+  "message.bunnidogs.apex.forecast_defense": "Armor: %s. Knockback resistance: %s%%. Awareness: %s blocks.",
+  "message.bunnidogs.apex.forecast_motion": "Enraged pursuit: +%s%% speed. Pounce height: about %s blocks.",
+  "tooltip.bunnidogs.tissue.apex_preview": "Main-hand Calipers on an Apex Crucible forecast this line.",
+  "guide.bunnidogs.index.27": "Boss forecast",
+  "guide.bunnidogs.page.27.title": "Before the Apex",
+  "guide.bunnidogs.page.27.body": "Hold Calipers in the main hand and a Tissue Sample in the other. Use an Apex Crucible for health, attacks and defenses. Empty-hand use lists missing offerings. Reading spends nothing."
 }

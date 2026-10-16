@@ -8,6 +8,7 @@ import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.genetics.Stats;
 import com.bunnidogs.mod.genetics.Tissue;
+import com.bunnidogs.mod.genetics.ApexRules;
 import com.bunnidogs.mod.item.ApexCrestItem;
 import com.bunnidogs.mod.item.TissueSampleItem;
 import com.bunnidogs.mod.registry.ModBlocks;
@@ -75,6 +76,16 @@ public final class ApexGameTest {
             h.assertTrue(sample.getCount() == 2 && pedestals.getFirst().item().is(legends[0].getItem()),
                     "Missing offerings must preserve the sample and completed displays");
             pedestals.get(4).setItem(legends[4].copy());
+            player.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY);
+            player.setItemInHand(InteractionHand.OFF_HAND,sample);
+            h.useBlock(center,player);
+            player.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(ModItems.CALIPERS.get()));
+            h.useBlock(center,player);
+            h.assertTrue(sample.getCount() == 2 && pedestals.stream().noneMatch(TrophyPedestalBlockEntity::isEmpty)
+                    && level.getEntitiesOfClass(Apex.class,new AABB(absolute).inflate(5)).isEmpty(),
+                    "Native empty-hand inspection and Calipers forecasts must preserve all materials and spawn nothing");
+            player.setItemInHand(InteractionHand.MAIN_HAND,sample);
+            player.setItemInHand(InteractionHand.OFF_HAND,ItemStack.EMPTY);
             h.setBlock(center.above(2),Blocks.STONE);
             h.useBlock(center,player);
             h.assertTrue(sample.getCount() == 2 && pedestals.stream().noneMatch(TrophyPedestalBlockEntity::isEmpty),
@@ -86,6 +97,12 @@ public final class ApexGameTest {
                     && pedestals.stream().allMatch(TrophyPedestalBlockEntity::isEmpty),
                     "A valid native ritual must create one boss and spend exactly five legends and one sample");
             var apex = bosses.getFirst();
+            var forecast = ApexRules.forecast(source);
+            h.assertTrue(Math.abs(apex.getMaxHealth()-forecast.normal().health()) < .001
+                    && Math.abs(apex.getAttributeValue(Attributes.ATTACK_DAMAGE)-forecast.normal().damage()) < .001
+                    && apex.getAttributeValue(Attributes.ARMOR) == forecast.armor()
+                    && apex.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE) == forecast.knockbackResistance(),
+                    "The actual summoned boss must match the source forecast's health, damage and defenses");
             apex.setNoAi(true);
             h.assertTrue(apex.genome().equals(source.genome()) && apex.stats().equals(source.stats())
                     && apex.getMaxHealth() >= 180 && apex.getMaxHealth() <= 720
@@ -114,7 +131,8 @@ public final class ApexGameTest {
                     "An Apex cannot acquire a resident's home");
             apex.setHealth(apex.getMaxHealth() * .4F);
             apex.tick();
-            h.assertTrue(apex.enraged() && apex.homeNest() == null && apex.getAttributeValue(Attributes.ATTACK_DAMAGE) <= 15,
+            h.assertTrue(apex.enraged() && apex.homeNest() == null
+                    && Math.abs(apex.getAttributeValue(Attributes.ATTACK_DAMAGE)-forecast.enraged().damage()) < .001,
                     "Half-health enrage must respect combat bounds and never claim a Nest");
             apex.beginAbility();
             var output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess());

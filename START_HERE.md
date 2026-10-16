@@ -45,6 +45,21 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
+**P2 — Apex preparation:** empty-hand crucible use reports distinct offering
+progress and names missing legends. Summoning refusals name the first missing
+item. Use main-hand Calipers with a Tissue Sample in the off hand on a crucible
+for source appearance, health, normal/enraged melee damage, inherited defenses,
+awareness, pursuit increase and approximate pounce height. Readiness and spawning
+share one loaded eight-slot scan; preview rules/base defenses are shared with
+the real boss. No entity, item cost, GUI, payload or saved field is introduced.
+The Field Guide now has 27 pages and eleven contents links.
+
+The combined actual build/server run passes all eighteen scenarios. The extended
+native Apex case confirms read-only inspection/forecast and the actual boss's
+matching normal/enraged health/damage/defenses. A3's model check passed during
+this continuation; geometry/atlases remain approved. Guide preview inspected;
+client chat formatting/input remains gameplay review. See `docs/APEX_SPECS.md`.
+
 **A3 — physical defenses and glow:** expressed slate adds four native Armor
 points; stocky/chonker builds add 15%/30% knockback resistance. Named transient
 modifiers preserve external bases/equipment, update on genome edits and restore
@@ -71,7 +86,7 @@ mode. Crafted/old troughs default off; generated ones start on. Healthy adult
 residents with a Nest gather matching ripe crops/fruit beside enabled troughs,
 one produce per job and a saved minute of rest. Native grief/protection rules,
 full/mismatching stock, diets, home bounds, night and transport are respected.
-Wheat/root crops, Nether Wart, guava fruit and glow berries regrow after tending.
+Supported crops/fruit remain planted after tending.
 The Field Guide now has 26 pages and ten contents links, including gardening.
 
 Actual build and eighteen server scenarios (seventeen mod + native sanity) pass.
@@ -81,7 +96,7 @@ checks retain Nest/room connectivity with furniture treated as full obstacles.
 Trough/guide previews inspected; natural chunk order, client visuals and long
 multiplayer routines remain gameplay review. See `docs/SETTLEMENT_LIFE.md`.
 
-**P1 — Field Guide:** craft a vanilla book with any guava for a 26-page native
+**P1 — Field Guide:** craft a vanilla book with any guava for a 27-page native
 book covering the complete progression, with clickable contents/return links.
 An independent 35% warren-pantry pool helps explorers find it; existing food
 rolls persist and filled containers are not refilled. Uses native translated

@@ -5,7 +5,16 @@ public final class ApexRules {
     private ApexRules() {}
     public static final int ABILITY_RECOVERY = 120;
     public static final double SCALE = 1.8;
+    public static final double BASE_ARMOR = 4;
+    public static final double BASE_KNOCKBACK_RESISTANCE = .5;
     public record Combat(double health, double speed, double jump, double damage, double awareness) {}
+    public record Forecast(Combat normal, Combat enraged, double armor, double knockbackResistance) {}
+
+    public static Forecast forecast(Tissue source) {
+        return new Forecast(combat(source.genome(),source.stats(),false),combat(source.genome(),source.stats(),true),
+                BASE_ARMOR+Adaptations.armor(source.genome()),
+                Math.clamp(BASE_KNOCKBACK_RESISTANCE+Adaptations.knockbackResistance(source.genome()),0,1));
+    }
 
     public static Combat combat(Genome genome, Stats source, boolean enraged) {
         Traits t = genome.traits();
