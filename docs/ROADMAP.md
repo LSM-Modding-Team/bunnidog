@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+C6 adds read-only Calipers Nest/food/recovery status, sharing food eligibility
+with the real resident goals and keeping inspection free of terrain searches.
+Healthy animals need no healing; the Apex reports domestic care unavailable.
+See `CARE_SPECS.md`.
+
 Diet D5 lets injured resident Fishers hunt reachable tagged cod/salmon/tropical
 fish near home, sharing bounded native hunting and saved meal recovery.
 Land predators keep their separate prey list, and gene changes interrupt
@@ -139,7 +144,6 @@ filling a quota, and honor any explicit pause in the current request.
 
 | Item | What | Needs | Spec |
 |---|---|---|---|
-| Resident needs visibility | Extend the cheap Calipers snapshot with claimed Nest location, food recovery and current forage blockers; no path/terrain scans | H5, L5, Diet D5 | Define shared readout before coding |
 | Resident refuge | Bounded non-combat responses to nearby configured threats, yielding to transport and preserving homes; define safe destinations and interruptions first | H1–H5, L1–L6 | `SETTLEMENT_LIFE.md`; design before coding |
 | Further living harvests | Other fitting renewable materials beyond fleece, whiskers and glow/starborn dust | C1–C5 | `CARE_SPECS.md`; define each source/yield before coding |
 | Further lineage behavior | Other useful habitat routines beyond existing protection, defenses and terrain benefits | A1–A4 | Follow expressed genes; preserve native hazards and breeding tradeoffs |

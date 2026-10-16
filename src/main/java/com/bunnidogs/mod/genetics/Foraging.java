@@ -12,11 +12,19 @@ public final class Foraging {
     public static final int HUNT_TICKS = 400;
 
     public enum Meal { NONE, HAY, GRASS, WHEAT, PRODUCE }
+    public enum Status { READY, UNAVAILABLE, ADULT, HEALTHY, HOME, DAYTIME, DANGER, TRANSPORTED, OUTSIDE_HOME, RESTING }
     public static boolean handFood(boolean edible, boolean breedingFood, boolean hurt, boolean canGrow) {
         return edible && !breedingFood && (hurt || canGrow);
     }
     public static boolean canForage(boolean adult, boolean hurt, boolean hasNest, boolean night, boolean hasTarget) {
-        return adult && hurt && hasNest && !night && !hasTarget;
+        return status(adult,hurt,hasNest,night,hasTarget) == Status.READY;
+    }
+    public static Status status(boolean adult, boolean hurt, boolean hasNest, boolean night, boolean hasTarget) {
+        if (!adult) return Status.ADULT;
+        if (!hurt) return Status.HEALTHY;
+        if (!hasNest) return Status.HOME;
+        if (hasTarget) return Status.DANGER;
+        return night ? Status.DAYTIME : Status.READY;
     }
     public static boolean insideHome(double distanceSquared) {
         return distanceSquared >= 0 && distanceSquared <= (double) Home.HOME_RADIUS * Home.HOME_RADIUS;

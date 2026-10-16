@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 30 pages from first warren to Apex, with clickable chapter/contents links.
+open 31 pages from first warren to Apex, with clickable chapter/contents links.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 
@@ -71,7 +71,10 @@ leads/rides and night. Place a bell within 12 blocks of home with walking space.
 **Care status (C4):** sneak-use Calipers on a bunnidog to see sampling, fleece,
 grooming, splicing and gardening readiness in chat, including recovery times and eligibility
 requirements. Normal use opens its genetics sheet as before. The readout is a
-snapshot and costs nothing.
+snapshot and costs nothing. C6 also shows the claimed Nest coordinates/distance,
+accepted foods and shared meal recovery, including while healthy. Resident meals
+heal injury; there is no hunger meter. Ready means ready to search for reachable
+matching food. The Apex instead explains that domestic care is unavailable.
 
 **Show Ring (G3):** craft a Judging Stand with ` B /PGP/PWP`: book, any planks,
 gold ingot and any wool. Lead a bred adult within six blocks and use the stand

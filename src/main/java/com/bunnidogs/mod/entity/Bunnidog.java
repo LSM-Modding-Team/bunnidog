@@ -384,11 +384,20 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     }
 
     boolean canForage() {
-        BlockPos nest = this.homeNest();
-        return !this.beingTransported() && this.level().getGameTime() >= this.nextForageTick
-                && Foraging.canForage(!this.isBaby(), this.getHealth() < this.getMaxHealth(), nest != null,
-                        this.homeNight(), this.getTarget() != null && this.getTarget() != this.huntingTarget)
-                && Foraging.insideHome(nest == null ? Double.POSITIVE_INFINITY : this.blockPosition().distSqr(nest));
+        return this.foragingStatus() == Foraging.Status.READY;
+    }
+    public int forageWait() {
+        return (int)Math.clamp(this.nextForageTick-this.level().getGameTime(),0L,(long)Foraging.MEAL_COOLDOWN);
+    }
+    /** Eligibility, not a food search. Shared with the Calipers resident snapshot. */
+    public Foraging.Status foragingStatus() {
+        if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel)) return Foraging.Status.UNAVAILABLE;
+        var status = Foraging.status(!this.isBaby(),this.getHealth() < this.getMaxHealth(),this.homeNest() != null,
+                this.homeNight(),this.getTarget() != null && this.getTarget() != this.huntingTarget);
+        if (status != Foraging.Status.READY) return status;
+        if (this.beingTransported()) return Foraging.Status.TRANSPORTED;
+        if (!this.foodWithinHome(this.blockPosition())) return Foraging.Status.OUTSIDE_HOME;
+        return this.forageWait() > 0 ? Foraging.Status.RESTING : status;
     }
 
     boolean foodWithinHome(BlockPos pos) {
@@ -710,7 +719,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         output.putString(TAG_STATS, this.stats().toString());
         if (this.highestShowAward > 0) output.putInt("ShowAward", this.highestShowAward);
         if (this.gardeningWait() > 0) output.putInt("GardenWait",this.gardeningWait());
-        output.putInt("ForageWait", (int) Math.clamp(this.nextForageTick - this.level().getGameTime(), 0L, (long) Foraging.MEAL_COOLDOWN));
+        output.putInt("ForageWait",this.forageWait());
         if (this.samplingWait() > 0) output.putInt("SampleWait",this.samplingWait());
         if (this.groomingWait() > 0) output.putInt("GroomWait",this.groomingWait());
         if (this.fleeceWait() > 0) output.putInt("FleeceWait",this.fleeceWait());

@@ -5,6 +5,7 @@ import com.bunnidogs.mod.block.FeedingTroughBlockEntity;
 import com.bunnidogs.mod.genetics.Foraging;
 import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Genome;
+import com.bunnidogs.mod.item.CalipersItem;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModEntities;
 import net.minecraft.core.BlockPos;
@@ -45,7 +46,15 @@ public final class SettlementGameTest {
             long previous = level.clockManager().getTotalTicks(clock);
             try {
                 level.clockManager().setTotalTicks(clock,1000);
+                h.assertTrue(dog.foragingStatus() == Foraging.Status.HOME,"An injured adult without a Nest must explain its missing home");
                 h.assertTrue(dog.moveHomeTo(level,h.absolutePos(new BlockPos(1,1,1))) == NestHome.MoveResult.MOVED,"Resident must claim its existing Nest");
+                h.assertTrue(dog.foragingStatus() == Foraging.Status.READY,"Food AI and snapshot must agree when ready to search");
+                var reader = h.makeMockPlayer(GameType.SURVIVAL);
+                var homeBefore = dog.homeNest();
+                CalipersItem.showCare(reader,dog);
+                h.assertTrue(dog.getHealth() == dog.getMaxHealth()-4 && dog.forageWait() == 0
+                        && dog.homeNest().equals(homeBefore) && trough.food().getCount() == 16,
+                        "Home/food inspection must not change health, recovery, the Nest or stock");
                 var goal = new TroughGoal(dog);
                 h.assertTrue(goal.canUse(),"An injured resident must find a loaded reachable matching trough");
                 float health = dog.getHealth();
@@ -54,6 +63,17 @@ public final class SettlementGameTest {
                 goal.stop();
                 h.assertTrue(dog.getHealth() == health+Foraging.HEAL && trough.food().getCount() == 15 && !dog.canForage(),
                         "One meal must heal two HP, consume one item and start shared meal recovery");
+                CalipersItem.showCare(reader,dog);
+                h.assertTrue(dog.foragingStatus() == Foraging.Status.RESTING && dog.forageWait() == Foraging.MEAL_COOLDOWN,
+                        "Reading shared meal recovery must neither restart nor bypass it");
+                dog.setHealth(dog.getMaxHealth());
+                h.assertTrue(dog.foragingStatus() == Foraging.Status.HEALTHY && dog.forageWait() == Foraging.MEAL_COOLDOWN,
+                        "A fully healed animal must retain visible food recovery without claiming hunger");
+                dog.setHealth(health+Foraging.HEAL);
+                var beforeMove = dog.position();
+                dog.setPos(homeBefore.getX()+18.5,homeBefore.getY(),homeBefore.getZ()+.5);
+                h.assertTrue(dog.foragingStatus() == Foraging.Status.OUTSIDE_HOME,"Snapshot and food AI must share the home boundary");
+                dog.setPos(beforeMove);
                 var player = h.makeMockPlayer(GameType.SURVIVAL);
                 player.setShiftKeyDown(true); player.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY);
                 h.useBlock(new BlockPos(4,1,4),player);

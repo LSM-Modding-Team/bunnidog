@@ -96,6 +96,28 @@ the original age/health/save/creative/tool-breakage checks. Actual build and all
 eighteen native scenarios pass; the updated guide preview is inspected. Client
 interaction and long-term production balance still need gameplay review.
 
+## C6: Resident needs snapshot
+
+Sneak-Calipers now starts with the claimed Nest's coordinates and distance,
+accepted foods, and the current resident-meal status. Food eligibility is shared
+with the real trough/grazing/hunting goals: adulthood, injury, a Nest, day,
+transport, combat, home boundary and saved meal recovery. Healthy adults say
+"no healing needed", without inventing hunger. Recovery is still shown while
+healthy or otherwise blocked, rounded up to minutes:seconds.
+
+Ready means ready to search for reachable matching food; it does not claim that
+stock or prey exists. Reading only uses existing animal state and coordinates,
+with no POI/path/terrain search, chunk loading, ticket changes or timer resets.
+The same `ForageWait` save field is retained. The Apex gets one clear domestic
+care refusal rather than misleading care-ready rows. Normal Calipers sheets
+remain available. The Field Guide expands to 31 pages.
+
+The existing native settlement case covers missing/claimed homes, agreement with
+AI readiness, a real trough meal, saved-length recovery, full health, the home
+boundary and read-only inspection. Actual build and all twenty native scenarios
+pass; updated guide preview inspected. Client chat formatting remains gameplay
+review.
+
 ## A1/A2: Expressed environmental adaptations
 
 | Expressed trait | Benefit |

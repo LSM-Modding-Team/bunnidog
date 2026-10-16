@@ -20,6 +20,12 @@ is not exposed in this session: use available work budget without inventing quot
 
 ## Latest gameplay work — 2026-10-16
 
+- **C6, resident needs:** sneak-Calipers shows the Nest coordinates/distance,
+  accepted foods, shared meal recovery and forage blockers. Food AI and readout
+  use the same eligibility snapshot; inspection does not search/load terrain
+  or change tickets/timers/stock. Healthy adults need no healing, and the Apex
+  gets a clear domestic-care refusal. See `docs/CARE_SPECS.md` C6.
+
 - **Diet D5, shore fishing:** injured adult Fishers hunt reachable tagged cod,
   salmon and tropical fish near their Nest. Hunter/omnivore land prey stays
   separate; pufferfish are excluded by default. A selected prey kill heals 4 HP
@@ -48,7 +54,7 @@ is not exposed in this session: use available work budget without inventing quot
   all eight crops remain. End mushroom plots and saved versions 1–3 keep their
   previous layout. See `docs/SETTLEMENT_LIFE.md` L5.
 
-The native Field Guide now has 30 translated pages and eleven contents links.
+The native Field Guide now has 31 translated pages and eleven contents links.
 `art/gen_guide.py` owns its text/icon/preview, including gardening, forecasts,
 renewable care, terrain traits and fishing. `art/gen_pantries.py` owns the eight
 new loot tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
@@ -62,7 +68,7 @@ new loot tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Laboratory | Two sample slots, vial display, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T6 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
-| Care | Live Tissue Samples, woolly fleece, whiskers/dust, saved recoveries and sneak-Calipers care/work status. `docs/CARE_SPECS.md` C1–C5 |
+| Care | Live Tissue Samples, woolly fleece, whiskers/dust, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C6 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow and terrain movement. `docs/CARE_SPECS.md` A1–A4 |
 | Homes | Claimable Nests, day tether/night return, floor Nests, native leads/rides, safe led-adult reassignment. `docs/HOME_SPECS.md` H1–H5 |
 | Settlement life | Saved trough stock, diet healing, noon bell visits, fitted den furniture, hoe-controlled gardening and local stores. `docs/SETTLEMENT_LIFE.md` L1–L6 |
@@ -128,6 +134,10 @@ including a real shore-fish kill, exact healing and saved meal recovery. Its
 fixture allows native melee's twenty-tick startup window and keeps the bank dry.
 Farm and affected guide previews inspected. Each published checkpoint's GitHub
 build also checks the approved model before making an artifact.
+
+C6 also passes the actual build and all twenty native cases. Its extended
+settlement case checks read-only needs, real meal recovery, healthy animals and
+the home boundary. The updated guide preview is inspected.
 
 Native tests establish server behavior, not complete client or natural-world
 play. Remaining review includes client interaction/lighting/book fonts, natural

@@ -8,6 +8,8 @@ import java.util.function.Consumer;
 import com.bunnidogs.mod.block.SeedCropBlockEntity;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Gene;
+import com.bunnidogs.mod.genetics.Diet;
+import com.bunnidogs.mod.genetics.Foraging;
 import com.bunnidogs.mod.genetics.Gardening;
 import com.bunnidogs.mod.genetics.Grooming;
 import com.bunnidogs.mod.genetics.Sampling;
@@ -61,6 +63,22 @@ public class CalipersItem extends Item {
     /** Server-side care snapshot. No items, timers or animal state are changed. */
     public static void showCare(Player player, Bunnidog dog) {
         player.sendSystemMessage(Component.translatable("message.bunnidogs.care.header", dog.getDisplayName()).withStyle(ChatFormatting.GOLD));
+        if (!dog.acceptsCare()) {
+            player.sendSystemMessage(Component.translatable("message.bunnidogs.care.unavailable").withStyle(ChatFormatting.GRAY));
+            return;
+        }
+        var nest = dog.homeNest();
+        careRow(player,"home",nest == null ? Component.translatable("message.bunnidogs.care.home_none")
+                : Component.translatable("message.bunnidogs.care.home_at",nest.getX(),nest.getY(),nest.getZ(),
+                        String.format(Locale.ROOT,"%.1f",Math.sqrt(dog.blockPosition().distSqr(nest)))));
+        careRow(player,"food",dog.diet() == Diet.PLAIN ? Component.translatable("message.bunnidogs.care.food_guavas")
+                : Component.translatable("message.bunnidogs.care.food_other",dog.diet().foods()));
+        var meals = dog.foragingStatus();
+        Component foodStatus = meals == Foraging.Status.RESTING ? recovery(dog.forageWait())
+                : Component.translatable("message.bunnidogs.foraging." + meals.name().toLowerCase(Locale.ROOT));
+        if (dog.forageWait() > 0 && meals != Foraging.Status.RESTING)
+            foodStatus = Component.translatable("message.bunnidogs.care.status_recovery",foodStatus,recovery(dog.forageWait()));
+        careRow(player,"foraging",foodStatus);
         boolean healthy = Sampling.healthy(dog.getHealth(), dog.getMaxHealth());
         Component health = Component.translatable("message.bunnidogs.care.health");
         Component adult = Component.translatable("message.bunnidogs.care.adult");
