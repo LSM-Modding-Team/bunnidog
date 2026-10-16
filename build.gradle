@@ -232,6 +232,15 @@ tasks.register('checkWoodAssets', JavaExec) {
     javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
 }
 tasks.named('check').configure { dependsOn tasks.named('checkWoodAssets') }
+tasks.register('checkDiets', JavaExec) {
+    group = 'verification'
+    description = 'Check diet save compatibility, inheritance, food policies, tags and sheet layout.'
+    dependsOn tasks.named('modelCheckClasses')
+    classpath = sourceSets.modelCheck.runtimeClasspath
+    mainClass = 'DietCheck'
+    javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
+}
+tasks.named('check').configure { dependsOn tasks.named('checkDiets') }
 tasks.register('checkBunnidogModel', JavaExec) {
     group = 'verification'
     description = 'Load and render the actual Bunnidog mesh and check animation invariants headlessly.'

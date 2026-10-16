@@ -335,7 +335,7 @@ public final class Drops {
 
     // ---- layer 3: the Mutant Marrow ----
 
-    /** How many of the six genes SHOW a rare (mutation) allele. Rare alleles are dominant, so one carried copy is enough; wild alleles and carried-but-hidden ones do not count. */
+    /** How many genes SHOW a rare (mutation) allele, including Diet. Wild alleles and carried-but-hidden ones do not count. */
     public static int rareCount(Genome genome) {
         int n = 0;
         for (Gene gene : Gene.values()) {

@@ -14,22 +14,22 @@ the six-stage `d7f39a9` release; individual edge cases were not itemized.
 Delivered, not individually confirmed: **U6a** advancement, **U1** level-1 dens
 and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
-## Remaining accepted work
+## Latest implemented work (gameplay pending)
 
-| Item | What | Needs | Size / risk | Spec |
-|---|---|---|---|---|
-| **D1–D4 (diets)** | Seventh gene, then feeding, grazing and hunting; audit every `Gene.COUNT` consumer and old six-gene saves/items first | Accepted picks in `FIXES_PLAN.md` section 7 | Largest remaining item; implement in coherent stages with compatibility checks | `FIXES_PLAN.md` section 6 |
+Diet D1–D4: inherited seventh gene, compatible old data, dietary feeding and
+temptation, home-bounded grazing/hunting and seven-row sheets/forecasts.
+U7: a fitted lower commons under grand-tree halls. New pantry/market/commons
+barrels now have modest food loot. See `FIXES_PLAN.md` 6.4 and `WARREN_PLAN.md` 19.
+Compiler/headless checks are distinct from the previous release's gameplay report.
 
 ## Optional candidates
 
-The user now authorizes substantial coherent additions and mechanic changes
-beyond the written plan, without another confirmation. These candidates are
-optional design choices, not approval gates. Honor the current development
-pause and choose useful work rather than filling a quota.
+The user authorizes substantial coherent additions and mechanic changes beyond
+the written plan without another confirmation. Choose useful work rather than
+filling a quota, and honor any explicit pause in the current request.
 
 | Item | What | Needs | Spec |
 |---|---|---|---|
-| U7 | A second floor under the hall | U5 | `WARREN_PLAN.md` 5, decision D7 |
 | W4 | Signs, hanging signs, boats | W3 | `FIXES_PLAN.md` 4.4 |
 
 ## Ideas without a spec (design before implementing)

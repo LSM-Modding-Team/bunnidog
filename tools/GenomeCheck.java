@@ -139,7 +139,7 @@ public class GenomeCheck {
             check(anyCommon, gene + ": needs at least one common allele");
             check(anyRare, gene + ": needs at least one rare allele (mutation target)");
         }
-        check(Gene.COUNT * 8 <= 48, "genome must fit 48 bits (two 24-bit synced ints)");
+        check(Gene.COUNT * 8 <= 56, "genome must fit a 24-bit low word and 32-bit high word");
         for (Allele a : Gene.TEMPERAMENT.alleles()) {
             check(Temperament.fromCode(Math.round(a.value())).code() == Math.round(a.value()),
                     "temperament allele " + a.name() + " has no matching Temperament code");
@@ -154,12 +154,12 @@ public class GenomeCheck {
             Genome a = Genome.randomFounder(rng);
             check(Genome.parse(a.toString()).equals(Optional.of(a)), "text round trip " + a);
             check(new Genome(a.packed()).equals(a), "packed round trip " + a);
-            check(a.packed() >>> 48 == 0, "packed uses more than 48 bits");
-            // the entity splits packed into two 24-bit ints for syncing; make sure that is lossless
+            check(a.packed() >>> 56 == 0, "packed uses more than 56 bits");
+            // The original split at bit 24 now has a signed 32-bit high word.
             int lo = (int) (a.packed() & 0xFFFFFFL);
             int hi = (int) (a.packed() >>> 24);
-            check(lo >= 0 && hi >= 0, "split halves must be non-negative");
-            check((((long) hi << 24) | lo) == a.packed(), "split/join round trip");
+            check(lo >= 0, "the 24-bit low word stays non-negative");
+            check((((hi & 0xFFFFFFFFL) << 24) | lo) == a.packed(), "split/join round trip");
         }
         Genome junk = new Genome(-1L);   // every nibble = 15, out of range for all genes
         for (Gene gene : Gene.values()) {
@@ -167,15 +167,15 @@ public class GenomeCheck {
                 check(junk.alleleId(gene, slot) < gene.alleleCount(), "sanitize left an invalid id in " + gene);
             }
         }
-        check(g("00-01-20-00-03-11").toString().equals("00-01-20-00-03-11"), "canonical form kept");
+        check(g("00-01-20-00-03-11").toString().equals("00-01-20-00-03-11-00"), "canonical form kept");
         check(Genome.parse("0001200003 11").isPresent(), "separators are optional");
         check(Genome.parse("00_01:20 00-03-11").isPresent(), "mixed separators accepted");
-        for (String bad : new String[]{"", "   ", "zz-zz-zz-zz-zz-zz", "00-00-00-00-00", "00-00-00-00-00-00-00",
+        for (String bad : new String[]{"", "   ", "zz-zz-zz-zz-zz-zz", "00-00-00-00-00", "00-00-00-00-00-00-cc",
                 "ff-00-00-00-00-00", "00-00-00-00-00-9x", "00-00-00-00-40-00"}) {
             check(Genome.parse(bad).isEmpty(), "should reject '" + bad + "'");
         }
         check(Genome.parse(null).isEmpty(), "null rejected");
-        check(Genome.DEFAULT.toString().equals("00-00-00-00-00-00"), "default genome text");
+        check(Genome.DEFAULT.toString().equals("00-00-00-00-00-00-00"), "default genome text");
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -442,7 +442,7 @@ public class GenomeCheck {
                 {"standard", "long", "short", "springy"}, {"average", "stocky", "slim", "chonker"},
                 {"loyal", "skittish", "feral", "stoic"}, {"average", "prolific", "shy", "swarm"}};
         for (Gene gene : Gene.values()) {
-            for (int i = 0; i < original[gene.ordinal()].length; i++) {
+            for (int i = 0; gene.ordinal() < Genome.LEGACY_GENES && i < original[gene.ordinal()].length; i++) {
                 check(gene.allele(i).name().equals(original[gene.ordinal()][i]),
                         "save format: " + gene + " id " + i + " must stay '" + original[gene.ordinal()][i] + "'");
             }
@@ -774,7 +774,7 @@ public class GenomeCheck {
             for (Allele a : gene.alleles()) {
                 List<Trends.Term> terms = Trends.terms(gene, a);
                 String id = gene.key() + "/" + a.name();
-                if (gene == Gene.COAT || neutral.contains(id)) {
+                if (gene == Gene.COAT || gene == Gene.DIET || neutral.contains(id)) {
                     check(terms.isEmpty() && !Trends.hasTrend(gene, a), id + " must have no trend");
                     continue;
                 }
@@ -972,7 +972,7 @@ public class GenomeCheck {
 
         // --- canonical text form, exact
         Seed s = new Seed(stocky, Stats.of(0, 0, 0, 0, 0), stocky, Stats.of(2, -1, 0, 0, 0), 1.5);
-        check(s.toString().equals("00-00-00-11-00-00/0,0,0,0,0|00-00-00-11-00-00/2,-1,0,0,0|1.5"), "canonical text, got " + s);
+        check(s.toString().equals("00-00-00-11-00-00-00/0,0,0,0,0|00-00-00-11-00-00-00/2,-1,0,0,0|1.5"), "canonical text, got " + s);
         check(Seed.parse(s.toString()).equals(Optional.of(s)), "canonical text parses back to the same seed");
 
         // --- round trip for random seeds: every genome, stats vector and quality survives text
@@ -1387,7 +1387,7 @@ public class GenomeCheck {
         for (Gene gene : Gene.values()) {
             for (Allele a : gene.alleles()) {
                 String key = Juice.key(gene, a);
-                if ((a.isWild() || a.isRare()) && !key.equals("coat:spotted")) {
+                if ((a.isWild() || a.isRare()) && gene != Gene.DIET && !key.equals("coat:spotted")) {
                     check(Juice.DEFS.containsKey(key), key + ": a wild or rare allele has a juice effect");
                 }
             }
@@ -1513,7 +1513,7 @@ public class GenomeCheck {
 
         // --- Infusion: text, parse, roll
         Infusion inf = new Infusion(g("00-00-00-11-00-00"), Stats.of(3, -1, 0, 2, 12), 4.5);
-        check(inf.toString().equals("00-00-00-11-00-00/3,-1,0,2,12|4.5"), "text form: " + inf);
+        check(inf.toString().equals("00-00-00-11-00-00-00/3,-1,0,2,12|4.5"), "text form: " + inf);
         check(Infusion.parse(inf.toString()).orElseThrow().equals(inf), "round trip");
         check(Infusion.parse("00-00-00-11-00-00").orElseThrow().equals(new Infusion(g("00-00-00-11-00-00"), Stats.ZERO, 0)), "stats and quality are optional");
         check(Infusion.parse("00-00-00-11-00-00|2.5").orElseThrow().quality() == 2.5, "quality without stats");
@@ -3272,12 +3272,12 @@ public class GenomeCheck {
         com.bunnidogs.mod.layout.Page.Spread sp = com.bunnidogs.mod.layout.SheetLayout.sheet(one, 0, m);
 
         // left page: 6 pairs in code order, one gene row each with its pair index, and the whole code = how to read
-        check(sp.left().pairs().size() == 6, "six code pairs");
+        check(sp.left().pairs().size() == Gene.COUNT, "one code pair per gene");
         String[] code = a.toString().split("-");
         boolean pairsOk = true;
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < Gene.COUNT; i++) {
             com.bunnidogs.mod.layout.Page.Pair p = sp.left().pairs().get(i);
-            pairsOk &= p.w() == m.width(code[i]) && p.y() == 77 && (i == 0 || p.x() > sp.left().pairs().get(i - 1).x());
+            pairsOk &= p.w() == m.width(code[i]) && p.y() == 68 && (i == 0 || p.x() > sp.left().pairs().get(i - 1).x());
         }
         check(pairsOk, "pair geometry matches the code texts");
         int rows = 0;
@@ -3285,15 +3285,15 @@ public class GenomeCheck {
         for (com.bunnidogs.mod.layout.Page.Hotspot h : sp.left().hotspots()) {
             if (h.pair() >= 0) {
                 Gene gene = Gene.values()[h.pair()];
-                check(h.text().equals(Plain.hover(a, gene)) && h.y() == 88 + 9 * h.pair() && h.w() == 130 && h.h() == 9, "gene row hotspot " + h.pair());
+                check(h.text().equals(Plain.hover(a, gene)) && h.y() == 79 + 9 * h.pair() && h.w() == 130 && h.h() == 9, "gene row hotspot " + h.pair());
                 rows++;
-            } else if (h.y() == 77) {
+            } else if (h.y() == 68) {
                 codeBox = h.text().equals(Plain.HOW_TO_READ);
             }
         }
-        check(rows == 6 && codeBox, "six gene rows and the code line (how to read)");
+        check(rows == Gene.COUNT && codeBox, "one row per gene and the code line");
         com.bunnidogs.mod.layout.Page.Hotspot art = sp.left().hotspots().stream().filter(h -> h.y() == 11).findFirst().orElseThrow();
-        check(art.h() == 54 && art.pair() == -1 && art.text().equals(Drops.describe(a, st, false)), "the portrait box shows what the animal drops");
+        check(art.h() == 45 && art.pair() == -1 && art.text().equals(Drops.describe(a, st, false)), "the portrait box shows what the animal drops");
         Pedigree oldBook = new Pedigree();
         oldBook.add(new Pedigree.Entry(a, none, none));
         check(com.bunnidogs.mod.layout.SheetLayout.sheet(oldBook, 0, m).left().hotspots().stream().anyMatch(h -> h.y() == 11 && h.text().contains("not recorded")), "an old entry's portrait box says the drops cannot be worked out");
@@ -3383,8 +3383,8 @@ public class GenomeCheck {
         };
         com.bunnidogs.mod.layout.Page.Spread sp = com.bunnidogs.mod.layout.SheetLayout.single(full, m);
         java.util.List<String> left = dump.apply(sp.left()), right = dump.apply(sp.right());
-        check(left.contains("0|BD-3F7A2C") && left.contains("0|pup") && left.contains("68|GENOME") && left.stream().noneMatch(t -> t.contains("#") || t.contains("generation")), "header = the ear tag and pup, no #n and no generation: " + left);
-        check(left.contains("77|22") && left.contains("88|short") && left.contains("97|spotted") && sp.left().portrait() != null && sp.left().portrait().coat().equals("spotted") && sp.left().pairs().size() == 6, "the rest of the left page is the book's sheet (code, gene rows, portrait, pairs)");
+        check(left.contains("0|BD-3F7A2C") && left.contains("0|pup") && left.contains("59|GENOME") && left.stream().noneMatch(t -> t.contains("#") || t.contains("generation")), "header = the ear tag and pup, no #n and no generation: " + left);
+        check(left.contains("68|22") && left.contains("79|short") && left.contains("88|spotted") && sp.left().portrait() != null && sp.left().portrait().coat().equals("spotted") && sp.left().pairs().size() == Gene.COUNT, "the rest of the left page is the book's sheet (code, gene rows, portrait, pairs)");
         check(right.contains("0|STATS") && right.contains("9|Vitality") && right.contains("9|+3") && right.stream().anyMatch(t -> t.startsWith("135|Mom: ")) && right.stream().anyMatch(t -> t.startsWith("144|Dad: ")), "the right page shows stats and the parents as looks without numbers: " + right);
         check(sp.left().links().isEmpty() && sp.right().links().isEmpty(), "a single sheet has no links");
         check(dump.apply(com.bunnidogs.mod.layout.SheetLayout.single(plain, m).left()).contains("0|Bunnidog") && !dump.apply(com.bunnidogs.mod.layout.SheetLayout.single(plain, m).left()).contains("0|adult"), "no tag: the header says Bunnidog; no stats: no adult/pup");
@@ -3460,10 +3460,10 @@ public class GenomeCheck {
         one.add(new Pedigree.Entry(a, none, none, Optional.of(u), Optional.of("BD-3F7A2C"), Optional.of(Stats.of(3, -1, 0, 2, 12)), false));
         com.bunnidogs.mod.layout.Page.Spread sp = com.bunnidogs.mod.layout.SheetLayout.sheet(one, 0, m);
         java.util.List<String> left = dump.apply(sp.left()), right = dump.apply(sp.right());
-        check(left.contains("0|#1  BD-3F7A2C") && left.contains("0|adult") && left.contains("68|GENOME") && left.contains("68|generation 0"), "left header: number, ear tag, adult, generation: " + left);
-        check(left.contains("77|22") && left.contains("77|32") && left.contains("77|00") && left.contains("77|10") && left.contains("77|01"), "the code, one text per pair");
-        check(left.contains("88|Ears") && left.contains("88|short") && left.contains("97|Coat") && left.contains("97|spotted") && left.contains("97|/brown"), "ears and coat rows (the hidden gene after a slash): " + left);
-        check(left.contains("115|Build") && left.contains("115|average") && left.contains("115|/stocky") && left.contains("124|Temper.") && left.contains("124|loyal") && left.contains("133|Fertil.") && left.contains("133|/prolific"), "build, temperament, fertility rows");
+        check(left.contains("0|#1  BD-3F7A2C") && left.contains("0|adult") && left.contains("59|GENOME") && left.contains("59|generation 0"), "left header: number, ear tag, adult, generation: " + left);
+        check(left.contains("68|22") && left.contains("68|32") && left.contains("68|00") && left.contains("68|10") && left.contains("68|01"), "the code, one text per pair");
+        check(left.contains("79|Ears") && left.contains("79|short") && left.contains("88|Coat") && left.contains("88|spotted") && left.contains("88|/brown"), "ears and coat rows (the hidden gene after a slash): " + left);
+        check(left.contains("106|Build") && left.contains("106|average") && left.contains("106|/stocky") && left.contains("115|Temper.") && left.contains("115|loyal") && left.contains("124|Fertil.") && left.contains("124|/prolific"), "build, temperament, fertility rows");
         check(left.contains("145|/x = carried gene") && sp.left().portrait() != null && sp.left().portrait().coat().equals("spotted"), "legend and a spotted portrait box");
         check(right.contains("0|STATS") && right.contains("9|Vitality") && right.contains("9|+3") && right.contains("36|Speed") && right.contains("36|-1") && right.contains("54|Leap") && right.contains("54|0"), "stat names and points: " + right);
         Stats st = Stats.of(3, -1, 0, 2, 12);
@@ -4220,7 +4220,7 @@ public class GenomeCheck {
         check(hoverAt.apply(83).contains(Seed.driftText(seed.drift(0.0D))), "the drift box");
 
         // spread 0, right page: both parents, each a link to its sheet
-        check(right.contains("0|PARENTS") && right.contains("14|MOTHER") && right.contains("77|FATHER") && right.contains("59|22-32-00-10-00-01") && right.contains("122|11-00-00-11-00-00")
+        check(right.contains("0|PARENTS") && right.contains("14|MOTHER") && right.contains("77|FATHER") && right.contains("59|22-32-00-10-00-01-00") && right.contains("122|11-00-00-11-00-00-00")
                 && right.stream().anyMatch(t -> t.startsWith("50|Carries")) && right.stream().anyMatch(t -> t.startsWith("113|Carries")), "the parents page: names, codes, carried genes: " + right);
         check(ov.left().links().isEmpty() && ov.right().links().equals(java.util.List.of(new com.bunnidogs.mod.layout.Page.Link(0, 14, 130, 54, 1), new com.bunnidogs.mod.layout.Page.Link(0, 77, 130, 54, 2))),
                 "the two parent blocks link to spreads 1 and 2, nothing else does");
@@ -4229,7 +4229,7 @@ public class GenomeCheck {
         for (int n = 1; n <= 2; n++) {
             com.bunnidogs.mod.layout.Page.Spread sp = com.bunnidogs.mod.layout.SeedSheet.spread(seed, n, m);
             java.util.List<String> l = dump.apply(sp.left()), r = dump.apply(sp.right());
-            check(l.contains("0|" + (n == 1 ? "Seed: mother" : "Seed: father")) && l.contains("0|adult") && l.stream().noneMatch(t -> t.contains("#") || t.contains("generation")) && sp.left().pairs().size() == 6, "parent " + n + " header, adult, no # or generation: " + l);
+            check(l.contains("0|" + (n == 1 ? "Seed: mother" : "Seed: father")) && l.contains("0|adult") && l.stream().noneMatch(t -> t.contains("#") || t.contains("generation")) && sp.left().pairs().size() == Gene.COUNT, "parent " + n + " header, adult, no # or generation: " + l);
             check(r.contains("0|STATS") && r.contains("9|Vitality") && r.contains(n == 1 ? "135|Mother of the seed" : "135|Father of the seed") && r.contains(n == 1 ? "144|Her parents: not kept" : "144|His parents: not kept"), "parent " + n + " right page: " + r);
             check(sp.left().links().isEmpty() && sp.right().links().isEmpty(), "a parent's sheet has no links");
         }
@@ -4242,7 +4242,7 @@ public class GenomeCheck {
         Tissue t = new Tissue(mom, Stats.of(3, -1, 0, 2, 12));
         com.bunnidogs.mod.layout.Page.Spread ts = com.bunnidogs.mod.layout.SheetLayout.sample(t, m);
         java.util.List<String> sl = dump.apply(ts.left()), sr = dump.apply(ts.right());
-        check(sl.contains("0|Tissue sample") && sl.stream().noneMatch(x -> x.equals("0|adult") || x.equals("0|pup") || x.contains("#") || x.contains("generation")) && sl.contains("88|short") && sl.contains("97|spotted") && ts.left().pairs().size() == 6,
+        check(sl.contains("0|Tissue sample") && sl.stream().noneMatch(x -> x.equals("0|adult") || x.equals("0|pup") || x.contains("#") || x.contains("generation")) && sl.contains("79|short") && sl.contains("88|spotted") && ts.left().pairs().size() == Gene.COUNT,
                 "the sample sheet: header, no adult / pup, no # or generation, the gene rows: " + sl);
         check(sr.contains("9|Vitality") && sr.contains("9|+3") && sr.contains("135|A sample holds only") && sr.contains("144|this animal's own genes") && sr.stream().noneMatch(x -> x.contains("Mom") || x.contains("Dad") || x.contains("recorded")), "the sample's right page: stats, and what it does not know: " + sr);
         check(ts.left().hotspots().stream().anyMatch(h -> h.y() == 11 && h.text().startsWith("A Tissue Sample holds the genes")) && ts.left().links().isEmpty() && ts.right().links().isEmpty(), "hovering the sample's portrait explains the sample; no links");
@@ -4302,7 +4302,7 @@ public class GenomeCheck {
         }
         String net = Files.readString(src.resolve("network/ModNetwork.java"));
         check(net.contains("registrar.playToClient(SheetPayload.TYPE, SheetPayload.STREAM_CODEC,") && net.contains("registrar.playToClient(SeedPayload.TYPE, SeedPayload.STREAM_CODEC,") && net.contains("registrar.playToClient(SamplePayload.TYPE, SamplePayload.STREAM_CODEC,")
-                && net.contains("Seed.parse(payload.seed()).ifPresent(ClientScreens::openSeed)") && net.contains("Tissue.parse(payload.sample()).ifPresent(ClientScreens::openSample)") && net.contains("VERSION = \"3\""), "the channel registers its payloads, each opening its window through a lambda (network version 3 since T2)");
+                && net.contains("Seed.parse(payload.seed()).ifPresent(ClientScreens::openSeed)") && net.contains("Tissue.parse(payload.sample()).ifPresent(ClientScreens::openSample)"), "the channel registers its payloads, each opening its window through a lambda (versioned network channel)");
         check(net.contains("PacketDistributor.sendToPlayer(player, new SeedPayload(seed.toString()))") && net.contains("PacketDistributor.sendToPlayer(player, new SamplePayload(sample.toString()))") && !net.contains("import net.minecraft.client"), "the server sends the text of the seed or the sample");
         String doors = Files.readString(src.resolve("client/ClientScreens.java"));
         check(doors.contains("Minecraft.getInstance().gui.setScreen(new PedigreeScreen(seed))") && doors.contains("Minecraft.getInstance().gui.setScreen(new PedigreeScreen(sample))"), "the client doors open the seed and the sample screens");
@@ -4978,7 +4978,7 @@ public class GenomeCheck {
         for (int n = 0; n < 2; n++) {
             com.bunnidogs.mod.layout.Page.Spread sp = both.spread(n, m);
             java.util.List<String> l = dump.apply(sp.left()), r = dump.apply(sp.right());
-            check(l.contains("0|" + (n == 0 ? "Table: sample A" : "Table: sample B")) && l.stream().noneMatch(x -> x.equals("0|adult") || x.equals("0|pup") || x.contains("#") || x.contains("generation")) && sp.left().pairs().size() == 6,
+            check(l.contains("0|" + (n == 0 ? "Table: sample A" : "Table: sample B")) && l.stream().noneMatch(x -> x.equals("0|adult") || x.equals("0|pup") || x.contains("#") || x.contains("generation")) && sp.left().pairs().size() == Gene.COUNT,
                     "table spread " + n + " header, no adult / pup, no # or generation: " + l);
             check(r.contains("0|STATS") && r.contains("135|A sample holds only") && r.stream().noneMatch(x -> x.contains("Mom") || x.contains("Dad")), "table spread " + n + " right page says what a sample does not know");
             check(sp.left().links().isEmpty() && sp.right().links().isEmpty() && sp.left().hotspots().stream().anyMatch(h -> h.y() == 11 && h.text().startsWith("A Tissue Sample holds the genes")), "table spread " + n + ": no links, the portrait explains the sample");
@@ -4992,8 +4992,8 @@ public class GenomeCheck {
         String pay = Files.readString(src.resolve("network/TablePayload.java"));
         check(pay.contains("record TablePayload(String table) implements CustomPacketPayload") && pay.contains("Identifier.fromNamespaceAndPath(BunnidogsMod.MODID, \"table\")") && pay.contains("ByteBufCodecs.STRING_UTF8.map(TablePayload::new, TablePayload::table)"), "the table payload is one string, like the sample payload");
         String net = Files.readString(src.resolve("network/ModNetwork.java"));
-        check(net.contains("registrar.playToClient(TablePayload.TYPE, TablePayload.STREAM_CODEC,") && net.contains("TableSheet.parse(payload.table()).ifPresent(ClientScreens::openTable)") && net.contains("VERSION = \"3\"")
-                && net.contains("PacketDistributor.sendToPlayer(player, new TablePayload(table.toString()))"), "the channel registers the table payload (network version 3) and the server sends the table's text");
+        check(net.contains("registrar.playToClient(TablePayload.TYPE, TablePayload.STREAM_CODEC,") && net.contains("TableSheet.parse(payload.table()).ifPresent(ClientScreens::openTable)")
+                && net.contains("PacketDistributor.sendToPlayer(player, new TablePayload(table.toString()))"), "the channel registers the table payload (versioned channel) and the server sends the table's text");
         check(Files.readString(src.resolve("client/ClientScreens.java")).contains("Minecraft.getInstance().gui.setScreen(new PedigreeScreen(table))"), "the client door opens the table screen");
         String screen = Files.readString(src.resolve("client/screen/PedigreeScreen.java"));
         check(screen.contains("public PedigreeScreen(TableSheet table)") && screen.contains("return this.table.spreadCount();") && screen.contains("this.table.spread(this.spread, text -> this.font.width(text))") && screen.contains("buildPortrait(this.table.entry(this.spread))")
@@ -5112,7 +5112,7 @@ public class GenomeCheck {
         String looksText = String.join(" ", dump.apply(sp.right()).stream().map(t -> t.substring(t.indexOf('|') + 1)).toList());
         check(looksText.contains("Ears: long 100%") && looksText.contains("Coat: spotted 50%, tan 50%") && looksText.contains("Legs: standard 100%") && looksText.contains("Build: average 50%, stocky 50%")
                 && looksText.contains("Temper.: loyal 100%") && looksText.contains("Fertil.: average 100%") && looksText.contains("Odds before any mutation"), "forecast right page: " + looksText);
-        check(sp.right().hotspots().size() == 6 && sp.right().hotspots().get(1).text().startsWith("Coat. Sample A has spotted + brown, sample B has tan + tan.") && sp.right().hotspots().get(1).text().contains("spotted 50%, tan 50%")
+        check(sp.right().hotspots().size() == Gene.COUNT && sp.right().hotspots().get(1).text().startsWith("Coat. Sample A has spotted + brown, sample B has tan + tan.") && sp.right().hotspots().get(1).text().contains("spotted 50%, tan 50%")
                 && sp.right().hotspots().get(1).text().contains("4.0% of pups mutate"), "each gene row has a hover with both parents' genes: " + sp.right().hotspots().get(1).text());
         check(sp.left().hotspots().stream().anyMatch(h -> h.y() == 14 && h.text().contains("between 1 and 6")) && sp.left().hotspots().stream().anyMatch(h -> h.y() == 60 && h.text().contains("plain guavas") && h.text().contains("50% bigger"))
                 && sp.left().hotspots().stream().anyMatch(h -> h.y() == 92 && h.text().startsWith("Vitality: A has +3 points, B has 0, so a pup starts at +1.5.")) && sp.left().links().isEmpty() && sp.right().links().isEmpty() && sp.left().portrait() == null,
@@ -5145,7 +5145,7 @@ public class GenomeCheck {
         // the user's own example, word for word (docs/SHEET_SPECS.md S1)
         Genome ex = g("22-32-00-10-00-01");
         check(Plain.describe(ex).equals("short ears, spotted coat carrying brown, standard legs, average build carrying stocky, "
-                + "loyal, average fertility carrying prolific"), "the user's example decodes exactly: " + Plain.describe(ex));
+                + "loyal, average fertility carrying prolific, plain diet"), "the user's example decodes exactly: " + Plain.describe(ex));
         check(Plain.look(ex).equals("spotted, short ears, loyal"), "look phrase: " + Plain.look(ex));
         check(Plain.look(g("00-00-00-00-00-00")).equals("tan, loyal"), "an all-default animal is 'tan, loyal'");
         check(Plain.look(g("00-30-11-00-00-00")).equals("spotted, long legs, loyal"), "look phrase skips defaults, keeps coat and temperament");

@@ -97,7 +97,7 @@ src/main/java/com/bunnidogs/mod/
     Plain.java                 plain language for the Animal Sheet: the genome in words, the look phrase, what each allele does (S1)
     Units.java                 real units for the sheet: hearts, blocks/s, jump height, hearing blocks, minutes (S1; speed constant ASSUMED)
     Seed.java                  seed payload record (both parents' genomes + stats, quality, mutagen flag): text form (optional 4th part `mutagen`, D6a), Seed.of, Seed.hatch (the litter), mutationChance (50% floor when treated), tooltip summary (Phase 4c)
-    Genome.java                48-bit genome record, parse/toString, expressed/hidden, randomFounder, breed, mutation
+    Genome.java                56-bit seven-gene genome record; reads legacy six pairs as plain Diet, signed high-word sync; parse/toString, expressed/hidden, randomFounder, breed, mutation
     Traits.java                phenotype after dominance + stat multipliers
     Breeding.java              litter size / cooldown / crowding guard from Fertility (Phase 2, tested)
     Temperament.java           LOYAL / SKITTISH / FERAL / STOIC

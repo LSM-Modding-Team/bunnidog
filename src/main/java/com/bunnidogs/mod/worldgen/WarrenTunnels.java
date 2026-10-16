@@ -14,6 +14,9 @@ import com.bunnidogs.mod.registry.ModBiomeTags;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.NoiseColumn;
@@ -22,6 +25,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -31,6 +36,8 @@ final class WarrenTunnels {
     private WarrenTunnels() {}
     private static final int STRIDE = 4;
     private static final DenShape.Kind[] KINDS = DenShape.Kind.values();
+    private static final ResourceKey<LootTable> PANTRY_LOOT = ResourceKey.create(Registries.LOOT_TABLE,
+            Identifier.fromNamespaceAndPath("bunnidogs", "chests/warren_pantry"));
 
     static TunnelShape.Network plan(WorldGenLevel world, BlockPos origin, Settlement layout, long seed, boolean surface, boolean open) {
         TunnelShape.Terrain terrain = new Terrain(origin, world, p -> world.getBlockState(p)) {
@@ -133,7 +140,14 @@ final class WarrenTunnels {
             for (int i : column) {
                 int kind = data[i + 3];
                 if (kind >= 0 && kind < KINDS.length) {
-                    world.setBlock(origin.offset(data[i], data[i + 1], data[i + 2]), state(KINDS[kind], style), 2);
+                    BlockPos pos = origin.offset(data[i], data[i + 1], data[i + 2]);
+                    world.setBlock(pos, state(KINDS[kind], style), 2);
+                    // Only newly placed barrels reach here: preflight rejects existing block entities.
+                    if (KINDS[kind] == DenShape.Kind.BARREL && world.getBlockEntity(pos) instanceof RandomizableContainerBlockEntity barrel) {
+                        barrel.setLootTable(PANTRY_LOOT);
+                        barrel.setLootTableSeed(world.getSeed() ^ pos.asLong());
+                        barrel.setChanged();
+                    }
                 }
             }
         }

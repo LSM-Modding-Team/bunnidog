@@ -171,6 +171,10 @@ public final class TunnelShape {
             }
         }
         List<Mouth> mouths = new ArrayList<>(entrances.stream().map(e -> new Mouth(e.room(), e.doorstep())).toList());
+        UndergroundRooms.Feature lowerHall = null;
+        if (settlement.level() == 5 && reachable.contains(0) && centre != null) {
+            lowerHall = LowerHall.add(terrain,out,centre.floor());
+        }
         UndergroundRooms.Result extras = open ? new UndergroundRooms.Result(List.of(),Set.of())
                 : UndergroundRooms.add(settlement, terrain, out, reachable, mouths);
         CellarShape.Result cellars = CellarShape.add(settlement, terrain, out, mouths);
@@ -178,6 +182,7 @@ public final class TunnelShape {
         excluded.addAll(extras.pathExclusions());
         for (Entrance e : entrances) e.cells().keySet().forEach(p -> excluded.add(new DenShape.Pos(p.x(), p.z())));
         List<UndergroundRooms.Feature> features = new ArrayList<>(extras.features());
+        if (lowerHall != null) features.add(lowerHall);
         if (settlement.level() == 5 && reachable.contains(0)) {
             Room hall = rooms.stream().filter(r -> r.index() == 0).findFirst().orElseThrow();
             features.add(new UndergroundRooms.Feature(UndergroundRooms.Type.HALL, new Pos(0,hall.floor(),0)));

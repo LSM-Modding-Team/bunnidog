@@ -14,7 +14,7 @@ import com.bunnidogs.mod.layout.TunnelShape.Pos;
 /** U4: fitted rooms beneath landmarks and small surface connections, added to a retained underground network. */
 public final class UndergroundRooms {
     private UndergroundRooms() {}
-    public enum Type { PANTRY, CISTERN, MARKET, FARM_ENTRANCE, SKYLIGHT, HALL }
+    public enum Type { PANTRY, CISTERN, MARKET, FARM_ENTRANCE, SKYLIGHT, HALL, LOWER_HALL }
     public record Feature(Type type, Pos centre) {}
     public record Result(List<Feature> features, Set<DenShape.Pos> pathExclusions) {}
     private record Node(Pos pos, Node previous, int length) {}

@@ -41,31 +41,31 @@ public final class Founders {
         RECIPES.put(Lineage.TUNDRA, List.of(
                 sig(Gene.COAT, "snow", 0.90),
                 sig(Gene.EARS, "tiny", 0.80),
-                sig(Gene.BUILD, "woolly", 0.70)));
+                sig(Gene.BUILD, "woolly", 0.70), sig(Gene.DIET, "fisher", 0.85)));
         RECIPES.put(Lineage.DESERT, List.of(
                 sig(Gene.COAT, "sand", 0.90),
                 sig(Gene.EARS, "fennec", 0.80),
                 sig(Gene.LEGS, "fleet", 0.80),
-                sig(Gene.BUILD, "lean", 0.70)));
+                sig(Gene.BUILD, "lean", 0.70), sig(Gene.DIET, "desert_browser", 0.85)));
         RECIPES.put(Lineage.SWAMP, List.of(
                 sig(Gene.COAT, "moss", 0.60),
                 sig(Gene.COAT, "glow", 0.25),                         // recessive: mostly carried, rarely shown
-                sig(Gene.FERTILITY, "prolific", 0.50)));
+                sig(Gene.FERTILITY, "prolific", 0.50), sig(Gene.DIET, "mushroom_eater", 0.85)));
         RECIPES.put(Lineage.CAVE, List.of(
                 sig(Gene.COAT, "pale", 0.90),
                 sig(Gene.EARS, "bat", 0.80),
-                sig(Gene.TEMPERAMENT, "skittish", 0.50)));
+                sig(Gene.TEMPERAMENT, "skittish", 0.50), sig(Gene.DIET, "cave_forager", 0.85)));
         RECIPES.put(Lineage.MOUNTAIN, List.of(
                 sig(Gene.COAT, "slate", 0.90),
                 sig(Gene.LEGS, "hoofed", 0.85),
-                sig(Gene.BUILD, "stocky", 0.50)));
+                sig(Gene.BUILD, "stocky", 0.50), sig(Gene.DIET, "mountain_grazer", 0.85)));
         RECIPES.put(Lineage.NETHER, List.of(
                 sig(Gene.COAT, "ember", 0.90),
-                sig(Gene.TEMPERAMENT, "feral", 0.85)));
+                sig(Gene.TEMPERAMENT, "feral", 0.85), sig(Gene.DIET, "nether_forager", 0.85)));
         RECIPES.put(Lineage.END, List.of(
                 sig(Gene.COAT, "void", 0.90),
                 sig(Gene.TEMPERAMENT, "skittish", 0.40),
-                sig(Gene.FERTILITY, "starborn", 0.40)));       // the seed-quality gene: nowhere else (see Drift)
+                sig(Gene.FERTILITY, "starborn", 0.40), sig(Gene.DIET, "chorus_eater", 0.85))); // seed quality: see Drift
     }
 
     /** The recipe of a lineage (empty for MEADOW). */

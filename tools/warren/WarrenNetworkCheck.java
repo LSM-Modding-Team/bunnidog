@@ -49,6 +49,10 @@ public final class WarrenNetworkCheck {
                     long nursery = network.cells().stream().filter(c -> c.kind() == DenShape.Kind.NEST && c.pos().y() == -6
                             && Math.max(Math.abs(c.pos().x()),Math.abs(c.pos().z())) <= 3).count();
                     require(nursery == 8,"The grand-tree hall must keep eight nursery Nests");
+                    if (network.features().stream().anyMatch(f -> f.type() == UndergroundRooms.Type.LOWER_HALL)) {
+                        require(network.cells().stream().filter(c -> c.kind() == DenShape.Kind.NEST && c.pos().y() == -12).count() == 4,
+                                "The lower commons must have four additional floor Nests");
+                    }
                     Settlement.Cluster east = settlement.clusters().stream().max(java.util.Comparator.comparingInt(Settlement.Cluster::dx)).orElseThrow();
                     Settlement.Cluster south = settlement.clusters().stream().max(java.util.Comparator.comparingInt(Settlement.Cluster::dz)).orElseThrow();
                     require(network.cells().stream().anyMatch(c -> c.pos().equals(new Pos(east.dx()-3,-5,south.dz()-3)) && c.kind() == DenShape.Kind.AIR),
@@ -71,6 +75,19 @@ public final class WarrenNetworkCheck {
         require(!avoided.dens().contains(0), "A flooded central room must be omitted");
         require(avoided.cells().stream().noneMatch(c -> wet.water.contains(c.pos())), "No fluid may be overwritten");
         reachable(avoided, wet, false);
+
+        Ground deepProtected = new Ground();
+        deepProtected.protectedBlocks.add(new Pos(0,-11,0));
+        TunnelShape.Network upperOnly = TunnelShape.plan(settlement,7,deepProtected);
+        require(upperOnly.features().stream().noneMatch(f -> f.type() == UndergroundRooms.Type.LOWER_HALL),
+                "A protected lower room must leave the upper network without U7");
+        require(upperOnly.cells().stream().noneMatch(c -> deepProtected.protectedBlocks.contains(c.pos())),"Do not touch protected deep blocks");
+        reachable(upperOnly,deepProtected,false);
+        Ground deepWet = new Ground();
+        deepWet.water.add(new Pos(0,-11,0));
+        TunnelShape.Network dryUpper = TunnelShape.plan(settlement,7,deepWet);
+        require(dryUpper.features().stream().noneMatch(f -> f.type() == UndergroundRooms.Type.LOWER_HALL),"Deep fluid cancels only the lower commons");
+        reachable(dryUpper,deepWet,false);
 
         Ground protectedTerrain = new Ground();
         protectedTerrain.protectedBlocks.add(new Pos(0, -4, 0));

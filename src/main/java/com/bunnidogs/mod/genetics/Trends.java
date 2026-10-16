@@ -9,7 +9,7 @@ import java.util.Map;
  * Which way an allele pushes a bloodline's stats, generation after generation (docs/DESIGN.md "4. Bred stats").
  * An allele's trend is one <b>gain</b> and one <b>cost</b>, e.g. stocky: +Vitality, -Swiftness. Sizes by kind of
  * allele: ordinary +1/-1 (zero-sum), wild-lineage +2/-1, rare mutation +3/-1. The default alleles (standard,
- * average, loyal) have no trend, so an unbred line stays put. Coat has no trend at all.
+ * average, loyal) have no trend, so an unbred line stays put. Coat and Diet have no trend at all.
  *
  * <p>{@code starborn} (the End's Fertility allele) is the one special case: +2 Bloom, and instead of a cost two
  * <b>tolls</b> (-1 Vitality, -1 Senses) that quality does not shrink (see {@link Drift}).

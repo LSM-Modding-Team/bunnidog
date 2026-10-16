@@ -67,3 +67,9 @@ from the server. Empty/invalid actions remain silent. The table never consumes a
 sample. Gradle compilation and model checks pass. The user reports the release compiled
 and worked in game; A only, A+B, swap, take, chunk reload and sound remain useful
 regression checks, without separate reported results.
+
+Diet update (2026-10-16): the sample sheets and forecast now include inherited
+Diet as a seventh row. Old loaded six-gene samples normalize to plain Diet
+through the existing tissue parser. Both client and server require network
+version 4. `checkDiets` verifies old table payloads, the diet inheritance odds
+and seven-block forecast clearance; the new diet behavior is gameplay-pending.

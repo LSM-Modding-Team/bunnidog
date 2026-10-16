@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:hay_block",
+    "minecraft:wheat",
+    "minecraft:short_grass",
+    "minecraft:tall_grass"
+  ]
+}

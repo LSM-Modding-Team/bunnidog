@@ -31,9 +31,9 @@ Book texture grows from 300 x 190 to about **312 x 216** (still inside the 320 x
 | Lines | What |
 |---|---|
 | 1 | `#7  BD-3F7A2C` (number, ear tag) and right-aligned `adult · gen 1` or `pup · gen 1` |
-| ~7.5 (66 px) | **The portrait**: the bunnidog rendered, in a framed box on the parchment (see S4; turns slowly) |
-| 2 | `GENOME` label and the code `22-32-00-10-00-01`, each pair drawn separately so a pair can light up (gold) when its gene row is hovered |
-| 6 | Six gene rows, one per gene, in code order: `Ears  short`, `Coat  spotted /brown`, `Legs  standard`, `Build  average /stocky`, `Temper.  loyal`, `Fertil.  average /prolific`. The word after `/` (muted) is the **hidden** gene the animal carries |
+| 5 (45 px) | **The portrait**: the bunnidog rendered, in a framed box on the parchment (see S4; turns slowly) |
+| 2 | `GENOME` label and the code `22-32-00-10-00-01-00`, each pair drawn separately so a pair can light up (gold) when its gene row is hovered |
+| 7 | Seven gene rows, one per gene, in code order: `Ears  short`, `Coat  spotted /brown`, `Legs  standard`, `Build  average /stocky`, `Temper.  loyal`, `Fertil.  average /prolific`, `Diet  plain`. The word after `/` (muted) is the **hidden** gene the animal carries |
 | 1 | Legend: `/x = hidden gene it carries` |
 
 **RIGHT PAGE: what it can do (17 lines)**
@@ -54,7 +54,7 @@ Book texture grows from 300 x 190 to about **312 x 216** (still inside the 320 x
 ### 5.3 One sentence per allele
 A table `allele -> (word, effect sentence)` for EVERY allele of EVERY gene (the self-check fails if one is missing, so a future allele cannot be forgotten). Words are the allele names unless the name is jargon; effect sentences are derived from the numbers in `Gene` so they cannot disagree with the game (e.g. ears `value 0.65` -> "hears 35% less far"; legs `1.20` -> "about 12% faster and 24% higher jumps" from `Traits`). Jargon to explain in a sentence: chonker, swarm, starborn, springy, fennec, bat, hoofed, woolly, lean, fleet, glow, and the four temperaments (read `Temperament.java` when writing them).
 ### 5.4 How to read a genome (page 1 and the code's hover box)
-"Six pairs, one per gene, in this order: Ears, Coat, Legs, Build, Temperament, Fertility. In each pair the first digit came from the mother and the second from the father. When the two differ, the stronger one shows and the other is carried: it does not show on this animal but it can pass to its pups."
+"Seven pairs, one per gene, in this order: Ears, Coat, Legs, Build, Temperament, Fertility, Diet. In each pair the first digit came from the mother and the second from the father. When the two differ, the stronger one shows and the other is carried: it does not show on this animal but it can pass to its pups."
 
 ## 6. Real units (all pure Java, new `genetics/Units.java`)
 Base values from `Bunnidog`: health 8.0, speed 0.25, jump 0.42, follow range 16.0. Final value = base x gene factor (`Traits`) x bred factor (`Stats.multiplier`).
@@ -120,3 +120,12 @@ Done: the seed window and the Tissue Sample window, on the same screen (no menu 
 
 ## 18. S7b: the page-turn sound (session 29)
 The one item section 15 left out. `PedigreeScreen.pageSound()` plays vanilla's book sound through the client's sound manager whenever the spread actually changes (buttons, arrow keys, index and parent links, the seed window's Mother / Father blocks). It is silent when the target spread is the current one. The one-sheet windows never turn, so they stay silent. Two vanilla names are unverified until the user compiles (see "Phase 8 S7b" in docs/history/PHASES.md).
+
+
+Diet layout update (2026-10-16): the portrait height is 45 px, Genome label y=59,
+code y=68, gene rows y=79..133 and legend y=145. The forecast budgets its gaps
+for seven gene blocks, preserving the footer. Old six-pair payloads load with
+plain Diet; hover text explains its foods and feeding/breeding distinction.
+A temporary layout-only preview of actual Page data was inspected using a test
+font and portrait placeholder; final Minecraft font/portrait appearance remains
+a gameplay check.

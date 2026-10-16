@@ -8,6 +8,9 @@ import java.util.Random;
 
 import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.genetics.Breeding;
+import com.bunnidogs.mod.genetics.Diet;
+import com.bunnidogs.mod.genetics.Foraging;
+import com.bunnidogs.mod.genetics.Home;
 import com.bunnidogs.mod.genetics.EarTag;
 import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.genetics.Growth;
@@ -30,6 +33,7 @@ import com.bunnidogs.mod.item.SeedItem;
 import com.bunnidogs.mod.registry.ModBiomeTags;
 import com.bunnidogs.mod.registry.ModEntities;
 import com.bunnidogs.mod.registry.ModItems;
+import com.bunnidogs.mod.registry.ModDietTags;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -40,9 +44,11 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
@@ -90,7 +96,7 @@ import net.minecraft.world.phys.Vec3;
  * of them mate, the seed's quality is the average of the two tiers' qualities ({@link GuavaTier#average}).
  *
  * <ul>
- *   <li>The genome is 48 bits, synced to clients as two 24-bit ints (only INT is needed, no custom serializer).</li>
+ *   <li>The genome is 56 bits, synced as one 24-bit low word and one 32-bit high word.</li>
  *   <li>Saved to NBT as its text form, e.g. {@code Genome:"00-01-20-00-03-11"}, so it is hand-editable and works in
  *       {@code /summon bunnidogs:bunnidog ~ ~ ~ {Genome:"22-00-00-00-00-00"}}.</li>
  *   <li>A new bunnidog rolls a random founder genome in its constructor (server side). NBT loading and future
@@ -117,7 +123,7 @@ public class Bunnidog extends Animal {
     private static final String TAG_NEST_Y = "NestY";
     private static final String TAG_NEST_Z = "NestZ";
 
-    // 48-bit genome split in two 24-bit halves (keeps both values non-negative).
+    // Preserve the existing split at bit 24. The high word now uses its sign bit too.
     private static final EntityDataAccessor<Integer> DATA_GENES_LO =
             SynchedEntityData.defineId(Bunnidog.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_GENES_HI =
@@ -145,6 +151,8 @@ public class Bunnidog extends Animal {
     private final GuavaMemory guavaMemory = new GuavaMemory();
     /** H2: the Nest this dog has claimed (docs/HOME_SPECS.md); server side only. */
     private final NestHome nestHome = new NestHome(this);
+    private long nextForageTick;
+    private LivingEntity huntingTarget;
 
     public Bunnidog(EntityType<? extends Bunnidog> type, Level level) {
         super(type, level);
@@ -175,7 +183,7 @@ public class Bunnidog extends Animal {
 
     /** The decoded genome. Cheap: only re-decodes when the synced value changed. */
     public Genome genome() {
-        long packed = ((long) this.entityData.get(DATA_GENES_HI) << 24)
+        long packed = ((this.entityData.get(DATA_GENES_HI) & 0xFFFFFFFFL) << 24)
                 | (this.entityData.get(DATA_GENES_LO) & 0xFFFFFFL);
         Genome cached = this.cachedGenome;
         if (cached == null || cached.packed() != packed) {
@@ -222,9 +230,8 @@ public class Bunnidog extends Animal {
     /** Replaces the genome (use for newborns / commands). On the server this also updates the attributes. */
     public void setGenome(Genome genome) {
         this.founderPending = false;        // somebody decided this bunnidog's genes: no lineage roll needed
-        long packed = genome.packed();
-        this.entityData.set(DATA_GENES_LO, (int) (packed & 0xFFFFFFL));
-        this.entityData.set(DATA_GENES_HI, (int) (packed >>> 24));
+        this.entityData.set(DATA_GENES_LO, genome.syncLow());
+        this.entityData.set(DATA_GENES_HI, genome.syncHigh());
         if (!this.level().isClientSide()) {
             this.applyGenetics();
         }
@@ -311,6 +318,46 @@ public class Bunnidog extends Animal {
         return isBunnidogFood(stack);
     }
 
+    public Diet diet() { return Diet.of(this.genome()); }
+    public boolean canEat(ItemStack stack) { return isBunnidogFood(stack) || ModDietTags.accepts(this.diet(), stack); }
+
+    boolean homeNight() {
+        return this.level() instanceof ServerLevel server && server.dimensionType().defaultClock()
+                .map(clock -> Home.isNight(server.clockManager().getTotalTicks(clock))).orElse(false);
+    }
+
+    boolean canForage() {
+        BlockPos nest = this.homeNest();
+        return this.level().getGameTime() >= this.nextForageTick
+                && Foraging.canForage(!this.isBaby(), this.getHealth() < this.getMaxHealth(), nest != null,
+                        this.homeNight(), this.getTarget() != null && this.getTarget() != this.huntingTarget)
+                && Foraging.insideHome(nest == null ? Double.POSITIVE_INFINITY : this.blockPosition().distSqr(nest));
+    }
+
+    boolean foodWithinHome(BlockPos pos) {
+        BlockPos nest = this.homeNest();
+        return nest != null && Foraging.insideHome(pos.distSqr(nest));
+    }
+
+    void ateForage(float healing) {
+        this.heal(healing);
+        this.playEatingSound();
+        this.nextForageTick = this.level().getGameTime() + Foraging.MEAL_COOLDOWN;
+    }
+
+    @Override protected void playEatingSound() { this.playSound(SoundEvents.GENERIC_EAT.value(), 0.5F, 1.1F); }
+
+    void huntTarget(LivingEntity target) { this.huntingTarget = target; }
+
+    @Override
+    public boolean killedEntity(ServerLevel level, LivingEntity victim, DamageSource source) {
+        boolean result = super.killedEntity(level, victim, source);
+        if (victim == this.huntingTarget && this.diet().hunts() && this.foodWithinHome(victim.blockPosition())) {
+            this.ateForage(Foraging.HUNT_HEAL);
+        }
+        return result;
+    }
+
     /**
      * Phase 4e: feeding a guava to an adult that is ready puts it in love (vanilla), and here the tier of that guava is
      * remembered for the seed. The tier is read BEFORE {@code super}, because vanilla uses up the stack. It is only
@@ -344,6 +391,18 @@ public class Bunnidog extends Animal {
             // Phase 5c: the Pedigree Book logs this bunnidog instead of feeding it.
             if (!this.level().isClientSide()) {
                 PedigreeBookItem.log(player, held, new Pedigree.Entry(this.genome(), this.motherGenome(), this.fatherGenome(), Optional.of(this.getUUID()), this.earTag(), Optional.of(this.stats()), this.isBaby()));
+            }
+            return InteractionResult.SUCCESS;
+        }
+        if (!isBunnidogFood(held) && this.canEat(held)) {
+            if (!Foraging.handFood(true, false, this.getHealth() < this.getMaxHealth(), this.canAgeUp())) {
+                return InteractionResult.PASS;
+            }
+            if (!this.level().isClientSide()) {
+                this.heal(Foraging.HEAL);
+                if (this.canAgeUp()) this.ageUp(getSpeedUpSecondsWhenFeeding(-this.getAge()), true);
+                held.consume(1, player);
+                this.playEatingSound();
             }
             return InteractionResult.SUCCESS;
         }
@@ -496,6 +555,7 @@ public class Bunnidog extends Animal {
         super.addAdditionalSaveData(output);
         output.putString(TAG_GENOME, this.genome().toString());
         output.putString(TAG_STATS, this.stats().toString());
+        output.putInt("ForageWait", (int) Math.clamp(this.nextForageTick - this.level().getGameTime(), 0L, (long) Foraging.MEAL_COOLDOWN));
         if (this.motherGenome != null && this.fatherGenome != null) {
             output.putString(TAG_MOTHER, this.motherGenome.toString());
             output.putString(TAG_FATHER, this.fatherGenome.toString());
@@ -531,6 +591,7 @@ public class Bunnidog extends Animal {
         // Phase 5d: a save from before it, or an untagged bunnidog, has no tag. (The name shown above it is vanilla's own saved CustomName.)
         this.earTag = EarTag.parse(input.getStringOr(TAG_EAR_TAG, "")).orElse(null);
         super.readAdditionalSaveData(input);
+        this.nextForageTick = this.level().getGameTime() + Math.clamp(input.getIntOr("ForageWait", 0), 0, Foraging.MEAL_COOLDOWN);
         // Phase 4e: a save from before it, or a bunnidog not in love, has neither tag = no memory.
         this.guavaMemory.restore(input.getIntOr(TAG_LOVE_TIER, 0), input.getIntOr(TAG_LOVE_TIER_TICKS, 0));
         // H2: a save from before it, or a dog without a nest, has no Y = no nest.
@@ -562,7 +623,13 @@ public class Bunnidog extends Animal {
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3D, true) {
             @Override
             public boolean canUse() {
-                return Bunnidog.this.temperament() == Temperament.FERAL && super.canUse();
+                return Bunnidog.this.temperament() == Temperament.FERAL
+                        && Bunnidog.this.getTarget() != Bunnidog.this.huntingTarget && super.canUse();
+            }
+            @Override
+            public boolean canContinueToUse() {
+                return Bunnidog.this.temperament() == Temperament.FERAL
+                        && Bunnidog.this.getTarget() != Bunnidog.this.huntingTarget && super.canContinueToUse();
             }
         });
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this) {
@@ -573,7 +640,7 @@ public class Bunnidog extends Animal {
         });
         // Breeding (Phase 2): mate with another bunnidog in love, follow a guava, pups follow an adult.
         this.goalSelector.addGoal(4, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(5, new TemptGoal(this, 1.1D, Bunnidog::isBunnidogFood, false));
+        this.goalSelector.addGoal(5, new TemptGoal(this, 1.1D, this::canEat, false));
         this.goalSelector.addGoal(6, new FollowParentGoal(this, 1.1D));
         // H2: a dog with a home (a claimed Nest, see NestHome and docs/HOME_SPECS.md) walks back once something (a guava, a scare, a
         // long stroll) led it more than 16 blocks away. Below panic, avoid and tempt, above the stroll. Idle for a dog without a nest.
@@ -581,7 +648,9 @@ public class Bunnidog extends Animal {
         // GoHomeGoal (same priority: the first one in the list wins a tie) and above the stroll, which it keeps from running all night.
         this.goalSelector.addGoal(6, new NightHomeGoal(this));
         this.goalSelector.addGoal(6, new GoHomeGoal(this));
-        this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(7, new HuntGoal(this));
+        this.goalSelector.addGoal(7, new GrazeGoal(this));
+        this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
     }

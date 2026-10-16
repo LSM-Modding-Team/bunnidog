@@ -116,3 +116,33 @@ door-opening ability. Terrain can omit blocked shutters/lamps. Existing villages
 and old saved house starts retain their previous appearance. Build/layout
 checks pass; the user confirms the release worked in game. Both styles remain
 useful regression checks, without separate reported results.
+
+
+**Inherited diets (Diet D1–D4):** the Calipers and Genetics Table now show a
+seventh gene, Diet. Hover it for accepted foods. Guavas still breed every dog;
+other foods that fit its expressed diet heal 2 HP or grow an unlocked pup,
+without starting love. A healthy adult refuses them. Plain dogs stay guava-only;
+grazers accept hay/wheat/grass, foragers accept produce/berries, hunters accept
+raw meat, and the rare omnivore combines those three. Wild lineages also have
+fish, desert plants, mushrooms, glow berries, mountain greenery, Nether fungi
+or chorus diets. Old animals/items gain plain Diet and retain their old genes.
+Both server and client need this update (network version 4).
+
+**Food near home:** injured adults with a claimed Nest can seek meals by day,
+within 16 blocks of the Nest. Grazers nibble hay, grass or ripe wheat; foragers
+nibble ripe carrots, potatoes and beetroot. Hay remains, crops restart at age 0,
+and no harvest items drop. Crop/grass changes obey mob griefing and block
+protection. Hunters/omnivores take adult chickens/rabbits by default, gaining
+4 HP for their own prey kill. Babies, players, bunnidogs, tame pets and allies
+are protected. A meal gives a 30-second pause; night and higher-priority needs
+interrupt foraging. There is no starvation meter. Try a grazer with
+`/summon bunnidogs:bunnidog ~ ~ ~ {Genome:"00-00-00-00-00-00-11"}` or a hunter
+with final pair `33`, place a nearby Nest, let it claim it, then test after
+injuring the adult. Food and prey tags can be extended by data packs.
+
+**Deeper villages (U7):** fresh level-5 villages can have another room below the
+grand-tree hall. Follow its turning stairs to four more Nests, a lantern and a
+supply barrel. New pantry/market/lower-room barrels have small stores of food
+and plain guavas. Existing containers are not refilled; terrain can omit the
+lower floor. Test with `/bunnidogs warren 5 surface` on deep flat ground.
+These additions have build/headless checks and still need gameplay review.

@@ -4,15 +4,16 @@ import java.util.Optional;
 import java.util.random.RandomGenerator;
 
 /**
- * A bunnidog's genes: 6 genes ({@link Gene}) x 2 alleles, packed into 48 bits of a long.
+ * A bunnidog's genes: 7 genes ({@link Gene}) x 2 alleles, packed into 56 bits of a long.
  * Layout: gene i occupies bits [8i, 8i+8): slot 0 in the low nibble, slot 1 in the high nibble.
  * By convention slot 0 came from the mother and slot 1 from the father (so a Pedigree can tell them apart later).
  *
  * <p>Immutable. Canonical text form (used in NBT, {@code /summon ... {Genome:"..."}} and debug output):
- * six 2-digit groups in gene order EARS COAT LEGS BUILD TEMPERAMENT FERTILITY, each digit an allele id in hex,
- * e.g. {@code 00-01-20-00-03-11}.
+ * seven 2-digit groups in gene order EARS COAT LEGS BUILD TEMPERAMENT FERTILITY DIET, each digit an allele id in hex,
+ * e.g. {@code 00-01-20-00-03-11-00}. Legacy six-pair data gains plain/plain Diet.
  */
 public record Genome(long packed) {
+    public static final int LEGACY_GENES = 6;
     /** Chance per offspring of one mutation when both parents have average fertility (1.0). */
     public static final double BASE_MUTATION_CHANCE = 0.04;
     /** Mutation chance is never higher than this, however fertile the parents. */
@@ -24,6 +25,13 @@ public record Genome(long packed) {
     /** Unknown / out-of-range allele ids are replaced by 0, so a corrupt value can never crash rendering. */
     public Genome {
         packed = sanitize(packed);
+    }
+
+    /** Keep the existing 24-bit low word; the high word now uses all 32 bits. */
+    public int syncLow() { return (int) (packed & 0xFFFFFFL); }
+    public int syncHigh() { return (int) (packed >>> 24); }
+    public static Genome fromSynced(int low, int high) {
+        return new Genome(((high & 0xFFFFFFFFL) << 24) | (low & 0xFFFFFFL));
     }
 
     private static int shift(Gene gene, int slot) {
@@ -110,6 +118,7 @@ public record Genome(long packed) {
             return Optional.empty();
         }
         String digits = text.replaceAll("[-_:\\s]", "");
+        if (digits.length() == LEGACY_GENES * 2) digits += "00";
         if (digits.length() != Gene.COUNT * 2) {
             return Optional.empty();
         }

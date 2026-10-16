@@ -6,6 +6,9 @@ Full text of every chunk (files, decisions, compile risks): `docs/history/CHUNKS
 
 | Chunk | What | Status |
 |---|---|---|
+| U7 | Terrain-tested lower commons, stairs, four more Nests and a supply barrel beneath the grand-tree hall | BUILD + LAYOUT/MODEL CHECKS PASS; gameplay pending |
+| Pantry supplies | Lazy modest food/guava loot in newly placed pantry/market/commons barrels; protect existing containers | BUILD PASS + RESOURCE REVIEW; gameplay pending |
+| Diet D1–D4 | Seventh inherited gene, legacy data/signed sync, diet feeding and temptation, home-bounded grazing/hunting, seven-row sheets | BUILD + DIET/GENETICS/MODEL CHECKS PASS; gameplay pending |
 | V1c | Initially open guava house doors, shutters, level-4 cottage windows and level-5 doorstep lamps; old-start dressing flag | WORKS: user confirms d7f39a9 batch; build/layout/model checks pass |
 | W3 | Guava door/trapdoor/button/pressure plate/fence gate, crafting, tags, loot and generated assets | WORKS: user confirms d7f39a9 batch; build/resource checks pass; preview inspected |
 | T4 | Synced A/B vial display on Genetics Table and successful-interaction click | WORKS: user confirms d7f39a9 batch; build/model checks pass |
@@ -19,7 +22,6 @@ Full text of every chunk (files, decisions, compile risks): `docs/history/CHUNKS
 | Codex workflow + temple fix | Smooth photo-to-scalp transition, preserve mesh; workspace instructions, portable headless model check/CI and optional source package | BUILD + HEADLESS PASS; preview inspected; fixed texture in-game pending |
 | U6a | Advancement "Welcome to the Warren" (enter the surface warren structure), data only + lang | NOT COMPILED |
 | U1 | Level 1 surface warrens: a den under the tree with the nests, a lantern and hay, and up to 2 mouths (mound + slope); the old holes only as a fallback | NOT COMPILED |
-| U7 | Optional second floor beneath the hall | OPTIONAL CANDIDATE; broader design permission applies |
 | UW0 | Plan: readable underground warrens (mouths, dens, tunnels, cellars; docs/WARREN_PLAN.md) | ACCEPTED |
 | H3b | A Nest in the floor of every burrow house (the hollow centre), so each house is a home for one dog | NOT COMPILED |
 | V1b | Villages of guava wood, second step: level 4 cottages get a stone foundation course, level 5 cottages a loft; well, stall and lamp posts use guava fence and slab in every lineage | WORKS |

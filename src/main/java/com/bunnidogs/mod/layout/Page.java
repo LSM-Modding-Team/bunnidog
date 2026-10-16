@@ -23,7 +23,7 @@ public final class Page {
     public record Portrait(int x, int y, int w, int h, String coat) {}
 
     /**
-     * A rectangle that shows a hover box with {@code text} when the mouse is over it (Phase 8 S5). {@code pair} is the index (0-5)
+     * A rectangle that shows a hover box with {@code text} when the mouse is over it (Phase 8 S5). {@code pair} is the gene index
      * of the genome code pair to light up while it is hovered, or -1 for none. The screen wraps the text to the box it draws.
      */
     public record Hotspot(int x, int y, int w, int h, String text, int pair) {}
@@ -71,7 +71,7 @@ public final class Page {
         return hotspots;
     }
 
-    /** The six pairs of the genome code in code order (empty on pages without a code). */
+    /** The genome's pairs in code order (empty on pages without a code). */
     public List<Pair> pairs() {
         return pairs;
     }

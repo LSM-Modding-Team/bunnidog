@@ -17,8 +17,16 @@ are obsolete. The user's current request determines scope.
   confirmation. A completed feature, commit or push is a checkpoint, not by
   itself a reason to stop a continuation. Continue into the next useful work
   while budget permits; reserve time for final validation and delivery.
-  Account-level usage/quota is not visible: do not claim to know an exact remaining
-  allowance. Use the available work budget and leave a precise handoff when needed.
+- Usage checks: discover and call `get_usage_limits` at the start of substantial
+  continuations and between meaningful batches. Read the percentage used and
+  reset time for both the 5-hour and weekly limits; use those results alongside
+  the remaining turn/context budget to decide how far to advance. When usage
+  approaches a limit, reserve enough capacity for validation, docs, review,
+  commit/push and the GitHub artifact check. Do not stop merely because one
+  batch is complete while usable budget remains. If this tool is not exposed
+  in the current session, say so briefly, use the available work budget and do
+  not invent quota values or present an old reading as current. Leave a precise
+  handoff if a real limit prevents completion.
 - Design latitude: the user authorizes and encourages substantial additions or
   changes beyond the written roadmap when they fit the mod, including custom
   loot tables, block behavior and mechanics. Use judgment and proceed without

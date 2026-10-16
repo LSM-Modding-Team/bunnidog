@@ -20,7 +20,7 @@ public final class Plain {
 
     /** How to read the genome code, for page 1 of the book and the code's hover box (spec 5.4). */
     public static final String HOW_TO_READ =
-            "Six pairs, one per gene, in this order: Ears, Coat, Legs, Build, Temperament, Fertility. "
+            "Seven pairs, one per gene, in this order: Ears, Coat, Legs, Build, Temperament, Fertility, Diet. "
                     + "In each pair the first digit came from the mother and the second from the father. "
                     + "When the two differ, the stronger one shows and the other is carried: it does not show on this "
                     + "animal but it can pass to its pups.";
@@ -29,7 +29,7 @@ public final class Plain {
 
     /** The plain word for an allele: its name (none of the names is jargon enough to rename; the effect sentence explains). */
     public static String word(Allele allele) {
-        return allele.name();
+        return allele.name().replace('_', ' ');
     }
 
     /** "Ears", "Coat", ... */
@@ -60,6 +60,7 @@ public final class Plain {
             case BUILD -> word(allele) + " build";
             case TEMPERAMENT -> word(allele);
             case FERTILITY -> word(allele) + " fertility";
+            case DIET -> word(allele) + " diet";
         };
     }
 
@@ -185,6 +186,8 @@ public final class Plain {
         note(Gene.FERTILITY, "swarm", "Swarm: breeds like a swarm.");
         note(Gene.FERTILITY, "starborn",
                 "Starborn: it turns Bloom into extra seed quality, at a toll on Vitality and Senses each generation.");
+        for (Diet diet : Diet.values()) note(Gene.DIET, diet.key(), diet.foods()
+                + " Guavas remain its breeding food; other accepted foods heal or grow pups, without starting love.");
     }
 
     /** True if the allele has its note (the self-check requires it for every allele of every gene). */
@@ -232,6 +235,8 @@ public final class Plain {
             }
             case TEMPERAMENT:
                 return "";
+            case DIET:
+                return "Does not change body stats, stat drift or juice effects.";
             case FERTILITY: {
                 double litter = v - 1.0D;
                 double rest = 1.0D / v - 1.0D;

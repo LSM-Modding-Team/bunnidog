@@ -42,6 +42,7 @@ Git diff. Existing uncommitted work and saves are preserved.
 ./gradlew checkBunnidogModel  # real mesh loading/render path, no game window
 ./gradlew checkWarrenNetwork  # terrain, connectivity and chunk ownership (also part of build)
 ./gradlew checkWoodAssets    # guava mechanisms, state coverage and resource links (also part of build)
+./gradlew checkDiets         # legacy data, inherited diets, food rules and seven-gene pages (also part of build)
 ./gradlew packageProject     # optional portable source ZIP in build/distributions
 ```
 

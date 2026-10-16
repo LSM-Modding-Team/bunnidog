@@ -5,7 +5,7 @@ import java.util.Locale;
 import java.util.random.RandomGenerator;
 
 /**
- * The six gene slots (see docs/DESIGN.md) and their allele tables.
+ * The seven gene slots and their allele tables. New slots are appended, never inserted.
  *
  * <p>THE TABLES ARE SAVE-FORMAT: an allele's position in its table is its id, stored in every saved genome.
  * Append new alleles at the end (max 16 per gene); never reorder or delete existing ones.
@@ -63,7 +63,20 @@ public enum Gene {
             spec("prolific", 2, 1.50f, 2),
             spec("shy",      1, 0.60f, 3),
             spec("swarm",   50, 2.00f, 0),
-            wild("starborn", 10, 0.70f, Lineage.END));  // End only: fewer, better pups; converts Bloom into seed quality (Drift)
+            wild("starborn", 10, 0.70f, Lineage.END)),  // End only: fewer, better pups; converts Bloom into seed quality (Drift)
+    DIET("diet",                                           // value unused; Diet resolves the stable allele name
+            spec("plain",           1, 0f, 8),
+            spec("grazer",          3, 0f, 3),
+            spec("forager",         2, 0f, 2),
+            spec("hunter",          4, 0f, 1),
+            spec("omnivore",       50, 0f, 0),
+            wild("fisher",         10, 0f, Lineage.TUNDRA),
+            wild("desert_browser", 11, 0f, Lineage.DESERT),
+            wild("mushroom_eater", 12, 0f, Lineage.SWAMP),
+            wild("cave_forager",   13, 0f, Lineage.CAVE),
+            wild("mountain_grazer",14, 0f, Lineage.MOUNTAIN),
+            wild("nether_forager", 15, 0f, Lineage.NETHER),
+            wild("chorus_eater",   16, 0f, Lineage.END));
 
     /** Number of gene slots. */
     public static final int COUNT = values().length;

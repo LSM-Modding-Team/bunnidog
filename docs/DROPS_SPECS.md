@@ -293,6 +293,14 @@ The spec asked for "its own design turn" because the seed text needs one extra f
 | 23 | The item | `bunnidogs:mutagen`, "Mutagen", UNCOMMON, stack 16, creative **Ingredients** tab (and `/give`) from D6a; a small green-violet vial (art `art/gen_mutagen.py`). No glint (it would add a Minecraft name) | Plain item like the D4 materials |
 | 24 | Order | **D6a = the Mutagen first** (item, seed field, gesture, hatch/infusion, tests; obtainable by creative/`/give` until D6b), **D6b = Mutant Marrow** (layer 3 of `Drops`, the item, the Mutagen recipe, Calipers listing) | Every item then ships with its use (spec 8): the Mutagen has its gesture at once, the marrow arrives together with its recipe. The spec's "marrow ships WITH the Mutagen" is kept in spirit (both inside D6) |
 | 25 | Mutagen recipe (D6b) | **Shapeless: 1 Mutant Marrow + 1 Fermented Spider Eye + 1 Glass Bottle -> 1 Mutagen** | The vanilla corrupting ingredient; one marrow per Mutagen. Marrow is 25% per expressed rare allele on a kill (spec 2.4), so about 4 such rolls per Mutagen, and each kill removes that mutant from breeding: the choice the plan wants |
-| 26 | Marrow display (D6b) | `mutant marrow` listed by the tools as an average count (0.25 per expressed rare allele, up to six rolls), adults + player kill only | Same display as the stat lines; the signature style (a chance) fits one roll only |
+| 26 | Marrow display (D6b) | `mutant marrow` listed by the tools as an average count (0.25 per expressed rare allele, up to seven rolls (including rare Diet)), adults + player kill only | Same display as the stat lines; the signature style (a chance) fits one roll only |
 
 **Compile risk:** D6a should add NO Minecraft name (item registration and `use` copy the juice/seed code that compiled; the extra field is pure Java in `Seed`). **Left out:** a Mutagen for a parent, a stronger level, a glint, a way to choose the mutated gene (a Gene Splicer idea, D7+).
+
+
+Diet compatibility (2026-10-16): the seventh gene can express rare omnivore,
+which participates in the existing Mutant Marrow count. The per-gene chance,
+Looting rule and adult/player-kill gates are unchanged; seven rare genes can
+now show at once. Legacy six-pair data loads with plain Diet, so its drops stay
+the same. New canonical writes append the Diet pair; old seed/sample texts
+remain readable even when their normalized text grows by that pair.

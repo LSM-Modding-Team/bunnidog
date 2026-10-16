@@ -31,9 +31,9 @@ public final class ForecastSheet {
 
     // right page, y in px
     static final int LOOKS_Y = 11;
-    static final int BLOCK_GAP = 3;
     static final int BLOCK_MAX_LINES = 2;
     static final int FOOT_Y = 138;
+    static final int BLOCK_GAP = Math.max(0, (FOOT_Y - LOOKS_Y - Gene.COUNT * Page.LINE * BLOCK_MAX_LINES) / Gene.COUNT);
 
     public static Page.Spread spread(Tissue a, Tissue b, Metrics m) {
         Cross cross = new Cross(a, b);

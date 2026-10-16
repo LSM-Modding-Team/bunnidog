@@ -1,6 +1,6 @@
-# WARREN_PLAN: readable warrens — U1–U6 implemented
+# WARREN_PLAN: readable warrens — U1–U7 implemented
 
-**Current (2026-10-15): U1–U6 are implemented; U7 remains an optional candidate under the user's broader design permission. U2/U3 received broad "good, works well" user feedback. U4/U5/U6b pass build/layout checks, and the user confirms the d7f39a9 release compiled and worked in game. Individual cases were not itemized.** The accepted design is preserved in sections 1–11; implementation details and departures are in sections 12–18. Test command: `/bunnidogs warren <level> surface` (omit `surface` for cave floors).
+**Current (2026-10-16): U1–U7 are implemented. U7 and pantry loot are new and await gameplay review; the previous U2/U3 and U4/U5/U6b batches received user confirmation.** The accepted design is preserved in sections 1–11; current implementation details and departures are in sections 12–19. Test command: `/bunnidogs warren <level> surface` (omit `surface` for cave floors).
 Supersedes the burrow-hole part of Phase 4g/6b (`WarrenShape.burrows`, `WarrenFeature.dig`); everything else (levels = trees, houses, paths, landmarks, styles, nests, night) stays.
 
 ## 1. The problem (user, session 45)
@@ -99,7 +99,7 @@ Order if the user says nothing: U1, U6 (the advancement part), U2, U3, U4, U5, U
 4. **D4 Advancement** for the surface warren (**yes**) / no.
 5. **D5 Cave, Nether, End warrens:** later, as in U6 (**yes**) / do them in U1.
 6. **D6 Depth and size:** den 5x5x3 at dy -5, slope 1x2, hall 7x7x4 (**as written**) / bigger.
-7. **D7 U7** (a second floor under the hall): **originally opt-in; now an optional candidate under the user's broader design permission**.
+7. **D7 U7** (a second floor under the hall): **originally opt-in; implemented in section 19 under the user's broader design permission**.
 
 ## 10. Left out on purpose
 
@@ -241,7 +241,7 @@ individual checks above were not itemized.
 ## 16. U4: landmark rooms and extra entrances (2026-10-15)
 
 `layout/UndergroundRooms.java` enriches the retained surface network from level
-3 onward. A haystack can have a 3x3x3 pantry with an empty barrel, hay and a
+3 onward. A haystack can have a 3x3x3 pantry with a supply barrel, hay and a
 lantern. A well can have a 5x5x3 cistern: a recessed 3x3 pool, dry perimeter
 ledge and a glass-lined water shaft meeting the surface well. A market stall
 can have a barrel cellar and a nearby ramp with an initially open guava hatch.
@@ -255,7 +255,11 @@ join new rooms to existing walking columns. New shell walls preserve old air,
 new water/glass cannot overwrite an old passage or furnishing, and later ramps
 preserve all fitted entrance doorsteps. Only complete connected additions are
 retained. Unfit details are omitted without cancelling the existing warren.
-Barrels are decoration/storage blocks, with no generated loot or feeding logic.
+Newly placed pantry/market barrels now receive the lazy `chests/warren_pantry`
+loot table: 2–4 rolls of modest grain, produce, berries or plain guavas, each
+with 1–4 items. Loot seeds use the world seed and block position. Existing
+containers are protected by placement preflight and are never refilled. There
+is no automatic feeding from barrel inventories.
 
 The structure saves these cells in its existing TUNNEL payload. New kinds are
 appended after the existing `DenShape.Kind` values, preserving their ordinals;
@@ -285,7 +289,7 @@ Headless fixtures check all eight Nests, the loop, every entrance's access to
 the retained dens, and house cellar routes after surface construction. The
 model is unchanged. In Minecraft, generate a new level-5 surface village,
 inspect its hall/roots, walk the loop and inspect night Nest claims. U7's second
-floor remains unimplemented and optional under the broader design permission.
+floor is now implemented as U7 below.
 
 ## 18. U6b: cave, Nether and End floors (2026-10-15)
 
@@ -310,3 +314,26 @@ with `/locate structure bunnidogs:warren_end_village`, walk its stairs, cross
 chunk borders and reload. Synthetic cave fixtures for every level pass;
 the user confirms the release worked in game, without itemizing dimension-specific
 natural generation or dog navigation.
+
+## 19. U7: lower commons (2026-10-16)
+
+Under a fitted grand-tree hall, a lined 5x5x3 lower room can stand six blocks
+below the upper floor (normally at dy -11). Eight full-block stair columns turn
+beside the upper hall and enter the lower east wall, with three-block clearance.
+The first cuts use clear upper floor cells and preserve all eight nursery Nests,
+hay/lanterns and roots. The lower commons has four more floor Nests, a lit hay
+position and a supply barrel using the pantry loot table.
+
+The pure `LowerHall` planner tests dry/diggable cells, supported floors/ceilings,
+existing furniture and corridor supports before adding anything. Any conflict
+omits only the lower floor. It is available to surface and open-floor variants
+when terrain permits. U4 rooms and later cellar ramps preserve its stairs.
+No new saved cell kinds are required; exact TUNNEL tuples preserve the plan and
+their existing dynamic bounding box now includes the normally dy -12 floor.
+Old saved starts are not replanned and existing villages are not retrofitted.
+
+`checkWarrenNetwork` checks both floors' Nests and paths from every entrance,
+house/paving clearance, slopes, deep fluid/protected-block fallback and chunk
+partitions. In Minecraft, generate a fresh `/bunnidogs warren 5 surface`, follow
+the stairs in the main hall, inspect the lower room and supply barrel, then
+reload and observe home claims. These new gameplay cases remain unconfirmed.

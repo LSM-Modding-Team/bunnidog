@@ -2,7 +2,7 @@
 
 **Warrens (mouths, dens, tunnels, cellars, hall) are covered in `docs/WARREN_PLAN.md`. House materials and doors are covered here.**
 
-**CURRENT (2026-10-15): F1–F3, W1/W1b/W2 and V1a/V1b work. W3 and V1c pass Gradle/resource/layout checks; the user confirms the d7f39a9 release compiled and worked in game. V2 was superseded by HOME_SPECS.md. D1–D4 diets remain planned; W4 remains optional. See `docs/ROADMAP.md`.**
+**CURRENT (2026-10-16): F1–F3, W1–W3 and V1 work (user confirms d7f39a9). Diet D1–D4 are implemented; compiler/headless evidence is separate from pending gameplay review. V2 was superseded by HOME_SPECS.md. W4 remains optional. See `docs/ROADMAP.md`.**
 
 **Status (session 41): F1, F2/F3a, F3b, W1, W1b and W2 WORK (user). V2 is SUPERSEDED by `docs/HOME_SPECS.md` (a Nest block dogs claim like villagers claim beds; the user rejected the hardcoded home of V2a). Section 5.3 below is kept as history only. Everything else here is unchanged.**
 **(Older line, session 40, fourth turn: F1, F2/F3a, F3b, W1 and W1b WORK; W2 (stairs, slab, fence; `art/gen_wood_parts.py`) was coded, NOT COMPILED. The FENCE GATE moved from W2 to W3 (it needs a `WoodType`). Next: W3, or V2 first if the user wants the dogs fixed sooner.)**
@@ -146,6 +146,68 @@ Starting alleles for A *(pick)*: **plain** (guava only, today's behaviour, the d
 - **D2 — feeding:** split "breeding food" (the guava tag, as today) from "edible food" (guava tags + the diet tags of the *expressed* allele). A non-guava edible item fed by hand heals the bunnidog and feeds a pup (grows a little), never starts love. Tempt goal follows what that dog can eat.
 - **D3 — grazing:** a `GrazeGoal`: a grazer/forager walks to a hay block or a ripe crop *inside its home radius* (V2) and nibbles (heals; a crop resets to age 0, hay is not consumed). Makes the haystack and farm meaningful; update `PropShape`'s comment about carrots.
 - **D4 — hunting:** hunter dogs target small prey from an entity tag (`bunnidogs:prey`, e.g. rabbits and chickens; never players, pups or other bunnidogs), inside the home radius; a kill heals them. Gated in `canUse()` like the other goals (goals register before the genome exists).
+
+### 6.4 Implementation (2026-10-16)
+
+Diet is appended as slot 7, leaving every existing gene and allele ID in place.
+The genome now uses 56 bits; its existing low word stays 24 bits and the high
+word uses all 32 bits, including its sign bit. Six-pair text (with or without
+separators) loads with `00` appended, meaning plain/plain. New writes use seven
+pairs. The same parser preserves old animals, parents, seeds/crops, Tissue
+Samples, Genetics Table slots, infused juice and Pedigree Books. Network version
+4 requires matching updated clients; no saved-item component is replaced.
+
+| Diet ID | Allele | Additional foods |
+|---|---|---|
+| 0 | plain | None; guavas only |
+| 1 | grazer | Hay, wheat, short/tall grass items |
+| 2 | forager | Carrots, potatoes, beetroot, apples, sweet/glow berries |
+| 3 | hunter | Raw beef, pork, chicken, mutton and rabbit |
+| 4 | omnivore (rare mutation) | Grazer + forager + hunter foods |
+| 5 | fisher (tundra) | Raw fish |
+| 6 | desert browser | Cactus, dried kelp |
+| 7 | mushroom eater (swamp) | Red/brown mushrooms |
+| 8 | cave forager | Glow berries |
+| 9 | mountain grazer | Grazer foods, moss, azalea leaves |
+| a | nether forager | Nether wart, crimson/warped fungi |
+| b | chorus eater (End) | Chorus fruit |
+
+Common founders draw the first four diets with weights 8/3/2/1. Each other
+lineage has an 85% signature chance per slot for its own diet. The expressed
+allele wins by dominance, like other genes; only the rare omnivore appears by
+mutation as a new rare diet. Food preferences do not change body multipliers,
+stat drift or juice effects. The extra rare gene participates in the existing
+Mutant Marrow rule (now at most seven expressed rare alleles).
+
+`bunnidogs:bunnidog_food` remains the breeding-food tag. `diet/*.json` item tags
+add foods for the expressed diet and drive temptation. One non-guava food heals
+2 HP and/or advances an unlocked pup using vanilla feeding growth; a healthy
+adult refuses it. It never starts love or changes remembered guava quality.
+Creative feeding preserves the stack. Eating plays a quiet native sound.
+
+Automatic meals require an injured adult, a claimed Nest, daytime, no conflicting
+combat target and a location within 16 blocks of the Nest. Search radius is 8,
+retry interval 5 seconds, shared saved meal cooldown 30 seconds. Grazers nibble
+hay (retained), grass (short grass removed or grass block becomes dirt) or ripe
+wheat. Foragers nibble ripe carrots/potatoes/beetroot; omnivores can do both.
+Crops reset to age 0 with no harvest drops; embryo crops are never targeted.
+Changed blocks obey mob griefing and NeoForge's block-destruction protections.
+Food searches skip unloaded chunks, test paths and require a clear view before
+eating for two seconds. No hunger or starvation meter is added.
+
+Hunters/omnivores pursue reachable tagged adult chickens/rabbits (extendable
+`bunnidogs:prey`) within their home. Players, babies, bunnidogs, tame animals and
+allies are excluded even if tagged. Only the dog's own selected prey kill heals
+4 HP. Pursuit stops after 20 seconds, at night, at full health, outside the home
+or when interrupted; panic, retaliation, breeding, temptation and going home
+take priority. This also works for feral hunters without replacing retaliation.
+
+Calipers, books, sample sheets and forecasts show Diet; its hover explains food.
+The portrait is slightly shorter and the forecast spacing adapts so all seven
+rows fit. `checkDiets` covers old/new payloads, signed sync, inheritance, food and
+prey rules, tags and page clearance; the existing genetics/layout suite passes.
+Actual feeding, crop changes, pathfinding, prey kills and save/reload still need
+gameplay review.
 
 ---
 

@@ -43,23 +43,59 @@ this fix. Final in-game lighting and performance still need gameplay review.
 **Delivery preference:** do not attach or link JARs in chat. The user downloads
 builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
-## Current gameplay work — 2026-10-15
+## Current gameplay work — 2026-10-16
+
+This continuation implements **Diet D1–D4**, **U7** and **warren pantry loot**.
+These are new changes with compiler/headless evidence; gameplay is pending.
+
+- Diet is the seventh inherited gene: plain, grazer, forager, hunter, rare
+  omnivore and seven lineage diets. All guavas still breed. Additional accepted
+  foods heal 2 HP or grow an unlocked pup; healthy adults refuse them. Temptation
+  follows the expressed diet. Food tags are extendable data.
+- Injured adults with a Nest graze or hunt by day, within 16 blocks of home.
+  Grazers use hay/grass/ripe wheat; foragers use ripe root crops. Crops reset
+  without drops, hay stays, changed blocks respect mob griefing and protection
+  hooks. Hunters take tagged adult prey (chickens/rabbits by default), heal 4 HP
+  for their own selected kill, and exclude babies, players, bunnidogs, tame pets
+  and allies. Searches are bounded; meals share a saved 30-second cooldown.
+- Old six-pair animals, seeds, samples, books, table contents and infused juice
+  load with plain/plain Diet. New writes use seven pairs / 56 bits. Client sync
+  preserves a signed 32-bit high word; the original first six genes and all
+  allele IDs stay put. Network version 4 requires updated matching clients.
+  Sheet and forecast layouts fit all seven rows; approved creature geometry is
+  unchanged. Diet adds no body/stat drift or juice effect.
+- A fitted level-5 hall can have a 5x5x3 lower commons six blocks deeper, reached
+  by full-block stairs, with four more Nests, a lamp and supply barrel. Unsafe
+  terrain omits this floor; the upper nursery stays intact. New pantry/market/
+  commons barrels contain modest food/guava loot; old containers are not refilled.
+
+`checkDiets` is now part of Gradle `build` and covers old/new payloads, sync,
+inheritance, food/home/prey policies, tags and seven-row page clearance. The
+existing genetics/layout suite passes. `checkWarrenNetwork` covers upper/lower
+Nests, stair access, slopes, deep fluids/protected blocks and chunk ownership.
+`./gradlew build checkBunnidogModel --no-daemon` passes, including diet,
+network, wood and model checks. A temporary layout-only preview from actual Page
+data was inspected (test font and portrait placeholder, not a game screenshot).
+GitHub delivery is verified for the pushed commit.
+Use `docs/FIXES_PLAN.md` 6.4 for exact diets/rules and `docs/WARREN_PLAN.md` 19
+for the lower commons. Gameplay checks should cover feeding versus love, a pup,
+ripe crops with mob griefing on/off, a hunter's kill, night interruption and
+save/reload; generate fresh level-5 villages to inspect U7 and barrel contents.
 
 The user reports **"everything compiled and worked this run"** for the
 `d7f39a9` release, confirming U4/U5/U6b/T4/W3/V1c as a working gameplay batch.
 Individual dimension, chunk-order, reload, fluid/light and navigation cases
 were not itemized; do not invent results for those separate cases.
 
-Current request: update documentation and add GitHub Actions artifact delivery
-to LSM Mod. **Bunnidogs feature development is paused** until the user resumes
-it. The user also grants standing latitude for substantial coherent additions
-beyond the roadmap; see `AGENTS.md`.
+The user has resumed Bunnidogs development; diets and their food goals are
+implemented above, preserving old six-gene data. The user grants standing latitude for substantial coherent additions beyond the roadmap;
+usage-aware continuation and delivery instructions are in `AGENTS.md`.
 
 The U2/U3 batch received the user's "good, works well" gameplay feedback.
 That confirms the batch broadly; natural chunk order, night home claims and
 reload behavior were not individually reported.
 
-This continuation implements six more accepted stages:
+The previous working release implemented these six stages:
 
 - **U4:** fitted pantry/barrels under haystacks, well cisterns with glass-lined
   water shafts and dry ledges, market cellars with open hatches, farm entrances
@@ -125,10 +161,9 @@ evidence at delivery, not the current ability to build the project.
   Levels 3–5 should also have claimable house Nests.
 - Earlier user reports are preserved in the ledger. D7b, 7a and 6h had compile
   confirmation without itemized gameplay reports. Do not infer new evidence.
-- U1–U6 are implemented. The next accepted development area is D1–D4 diets
-  (a seventh gene, feeding, grazing and hunting), starting with compatibility
-  planning in `docs/FIXES_PLAN.md`. U7 and W4 remain optional candidates under
-  the user's broader design permission. See `docs/ROADMAP.md`.
+- U1–U7 and Diet D1–D4 are implemented. W4 (signs/hanging signs/boats) remains
+  optional; coherent new work is authorized under the user's broader design
+  permission. See `docs/ROADMAP.md`.
 
 ## Document map
 | Job | Open |
@@ -139,10 +174,10 @@ evidence at delivery, not the current ability to build the project.
 | Project layout, conventions, self-check details, art pipeline, dev environment, user preferences in full | `docs/REFERENCE.md` |
 | How a feature is used in game (player view) | `docs/FEATURES.md` |
 | Why the game is designed this way, decisions per chunk | `docs/DESIGN.md` (Contents at the top; `grep -n '^## ' docs/DESIGN.md`) |
-| Warren redesign: mouths, dens, tunnels, cellars (U1-U7) | `docs/WARREN_PLAN.md` (U1–U6 implemented; U7 optional) |
+| Warren redesign: mouths, dens, tunnels, cellars (U1-U7) | `docs/WARREN_PLAN.md` (U1–U7 implemented) |
 | Homes / Nests / H-chunks | `docs/HOME_SPECS.md` (ACTIVE: H1-H4 and H3b done) |
 | Genetics Table | `docs/TABLE_SPECS.md` (T1–T4 implemented; current evidence at top) |
 | Drops / loot | `docs/DROPS_PLAN.md` (why) + `docs/DROPS_SPECS.md` (numbers, wins). All of D1-D8 done |
 | Pedigree Book, Calipers window, "the sheet" | `docs/SHEET_SPECS.md` (S1-S8 done; wins over older Phase 8 notes) |
-| Wood (W1–W3 done, W4 optional), villages (V1 done), diets (D1–D4 planned) | `docs/FIXES_PLAN.md` sections 4, 5, 6 (V2 superseded by HOME_SPECS) |
+| Wood (W1–W3 done, W4 optional), villages (V1 done), diets (D1–D4 implemented) | `docs/FIXES_PLAN.md` sections 4, 5, 6 (V2 superseded by HOME_SPECS) |
 | Old phase status, old session notes, old roadmap, old API research | `docs/history/` (never needed to continue) |
