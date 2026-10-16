@@ -7,7 +7,6 @@ import com.bunnidogs.mod.genetics.Refuge;
 import com.bunnidogs.mod.genetics.Temperament;
 import com.bunnidogs.mod.registry.ModResidentTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.TamableAnimal;
@@ -17,7 +16,6 @@ import net.minecraft.world.phys.Vec3;
 
 /** Loaded, bounded refuge near the current home; no attack target, teleport or ticket change. */
 final class RefugeGoal extends Goal {
-    private static final int[][] NEAR_HOME = {{0,0},{-1,0},{1,0},{0,-1},{0,1},{-2,0},{2,0},{0,-2},{0,2}};
     private static final int[][] AWAY = {{-4,0},{4,0},{0,-4},{0,4},{-3,-3},{3,-3},{-3,3},{3,3}};
     private final Bunnidog dog;
     private Mob threat;
@@ -37,32 +35,13 @@ final class RefugeGoal extends Goal {
                 && !(mob instanceof TamableAnimal tame && tame.isTame());
     }
     private boolean standing(BlockPos pos) {
-        var level = this.dog.level();
-        return pos != null && level.hasChunkAt(pos) && this.dog.foodWithinHome(pos)
-                && level.getBlockState(pos).isAir() && level.getBlockState(pos.above()).isAir()
-                && level.getFluidState(pos).isEmpty() && level.getFluidState(pos.above()).isEmpty()
-                && level.getBlockState(pos.below()).isFaceSturdy(level,pos.below(),Direction.UP);
+        return HomeRoutes.standing(this.dog,pos);
     }
     private boolean visible(Mob mob) {
-        BlockPos from = this.dog.blockPosition(), to = mob.blockPosition();
-        var low = new BlockPos(Math.min(from.getX(),to.getX()),Math.min(from.getY(),to.getY()),Math.min(from.getZ(),to.getZ()));
-        var high = new BlockPos(Math.max(from.getX(),to.getX()),Math.max(from.getY(),to.getY()),Math.max(from.getZ(),to.getZ()));
-        return this.dog.level().hasChunksAt(low,high)
-                && this.dog.getSensing().hasLineOfSight(mob);
+        return HomeRoutes.visible(this.dog,mob);
     }
     private boolean safe(Path route) {
-        if (route == null || !route.canReach()) return false;
-        double clearance = Math.min(4,this.dog.blockPosition().distSqr(this.threat.blockPosition()));
-        for (int i = route.getNextNodeIndex(); i < route.getNodeCount(); i++) {
-            var node = route.getNode(i);
-            if (!this.dog.level().hasChunkAt(node.asBlockPos()) || !this.dog.foodWithinHome(node.asBlockPos())
-                    || node.asBlockPos().distSqr(this.threat.blockPosition()) < clearance) return false;
-            switch (node.type) {
-                case WATER, LAVA, FIRE, FIRE_IN_NEIGHBOR, DAMAGING, DAMAGE_CAUTIOUS, POWDER_SNOW, ON_TOP_OF_POWDER_SNOW -> { return false; }
-                default -> {}
-            }
-        }
-        return true;
+        return HomeRoutes.safe(this.dog,route,this.threat);
     }
     @Override public boolean canUse() {
         if (!wanted() || this.dog.level().getGameTime() < this.nextSearch) return false;
@@ -72,8 +51,7 @@ final class RefugeGoal extends Goal {
                 .filter(this::visible).min(Comparator.comparingDouble(this.dog::distanceToSqr)).orElse(null);
         if (this.threat == null) return false;
         this.home = this.dog.homeNest();
-        var candidates = new ArrayList<BlockPos>();
-        for (int[] offset : NEAR_HOME) for (int up = 0; up <= 1; up++) candidates.add(this.home.offset(offset[0],up,offset[1]));
+        var candidates = new ArrayList<>(HomeRoutes.nearHome(this.home));
         for (int[] offset : AWAY) for (int dy = -1; dy <= 1; dy++) candidates.add(this.dog.blockPosition().offset(offset[0],dy,offset[1]));
         double before = this.dog.blockPosition().distSqr(this.threat.blockPosition());
         candidates.removeIf(p -> !standing(p) || !Refuge.safer(before,p.distSqr(this.threat.blockPosition())));

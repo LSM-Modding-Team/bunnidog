@@ -840,6 +840,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.goalSelector.addGoal(7, new GrazeGoal(this));
         this.goalSelector.addGoal(7, new GardenGoal(this));
         this.goalSelector.addGoal(7, new BellGatherGoal(this));
+        this.goalSelector.addGoal(8, new StormShelterGoal(this));
         this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));

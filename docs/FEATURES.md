@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 32 pages from first warren to Apex, with clickable chapter/contents links.
+open 33 pages from first warren to Apex, with clickable chapter/contents links.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 
@@ -51,6 +51,11 @@ hostiles when a safer dry route fits near home. Food, work and bell visits pause
 leads/rides take over. The routine preserves the Nest and makes no attacks.
 Feral lines retain their retaliation. No safe route means no retreat, and
 neither distance nor shelter makes an animal immune to harm.
+
+**Storm shelter (L8):** idle adults wait under dry reachable cover near their
+Nest during thunderstorms. Keep a safe floor and walking space near home.
+Meals, work, home/social routines, breeding, danger and player control take
+priority. Ordinary rain leaves their existing idle routines in place.
 
 **Resident gardens (L3/L4):** newly fitted dens have a trough with two starter
 guavas, and levels 3–5 also fit a central gathering bell. Use a hoe on any trough

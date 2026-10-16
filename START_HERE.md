@@ -20,6 +20,12 @@ is not exposed in this session: use available work budget without inventing quot
 
 ## Latest gameplay work — 2026-10-16
 
+- **L8, storm shelter:** idle adults seek dry reachable cover near their Nest
+  during native thunderstorms, then wait there. The bounded low-priority goal
+  yields to care, work, social/home routines, breeding, danger and player control.
+  Ordinary rain keeps existing idle behavior; no new saves, tickets or packets.
+  See `docs/SETTLEMENT_LIFE.md` L8.
+
 - **L7, refuge:** non-feral adult residents retreat from nearby visible tagged
   threats to a farther dry spot near home or a bounded local fallback. Native
   paths must stay loaded, home-bounded and clear of hazards/close threat nodes.
@@ -61,7 +67,7 @@ is not exposed in this session: use available work budget without inventing quot
   all eight crops remain. End mushroom plots and saved versions 1–3 keep their
   previous layout. See `docs/SETTLEMENT_LIFE.md` L5.
 
-The native Field Guide now has 32 translated pages and eleven contents links.
+The native Field Guide now has 33 translated pages and eleven contents links.
 `art/gen_guide.py` owns its text/icon/preview, including gardening, forecasts,
 renewable care, terrain traits and fishing. `art/gen_pantries.py` owns the eight
 new loot tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
@@ -78,7 +84,7 @@ new loot tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Care | Live Tissue Samples, woolly fleece, whiskers/dust, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C6 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow and terrain movement. `docs/CARE_SPECS.md` A1–A4 |
 | Homes | Claimable Nests, day tether/night return, floor Nests, native leads/rides, safe led-adult reassignment. `docs/HOME_SPECS.md` H1–H5 |
-| Settlement life | Saved trough stock, diet healing, noon bell visits, fitted den furniture, hoe-controlled gardening and local stores. `docs/SETTLEMENT_LIFE.md` L1–L6 |
+| Settlement life | Saved trough stock, diet healing, noon bell visits, fitted den furniture, gardening, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L8 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
 | Drops and endgame | Pelts/materials, Mutagen/Marrow/Tissue/Dust, five stat legends and pedestals. Sample-defined Apex ritual, inherited combat, warned attacks/enrage, boss bar and source-line crest. `docs/DROPS_SPECS.md`, `docs/APEX_SPECS.md` |
@@ -151,6 +157,12 @@ routes, routine pauses, lead/feral changes, quiet recovery and occupied refuge
 cancellation. Native path regions are non-loading; sight checks use a loaded
 rectangle. The updated guide preview is inspected. Natural threat balance and
 multiplayer travel remain gameplay review.
+
+L8 passes the actual build and all twenty-two native cases. Its new case covers
+real thunder/sky exposure, a complete path beneath a roof, covered waiting,
+lead/clear-weather interruption and native healing-trough preemption. Shared
+navigation also retains the L7 refuge cases. The 33-page guide preview is
+inspected; natural weather balance and client book fonts remain gameplay review.
 
 Native tests establish server behavior, not complete client or natural-world
 play. Remaining review includes client interaction/lighting/book fonts, natural

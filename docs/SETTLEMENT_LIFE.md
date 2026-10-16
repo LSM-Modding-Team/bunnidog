@@ -1,4 +1,4 @@
-# Settlement life L1–L7
+# Settlement life L1–L8
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
@@ -179,6 +179,36 @@ exclusion. Actual build and all twenty-one native cases pass; guide preview
 inspected. Native path regions use non-loading `getChunkNow`; visibility also
 checks the normalized loaded chunk rectangle before sight tests. Natural travel
 and multiplayer threat balance remain gameplay review.
+
+## L8: idle storm shelter
+
+Idle adult residents with a claimed Nest seek nearby cover during thunderstorms.
+The goal runs below feeding, gardening, gatherings, home/parent following,
+breeding, temptation, panic and refuge, but before random wandering. It only
+owns movement, so looking around remains free. Meals and work can preempt it
+even while the storm continues. Leads/rides, combat, active refuge, a changed
+home or clearing thunder interrupt it; pups retain their existing routines.
+
+An exposed animal must actually be in native rain, inside its 16-block home
+boundary. Search at most once per five seconds plus a short per-animal stagger,
+considering eighteen positions beside/above the current Nest. Try at most four
+native paths to dry supported two-block air beneath cover. Reuse the loaded,
+home-bounded hazard checks from refuge. No suitable route means ordinary idle
+behavior. An animal already standing safely under cover can wait in place.
+On arrival it stops moving until another routine takes over or thunder ends.
+Ordinary rain alone does not start or retain shelter.
+
+This small habitat routine adds no hunger, weather immunity, terrain changes,
+home-ticket changes, saved fields or packets. It excludes the Apex. Existing
+Nests and covered dens can be used without regenerating settlements. The Field
+Guide now has 33 pages; the preview uses a substitute font, with native client
+appearance and long-running natural weather behavior left for gameplay review.
+
+Actual Java 25 build and all twenty-two native server cases pass. The new case
+uses real exposed weather and a roof, checks a complete native route, lead
+interruption, covered waiting and release when thunder ends, and exercises
+native goal arbitration so a healing trough preempts shelter during the storm.
+Nest/stock preservation and Apex exclusion pass; guide preview inspected.
 
 ## Evidence
 

@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L8 adds low-priority thunderstorm shelter near home. Idle adults find real cover
+or wait safely beneath it; feeding/work and other important routines preempt it.
+Searches and complete native paths stay bounded. Ordinary rain keeps existing
+idle behavior. See `SETTLEMENT_LIFE.md`.
+
 L7 adds bounded non-combat refuge for non-feral residents around visible tagged
 threats. It preserves the home, chooses loaded safer routes and pauses domestic
 routines while yielding to transport. See `SETTLEMENT_LIFE.md`.
