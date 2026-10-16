@@ -1,4 +1,4 @@
-# Settlement life L1–L5
+# Settlement life L1–L6
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
@@ -104,6 +104,45 @@ Actual build checks and all eighteen native scenarios pass. The first farm
 fixture scanned its native barrier roof as terrain; the fixture now clears
 the scan window. Farm and guide previews inspected. Natural terrain/chunk order
 and client Calipers formatting remain gameplay review.
+
+## L6: local food stores
+
+Fresh underground pantry/market/commons barrels now use one of eight native
+lineage loot tables. Fresh surface haystack feed stores and market stalls also
+receive this deferred loot. The whole settlement uses its centre's lineage,
+matching its existing palette and founder population. Supply is deliberately
+modest: one roll of 1–2 guavas, then 1–3 local food rolls of 1–3 items each,
+plus an independent 35% Field Guide chance. There are no materials, legends or
+equipment rolls; food can be moved into nearby troughs by the player.
+
+| Lineage | Local food choices |
+|---|---|
+| Meadow | Wheat, carrots, potatoes, beetroot, apples, sweet berries |
+| Tundra | Raw cod and salmon |
+| Desert | Cactus and dried kelp |
+| Swamp | Red and brown mushrooms |
+| Cave | Glow berries |
+| Mountain | Wheat, moss blocks, azalea leaves and occasional hay |
+| Nether | Nether wart, crimson and warped fungi |
+| End | Chorus fruit |
+
+Only newly placed barrels receive loot metadata. The legacy `warren_pantry`
+table remains for existing unopened barrels; existing loot keys, seeds, items
+and their components are preserved. Emptied barrels are never restocked, and
+worldgen does not unpack existing loot. Underground columns retain their owner
+chunk and container preflight. Surface prop fitting also refuses existing block
+entities under the fitted pad, preventing repeat stores above older containers.
+No layout, genome, network or animal save format changes are required.
+
+`art/gen_pantries.py` owns the eight tables; guide chance comes from the shared
+`art/gen_guide.py` pool. The old mixed table stays available. The new native
+pantry case opens real barrels for every lineage, checking actual parsed loot,
+diet suitability/counts, unread key/seed saves, owner chunks, old pending loot,
+named player stock, empty-repeat preservation and both surface store kinds.
+Actual build and all nineteen native scenarios pass; updated guide preview
+inspected. The native case opens deferred loot before simulating empty stock,
+and repeat surface fitting is refused above existing containers. Natural
+multichunk generation and multiplayer exploration remain gameplay review.
 
 ## Evidence
 

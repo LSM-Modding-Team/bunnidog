@@ -12,7 +12,7 @@ PAGES = {
     6: ('Guava quality', 'Better guavas improve inherited stat gains. Feed both parents: their qualities are averaged. Golden: 1, Diamond: 2, Netherite: 4, Star: 7, Beacon: 12, Dragon Egg: 20.'),
     7: ('Keep a pedigree', 'Use a Pedigree Book on animals to record them. Ear Tags give permanent codes. Calipers also read a seed or sample held in the other hand. Compare parents before choosing a mate.'),
     8: ('Nests and travel', 'An adult claims one free reachable Nest. At night it returns home. Leads and rides pause home routines. While leading it, use a free Nest with an empty hand or lead to move its home.'),
-    9: ('Food and troughs', 'All lines eat guavas. Other foods depend on Diet. Add food to a Feeding Trough near home: residents eat to heal, never to breed. Sneak-use with both hands empty to withdraw stock.'),
+    9: ('Food and troughs', 'Guavas suit every line; other foods follow Diet. New feed stores, markets and pantries hold local food. Fill a trough near home for healing. Sneak-use with both hands empty to withdraw.'),
     10: ('Life at home', 'Healthy adults visit nearby bells at noon. Put a bell within 12 blocks of home and leave walking space. Injury, threats, leads, rides and night interrupt the visit.'),
     11: ('Gentle sampling', 'Use a Sampling Syringe on an animal at half health or better. It yields one Tissue Sample without harm; recovery takes five minutes. Sneak-use Calipers for care readiness and timers.'),
     12: ('Wool and whiskers', 'Shear a healthy woolly adult for two wool. Brush a healthy adult with Senses +10 for one whisker. Each needs ten minutes of recovery; brushing wears the tool. Pups cannot yield either.'),
@@ -35,6 +35,11 @@ PAGES = {
 }
 INDEX = {2:'Warrens & genes',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
          17:'Registry & shows',19:'Material drops',20:'Apex of the Line',24:'Guava juice',25:'Trough gardening',27:'Boss forecast'}
+
+
+def pantry_guide_pool():
+    return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
+            'entries':[{'type':'minecraft:item','name':'bunnidogs:field_guide'}]}
 
 
 def main():
@@ -63,12 +68,11 @@ def main():
             value[f'guide.bunnidogs.page.{page}.title'] = title
             value[f'guide.bunnidogs.page.{page}.body'] = body
         path.write_text(json.dumps(value,indent=2)+'\n')
-    path = 'data/bunnidogs/loot_table/chests/warren_pantry.json'
-    loot = json.loads((RES/path).read_text())
-    if not any(entry.get('name') == 'bunnidogs:field_guide' for pool in loot['pools'] for entry in pool['entries']):
-        loot['pools'].append({'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
-                             'entries':[{'type':'minecraft:item','name':'bunnidogs:field_guide'}]})
-    write(path,loot)
+    for path in sorted((RES/'data/bunnidogs/loot_table/chests').glob('warren_pantry*.json')):
+        loot = json.loads(path.read_text())
+        if not any(entry.get('name') == 'bunnidogs:field_guide' for pool in loot['pools'] for entry in pool['entries']):
+            loot['pools'].append(pantry_guide_pool())
+        write(str(path.relative_to(RES)),loot)
     preview = Image.new('RGBA',(980,420),(43,46,39,255)); d = ImageDraw.Draw(preview)
     preview.alpha_composite(img.resize((224,224),Image.Resampling.NEAREST),(14,85))
     try:
@@ -76,7 +80,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,1),(495,12),(735,28)]:
+    for x,page in [(255,1),(495,9),(735,28)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         d.text((x+14,35), 'Bunnidogs Guide' if page == 1 else PAGES[page][0], font=bold,fill=(40,39,30))
         if page == 1: body = '\n'.join(INDEX.values())

@@ -45,6 +45,21 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
+**Settlement L6 — local supplies:** newly placed underground pantries and
+surface feed-store/market barrels use eight lineage food tables. Each has
+1–2 guavas, 1–3 small local-food rolls and the independent 35% Field Guide
+chance. Tundra fish, cave berries, swamp mushrooms, Nether fungi/wart and End
+chorus match local inherited diets. Existing unopened legacy loot and filled/
+emptied containers are preserved. Surface fitting rejects block entities under
+its pad, preventing repeat stores above existing containers.
+
+The new native pantry case covers real loot rolls for all lineages, native
+key/seed saves, owner chunks, legacy/player stock and both surface store kinds.
+Actual build and all nineteen native scenarios pass; guide preview inspected.
+The native case distinguishes opening from clearing deferred loot, and confirms
+repeat surface placement is refused above old containers. Natural chunk order
+and client exploration remain gameplay review. See `docs/SETTLEMENT_LIFE.md` L6.
+
 **Care C5 — living dust:** one Brush use gathers all qualifying products:
 one loose whisker at Senses +10, one glowstone dust from an expressed glow coat,
 and one Starlit Dust from expressed starborn with Bloom +20. Adults must be at

@@ -9,9 +9,10 @@ Living-dust care has its own page explaining combined yields and shared recovery
 
 Craft one with a vanilla book and any guava (the existing bunnidog-food tag).
 Obtaining a guava unlocks its recipe. An additional independent 35% pantry loot
-pool can supply one to explorers; food rolls are unchanged. New or still-unopened
-containers with the warren-pantry table use it. Already-filled containers are
-not refilled and player inventories are not edited.
+pool can supply one to explorers; it stays independent of food rolls. New
+lineage-specific stores and unopened legacy pantries use it. Filled or emptied
+containers are not refilled and player inventories are not edited. See
+`SETTLEMENT_LIFE.md` L6 for local food and new surface feed stores/markets.
 
 ## Presentation and saves
 

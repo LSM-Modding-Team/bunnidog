@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L6 supplies newly placed underground and surface food-store barrels with modest
+lineage-appropriate loot, preserving old tables and every existing container.
+All eight tables guarantee a few guavas and retain the independent guide chance.
+See `SETTLEMENT_LIFE.md`.
+
 C5 adds renewable glowstone and Starlit Dust from carefully qualified living
 lines using the existing Brush/recovery. Product eligibility is expressed-trait
 based and combined products share one wear/timer. Calipers and the 28-page

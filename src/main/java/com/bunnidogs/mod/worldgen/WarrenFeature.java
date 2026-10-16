@@ -321,7 +321,7 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
         for (int dx = -1; dx <= 1; dx++) {
             for (int dz = -1; dz <= 1; dz++) {
                 BlockPos g = groundAt(level, x + dx, centre.getY(), z + dz, surface);
-                if (g == null) {
+                if (g == null || level.getBlockState(g.below()).hasBlockEntity()) {
                     return false;
                 }
                 ground[n++] = g;
@@ -354,7 +354,9 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
             }
         }
         for (PropShape.Cell cell : cells) {
-            level.setBlock(base.offset(cell.dx(), cell.dy(), cell.dz()), propBlock(style, cell.mat()), FLAGS);
+            BlockPos pos = base.offset(cell.dx(), cell.dy(), cell.dz());
+            if (level.setBlock(pos, propBlock(style, cell.mat()), FLAGS) && cell.mat() == PropShape.Mat.BARREL)
+                WarrenPantries.seedFresh(level,pos,style);
         }
         return true;
     }
