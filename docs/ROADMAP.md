@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+A4 adds native one-block stepping for ordinary hoofed adults and partial
+soul-sand/honey slowing resistance from fleet legs and lean builds. Named
+bonuses preserve external attributes and update across gene edits/reloads.
+Gene hovers and the 29-page guide explain retained hazards. See `CARE_SPECS.md`.
+
 L6 supplies newly placed underground and surface food-store barrels with modest
 lineage-appropriate loot, preserving old tables and every existing container.
 All eight tables guarantee a few guavas and retain the independent guide chance.
@@ -130,7 +135,7 @@ filling a quota, and honor any explicit pause in the current request.
 | Item | What | Needs | Spec |
 |---|---|---|---|
 | Further living harvests | Other fitting renewable materials beyond fleece, whiskers and glow/starborn dust | C1–C5 | `CARE_SPECS.md`; define each source/yield before coding |
-| Additional lineage behavior | Useful cave/terrain adaptations beyond current fire/cold/fall/poison/cactus/levitation rules | A1/A2 | Follow expressed genes; preserve native hazards and breeding tradeoffs |
+| Further lineage behavior | Other useful habitat routines beyond existing protection, defenses and terrain benefits | A1–A4 | Follow expressed genes; preserve native hazards and breeding tradeoffs |
 
 ## Ideas without a spec (design before implementing)
 Further settlement life beyond troughs, bell visits and gardening; further renewable materials and lineage adaptations. Gene Splicer G1, its table preview T5, Purebred Registry G2 and Show Ring G3 and Apex G4 are implemented. Native leads and Nest reassignment are H5; live tissue samples, woolly fleece, brushed whiskers and inherited protections are C1–C3/A1–A2. More ideas: `docs/DESIGN.md`, section "Ideas".

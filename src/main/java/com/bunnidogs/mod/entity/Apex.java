@@ -60,7 +60,7 @@ public final class Apex extends Bunnidog implements Enemy {
         base(Attributes.JUMP_STRENGTH, combat.jump());
         base(Attributes.ATTACK_DAMAGE, combat.damage());
         base(Attributes.FOLLOW_RANGE, combat.awareness());
-        this.applyDefences();
+        this.applyAdaptations();
         this.setHealth(this.getMaxHealth() * fraction);
     }
     private void base(Holder<Attribute> attribute, double value) {

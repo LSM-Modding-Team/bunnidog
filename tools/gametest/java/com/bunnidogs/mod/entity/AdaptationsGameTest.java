@@ -7,10 +7,14 @@ import com.bunnidogs.mod.genetics.Stats;
 import com.bunnidogs.mod.genetics.Adaptations;
 import com.bunnidogs.mod.registry.ModEntities;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.TagValueOutput;
@@ -28,6 +32,7 @@ public final class AdaptationsGameTest {
         return dog;
     }
     public static void run(GameTestHelper h) {
+        terrain(h);
         var level = h.getLevel();
         var normal = dog(h,Genome.DEFAULT,1);
         var ember = dog(h,with(Gene.COAT,"ember"),2);
@@ -125,5 +130,65 @@ public final class AdaptationsGameTest {
                 && !Adaptations.luminous(Genome.DEFAULT.with(Gene.COAT,0,glowId)),"Recessive glow requires visible expression");
         h.assertTrue(Plain.effect(Gene.COAT,Gene.COAT.alleleNamed("slate")).contains("armor")
                 && Plain.effect(Gene.BUILD,Gene.BUILD.alleleNamed("chonker")).contains("knockback"),"Readouts must explain inherited physical defenses");
+    }
+    /** Exposes the native protected speed-factor calculation, without a production-only testing API. */
+    private static final class TerrainProbe extends Bunnidog {
+        TerrainProbe(ServerLevel level) { super(ModEntities.BUNNIDOG.get(),level); this.setNoAi(true); this.setAge(0); }
+        float speedFactor() { return this.getBlockSpeedFactor(); }
+    }
+    private static void terrain(GameTestHelper h) {
+        var level = h.getLevel();
+        for (int x = 0; x < 8; x++) for (int z = 0; z < 8; z++) h.setBlock(x,0,z,Blocks.STONE);
+        h.setBlock(4,1,3,Blocks.STONE); h.setBlock(4,1,4,Blocks.STONE);
+        var start = h.absoluteVec(new Vec3(3.2,1,3.5));
+        var probe = new TerrainProbe(level);
+        probe.setGenome(Genome.DEFAULT); probe.setStats(Stats.ZERO);
+        probe.setPos(start); probe.setOnGround(true);
+        probe.move(MoverType.SELF,new Vec3(1,0,0));
+        h.assertTrue(Math.abs(probe.getY()-start.y) < .001 && probe.getX() < start.x+.8,
+                "Ordinary step height must not walk straight up a full ledge");
+        probe.setGenome(with(Gene.LEGS,"hoofed")); probe.setPos(start); probe.setOnGround(true);
+        probe.move(MoverType.SELF,new Vec3(1,0,0));
+        h.assertTrue(Math.abs(probe.getY()-start.y-1) < .001 && probe.getX() > start.x+.9,
+                "Expressed hoofed legs must step up a real one-block collision without jumping");
+        probe.setGenome(with(Gene.LEGS,"springy").with(Gene.LEGS,1,Gene.LEGS.alleleNamed("hoofed").id()));
+        probe.setPos(start); probe.setOnGround(true); probe.move(MoverType.SELF,new Vec3(1,0,0));
+        h.assertTrue(Math.abs(probe.getY()-start.y) < .001,"Hidden hoofed legs must not retain their step bonus");
+        var slowPos = h.absolutePos(new BlockPos(2,0,5));
+        probe.setPos(Vec3.atBottomCenterOf(slowPos.above())); probe.setOnGround(true);
+        var leanFleet = with(Gene.BUILD,"lean").with(Gene.LEGS,0,Gene.LEGS.alleleNamed("fleet").id())
+                .with(Gene.LEGS,1,Gene.LEGS.alleleNamed("fleet").id());
+        for (var block : new net.minecraft.world.level.block.Block[]{Blocks.SOUL_SAND,Blocks.HONEY_BLOCK}) {
+            level.setBlock(slowPos,block.defaultBlockState(),2);
+            probe.setGenome(Genome.DEFAULT);
+            h.assertTrue(Math.abs(probe.speedFactor()-.4) < .001,"Ordinary bodies must retain native slow-block movement");
+            probe.setGenome(with(Gene.LEGS,"fleet"));
+            h.assertTrue(Math.abs(probe.speedFactor()-.55) < .001,"Fleet legs must reduce native slow-block loss by one quarter");
+            probe.setGenome(with(Gene.BUILD,"lean"));
+            h.assertTrue(Math.abs(probe.speedFactor()-.7) < .001,"Lean bodies must halve native slow-block loss");
+            probe.setGenome(leanFleet);
+            h.assertTrue(Math.abs(probe.speedFactor()-.85) < .001,"Independent terrain traits must combine without full immunity");
+        }
+        h.assertTrue(probe.addEffect(new MobEffectInstance(MobEffects.SLOWNESS,100)),"Terrain benefits must retain potion Slowness");
+        probe.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(.8);
+        probe.getAttribute(Attributes.MOVEMENT_EFFICIENCY).setBaseValue(.1);
+        probe.setGenome(with(Gene.LEGS,"hoofed").with(Gene.BUILD,0,Gene.BUILD.alleleNamed("lean").id())
+                .with(Gene.BUILD,1,Gene.BUILD.alleleNamed("lean").id()));
+        for (int i = 0; i < 2; i++) {
+            var out = TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess());
+            probe.saveWithoutId(out);
+            var loaded = new TerrainProbe(level);
+            loaded.load(TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),out.buildResult()));
+            h.assertTrue(Math.abs(loaded.getAttributeValue(Attributes.STEP_HEIGHT)-1.2) < .001
+                    && Math.abs(loaded.getAttributeValue(Attributes.MOVEMENT_EFFICIENCY)-.6) < .001,
+                    "Terrain modifiers must restore once alongside external bases");
+            probe = loaded;
+        }
+        probe.setGenome(Genome.DEFAULT);
+        h.assertTrue(Math.abs(probe.getAttributeValue(Attributes.STEP_HEIGHT)-.8) < .001
+                && Math.abs(probe.getAttributeValue(Attributes.MOVEMENT_EFFICIENCY)-.1) < .001,
+                "Gene edits must remove only inherited terrain modifiers");
+        // Leave the rest of the established adaptation case's spawn lane clear.
+        h.setBlock(4,1,3,Blocks.AIR); h.setBlock(4,1,4,Blocks.AIR);
     }
 }

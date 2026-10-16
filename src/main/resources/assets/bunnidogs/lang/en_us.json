@@ -284,5 +284,7 @@
   "message.bunnidogs.gardening.outside_home": "needs to be within 16 blocks of its Nest",
   "message.bunnidogs.gardening.griefing_off": "needs mob griefing enabled",
   "guide.bunnidogs.page.28.title": "Living dust",
-  "guide.bunnidogs.page.28.body": "Brush a healthy glow adult for one glowstone dust. A starborn adult with Bloom +20 yields one Starlit Dust. Senses +10 still adds a whisker. One Brush use gathers all matches; recovery is ten minutes."
+  "guide.bunnidogs.page.28.body": "Brush a healthy glow adult for one glowstone dust. A starborn adult with Bloom +20 yields one Starlit Dust. Senses +10 still adds a whisker. One Brush use gathers all matches; recovery is ten minutes.",
+  "guide.bunnidogs.page.29.title": "Terrain traits",
+  "guide.bunnidogs.page.29.body": "Hoofed adults step up one-block ledges and take half fall damage. Fleet legs reduce soul-sand and honey slowing by 25%; lean builds by 50%. Together: 75%. Cobwebs, Slowness and other hazards remain."
 }

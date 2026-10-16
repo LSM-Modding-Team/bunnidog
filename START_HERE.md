@@ -45,6 +45,21 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
+**A4 — inherited terrain movement:** hoofed legs add 0.4 native step height,
+allowing ordinary adults to walk up a full block while retaining their half
+fall damage. Fleet legs/lean builds reduce soul-sand/honey slowing by 25%/50%,
+combining to 75% less lost speed. Cobwebs, Slowness and other hazards remain.
+Named transient bonuses preserve external attributes, update on gene edits and
+restore once after loading; Apex copies inherit them. Approved anatomy, stats,
+gene order, animal fields and protocol 6 remain compatible. Gene hovers and
+the Field Guide explain the benefits; the guide now has 29 pages.
+
+The existing native adaptation case now checks real ledge collision, hidden
+traits, native slow-block math, Slowness and repeated saves with external bases.
+Actual build and all nineteen native scenarios pass; guide preview inspected.
+Client movement feel and long-term terrain balance remain gameplay review.
+See `docs/CARE_SPECS.md` A4.
+
 **Settlement L6 — local supplies:** newly placed underground pantries and
 surface feed-store/market barrels use eight lineage food tables. Each has
 1–2 guavas, 1–3 small local-food rolls and the independent 35% Field Guide

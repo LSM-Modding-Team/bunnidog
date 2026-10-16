@@ -161,6 +161,35 @@ expressed/carried light selection and retain all approved mesh invariants.
 The software lighting comparison was inspected; native in-game lighting and
 combat balance still need gameplay review.
 
+## A4: native terrain movement
+
+Expressed hoofed legs add **0.4 native Step Height**, taking an ordinary adult
+from 0.6 to 1.0 blocks so it can walk up a full ledge without jumping. Their
+existing half fall damage remains. This does not confer climbing, a higher
+jump, safe falls or passage through fences; native collision clearance applies.
+
+Expressed fleet legs add **0.25 Movement Efficiency**, and lean builds add
+**0.5**. Native slow-block math combines these independent genes: ordinary
+soul-sand/honey speed factor 0.4 becomes 0.55 with fleet, 0.7 with lean and
+0.85 with both. This reduces the lost speed by 25%, 50% or 75%; it is not an
+equivalent increase to the creature's base speed. Cobweb entanglement, potion
+Slowness, terrain damage and other vulnerabilities remain. Native attributes
+also govern compatible modded blocks and retain their own caps.
+
+Both use distinct named transient bonuses beside existing attributes, rather
+than replacing external bases/equipment. They update with expressed genes and
+restore once after native loading, alongside the existing defenses. Apex copies
+inherit the same rules. No synced flag, gene/allele reorder, save field, body
+geometry or network-version change is needed. Gene hovers and the new 29th
+Field Guide page explain the benefits and limits.
+
+The extended native adaptation case checks actual full-block collision stepping,
+hidden hoofed refusal, native soul-sand/honey speed factors, retained Slowness,
+two loads preserving external bases and gene edits removing only their bonuses.
+Actual build and all nineteen server scenarios pass; guide preview inspected.
+Client movement feel, natural terrain travel and long-term balance remain
+gameplay review.
+
 ## Evidence and follow-up
 
 The combined Gradle build and real GameTest server pass. Tests use native entity

@@ -32,6 +32,7 @@ PAGES = {
     26: ('Furnished warrens', 'New dens have a trough with two guavas. Levels 3-5 have a central bell. New farms fit an empty enabled corner trough for matching crops. Crafted and old troughs need a hoe to enable work.'),
     27: ('Before the Apex', 'Hold Calipers in the main hand and a Tissue Sample in the other. Use an Apex Crucible for health, attacks and defenses. Empty-hand use lists missing offerings. Reading spends nothing.'),
     28: ('Living dust', 'Brush a healthy glow adult for one glowstone dust. A starborn adult with Bloom +20 yields one Starlit Dust. Senses +10 still adds a whisker. One Brush use gathers all matches; recovery is ten minutes.'),
+    29: ('Terrain traits', 'Hoofed adults step up one-block ledges and take half fall damage. Fleet legs reduce soul-sand and honey slowing by 25%; lean builds by 50%. Together: 75%. Cobwebs, Slowness and other hazards remain.'),
 }
 INDEX = {2:'Warrens & genes',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
          17:'Registry & shows',19:'Material drops',20:'Apex of the Line',24:'Guava juice',25:'Trough gardening',27:'Boss forecast'}
@@ -80,7 +81,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,1),(495,9),(735,28)]:
+    for x,page in [(255,1),(495,28),(735,29)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         d.text((x+14,35), 'Bunnidogs Guide' if page == 1 else PAGES[page][0], font=bold,fill=(40,39,30))
         if page == 1: body = '\n'.join(INDEX.values())

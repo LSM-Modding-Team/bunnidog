@@ -121,6 +121,8 @@ import net.minecraft.world.phys.Vec3;
 public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IShearable {
     private static final Identifier TRAIT_ARMOR = Identifier.fromNamespaceAndPath("bunnidogs","inherited_armor");
     private static final Identifier TRAIT_KNOCKBACK = Identifier.fromNamespaceAndPath("bunnidogs","inherited_knockback_resistance");
+    private static final Identifier TRAIT_STEP = Identifier.fromNamespaceAndPath("bunnidogs","inherited_step_height");
+    private static final Identifier TRAIT_TERRAIN = Identifier.fromNamespaceAndPath("bunnidogs","inherited_movement_efficiency");
     // Base stats of an "average" bunnidog; the genes scale these (see Traits multipliers).
     public static final double BASE_HEALTH = 8.0D;
     public static final double BASE_SPEED = 0.25D;
@@ -288,7 +290,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         setBase(Attributes.MOVEMENT_SPEED, BASE_SPEED * t.speedMultiplier() * st.multiplier(Stat.SWIFTNESS));
         setBase(Attributes.JUMP_STRENGTH, BASE_JUMP * t.jumpMultiplier() * st.multiplier(Stat.LEAP));
         setBase(Attributes.FOLLOW_RANGE, BASE_FOLLOW_RANGE * t.hearingMultiplier() * st.multiplier(Stat.SENSES));
-        this.applyDefences();
+        this.applyAdaptations();
         this.setHealth(this.getMaxHealth() * fraction);
     }
 
@@ -300,11 +302,13 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     }
 
     /** Transient named modifiers preserve other mods' base values/equipment and cannot accumulate across reloads. */
-    protected final void applyDefences() {
-        this.defence(Attributes.ARMOR,TRAIT_ARMOR,Adaptations.armor(this.genome()));
-        this.defence(Attributes.KNOCKBACK_RESISTANCE,TRAIT_KNOCKBACK,Adaptations.knockbackResistance(this.genome()));
+    protected final void applyAdaptations() {
+        this.inheritedBonus(Attributes.ARMOR,TRAIT_ARMOR,Adaptations.armor(this.genome()));
+        this.inheritedBonus(Attributes.KNOCKBACK_RESISTANCE,TRAIT_KNOCKBACK,Adaptations.knockbackResistance(this.genome()));
+        this.inheritedBonus(Attributes.STEP_HEIGHT,TRAIT_STEP,Adaptations.stepBonus(this.genome()));
+        this.inheritedBonus(Attributes.MOVEMENT_EFFICIENCY,TRAIT_TERRAIN,Adaptations.movementEfficiency(this.genome()));
     }
-    private void defence(Holder<Attribute> attribute, Identifier id, double amount) {
+    private void inheritedBonus(Holder<Attribute> attribute, Identifier id, double amount) {
         var value = this.getAttribute(attribute);
         if (value == null) return;
         if (amount == 0) value.removeModifier(id);
@@ -746,7 +750,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         // Phase 5d: a save from before it, or an untagged bunnidog, has no tag. (The name shown above it is vanilla's own saved CustomName.)
         this.earTag = EarTag.parse(input.getStringOr(TAG_EAR_TAG, "")).orElse(null);
         super.readAdditionalSaveData(input);
-        if (!this.level().isClientSide()) this.applyDefences();
+        if (!this.level().isClientSide()) this.applyAdaptations();
         this.highestShowAward = Math.max(0, input.getIntOr("ShowAward", 0));
         this.nextGardenTick = this.level().getGameTime()+Math.clamp(input.getIntOr("GardenWait",0),0,
                 com.bunnidogs.mod.genetics.Gardening.REST_TICKS);
