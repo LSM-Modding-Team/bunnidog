@@ -337,3 +337,29 @@ house/paving clearance, slopes, deep fluid/protected-block fallback and chunk
 partitions. In Minecraft, generate a fresh `/bunnidogs warren 5 surface`, follow
 the stairs in the main hall, inspect the lower room and supply barrel, then
 reload and observe home claims. These new gameplay cases remain unconfirmed.
+
+## 20. U8: saved room and exit labels (2026-10-16)
+
+Newly planned underground networks can add guava wall signs for dens, the
+grand-tree nursery, pantry, cistern, market, farm entrance, lower commons and
+one fitted exit per room. The pure `Wayfinding` planner picks existing air at
+eye level, beside a structural wall, with clear standing space. It preserves
+all cells and furniture, leaves a small gap between labels and omits a label
+when no safe wall fits. Facing/label IDs are append-only.
+
+`Wayfinding` on the TUNNEL piece stores five-int tuples: relative x/y/z, facing
+and label. Existing `TunnelCells`/kind IDs remain unchanged; old starts without
+the new field load an empty plan and are not retrofitted. Every marker/support
+pair is inside the original cell envelope and the same chunk. Native placement
+runs after that chunk's columns, verifies an empty target and a sturdy, dry,
+non-container support, then writes the sign's two text faces. Green glowing text
+is readable without adding a light source. Signs remain editable; a repeated
+call skips existing blocks and block entities, preserving player edits.
+
+The command/feature path uses the same planner. Natural starts retain their
+exact chosen labels across piece serialization. No neighboring chunk writes or
+extra terrain queries are needed for sign placement. Bounded planning checks
+cover determinism, tuples, wall choice, every label kind and chunk ownership.
+A server GameTest checks chunk restrictions, generated text, edit protection,
+existing containers and missing supports. Full natural chunk-order/reload and
+client text appearance still need gameplay review.

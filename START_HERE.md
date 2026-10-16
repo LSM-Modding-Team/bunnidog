@@ -45,6 +45,43 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
+**U8 — warren wayfinding:** newly planned underground networks have guava wall
+signs for dens, the nursery, pantries, cisterns, markets, farms, the lower commons
+and fitted exits where a safe wall fits. Green glowing text is readable in the
+tunnels. The pure planner saves relative positions, facing and label IDs in a
+separate `Wayfinding` array on the TUNNEL piece; old starts load with no labels.
+Each sign and its support share a chunk. Placement follows that chunk's tunnel
+columns, skips missing supports/occupied blocks and preserves existing or edited
+signs on repeat calls. Signs remain editable. Normal command/feature generation
+uses the same planner. Existing cell IDs and bounding boxes are unchanged.
+
+**Care C1/C2:** the new 32-use Sampling Syringe takes the existing Tissue Sample
+from a living adult or pup at half health or better. It preserves health, age,
+genes, stats and breeding state; the animal needs five minutes of recovery.
+Craft with iron ingot / glass bottle / stick diagonally, or use
+`/give @s bunnidogs:syringe`. Healthy adults expressing woolly build now yield
+two white wool with vanilla shears every ten minutes. Pelts and existing death
+drops retain their role. Sampling/fleece recovery timers are saved separately
+as remaining ticks; missing old tags mean ready. Fleece readiness is synced to
+clients, and both clients/server must use network version **5**. The animal's
+approved model stays intact. `art/gen_syringe.py` generates the new tool assets;
+its nearest-filtered icon preview was inspected.
+
+**Adaptations A1:** expressed ember coat grants fire/lava immunity; expressed
+snow coat or woolly build prevents powder-snow freezing; expressed hoofed legs
+halve native fall damage. Hidden alleles confer no benefit. These traits can be
+crossbred, following ordinary dominance; they are not tied to spawn biome.
+Gene hover/readout text explains the effects. Existing allele IDs, genome
+formats, bred-stat curves and approved creature geometry are unchanged.
+
+`./gradlew build runGameTestServer --no-daemon` passes. New focused checks cover
+saved/chunk-owned labels and player edits, native syringe use/cost/recovery,
+live pup genetics, creative use, real fire/fall damage and native fleece drops,
+refusals, save/load and regrowth. The existing server, resource, diet and layout
+checks pass with the additions. Client visuals, natural structure chunk order
+and full world unload/reload remain gameplay review. See `docs/CARE_SPECS.md`
+and `docs/WARREN_PLAN.md` 20 for the new rules.
+
 **W4b — guava boats and chest boats** completes the guava wood set. Five guava
 planks in the native boat recipe craft a two-seat boat; combining it with a
 chest crafts a one-seat boat with 27 inventory slots. Both stack to one and
@@ -70,8 +107,8 @@ genetic item components through save/load, exact vehicle/content drops, native
 sign validity/tickers and two-sided text/color/glow/wax persistence, lead/ride
 goal suspension and restoration, and Nest reassignment/ticket protection.
 Tests and their empty structure fixture are excluded from the shipped JAR.
-`./gradlew build checkBunnidogModel runGameTestServer --no-daemon` passes,
-including all four mod scenarios (plus the native runner's always-pass sanity test).
+The server suite now contains eight mod scenarios (plus the native runner's
+always-pass sanity test); current local evidence is recorded in the batch above.
 GitHub Actions now runs `build checkBunnidogModel runGameTestServer` before
 uploading the artifact. `checkGuavaBoats` is part of `build` and checks native
 layers/paddles/chest geometry, renderer texture paths, crafting/unlocks and tags.
@@ -118,7 +155,7 @@ These are new changes with compiler/headless evidence; gameplay is pending.
 - Old six-pair animals, seeds, samples, books, table contents and infused juice
   load with plain/plain Diet. New writes use seven pairs / 56 bits. Client sync
   preserves a signed 32-bit high word; the original first six genes and all
-  allele IDs stay put. Network version 4 requires updated matching clients.
+  allele IDs stay put. Network version 5 requires updated matching clients.
   Sheet and forecast layouts fit all seven rows; approved creature geometry is
   unchanged. Diet adds no body/stat drift or juice effect.
 - A fitted level-5 hall can have a 5x5x3 lower commons six blocks deeper, reached
@@ -232,7 +269,8 @@ evidence at delivery, not the current ability to build the project.
 | How a feature is used in game (player view) | `docs/FEATURES.md` |
 | Why the game is designed this way, decisions per chunk | `docs/DESIGN.md` (Contents at the top; `grep -n '^## ' docs/DESIGN.md`) |
 | Warren redesign: mouths, dens, tunnels, cellars (U1-U7) | `docs/WARREN_PLAN.md` (U1–U7 implemented) |
-| Homes / Nests / H-chunks | `docs/HOME_SPECS.md` (ACTIVE: H1-H4 and H3b done) |
+| Homes / Nests / H-chunks | `docs/HOME_SPECS.md` (H1–H5 and H3b implemented) |
+| Living samples, woolly fleece and inherited environmental protection | `docs/CARE_SPECS.md` |
 | Genetics Table | `docs/TABLE_SPECS.md` (T1–T4 implemented; current evidence at top) |
 | Drops / loot | `docs/DROPS_PLAN.md` (why) + `docs/DROPS_SPECS.md` (numbers, wins). All of D1-D8 done |
 | Pedigree Book, Calipers window, "the sheet" | `docs/SHEET_SPECS.md` (S1-S8 done; wins over older Phase 8 notes) |

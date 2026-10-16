@@ -91,5 +91,12 @@
   "message.bunnidogs.nest.already_home": "This bunnidog already lives here.",
   "message.bunnidogs.nest.occupied": "This Nest already has a resident.",
   "message.bunnidogs.nest.unreachable": "Your bunnidog cannot reach this Nest.",
-  "message.bunnidogs.nest.adult_required": "Only an adult bunnidog can claim a Nest."
+  "message.bunnidogs.nest.adult_required": "Only an adult bunnidog can claim a Nest.",
+  "item.bunnidogs.syringe": "Sampling Syringe",
+  "tooltip.bunnidogs.syringe.use": "Use on a bunnidog to collect a Tissue Sample.",
+  "tooltip.bunnidogs.syringe.health": "Requires at least half health. Works on pups too.",
+  "tooltip.bunnidogs.syringe.recovery": "Five minutes of recovery between samples.",
+  "message.bunnidogs.sampling.hurt": "Help this bunnidog recover to at least half health first.",
+  "message.bunnidogs.sampling.wait": "This bunnidog needs %s more seconds before sampling.",
+  "message.bunnidogs.sampling.taken": "Tissue Sample collected."
 }

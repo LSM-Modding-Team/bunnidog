@@ -188,8 +188,8 @@ The genome now uses 56 bits; its existing low word stays 24 bits and the high
 word uses all 32 bits, including its sign bit. Six-pair text (with or without
 separators) loads with `00` appended, meaning plain/plain. New writes use seven
 pairs. The same parser preserves old animals, parents, seeds/crops, Tissue
-Samples, Genetics Table slots, infused juice and Pedigree Books. Network version
-4 requires matching updated clients; no saved-item component is replaced.
+Samples, Genetics Table slots, infused juice and Pedigree Books. Diet introduced network version 4; current version 5 also syncs fleece readiness.
+Matching updated clients are required; no saved-item component is replaced.
 
 | Diet ID | Allele | Additional foods |
 |---|---|---|

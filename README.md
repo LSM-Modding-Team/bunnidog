@@ -44,7 +44,7 @@ Git diff. Existing uncommitted work and saves are preserved.
 ./gradlew checkWoodAssets    # guava mechanisms/signs, attachments, resources and crafting (also part of build)
 ./gradlew checkGuavaBoats    # native boat layers/paddles, atlases, icons and crafting (also part of build)
 ./gradlew checkDiets         # legacy data, inherited diets, food rules and seven-gene pages (also part of build)
-./gradlew runGameTestServer  # real server: boats, sign persistence, leads/rides and Nest reassignment
+./gradlew runGameTestServer  # real server: vehicles, wayfinding, care/adaptations and Nest behavior
 ./gradlew packageProject     # optional portable source ZIP in build/distributions
 ```
 

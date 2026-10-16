@@ -10,6 +10,9 @@ import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.genetics.Breeding;
 import com.bunnidogs.mod.genetics.Diet;
 import com.bunnidogs.mod.genetics.Foraging;
+import com.bunnidogs.mod.genetics.Adaptations;
+import com.bunnidogs.mod.genetics.Sampling;
+import com.bunnidogs.mod.genetics.Fleece;
 import com.bunnidogs.mod.genetics.Home;
 import com.bunnidogs.mod.genetics.EarTag;
 import com.bunnidogs.mod.genetics.Genome;
@@ -104,7 +107,7 @@ import net.minecraft.world.phys.Vec3;
  *   <li>The expressed genes change attributes ({@link #applyGenetics()}) and the look (client renderer/model).</li>
  * </ul>
  */
-public class Bunnidog extends Animal {
+public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IShearable {
     // Base stats of an "average" bunnidog; the genes scale these (see Traits multipliers).
     public static final double BASE_HEALTH = 8.0D;
     public static final double BASE_SPEED = 0.25D;
@@ -128,6 +131,8 @@ public class Bunnidog extends Animal {
             SynchedEntityData.defineId(Bunnidog.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_GENES_HI =
             SynchedEntityData.defineId(Bunnidog.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> DATA_FLEECE_READY =
+            SynchedEntityData.defineId(Bunnidog.class, EntityDataSerializers.BOOLEAN);
 
     // Cache of the decoded genome. NO initializers on purpose: fields with initializers would be reset after the
     // super constructor, which is harmless here but pointless.
@@ -152,6 +157,8 @@ public class Bunnidog extends Animal {
     /** H2: the Nest this dog has claimed (docs/HOME_SPECS.md); server side only. */
     private final NestHome nestHome = new NestHome(this);
     private long nextForageTick;
+    private long nextSampleTick;
+    private long nextFleeceTick;
     private LivingEntity huntingTarget;
 
     public Bunnidog(EntityType<? extends Bunnidog> type, Level level) {
@@ -179,6 +186,7 @@ public class Bunnidog extends Animal {
         super.defineSynchedData(builder);
         builder.define(DATA_GENES_LO, 0);
         builder.define(DATA_GENES_HI, 0);
+        builder.define(DATA_FLEECE_READY,true);
     }
 
     /** The decoded genome. Cheap: only re-decodes when the synced value changed. */
@@ -279,6 +287,9 @@ public class Bunnidog extends Animal {
             }
             this.growthTick();
             this.guavaMemory.tick(this.getAge());      // Phase 4e: forgets the tier when love is over
+            if (!this.entityData.get(DATA_FLEECE_READY) && this.level().getGameTime() >= this.nextFleeceTick) {
+                this.entityData.set(DATA_FLEECE_READY,true);
+            }
             if (this.level() instanceof ServerLevel serverLevel) {
                 this.nestHome.tick(serverLevel, !this.isBaby());   // H2: a homeless adult looks for a free Nest, a dog with one checks it
             }
@@ -558,6 +569,47 @@ public class Bunnidog extends Animal {
         return this.nestHome.moveTo(level, destination);
     }
 
+    @Override
+    public boolean fireImmune() {
+        return super.fireImmune() || this.entityData != null && Adaptations.fireProof(this.genome());
+    }
+    @Override
+    public boolean canFreeze() {
+        return super.canFreeze() && (this.entityData == null || !Adaptations.coldProof(this.genome()));
+    }
+    @Override
+    public boolean causeFallDamage(double distance, float modifier, DamageSource source) {
+        float adaptation = this.entityData == null ? 1F : Adaptations.fallMultiplier(this.genome());
+        return super.causeFallDamage(distance,modifier*adaptation,source);
+    }
+
+    public int samplingWait() {
+        return (int)Math.clamp(this.nextSampleTick-this.level().getGameTime(),0L,
+                (long)Sampling.RECOVERY_TICKS);
+    }
+    public void beginSamplingRecovery() {
+        this.nextSampleTick = this.level().getGameTime()+Sampling.RECOVERY_TICKS;
+    }
+
+    public int fleeceWait() {
+        return (int)Math.clamp(this.nextFleeceTick-this.level().getGameTime(),0L,
+                (long)Fleece.REGROW_TICKS);
+    }
+    @Override
+    public boolean isShearable(@org.jspecify.annotations.Nullable Player player, ItemStack item, Level level, BlockPos pos) {
+        return this.isAlive() && Fleece.ready(this.genome(),!this.isBaby(),
+                this.getHealth(),this.getMaxHealth(),this.entityData.get(DATA_FLEECE_READY));
+    }
+    @Override
+    public List<ItemStack> onSheared(@org.jspecify.annotations.Nullable Player player, ItemStack item, Level level, BlockPos pos) {
+        if (!this.isShearable(player,item,level,pos) || level.isClientSide()) return List.of();
+        this.nextFleeceTick = level.getGameTime()+Fleece.REGROW_TICKS;
+        this.entityData.set(DATA_FLEECE_READY,false);
+        this.playSound(SoundEvents.SHEEP_SHEAR,.5F,1.2F);
+        return List.of(new ItemStack(net.minecraft.world.item.Items.WOOL.pick(net.minecraft.world.item.DyeColor.WHITE),
+                Fleece.COUNT));
+    }
+
     // ------------------------------------------------------------------ saving
 
     @Override
@@ -566,6 +618,8 @@ public class Bunnidog extends Animal {
         output.putString(TAG_GENOME, this.genome().toString());
         output.putString(TAG_STATS, this.stats().toString());
         output.putInt("ForageWait", (int) Math.clamp(this.nextForageTick - this.level().getGameTime(), 0L, (long) Foraging.MEAL_COOLDOWN));
+        if (this.samplingWait() > 0) output.putInt("SampleWait",this.samplingWait());
+        if (this.fleeceWait() > 0) output.putInt("FleeceWait",this.fleeceWait());
         if (this.motherGenome != null && this.fatherGenome != null) {
             output.putString(TAG_MOTHER, this.motherGenome.toString());
             output.putString(TAG_FATHER, this.fatherGenome.toString());
@@ -602,6 +656,11 @@ public class Bunnidog extends Animal {
         this.earTag = EarTag.parse(input.getStringOr(TAG_EAR_TAG, "")).orElse(null);
         super.readAdditionalSaveData(input);
         this.nextForageTick = this.level().getGameTime() + Math.clamp(input.getIntOr("ForageWait", 0), 0, Foraging.MEAL_COOLDOWN);
+        this.nextSampleTick = this.level().getGameTime()+Math.clamp(input.getIntOr("SampleWait",0),0,
+                Sampling.RECOVERY_TICKS);
+        this.nextFleeceTick = this.level().getGameTime()+Math.clamp(input.getIntOr("FleeceWait",0),0,
+                Fleece.REGROW_TICKS);
+        this.entityData.set(DATA_FLEECE_READY,this.fleeceWait() == 0);
         // Phase 4e: a save from before it, or a bunnidog not in love, has neither tag = no memory.
         this.guavaMemory.restore(input.getIntOr(TAG_LOVE_TIER, 0), input.getIntOr(TAG_LOVE_TIER_TICKS, 0));
         // H2: a save from before it, or a dog without a nest, has no Y = no nest.

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  I",
+    " G ",
+    "S  "
+  ],
+  "key": {
+    "I": "minecraft:iron_ingot",
+    "G": "minecraft:glass_bottle",
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "bunnidogs:syringe"
+  }
+}

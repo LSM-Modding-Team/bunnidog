@@ -49,6 +49,31 @@ The middle guava tree of a level-5 village is a grand tree: taller, with a wide 
 ## Guava wood (Phase 7a)
 Guava trees are now made of Guava Logs and Guava Leaves (Natural Blocks tab). The leaves decay like vanilla ones: cut the trunk and they (and the guavas hanging from them) disappear after a while; leaves drop sticks and sometimes a sapling, shears keep the block. Regenerate the textures with `python3 art/gen_guava_wood.py`.
 
+**Warren labels (U8):** fresh fitted warrens now place guava signs for dens,
+nursery, pantry, cistern, market, farm, lower commons and exits where a safe wall
+fits. Green glowing text helps in tunnels; signs remain editable. Old saved
+starts are unchanged. Generate `/bunnidogs warren 5 surface` or find a fresh
+natural village to explore them. Saved plans, chunk ownership and edit
+preservation pass focused checks; natural chunk order/reload remain manual.
+
+**Living tissue samples (Care C1):** craft a Sampling Syringe from iron, glass
+bottle and stick diagonally, or `/give @s bunnidogs:syringe`. Use it on a dog at
+half health or better to take its exact genes/stats without hurting it. Pups
+can be sampled too. It has 32 uses; a dog needs five minutes between samples.
+The ordinary sample works with Calipers and the Genetics Table. Recovery is
+saved, and refusal costs no durability.
+
+**Woolly fleece (Care C2):** healthy adults expressing woolly build yield two
+white wool with vanilla shears, then regrow it in ten minutes. Pups and ordinary
+builds cannot be sheared. Health, genes and the approved model stay intact.
+Recovery persists across saves; both sides need the updated version 5 protocol.
+
+**Inherited adaptations (A1):** ember coats resist fire and lava; snow coats
+and woolly builds cannot freeze in powder snow; hoofed legs halve fall damage.
+These follow expressed genes, so benefits can be crossbred and hidden alleles
+do not grant them. Hover the gene to read its effect. Server behavior checks
+pass; client gameplay review remains pending. See `docs/CARE_SPECS.md`.
+
 ## Drops (D1-D8 done)
 Bunnidogs will drop items by genome and stats: a fast line drops rabbit's feet (several if very fast), a high-Vitality line drops bunnidog flesh, and so on, with new modded items (flesh, sinew, whiskers, coat pelts, mutant marrow, tissue samples, ...). The why is in `docs/DROPS_PLAN.md`, and the exact formulas, tables and every decision are in `docs/DROPS_SPECS.md` (all questions answered).
 

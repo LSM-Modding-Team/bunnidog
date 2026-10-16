@@ -2,6 +2,13 @@
 
 **CURRENT (session 43): ALL DONE: chunks D1-D8e are coded and work (D7b compiles; its behaviour was not itemized). The status lines below are from the planning sessions. Chunk status: docs/CHUNKS.md.**
 
+**Care update (2026-10-16):** C1 adds live Tissue Samples using a Sampling
+Syringe; C2 gathers renewable woolly fleece with native shears. These are
+separate care interactions with saved recovery, health/age gates and modest
+yields; the existing death-drop engine/tables are unchanged. See
+`CARE_SPECS.md` for exact rules and server evidence. This supersedes the older
+"death only for now"/future-syringe wording below.
+
 **Status: SPECIFICATION ONLY, ALL DECISIONS MADE. Nothing here is coded.** It refines `docs/DROPS_PLAN.md` (read that first for the why).
 Where the two differ, THIS file wins (section 12 lists the differences). All numbers are starting values, kept in one
 place so they are cheap to change. **Third turn:** the three open questions were settled (rows 13-15 below), a contradiction about

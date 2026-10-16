@@ -54,6 +54,7 @@ public class WarrenPiece extends StructurePiece {
     private final boolean networkDen;
     private final int[] tunnelCells;
     private final int[] pathExclusions;
+    private final int[] wayfinding;
     private final boolean woodDetails;
     private final int generationVersion;
 
@@ -66,6 +67,11 @@ public class WarrenPiece extends StructurePiece {
     }
 
     public WarrenPiece(int kind, int index, long seed, int level, int centreX, int centreZ, int y, boolean networkDen, int[] tunnelCells, int[] pathExclusions) {
+        this(kind,index,seed,level,centreX,centreZ,y,networkDen,tunnelCells,pathExclusions,new int[0]);
+    }
+
+    public WarrenPiece(int kind, int index, long seed, int level, int centreX, int centreZ, int y, boolean networkDen,
+            int[] tunnelCells, int[] pathExclusions, int[] wayfinding) {
         super(ModStructures.WARREN_PIECE.get(), 0, boxFor(kind, index, seed, level, centreX, centreZ, y, tunnelCells));
         this.kind = kind;
         this.index = index;
@@ -77,6 +83,7 @@ public class WarrenPiece extends StructurePiece {
         this.networkDen = networkDen;
         this.tunnelCells = tunnelCells.clone();
         this.pathExclusions = pathExclusions.clone();
+        this.wayfinding = wayfinding.clone();
         this.woodDetails = true;
         this.generationVersion = 2;
     }
@@ -93,6 +100,7 @@ public class WarrenPiece extends StructurePiece {
         this.networkDen = tag.getBooleanOr("NetworkDen", false);
         this.tunnelCells = tag.getIntArray("TunnelCells").orElseGet(() -> new int[0]);
         this.pathExclusions = tag.getIntArray("PathExclusions").orElseGet(() -> new int[0]);
+        this.wayfinding = tag.getIntArray("Wayfinding").orElseGet(() -> new int[0]);
         this.woodDetails = tag.getBooleanOr("WoodDetails",false);
         this.generationVersion = tag.getIntOr("WarrenVersion",1);
     }
@@ -143,6 +151,7 @@ public class WarrenPiece extends StructurePiece {
         tag.putInt("Y", y);
         tag.putBoolean("NetworkDen", networkDen);
         if (tunnelCells.length > 0) tag.putIntArray("TunnelCells", tunnelCells);
+        if (wayfinding.length > 0) tag.putIntArray("Wayfinding",wayfinding);
         if (pathExclusions.length > 0) tag.putIntArray("PathExclusions", pathExclusions);
         tag.putBoolean("WoodDetails",woodDetails);
         tag.putInt("WarrenVersion",generationVersion);
@@ -156,6 +165,7 @@ public class WarrenPiece extends StructurePiece {
         Lineage style = ModBiomeTags.lineageAt(world, new BlockPos(centreX, y, centreZ));
         if (kind == TUNNEL) {
             WarrenTunnels.place(world, new BlockPos(centreX, y, centreZ), tunnelCells, chunkBox, style);
+            WarrenSigns.place(world,new BlockPos(centreX,y,centreZ),wayfinding,chunkBox);
             return;
         }
         if (kind == PATH) {

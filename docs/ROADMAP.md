@@ -16,6 +16,13 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+U8 adds saved, chunk-owned guava room/exit labels to newly planned warrens,
+preserving old starts and player edits. Care C1/C2 adds a non-lethal Sampling
+Syringe and renewable wool from healthy woolly adults. A1 gives expressed
+ember/snow/woolly/hoofed traits native environmental benefits. Existing saves,
+gene/allele order and approved body assets remain compatible. The combined
+build/server checks pass. See `CARE_SPECS.md` and `WARREN_PLAN.md` 20.
+
 W4b completes guava boats/chest boats: native vehicles and model layers, custom
 hulls/icons, crafting/unlocks, proper item drops and a 27-slot chest. H5 makes
 home/food navigation respect leads/rides and lets a player rehome the nearest
@@ -45,7 +52,8 @@ filling a quota, and honor any explicit pause in the current request.
 
 | Item | What | Needs | Spec |
 |---|---|---|---|
-| Settlement wayfinding | Use guava signs to label new halls, pantries and entrances; preserve old saved starts | W4a | Design terrain/chunk placement and saved text before coding |
+| Living harvest extensions | Additional renewable materials through care tools, with conservative yields and recovery | C1/C2 | `CARE_SPECS.md`; define each source/yield before coding |
+| Additional lineage behavior | Useful cave/swamp/End adaptations beyond current fire/cold/fall rules | A1 | Follow expressed genes; preserve native hazards and breeding tradeoffs |
 
 ## Ideas without a spec (design before implementing)
-Gene Splicer / Purebred registry / Show Ring / Apex boss (the old "Phase 6 artificial lineage tools"); settlement life (the old 6d); living harvest instead of death-only drops; environment effects of lineages (cold resistance, heat tolerance, night vision, ...). Native leads, transport-aware behavior and player-directed Nest reassignment are now implemented as H5. More ideas: `docs/DESIGN.md`, section "Ideas".
+Gene Splicer / Purebred registry / Show Ring / Apex boss (the old "Phase 6 artificial lineage tools"); settlement life (the old 6d); further renewable materials and lineage adaptations. Native leads and Nest reassignment are implemented as H5; live tissue samples, woolly fleece and fire/cold/fall adaptations are C1/C2/A1. More ideas: `docs/DESIGN.md`, section "Ideas".

@@ -140,6 +140,8 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
                 ? WarrenTunnels.plan(level, floor, settlement, rng.nextLong(), surfaceOnly, open) : TunnelShape.Network.empty();
         if (!underground.cells().isEmpty()) {
             WarrenTunnels.place(level, floor, WarrenTunnels.encode(underground), null, style);
+            WarrenSigns.place(level,floor,com.bunnidogs.mod.layout.Wayfinding.encode(
+                    com.bunnidogs.mod.layout.Wayfinding.plan(settlement,underground,floor.getX(),floor.getZ())),null);
         }
         int trees = 0;
         int dogs = 0;

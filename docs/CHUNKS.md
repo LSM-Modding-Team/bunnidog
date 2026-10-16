@@ -6,6 +6,10 @@ Full text of every chunk (files, decisions, compile risks): `docs/history/CHUNKS
 
 | Chunk | What | Status |
 |---|---|---|
+| Care C2 | Native shears gather two wool from healthy woolly adults; saved ten-minute regrowth and synced readiness | BUILD + SERVER GAMETEST PASS; client gameplay pending |
+| A1 | Expressed ember fire immunity, snow/woolly freeze protection and hoofed fall reduction; gene explanations | BUILD + NATIVE DAMAGE GAMETEST PASS; client gameplay pending |
+| Care C1 | Reusable non-lethal Sampling Syringe, existing sample data, health/recovery gates, saved five-minute recovery | BUILD + SERVER GAMETEST PASS; new icon preview inspected; client gameplay pending |
+| U8 | Saved guava wall labels for new rooms/exits, chunk-owned supports, guarded placement and edited-text preservation | BUILD + FOCUSED LAYOUT/SERVER CHECKS PASS; natural chunk order/reload pending |
 | H5 | Leads/rides suspend home/food behavior and Nest scans; empty-hand/lead Nest use rehomes the nearest led adult with safe POI transfer | SERVER GAMETEST + BUILD/HEADLESS evidence; manual gameplay pending |
 | W4b | Guava boat/chest boat, native seating/inventory/saves/drops, guava atlases, crafting/unlocks and tags | SERVER GAMETEST + BUILD/RESOURCE/MODEL evidence; texture preview inspected; client gameplay pending |
 | W4a | Guava signs/hanging signs: native text/editing/saves, four placement forms, custom models/editor textures, recipes/unlocks and drops | BUILD + RESOURCE/MODEL + SERVER SAVE/TICKER CHECKS PASS; texture preview inspected; client gameplay pending |

@@ -55,7 +55,7 @@ public final class GuavaGameTest extends GameTestInstance {
     @SubscribeEvent
     public static void registerTests(RegisterGameTestsEvent event) {
         var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.AllOf());
-        for (String name : new String[]{"boats", "signs", "transport", "rehoming"}) {
+        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece"}) {
             event.registerTest(id(name), new GuavaGameTest(name, new TestData<>(environment, id("empty"), 100, 0, true)));
         }
     }
@@ -65,6 +65,10 @@ public final class GuavaGameTest extends GameTestInstance {
         switch (this.scenario) {
             case "boats" -> boats(h);
             case "signs" -> signs(h);
+            case "wayfinding" -> com.bunnidogs.mod.worldgen.WayfindingGameTest.run(h);
+            case "sampling" -> SamplingGameTest.run(h);
+            case "adaptations" -> AdaptationsGameTest.run(h);
+            case "fleece" -> { FleeceGameTest.run(h); return; }
             case "transport" -> transport(h);
             case "rehoming" -> { rehoming(h); return; }
             default -> h.fail("Unknown integration scenario: " + this.scenario);

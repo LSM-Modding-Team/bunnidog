@@ -219,7 +219,8 @@ public final class Plain {
                 return Math.abs(d) < 1e-9 ? "Normal hearing." : s;
             }
             case COAT:
-                return "Cosmetic only: it changes the look and the pelt it drops, not what it can do.";
+                return Adaptations.explanation(gene,allele).isEmpty()
+                        ? "Cosmetic only: it changes the look and the pelt it drops, not what it can do." : "";
             case LEGS: {
                 double speed = (v - 1.0D) * 0.6D;
                 double jump = (v - 1.0D) * 1.2D;
@@ -271,7 +272,7 @@ public final class Plain {
      */
     public static String effect(Gene gene, Allele allele) {
         List<String> parts = new ArrayList<>(3);
-        for (String part : new String[] { note(gene, allele), numbers(gene, allele), origin(allele) }) {
+        for (String part : new String[] { note(gene, allele), numbers(gene, allele), Adaptations.explanation(gene,allele), origin(allele) }) {
             if (!part.isEmpty()) {
                 parts.add(part);
             }

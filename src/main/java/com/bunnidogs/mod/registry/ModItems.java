@@ -14,6 +14,7 @@ import com.bunnidogs.mod.genetics.GuavaTier;
 import com.bunnidogs.mod.genetics.Seed;
 import com.bunnidogs.mod.genetics.Stats;
 import com.bunnidogs.mod.item.CalipersItem;
+import com.bunnidogs.mod.item.SyringeItem;
 import com.bunnidogs.mod.item.EarTagItem;
 import com.bunnidogs.mod.item.GuavaItem;
 import com.bunnidogs.mod.item.JuiceItem;
@@ -171,6 +172,8 @@ public final class ModItems {
 
     /** The Calipers (Phase 5): read a bunnidog's or a seed's exact genes into the chat. Crafted from iron and copper (data/bunnidogs/recipe/calipers.json). */
     public static final DeferredItem<CalipersItem> CALIPERS = ITEMS.registerItem("calipers", CalipersItem::new, props -> props.stacksTo(1));
+    public static final DeferredItem<SyringeItem> SYRINGE = ITEMS.registerItem("syringe", SyringeItem::new,
+            props -> props.durability(com.bunnidogs.mod.genetics.Sampling.TOOL_USES));
 
     /** The Ear Tag (Phase 5d): clip it on a bunnidog for a permanent registration code. Crafted from an iron nugget and paper (data/bunnidogs/recipe/ear_tag.json). */
     public static final DeferredItem<EarTagItem> EAR_TAG = ITEMS.registerItem("ear_tag", EarTagItem::new, props -> props);
@@ -311,6 +314,7 @@ public final class ModItems {
         }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(CALIPERS.get());
+            event.accept(SYRINGE.get());
             event.accept(GUAVA_BOAT.get());
             event.accept(GUAVA_CHEST_BOAT.get());
             event.accept(PEDIGREE_BOOK.get());

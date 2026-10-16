@@ -41,7 +41,8 @@ public class WarrenStructure extends Structure {
         TunnelShape.Network underground = WarrenTunnels.plan(context, origin, layout, layoutSeed);
         return Optional.of(new GenerationStub(new BlockPos(cx, cy, cz), builder -> {
             if (!underground.cells().isEmpty()) {
-                builder.addPiece(new WarrenPiece(WarrenPiece.TUNNEL, 0, layoutSeed, level, cx, cz, cy, false, WarrenTunnels.encode(underground)));
+                builder.addPiece(new WarrenPiece(WarrenPiece.TUNNEL, 0, layoutSeed, level, cx, cz, cy, false, WarrenTunnels.encode(underground),new int[0],
+                        com.bunnidogs.mod.layout.Wayfinding.encode(com.bunnidogs.mod.layout.Wayfinding.plan(layout,underground,cx,cz))));
             }
             for (int i = 0; i < layout.clusters().size(); i++) {
                 Settlement.Cluster c = layout.clusters().get(i);

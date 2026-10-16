@@ -51,6 +51,9 @@ are obsolete. The user's current request determines scope.
   only for meaningful changes to pure genetics/layout logic; avoid repetitive
   runs, mutation exercises, source-string assertions and inflated check counts.
   Documentation-only edits need no game build.
+  The user prefers development progress over extra checking: reuse focused
+  existing checks, combine validation at coherent batch checkpoints, and repeat
+  only for changed behavior or to resolve an actual compile/test failure.
 - Check Minecraft 26.2/NeoForge APIs against this checkout's resolved sources
   and compiler, using `docs/API_NOTES.md` as a starting index. Do not assume
   cached notes from older versions are authoritative.

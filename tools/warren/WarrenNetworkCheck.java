@@ -6,6 +6,7 @@ import com.bunnidogs.mod.layout.Settlement;
 import com.bunnidogs.mod.layout.TunnelShape;
 import com.bunnidogs.mod.layout.TunnelShape.Pos;
 import com.bunnidogs.mod.layout.UndergroundRooms;
+import com.bunnidogs.mod.layout.Wayfinding;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
@@ -31,6 +32,7 @@ public final class WarrenNetworkCheck {
         int networks = 0;
         int cellarRamps = 0;
         Map<UndergroundRooms.Type, Integer> features = new java.util.EnumMap<>(UndergroundRooms.Type.class);
+        Set<Wayfinding.Label> labels = java.util.EnumSet.noneOf(Wayfinding.Label.class);
         for (int level = 2; level <= 5; level++) {
             int levelCellars = 0;
             for (long seed = 0; seed < 24; seed++) {
@@ -42,6 +44,7 @@ public final class WarrenNetworkCheck {
                 try { reachable(network, terrain, true); }
                 catch (AssertionError error) { throw new AssertionError("level " + level + ", seed " + seed + ": " + error.getMessage(), error); }
                 chunkPartitions(network);
+                if (seed < 3) checkWayfinding(settlement,network,labels);
                 checkCellars(settlement, network, terrain);
                 levelCellars += network.cellars().size();
                 network.features().forEach(f -> features.merge(f.type(),1,Integer::sum));
@@ -66,6 +69,8 @@ public final class WarrenNetworkCheck {
             require(levelCellars > 0, "Each settlement level should fit some cellar ramps");
             cellarRamps += levelCellars;
         }
+
+        require(labels.containsAll(java.util.EnumSet.allOf(Wayfinding.Label.class)),"Representative fitted warrens must label all room/exit types: " + labels);
         require(networks >= 85, "Most flat layouts must fit entrances around existing buildings");
         for (UndergroundRooms.Type type : UndergroundRooms.Type.values()) require(features.getOrDefault(type,0) > 0, "Missing planned feature: " + type);
         Settlement settlement = Settlement.generate(new Random(7), 5);
@@ -135,6 +140,24 @@ public final class WarrenNetworkCheck {
         }
         System.out.println("Warren network OK: " + networks + " flat layouts, " + cellarRamps
                 + " cellar ramps, " + features + "; terrain fallback, house/path clearance and chunk partitions");
+    }
+
+    private static void checkWayfinding(Settlement settlement, TunnelShape.Network network, Set<Wayfinding.Label> labels) {
+        var signs = Wayfinding.plan(settlement,network,17,-13);
+        require(signs.equals(Wayfinding.plan(settlement,network,17,-13)),"Sign placement must be deterministic");
+        require(signs.equals(Wayfinding.decode(Wayfinding.encode(signs))),"Saved sign plans must round-trip");
+        require(Wayfinding.decode(new int[]{0,0,0,99,0,0,0}).isEmpty(),"Malformed/future sign tuples must be ignored");
+        Map<Pos,DenShape.Kind> cells = new HashMap<>(); network.cells().forEach(c -> cells.put(c.pos(),c.kind()));
+        Set<Pos> unique = new HashSet<>();
+        for (var sign : signs) {
+            var p = sign.pos(); var support = sign.support();
+            require(unique.add(p) && cells.get(p) == DenShape.Kind.AIR,"Signs must occupy distinct planned air cells");
+            require(cells.get(support) == DenShape.Kind.FILL || cells.get(support) == DenShape.Kind.WALL || cells.get(support) == DenShape.Kind.BEAM,
+                    "Signs must attach to structural walls, not Nests or furniture");
+            require(Math.floorDiv(17+p.x(),16) == Math.floorDiv(17+support.x(),16)
+                    && Math.floorDiv(-13+p.z(),16) == Math.floorDiv(-13+support.z(),16),"Sign/support must share their owning chunk");
+            labels.add(sign.label());
+        }
     }
 
     private static void checkCellars(Settlement settlement, TunnelShape.Network network, Ground terrain) {
