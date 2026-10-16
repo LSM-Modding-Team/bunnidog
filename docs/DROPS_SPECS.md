@@ -12,7 +12,10 @@ record the original drops design.
 Syringe; C2 gathers renewable woolly fleece with native shears; C3 uses a Brush
 to collect one loose whisker from healthy Senses +10 adults every ten minutes. These are
 separate care interactions with saved recovery, health/age gates and modest
-yields; the existing death-drop engine/tables are unchanged. See
+yields. C5 also gathers one glowstone dust from expressed glow adults and one
+Starlit Dust from expressed starborn adults with Bloom +20; qualifying Brush
+products share one wear and the same grooming recovery. The existing death-drop
+engine/tables are unchanged. See
 `CARE_SPECS.md` for exact rules and server evidence. This supersedes the older
 "death only for now"/future-syringe wording below.
 

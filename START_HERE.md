@@ -45,6 +45,20 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
+**Care C5 — living dust:** one Brush use gathers all qualifying products:
+one loose whisker at Senses +10, one glowstone dust from an expressed glow coat,
+and one Starlit Dust from expressed starborn with Bloom +20. Adults must be at
+least half healthy. All products share one tool wear and the saved ten-minute
+grooming recovery; overflow drops normally. Hidden traits yield nothing and
+the animal's health/genes/stats are preserved. Calipers names available products,
+gene hovers explain the sources and the Field Guide now has 28 pages.
+
+The existing native grooming case now checks hidden traits, Bloom thresholds,
+exact individual/combined yield, one shared wear/recovery and full inventory.
+Actual build and all eighteen native scenarios pass; the updated guide preview
+is inspected. Client use and production balance remain gameplay review. See
+`docs/CARE_SPECS.md` C5.
+
 **Settlement L5 — work readiness and farm troughs:** sneak-use Calipers now
 includes gardening, sharing the AI's own blockers and saved recovery snapshot.
 Ready means ready to search, with trough/crop/path requirements stated; reading
@@ -69,7 +83,7 @@ for source appearance, health, normal/enraged melee damage, inherited defenses,
 awareness, pursuit increase and approximate pounce height. Readiness and spawning
 share one loaded eight-slot scan; preview rules/base defenses are shared with
 the real boss. No entity, item cost, GUI, payload or saved field is introduced.
-The Field Guide now has 27 pages and eleven contents links.
+The Field Guide now has 28 pages and eleven contents links.
 
 The combined actual build/server run passes all eighteen scenarios. The extended
 native Apex case confirms read-only inspection/forecast and the actual boss's

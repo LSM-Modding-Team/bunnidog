@@ -71,6 +71,31 @@ transport/mobGriefing requirements and saved recovery. It shares the AI's cheap
 eligibility result, and states the enabled trough/ripe matching food/path needs
 without performing a work search. See `SETTLEMENT_LIFE.md`.
 
+## C5: Living dust
+
+Rare lines can now supply modest materials while alive. Brushing an expressed
+glow adult yields one vanilla glowstone dust. Brushing an expressed starborn
+adult with at least +20 bred Bloom yields one existing Starlit Dust. These
+requirements are independent of the +10 Senses requirement for loose whiskers.
+Only expressed alleles count; hidden glow/starborn copies yield no dust.
+
+Every qualifying product is gathered together, exactly one each, for one Brush
+durability and the same ten-minute saved `GroomWait`. There are no separate
+per-product timers to bypass by swapping genes or tools. All products require
+a living adult at least half healthy; the Apex remains ineligible. Full
+inventories drop each remainder normally, and creative preserves the Brush
+while retaining recovery. Age, health, genes, bred stats and love are preserved.
+Existing death-drop yields, marrow and legendary progression remain unchanged.
+
+Calipers names the currently available products, or explains the alternative
+trait/stat requirements. Normal Brush feedback names what was collected.
+Gene hovers describe the renewable sources, and the Field Guide grows to 28
+pages. The existing native grooming case covers hidden traits, Bloom +19/+20,
+individual/combined products, shared refusal and inventory overflow alongside
+the original age/health/save/creative/tool-breakage checks. Actual build and all
+eighteen native scenarios pass; the updated guide preview is inspected. Client
+interaction and long-term production balance still need gameplay review.
+
 ## A1/A2: Expressed environmental adaptations
 
 | Expressed trait | Benefit |

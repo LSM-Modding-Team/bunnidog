@@ -18,6 +18,7 @@ import com.bunnidogs.mod.network.ModNetwork;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -67,9 +68,12 @@ public class CalipersItem extends Item {
         careRow(player, "fleece", dog.isBaby() ? adult
                 : !dog.genome().expressed(Gene.BUILD).name().equals("woolly") ? Component.translatable("message.bunnidogs.care.woolly")
                 : !healthy ? health : recovery(dog.fleeceWait()));
+        var products = Grooming.yields(dog.genome(),dog.stats());
         careRow(player, "grooming", dog.isBaby() ? adult
-                : !Grooming.developed(dog.stats()) ? Component.translatable("message.bunnidogs.care.senses", Grooming.MIN_SENSES)
-                : !healthy ? health : recovery(dog.groomingWait()));
+                : products.isEmpty() ? Component.translatable("message.bunnidogs.groom.traits",Grooming.MIN_SENSES,Grooming.MIN_STARLIT_BLOOM)
+                : !healthy ? health : dog.groomingWait() > 0 ? recovery(dog.groomingWait())
+                : Component.translatable("message.bunnidogs.care.groom_ready",
+                        ComponentUtils.formatList(products,p -> Component.translatable(p.translationKey()))));
         careRow(player, "splicing", dog.isBaby() ? adult : !healthy ? health
                 : dog.splicingWait() > 0 ? recovery(dog.splicingWait()) : Component.translatable("message.bunnidogs.care.splice_ready"));
         var work = dog.gardeningStatus();

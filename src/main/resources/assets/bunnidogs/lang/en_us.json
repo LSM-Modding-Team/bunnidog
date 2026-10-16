@@ -150,6 +150,9 @@
   "message.bunnidogs.groom.senses": "Loose whiskers need at least +10 bred Senses points.",
   "message.bunnidogs.groom.wait": "This bunnidog needs %s more seconds before another grooming.",
   "message.bunnidogs.groom.done": "Collected one loose whisker. This bunnidog needs ten minutes between groomings.",
+  "message.bunnidogs.groom.traits": "Needs Senses +%s, an expressed glow coat, or starborn with Bloom +%s.",
+  "message.bunnidogs.groom.collected": "Collected one each: %s. This bunnidog needs ten minutes between groomings.",
+  "message.bunnidogs.care.groom_ready": "ready: one each of %s",
   "tooltip.bunnidogs.ribbon.blank": "No winning record on this ribbon.",
   "tooltip.bunnidogs.calipers.care": "Sneak-use a bunnidog: care readiness and recovery times",
   "message.bunnidogs.care.header": "Care status: %s",
@@ -279,5 +282,7 @@
   "message.bunnidogs.gardening.transported": "paused while led or riding",
   "message.bunnidogs.gardening.danger": "paused by danger or a recent attack",
   "message.bunnidogs.gardening.outside_home": "needs to be within 16 blocks of its Nest",
-  "message.bunnidogs.gardening.griefing_off": "needs mob griefing enabled"
+  "message.bunnidogs.gardening.griefing_off": "needs mob griefing enabled",
+  "guide.bunnidogs.page.28.title": "Living dust",
+  "guide.bunnidogs.page.28.body": "Brush a healthy glow adult for one glowstone dust. A starborn adult with Bloom +20 yields one Starlit Dust. Senses +10 still adds a whisker. One Brush use gathers all matches; recovery is ten minutes."
 }

@@ -185,7 +185,7 @@ public final class Plain {
         note(Gene.FERTILITY, "shy", "Shy: has small litters, slowly.");
         note(Gene.FERTILITY, "swarm", "Swarm: breeds like a swarm.");
         note(Gene.FERTILITY, "starborn",
-                "Starborn: it turns Bloom into extra seed quality, at a toll on Vitality and Senses each generation.");
+                "Starborn: it turns Bloom into extra seed quality, at a toll on Vitality and Senses each generation. Brush healthy adults with Bloom +20 for one Starlit Dust every ten minutes.");
         for (Diet diet : Diet.values()) note(Gene.DIET, diet.key(), diet.foods()
                 + " Guavas remain its breeding food; other accepted foods heal or grow pups, without starting love.");
     }

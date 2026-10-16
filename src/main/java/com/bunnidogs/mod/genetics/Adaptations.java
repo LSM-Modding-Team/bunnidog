@@ -28,7 +28,7 @@ public final class Adaptations {
         if (gene == Gene.COAT && allele.name().equals("void")) return "Immune to levitation; shulker impacts and falls still hurt.";
         if (gene == Gene.LEGS && allele.name().equals("hoofed")) return "Takes half the usual fall damage.";
         if (gene == Gene.COAT && allele.name().equals("slate")) return "+4 natural armor against ordinary attacks; armor-bypassing damage still hurts.";
-        if (gene == Gene.COAT && allele.name().equals("glow")) return "Self-lit coat in darkness. Does not light nearby blocks.";
+        if (gene == Gene.COAT && allele.name().equals("glow")) return "Self-lit coat in darkness; does not light nearby blocks. Brush healthy adults for one glowstone dust every ten minutes.";
         if (gene == Gene.BUILD && allele.name().equals("stocky")) return "+15% knockback resistance.";
         if (gene == Gene.BUILD && allele.name().equals("chonker")) return "+30% knockback resistance.";
         return "";

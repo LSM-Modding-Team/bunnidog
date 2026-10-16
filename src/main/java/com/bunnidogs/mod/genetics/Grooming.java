@@ -1,10 +1,27 @@
 package com.bunnidogs.mod.genetics;
 
-/** Loose-whisker care: only a developed Senses line, with conservative renewable yield. */
+import java.util.ArrayList;
+import java.util.List;
+
+/** Conservative loose materials from living adults; every product shares one grooming recovery. */
 public final class Grooming {
     private Grooming() {}
     public static final int MIN_SENSES = 10;
+    public static final int MIN_STARLIT_BLOOM = 20;
     public static final int COUNT = 1;
     public static final int RECOVERY_TICKS = 10 * 60 * 20;
+    public enum Yield {
+        WHISKER("item.bunnidogs.whisker"), GLOWSTONE("item.minecraft.glowstone_dust"), STARLIT("item.bunnidogs.starlit_dust");
+        private final String translationKey;
+        Yield(String translationKey) { this.translationKey = translationKey; }
+        public String translationKey() { return this.translationKey; }
+    }
     public static boolean developed(Stats stats) { return stats.get(Stat.SENSES) >= MIN_SENSES; }
+    public static List<Yield> yields(Genome genome, Stats stats) {
+        List<Yield> out = new ArrayList<>();
+        if (developed(stats)) out.add(Yield.WHISKER);
+        if (genome.expressed(Gene.COAT).name().equals("glow")) out.add(Yield.GLOWSTONE);
+        if (genome.expressed(Gene.FERTILITY).name().equals("starborn") && stats.get(Stat.BLOOM) >= MIN_STARLIT_BLOOM) out.add(Yield.STARLIT);
+        return List.copyOf(out);
+    }
 }
