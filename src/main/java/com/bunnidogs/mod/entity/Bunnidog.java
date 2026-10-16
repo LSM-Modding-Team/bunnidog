@@ -768,8 +768,10 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         // GoHomeGoal (same priority: the first one in the list wins a tie) and above the stroll, which it keeps from running all night.
         this.goalSelector.addGoal(6, new NightHomeGoal(this));
         this.goalSelector.addGoal(6, new GoHomeGoal(this));
+        this.goalSelector.addGoal(7, new TroughGoal(this));
         this.goalSelector.addGoal(7, new HuntGoal(this));
         this.goalSelector.addGoal(7, new GrazeGoal(this));
+        this.goalSelector.addGoal(7, new BellGatherGoal(this));
         this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));

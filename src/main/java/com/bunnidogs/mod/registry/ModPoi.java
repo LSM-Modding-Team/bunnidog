@@ -23,4 +23,6 @@ public final class ModPoi {
     /** Every state of the Nest block, {@link Home#NEST_TICKETS} ticket(s), {@link Home#NEST_RANGE} block of valid range. */
     public static final DeferredHolder<PoiType, PoiType> NEST = POI_TYPES.register("nest",
             () -> new PoiType(Set.copyOf(ModBlocks.NEST.get().getStateDefinition().getPossibleStates()), Home.NEST_TICKETS, Home.NEST_RANGE));
+    public static final DeferredHolder<PoiType, PoiType> FEEDING_TROUGH = POI_TYPES.register("feeding_trough",
+            () -> new PoiType(Set.copyOf(ModBlocks.FEEDING_TROUGH.get().getStateDefinition().getPossibleStates()),1,1));
 }

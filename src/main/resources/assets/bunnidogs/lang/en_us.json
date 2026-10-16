@@ -163,5 +163,9 @@
   "message.bunnidogs.care.health": "needs at least half health",
   "message.bunnidogs.care.woolly": "needs expressed woolly build",
   "message.bunnidogs.care.senses": "needs at least +%s bred Senses",
-  "message.bunnidogs.care.splice_ready": "recipient ready; donor sample and Mutagen required"
+  "message.bunnidogs.care.splice_ready": "recipient ready; donor sample and Mutagen required",
+  "block.bunnidogs.feeding_trough": "Feeding Trough",
+  "message.bunnidogs.trough.added": "Added %s food; %s stored. One food type, up to 16.",
+  "message.bunnidogs.trough.empty": "Empty trough. Add food; sneak-use with empty hands to withdraw.",
+  "message.bunnidogs.trough.stock": "Stored: %s x %s. Sneak-use with empty hands to withdraw."
 }

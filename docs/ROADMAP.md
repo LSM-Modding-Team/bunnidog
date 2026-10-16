@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+Settlement L1/L2 adds a saved Feeding Trough and noon bell visits. Resident
+feeding respects expressed diets, home bounds and shared forage recovery.
+Gatherings use loaded native bell POIs without claiming villager tickets and
+yield to danger, injury, transport and night. Native stock/save/path/interaction
+checks and the build pass. See `SETTLEMENT_LIFE.md`.
+
 G3 implements Show Ring judging: a marker stand, balanced-stat bronze/silver/
 gold milestones for stable bred adults, non-destructive scorecards, saved animal
 award limits, readable/displayable winning ribbons and Champion Line. Care C3
@@ -84,4 +90,4 @@ filling a quota, and honor any explicit pause in the current request.
 | Additional lineage behavior | Useful cave/terrain adaptations beyond current fire/cold/fall/poison/cactus/levitation rules | A1/A2 | Follow expressed genes; preserve native hazards and breeding tradeoffs |
 
 ## Ideas without a spec (design before implementing)
-Apex boss (the remaining old "Phase 6 artificial lineage tool"); settlement life (the old 6d); further renewable materials and lineage adaptations. Gene Splicer G1, its table preview T5, Purebred Registry G2 and Show Ring G3 are implemented. Native leads and Nest reassignment are H5; live tissue samples, woolly fleece, brushed whiskers and inherited protections are C1–C3/A1–A2. More ideas: `docs/DESIGN.md`, section "Ideas".
+Apex boss (the remaining old "Phase 6 artificial lineage tool"); further settlement life beyond troughs/bell visits; further renewable materials and lineage adaptations. Gene Splicer G1, its table preview T5, Purebred Registry G2 and Show Ring G3 are implemented. Native leads and Nest reassignment are H5; live tissue samples, woolly fleece, brushed whiskers and inherited protections are C1–C3/A1–A2. More ideas: `docs/DESIGN.md`, section "Ideas".

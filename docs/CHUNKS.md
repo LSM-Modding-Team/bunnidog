@@ -6,6 +6,8 @@ Full text of every chunk (files, decisions, compile risks): `docs/history/CHUNKS
 
 | Chunk | What | Status |
 |---|---|---|
+| L2 | Short noon gatherings at loaded native bells; reachable home-bounded standing spots, no ticket claims, danger/transport interruption and rest | BUILD + NATIVE GATHERING CASE PASS; manual gameplay pending |
+| L1 | Saved 16-item Feeding Trough, visible fill, insert/inspect/withdraw, diet-aware resident meals and shared forage recovery | BUILD + NATIVE STOCK/SAVE/FOOD/INTERACTION CASE PASS; preview inspected; client gameplay pending |
 | Care C4 | Sneak-Calipers care snapshot: eligibility and recovery for sampling, fleece, grooming and splicing; normal sheet use retained | BUILD PASS; client interaction pending |
 | G3 | Judging Stand, balanced stable-adult milestones, read-only scorecard, saved highest award, three readable/displayable ribbons and Champion Line | BUILD + NATIVE SHOW/SNAPSHOT/SAVE CASE PASS; art preview inspected; client gameplay pending |
 | Care C3 | Vanilla Brush gathers one loose whisker from healthy Senses +10 adults every ten minutes; native wear, saved recovery and creative behavior | BUILD + NATIVE GROOMING CASE PASS; manual gameplay pending |

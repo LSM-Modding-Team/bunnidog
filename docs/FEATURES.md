@@ -1,5 +1,13 @@
 # Bunnidogs: how to use each feature in game
 
+**Settlement life (L1/L2):** craft a Feeding Trough with seven planks and one
+iron ingot (`P P/PIP/PPP`). Add food in the main hand, inspect empty-handed,
+sneak with both hands empty to withdraw. It holds 16 of one food type; injured
+adult residents eat matching food near their Nest for 2 HP per meal, with the
+usual 30-second pause. Guavas heal without starting love. Healthy adults can
+gather around nearby vanilla bells at noon; visits stop for injury, danger,
+leads/rides and night. Place a bell within 12 blocks of home with walking space.
+
 **Care status (C4):** sneak-use Calipers on a bunnidog to see sampling, fleece,
 grooming and splicing readiness in chat, including recovery times and eligibility
 requirements. Normal use opens its genetics sheet as before. The readout is a

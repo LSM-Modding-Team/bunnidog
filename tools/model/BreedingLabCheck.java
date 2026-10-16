@@ -32,6 +32,8 @@ public final class BreedingLabCheck {
         for (Page.Hotspot hot : page.hotspots()) require(hot.y() + hot.h() <= Page.HEIGHT, "Hover outside page");
     }
     public static void main(String[] args) {
+        require(!Social.gatheringTime(5999) && Social.gatheringTime(6000) && Social.gatheringTime(8999)
+                && !Social.gatheringTime(9000) && Social.gatheringTime(30000), "Gathering window must wrap with the native day");
         require(Show.rank(Stats.ZERO) == Show.Tier.NONE, "Unbred stats must not earn a ribbon");
         require(Show.rank(Stats.of(5,5,5,5,5)) == Show.Tier.BRONZE, "Bronze boundary");
         require(Show.rank(Stats.of(20,20,20,20,20)) == Show.Tier.SILVER, "Silver boundary");

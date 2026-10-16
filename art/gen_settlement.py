@@ -1,0 +1,67 @@
+"""Manual Feeding Trough: native wood cuboids and four visible stock levels."""
+import json
+import random
+from pathlib import Path
+from PIL import Image, ImageDraw
+from gen_show import box
+from gen_syringe import write
+
+ROOT = Path(__file__).resolve().parents[1]
+RES = ROOT / 'src/main/resources'
+
+
+def main():
+    rng = random.Random(41)
+    feed = Image.new('RGBA',(16,16)); pixels = feed.load()
+    colors = [(121,83,45),(164,117,62),(195,146,78),(89,111,55),(154,79,65)]
+    for y in range(16):
+        for x in range(16): pixels[x,y] = (*rng.choice(colors),255)
+    feed.save(RES/'assets/bunnidogs/textures/block/trough_feed.png')
+    base = [box([1,0,4],[15,2,12],'wood'),box([1,2,4],[15,7,6],'wood'),box([1,2,10],[15,7,12],'wood'),
+            box([1,2,6],[3,7,10],'wood'),box([13,2,6],[15,7,10],'wood')]
+    variants = {}
+    for fill in range(4):
+        name = 'feeding_trough' + (f'_{fill}' if fill else '')
+        elements = base + ([box([3,2,6],[13,2+fill,10],'feed')] if fill else [])
+        write(f'assets/bunnidogs/models/block/{name}.json',{'parent':'minecraft:block/block',
+              'textures':{'particle':'bunnidogs:block/guava_planks','wood':'bunnidogs:block/guava_planks','feed':'bunnidogs:block/trough_feed'},'elements':elements})
+        variants[f'fill={fill}'] = {'model':f'bunnidogs:block/{name}'}
+    write('assets/bunnidogs/blockstates/feeding_trough.json',{'variants':variants})
+    write('assets/bunnidogs/models/item/feeding_trough.json',{'parent':'bunnidogs:block/feeding_trough'})
+    write('assets/bunnidogs/items/feeding_trough.json',{'model':{'type':'minecraft:model','model':'bunnidogs:item/feeding_trough'}})
+    write('data/bunnidogs/recipe/feeding_trough.json',{'type':'minecraft:crafting_shaped','pattern':['P P','PIP','PPP'],
+          'key':{'P':'#minecraft:planks','I':'minecraft:iron_ingot'},'result':{'id':'bunnidogs:feeding_trough'}})
+    write('data/bunnidogs/loot_table/blocks/feeding_trough.json',{'type':'minecraft:block','pools':[{'rolls':1,
+          'entries':[{'type':'minecraft:item','name':'bunnidogs:feeding_trough'}],'conditions':[{'condition':'minecraft:survives_explosion'}]}]})
+    write('data/bunnidogs/advancement/recipes/tools/feeding_trough.json',{'parent':'minecraft:recipes/root',
+          'criteria':{'has_nest':{'trigger':'minecraft:inventory_changed','conditions':{'items':[{'items':'bunnidogs:nest'}]}},
+                      'has_recipe':{'trigger':'minecraft:recipe_unlocked','conditions':{'recipe':'bunnidogs:feeding_trough'}}},
+          'requirements':[['has_nest','has_recipe']],'rewards':{'recipes':['bunnidogs:feeding_trough']}})
+    path = RES/'data/minecraft/tags/block/mineable/axe.json'
+    value = json.loads(path.read_text())
+    if 'bunnidogs:feeding_trough' not in value['values']: value['values'].append('bunnidogs:feeding_trough')
+    path.write_text(json.dumps(value,indent=2)+'\n')
+    for path in (RES/'assets/bunnidogs/lang').glob('*.json'):
+        value = json.loads(path.read_text()); value.update({
+          'block.bunnidogs.feeding_trough':'Feeding Trough',
+          'message.bunnidogs.trough.added':'Added %s food; %s stored. One food type, up to 16.',
+          'message.bunnidogs.trough.empty':'Empty trough. Add food; sneak-use with empty hands to withdraw.',
+          'message.bunnidogs.trough.stock':'Stored: %s x %s. Sneak-use with empty hands to withdraw.'})
+        path.write_text(json.dumps(value,indent=2)+'\n')
+    preview = Image.new('RGBA',(800,260),(46,43,42,255)); d = ImageDraw.Draw(preview)
+    preview.alpha_composite(feed.resize((160,160),Image.Resampling.NEAREST),(620,20))
+    for fill in range(4):
+        ox = 85+fill*145
+        def p(x,y,z): return (ox+(x-z)*4,190+(x+z)*2-y*5)
+        for element in base + ([box([3,2,6],[13,2+fill,10],'feed')] if fill else []):
+            x,y,z=element['from']; X,Y,Z=element['to']
+            is_feed = element['faces']['up']['texture']=='#feed'
+            for vertices,color in [([(X,y,z),(X,y,Z),(X,Y,Z),(X,Y,z)],(119,75,44)),
+                    ([(x,y,Z),(X,y,Z),(X,Y,Z),(x,Y,Z)],(159,102,60)),
+                    ([(x,Y,z),(X,Y,z),(X,Y,Z),(x,Y,Z)],(167,127,66) if is_feed else (192,132,81))]:
+                d.polygon([p(*v) for v in vertices],fill=color,outline=(46,35,25))
+    preview.save(ROOT/'art/settlement_preview.png')
+    print('Generated trough models, food texture, crafting, unlock, drops and source preview.')
+
+
+if __name__ == '__main__': main()

@@ -45,6 +45,21 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
+**Settlement L1/L2:** Feeding Troughs hold up to 16 matching food items with
+saved components, four visible fill levels, main-hand insertion, empty-hand
+inspection and sneak-empty withdrawal. Injured adult residents find loaded,
+reachable matching food within eight blocks and the existing home boundary.
+One meal heals 2 HP and shares the saved 30-second forage cooldown, without love
+or world/crop edits. Craft `P P/PIP/PPP` (any planks, iron). Healthy adult
+residents also visit nearby vanilla bells from clock ticks 6,000–9,000 for up to
+20 seconds, resting a minute afterward. Gatherings keep homes/villager tickets
+intact and yield to danger, food, transport and night. Player-placed/native bells
+work with existing settlements; generation layouts are unchanged.
+Build and the native stock/food/home/gathering case pass. There are fourteen
+mod server scenarios plus native sanity. The trough preview was inspected;
+client visuals and multiplayer routines remain gameplay review. See
+`docs/SETTLEMENT_LIFE.md`. Existing genome/save formats and protocol 6 persist.
+
 **Care C4 — quick care readout:** sneak-use Calipers on a bunnidog for a server
 chat snapshot of sampling, fleece, grooming and splicing readiness. It explains
 age/health/build/Senses requirements and shows recovery as minutes:seconds when
@@ -195,7 +210,7 @@ genetic item components through save/load, exact vehicle/content drops, native
 sign validity/tickers and two-sided text/color/glow/wax persistence, lead/ride
 goal suspension and restoration, and Nest reassignment/ticket protection.
 Tests and their empty structure fixture are excluded from the shipped JAR.
-The server suite now contains thirteen mod scenarios (plus the native runner's
+The server suite now contains fourteen mod scenarios (plus the native runner's
 always-pass sanity test); current local evidence is recorded in the batch above.
 GitHub Actions now runs `build checkBunnidogModel runGameTestServer` before
 uploading the artifact. `checkGuavaBoats` is part of `build` and checks native
@@ -362,6 +377,7 @@ evidence at delivery, not the current ability to build the project.
 | Donor-allele introgression, Gene Splicer controls/costs | `docs/SPLICER_SPECS.md` |
 | Stable bred-line registration and qualification | `docs/REGISTRY_SPECS.md` |
 | Judging Stand, show tiers and winning ribbon snapshots | `docs/SHOW_SPECS.md` |
+| Feeding Trough and daytime bell gatherings | `docs/SETTLEMENT_LIFE.md` |
 | Genetics Table | `docs/TABLE_SPECS.md` (T1–T4 implemented; current evidence at top) |
 | Drops / loot | `docs/DROPS_PLAN.md` (why) + `docs/DROPS_SPECS.md` (numbers, wins). All of D1-D8 done |
 | Pedigree Book, Calipers window, "the sheet" | `docs/SHEET_SPECS.md` (S1-S8 done; wins over older Phase 8 notes) |

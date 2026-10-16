@@ -4,6 +4,8 @@ import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.block.GeneticsTableBlock;
 import com.bunnidogs.mod.block.NestBlock;
 import com.bunnidogs.mod.block.JudgingStandBlock;
+import com.bunnidogs.mod.block.FeedingTroughBlock;
+import com.bunnidogs.mod.block.FeedingTroughBlockEntity;
 import com.bunnidogs.mod.block.GeneticsTableBlockEntity;
 import com.bunnidogs.mod.block.GuavaFruitBlock;
 import com.bunnidogs.mod.block.GuavaWoodBlocks;
@@ -101,6 +103,8 @@ public final class ModBlocks {
             props -> props.strength(0.8F).sound(SoundType.GRASS));
     public static final DeferredBlock<JudgingStandBlock> JUDGING_STAND = BLOCKS.registerBlock("judging_stand", JudgingStandBlock::new,
             props -> props.strength(2.0F).sound(SoundType.WOOD).noOcclusion());
+    public static final DeferredBlock<FeedingTroughBlock> FEEDING_TROUGH = BLOCKS.registerBlock("feeding_trough",FeedingTroughBlock::new,
+            props -> props.strength(2.0F).sound(SoundType.WOOD).noOcclusion());
 
     /**
      * Guava wood, part 3 (W2): stairs, slab and fence in the planks' texture, vanilla classes, planks' numbers. Their files come from
@@ -172,4 +176,6 @@ public final class ModBlocks {
     /** The sample on a Genetics Table (T1). */
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GeneticsTableBlockEntity>> GENETICS_TABLE_BE =
             BLOCK_ENTITIES.register("genetics_table", () -> new BlockEntityType<>(GeneticsTableBlockEntity::new, GENETICS_TABLE.get()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FeedingTroughBlockEntity>> FEEDING_TROUGH_BE =
+            BLOCK_ENTITIES.register("feeding_trough",() -> new BlockEntityType<>(FeedingTroughBlockEntity::new,FEEDING_TROUGH.get()));
 }
