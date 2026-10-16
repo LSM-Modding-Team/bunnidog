@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_registry": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "bunnidogs:purebred_registry"
+          }
+        ]
+      }
+    },
+    "has_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bunnidogs:judging_stand"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_registry",
+      "has_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:judging_stand"
+    ]
+  }
+}

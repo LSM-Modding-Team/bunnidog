@@ -32,6 +32,15 @@ public final class BreedingLabCheck {
         for (Page.Hotspot hot : page.hotspots()) require(hot.y() + hot.h() <= Page.HEIGHT, "Hover outside page");
     }
     public static void main(String[] args) {
+        require(Show.rank(Stats.ZERO) == Show.Tier.NONE, "Unbred stats must not earn a ribbon");
+        require(Show.rank(Stats.of(5,5,5,5,5)) == Show.Tier.BRONZE, "Bronze boundary");
+        require(Show.rank(Stats.of(20,20,20,20,20)) == Show.Tier.SILVER, "Silver boundary");
+        require(Show.rank(Stats.of(50,50,50,50,50)) == Show.Tier.GOLD, "Gold boundary");
+        for (Stat stat : Stat.values()) {
+            require(Show.rank(Stats.of(50,50,50,50,50).with(stat,4)) == Show.Tier.NONE, "Every stat must qualify");
+            require(Show.rank(Stats.of(50,50,50,50,50).with(stat,19)) == Show.Tier.BRONZE, "One stat below silver must limit the award");
+            require(Show.rank(Stats.of(50,50,50,50,50).with(stat,49)) == Show.Tier.SILVER, "One stat below gold must limit the award");
+        }
         for (Gene gene : Gene.values()) {
             Cross carriers = new Cross(tissue(pair(gene, 0, 1)), tissue(pair(gene, 0, 1)));
             near(allele(carriers, gene, 0).carried(), .75);

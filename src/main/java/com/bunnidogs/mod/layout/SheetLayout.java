@@ -318,7 +318,8 @@ public final class SheetLayout {
                 page.text(0, line, Page.fit(value, Page.WIDTH, m), Page.Tone.INK);
             }
             y = line + Page.LINE;
-            page.hotspot(0, top, Page.WIDTH, y - top, Units.working(r.stat(), g, e.stats().get()), -1);
+            String care = r.stat() == Stat.SENSES ? " Healthy adults bred to Senses +10 yield one loose whisker with a Brush every ten minutes." : "";
+            page.hotspot(0, top, Page.WIDTH, y - top, Units.working(r.stat(), g, e.stats().get()) + care, -1);
         }
     }
 

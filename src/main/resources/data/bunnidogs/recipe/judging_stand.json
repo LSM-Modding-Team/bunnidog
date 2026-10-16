@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " B ",
+    "PGP",
+    "PWP"
+  ],
+  "key": {
+    "B": "minecraft:book",
+    "P": "#minecraft:planks",
+    "G": "minecraft:gold_ingot",
+    "W": "#minecraft:wool"
+  },
+  "result": {
+    "id": "bunnidogs:judging_stand"
+  }
+}

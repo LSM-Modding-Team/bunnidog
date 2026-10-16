@@ -3,6 +3,7 @@ package com.bunnidogs.mod.registry;
 import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.block.GeneticsTableBlock;
 import com.bunnidogs.mod.block.NestBlock;
+import com.bunnidogs.mod.block.JudgingStandBlock;
 import com.bunnidogs.mod.block.GeneticsTableBlockEntity;
 import com.bunnidogs.mod.block.GuavaFruitBlock;
 import com.bunnidogs.mod.block.GuavaWoodBlocks;
@@ -98,6 +99,8 @@ public final class ModBlocks {
      */
     public static final DeferredBlock<NestBlock> NEST = BLOCKS.registerBlock("nest", NestBlock::new,
             props -> props.strength(0.8F).sound(SoundType.GRASS));
+    public static final DeferredBlock<JudgingStandBlock> JUDGING_STAND = BLOCKS.registerBlock("judging_stand", JudgingStandBlock::new,
+            props -> props.strength(2.0F).sound(SoundType.WOOD).noOcclusion());
 
     /**
      * Guava wood, part 3 (W2): stairs, slab and fence in the planks' texture, vanilla classes, planks' numbers. Their files come from

@@ -16,6 +16,14 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+G3 implements Show Ring judging: a marker stand, balanced-stat bronze/silver/
+gold milestones for stable bred adults, non-destructive scorecards, saved animal
+award limits, readable/displayable winning ribbons and Champion Line. Care C3
+adds renewable loose whiskers from brushing healthy Senses +10 adults, at one
+per ten minutes with saved recovery and Brush wear. Native server cases and
+the build pass; client gameplay remains pending. See `SHOW_SPECS.md` and
+`CARE_SPECS.md`.
+
 A2 adds expressed moss Poison protection, sand cactus protection and void
 Levitation protection. Native effect/damage cases establish hidden-allele limits,
 retained vulnerabilities and changes when the expressed coat changes. Existing
@@ -72,8 +80,8 @@ filling a quota, and honor any explicit pause in the current request.
 
 | Item | What | Needs | Spec |
 |---|---|---|---|
-| Living harvest extensions | Additional renewable materials through care tools, with conservative yields and recovery | C1/C2 | `CARE_SPECS.md`; define each source/yield before coding |
+| Living harvest extensions | Additional renewable materials beyond fleece and brushed whiskers, with conservative yields/recovery | C1–C3 | `CARE_SPECS.md`; define each source/yield before coding |
 | Additional lineage behavior | Useful cave/terrain adaptations beyond current fire/cold/fall/poison/cactus/levitation rules | A1/A2 | Follow expressed genes; preserve native hazards and breeding tradeoffs |
 
 ## Ideas without a spec (design before implementing)
-Show Ring / Apex boss (the remaining old "Phase 6 artificial lineage tools"); settlement life (the old 6d); further renewable materials and lineage adaptations. Gene Splicer G1, its table preview T5 and Purebred Registry G2 are implemented. Native leads and Nest reassignment are H5; live tissue samples, woolly fleece and fire/cold/fall adaptations are C1/C2/A1. More ideas: `docs/DESIGN.md`, section "Ideas".
+Apex boss (the remaining old "Phase 6 artificial lineage tool"); settlement life (the old 6d); further renewable materials and lineage adaptations. Gene Splicer G1, its table preview T5, Purebred Registry G2 and Show Ring G3 are implemented. Native leads and Nest reassignment are H5; live tissue samples, woolly fleece, brushed whiskers and inherited protections are C1–C3/A1–A2. More ideas: `docs/DESIGN.md`, section "Ideas".

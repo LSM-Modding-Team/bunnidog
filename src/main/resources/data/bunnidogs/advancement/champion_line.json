@@ -1,0 +1,31 @@
+{
+  "parent": "bunnidogs:breeds_true",
+  "criteria": {
+    "judged": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "judged"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "display": {
+    "icon": {
+      "id": "bunnidogs:gold_show_ribbon"
+    },
+    "title": {
+      "translate": "advancement.bunnidogs.champion_line.title"
+    },
+    "description": {
+      "translate": "advancement.bunnidogs.champion_line.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  }
+}

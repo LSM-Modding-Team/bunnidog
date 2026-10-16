@@ -40,6 +40,21 @@ client gameplay review.
   5 introduced that sync; current protocol 6 also includes splicer selection and
   requires matching updated clients and server.
 
+## C3: Loose-whisker grooming
+
+- Use an ordinary **vanilla Brush** on a living, healthy adult with at least
+  **+10 bred Senses points**. Ear size and wild hearing multipliers do not replace
+  this breeding requirement. Health must be at least half maximum.
+- Collect **one existing bunnidog whisker**, with one Brush durability and
+  **ten minutes / 12,000 ticks** of animal recovery. Inventory-full drops normally.
+  Creative preserves the Brush but keeps animal recovery. Refusals cost nothing.
+- This gathers loose whiskers without damage, changes to genes/stats/age/love,
+  or edits to the approved sculpt. Existing death drops and their yields remain.
+- Optional `GroomWait` saves clamped remaining ticks; old animals are ready and
+  unloading pauses recovery. It is independent of sampling, fleece and splicing.
+- Native brushing sound/action-bar feedback explains success, required Senses,
+  health/adulthood and remaining recovery. No new item or synced field is needed.
+
 ## A1/A2: Expressed environmental adaptations
 
 | Expressed trait | Benefit |
@@ -91,3 +106,9 @@ retained wither/poison/general-damage vulnerabilities, real cactus damage, hidde
 alleles, changes to active effects when genes change, preserved bred stats and
 readout descriptions. The combined build/server suite passes. This evidence does
 not establish manual long-distance travel or multiplayer gameplay.
+
+C3's native case passes with Senses +9/+10 boundaries, pup/injury refusals,
+actual Brush use, exact yield/wear, preserved animal state, repeated-use refusal,
+saved/missing recovery, last-charge breakage and creative use. The combined
+build/server suite passes; client input and long-term farm balance remain manual
+playtests. No large genetics rerun is needed for this isolated care rule.

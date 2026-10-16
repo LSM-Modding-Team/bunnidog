@@ -45,6 +45,32 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
+**G3 — Show Ring:** a craftable Judging Stand awards bronze/silver/gold ribbons
+for balanced stable bred adults. Require recorded birth parents, all seven
+gene pairs fixed, half health, and every bred stat at least +5/+20/+50. Lead an
+adult within six blocks and use the stand empty-handed or with a lead. Sneak-use
+with both hands empty for a read-only scorecard. Saved `ShowAward` prevents the
+same/lower tier being claimed again across stands/reloads; future positive IDs
+are preserved. Judging keeps the animal and its leash intact. Each ribbon holds
+the winning adult's complete pedigree snapshot, opens its sheet in air, and can
+stand on the existing Trophy Pedestal. Gold grants Champion Line once per player
+(100 XP). Recipe: ` B /PGP/PWP` (book, any planks, gold ingot, any wool). The
+registry unlocks the recipe. See `docs/SHOW_SPECS.md`.
+
+**Care C3 — loose whiskers:** use a vanilla Brush on a healthy adult bred to
+Senses +10 for one whisker. It costs one Brush durability and starts ten minutes
+of saved animal recovery (`GroomWait`), preserving genes/stats/health/age. Pups,
+injured animals, insufficient points and recovery refuse without wear. Creative
+keeps the tool but retains recovery. Old animals load ready. Hover Senses on a
+sheet for the rule. Existing death drops are unchanged; see `docs/CARE_SPECS.md`.
+
+Combined Gradle build/server checks pass, including native judging and grooming,
+award/refusal boundaries, non-destructive preview, creative/tool break behavior,
+advancement progress, saved awards/recovery and ribbon/pedestal snapshots.
+There are thirteen mod scenarios plus the native sanity test. Generated stand/
+ribbon textures and the geometry preview were inspected; client gameplay remains
+pending. No new item payload, sync field, genome format or protocol change.
+
 **A2 — swamp/desert/End protection:** expressed moss coat now prevents Poison,
 sand prevents native cactus damage, and void prevents Levitation. Hidden copies
 grant nothing, and other damage/effects retain their role. Setting an immune
@@ -162,7 +188,7 @@ genetic item components through save/load, exact vehicle/content drops, native
 sign validity/tickers and two-sided text/color/glow/wax persistence, lead/ride
 goal suspension and restoration, and Nest reassignment/ticket protection.
 Tests and their empty structure fixture are excluded from the shipped JAR.
-The server suite now contains eleven mod scenarios (plus the native runner's
+The server suite now contains thirteen mod scenarios (plus the native runner's
 always-pass sanity test); current local evidence is recorded in the batch above.
 GitHub Actions now runs `build checkBunnidogModel runGameTestServer` before
 uploading the artifact. `checkGuavaBoats` is part of `build` and checks native
@@ -328,6 +354,7 @@ evidence at delivery, not the current ability to build the project.
 | Living samples, woolly fleece and inherited environmental protection | `docs/CARE_SPECS.md` |
 | Donor-allele introgression, Gene Splicer controls/costs | `docs/SPLICER_SPECS.md` |
 | Stable bred-line registration and qualification | `docs/REGISTRY_SPECS.md` |
+| Judging Stand, show tiers and winning ribbon snapshots | `docs/SHOW_SPECS.md` |
 | Genetics Table | `docs/TABLE_SPECS.md` (T1–T4 implemented; current evidence at top) |
 | Drops / loot | `docs/DROPS_PLAN.md` (why) + `docs/DROPS_SPECS.md` (numbers, wins). All of D1-D8 done |
 | Pedigree Book, Calipers window, "the sheet" | `docs/SHEET_SPECS.md` (S1-S8 done; wins over older Phase 8 notes) |

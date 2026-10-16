@@ -8,6 +8,7 @@ import com.bunnidogs.mod.layout.TableSheet;
 import com.bunnidogs.mod.item.GeneSplicerItem;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 
 /**
  * The one door from common code to the client's windows (Phase 8 S3). Items call it only inside {@code level.isClientSide()},
@@ -24,6 +25,10 @@ public final class ClientScreens {
 
     public static void openRegistry(Pedigree registry) {
         Minecraft.getInstance().gui.setScreen(new PedigreeScreen(registry, true));
+    }
+
+    public static void openRibbon(Pedigree.Entry animal, Component title) {
+        Minecraft.getInstance().gui.setScreen(new PedigreeScreen(animal, title));
     }
 
     /** Opens the sheet of ONE animal that is in no book (the Calipers window, Phase 8 S6): the same screen, no contents, no page turning. */

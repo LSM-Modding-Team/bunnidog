@@ -3,7 +3,8 @@
 **CURRENT (session 43): ALL DONE: chunks D1-D8e are coded and work (D7b compiles; its behaviour was not itemized). The status lines below are from the planning sessions. Chunk status: docs/CHUNKS.md.**
 
 **Care update (2026-10-16):** C1 adds live Tissue Samples using a Sampling
-Syringe; C2 gathers renewable woolly fleece with native shears. These are
+Syringe; C2 gathers renewable woolly fleece with native shears; C3 uses a Brush
+to collect one loose whisker from healthy Senses +10 adults every ten minutes. These are
 separate care interactions with saved recovery, health/age gates and modest
 yields; the existing death-drop engine/tables are unchanged. See
 `CARE_SPECS.md` for exact rules and server evidence. This supersedes the older

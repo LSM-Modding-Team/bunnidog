@@ -14,6 +14,7 @@ import com.bunnidogs.mod.genetics.Adaptations;
 import com.bunnidogs.mod.genetics.Sampling;
 import com.bunnidogs.mod.genetics.Fleece;
 import com.bunnidogs.mod.genetics.Splicing;
+import com.bunnidogs.mod.genetics.Grooming;
 import com.bunnidogs.mod.genetics.Home;
 import com.bunnidogs.mod.genetics.EarTag;
 import com.bunnidogs.mod.genetics.Genome;
@@ -56,6 +57,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -148,6 +150,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private boolean founderPending;
     // Bred stat points (Phase 4a). Server side only; null means all zero (see stats()). No initializer, like the fields above.
     private Stats stats;
+    private int highestShowAward;
     // Phase 5b: the genomes of the two parents (the seed's mother and father), set when a seed hatches. Null = not recorded
     // (wild founders, /summon). Saved as text like the genome. No initializer, like the fields above.
     private Genome motherGenome;
@@ -163,6 +166,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private final NestHome nestHome = new NestHome(this);
     private long nextForageTick;
     private long nextSampleTick;
+    private long nextGroomTick;
     private long nextFleeceTick;
     private long nextSpliceTick;
     private LivingEntity huntingTarget;
@@ -231,6 +235,15 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
 
     public Stats stats() {
         return this.stats == null ? Stats.ZERO : this.stats;
+    }
+
+    public int highestShowAward() { return this.highestShowAward; }
+
+    /** Server-side, monotonic claim. Saved independently of later gene/stat edits. */
+    public boolean recordShowAward(int tier) {
+        if (tier <= this.highestShowAward || tier < 1 || tier > com.bunnidogs.mod.genetics.Show.Tier.GOLD.ordinal()) return false;
+        this.highestShowAward = tier;
+        return true;
     }
 
     /** Replaces the bred stat points (newborns, NBT, commands) and re-applies the attributes. Server side. */
@@ -413,6 +426,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             }
             return InteractionResult.SUCCESS;
         }
+        if (held.is(Items.BRUSH)) return BunnidogGrooming.use(this, player, held, hand);
         if (!isBunnidogFood(held) && this.canEat(held)) {
             if (!Foraging.handFood(true, false, this.getHealth() < this.getMaxHealth(), this.canAgeUp())) {
                 return InteractionResult.PASS;
@@ -608,6 +622,10 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         return (int)Math.clamp(this.nextSampleTick-this.level().getGameTime(),0L,
                 (long)Sampling.RECOVERY_TICKS);
     }
+    public int groomingWait() {
+        return (int)Math.clamp(this.nextGroomTick-this.level().getGameTime(),0L,(long)Grooming.RECOVERY_TICKS);
+    }
+    public void beginGroomingRecovery() { this.nextGroomTick = this.level().getGameTime()+Grooming.RECOVERY_TICKS; }
     public void beginSamplingRecovery() {
         this.nextSampleTick = this.level().getGameTime()+Sampling.RECOVERY_TICKS;
     }
@@ -642,8 +660,10 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         super.addAdditionalSaveData(output);
         output.putString(TAG_GENOME, this.genome().toString());
         output.putString(TAG_STATS, this.stats().toString());
+        if (this.highestShowAward > 0) output.putInt("ShowAward", this.highestShowAward);
         output.putInt("ForageWait", (int) Math.clamp(this.nextForageTick - this.level().getGameTime(), 0L, (long) Foraging.MEAL_COOLDOWN));
         if (this.samplingWait() > 0) output.putInt("SampleWait",this.samplingWait());
+        if (this.groomingWait() > 0) output.putInt("GroomWait",this.groomingWait());
         if (this.fleeceWait() > 0) output.putInt("FleeceWait",this.fleeceWait());
         if (this.splicingWait() > 0) output.putInt("SpliceWait",this.splicingWait());
         if (this.motherGenome != null && this.fatherGenome != null) {
@@ -681,6 +701,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         // Phase 5d: a save from before it, or an untagged bunnidog, has no tag. (The name shown above it is vanilla's own saved CustomName.)
         this.earTag = EarTag.parse(input.getStringOr(TAG_EAR_TAG, "")).orElse(null);
         super.readAdditionalSaveData(input);
+        this.highestShowAward = Math.max(0, input.getIntOr("ShowAward", 0));
+        this.nextGroomTick = this.level().getGameTime()+Math.clamp(input.getIntOr("GroomWait",0),0,Grooming.RECOVERY_TICKS);
         this.nextForageTick = this.level().getGameTime() + Math.clamp(input.getIntOr("ForageWait", 0), 0, Foraging.MEAL_COOLDOWN);
         this.nextSampleTick = this.level().getGameTime()+Math.clamp(input.getIntOr("SampleWait",0),0,
                 Sampling.RECOVERY_TICKS);

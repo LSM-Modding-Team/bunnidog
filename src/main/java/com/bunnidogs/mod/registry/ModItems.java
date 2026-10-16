@@ -166,6 +166,13 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> GENETICS_TABLE = ITEMS.registerSimpleBlockItem(ModBlocks.GENETICS_TABLE);
     /** The Nest (H1): a bunnidog's home. */
     public static final DeferredItem<BlockItem> NEST = ITEMS.registerSimpleBlockItem(ModBlocks.NEST);
+    public static final DeferredItem<BlockItem> JUDGING_STAND = ITEMS.registerSimpleBlockItem(ModBlocks.JUDGING_STAND);
+    public static final DeferredItem<com.bunnidogs.mod.item.ShowRibbonItem> BRONZE_RIBBON = ITEMS.registerItem("bronze_show_ribbon",
+            props -> new com.bunnidogs.mod.item.ShowRibbonItem(props, com.bunnidogs.mod.genetics.Show.Tier.BRONZE), props -> props.stacksTo(1).rarity(Rarity.UNCOMMON));
+    public static final DeferredItem<com.bunnidogs.mod.item.ShowRibbonItem> SILVER_RIBBON = ITEMS.registerItem("silver_show_ribbon",
+            props -> new com.bunnidogs.mod.item.ShowRibbonItem(props, com.bunnidogs.mod.genetics.Show.Tier.SILVER), props -> props.stacksTo(1).rarity(Rarity.RARE));
+    public static final DeferredItem<com.bunnidogs.mod.item.ShowRibbonItem> GOLD_RIBBON = ITEMS.registerItem("gold_show_ribbon",
+            props -> new com.bunnidogs.mod.item.ShowRibbonItem(props, com.bunnidogs.mod.genetics.Show.Tier.GOLD), props -> props.stacksTo(1).rarity(Rarity.EPIC));
 
     /** Plain guava juice (Phase 4f): a guava and a glass bottle. Drinking it restores a little hunger; it is what a seed is infused into. */
     public static final DeferredItem<JuiceItem> GUAVA_JUICE = ITEMS.registerItem("guava_juice", JuiceItem::new, props -> props.stacksTo(16));
@@ -328,6 +335,10 @@ public final class ModItems {
             event.accept(GUAVA_CHEST_BOAT.get());
             event.accept(PEDIGREE_BOOK.get());
             event.accept(PUREBRED_REGISTRY.get());
+            event.accept(JUDGING_STAND.get());
+            event.accept(BRONZE_RIBBON.get());
+            event.accept(SILVER_RIBBON.get());
+            event.accept(GOLD_RIBBON.get());
             event.accept(EAR_TAG.get());
             event.accept(WornEarTagItem.create("BD-3F7A2C"), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.accept(TROPHY_PEDESTAL.get());

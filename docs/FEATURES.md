@@ -1,5 +1,19 @@
 # Bunnidogs: how to use each feature in game
 
+**Show Ring (G3):** craft a Judging Stand with ` B /PGP/PWP`: book, any planks,
+gold ingot and any wool. Lead a bred adult within six blocks and use the stand
+with an empty main hand or a lead. It needs all seven gene pairs fixed, at least
+half health and **every** bred stat +5 (bronze), +20 (silver) or +50 (gold).
+Sneak-use with both hands empty to preview the stat tier and a limiting stat.
+Awards keep the animal alive and led. Each animal gets its highest tier once;
+reloads and other stands cannot repeat it. Use a ribbon in air to read the
+winner, or display it on a Trophy Pedestal. Gold earns Champion Line once.
+
+**Grooming (Care C3):** use a vanilla Brush on a healthy adult with +10 bred
+Senses for one loose whisker, at one durability and ten minutes of recovery.
+Pups and animals below half health refuse. This neither harms the animal nor
+changes its genes or points; the existing whisker recipes work normally.
+
 **More inherited protection (A2):** moss coats resist Poison, sand coats resist
 cactus damage, and void coats resist Levitation. Each requires the expressed
 coat, not a hidden copy. They retain other vulnerabilities (including wither,

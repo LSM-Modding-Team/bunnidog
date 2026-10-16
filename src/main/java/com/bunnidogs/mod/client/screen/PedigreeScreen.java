@@ -104,7 +104,11 @@ public final class PedigreeScreen extends Screen {
 
     /** The Calipers window (Phase 8 S6): the sheet of one animal that is in no book. */
     public PedigreeScreen(Pedigree.Entry animal) {
-        super(Component.literal("Calipers"));
+        this(animal, Component.literal("Calipers"));
+    }
+
+    public PedigreeScreen(Pedigree.Entry animal, Component title) {
+        super(title);
         this.book = new Pedigree();
         this.single = animal;
         this.sample = null;
