@@ -6,6 +6,7 @@ Full text of every chunk (files, decisions, compile risks): `docs/history/CHUNKS
 
 | Chunk | What | Status |
 |---|---|---|
+| W4a | Guava signs/hanging signs: native text/editing/saves, four placement forms, custom models/editor textures, recipes/unlocks and drops | BUILD + RESOURCE/MODEL CHECKS PASS; texture preview inspected; gameplay pending |
 | U7 | Terrain-tested lower commons, stairs, four more Nests and a supply barrel beneath the grand-tree hall | BUILD + LAYOUT/MODEL CHECKS PASS; gameplay pending |
 | Pantry supplies | Lazy modest food/guava loot in newly placed pantry/market/commons barrels; protect existing containers | BUILD PASS + RESOURCE REVIEW; gameplay pending |
 | Diet D1–D4 | Seventh inherited gene, legacy data/signed sync, diet feeding and temptation, home-bounded grazing/hunting, seven-row sheets | BUILD + DIET/GENETICS/MODEL CHECKS PASS; gameplay pending |

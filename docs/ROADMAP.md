@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+W4a: guava signs/hanging signs, four native placement forms, custom board/icon/
+editor textures, crafting/unlocks, tags and shared wall loot. Compiler, resource
+state/attachment checks and the model check pass; texture preview inspected.
+See `FIXES_PLAN.md` 4.4. In-game editing and save/reload are pending.
+
 Diet D1–D4: inherited seventh gene, compatible old data, dietary feeding and
 temptation, home-bounded grazing/hunting and seven-row sheets/forecasts.
 U7: a fitted lower commons under grand-tree halls. New pantry/market/commons
@@ -30,7 +35,7 @@ filling a quota, and honor any explicit pause in the current request.
 
 | Item | What | Needs | Spec |
 |---|---|---|---|
-| W4 | Signs, hanging signs, boats | W3 | `FIXES_PLAN.md` 4.4 |
+| W4b | Guava boat and chest boat (W4a signs/hanging signs are implemented) | W3 | `FIXES_PLAN.md` 4.4 |
 
 ## Ideas without a spec (design before implementing)
 Leash; Gene Splicer / Purebred registry / Show Ring / Apex boss (the old "Phase 6 artificial lineage tools"); settlement life (the old 6d); living harvest instead of death-only drops; environment effects of lineages (cold resistance, heat tolerance, night vision, ...). More ideas: `docs/DESIGN.md`, section "Ideas".

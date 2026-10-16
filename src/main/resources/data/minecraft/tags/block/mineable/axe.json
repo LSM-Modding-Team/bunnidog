@@ -15,6 +15,10 @@
     "bunnidogs:guava_trapdoor",
     "bunnidogs:guava_button",
     "bunnidogs:guava_pressure_plate",
-    "bunnidogs:guava_fence_gate"
+    "bunnidogs:guava_fence_gate",
+    "bunnidogs:guava_sign",
+    "bunnidogs:guava_wall_sign",
+    "bunnidogs:guava_hanging_sign",
+    "bunnidogs:guava_wall_hanging_sign"
   ]
 }

@@ -1,0 +1,491 @@
+{
+  "source": "Minecraft 26.2 native sign state/model/recipe/loot/advancement templates; parent geometry remains vanilla.",
+  "files": {
+    "data/minecraft/advancement/recipes/decorations/oak_hanging_sign.json": {
+      "parent": "minecraft:recipes/root",
+      "criteria": {
+        "has_stripped_log": {
+          "conditions": {
+            "items": [
+              {
+                "items": "minecraft:stripped_oak_log"
+              }
+            ]
+          },
+          "trigger": "minecraft:inventory_changed"
+        },
+        "has_the_recipe": {
+          "conditions": {
+            "recipe": "minecraft:oak_hanging_sign"
+          },
+          "trigger": "minecraft:recipe_unlocked"
+        }
+      },
+      "requirements": [
+        [
+          "has_the_recipe",
+          "has_stripped_log"
+        ]
+      ],
+      "rewards": {
+        "recipes": [
+          "minecraft:oak_hanging_sign"
+        ]
+      }
+    },
+    "data/minecraft/advancement/recipes/decorations/oak_sign.json": {
+      "parent": "minecraft:recipes/root",
+      "criteria": {
+        "has_planks": {
+          "conditions": {
+            "items": [
+              {
+                "items": "minecraft:oak_planks"
+              }
+            ]
+          },
+          "trigger": "minecraft:inventory_changed"
+        },
+        "has_the_recipe": {
+          "conditions": {
+            "recipe": "minecraft:oak_sign"
+          },
+          "trigger": "minecraft:recipe_unlocked"
+        }
+      },
+      "requirements": [
+        [
+          "has_the_recipe",
+          "has_planks"
+        ]
+      ],
+      "rewards": {
+        "recipes": [
+          "minecraft:oak_sign"
+        ]
+      }
+    },
+    "data/minecraft/loot_table/blocks/oak_hanging_sign.json": {
+      "type": "minecraft:block",
+      "pools": [
+        {
+          "conditions": [
+            {
+              "condition": "minecraft:survives_explosion"
+            }
+          ],
+          "entries": [
+            {
+              "type": "minecraft:item",
+              "name": "minecraft:oak_hanging_sign"
+            }
+          ],
+          "rolls": 1.0
+        }
+      ],
+      "random_sequence": "minecraft:blocks/oak_hanging_sign"
+    },
+    "data/minecraft/loot_table/blocks/oak_sign.json": {
+      "type": "minecraft:block",
+      "pools": [
+        {
+          "conditions": [
+            {
+              "condition": "minecraft:survives_explosion"
+            }
+          ],
+          "entries": [
+            {
+              "type": "minecraft:item",
+              "name": "minecraft:oak_sign"
+            }
+          ],
+          "rolls": 1.0
+        }
+      ],
+      "random_sequence": "minecraft:blocks/oak_sign"
+    },
+    "data/minecraft/recipe/oak_hanging_sign.json": {
+      "type": "minecraft:crafting_shaped",
+      "group": "wooden_hanging_sign",
+      "key": {
+        "#": "minecraft:stripped_oak_log",
+        "X": "minecraft:iron_chain"
+      },
+      "pattern": [
+        "X X",
+        "###",
+        "###"
+      ],
+      "result": {
+        "count": 6,
+        "id": "minecraft:oak_hanging_sign"
+      }
+    },
+    "data/minecraft/recipe/oak_sign.json": {
+      "type": "minecraft:crafting_shaped",
+      "group": "wooden_sign",
+      "key": {
+        "#": "minecraft:oak_planks",
+        "X": "minecraft:stick"
+      },
+      "pattern": [
+        "###",
+        "###",
+        " X "
+      ],
+      "result": {
+        "count": 3,
+        "id": "minecraft:oak_sign"
+      }
+    },
+    "assets/minecraft/blockstates/oak_hanging_sign.json": {
+      "variants": {
+        "attached=false,rotation=0": {
+          "model": "minecraft:block/oak_hanging_sign_rot_0"
+        },
+        "attached=false,rotation=1": {
+          "model": "minecraft:block/oak_hanging_sign_rot_1"
+        },
+        "attached=false,rotation=10": {
+          "model": "minecraft:block/oak_hanging_sign_rot_2",
+          "y": 180
+        },
+        "attached=false,rotation=11": {
+          "model": "minecraft:block/oak_hanging_sign_rot_3",
+          "y": 180
+        },
+        "attached=false,rotation=12": {
+          "model": "minecraft:block/oak_hanging_sign_rot_0",
+          "y": 270
+        },
+        "attached=false,rotation=13": {
+          "model": "minecraft:block/oak_hanging_sign_rot_1",
+          "y": 270
+        },
+        "attached=false,rotation=14": {
+          "model": "minecraft:block/oak_hanging_sign_rot_2",
+          "y": 270
+        },
+        "attached=false,rotation=15": {
+          "model": "minecraft:block/oak_hanging_sign_rot_3",
+          "y": 270
+        },
+        "attached=false,rotation=2": {
+          "model": "minecraft:block/oak_hanging_sign_rot_2"
+        },
+        "attached=false,rotation=3": {
+          "model": "minecraft:block/oak_hanging_sign_rot_3"
+        },
+        "attached=false,rotation=4": {
+          "model": "minecraft:block/oak_hanging_sign_rot_0",
+          "y": 90
+        },
+        "attached=false,rotation=5": {
+          "model": "minecraft:block/oak_hanging_sign_rot_1",
+          "y": 90
+        },
+        "attached=false,rotation=6": {
+          "model": "minecraft:block/oak_hanging_sign_rot_2",
+          "y": 90
+        },
+        "attached=false,rotation=7": {
+          "model": "minecraft:block/oak_hanging_sign_rot_3",
+          "y": 90
+        },
+        "attached=false,rotation=8": {
+          "model": "minecraft:block/oak_hanging_sign_rot_0",
+          "y": 180
+        },
+        "attached=false,rotation=9": {
+          "model": "minecraft:block/oak_hanging_sign_rot_1",
+          "y": 180
+        },
+        "attached=true,rotation=0": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_0"
+        },
+        "attached=true,rotation=1": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_1"
+        },
+        "attached=true,rotation=10": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_2",
+          "y": 180
+        },
+        "attached=true,rotation=11": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_3",
+          "y": 180
+        },
+        "attached=true,rotation=12": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_0",
+          "y": 270
+        },
+        "attached=true,rotation=13": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_1",
+          "y": 270
+        },
+        "attached=true,rotation=14": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_2",
+          "y": 270
+        },
+        "attached=true,rotation=15": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_3",
+          "y": 270
+        },
+        "attached=true,rotation=2": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_2"
+        },
+        "attached=true,rotation=3": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_3"
+        },
+        "attached=true,rotation=4": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_0",
+          "y": 90
+        },
+        "attached=true,rotation=5": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_1",
+          "y": 90
+        },
+        "attached=true,rotation=6": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_2",
+          "y": 90
+        },
+        "attached=true,rotation=7": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_3",
+          "y": 90
+        },
+        "attached=true,rotation=8": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_0",
+          "y": 180
+        },
+        "attached=true,rotation=9": {
+          "model": "minecraft:block/oak_hanging_sign_attached_rot_1",
+          "y": 180
+        }
+      }
+    },
+    "assets/minecraft/blockstates/oak_sign.json": {
+      "variants": {
+        "rotation=0": {
+          "model": "minecraft:block/oak_sign_rot_0"
+        },
+        "rotation=1": {
+          "model": "minecraft:block/oak_sign_rot_1"
+        },
+        "rotation=10": {
+          "model": "minecraft:block/oak_sign_rot_2",
+          "y": 180
+        },
+        "rotation=11": {
+          "model": "minecraft:block/oak_sign_rot_3",
+          "y": 180
+        },
+        "rotation=12": {
+          "model": "minecraft:block/oak_sign_rot_0",
+          "y": 270
+        },
+        "rotation=13": {
+          "model": "minecraft:block/oak_sign_rot_1",
+          "y": 270
+        },
+        "rotation=14": {
+          "model": "minecraft:block/oak_sign_rot_2",
+          "y": 270
+        },
+        "rotation=15": {
+          "model": "minecraft:block/oak_sign_rot_3",
+          "y": 270
+        },
+        "rotation=2": {
+          "model": "minecraft:block/oak_sign_rot_2"
+        },
+        "rotation=3": {
+          "model": "minecraft:block/oak_sign_rot_3"
+        },
+        "rotation=4": {
+          "model": "minecraft:block/oak_sign_rot_0",
+          "y": 90
+        },
+        "rotation=5": {
+          "model": "minecraft:block/oak_sign_rot_1",
+          "y": 90
+        },
+        "rotation=6": {
+          "model": "minecraft:block/oak_sign_rot_2",
+          "y": 90
+        },
+        "rotation=7": {
+          "model": "minecraft:block/oak_sign_rot_3",
+          "y": 90
+        },
+        "rotation=8": {
+          "model": "minecraft:block/oak_sign_rot_0",
+          "y": 180
+        },
+        "rotation=9": {
+          "model": "minecraft:block/oak_sign_rot_1",
+          "y": 180
+        }
+      }
+    },
+    "assets/minecraft/blockstates/oak_wall_hanging_sign.json": {
+      "variants": {
+        "facing=east": {
+          "model": "minecraft:block/oak_wall_hanging_sign",
+          "y": 270
+        },
+        "facing=north": {
+          "model": "minecraft:block/oak_wall_hanging_sign",
+          "y": 180
+        },
+        "facing=south": {
+          "model": "minecraft:block/oak_wall_hanging_sign"
+        },
+        "facing=west": {
+          "model": "minecraft:block/oak_wall_hanging_sign",
+          "y": 90
+        }
+      }
+    },
+    "assets/minecraft/blockstates/oak_wall_sign.json": {
+      "variants": {
+        "facing=east": {
+          "model": "minecraft:block/oak_wall_sign",
+          "y": 270
+        },
+        "facing=north": {
+          "model": "minecraft:block/oak_wall_sign",
+          "y": 180
+        },
+        "facing=south": {
+          "model": "minecraft:block/oak_wall_sign"
+        },
+        "facing=west": {
+          "model": "minecraft:block/oak_wall_sign",
+          "y": 90
+        }
+      }
+    },
+    "assets/minecraft/items/oak_hanging_sign.json": {
+      "model": {
+        "type": "minecraft:model",
+        "model": "minecraft:item/oak_hanging_sign"
+      }
+    },
+    "assets/minecraft/items/oak_sign.json": {
+      "model": {
+        "type": "minecraft:model",
+        "model": "minecraft:item/oak_sign"
+      }
+    },
+    "assets/minecraft/models/block/oak_hanging_sign_attached_rot_0.json": {
+      "parent": "minecraft:block/template_attached_hanging_sign_rot_0",
+      "textures": {
+        "all": "minecraft:block/oak_hanging_sign",
+        "particle": "minecraft:block/stripped_oak_log"
+      }
+    },
+    "assets/minecraft/models/block/oak_hanging_sign_attached_rot_1.json": {
+      "parent": "minecraft:block/template_attached_hanging_sign_rot_1",
+      "textures": {
+        "all": "minecraft:block/oak_hanging_sign",
+        "particle": "minecraft:block/stripped_oak_log"
+      }
+    },
+    "assets/minecraft/models/block/oak_hanging_sign_attached_rot_2.json": {
+      "parent": "minecraft:block/template_attached_hanging_sign_rot_2",
+      "textures": {
+        "all": "minecraft:block/oak_hanging_sign",
+        "particle": "minecraft:block/stripped_oak_log"
+      }
+    },
+    "assets/minecraft/models/block/oak_hanging_sign_attached_rot_3.json": {
+      "parent": "minecraft:block/template_attached_hanging_sign_rot_3",
+      "textures": {
+        "all": "minecraft:block/oak_hanging_sign",
+        "particle": "minecraft:block/stripped_oak_log"
+      }
+    },
+    "assets/minecraft/models/block/oak_hanging_sign_rot_0.json": {
+      "parent": "minecraft:block/template_hanging_sign_rot_0",
+      "textures": {
+        "all": "minecraft:block/oak_hanging_sign",
+        "particle": "minecraft:block/stripped_oak_log"
+      }
+    },
+    "assets/minecraft/models/block/oak_hanging_sign_rot_1.json": {
+      "parent": "minecraft:block/template_hanging_sign_rot_1",
+      "textures": {
+        "all": "minecraft:block/oak_hanging_sign",
+        "particle": "minecraft:block/stripped_oak_log"
+      }
+    },
+    "assets/minecraft/models/block/oak_hanging_sign_rot_2.json": {
+      "parent": "minecraft:block/template_hanging_sign_rot_2",
+      "textures": {
+        "all": "minecraft:block/oak_hanging_sign",
+        "particle": "minecraft:block/stripped_oak_log"
+      }
+    },
+    "assets/minecraft/models/block/oak_hanging_sign_rot_3.json": {
+      "parent": "minecraft:block/template_hanging_sign_rot_3",
+      "textures": {
+        "all": "minecraft:block/oak_hanging_sign",
+        "particle": "minecraft:block/stripped_oak_log"
+      }
+    },
+    "assets/minecraft/models/block/oak_sign_rot_0.json": {
+      "parent": "minecraft:block/template_sign_rot_0",
+      "textures": {
+        "all": "minecraft:block/oak_sign",
+        "particle": "minecraft:block/oak_planks"
+      }
+    },
+    "assets/minecraft/models/block/oak_sign_rot_1.json": {
+      "parent": "minecraft:block/template_sign_rot_1",
+      "textures": {
+        "all": "minecraft:block/oak_sign",
+        "particle": "minecraft:block/oak_planks"
+      }
+    },
+    "assets/minecraft/models/block/oak_sign_rot_2.json": {
+      "parent": "minecraft:block/template_sign_rot_2",
+      "textures": {
+        "all": "minecraft:block/oak_sign",
+        "particle": "minecraft:block/oak_planks"
+      }
+    },
+    "assets/minecraft/models/block/oak_sign_rot_3.json": {
+      "parent": "minecraft:block/template_sign_rot_3",
+      "textures": {
+        "all": "minecraft:block/oak_sign",
+        "particle": "minecraft:block/oak_planks"
+      }
+    },
+    "assets/minecraft/models/block/oak_wall_hanging_sign.json": {
+      "parent": "minecraft:block/template_wall_hanging_sign",
+      "textures": {
+        "all": "minecraft:block/oak_hanging_sign",
+        "particle": "minecraft:block/stripped_oak_log"
+      }
+    },
+    "assets/minecraft/models/block/oak_wall_sign.json": {
+      "parent": "minecraft:block/template_wall_sign",
+      "textures": {
+        "all": "minecraft:block/oak_sign",
+        "particle": "minecraft:block/oak_planks"
+      }
+    },
+    "assets/minecraft/models/item/oak_hanging_sign.json": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "minecraft:item/oak_hanging_sign"
+      }
+    },
+    "assets/minecraft/models/item/oak_sign.json": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "minecraft:item/oak_sign"
+      }
+    }
+  }
+}

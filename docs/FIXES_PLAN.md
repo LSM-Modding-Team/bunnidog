@@ -2,7 +2,7 @@
 
 **Warrens (mouths, dens, tunnels, cellars, hall) are covered in `docs/WARREN_PLAN.md`. House materials and doors are covered here.**
 
-**CURRENT (2026-10-16): F1–F3, W1–W3 and V1 work (user confirms d7f39a9). Diet D1–D4 are implemented; compiler/headless evidence is separate from pending gameplay review. V2 was superseded by HOME_SPECS.md. W4 remains optional. See `docs/ROADMAP.md`.**
+**CURRENT (2026-10-16): F1–F3, W1–W3 and V1 work (user confirms d7f39a9). Diet D1–D4 and W4a signs/hanging signs are implemented; compiler/headless evidence is separate from pending gameplay review. V2 was superseded by HOME_SPECS.md. W4b boats remain a candidate. See `docs/ROADMAP.md`.**
 
 **Status (session 41): F1, F2/F3a, F3b, W1, W1b and W2 WORK (user). V2 is SUPERSEDED by `docs/HOME_SPECS.md` (a Nest block dogs claim like villagers claim beds; the user rejected the hardcoded home of V2a). Section 5.3 below is kept as history only. Everything else here is unchanged.**
 **(Older line, session 40, fourth turn: F1, F2/F3a, F3b, W1 and W1b WORK; W2 (stairs, slab, fence; `art/gen_wood_parts.py`) was coded, NOT COMPILED. The FENCE GATE moved from W2 to W3 (it needs a `WoodType`). Next: W3, or V2 first if the user wants the dogs fixed sooner.)**
@@ -76,7 +76,30 @@ Most of the "usual crafts" come for free by joining the tags: `minecraft:planks`
 - **4.1 W1 — the base:** `guava_planks`; recipe 1 log -> 4 planks (plus a tag `bunnidogs:guava_logs` for the recipe); `stripped_guava_log`; `guava_wood` and `stripped_guava_wood` (bark on all sides) with their 3-to-3 recipe; the tags above; axe-stripping log -> stripped log and wood -> stripped wood (NeoForge hook for tool-modified state; ASSUMED name, verify); `mineable/axe`; loot tables (drop themselves); art through `art/gen_guava_wood.py` (planks and stripped textures; look at the preview once).
 - **4.2 W2 — shapes (works):** stairs, slab and fence. Recipes are the vanilla shapes with guava planks. Fence gate moved to W3.
 - **4.3 W3 — mechanisms (implemented):** door, trapdoor, wooden button, pressure plate and fence gate. Thin subclasses expose the protected 26.2 constructors; `BlockSetType.OAK` and `WoodType.OAK` provide native wooden behavior/sounds without registering a duplicate wood type. The door uses `DoubleHighBlockItem` and lower-half-only loot. Five vanilla-shaped recipes, block/item wood tags and axe tags accompany the blocks. `art/gen_wood_interactives.py` uses checked-in 26.2 vanilla JSON templates and the custom guava plank texture; it generates the cutout door/trapdoor textures, models and preview. `checkWoodAssets` verifies all state combinations, model/texture links, recipes, tags and door loot. Preview inspected; the user confirms the release worked in game. Placement, breaking, redstone, projectile activation, connectivity and sound were not separately itemized.
-- **4.4 W4 — optional, heavy:** signs, hanging signs, boat, chest boat. Signs need a block entity type that accepts our blocks, a sign screen/renderer hook and models; boats need an entity type, a renderer and a model layer. This is more work than W1-W3 together. **Optional candidate under the user's broader design permission; plan its scope before implementation.**
+- **4.4 W4a — signs/hanging signs (implemented, 2026-10-16):** two items, each
+  stacking to 16, with standing/wall and ceiling/wall hanging placement. Use
+  native 26.2 `StandingSignBlock`, `WallSignBlock`, `CeilingHangingSignBlock` and
+  `WallHangingSignBlock`; `BlockEntityTypeAddBlocksEvent.modify` adds the blocks
+  to vanilla SIGN/HANGING_SIGN, preserving native text synchronization, editing
+  locks, dye, glowing ink, waxing and persistence. `bunnidogs:guava` is a
+  registered WoodType with oak's BlockSetType/sounds; the fence gate now uses
+  this same type. The namespaced name selects our editor backgrounds directly.
+  The resolved 26.2 sources show ordinary block models for the boards and native
+  text renderers, so custom screen/renderer/layer hooks are unnecessary.
+  `art/gen_wood_signs.py` uses checked-in native JSON/UV templates with the guava
+  palette, keeping iron neutral. It generates all rotations/attachments,
+  cutout models, icons and editor textures, recipes, recipe-book unlocks, loot
+  and sign/axe tags. Six planks plus one stick yield three signs; six stripped
+  logs plus two iron chains yield six hanging signs. Wall forms share loot/name
+  with their corresponding item. Both items are in Functional Blocks.
+  `checkWoodAssets` covers complete states/attachments, resource links and
+  editor sizes, recipe ingredients/yields/unlocks, tags and drops. Gradle build
+  and model checks pass; texture preview inspected. Placement, editor use,
+  dye/glow/wax, support removal and save/reload still need gameplay review.
+  This batch adds craftable signs; it does not place labeled signs in villages.
+- **W4b — candidate:** guava boat and chest boat. Verify 26.2 entity/item,
+  renderer and model-layer APIs and define crafting/drop behavior before
+  implementation. Authorized by the user's broader design permission.
 - Settlement use: V1 needs only W1 (+ W2 for slabs/stairs/fences, W3 for doors).
 
 ---

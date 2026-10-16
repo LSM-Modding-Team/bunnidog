@@ -2,6 +2,7 @@ import com.google.gson.*;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import javax.imageio.ImageIO;
 
 /** Checks the shipped interactive-wood data, including state properties intentionally ignored by visual variants. */
 public final class WoodAssetsCheck {
@@ -60,6 +61,62 @@ public final class WoodAssetsCheck {
             }
         }
     }
+    private static void tag(String domain,String name,String id) {
+        require(json("data/minecraft/tags/"+domain+"/"+name+".json").getAsJsonArray("values")
+                .asList().stream().anyMatch(e -> e.getAsString().equals(id)),"Missing "+name+": "+id);
+    }
+    private static void texture(String name,int width,int height) {
+        try (var stream = WoodAssetsCheck.class.getResourceAsStream("/assets/bunnidogs/textures/"+name+".png")) {
+            require(stream != null,"Missing sign texture: "+name);
+            var image = ImageIO.read(stream);
+            require(image != null && image.getWidth() == width && image.getHeight() == height,"Wrong sign UV dimensions: "+name);
+            require(image.getColorModel().hasAlpha(),"Sign chains/posts require transparency: "+name);
+        } catch (java.io.IOException e) { throw new AssertionError(e); }
+    }
+    private static void signs() {
+        String[] parts = {"sign","wall_sign","hanging_sign","wall_hanging_sign"};
+        String[] families = {"standing_signs","wall_signs","ceiling_hanging_signs","wall_hanging_signs"};
+        for (int i = 0; i < parts.length; i++) {
+            String part = parts[i], name = "guava_"+part, id = "bunnidogs:"+name;
+            Map<String,List<String>> fields = new LinkedHashMap<>();
+            fields.put("waterlogged",List.of("false","true"));
+            if (part.startsWith("wall")) fields.put("facing",List.of("north","east","south","west"));
+            else fields.put("rotation",java.util.stream.IntStream.range(0,16).mapToObj(Integer::toString).toList());
+            if (part.equals("hanging_sign")) fields.put("attached",List.of("false","true"));
+            var blockstate = json("assets/bunnidogs/blockstates/"+name+".json");
+            states(new ArrayList<>(fields.entrySet()),0,new HashMap<>(),blockstate.getAsJsonObject("variants"));
+            refs(blockstate,"");
+            for (var variant : blockstate.getAsJsonObject("variants").asMap().values()) {
+                String model = variant.getAsJsonObject().get("model").getAsString().replace("bunnidogs:","");
+                var geometry = json("assets/bunnidogs/models/"+model+".json");
+                require(geometry.get("render_type").getAsString().equals("minecraft:cutout"),
+                        "Sign chain/post transparency must use cutout: "+model);
+                require(geometry.getAsJsonObject("textures").get("particle").getAsString()
+                        .equals(part.contains("hanging") ? "bunnidogs:block/stripped_guava_log" : "bunnidogs:block/guava_planks"),"Wrong sign break particles: "+model);
+            }
+            tag("block",families[i],id); tag("block","mineable/axe",id);
+        }
+        for (String part : List.of("sign","hanging_sign")) {
+            String name = "guava_"+part, id = "bunnidogs:"+name;
+            refs(json("assets/bunnidogs/items/"+name+".json"),"");
+            var recipe = json("data/bunnidogs/recipe/"+name+".json");
+            boolean hanging = part.equals("hanging_sign");
+            require(recipe.getAsJsonObject("result").get("id").getAsString().equals(id),"Wrong sign recipe result");
+            require(recipe.getAsJsonObject("result").get("count").getAsInt() == (hanging ? 6 : 3),"Wrong sign recipe yield");
+            var key = recipe.getAsJsonObject("key");
+            require(key.get("#").getAsString().equals(hanging ? "bunnidogs:stripped_guava_log" : "bunnidogs:guava_planks"),"Wrong sign wood");
+            require(key.get("X").getAsString().equals(hanging ? "minecraft:iron_chain" : "minecraft:stick"),"Wrong sign hardware");
+            var loot = json("data/bunnidogs/loot_table/blocks/"+name+".json");
+            require(loot.getAsJsonArray("pools").get(0).getAsJsonObject().getAsJsonArray("entries").get(0)
+                    .getAsJsonObject().get("name").getAsString().equals(id),"Wrong sign drop");
+            var unlock = json("data/bunnidogs/advancement/recipes/decorations/"+name+".json");
+            require(unlock.getAsJsonObject("rewards").getAsJsonArray("recipes").get(0).getAsString().equals(id),"Wrong sign recipe unlock");
+            tag("item",hanging ? "hanging_signs" : "signs",id);
+            texture("block/"+name,32,32); texture("item/"+name,16,16);
+        }
+        // Namespaced WoodType names resolve directly to these native editor backgrounds.
+        texture("gui/signs/guava",24,26); texture("gui/hanging_signs/guava",16,16);
+    }
     public static void main(String[] args) {
         String[] tags = {"wooden_doors","wooden_trapdoors","wooden_buttons","wooden_pressure_plates","fence_gates"};
         for (int i = 0; i < PARTS.length; i++) {
@@ -79,6 +136,7 @@ public final class WoodAssetsCheck {
                 .getAsJsonObject().getAsJsonArray("conditions");
         require(conditions.asList().stream().anyMatch(e -> e.getAsJsonObject().has("properties")
                 && e.getAsJsonObject().getAsJsonObject("properties").get("half").getAsString().equals("lower")),"A door must drop only once, from its lower half");
-        System.out.println("Guava mechanisms OK: complete state coverage, model/texture links, recipes, wood tags and lower-half-only door loot.");
+        signs();
+        System.out.println("Guava mechanisms and signs OK: complete states/attachments, model/texture/editor links, recipes/unlocks, wood tags and drops.");
     }
 }

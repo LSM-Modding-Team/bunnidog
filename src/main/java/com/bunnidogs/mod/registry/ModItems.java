@@ -33,6 +33,8 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DoubleHighBlockItem;
+import net.minecraft.world.item.SignItem;
+import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
@@ -143,6 +145,10 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> GUAVA_BUTTON = ITEMS.registerSimpleBlockItem(ModBlocks.GUAVA_BUTTON);
     public static final DeferredItem<BlockItem> GUAVA_PRESSURE_PLATE = ITEMS.registerSimpleBlockItem(ModBlocks.GUAVA_PRESSURE_PLATE);
     public static final DeferredItem<BlockItem> GUAVA_FENCE_GATE = ITEMS.registerSimpleBlockItem(ModBlocks.GUAVA_FENCE_GATE);
+    public static final DeferredItem<SignItem> GUAVA_SIGN = ITEMS.registerItem("guava_sign",
+            props -> new SignItem(ModBlocks.GUAVA_SIGN.get(), ModBlocks.GUAVA_WALL_SIGN.get(), props), props -> props.stacksTo(16));
+    public static final DeferredItem<HangingSignItem> GUAVA_HANGING_SIGN = ITEMS.registerItem("guava_hanging_sign",
+            props -> new HangingSignItem(ModBlocks.GUAVA_HANGING_SIGN.get(), ModBlocks.GUAVA_WALL_HANGING_SIGN.get(), props), props -> props.stacksTo(16));
     /** The Trophy Pedestal (drops D8a). */
     public static final DeferredItem<BlockItem> TROPHY_PEDESTAL = ITEMS.registerSimpleBlockItem(ModBlocks.TROPHY_PEDESTAL);
 
@@ -325,6 +331,10 @@ public final class ModItems {
             event.accept(GUAVA_BUTTON.get());
             event.accept(GUAVA_PRESSURE_PLATE.get());
             event.accept(GUAVA_FENCE_GATE.get());
+        }
+        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
+            event.accept(GUAVA_SIGN.get());
+            event.accept(GUAVA_HANGING_SIGN.get());
         }
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             // One plain sample seed (two default parents, quality 0) so a seed can be had in creative mode.

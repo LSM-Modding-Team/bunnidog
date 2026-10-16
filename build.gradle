@@ -225,7 +225,7 @@ tasks.register('checkWarrenNetwork', JavaExec) {
 tasks.named('check').configure { dependsOn tasks.named('checkWarrenNetwork') }
 tasks.register('checkWoodAssets', JavaExec) {
     group = 'verification'
-    description = 'Validate guava mechanism states, asset references, recipes, tags and door drops.'
+    description = 'Validate guava mechanisms/signs, states, attachments, editor assets, crafting and drops.'
     dependsOn tasks.named('modelCheckClasses')
     classpath = sourceSets.modelCheck.runtimeClasspath
     mainClass = 'WoodAssetsCheck'

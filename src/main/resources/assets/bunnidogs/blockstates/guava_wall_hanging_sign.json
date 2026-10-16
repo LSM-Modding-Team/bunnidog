@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "bunnidogs:block/guava_wall_hanging_sign",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "bunnidogs:block/guava_wall_hanging_sign",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "bunnidogs:block/guava_wall_hanging_sign"
+    },
+    "facing=west": {
+      "model": "bunnidogs:block/guava_wall_hanging_sign",
+      "y": 90
+    }
+  }
+}

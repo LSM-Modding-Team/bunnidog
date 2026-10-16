@@ -109,6 +109,17 @@ projectile and entity activation rules with custom guava textures. Doors drop
 one item when broken. Build/resource checks pass; the user confirms the release worked in game.
 Individual interaction and appearance checks were not itemized. Art: `python3 art/gen_wood_interactives.py`.
 
+**Guava signs (W4a):** craft three signs from six guava planks above a stick, or
+six hanging signs from six stripped guava logs beneath two iron chains. Find
+both in Functional Blocks, or use `/give @s bunnidogs:guava_sign` and
+`/give @s bunnidogs:guava_hanging_sign`. They have custom guava wood, native
+standing/wall and hanging attachments, waterlogging and two-sided text editing.
+Vanilla handles dyes, glow ink, ink sacs and honeycomb waxing. Breaking a wall
+form returns its corresponding sign item. Recipes unlock from the matching
+wood; stacks hold 16. Build/resource checks pass and the texture preview was
+inspected; in-game interactions and text persistence need gameplay review.
+Regenerate assets with `python3 art/gen_wood_signs.py`. Boats remain pending.
+
 **House details (V1c):** new level 2–5 houses have guava doors, initially open.
 Level 4 cottages gain glass windows; levels 4–5 have shutters, and level 5 has a
 hanging lantern above the doorstep. A player can close a door; dogs have no new

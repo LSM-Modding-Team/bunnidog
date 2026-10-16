@@ -45,7 +45,33 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
-This continuation implements **Diet D1–D4**, **U7** and **warren pantry loot**.
+**W4a — guava signs and hanging signs** is implemented. Two craftable items
+cover standing/wall signs and ceiling/wall hanging signs, with all native
+rotations, attachments and waterlogging. Six guava planks plus a stick craft
+three signs; six stripped guava logs plus two iron chains craft six hanging
+signs. Both stack to 16 and appear in Functional Blocks. Recipes unlock when
+the matching wood is obtained. Wall variants share their item's name and loot.
+
+The four blocks use native sign classes and block entities, extended through
+NeoForge's `BlockEntityTypeAddBlocksEvent`. A namespaced guava WoodType selects
+the custom editor backgrounds; vanilla handles front/back text, dye, glowing
+ink, wax, editing locks, packets and saves. In 26.2 the boards are regular block
+models, so no custom renderer or model layer is needed. Generated cutout models,
+UV textures, GUI backgrounds and item icons come from `art/gen_wood_signs.py`;
+the nearest-filtered texture preview was inspected. Existing villages are not
+dressed with generated signs in this batch.
+
+`./gradlew build checkBunnidogModel --no-daemon` passes. `checkWoodAssets` now
+covers all four sign states/attachments, model and texture links, editor sizes,
+recipes/unlocks, tags and drops. Actual editor use, dye/glow/wax interactions,
+hanging chains, support removal and text across save/reload need gameplay
+review. Try `/give @s bunnidogs:guava_sign` and
+`/give @s bunnidogs:guava_hanging_sign`. **W4b boats/chest boats remain pending.**
+An isolated `runServer --initSettings` probe reached vanilla settings creation;
+NeoForge then exited because no server thread was started. This is not a
+successful dedicated-server or gameplay test; no player world was opened.
+
+The preceding batch implemented **Diet D1–D4**, **U7** and **warren pantry loot**.
 These are new changes with compiler/headless evidence; gameplay is pending.
 
 - Diet is the seventh inherited gene: plain, grazer, forager, hunter, rare
@@ -161,8 +187,8 @@ evidence at delivery, not the current ability to build the project.
   Levels 3–5 should also have claimable house Nests.
 - Earlier user reports are preserved in the ledger. D7b, 7a and 6h had compile
   confirmation without itemized gameplay reports. Do not infer new evidence.
-- U1–U7 and Diet D1–D4 are implemented. W4 (signs/hanging signs/boats) remains
-  optional; coherent new work is authorized under the user's broader design
+- U1–U7, Diet D1–D4 and W4a signs/hanging signs are implemented. W4b boats/chest
+  boats remain candidates; coherent new work is authorized under the user's broader design
   permission. See `docs/ROADMAP.md`.
 
 ## Document map
@@ -179,5 +205,5 @@ evidence at delivery, not the current ability to build the project.
 | Genetics Table | `docs/TABLE_SPECS.md` (T1–T4 implemented; current evidence at top) |
 | Drops / loot | `docs/DROPS_PLAN.md` (why) + `docs/DROPS_SPECS.md` (numbers, wins). All of D1-D8 done |
 | Pedigree Book, Calipers window, "the sheet" | `docs/SHEET_SPECS.md` (S1-S8 done; wins over older Phase 8 notes) |
-| Wood (W1–W3 done, W4 optional), villages (V1 done), diets (D1–D4 implemented) | `docs/FIXES_PLAN.md` sections 4, 5, 6 (V2 superseded by HOME_SPECS) |
+| Wood (W1–W4a done, W4b boats pending), villages (V1 done), diets (D1–D4 implemented) | `docs/FIXES_PLAN.md` sections 4, 5, 6 (V2 superseded by HOME_SPECS) |
 | Old phase status, old session notes, old roadmap, old API research | `docs/history/` (never needed to continue) |

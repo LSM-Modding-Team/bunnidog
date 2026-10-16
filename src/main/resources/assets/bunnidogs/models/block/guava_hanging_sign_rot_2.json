@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/template_hanging_sign_rot_2",
+  "textures": {
+    "all": "bunnidogs:block/guava_hanging_sign",
+    "particle": "bunnidogs:block/stripped_guava_log"
+  },
+  "render_type": "minecraft:cutout"
+}

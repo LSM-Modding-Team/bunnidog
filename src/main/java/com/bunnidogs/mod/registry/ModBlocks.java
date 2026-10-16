@@ -15,6 +15,12 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.WallSignBlock;
+import net.minecraft.world.level.block.CeilingHangingSignBlock;
+import net.minecraft.world.level.block.WallHangingSignBlock;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
@@ -22,6 +28,8 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.TintedParticleLeavesBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityTypes;
+import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -40,6 +48,9 @@ public final class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(BunnidogsMod.MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, BunnidogsMod.MODID);
+
+    /** Namespaced so the native sign editors resolve our GUI textures; interaction sounds remain oak's. */
+    public static final WoodType GUAVA_WOOD_TYPE = WoodType.register(new WoodType(BunnidogsMod.MODID + ":guava", BlockSetType.OAK));
 
     /** A planted seed: grows through 8 ages like wheat, breaks instantly, has no collision (walk through it). */
     public static final DeferredBlock<SeedCropBlock> SEED_CROP = BLOCKS.registerBlock("seed_crop", SeedCropBlock::new,
@@ -112,7 +123,28 @@ public final class ModBlocks {
     public static final DeferredBlock<GuavaWoodBlocks.PressurePlate> GUAVA_PRESSURE_PLATE = BLOCKS.registerBlock("guava_pressure_plate", GuavaWoodBlocks.PressurePlate::new,
             props -> props.strength(0.5F).noCollision().ignitedByLava());
     public static final DeferredBlock<FenceGateBlock> GUAVA_FENCE_GATE = BLOCKS.registerBlock("guava_fence_gate",
-            props -> new FenceGateBlock(WoodType.OAK,props), props -> props.strength(2.0F,3.0F).ignitedByLava());
+            props -> new FenceGateBlock(GUAVA_WOOD_TYPE,props), props -> props.strength(2.0F,3.0F).ignitedByLava());
+
+    /** W4a: vanilla sign classes, ticking, text packets and block entities on both sides. */
+    public static final DeferredBlock<StandingSignBlock> GUAVA_SIGN = BLOCKS.registerBlock("guava_sign",
+            props -> new StandingSignBlock(GUAVA_WOOD_TYPE,props),
+            props -> props.forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollision().strength(1.0F).ignitedByLava());
+    public static final DeferredBlock<WallSignBlock> GUAVA_WALL_SIGN = BLOCKS.registerBlock("guava_wall_sign",
+            props -> new WallSignBlock(GUAVA_WOOD_TYPE,props),
+            props -> props.overrideLootTable(GUAVA_SIGN.get().getLootTable()).overrideDescription(GUAVA_SIGN.get().getDescriptionId())
+                    .forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollision().strength(1.0F).ignitedByLava());
+    public static final DeferredBlock<CeilingHangingSignBlock> GUAVA_HANGING_SIGN = BLOCKS.registerBlock("guava_hanging_sign",
+            props -> new CeilingHangingSignBlock(GUAVA_WOOD_TYPE,props),
+            props -> props.forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollision().strength(1.0F).ignitedByLava());
+    public static final DeferredBlock<WallHangingSignBlock> GUAVA_WALL_HANGING_SIGN = BLOCKS.registerBlock("guava_wall_hanging_sign",
+            props -> new WallHangingSignBlock(GUAVA_WOOD_TYPE,props),
+            props -> props.overrideLootTable(GUAVA_HANGING_SIGN.get().getLootTable()).overrideDescription(GUAVA_HANGING_SIGN.get().getDescriptionId())
+                    .forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollision().strength(1.0F).ignitedByLava());
+
+    public static void addSignBlocks(BlockEntityTypeAddBlocksEvent event) {
+        event.modify(BlockEntityTypes.SIGN, GUAVA_SIGN.get(), GUAVA_WALL_SIGN.get());
+        event.modify(BlockEntityTypes.HANGING_SIGN, GUAVA_HANGING_SIGN.get(), GUAVA_WALL_HANGING_SIGN.get());
+    }
 
     public static final DeferredBlock<TintedParticleLeavesBlock> GUAVA_LEAVES = BLOCKS.registerBlock("guava_leaves",
             props -> new TintedParticleLeavesBlock(0.0F, props),

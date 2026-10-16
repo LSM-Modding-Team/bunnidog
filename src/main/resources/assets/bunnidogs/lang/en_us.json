@@ -78,5 +78,9 @@
   "block.bunnidogs.guava_trapdoor": "Guava Trapdoor",
   "block.bunnidogs.guava_button": "Guava Button",
   "block.bunnidogs.guava_pressure_plate": "Guava Pressure Plate",
-  "block.bunnidogs.guava_fence_gate": "Guava Fence Gate"
+  "block.bunnidogs.guava_fence_gate": "Guava Fence Gate",
+  "block.bunnidogs.guava_sign": "Guava Sign",
+  "block.bunnidogs.guava_wall_sign": "Guava Sign",
+  "block.bunnidogs.guava_hanging_sign": "Guava Hanging Sign",
+  "block.bunnidogs.guava_wall_hanging_sign": "Guava Hanging Sign"
 }
