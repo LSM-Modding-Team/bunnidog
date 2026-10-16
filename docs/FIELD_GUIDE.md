@@ -11,6 +11,7 @@ Shore fishing explains resident Fisher prey, needs, healing and recovery.
 Resident needs explains the Calipers home/food/recovery snapshot.
 Refuge explains non-feral residents' bounded response to visible threats.
 Storm shelter explains idle covered waiting and its priority below care/work.
+Trough automation explains hopper supply/drain, food retention and stock signals.
 
 Craft one with a vanilla book and any guava (the existing bunnidog-food tag).
 Obtaining a guava unlocks its recipe. An additional independent 35% pantry loot
@@ -21,7 +22,7 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Thirty-three pages use the ordinary written-book screen. Page 1 has eleven clickable
+Thirty-four pages use the ordinary written-book screen. Page 1 has eleven clickable
 chapter links; every other page links back to the contents. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
@@ -48,5 +49,7 @@ native sanity, including loading the new book/recipe/loot resources. GitHub
 delivery is checked for each pushed checkpoint.
 The expanded 33-page guide also passes the actual build and current twenty-two
 native cases; its refuge/storm pages and contents preview are inspected.
+The 34-page automation update passes the build and twenty-three native cases;
+its page/contents preview is inspected.
 Actual client book navigation, font rendering and pantry discovery need gameplay
 review. No extra server scenario is added for this native-book content change.

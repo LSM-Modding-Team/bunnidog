@@ -1,4 +1,4 @@
-# Settlement life L1–L8
+# Settlement life L1–L9
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
@@ -21,7 +21,7 @@ item, heals 2 HP and shares the saved 30-second foraging recovery. No love mode,
 pup growth, inventory raiding, crop edits or mob-griefing requirement. Higher
 priority danger, breeding, temptation, home, leads and rides take precedence.
 Searches use a shared POI index, run at bounded intervals and never load terrain.
-The stock is player-provided; no hopper/menu system is added in this stage.
+The stock is player-provided; L9 later adds hopper access without a menu.
 
 ## L2: Bell gatherings
 
@@ -209,6 +209,40 @@ uses real exposed weather and a roof, checks a complete native route, lead
 interruption, covered waiting and release when thunder ends, and exercises
 native goal arbitration so a healing trough preempts shelter during the storm.
 Nest/stock preservation and Apex exclusion pass; guide preview inspected.
+
+## L9: trough automation and stock signals
+
+Native hoppers can fill a trough from above or from the side. A hopper below
+extracts stock; power that hopper to hold food for residents. Compatible modded
+item-transfer devices can use the same one-slot capability from any face.
+Automation keeps the existing 16-item capacity (or smaller item stack limit),
+food/remainder filtering, exact data components and single-food rule. It never
+changes Diet acceptance, starts breeding or enables gardening; a hoe still
+controls work. Existing generated/player troughs gain access on loading.
+
+Comparators read 0 when empty and 1–15 for stock, with 15 at effective capacity.
+The formula is `1 + floor(14 * count / capacity)` for nonempty stock; eight
+ordinary items yield 8 and sixteen yield 15. Every committed transfer, meal,
+harvest or manual stock change notifies comparators, including changes within
+one of the four visual fill levels. A smaller component-defined stack capacity
+uses its actual limit for fullness.
+
+The NeoForge 26.2 transactional item handler shares one journal on all faces.
+Aborted transfers restore the exact stack without visible/redstone updates;
+only root commits notify the level. It uses the existing `Food` save field and
+preserves previously saved stock even if data-pack food tags change. Breaking
+still drops the preserved stock once. No ticker, menu, new saved format, custom
+packet, structure refill or recipe change is needed. The Field Guide grows to
+34 pages, with an automation page explaining how to retain food.
+
+Actual Java 25 build and all twenty-three native cases pass. The new case uses
+real hopper transfer code and scheduled comparator ticks for capped insertion,
+named-component extraction, same-fill-level redstone changes and empty output.
+It also covers aborted transfers, invalid/mismatching/remainder foods, a smaller
+component-defined capacity and exactly-once stock drops. Its drain hopper uses
+real redstone power so native neighbour updates retain the lock. The guide
+preview is inspected; modded-device compatibility and client contraptions remain
+gameplay review.
 
 ## Evidence
 

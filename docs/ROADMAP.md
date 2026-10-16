@@ -16,6 +16,10 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L9 adds transactional trough hopper access and comparator stock output, using
+the existing saved stack and its limits/food filters/components. No menu or
+automatic restock is introduced. See `SETTLEMENT_LIFE.md`.
+
 L8 adds low-priority thunderstorm shelter near home. Idle adults find real cover
 or wait safely beneath it; feeding/work and other important routines preempt it.
 Searches and complete native paths stay bounded. Ordinary rain keeps existing

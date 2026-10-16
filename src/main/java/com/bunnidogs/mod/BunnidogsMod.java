@@ -35,6 +35,7 @@ public class BunnidogsMod {
         ModStructures.PIECE_TYPES.register(modEventBus);
         ModBlocks.BLOCK_ENTITIES.register(modEventBus);
         modEventBus.addListener(ModBlocks::addSignBlocks);
+        modEventBus.addListener(ModBlocks::registerCapabilities);
         ModItems.COMPONENTS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         modEventBus.addListener(ModItems::addToCreativeTabs);

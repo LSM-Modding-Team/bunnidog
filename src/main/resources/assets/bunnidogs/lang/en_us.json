@@ -312,5 +312,7 @@
   "guide.bunnidogs.page.32.title": "Find refuge",
   "guide.bunnidogs.page.32.body": "Non-feral residents retreat from visible threats to a safer dry spot near home. Meals and work pause. Leads and rides take over. Feral lines keep their retaliation. No safe route means no retreat.",
   "guide.bunnidogs.page.33.title": "Storm shelter",
-  "guide.bunnidogs.page.33.body": "Idle adults wait under cover near their Nest during thunderstorms. Leave a dry floor, room to stand and a safe route. Meals, work, danger and player control take priority. Normal rain keeps idle routines."
+  "guide.bunnidogs.page.33.body": "Idle adults wait under cover near their Nest during thunderstorms. Leave a dry floor, room to stand and a safe route. Meals, work, danger and player control take priority. Normal rain keeps idle routines.",
+  "guide.bunnidogs.page.34.title": "Trough automation",
+  "guide.bunnidogs.page.34.body": "Hoppers fill troughs from above or the side; one below drains stock. Keep it powered to hold food. One food stack fits up to 16. Comparators read stock: 0 empty, 15 full. A hoe still controls gardening."
 }

@@ -21,17 +21,35 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStackResourceHandler;
 
 /** One preserved food stack. Meals are server-thread transactions; residents share the stock. */
 public final class FeedingTroughBlockEntity extends BlockEntity {
     public static final int CAPACITY = 16;
     private ItemStack food = ItemStack.EMPTY;
+    /** One journal for every side, retaining the existing Food save and exact components. */
+    private final ItemStackResourceHandler automation = new ItemStackResourceHandler() {
+        @Override protected ItemStack getStack() { return food; }
+        @Override protected void setStack(ItemStack stack) { food = stack; }
+        @Override protected boolean isValid(ItemResource resource) { return accepts(resource.toStack()); }
+        @Override protected int getCapacity(ItemResource resource) {
+            return resource.isEmpty() ? CAPACITY : Math.min(CAPACITY,resource.getMaxStackSize());
+        }
+        @Override protected void onRootCommit(ItemStack previous) { changed(); }
+    };
     public FeedingTroughBlockEntity(BlockPos pos, BlockState state) { super(ModBlocks.FEEDING_TROUGH_BE.get(),pos,state); }
     public static boolean accepts(ItemStack stack) {
         return !stack.isEmpty() && !stack.has(DataComponents.USE_REMAINDER)
                 && (stack.is(ModItems.BUNNIDOG_FOOD) || Arrays.stream(Diet.values()).anyMatch(d -> ModDietTags.accepts(d,stack)));
     }
     public ItemStack food() { return this.food; }
+    public ResourceHandler<ItemResource> automation() { return this.automation; }
+    public int stockSignal() {
+        return this.food.isEmpty() ? 0 : 1+14*Math.min(this.food.getCount(),Math.min(CAPACITY,this.food.getMaxStackSize()))
+                / Math.min(CAPACITY,this.food.getMaxStackSize());
+    }
     public boolean canInsert(ItemStack stack) {
         return accepts(stack) && (this.food.isEmpty() || ItemStack.isSameItemSameComponents(this.food,stack))
                 && this.food.getCount() < Math.min(CAPACITY,stack.getMaxStackSize());
@@ -59,7 +77,7 @@ public final class FeedingTroughBlockEntity extends BlockEntity {
     }
     private void changed() {
         this.setChanged();
-        if (this.level instanceof ServerLevel server) {
+        if (this.level instanceof ServerLevel server && !this.isRemoved() && server.getBlockEntity(this.worldPosition) == this) {
             int fill = this.food.isEmpty() ? 0 : this.food.getCount() <= 5 ? 1 : this.food.getCount() <= 10 ? 2 : 3;
             if (this.getBlockState().getValue(FeedingTroughBlock.FILL) != fill)
                 server.setBlock(this.worldPosition,this.getBlockState().setValue(FeedingTroughBlock.FILL,fill),3);

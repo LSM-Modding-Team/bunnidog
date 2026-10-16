@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 33 pages from first warren to Apex, with clickable chapter/contents links.
+open 34 pages from first warren to Apex, with clickable chapter/contents links.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 
@@ -56,6 +56,11 @@ neither distance nor shelter makes an animal immune to harm.
 Nest during thunderstorms. Keep a safe floor and walking space near home.
 Meals, work, home/social routines, breeding, danger and player control take
 priority. Ordinary rain leaves their existing idle routines in place.
+
+**Trough automation (L9):** use hoppers above/beside a trough to supply food.
+A hopper below drains it; power that hopper to retain meals for residents.
+The existing 16-item single stack and food/component rules apply. Comparators
+read 0 when empty, up to 15 when full. Gardening still needs a hoe opt-in.
 
 **Resident gardens (L3/L4):** newly fitted dens have a trough with two starter
 guavas, and levels 3–5 also fit a central gathering bell. Use a hoe on any trough

@@ -1,6 +1,7 @@
 package com.bunnidogs.mod.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
@@ -32,6 +33,10 @@ public final class FeedingTroughBlock extends Block implements EntityBlock {
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block,BlockState> builder) { builder.add(FILL,TENDING); }
     @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) { return new FeedingTroughBlockEntity(pos,state); }
     @Override public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) { return SHAPE; }
+    @Override protected boolean hasAnalogOutputSignal(BlockState state) { return true; }
+    @Override protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
+        return level.getBlockEntity(pos) instanceof FeedingTroughBlockEntity trough ? trough.stockSignal() : 0;
+    }
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hit) {
         if (!player.mayBuild()) return InteractionResult.PASS;

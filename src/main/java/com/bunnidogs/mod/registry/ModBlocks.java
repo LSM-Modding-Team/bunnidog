@@ -35,6 +35,8 @@ import net.minecraft.world.level.block.TintedParticleLeavesBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -49,6 +51,10 @@ import net.neoforged.neoforge.registries.DeferredRegister;
  */
 public final class ModBlocks {
     private ModBlocks() {}
+
+    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(Capabilities.Item.BLOCK,FEEDING_TROUGH_BE.get(),(trough,side) -> trough.automation());
+    }
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(BunnidogsMod.MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =

@@ -142,6 +142,25 @@ the same int-array API for saved `PathExclusions`; it adds no new Minecraft API.
 planner uses `EmptyBlockGetter.INSTANCE` for the vanilla base-state hardness and
 collision queries; the command path uses its live `WorldGenLevel`.
 
+### Trough transfer and redstone (L9, 2026-10-16)
+
+NeoForge 26.2 exposes `Capabilities.Item.BLOCK` as a
+`ResourceHandler<ItemResource>`, registered by `RegisterCapabilitiesEvent`.
+`ItemStackResourceHandler` can wrap the existing stock through `getStack` /
+`setStack`, with `isValid`, effective `getCapacity` and `onRootCommit` overrides.
+One shared handler retains cross-face transaction snapshots; `Transaction.openRoot`
+aborts unless committed. Native hoppers fall back to this capability when the
+block entity is not a `Container`; their handler path respects the custom cap.
+The old Container path's merge uses the item's stack limit, so it alone is not
+enough to enforce a smaller trough capacity.
+
+Native comparator override is `getAnalogOutputSignal(BlockState, Level,
+BlockPos, Direction)` plus `hasAnalogOutputSignal`. `BlockEntity.setChanged()`
+notifies neighbouring comparators independently of block-state changes.
+Resolved sources, compiler and actual hopper/scheduled-comparator cases pass;
+implementation: `block/FeedingTroughBlockEntity.java`, `FeedingTroughBlock.java`,
+`registry/ModBlocks.java` and `tools/gametest/.../TroughAutomationGameTest.java`.
+
 ### Traps that cost time before
 * The javadoc of NeoForge lags behind its code (old event names). Trust class declarations and `import` lines.
 * `registerGoals()` runs inside the super constructor, before any field initializer of the subclass (see `docs/REFERENCE.md` "Conventions"). Fields with initializers are fine for state the super constructor never touches (`Bunnidog.guavaMemory`).
