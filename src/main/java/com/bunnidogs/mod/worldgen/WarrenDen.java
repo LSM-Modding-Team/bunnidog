@@ -34,7 +34,7 @@ final class WarrenDen {
     private record Plan(DenShape.Dir dir, int radial, int doorDy, int top, List<BlockPos> grounds, Map<Integer, Integer> surfaceBlockY) {}
 
     /** Digs the den under {@code floor} (the first air block above the ground at the trunk) and builds its mouths; false, changing nothing, if the den does not fit. */
-    static boolean build(WorldGenLevel level, BlockPos floor, Lineage style, Random rng) {
+    static boolean build(WorldGenLevel level, BlockPos floor, Lineage style, Random rng, boolean lifeDetails) {
         DenShape.Den den = DenShape.generate(rng);
         if (!denFits(level, floor)) {
             return false;
@@ -64,6 +64,8 @@ final class WarrenDen {
         for (DenShape.Cell c : den.furnishing()) {
             set(level, floor, c, state(c.kind(), style));
         }
+        if (lifeDetails) WarrenFixtures.place(level,floor,com.bunnidogs.mod.layout.SettlementFixtures.encode(
+                com.bunnidogs.mod.layout.SettlementFixtures.den(den)),null);
         return true;
     }
 

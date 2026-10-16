@@ -11,7 +11,7 @@ import net.minecraft.world.item.component.WrittenBookContent;
 
 /** Native book UI/packets, translated pages and local page links; no custom screen or payload. */
 public final class FieldGuideItem extends WrittenBookItem {
-    public static final int PAGE_COUNT = 24;
+    public static final int PAGE_COUNT = 26;
     public FieldGuideItem(Properties properties) {
         super(properties.component(DataComponents.WRITTEN_BOOK_CONTENT, content()));
     }
@@ -19,7 +19,7 @@ public final class FieldGuideItem extends WrittenBookItem {
         var pages = new ArrayList<Filterable<Component>>(PAGE_COUNT);
         var contents = Component.translatable("guide.bunnidogs.title").withStyle(ChatFormatting.BOLD)
                 .append(Component.literal("\n\n").withStyle(ChatFormatting.RESET));
-        for (int page : new int[]{2,4,8,11,15,17,19,20,24}) {
+        for (int page : new int[]{2,4,8,11,15,17,19,20,24,25}) {
             contents.append(Component.translatable("guide.bunnidogs.index." + page).withStyle(style -> style
                     .withBold(false).withColor(ChatFormatting.DARK_GREEN).withUnderlined(true)
                     .withClickEvent(new ClickEvent.ChangePage(page))));

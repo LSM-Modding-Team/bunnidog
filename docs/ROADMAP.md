@@ -16,7 +16,14 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
-P1 adds a craftable native Field Guide: 24 translated pages, contents/return
+L3/L4 adds saved/chunk-owned den troughs and developed gathering bells, plus
+hoe-controlled resident gardening. Mature matching food beside an enabled
+trough becomes one stored item; crop/fruit regrowth, home/danger/griefing rules
+and saved work recovery apply. Legacy starts/stock and crafted trough opt-in
+are preserved. Build/layout/native cases pass; previews inspected. See
+`SETTLEMENT_LIFE.md`. The Field Guide expands to 26 pages.
+
+P1 adds a craftable native Field Guide: 26 translated pages, contents/return
 links and a 35% independent pantry loot pool. It explains the whole progression
 without new screens or payloads. Build/server loading pass; preview inspected and client
 reading remains pending. See `FIELD_GUIDE.md`.
@@ -101,4 +108,4 @@ filling a quota, and honor any explicit pause in the current request.
 | Additional lineage behavior | Useful cave/terrain adaptations beyond current fire/cold/fall/poison/cactus/levitation rules | A1/A2 | Follow expressed genes; preserve native hazards and breeding tradeoffs |
 
 ## Ideas without a spec (design before implementing)
-Further settlement life beyond troughs/bell visits; further renewable materials and lineage adaptations. Gene Splicer G1, its table preview T5, Purebred Registry G2 and Show Ring G3 and Apex G4 are implemented. Native leads and Nest reassignment are H5; live tissue samples, woolly fleece, brushed whiskers and inherited protections are C1–C3/A1–A2. More ideas: `docs/DESIGN.md`, section "Ideas".
+Further settlement life beyond troughs, bell visits and gardening; further renewable materials and lineage adaptations. Gene Splicer G1, its table preview T5, Purebred Registry G2 and Show Ring G3 and Apex G4 are implemented. Native leads and Nest reassignment are H5; live tissue samples, woolly fleece, brushed whiskers and inherited protections are C1–C3/A1–A2. More ideas: `docs/DESIGN.md`, section "Ideas".

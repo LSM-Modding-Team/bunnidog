@@ -1,16 +1,28 @@
 {
   "variants": {
-    "fill=0": {
+    "fill=0,tending=false": {
       "model": "bunnidogs:block/feeding_trough"
     },
-    "fill=1": {
+    "fill=1,tending=false": {
       "model": "bunnidogs:block/feeding_trough_1"
     },
-    "fill=2": {
+    "fill=2,tending=false": {
       "model": "bunnidogs:block/feeding_trough_2"
     },
-    "fill=3": {
+    "fill=3,tending=false": {
       "model": "bunnidogs:block/feeding_trough_3"
+    },
+    "fill=0,tending=true": {
+      "model": "bunnidogs:block/feeding_trough_tending"
+    },
+    "fill=1,tending=true": {
+      "model": "bunnidogs:block/feeding_trough_1_tending"
+    },
+    "fill=2,tending=true": {
+      "model": "bunnidogs:block/feeding_trough_2_tending"
+    },
+    "fill=3,tending=true": {
+      "model": "bunnidogs:block/feeding_trough_3_tending"
     }
   }
 }

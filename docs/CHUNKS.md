@@ -6,6 +6,8 @@ Full text of every chunk (files, decisions, compile risks): `docs/history/CHUNKS
 
 | Chunk | What | Status |
 |---|---|---|
+| L4 | Hoe-controlled resident gardening: diet-aware crop/fruit harvest into troughs, opt-in, protection/home/transport rules and saved recovery | BUILD + NATIVE GARDEN CASE PASS; trough/guide previews inspected; gameplay pending |
+| L3 | Fitted den troughs with two starter guavas and developed gathering bells; saved chunk-owned metadata and legacy starts preserved | BUILD + CONNECTIVITY + NATIVE FIXTURE/SAVE CASE PASS; natural generation review pending |
 | P1 | Craftable 24-page native Field Guide with chapter/return links and independent pantry loot | BUILD + NATIVE RESOURCE LOADING PASS; icon/text preview inspected; client reading/discovery pending |
 | G4 | Apex Crucible, sample-defined persistent boss, five legendary offerings, warned attacks/enrage/boss bar and readable source-line crest | BUILD + NATIVE ENCOUNTER/SAVE/REWARD CASE PASS; art preview inspected; manual gameplay pending |
 | L2 | Short noon gatherings at loaded native bells; reachable home-bounded standing spots, no ticket claims, danger/transport interruption and rest | BUILD + NATIVE GATHERING CASE PASS; manual gameplay pending |

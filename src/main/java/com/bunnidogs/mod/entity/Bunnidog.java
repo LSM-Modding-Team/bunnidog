@@ -165,6 +165,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     /** H2: the Nest this dog has claimed (docs/HOME_SPECS.md); server side only. */
     private final NestHome nestHome = new NestHome(this);
     private long nextForageTick;
+    private long nextGardenTick;
     private long nextSampleTick;
     private long nextGroomTick;
     private long nextFleeceTick;
@@ -375,6 +376,14 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.heal(healing);
         this.playEatingSound();
         this.nextForageTick = this.level().getGameTime() + Foraging.MEAL_COOLDOWN;
+    }
+
+    int gardeningWait() {
+        return (int)Math.clamp(this.nextGardenTick-this.level().getGameTime(),0L,
+                (long)com.bunnidogs.mod.genetics.Gardening.REST_TICKS);
+    }
+    void finishedGardening() {
+        this.nextGardenTick = this.level().getGameTime()+com.bunnidogs.mod.genetics.Gardening.REST_TICKS;
     }
 
     @Override protected void playEatingSound() { this.playSound(SoundEvents.GENERIC_EAT.value(), 0.5F, 1.1F); }
@@ -666,6 +675,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         output.putString(TAG_GENOME, this.genome().toString());
         output.putString(TAG_STATS, this.stats().toString());
         if (this.highestShowAward > 0) output.putInt("ShowAward", this.highestShowAward);
+        if (this.gardeningWait() > 0) output.putInt("GardenWait",this.gardeningWait());
         output.putInt("ForageWait", (int) Math.clamp(this.nextForageTick - this.level().getGameTime(), 0L, (long) Foraging.MEAL_COOLDOWN));
         if (this.samplingWait() > 0) output.putInt("SampleWait",this.samplingWait());
         if (this.groomingWait() > 0) output.putInt("GroomWait",this.groomingWait());
@@ -707,6 +717,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.earTag = EarTag.parse(input.getStringOr(TAG_EAR_TAG, "")).orElse(null);
         super.readAdditionalSaveData(input);
         this.highestShowAward = Math.max(0, input.getIntOr("ShowAward", 0));
+        this.nextGardenTick = this.level().getGameTime()+Math.clamp(input.getIntOr("GardenWait",0),0,
+                com.bunnidogs.mod.genetics.Gardening.REST_TICKS);
         this.nextGroomTick = this.level().getGameTime()+Math.clamp(input.getIntOr("GroomWait",0),0,Grooming.RECOVERY_TICKS);
         this.nextForageTick = this.level().getGameTime() + Math.clamp(input.getIntOr("ForageWait", 0), 0, Foraging.MEAL_COOLDOWN);
         this.nextSampleTick = this.level().getGameTime()+Math.clamp(input.getIntOr("SampleWait",0),0,
@@ -774,6 +786,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.goalSelector.addGoal(7, new TroughGoal(this));
         this.goalSelector.addGoal(7, new HuntGoal(this));
         this.goalSelector.addGoal(7, new GrazeGoal(this));
+        this.goalSelector.addGoal(7, new GardenGoal(this));
         this.goalSelector.addGoal(7, new BellGatherGoal(this));
         this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 6.0F));

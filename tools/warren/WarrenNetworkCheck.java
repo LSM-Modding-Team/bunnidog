@@ -7,6 +7,7 @@ import com.bunnidogs.mod.layout.TunnelShape;
 import com.bunnidogs.mod.layout.TunnelShape.Pos;
 import com.bunnidogs.mod.layout.UndergroundRooms;
 import com.bunnidogs.mod.layout.Wayfinding;
+import com.bunnidogs.mod.layout.SettlementFixtures;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
@@ -44,7 +45,10 @@ public final class WarrenNetworkCheck {
                 try { reachable(network, terrain, true); }
                 catch (AssertionError error) { throw new AssertionError("level " + level + ", seed " + seed + ": " + error.getMessage(), error); }
                 chunkPartitions(network);
-                if (seed < 3) checkWayfinding(settlement,network,labels);
+                if (seed < 3) {
+                    checkWayfinding(settlement,network,labels);
+                    checkFixtures(settlement,network,terrain);
+                }
                 checkCellars(settlement, network, terrain);
                 levelCellars += network.cellars().size();
                 network.features().forEach(f -> features.merge(f.type(),1,Integer::sum));
@@ -158,6 +162,33 @@ public final class WarrenNetworkCheck {
                     && Math.floorDiv(-13+p.z(),16) == Math.floorDiv(-13+support.z(),16),"Sign/support must share their owning chunk");
             labels.add(sign.label());
         }
+    }
+
+    private static void checkFixtures(Settlement settlement, TunnelShape.Network network, Ground terrain) {
+        var signs = Wayfinding.plan(settlement,network,17,-13);
+        var fixtures = SettlementFixtures.plan(settlement,network,signs);
+        require(fixtures.equals(SettlementFixtures.decode(SettlementFixtures.encode(fixtures))),"Fixture plans must persist exactly");
+        require(SettlementFixtures.decode(new int[]{0,0,0,99,0}).isEmpty(),"Unknown/truncated furniture must be skipped");
+        if (!network.dens().isEmpty()) {
+            require(fixtures.stream().filter(f -> f.kind() == SettlementFixtures.Kind.TROUGH).count() == network.dens().size(),
+                    "Representative fitted dens must each have one trough");
+            require(fixtures.stream().filter(f -> f.kind() == SettlementFixtures.Kind.BELL).count()
+                    == (settlement.level() >= 3 && network.dens().contains(0) ? 1 : 0),"Developed central rooms need exactly one bell");
+        }
+        Map<Pos,DenShape.Kind> cells = new HashMap<>(); network.cells().forEach(c -> cells.put(c.pos(),c.kind()));
+        var unique = new HashSet<Pos>();
+        for (var fixture : fixtures) {
+            var p = fixture.pos();
+            require(unique.add(p) && cells.get(p) == DenShape.Kind.AIR,"Furniture must occupy distinct spare air cells");
+            require(cells.get(new Pos(p.x(),p.y()-1,p.z())) != DenShape.Kind.NEST,"Furniture must leave floor Nests free");
+            require(signs.stream().noneMatch(s -> s.pos().x() == p.x() && s.pos().z() == p.z()
+                    && Math.abs(s.pos().y()-p.y()) <= 1),"Furniture must leave labels clear");
+            cells.put(p,DenShape.Kind.HAY); // Conservative full-block obstacle for both native shapes.
+        }
+        var furnished = new TunnelShape.Network(cells.entrySet().stream().map(e -> new TunnelShape.Cell(e.getKey(),e.getValue())).toList(),
+                network.dens(),network.mouths(),network.cellars(),network.pathExclusions(),network.features());
+        reachable(furnished,terrain,true);
+        require(SettlementFixtures.den(DenShape.generate(new Random(4))).size() == 1,"A standalone den must fit its trough too");
     }
 
     private static void checkCellars(Settlement settlement, TunnelShape.Network network, Ground terrain) {

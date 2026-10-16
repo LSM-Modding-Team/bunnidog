@@ -32,6 +32,16 @@ public final class FeedingTroughBlockEntity extends BlockEntity {
                 && (stack.is(ModItems.BUNNIDOG_FOOD) || Arrays.stream(Diet.values()).anyMatch(d -> ModDietTags.accepts(d,stack)));
     }
     public ItemStack food() { return this.food; }
+    public boolean canInsert(ItemStack stack) {
+        return accepts(stack) && (this.food.isEmpty() || ItemStack.isSameItemSameComponents(this.food,stack))
+                && this.food.getCount() < Math.min(CAPACITY,stack.getMaxStackSize());
+    }
+    /** Only new worldgen furniture uses this; no live-server block writes from a WorldGenRegion. */
+    public void setInitialFood(ItemStack stack) {
+        if (!this.food.isEmpty() || !accepts(stack)) return;
+        this.food = stack.copyWithCount(Math.min(stack.getCount(),Math.min(CAPACITY,stack.getMaxStackSize())));
+        this.setChanged();
+    }
     public int insert(ItemStack stack) {
         if (!accepts(stack) || !this.food.isEmpty() && !ItemStack.isSameItemSameComponents(this.food,stack)) return 0;
         int amount = Math.max(0,Math.min(stack.getCount(),Math.min(CAPACITY,stack.getMaxStackSize())-this.food.getCount()));

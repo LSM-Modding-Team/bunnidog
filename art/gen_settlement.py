@@ -20,12 +20,15 @@ def main():
     base = [box([1,0,4],[15,2,12],'wood'),box([1,2,4],[15,7,6],'wood'),box([1,2,10],[15,7,12],'wood'),
             box([1,2,6],[3,7,10],'wood'),box([13,2,6],[15,7,10],'wood')]
     variants = {}
-    for fill in range(4):
-        name = 'feeding_trough' + (f'_{fill}' if fill else '')
-        elements = base + ([box([3,2,6],[13,2+fill,10],'feed')] if fill else [])
-        write(f'assets/bunnidogs/models/block/{name}.json',{'parent':'minecraft:block/block',
-              'textures':{'particle':'bunnidogs:block/guava_planks','wood':'bunnidogs:block/guava_planks','feed':'bunnidogs:block/trough_feed'},'elements':elements})
-        variants[f'fill={fill}'] = {'model':f'bunnidogs:block/{name}'}
+    for tending in (False,True):
+        for fill in range(4):
+            name = 'feeding_trough' + (f'_{fill}' if fill else '') + ('_tending' if tending else '')
+            elements = base + ([box([3,2,6],[13,2+fill,10],'feed')] if fill else [])
+            if tending: elements += [box([.75,3,7],[1.1,6,9],'leaf'),box([14.9,3,7],[15.25,6,9],'leaf')]
+            write(f'assets/bunnidogs/models/block/{name}.json',{'parent':'minecraft:block/block',
+                  'textures':{'particle':'bunnidogs:block/guava_planks','wood':'bunnidogs:block/guava_planks',
+                              'feed':'bunnidogs:block/trough_feed','leaf':'minecraft:block/moss_block'},'elements':elements})
+            variants[f'fill={fill},tending={str(tending).lower()}'] = {'model':f'bunnidogs:block/{name}'}
     write('assets/bunnidogs/blockstates/feeding_trough.json',{'variants':variants})
     write('assets/bunnidogs/models/item/feeding_trough.json',{'parent':'bunnidogs:block/feeding_trough'})
     write('assets/bunnidogs/items/feeding_trough.json',{'model':{'type':'minecraft:model','model':'bunnidogs:item/feeding_trough'}})
@@ -45,21 +48,27 @@ def main():
         value = json.loads(path.read_text()); value.update({
           'block.bunnidogs.feeding_trough':'Feeding Trough',
           'message.bunnidogs.trough.added':'Added %s food; %s stored. One food type, up to 16.',
-          'message.bunnidogs.trough.empty':'Empty trough. Add food; sneak-use with empty hands to withdraw.',
-          'message.bunnidogs.trough.stock':'Stored: %s x %s. Sneak-use with empty hands to withdraw.'})
+          'message.bunnidogs.trough.empty':'Empty trough. Add food; use a hoe to toggle resident gardening.',
+          'message.bunnidogs.trough.stock':'Stored: %s x %s. Sneak-empty: withdraw. Hoe: toggle gardening.',
+          'message.bunnidogs.trough.tending.on':'Gardening enabled. Healthy residents tend matching ripe crops beside this trough.',
+          'message.bunnidogs.trough.tending.off':'Gardening disabled. Residents still eat stored food.'})
         path.write_text(json.dumps(value,indent=2)+'\n')
-    preview = Image.new('RGBA',(800,260),(46,43,42,255)); d = ImageDraw.Draw(preview)
+    preview = Image.new('RGBA',(800,280),(46,43,42,255)); d = ImageDraw.Draw(preview)
     preview.alpha_composite(feed.resize((160,160),Image.Resampling.NEAREST),(620,20))
     for fill in range(4):
         ox = 85+fill*145
         def p(x,y,z): return (ox+(x-z)*4,190+(x+z)*2-y*5)
-        for element in base + ([box([3,2,6],[13,2+fill,10],'feed')] if fill else []):
+        elements = base + ([box([3,2,6],[13,2+fill,10],'feed')] if fill else [])
+        if fill >= 2: elements += [box([.75,3,7],[1.1,6,9],'leaf'),box([14.9,3,7],[15.25,6,9],'leaf')]
+        for element in elements:
             x,y,z=element['from']; X,Y,Z=element['to']
             is_feed = element['faces']['up']['texture']=='#feed'
+            is_leaf = element['faces']['up']['texture']=='#leaf'
             for vertices,color in [([(X,y,z),(X,y,Z),(X,Y,Z),(X,Y,z)],(119,75,44)),
                     ([(x,y,Z),(X,y,Z),(X,Y,Z),(x,Y,Z)],(159,102,60)),
                     ([(x,Y,z),(X,Y,z),(X,Y,Z),(x,Y,Z)],(167,127,66) if is_feed else (192,132,81))]:
-                d.polygon([p(*v) for v in vertices],fill=color,outline=(46,35,25))
+                d.polygon([p(*v) for v in vertices],fill=(100,144,56) if is_leaf else color,outline=(46,35,25))
+        d.text((ox-20,245),'Gardening on' if fill >= 2 else 'Manual stock',fill=(232,218,188))
     preview.save(ROOT/'art/settlement_preview.png')
     print('Generated trough models, food texture, crafting, unlock, drops and source preview.')
 

@@ -13,7 +13,7 @@ not refilled and player inventories are not edited.
 
 ## Presentation and saves
 
-Twenty-four pages use the ordinary written-book screen. Page 1 has nine clickable
+Twenty-six pages use the ordinary written-book screen. Page 1 has ten clickable
 chapter links; every other page links back to the contents. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.

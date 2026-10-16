@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 24 pages from first warren to Apex, with clickable chapter/contents links.
+open 26 pages from first warren to Apex, with clickable chapter/contents links.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 
@@ -19,6 +19,16 @@ health it becomes faster and stronger. A player victory gives an Apex Crest
 that opens the original line's sheet or stands on a Trophy Pedestal; the first
 victory earns Apex of the Line and 200 XP. Bosses reject food, care, leads and
 rides. See `docs/APEX_SPECS.md` for exact rules.
+
+**Resident gardens (L3/L4):** newly fitted dens have a trough with two starter
+guavas, and levels 3–5 also fit a central gathering bell. Use a hoe on any trough
+to toggle gardening (green markers = on). Healthy adult residents with a Nest
+can gather matching ripe food within three blocks, one item per minute of work
+recovery. Keep walking space beside the trough and mob griefing enabled. Crops
+reset rather than breaking; food enters the trough, with no seed/bonus drops.
+Old/crafted troughs start off. New generated ones start on. Empty a guava-stocked
+trough before asking it to store another food. Existing stock never refills by
+generation. Foods still follow the gardener's expressed Diet.
 
 **Settlement life (L1/L2):** craft a Feeding Trough with seven planks and one
 iron ingot (`P P/PIP/PPP`). Add food in the main hand, inspect empty-handed,

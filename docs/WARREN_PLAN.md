@@ -363,3 +363,16 @@ cover determinism, tuples, wall choice, every label kind and chunk ownership.
 A server GameTest checks chunk restrictions, generated text, edit protection,
 existing containers and missing supports. Full natural chunk-order/reload and
 client text appearance still need gameplay review.
+
+
+## 21. L3 fitted settlement furniture
+
+New version-3 starts save optional `LifeFixtures` beside existing `TunnelCells`
+and `Wayfinding`, without reusing any cell ID or changing room bounds. A spare
+side cell in each fitted den holds a Feeding Trough with two starter guavas;
+central level-3+ rooms can also fit a floor bell. Furniture leaves centres,
+openings, Nests, bedding and labels free. Placement belongs to the fixture's
+column/chunk, after tunnel and sign writes. Existing blocks/stock are preserved.
+Standalone level-one surface dens add their trough only after fitting; older
+saved version-1/2 starts keep their prior behavior. Feature/command networks
+use the same pure planner. See `SETTLEMENT_LIFE.md` for mode and gardening.

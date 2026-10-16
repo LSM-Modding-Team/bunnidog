@@ -166,8 +166,8 @@
   "message.bunnidogs.care.splice_ready": "recipient ready; donor sample and Mutagen required",
   "block.bunnidogs.feeding_trough": "Feeding Trough",
   "message.bunnidogs.trough.added": "Added %s food; %s stored. One food type, up to 16.",
-  "message.bunnidogs.trough.empty": "Empty trough. Add food; sneak-use with empty hands to withdraw.",
-  "message.bunnidogs.trough.stock": "Stored: %s x %s. Sneak-use with empty hands to withdraw.",
+  "message.bunnidogs.trough.empty": "Empty trough. Add food; use a hoe to toggle resident gardening.",
+  "message.bunnidogs.trough.stock": "Stored: %s x %s. Sneak-empty: withdraw. Hoe: toggle gardening.",
   "block.bunnidogs.apex_crucible": "Apex Crucible",
   "item.bunnidogs.apex_crest": "Apex Crest",
   "entity.bunnidogs.apex": "Apex of the Line",
@@ -248,5 +248,12 @@
   "guide.bunnidogs.page.23.title": "Apex of the Line",
   "guide.bunnidogs.page.23.body": "Watch for its charge: dodge pounces and leave the four-block stomp. Half health enrages it. A player victory drops a crest that reads the original line or stands on a pedestal. Care tools refuse.",
   "guide.bunnidogs.page.24.title": "Guava juice",
-  "guide.bunnidogs.page.24.body": "Craft a guava with a glass bottle. Hold a seed in the main hand and juice in the other, then use the seed to infuse it. The rolled pup genes determine the drink effects. Better seeds improve them."
+  "guide.bunnidogs.page.24.body": "Craft a guava with a glass bottle. Hold a seed in the main hand and juice in the other, then use the seed to infuse it. The rolled pup genes determine the drink effects. Better seeds improve them.",
+  "message.bunnidogs.trough.tending.on": "Gardening enabled. Healthy residents tend matching ripe crops beside this trough.",
+  "message.bunnidogs.trough.tending.off": "Gardening disabled. Residents still eat stored food.",
+  "guide.bunnidogs.index.25": "Trough gardening",
+  "guide.bunnidogs.page.25.title": "Trough gardening",
+  "guide.bunnidogs.page.25.body": "Use a hoe to enable trough gardening. A healthy adult with a Nest gathers matching ripe food beside it, then rests a minute. Leave walking space and keep mob griefing on.",
+  "guide.bunnidogs.page.26.title": "Furnished dens",
+  "guide.bunnidogs.page.26.body": "New fitted dens have a trough with two guavas. Levels 3-5 also have a meeting bell. Generated troughs start enabled; old and crafted ones stay manual until you use a hoe."
 }

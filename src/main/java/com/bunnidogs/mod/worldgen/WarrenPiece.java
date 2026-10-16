@@ -55,6 +55,7 @@ public class WarrenPiece extends StructurePiece {
     private final int[] tunnelCells;
     private final int[] pathExclusions;
     private final int[] wayfinding;
+    private final int[] lifeFixtures;
     private final boolean woodDetails;
     private final int generationVersion;
 
@@ -72,6 +73,11 @@ public class WarrenPiece extends StructurePiece {
 
     public WarrenPiece(int kind, int index, long seed, int level, int centreX, int centreZ, int y, boolean networkDen,
             int[] tunnelCells, int[] pathExclusions, int[] wayfinding) {
+        this(kind,index,seed,level,centreX,centreZ,y,networkDen,tunnelCells,pathExclusions,wayfinding,new int[0]);
+    }
+
+    public WarrenPiece(int kind, int index, long seed, int level, int centreX, int centreZ, int y, boolean networkDen,
+            int[] tunnelCells, int[] pathExclusions, int[] wayfinding, int[] lifeFixtures) {
         super(ModStructures.WARREN_PIECE.get(), 0, boxFor(kind, index, seed, level, centreX, centreZ, y, tunnelCells));
         this.kind = kind;
         this.index = index;
@@ -84,8 +90,9 @@ public class WarrenPiece extends StructurePiece {
         this.tunnelCells = tunnelCells.clone();
         this.pathExclusions = pathExclusions.clone();
         this.wayfinding = wayfinding.clone();
+        this.lifeFixtures = lifeFixtures.clone();
         this.woodDetails = true;
-        this.generationVersion = 2;
+        this.generationVersion = 3;
     }
 
     public WarrenPiece(CompoundTag tag) {
@@ -101,6 +108,7 @@ public class WarrenPiece extends StructurePiece {
         this.tunnelCells = tag.getIntArray("TunnelCells").orElseGet(() -> new int[0]);
         this.pathExclusions = tag.getIntArray("PathExclusions").orElseGet(() -> new int[0]);
         this.wayfinding = tag.getIntArray("Wayfinding").orElseGet(() -> new int[0]);
+        this.lifeFixtures = tag.getIntArray("LifeFixtures").orElseGet(() -> new int[0]);
         this.woodDetails = tag.getBooleanOr("WoodDetails",false);
         this.generationVersion = tag.getIntOr("WarrenVersion",1);
     }
@@ -152,6 +160,7 @@ public class WarrenPiece extends StructurePiece {
         tag.putBoolean("NetworkDen", networkDen);
         if (tunnelCells.length > 0) tag.putIntArray("TunnelCells", tunnelCells);
         if (wayfinding.length > 0) tag.putIntArray("Wayfinding",wayfinding);
+        if (lifeFixtures.length > 0) tag.putIntArray("LifeFixtures",lifeFixtures);
         if (pathExclusions.length > 0) tag.putIntArray("PathExclusions", pathExclusions);
         tag.putBoolean("WoodDetails",woodDetails);
         tag.putInt("WarrenVersion",generationVersion);
@@ -166,6 +175,7 @@ public class WarrenPiece extends StructurePiece {
         if (kind == TUNNEL) {
             WarrenTunnels.place(world, new BlockPos(centreX, y, centreZ), tunnelCells, chunkBox, style);
             WarrenSigns.place(world,new BlockPos(centreX,y,centreZ),wayfinding,chunkBox);
+            WarrenFixtures.place(world,new BlockPos(centreX,y,centreZ),lifeFixtures,chunkBox);
             return;
         }
         if (kind == PATH) {
@@ -182,7 +192,7 @@ public class WarrenPiece extends StructurePiece {
             BlockPos ground = WarrenFeature.groundAt(world, x, y, z, true);
             if (ground != null) {
                 WarrenFeature.buildCluster(world, ground, s.clusters().get(index).shape(), new Random(seed + 31L * index), true, style,
-                        level == 1 && (style != Lineage.END || generationVersion < 2), networkDen);
+                        level == 1 && (style != Lineage.END || generationVersion < 2), networkDen,generationVersion >= 3);
             }
         } else if (kind == PROP) {
             WarrenFeature.buildProp(world, x, y, z, s.props().get(index), true, style);

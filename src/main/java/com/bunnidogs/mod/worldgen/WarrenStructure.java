@@ -39,10 +39,13 @@ public class WarrenStructure extends Structure {
         Settlement layout = Settlement.generate(new Random(layoutSeed), level);
         BlockPos origin = new BlockPos(cx, cy, cz);
         TunnelShape.Network underground = WarrenTunnels.plan(context, origin, layout, layoutSeed);
+        var signs = com.bunnidogs.mod.layout.Wayfinding.plan(layout,underground,cx,cz);
+        var fixtures = com.bunnidogs.mod.layout.SettlementFixtures.plan(layout,underground,signs);
         return Optional.of(new GenerationStub(new BlockPos(cx, cy, cz), builder -> {
             if (!underground.cells().isEmpty()) {
                 builder.addPiece(new WarrenPiece(WarrenPiece.TUNNEL, 0, layoutSeed, level, cx, cz, cy, false, WarrenTunnels.encode(underground),new int[0],
-                        com.bunnidogs.mod.layout.Wayfinding.encode(com.bunnidogs.mod.layout.Wayfinding.plan(layout,underground,cx,cz))));
+                        com.bunnidogs.mod.layout.Wayfinding.encode(signs),
+                        com.bunnidogs.mod.layout.SettlementFixtures.encode(fixtures)));
             }
             for (int i = 0; i < layout.clusters().size(); i++) {
                 Settlement.Cluster c = layout.clusters().get(i);

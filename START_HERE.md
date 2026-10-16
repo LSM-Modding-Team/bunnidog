@@ -45,7 +45,28 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
-**P1 — Field Guide:** craft a vanilla book with any guava for a 24-page native
+**Settlement L3/L4 — furnished dens and gardening:** newly fitted dens include
+one trough with two starter guavas; developed central rooms (levels 3–5) also
+fit a native gathering bell. Separate saved/chunk-owned `LifeFixtures` metadata
+and WarrenVersion 3 preserve older starts, floor Nests, exits and existing stock.
+No repeat-placement refill. The same planning serves natural and command builds.
+
+Use a hoe on a trough to toggle resident gardening; green markers show enabled
+mode. Crafted/old troughs default off; generated ones start on. Healthy adult
+residents with a Nest gather matching ripe crops/fruit beside enabled troughs,
+one produce per job and a saved minute of rest. Native grief/protection rules,
+full/mismatching stock, diets, home bounds, night and transport are respected.
+Wheat/root crops, Nether Wart, guava fruit and glow berries regrow after tending.
+The Field Guide now has 26 pages and ten contents links, including gardening.
+
+Actual build and eighteen server scenarios (seventeen mod + native sanity) pass.
+The added cases cover native fixture stock/placement/legacy metadata, hoe use,
+carrot/guava work, refusals, transport and saved work recovery. Focused layout
+checks retain Nest/room connectivity with furniture treated as full obstacles.
+Trough/guide previews inspected; natural chunk order, client visuals and long
+multiplayer routines remain gameplay review. See `docs/SETTLEMENT_LIFE.md`.
+
+**P1 — Field Guide:** craft a vanilla book with any guava for a 26-page native
 book covering the complete progression, with clickable contents/return links.
 An independent 35% warren-pantry pool helps explorers find it; existing food
 rolls persist and filled containers are not refilled. Uses native translated
@@ -244,7 +265,7 @@ genetic item components through save/load, exact vehicle/content drops, native
 sign validity/tickers and two-sided text/color/glow/wax persistence, lead/ride
 goal suspension and restoration, and Nest reassignment/ticket protection.
 Tests and their empty structure fixture are excluded from the shipped JAR.
-The server suite now contains fifteen mod scenarios (plus the native runner's
+The server suite now contains seventeen mod scenarios (plus the native runner's
 always-pass sanity test); current local evidence is recorded in the batch above.
 GitHub Actions now runs `build checkBunnidogModel runGameTestServer` before
 uploading the artifact. `checkGuavaBoats` is part of `build` and checks native

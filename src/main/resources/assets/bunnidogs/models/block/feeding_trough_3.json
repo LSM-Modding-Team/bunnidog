@@ -3,7 +3,8 @@
   "textures": {
     "particle": "bunnidogs:block/guava_planks",
     "wood": "bunnidogs:block/guava_planks",
-    "feed": "bunnidogs:block/trough_feed"
+    "feed": "bunnidogs:block/trough_feed",
+    "leaf": "minecraft:block/moss_block"
   },
   "elements": [
     {

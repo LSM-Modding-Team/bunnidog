@@ -140,8 +140,10 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
                 ? WarrenTunnels.plan(level, floor, settlement, rng.nextLong(), surfaceOnly, open) : TunnelShape.Network.empty();
         if (!underground.cells().isEmpty()) {
             WarrenTunnels.place(level, floor, WarrenTunnels.encode(underground), null, style);
-            WarrenSigns.place(level,floor,com.bunnidogs.mod.layout.Wayfinding.encode(
-                    com.bunnidogs.mod.layout.Wayfinding.plan(settlement,underground,floor.getX(),floor.getZ())),null);
+            var signs = com.bunnidogs.mod.layout.Wayfinding.plan(settlement,underground,floor.getX(),floor.getZ());
+            WarrenSigns.place(level,floor,com.bunnidogs.mod.layout.Wayfinding.encode(signs),null);
+            WarrenFixtures.place(level,floor,com.bunnidogs.mod.layout.SettlementFixtures.encode(
+                    com.bunnidogs.mod.layout.SettlementFixtures.plan(settlement,underground,signs)),null);
         }
         int trees = 0;
         int dogs = 0;
@@ -152,7 +154,7 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
                     ? floor
                     : groundAt(level, floor.getX() + cluster.dx(), floor.getY(), floor.getZ() + cluster.dz(), surfaceOnly);
             boolean networkDen = underground.dens().contains(clusterIndex++);
-            int here = at == null ? NO_CLUSTER : buildCluster(level, at, cluster.shape(), rng, surfaceOnly, style, settlement.level() == 1 && !open, networkDen);
+            int here = at == null ? NO_CLUSTER : buildCluster(level, at, cluster.shape(), rng, surfaceOnly, style, settlement.level() == 1 && !open, networkDen,true);
             if (here == NO_CLUSTER) {
                 if (trees == 0 && cluster.dx() == 0 && cluster.dz() == 0) {
                     BunnidogsMod.LOGGER.info("Warren gave up at {} ({} kind): no room for the trunk", floor, kind);
@@ -412,6 +414,11 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     static int buildCluster(WorldGenLevel level, BlockPos floor, WarrenShape warren, Random rng, boolean surface, Lineage style, boolean den, boolean networkDen) {
+        return buildCluster(level,floor,warren,rng,surface,style,den,networkDen,false);
+    }
+
+    static int buildCluster(WorldGenLevel level, BlockPos floor, WarrenShape warren, Random rng, boolean surface, Lineage style,
+            boolean den, boolean networkDen, boolean lifeDetails) {
         if (!GuavaTree.fits(level, floor, warren.tree())) {
             return NO_CLUSTER;
         }
@@ -427,7 +434,7 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
         GuavaTree.place(level, floor, warren.tree());
         // U2 has already placed fitted higher-level networks. U1 still builds its own level-1 den here.
         // Without a fitted den, retain the old holes and surface nests.
-        boolean denBuilt = networkDen || den && surface && WarrenDen.build(level, floor, style, rng);
+        boolean denBuilt = networkDen || den && surface && WarrenDen.build(level, floor, style, rng,lifeDetails);
         if (!denBuilt) {
             for (WarrenShape.Spot spot : warren.burrows()) {
                 BlockPos ground = groundAt(level, floor.getX() + spot.dx(), floor.getY(), floor.getZ() + spot.dz(), surface);

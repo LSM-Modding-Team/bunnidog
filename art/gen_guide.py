@@ -28,9 +28,11 @@ PAGES = {
     22: ('The ritual ring', 'Use any five slots: three blocks N/E/S/W or two blocks diagonally, at crucible height. Leave dry space above it. Success spends the sample and five legends. The living donor stays safe.'),
     23: ('Apex of the Line', 'Watch for its charge: dodge pounces and leave the four-block stomp. Half health enrages it. A player victory drops a crest that reads the original line or stands on a pedestal. Care tools refuse.'),
     24: ('Guava juice', 'Craft a guava with a glass bottle. Hold a seed in the main hand and juice in the other, then use the seed to infuse it. The rolled pup genes determine the drink effects. Better seeds improve them.'),
+    25: ('Trough gardening', 'Use a hoe to enable trough gardening. A healthy adult with a Nest gathers matching ripe food beside it, then rests a minute. Leave walking space and keep mob griefing on.'),
+    26: ('Furnished dens', 'New fitted dens have a trough with two guavas. Levels 3-5 also have a meeting bell. Generated troughs start enabled; old and crafted ones stay manual until you use a hoe.'),
 }
 INDEX = {2:'Warrens & genes',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
-         17:'Registry & shows',19:'Material drops',20:'Apex of the Line',24:'Guava juice'}
+         17:'Registry & shows',19:'Material drops',20:'Apex of the Line',24:'Guava juice',25:'Trough gardening'}
 
 
 def main():
@@ -72,13 +74,13 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,1),(495,12),(735,22)]:
+    for x,page in [(255,1),(495,12),(735,25)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         d.text((x+14,35), 'Bunnidogs Guide' if page == 1 else PAGES[page][0], font=bold,fill=(40,39,30))
         if page == 1: body = '\n'.join(INDEX.values())
         else: body = '\n'.join(textwrap.wrap(PAGES[page][1],25)) + '\n\nContents'
         d.multiline_text((x+14,75),body,font=font,spacing=6,fill=(40,59,36))
-        d.text((x+14,365),f'Page {page} / 24',font=font,fill=(85,77,56))
+        d.text((x+14,365),f'Page {page} / 26',font=font,fill=(85,77,56))
     d.text((15,350),'Book icon + text preview',font=font,fill=(224,217,185))
     d.text((15,375),'Substitute font; native UI pending',font=ImageFont.load_default(),fill=(224,217,185))
     preview.save(ROOT/'art/guide_preview.png')
