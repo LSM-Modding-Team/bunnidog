@@ -4,10 +4,17 @@ import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.genetics.Plain;
 import com.bunnidogs.mod.genetics.Stats;
+import com.bunnidogs.mod.genetics.Adaptations;
 import com.bunnidogs.mod.registry.ModEntities;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.util.ProblemReporter;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.phys.Vec3;
 
 public final class AdaptationsGameTest {
     private AdaptationsGameTest() {}
@@ -74,5 +81,49 @@ public final class AdaptationsGameTest {
         h.assertTrue(Plain.effect(Gene.COAT,Gene.COAT.alleleNamed("moss")).contains("poison")
                 && Plain.effect(Gene.COAT,Gene.COAT.alleleNamed("sand")).contains("cactus")
                 && Plain.effect(Gene.COAT,Gene.COAT.alleleNamed("void")).contains("levitation"),"Readouts must explain each new protection");
+        var bare = dog(h,Genome.DEFAULT,3);
+        var slate = dog(h,with(Gene.COAT,"slate"),4);
+        var attack = level.damageSources().mobAttack(normal);
+        bare.hurtServer(level,attack,6); slate.hurtServer(level,attack,6);
+        h.assertTrue(slate.getAttributeValue(Attributes.ARMOR) == 4 && slate.getHealth() > bare.getHealth()
+                && slate.getHealth() < slate.getMaxHealth(),"Expressed slate must reduce actual ordinary attack damage without immunity");
+        int slateId = Gene.COAT.alleleNamed("slate").id();
+        slate.setGenome(Genome.DEFAULT.with(Gene.COAT,0,slateId).with(Gene.COAT,1,voidId));
+        h.assertTrue(slate.getAttributeValue(Attributes.ARMOR) == 0,"Hidden slate must not retain armor");
+        var heavy = dog(h,with(Gene.BUILD,"chonker"),4);
+        var stocky = dog(h,with(Gene.BUILD,"stocky"),5);
+        h.assertTrue(Math.abs(stocky.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE)-.15) < .001,
+                "Stocky builds must have their smaller knockback benefit");
+        bare.setDeltaMovement(Vec3.ZERO); heavy.setDeltaMovement(Vec3.ZERO);
+        bare.setOnGround(true); heavy.setOnGround(true);
+        bare.knockback(1,1,0,attack,1); heavy.knockback(1,1,0,attack,1);
+        h.assertTrue(heavy.getDeltaMovement().horizontalDistanceSqr() > 0
+                && heavy.getDeltaMovement().horizontalDistanceSqr() < bare.getDeltaMovement().horizontalDistanceSqr(),
+                "Chonker builds must reduce actual native knockback without eliminating it");
+        heavy.setGenome(with(Gene.COAT,"slate").with(Gene.BUILD,0,3).with(Gene.BUILD,1,3));
+        heavy.getAttribute(Attributes.ARMOR).setBaseValue(2);
+        for (int i = 0; i < 2; i++) {
+            var out = TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess());
+            heavy.saveWithoutId(out);
+            var reloaded = ModEntities.BUNNIDOG.get().create(level,EntitySpawnReason.LOAD);
+            reloaded.load(TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),out.buildResult()));
+            h.assertTrue(reloaded.getAttributeValue(Attributes.ARMOR) == 6
+                    && Math.abs(reloaded.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE)-.3) < .001,
+                    "Reload must restore one genetic bonus alongside external armor base values");
+            heavy = reloaded;
+        }
+        heavy.setGenome(Genome.DEFAULT);
+        h.assertTrue(heavy.getAttributeValue(Attributes.ARMOR) == 2 && heavy.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE) == 0,
+                "Changing genes must remove only the genetic modifiers, preserving external armor");
+        var apex = ModEntities.APEX.get().create(level,EntitySpawnReason.COMMAND);
+        apex.setGenome(with(Gene.COAT,"slate").with(Gene.BUILD,0,3).with(Gene.BUILD,1,3));
+        h.assertTrue(apex.getAttributeValue(Attributes.ARMOR) == 8
+                && Math.abs(apex.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE)-.8) < .001,
+                "Apex copies must combine inherited defenses with their native boss bases");
+        int glowId = Gene.COAT.alleleNamed("glow").id();
+        h.assertTrue(Adaptations.luminous(with(Gene.COAT,"glow"))
+                && !Adaptations.luminous(Genome.DEFAULT.with(Gene.COAT,0,glowId)),"Recessive glow requires visible expression");
+        h.assertTrue(Plain.effect(Gene.COAT,Gene.COAT.alleleNamed("slate")).contains("armor")
+                && Plain.effect(Gene.BUILD,Gene.BUILD.alleleNamed("chonker")).contains("knockback"),"Readouts must explain inherited physical defenses");
     }
 }

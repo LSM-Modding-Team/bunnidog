@@ -17,7 +17,7 @@ PAGES = {
     11: ('Gentle sampling', 'Use a Sampling Syringe on an animal at half health or better. It yields one Tissue Sample without harm; recovery takes five minutes. Sneak-use Calipers for care readiness and timers.'),
     12: ('Wool and whiskers', 'Shear a healthy woolly adult for two wool. Brush a healthy adult with Senses +10 for one whisker. Each needs ten minutes of recovery; brushing wears the tool. Pups cannot yield either.'),
     13: ('Useful coats', 'Expressed ember resists fire and lava; moss prevents Poison; sand prevents cactus damage; void prevents Levitation. Hidden copies give no protection. Other dangers still matter.'),
-    14: ('Builds and legs', 'Snow coats and woolly builds resist freezing. Hoofed legs halve fall damage. Crossbreeding can combine these with another coat. Read gene hovers for traits and the stat drift they bring.'),
+    14: ('Physical traits', 'Hoofed legs halve fall damage. Slate coats add 4 armor. Stocky/chonker builds resist knockback by 15%/30%. Snow/woolly resist freezing. A glow coat is self-lit; hidden copies give no benefit.'),
     15: ('Laboratory', 'Put two Tissue Samples on a Genetics Table. Read the source sheets, pup forecast, copy odds and splice plans. Hidden copies count. Reading never spends samples.'),
     16: ('Gene Splicer', 'Sneak-use to select a gene. Hold a donor sample in the other hand and carry Mutagen. Use on a healthy adult: one donor copy enters that gene. Costs one sample, Mutagen and tool use.'),
     17: ('Stable lines', 'Breed adults with matching copies in all seven genes, including Diet. A Purebred Registry logs up to 24 distinct stable bred lines with recorded parents. Stats still drift each generation.'),

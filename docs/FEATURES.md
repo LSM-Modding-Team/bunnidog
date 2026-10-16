@@ -20,6 +20,12 @@ that opens the original line's sheet or stands on a Trophy Pedestal; the first
 victory earns Apex of the Line and 200 XP. Bosses reject food, care, leads and
 rides. See `docs/APEX_SPECS.md` for exact rules.
 
+**Inherited defenses and glow (A3):** slate coats add four Armor points against
+ordinary attacks. Stocky/chonker builds reduce knockback by 15%/30%. A visibly
+expressed glow coat stays bright in darkness; a hidden copy does not. It lights
+the animal rather than nearby blocks. Crossbreeding can combine coat/build/leg
+benefits. Gene hovers explain them, including on samples and forecasts.
+
 **Resident gardens (L3/L4):** newly fitted dens have a trough with two starter
 guavas, and levels 3–5 also fit a central gathering bell. Use a hoe on any trough
 to toggle gardening (green markers = on). Healthy adult residents with a Nest

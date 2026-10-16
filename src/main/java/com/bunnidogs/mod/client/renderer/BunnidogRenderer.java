@@ -5,10 +5,12 @@ import com.bunnidogs.mod.client.model.BunnidogModel;
 import com.bunnidogs.mod.client.model.BunnidogModelLayer;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Allele;
+import com.bunnidogs.mod.genetics.Adaptations;
 import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Traits;
 
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.core.BlockPos;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.Identifier;
@@ -36,6 +38,11 @@ public class BunnidogRenderer extends MobRenderer<Bunnidog, BunnidogRenderState,
     @Override
     public BunnidogRenderState createRenderState() {
         return new BunnidogRenderState();
+    }
+
+    @Override
+    protected int getBlockLightLevel(Bunnidog entity, BlockPos pos) {
+        return Adaptations.blockLight(entity.genome(),super.getBlockLightLevel(entity,pos));
     }
 
     @Override

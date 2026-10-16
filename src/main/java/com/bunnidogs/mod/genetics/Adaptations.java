@@ -11,6 +11,12 @@ public final class Adaptations {
     public static boolean poisonProof(Genome genome) { return genome.expressed(Gene.COAT).name().equals("moss"); }
     public static boolean cactusProof(Genome genome) { return genome.expressed(Gene.COAT).name().equals("sand"); }
     public static boolean levitationProof(Genome genome) { return genome.expressed(Gene.COAT).name().equals("void"); }
+    public static double armor(Genome genome) { return genome.expressed(Gene.COAT).name().equals("slate") ? 4 : 0; }
+    public static double knockbackResistance(Genome genome) {
+        return switch (genome.expressed(Gene.BUILD).name()) { case "stocky" -> .15; case "chonker" -> .3; default -> 0; };
+    }
+    public static boolean luminous(Genome genome) { return genome.expressed(Gene.COAT).name().equals("glow"); }
+    public static int blockLight(Genome genome, int environmental) { return luminous(genome) ? 15 : environmental; }
     public static String explanation(Gene gene, Allele allele) {
         if (gene == Gene.COAT && allele.name().equals("ember")) return "Immune to fire and lava.";
         if (gene == Gene.BUILD && allele.name().equals("woolly"))
@@ -21,6 +27,10 @@ public final class Adaptations {
         if (gene == Gene.COAT && allele.name().equals("sand")) return "Immune to cactus damage; other thorns still hurt.";
         if (gene == Gene.COAT && allele.name().equals("void")) return "Immune to levitation; shulker impacts and falls still hurt.";
         if (gene == Gene.LEGS && allele.name().equals("hoofed")) return "Takes half the usual fall damage.";
+        if (gene == Gene.COAT && allele.name().equals("slate")) return "+4 natural armor against ordinary attacks; armor-bypassing damage still hurts.";
+        if (gene == Gene.COAT && allele.name().equals("glow")) return "Self-lit coat in darkness. Does not light nearby blocks.";
+        if (gene == Gene.BUILD && allele.name().equals("stocky")) return "+15% knockback resistance.";
+        if (gene == Gene.BUILD && allele.name().equals("chonker")) return "+30% knockback resistance.";
         return "";
     }
 }

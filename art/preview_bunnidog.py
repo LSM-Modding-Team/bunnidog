@@ -59,7 +59,8 @@ def world_faces(ear_scale=1, leg_scale=1, build_scale=1, baby=False):
     return faces
 
 
-def render(faces, texture, yaw=0, elevation=7, width=650, height=820, zoom=35, plain=False, nearest=False):
+def render(faces, texture, yaw=0, elevation=7, width=650, height=820, zoom=35, plain=False, nearest=False,
+           scene_light=1.0, background_rgb=None):
     yaw, elevation = math.radians(yaw), math.radians(elevation)
     camera = np.array((math.sin(yaw) * math.cos(elevation), math.sin(elevation), -math.cos(yaw) * math.cos(elevation)))
     right = np.cross((0, 1, 0), camera)
@@ -67,7 +68,7 @@ def render(faces, texture, yaw=0, elevation=7, width=650, height=820, zoom=35, p
     up = np.cross(camera, right)
     basis = np.asarray((right, -up, camera))
     center = np.array((0, 9.4, -.3))
-    background = np.array((255, 255, 255) if plain else (238, 234, 226), dtype=float)
+    background = np.array(background_rgb if background_rgb is not None else (255,255,255) if plain else (238,234,226),dtype=float)
     pixels = np.full((height, width, 3), background)
     depth = np.full((height, width), -np.inf)
     # A soft ground contact shadow, outside the model geometry.
@@ -125,7 +126,7 @@ def render(faces, texture, yaw=0, elevation=7, width=650, height=820, zoom=35, p
             n = a[..., None] * tri_normals[0] + b[..., None] * tri_normals[1] + c[..., None] * tri_normals[2]
             n /= np.maximum(.001, np.linalg.norm(n, axis=2))[..., None]
             shade = np.ones(a.shape) if plain else (.87 + .13 * np.maximum(0, n @ light))
-            pixels[region][keep] = col[keep] * shade[keep, None]
+            pixels[region][keep] = col[keep] * shade[keep, None] * scene_light
     return Image.fromarray(np.clip(pixels, 0, 255).astype('uint8'))
 
 

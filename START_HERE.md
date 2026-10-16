@@ -45,6 +45,21 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
+**A3 — physical defenses and glow:** expressed slate adds four native Armor
+points; stocky/chonker builds add 15%/30% knockback resistance. Named transient
+modifiers preserve external bases/equipment, update on genome edits and restore
+once after loading. Apex copies combine them with existing boss defenses.
+The recessive glow coat now stays self-lit using native model block lighting,
+while carriers keep ordinary lighting. Nearby blocks/spawns and the approved
+mesh/atlases are unchanged. Gene hovers and the Field Guide explain the traits.
+
+Combined Gradle build, headless model check and all eighteen server scenarios
+pass. The extended native adaptation case covers ordinary damage, real knockback,
+hidden alleles, repeated loads with external armor, genome edits and boss bases.
+The headless check covers visible/carried glow lighting plus the approved mesh.
+Software lighting preview inspected; actual client lighting/combat balance still
+need gameplay review. See `docs/CARE_SPECS.md` A3.
+
 **Settlement L3/L4 — furnished dens and gardening:** newly fitted dens include
 one trough with two starter guavas; developed central rooms (levels 3–5) also
 fit a native gathering bell. Separate saved/chunk-owned `LifeFixtures` metadata

@@ -26,6 +26,13 @@ public class BunnidogModelCheck {
         return maxY[0];
     }
     public static void main(String[] args) {
+        var coatGene = com.bunnidogs.mod.genetics.Gene.COAT;
+        int glow = coatGene.alleleNamed("glow").id();
+        var visible = com.bunnidogs.mod.genetics.Genome.DEFAULT.with(coatGene,0,glow).with(coatGene,1,glow);
+        var carrier = com.bunnidogs.mod.genetics.Genome.DEFAULT.with(coatGene,0,glow);
+        require(com.bunnidogs.mod.genetics.Adaptations.blockLight(visible,0) == 15
+                && com.bunnidogs.mod.genetics.Adaptations.blockLight(carrier,2) == 2,
+                "Self-light must follow expressed glow and retain ordinary lighting for carriers");
         ModelPart root = BunnidogMesh.load(BunnidogModelLayer.createBodyLayer().bakeRoot());
         root.visit(new PoseStack(), (pose, path, index, cube) -> {
             for (var poly : cube.polygons) {

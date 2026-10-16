@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+A3 adds slate natural armor, stocky/chonker knockback resistance and self-lit
+expressed glow coats. Native modifiers preserve external attributes and cannot
+stack across reloads; bosses inherit them too. Build/model/native cases pass;
+software lighting preview inspected. See `CARE_SPECS.md` A3.
+
 L3/L4 adds saved/chunk-owned den troughs and developed gathering bells, plus
 hoe-controlled resident gardening. Mature matching food beside an enabled
 trough becomes one stored item; crop/fruit regrowth, home/danger/griefing rules

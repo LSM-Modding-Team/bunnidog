@@ -6,6 +6,7 @@ Full text of every chunk (files, decisions, compile risks): `docs/history/CHUNKS
 
 | Chunk | What | Status |
 |---|---|---|
+| A3 | Slate armor, heavy-build knockback resistance and self-lit recessive glow coat; external attributes and approved meshes preserved | BUILD + MODEL + EXTENDED NATIVE ADAPTATION CASE PASS; lighting preview inspected; gameplay pending |
 | L4 | Hoe-controlled resident gardening: diet-aware crop/fruit harvest into troughs, opt-in, protection/home/transport rules and saved recovery | BUILD + NATIVE GARDEN CASE PASS; trough/guide previews inspected; gameplay pending |
 | L3 | Fitted den troughs with two starter guavas and developed gathering bells; saved chunk-owned metadata and legacy starts preserved | BUILD + CONNECTIVITY + NATIVE FIXTURE/SAVE CASE PASS; natural generation review pending |
 | P1 | Craftable 24-page native Field Guide with chapter/return links and independent pantry loot | BUILD + NATIVE RESOURCE LOADING PASS; icon/text preview inspected; client reading/discovery pending |

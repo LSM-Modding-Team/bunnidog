@@ -48,6 +48,8 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -115,6 +117,8 @@ import net.minecraft.world.phys.Vec3;
  * </ul>
  */
 public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IShearable {
+    private static final Identifier TRAIT_ARMOR = Identifier.fromNamespaceAndPath("bunnidogs","inherited_armor");
+    private static final Identifier TRAIT_KNOCKBACK = Identifier.fromNamespaceAndPath("bunnidogs","inherited_knockback_resistance");
     // Base stats of an "average" bunnidog; the genes scale these (see Traits multipliers).
     public static final double BASE_HEALTH = 8.0D;
     public static final double BASE_SPEED = 0.25D;
@@ -187,6 +191,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
                 .add(Attributes.MOVEMENT_SPEED, BASE_SPEED)
                 .add(Attributes.JUMP_STRENGTH, BASE_JUMP)
                 .add(Attributes.FOLLOW_RANGE, BASE_FOLLOW_RANGE)
+                .add(Attributes.ARMOR,0).add(Attributes.KNOCKBACK_RESISTANCE,0)
                 .add(Attributes.ATTACK_DAMAGE, 2.0D);      // only used by feral bunnidogs biting back
     }
 
@@ -281,6 +286,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         setBase(Attributes.MOVEMENT_SPEED, BASE_SPEED * t.speedMultiplier() * st.multiplier(Stat.SWIFTNESS));
         setBase(Attributes.JUMP_STRENGTH, BASE_JUMP * t.jumpMultiplier() * st.multiplier(Stat.LEAP));
         setBase(Attributes.FOLLOW_RANGE, BASE_FOLLOW_RANGE * t.hearingMultiplier() * st.multiplier(Stat.SENSES));
+        this.applyDefences();
         this.setHealth(this.getMaxHealth() * fraction);
     }
 
@@ -289,6 +295,18 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         if (instance != null) {
             instance.setBaseValue(value);
         }
+    }
+
+    /** Transient named modifiers preserve other mods' base values/equipment and cannot accumulate across reloads. */
+    protected final void applyDefences() {
+        this.defence(Attributes.ARMOR,TRAIT_ARMOR,Adaptations.armor(this.genome()));
+        this.defence(Attributes.KNOCKBACK_RESISTANCE,TRAIT_KNOCKBACK,Adaptations.knockbackResistance(this.genome()));
+    }
+    private void defence(Holder<Attribute> attribute, Identifier id, double amount) {
+        var value = this.getAttribute(attribute);
+        if (value == null) return;
+        if (amount == 0) value.removeModifier(id);
+        else value.addOrUpdateTransientModifier(new AttributeModifier(id,amount,AttributeModifier.Operation.ADD_VALUE));
     }
 
     // ------------------------------------------------------------------ wild lineages (Phase 3)
@@ -716,6 +734,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         // Phase 5d: a save from before it, or an untagged bunnidog, has no tag. (The name shown above it is vanilla's own saved CustomName.)
         this.earTag = EarTag.parse(input.getStringOr(TAG_EAR_TAG, "")).orElse(null);
         super.readAdditionalSaveData(input);
+        if (!this.level().isClientSide()) this.applyDefences();
         this.highestShowAward = Math.max(0, input.getIntOr("ShowAward", 0));
         this.nextGardenTick = this.level().getGameTime()+Math.clamp(input.getIntOr("GardenWait",0),0,
                 com.bunnidogs.mod.genetics.Gardening.REST_TICKS);

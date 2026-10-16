@@ -28,7 +28,9 @@ environmental adaptations. The existing approved creature mesh is reused with
 native Scale 1.8. Source points are retained separately from bounded boss
 attributes: health 180–720, speed .25–.42, jump .4–.8, damage 8–15 and awareness
 24–64. Build, legs, ears, Vitality, Swiftness, Leap and Senses affect these values.
-Bloom remains an adult breeding stat, with no boss growth effect.
+Bloom remains an adult breeding stat, with no boss growth effect. A3 also
+inherits the source's slate armor and stocky/chonker knockback resistance,
+adding to base armor 4/resistance .5. The glow coat remains self-lit.
 
 The persistent hostile boss hunts players and retaliates, with melee plus a
 short warned pounce at range or stomp nearby. Charging stops navigation, plays

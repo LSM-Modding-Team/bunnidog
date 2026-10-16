@@ -102,6 +102,35 @@ damage type in native `isInvulnerableTo`; it respects bypass-invulnerability
 damage tags and keeps native equipment/other damage rules. No new flags/timers,
 allele IDs, sync fields, geometry or saved formats are introduced.
 
+## A3: physical defenses and inherited glow
+
+- An expressed **slate coat** adds four native Armor points. This uses native
+  damage math, equipment and hooks; it does not stop armor-bypassing damage.
+- Expressed **stocky/chonker builds** add .15/.30 native knockback resistance.
+  Pushes are reduced, never categorically prevented. Other builds keep their
+  existing health/body, fleece and environmental roles.
+- The recessive **glow coat** is self-lit when expressed: the existing renderer
+  uses block light 15 for that animal. Carriers retain ordinary lighting. It
+  changes neither nearby block light nor spawning, and needs no extra geometry,
+  texture, render pass or synced flag. The approved mesh and twelve atlases stay.
+
+Named transient attribute modifiers apply the physical benefits alongside
+external base values/equipment/modifiers. Genome edits update/remove only those
+two genetic modifiers. Loading reapplies them after native attributes restore,
+so legacy animals gain their current phenotype and reloads cannot stack bonuses.
+Apex copies combine them with their existing base armor 4/resistance .5; a
+slate/chonker Apex consequently has armor 8/resistance .8 before external changes.
+Gene hover/readouts explain all benefits. Allele order, inheritance, bred points,
+body proportions, saves, juice effects and protocol 6 remain compatible.
+
+The combined Gradle build, headless model check and eighteen native server
+scenarios pass. The extended adaptation case covers real attack damage and
+knockback, hidden traits, genome edits, two native loads preserving external
+armor without stacking, and Apex base/trait combinations. Headless checks cover
+expressed/carried light selection and retain all approved mesh invariants.
+The software lighting comparison was inspected; native in-game lighting and
+combat balance still need gameplay review.
+
 ## Evidence and follow-up
 
 The combined Gradle build and real GameTest server pass. Tests use native entity
