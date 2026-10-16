@@ -6,6 +6,7 @@ Full text of every chunk (files, decisions, compile risks): `docs/history/CHUNKS
 
 | Chunk | What | Status |
 |---|---|---|
+| A2 | Expressed moss Poison immunity, sand cactus immunity and void Levitation immunity; native hooks and active-effect changes follow genome | BUILD + EXTENDED NATIVE EFFECT/DAMAGE CASE PASS; manual gameplay pending |
 | G2 | Reusable Purebred Registry for 24 distinct bred adult genomes with seven fixed pairs; snapshots/index, Breeds True advancement and creative-copy safety | BUILD + PURE/SERVER CASES PASS; icon/layout previews inspected; client gameplay pending |
 | T5/T6 | Exact bidirectional splice preview; hidden/carried/fixed allele odds, whole-litter success and all-seven-fixed pup probability | BUILD + FOCUSED PROBABILITY/LAYOUT + NATIVE TABLE SAVE/READ CASE PASS; client gameplay pending |
 | G1 | Gene Splicer inserts one donor expressed allele; selected gene/component, Mutagen/sample cost, preserved stats, recovery and saves | BUILD + FOCUSED SERVER/GENETICS CASE PASS; new icon preview inspected; client gameplay pending |

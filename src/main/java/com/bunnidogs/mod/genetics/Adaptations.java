@@ -8,12 +8,18 @@ public final class Adaptations {
         return genome.expressed(Gene.COAT).name().equals("snow") || genome.expressed(Gene.BUILD).name().equals("woolly");
     }
     public static float fallMultiplier(Genome genome) { return genome.expressed(Gene.LEGS).name().equals("hoofed") ? .5F : 1F; }
+    public static boolean poisonProof(Genome genome) { return genome.expressed(Gene.COAT).name().equals("moss"); }
+    public static boolean cactusProof(Genome genome) { return genome.expressed(Gene.COAT).name().equals("sand"); }
+    public static boolean levitationProof(Genome genome) { return genome.expressed(Gene.COAT).name().equals("void"); }
     public static String explanation(Gene gene, Allele allele) {
         if (gene == Gene.COAT && allele.name().equals("ember")) return "Immune to fire and lava.";
         if (gene == Gene.BUILD && allele.name().equals("woolly"))
             return "Does not freeze in powder snow. Healthy adults yield two wool with shears every ten minutes.";
         if (gene == Gene.COAT && allele.name().equals("snow"))
             return "Does not freeze in powder snow.";
+        if (gene == Gene.COAT && allele.name().equals("moss")) return "Immune to poison, but not wither or other magic.";
+        if (gene == Gene.COAT && allele.name().equals("sand")) return "Immune to cactus damage; other thorns still hurt.";
+        if (gene == Gene.COAT && allele.name().equals("void")) return "Immune to levitation; shulker impacts and falls still hurt.";
         if (gene == Gene.LEGS && allele.name().equals("hoofed")) return "Takes half the usual fall damage.";
         return "";
     }

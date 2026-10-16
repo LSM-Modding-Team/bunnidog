@@ -52,6 +52,10 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -244,6 +248,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.entityData.set(DATA_GENES_HI, genome.syncHigh());
         if (!this.level().isClientSide()) {
             this.applyGenetics();
+            if (Adaptations.poisonProof(genome)) this.removeEffect(MobEffects.POISON);
+            if (Adaptations.levitationProof(genome)) this.removeEffect(MobEffects.LEVITATION);
         }
     }
 
@@ -578,6 +584,19 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     @Override
     public boolean canFreeze() {
         return super.canFreeze() && (this.entityData == null || !Adaptations.coldProof(this.genome()));
+    }
+    @Override
+    public boolean canBeAffected(MobEffectInstance effect) {
+        if (!super.canBeAffected(effect)) return false;
+        if (this.entityData == null) return true;
+        return !(effect.is(MobEffects.POISON) && Adaptations.poisonProof(this.genome()))
+                && !(effect.is(MobEffects.LEVITATION) && Adaptations.levitationProof(this.genome()));
+    }
+    @Override
+    public boolean isInvulnerableTo(ServerLevel level, DamageSource source) {
+        return super.isInvulnerableTo(level, source) || this.entityData != null
+                && source.is(DamageTypes.CACTUS) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)
+                && Adaptations.cactusProof(this.genome());
     }
     @Override
     public boolean causeFallDamage(double distance, float modifier, DamageSource source) {

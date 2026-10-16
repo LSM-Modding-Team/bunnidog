@@ -45,6 +45,16 @@ builds from GitHub. Actions now uploads the validated JAR as a run artifact.
 
 ## Current gameplay work — 2026-10-16
 
+**A2 — swamp/desert/End protection:** expressed moss coat now prevents Poison,
+sand prevents native cactus damage, and void prevents Levitation. Hidden copies
+grant nothing, and other damage/effects retain their role. Setting an immune
+genome clears its already-active blocked effect; changing away restores normal
+susceptibility. Existing native protection/effect hooks still apply. Readouts
+explain the benefits; allele order, stats, models, saves and protocol 6 stay the
+same. The extended native adaptation case covers actual effect/damage behavior,
+hidden alleles and changing genes; combined build/server evidence passes.
+See `docs/CARE_SPECS.md`. Manual gameplay remains pending.
+
 **T5/T6 + G2 — breeding laboratory and stable lines:** two Genetics Table samples
 now give five spreads: A, B, existing look/stat forecast, inherited-copy odds,
 and both-direction splice plans. Carry/fixed odds include hidden recessives;

@@ -1,5 +1,12 @@
 # Bunnidogs: how to use each feature in game
 
+**More inherited protection (A2):** moss coats resist Poison, sand coats resist
+cactus damage, and void coats resist Levitation. Each requires the expressed
+coat, not a hidden copy. They retain other vulnerabilities (including wither,
+ordinary damage and shulker impacts). Changing to an immune coat clears its
+already-active blocked effect. Crossbreed with woolly/hoofed genes to combine
+independent protections; sheets explain the effects.
+
 **Breeding laboratory (T5/T6):** put two Tissue Samples on a Genetics Table and
 read its five spreads: A, B, pup forecast, inherited alleles and splice plans.
 The allele page includes hidden copies and two-copy odds; hover for whole-litter

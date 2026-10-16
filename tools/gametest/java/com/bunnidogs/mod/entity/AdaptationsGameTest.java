@@ -6,6 +6,8 @@ import com.bunnidogs.mod.genetics.Plain;
 import com.bunnidogs.mod.genetics.Stats;
 import com.bunnidogs.mod.registry.ModEntities;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 
 public final class AdaptationsGameTest {
     private AdaptationsGameTest() {}
@@ -45,5 +47,32 @@ public final class AdaptationsGameTest {
                 "Hoofed legs must reduce real fall damage while preserving native damage calculation");
         h.assertTrue(Plain.effect(Gene.COAT,Gene.COAT.alleleNamed("ember")).contains("fire and lava")
                 && Plain.effect(Gene.BUILD,Gene.BUILD.alleleNamed("woolly")).contains("powder snow"),"Gene readouts must explain inherited protection");
+        var moss = dog(h,with(Gene.COAT,"moss"),2);
+        h.assertTrue(!moss.addEffect(new MobEffectInstance(MobEffects.POISON,100)) && !moss.hasEffect(MobEffects.POISON),
+                "Moss must refuse ordinary native poison applications");
+        h.assertTrue(moss.addEffect(new MobEffectInstance(MobEffects.WITHER,100)),"Moss must retain other native harmful effects");
+        var desert = dog(h,with(Gene.COAT,"sand"),2);
+        float desertHealth = desert.getHealth();
+        h.assertTrue(!desert.hurtServer(level,level.damageSources().cactus(),3) && desert.getHealth() == desertHealth,
+                "Expressed sand must prevent native cactus damage");
+        h.assertTrue(desert.hurtServer(level,level.damageSources().generic(),3),"Sand must not provide general damage immunity");
+        var end = dog(h,with(Gene.COAT,"void"),2);
+        h.assertTrue(!end.addEffect(new MobEffectInstance(MobEffects.LEVITATION,100)),"Void must refuse native levitation applications");
+        h.assertTrue(end.addEffect(new MobEffectInstance(MobEffects.POISON,100)),"Void must retain poison vulnerability");
+        var unchangedStats = end.stats();
+        end.setGenome(with(Gene.COAT,"moss"));
+        h.assertTrue(!end.hasEffect(MobEffects.POISON) && end.stats().equals(unchangedStats)
+                && end.addEffect(new MobEffectInstance(MobEffects.LEVITATION,100)),
+                "Changing the expressed coat must remove its blocked effect and restore the old vulnerability without altering stats");
+        int mossId = Gene.COAT.alleleNamed("moss").id(), voidId = Gene.COAT.alleleNamed("void").id();
+        end.setGenome(Genome.DEFAULT.with(Gene.COAT,0,mossId).with(Gene.COAT,1,voidId));
+        h.assertTrue(!end.hasEffect(MobEffects.LEVITATION) && end.addEffect(new MobEffectInstance(MobEffects.POISON,100)),
+                "Hidden moss must not protect an animal expressing void");
+        int sandId = Gene.COAT.alleleNamed("sand").id();
+        var hiddenSand = dog(h,Genome.DEFAULT.with(Gene.COAT,0,sandId).with(Gene.COAT,1,mossId),2);
+        h.assertTrue(hiddenSand.hurtServer(level,level.damageSources().cactus(),3),"Hidden sand must not protect an animal expressing moss");
+        h.assertTrue(Plain.effect(Gene.COAT,Gene.COAT.alleleNamed("moss")).contains("poison")
+                && Plain.effect(Gene.COAT,Gene.COAT.alleleNamed("sand")).contains("cactus")
+                && Plain.effect(Gene.COAT,Gene.COAT.alleleNamed("void")).contains("levitation"),"Readouts must explain each new protection");
     }
 }

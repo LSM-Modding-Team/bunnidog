@@ -40,7 +40,7 @@ client gameplay review.
   5 introduced that sync; current protocol 6 also includes splicer selection and
   requires matching updated clients and server.
 
-## A1: Expressed environmental adaptations
+## A1/A2: Expressed environmental adaptations
 
 | Expressed trait | Benefit |
 |---|---|
@@ -48,6 +48,9 @@ client gameplay review.
 | COAT `snow` | No powder-snow freezing |
 | BUILD `woolly` | No powder-snow freezing; renewable fleece above |
 | LEGS `hoofed` | Half the usual fall-damage multiplier, with native rounding/hooks |
+| COAT `moss` (A2) | Native Poison effect immunity; wither and other magic still apply |
+| COAT `sand` (A2) | Native cactus damage immunity; ordinary damage/other thorns still apply |
+| COAT `void` (A2) | Native Levitation effect immunity; projectile impacts/falls still hurt |
 
 Benefits follow the expressed allele after dominance, so an ember/snow dog
 expressing ember does not also gain snow's cold protection. Separate genes can
@@ -60,6 +63,19 @@ slots, allele IDs, inheritance, stat drift, juice effects, genome formats and
 body multipliers stay unchanged. Cold protection prevents freezing damage, not
 sinking in powder snow. Hoofed legs reduce falls rather than making them harmless.
 
+A2 extends practical protection to swamp, desert and End coats. It follows
+ordinary expression: a moss/void animal expressing void remains vulnerable to
+poison, and hidden sand does not prevent cactus damage. These coat choices do
+not stack, while independent genes (such as woolly or hoofed) still combine.
+
+Poison/Levitation use native `canBeAffected` rules alongside existing effect
+protection/hooks. Replacing the expressed genome with an immune coat also removes
+its already-active blocked effect on the server, without altering stats/health.
+Changing away restores ordinary susceptibility. Sand checks the exact cactus
+damage type in native `isInvulnerableTo`; it respects bypass-invulnerability
+damage tags and keeps native equipment/other damage rules. No new flags/timers,
+allele IDs, sync fields, geometry or saved formats are introduced.
+
 ## Evidence and follow-up
 
 The combined Gradle build and real GameTest server pass. Tests use native entity
@@ -69,3 +85,9 @@ damage and fleece regrowth. The new icon preview was inspected. Full client
 use, natural travel/reload and long-term farm balance remain gameplay checks.
 No large genetics rerun is needed for unchanged inheritance tables; focused
 existing diet/layout checks and the native behavioral cases cover this batch.
+
+A2's extended native case checks actual poison/levitation application and refusal,
+retained wither/poison/general-damage vulnerabilities, real cactus damage, hidden
+alleles, changes to active effects when genes change, preserved bred stats and
+readout descriptions. The combined build/server suite passes. This evidence does
+not establish manual long-distance travel or multiplayer gameplay.
