@@ -9,6 +9,7 @@ Living-dust care has its own page explaining combined yields and shared recovery
 The terrain page explains inherited stepping and partial slow-block resistance.
 Shore fishing explains resident Fisher prey, needs, healing and recovery.
 Resident needs explains the Calipers home/food/recovery snapshot.
+Refuge explains non-feral residents' bounded response to visible threats.
 
 Craft one with a vanilla book and any guava (the existing bunnidog-food tag).
 Obtaining a guava unlocks its recipe. An additional independent 35% pantry loot
@@ -19,7 +20,7 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Thirty-one pages use the ordinary written-book screen. Page 1 has eleven clickable
+Thirty-two pages use the ordinary written-book screen. Page 1 has eleven clickable
 chapter links; every other page links back to the contents. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.

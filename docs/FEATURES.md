@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 31 pages from first warren to Apex, with clickable chapter/contents links.
+open 32 pages from first warren to Apex, with clickable chapter/contents links.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 
@@ -45,6 +45,12 @@ full health, night, leads/rides and combat pause hunting.
 pantries for guavas and local foods, such as tundra fish, cave glow berries,
 swamp mushrooms, Nether wart/fungi and End chorus fruit. The independent 35%
 Field Guide chance remains. Existing or emptied barrels never refill.
+
+**Refuge (L7):** non-feral adults with a Nest retreat from nearby visible
+hostiles when a safer dry route fits near home. Food, work and bell visits pause;
+leads/rides take over. The routine preserves the Nest and makes no attacks.
+Feral lines retain their retaliation. No safe route means no retreat, and
+neither distance nor shelter makes an animal immune to harm.
 
 **Resident gardens (L3/L4):** newly fitted dens have a trough with two starter
 guavas, and levels 3–5 also fit a central gathering bell. Use a hoe on any trough

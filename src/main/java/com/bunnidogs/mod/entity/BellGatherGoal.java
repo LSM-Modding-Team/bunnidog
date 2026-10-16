@@ -23,7 +23,7 @@ final class BellGatherGoal extends Goal {
     BellGatherGoal(Bunnidog dog) { this.dog = dog; this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK)); }
     private boolean wanted() {
         if (!(this.dog.level() instanceof ServerLevel server) || this.dog.isBaby() || this.dog.homeNest() == null
-                || this.dog.beingTransported() || this.dog.getHealth() < this.dog.getMaxHealth() || this.dog.getTarget() != null
+                || this.dog.beingTransported() || this.dog.seekingRefuge() || this.dog.getHealth() < this.dog.getMaxHealth() || this.dog.getTarget() != null
                 || this.dog.getLastHurtByMob() != null && this.dog.tickCount-this.dog.getLastHurtByMobTimestamp() < 200
                 || !this.dog.foodWithinHome(this.dog.blockPosition())) return false;
         return server.dimensionType().defaultClock().map(clock -> Social.gatheringTime(server.clockManager().getTotalTicks(clock))).orElse(false);

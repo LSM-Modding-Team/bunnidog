@@ -1,4 +1,4 @@
-# Settlement life L1–L6
+# Settlement life L1–L7
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
@@ -143,6 +143,42 @@ Actual build and all nineteen native scenarios pass; updated guide preview
 inspected. The native case opens deferred loot before simulating empty stock,
 and repeat surface fitting is refused above existing containers. Natural
 multichunk generation and multiplayer exploration remain gameplay review.
+
+## L7: resident refuge
+
+Non-feral adult residents with a claimed Nest may retreat from the nearest
+visible mob in `bunnidogs:resident_threats`, within eight blocks. Default entries
+are hostile mobs and the Apex; neutral Endermen, players, ordinary bunnidogs,
+tame pets and allies are excluded. Data packs can edit the threat list. The
+routine yields to native panic and pauses for leads/rides, external combat,
+feral expression or a changed home. Pups retain parent-following behavior.
+
+Search every two seconds plus a short per-animal stagger. Prefer dry, supported
+air beside the current Nest, considering both floor/placed Nest heights; fall
+back to a small ring around the animal, always inside the existing 16-block home
+boundary. A destination must be at least four blocks from the detected threat
+and farther away than the starting position. Try at most eight native paths.
+Require complete, loaded, home-bounded routes; reject water, fire, lava, damaging
+terrain and powder snow, and keep remaining route nodes at least two blocks from
+the threat when the starting distance permits. No safe route means no retreat.
+
+Follow the chosen route at 1.3 speed, then hold briefly. Stop after two seconds
+without visible nearby danger, ten seconds total, an unsafe/blocked destination
+or route, a lost threat/home or transport. Retreat makes no attacks, changes no
+blocks and never moves/claims/releases a Nest. Meals, gardening and bell visits
+pause while refuge is active; Calipers reflects the same transient danger state.
+This is an attempt to get farther from one detected threat, not protection
+against damage or a guarantee against every nearby mob.
+
+The goal owns an unsaved threat reference; old animal and structure formats,
+protocol 6 and the approved model remain unchanged. The Field Guide expands to
+32 pages. The new native case covers passive/hostile selection, real home and
+safe route, no attack target, paused work, lead/gene-change interruption, quiet
+recovery, occupied-destination cancellation, retained health/home and Apex
+exclusion. Actual build and all twenty-one native cases pass; guide preview
+inspected. Native path regions use non-loading `getChunkNow`; visibility also
+checks the normalized loaded chunk rectangle before sight tests. Natural travel
+and multiplayer threat balance remain gameplay review.
 
 ## Evidence
 

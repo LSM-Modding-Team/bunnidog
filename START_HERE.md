@@ -20,6 +20,13 @@ is not exposed in this session: use available work budget without inventing quot
 
 ## Latest gameplay work — 2026-10-16
 
+- **L7, refuge:** non-feral adult residents retreat from nearby visible tagged
+  threats to a farther dry spot near home or a bounded local fallback. Native
+  paths must stay loaded, home-bounded and clear of hazards/close threat nodes.
+  Work/food/bell visits pause; leads, rides and gene/home changes interrupt.
+  Health and Nest claims are preserved, with no combat or new save fields.
+  See `docs/SETTLEMENT_LIFE.md` L7.
+
 - **C6, resident needs:** sneak-Calipers shows the Nest coordinates/distance,
   accepted foods, shared meal recovery and forage blockers. Food AI and readout
   use the same eligibility snapshot; inspection does not search/load terrain
@@ -54,7 +61,7 @@ is not exposed in this session: use available work budget without inventing quot
   all eight crops remain. End mushroom plots and saved versions 1–3 keep their
   previous layout. See `docs/SETTLEMENT_LIFE.md` L5.
 
-The native Field Guide now has 31 translated pages and eleven contents links.
+The native Field Guide now has 32 translated pages and eleven contents links.
 `art/gen_guide.py` owns its text/icon/preview, including gardening, forecasts,
 renewable care, terrain traits and fishing. `art/gen_pantries.py` owns the eight
 new loot tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
@@ -138,6 +145,12 @@ build also checks the approved model before making an artifact.
 C6 also passes the actual build and all twenty native cases. Its extended
 settlement case checks read-only needs, real meal recovery, healthy animals and
 the home boundary. The updated guide preview is inspected.
+
+L7 passes the actual build and all twenty-one native cases, including safer
+routes, routine pauses, lead/feral changes, quiet recovery and occupied refuge
+cancellation. Native path regions are non-loading; sight checks use a loaded
+rectangle. The updated guide preview is inspected. Natural threat balance and
+multiplayer travel remain gameplay review.
 
 Native tests establish server behavior, not complete client or natural-world
 play. Remaining review includes client interaction/lighting/book fonts, natural

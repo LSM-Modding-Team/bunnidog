@@ -91,6 +91,8 @@ public final class DietCheck {
         require(!Foraging.canGraze(Diet.PLAIN,Foraging.Meal.HAY,true) && Diet.OMNIVORE.hunts() && Diet.MOUNTAIN_GRAZER.grazesHay(),"Diet activities follow expressed food preferences");
         require(Diet.FISHER.fishes() && Diet.FISHER.seeksPrey() && !Diet.FISHER.hunts()
                 && !Diet.HUNTER.fishes() && !Diet.OMNIVORE.fishes(),"Fishing must retain its own food/prey preference");
+        require(com.bunnidogs.mod.genetics.Refuge.safer(1,16) && !com.bunnidogs.mod.genetics.Refuge.safer(25,16)
+                && !com.bunnidogs.mod.genetics.Refuge.safer(1,Double.POSITIVE_INFINITY),"A refuge destination must be finite, safe and farther from danger");
         require(Foraging.prey(true,false,false,false,false,false),"Tagged adult prey is eligible");
         require(!Foraging.prey(false,false,false,false,false,false),"Untagged creatures are not prey");
         for (int flag = 1; flag < 6; flag++) {

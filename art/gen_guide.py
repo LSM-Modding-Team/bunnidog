@@ -35,6 +35,7 @@ PAGES = {
     29: ('Terrain traits', 'Hoofed adults step up one-block ledges and take half fall damage. Fleet legs reduce soul-sand and honey slowing by 25%; lean builds by 50%. Together: 75%. Cobwebs, Slowness and other hazards remain.'),
     30: ('Shore fishing', 'Hurt fisher adults hunt nearby cod, salmon or tropical fish. They need a Nest, daylight and a reachable fish. A kill heals 4 HP, then rests 30 seconds. Pufferfish and land prey are excluded.'),
     31: ('Resident needs', 'Sneak-use Calipers for a claimed Nest, distance, foods and meal recovery. Healthy adults need no healing. Ready means ready to search, not a promise of nearby food. Reading changes nothing.'),
+    32: ('Find refuge', 'Non-feral residents retreat from visible threats to a safer dry spot near home. Meals and work pause. Leads and rides take over. Feral lines keep their retaliation. No safe route means no retreat.'),
 }
 INDEX = {2:'Warrens & genes',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
          17:'Registry & shows',19:'Material drops',20:'Apex of the Line',24:'Guava juice',25:'Trough gardening',27:'Boss forecast'}
@@ -83,7 +84,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,1),(495,30),(735,31)]:
+    for x,page in [(255,1),(495,31),(735,32)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         d.text((x+14,35), 'Bunnidogs Guide' if page == 1 else PAGES[page][0], font=bold,fill=(40,39,30))
         if page == 1: body = '\n'.join(INDEX.values())

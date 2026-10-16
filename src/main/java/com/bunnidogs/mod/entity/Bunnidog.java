@@ -62,6 +62,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
@@ -179,6 +180,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private long nextFleeceTick;
     private long nextSpliceTick;
     private LivingEntity huntingTarget;
+    private Mob refugeThreat;
 
     public Bunnidog(EntityType<? extends Bunnidog> type, Level level) {
         super(type, level);
@@ -392,8 +394,9 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     /** Eligibility, not a food search. Shared with the Calipers resident snapshot. */
     public Foraging.Status foragingStatus() {
         if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel)) return Foraging.Status.UNAVAILABLE;
+        if (this.seekingRefuge()) return Foraging.Status.DANGER;
         var status = Foraging.status(!this.isBaby(),this.getHealth() < this.getMaxHealth(),this.homeNest() != null,
-                this.homeNight(),this.getTarget() != null && this.getTarget() != this.huntingTarget);
+                this.homeNight(),this.hasCombatTarget());
         if (status != Foraging.Status.READY) return status;
         if (this.beingTransported()) return Foraging.Status.TRANSPORTED;
         if (!this.foodWithinHome(this.blockPosition())) return Foraging.Status.OUTSIDE_HOME;
@@ -419,7 +422,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     public Gardening.Status gardeningStatus() {
         if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel server)) return Gardening.Status.UNAVAILABLE;
         var status = Gardening.status(!this.isBaby(),this.getHealth() >= this.getMaxHealth(),
-                this.homeNest() != null,this.homeNight(),this.beingTransported(),this.getTarget() != null
+                this.homeNest() != null,this.homeNight(),this.beingTransported(),this.getTarget() != null || this.seekingRefuge()
                 || this.getLastHurtByMob() != null && this.tickCount-this.getLastHurtByMobTimestamp() < 200,this.gardeningWait() == 0);
         if (status != Gardening.Status.READY) return status;
         if (!this.foodWithinHome(this.blockPosition())) return Gardening.Status.OUTSIDE_HOME;
@@ -432,6 +435,9 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     @Override protected void playEatingSound() { this.playSound(SoundEvents.GENERIC_EAT.value(), 0.5F, 1.1F); }
 
     void huntTarget(LivingEntity target) { this.huntingTarget = target; }
+    boolean hasCombatTarget() { return this.getTarget() != null && this.getTarget() != this.huntingTarget; }
+    void refugeFrom(Mob threat) { this.refugeThreat = threat; }
+    public boolean seekingRefuge() { return this.refugeThreat != null && this.refugeThreat.isAlive(); }
 
     @Override
     public boolean killedEntity(ServerLevel level, LivingEntity victim, DamageSource source) {
@@ -775,6 +781,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.guavaMemory.restore(input.getIntOr(TAG_LOVE_TIER, 0), input.getIntOr(TAG_LOVE_TIER_TICKS, 0));
         // H2: a save from before it, or a dog without a nest, has no Y = no nest.
         this.nestHome.restore(input.getIntOr(TAG_NEST_X, 0), input.getIntOr(TAG_NEST_Y, NestHome.NO_NEST), input.getIntOr(TAG_NEST_Z, 0));
+        this.refugeThreat = null;
     }
 
     // ------------------------------------------------------------------ behaviour
@@ -791,6 +798,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
                 return Bunnidog.this.temperament() != Temperament.FERAL && super.canUse();
             }
         });
+        this.goalSelector.addGoal(2, new RefugeGoal(this));
         // Skittish ones keep their distance from players.
         this.goalSelector.addGoal(2, new AvoidEntityGoal<Player>(this, Player.class, 8.0F, 1.0D, 1.6D) {
             @Override

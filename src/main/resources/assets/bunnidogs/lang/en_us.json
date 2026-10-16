@@ -171,7 +171,7 @@
   "message.bunnidogs.foraging.healthy": "no healing needed",
   "message.bunnidogs.foraging.home": "needs a claimed Nest",
   "message.bunnidogs.foraging.daytime": "rests at night",
-  "message.bunnidogs.foraging.danger": "paused by combat",
+  "message.bunnidogs.foraging.danger": "paused by combat or seeking refuge",
   "message.bunnidogs.foraging.transported": "paused while led or riding",
   "message.bunnidogs.foraging.outside_home": "needs to be within 16 blocks of its Nest",
   "message.bunnidogs.care.sampling": "Sampling: %s",
@@ -308,5 +308,7 @@
   "guide.bunnidogs.page.30.title": "Shore fishing",
   "guide.bunnidogs.page.30.body": "Hurt fisher adults hunt nearby cod, salmon or tropical fish. They need a Nest, daylight and a reachable fish. A kill heals 4 HP, then rests 30 seconds. Pufferfish and land prey are excluded.",
   "guide.bunnidogs.page.31.title": "Resident needs",
-  "guide.bunnidogs.page.31.body": "Sneak-use Calipers for a claimed Nest, distance, foods and meal recovery. Healthy adults need no healing. Ready means ready to search, not a promise of nearby food. Reading changes nothing."
+  "guide.bunnidogs.page.31.body": "Sneak-use Calipers for a claimed Nest, distance, foods and meal recovery. Healthy adults need no healing. Ready means ready to search, not a promise of nearby food. Reading changes nothing.",
+  "guide.bunnidogs.page.32.title": "Find refuge",
+  "guide.bunnidogs.page.32.body": "Non-feral residents retreat from visible threats to a safer dry spot near home. Meals and work pause. Leads and rides take over. Feral lines keep their retaliation. No safe route means no retreat."
 }
