@@ -20,6 +20,11 @@ is not exposed in this session: use available work budget without inventing quot
 
 ## Latest gameplay work — 2026-10-17
 
+- **P3, guide navigation:** two linked contents pages offer eighteen chapter
+  links. Newer chapters return to the second index; existing chapter numbers
+  stay stable. Native book/page-change behavior is retained. See
+  `docs/FIELD_GUIDE.md` P3.
+
 - **H6, Travel Basket:** carries one existing calm, unled ordinary animal using
   its full native data. UUID, line, name/parents/tag and paused care state survive
   native item saves. Packing frees the old Nest; blocked/duplicate/invalid
@@ -56,7 +61,8 @@ shore fishing (Diet D5), native terrain traits (A4), local supplies (L6), living
 dust (C5) and gardening/fitted farm corners (L5). Their full rules and evidence
 are in the care/settlement specs and `docs/FIXES_PLAN.md` 6.5. Do not redo them.
 
-The native Field Guide has 39 translated pages and eleven contents links.
+The native Field Guide has 40 translated pages and eighteen chapter links across
+two linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
@@ -154,7 +160,7 @@ The current Java 25 build and all **twenty-seven** native scenarios pass
   cyan regrowth, spotted's combined yield/one wear, read-only Calipers and all
   palette names/total yields. Save/readiness cases remain covered.
 
-The 39-page guide and basket previews are inspected. Each published GitHub build also checks
+The 40-page guide and basket previews are inspected. Each published GitHub build also checks
 the approved model before uploading its exact-commit artifact. Earlier
 fixture/gardening, diet/fishing, terrain, care/lab/show/registry, transport/Nest,
 refuge/weather, sign/boat and Apex cases remain part of this suite; detailed

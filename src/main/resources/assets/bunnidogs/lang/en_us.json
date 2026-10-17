@@ -274,7 +274,7 @@
   "guide.bunnidogs.page.24.body": "Craft a guava with a glass bottle. Hold a seed in the main hand and juice in the other, then use the seed to infuse it. The rolled pup genes determine the drink effects. Better seeds improve them.",
   "message.bunnidogs.trough.tending.on": "Gardening enabled. Healthy residents tend matching ripe crops beside this trough.",
   "message.bunnidogs.trough.tending.off": "Gardening disabled. Residents still eat stored food.",
-  "guide.bunnidogs.index.25": "Trough gardening",
+  "guide.bunnidogs.index.25": "Gardens & stores",
   "guide.bunnidogs.page.25.title": "Trough gardening",
   "guide.bunnidogs.page.25.body": "Use a hoe to enable gardening. Fully healthy adults with a Nest gather matching ripe food, then rest a minute. Sneak-use Calipers for work status. Leave walking space; keep mob griefing on.",
   "guide.bunnidogs.page.26.title": "Furnished warrens",
@@ -347,5 +347,14 @@
   "message.bunnidogs.basket.duplicate": "That animal is already in the world. Contents kept.",
   "message.bunnidogs.basket.released": "Released safely; adults can claim a new Nest.",
   "guide.bunnidogs.page.39.title": "Travel Basket",
-  "guide.bunnidogs.page.39.body": "Craft six planks, leather and a lead into a basket. Pack one calm, unled animal; release on dry solid ground with room. Identity and care rest persist; its old Nest becomes free. Calipers reads the carried line."
+  "guide.bunnidogs.page.39.body": "Craft six planks, leather and a lead into a basket. Pack one calm, unled animal; release on dry solid ground with room. Identity and care rest persist; its old Nest becomes free. Calipers reads the carried line.",
+  "guide.bunnidogs.more_contents": "More chapters",
+  "guide.bunnidogs.main_contents": "Main contents",
+  "guide.bunnidogs.index.28": "Living harvests",
+  "guide.bunnidogs.index.29": "Terrain & fishing",
+  "guide.bunnidogs.index.31": "Resident needs",
+  "guide.bunnidogs.index.32": "Refuge & storms",
+  "guide.bunnidogs.index.34": "Troughs & bell calls",
+  "guide.bunnidogs.index.36": "Fleece & dispensers",
+  "guide.bunnidogs.index.39": "Travel Basket"
 }

@@ -16,6 +16,10 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+P3 expands the Field Guide to 40 pages with two linked contents pages and
+eighteen chapter links. Newer chapters return to their own index; existing
+chapter numbers stay stable. See `FIELD_GUIDE.md`.
+
 H6 adds a craftable Travel Basket preserving one animal's UUID and native
 biology/care state, freeing its old Nest and retaining payload on unsafe release.
 Calipers reads the carried animal without unpacking. See `HOME_SPECS.md`.

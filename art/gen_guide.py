@@ -44,8 +44,11 @@ PAGES = {
     38: ('Care dispensers', 'Dispensers use Brushes or Sampling Syringes on one eligible bunnidog ahead per pulse. One tool use; hand and machine share recovery. Collect drops with hoppers. Armadillo brushing still works.'),
     39: ('Travel Basket', 'Craft six planks, leather and a lead into a basket. Pack one calm, unled animal; release on dry solid ground with room. Identity and care rest persist; its old Nest becomes free. Calipers reads the carried line.'),
 }
-INDEX = {2:'Warrens & genes',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
-         17:'Registry & shows',19:'Material drops',20:'Apex of the Line',24:'Guava juice',25:'Trough gardening',27:'Boss forecast'}
+PAGE_COUNT = 40
+MAIN_INDEX = {2:'Warrens & genes',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
+              17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
+MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
+              31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
 
 
 def pantry_guide_pool():
@@ -73,8 +76,9 @@ def main():
           'requirements':[['has_guava','has_recipe']],'rewards':{'recipes':['bunnidogs:field_guide']}})
     for path in (RES/'assets/bunnidogs/lang').glob('*.json'):
         value = json.loads(path.read_text()); value.update({'item.bunnidogs.field_guide':'Bunnidogs Field Guide',
-          'guide.bunnidogs.title':'Bunnidogs Guide','guide.bunnidogs.contents':'Contents'})
-        for page,label in INDEX.items(): value[f'guide.bunnidogs.index.{page}'] = label
+          'guide.bunnidogs.title':'Bunnidogs Guide','guide.bunnidogs.contents':'Contents',
+          'guide.bunnidogs.more_contents':'More chapters','guide.bunnidogs.main_contents':'Main contents'})
+        for page,label in (MAIN_INDEX | MORE_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
         for page,(title,body) in PAGES.items():
             value[f'guide.bunnidogs.page.{page}.title'] = title
             value[f'guide.bunnidogs.page.{page}.body'] = body
@@ -91,13 +95,15 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,1),(495,38),(735,39)]:
+    for x,page in [(255,1),(495,40),(735,39)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
-        d.text((x+14,35), 'Bunnidogs Guide' if page == 1 else PAGES[page][0], font=bold,fill=(40,39,30))
-        if page == 1: body = '\n'.join(INDEX.values())
+        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else PAGES[page][0]
+        d.text((x+14,35),title,font=bold,fill=(40,39,30))
+        if page == 1: body = '\n'.join(MAIN_INDEX.values()) + '\n\nMore chapters'
+        elif page == 40: body = '\n'.join(MORE_INDEX.values()) + '\n\nMain contents'
         else: body = '\n'.join(textwrap.wrap(PAGES[page][1],25)) + '\n\nContents'
         d.multiline_text((x+14,75),body,font=font,spacing=6,fill=(40,59,36))
-        d.text((x+14,365),f'Page {page} / {max(PAGES)}',font=font,fill=(85,77,56))
+        d.text((x+14,365),f'Page {page} / {PAGE_COUNT}',font=font,fill=(85,77,56))
     d.text((15,350),'Book icon + text preview',font=font,fill=(224,217,185))
     d.text((15,375),'Substitute font; native UI pending',font=ImageFont.load_default(),fill=(224,217,185))
     preview.save(ROOT/'art/guide_preview.png')

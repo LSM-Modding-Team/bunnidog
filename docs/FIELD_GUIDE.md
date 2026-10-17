@@ -27,8 +27,8 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Thirty-nine pages use the ordinary written-book screen. Page 1 has eleven clickable
-chapter links; every other page links back to the contents. Local page changes
+Forty pages use the ordinary written-book screen. The two linked contents pages
+offer eighteen clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
 
@@ -46,8 +46,8 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 ## Evidence
 
 The actual Java 25 build and current twenty-seven native server cases pass,
-including loading the new book/recipe/loot resources. The expanded 39-page
-contents/care-station/basket preview is inspected with a substitute font. Earlier
+including loading the new book/recipe/loot resources. The expanded 40-page
+two-contents/basket preview is inspected with a substitute font. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
 sources establish the ordinary book/packet/click behavior; no new screen or
@@ -56,3 +56,18 @@ exact-commit artifact is checked.
 
 Actual client navigation, font rendering and natural pantry discovery still
 need gameplay review. Server loading does not establish these client details.
+
+## P3 — Find the newer chapters
+
+The original contents became crowded as new living-care and habitat mechanics
+were added. Page 1 now links to eight core chapters and **More chapters** on
+page 40. That second index links to ten newer chapter groups, from juice and
+gardens through resident needs, care stations and Travel Baskets, plus a return
+to **Main contents**. All existing content stays on pages 2–39.
+
+Pages 2–23 return to page 1; pages 24–39 return to page 40. All navigation uses
+native `ClickEvent.ChangePage`. The item default updates ordinary existing
+guides; deliberately overridden written-book components retain their contents.
+The Java/resource build validates this small presentation change. The preview
+covers both indices and the basket chapter; actual native fonts remain client
+review. No new server mechanics or saved format are introduced.
