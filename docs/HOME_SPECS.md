@@ -193,3 +193,8 @@ stack conservation, named off-hand rebinding, native item save/tick after Nest
 removal, single creative binding, denied permission and full-inventory overflow.
 The guide preview is inspected. Native compass rendering and long-distance
 multidimension travel remain client gameplay review.
+
+L13 adds one bounded exception to H4's night waiting: an injured adult already
+within four blocks may eat from a safe nearby trough using real stock/shared
+meal rest. Its whole route stays within four blocks; afterward the ordinary
+two-block night tether resumes. See `SETTLEMENT_LIFE.md` L13.

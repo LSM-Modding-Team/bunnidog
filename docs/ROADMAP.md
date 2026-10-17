@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L13 allows short safe nighttime trough meals within four blocks of home,
+sharing normal stock/healing/meal rest before night waiting resumes. Outdoor
+foraging/work keep daylight rules. Calipers reflects the distinction and trough
+paths now share loaded hazard checks. See `SETTLEMENT_LIFE.md`.
+
 H7 adds ordinary-compass Nest marking and read-only ticket/resident inspection.
 Bound places persist through Nest removal; names/components, stacked/off-hand
 use, creative and inventory overflow follow native item behavior. See

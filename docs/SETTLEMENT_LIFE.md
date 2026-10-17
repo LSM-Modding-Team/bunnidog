@@ -340,6 +340,32 @@ growth and existing-vine fruiting. The revised guide preview is inspected.
 The dispenser fixture now confines randomized native drops to a catchment;
 previously a product could leave its small query before the next pulse assertion.
 
+## L13: short nighttime trough meals
+
+An injured ordinary adult already within four blocks of its Nest may take a
+short trough meal at night. The food, standing spot and entire loaded native
+route must stay inside that four-block boundary. Meals still require matching
+Diet/real stock, a safe dry supported destination, no combat/refuge/recent attack,
+no lead/ride and readiness under the shared thirty-second `ForageWait`.
+Unhealthy animals outside this boundary return home before looking for food.
+
+The trough goal takes precedence over night waiting, but yields to panic,
+refuge, breeding, temptation and parent following. After consuming one item
+for the existing 2 HP, the animal resumes its normal two-block night tether.
+Outdoor grazing, hunting, gardening, cultivation and gatherings remain daytime
+activities. No hunger, free regeneration, night work, home changes, new saved
+field or protocol is added. Calipers names the nighttime trough-only readiness.
+Daytime trough paths also gain the shared complete/home-bounded hazard checks,
+including bounded safe replans and blocked-destination interruption.
+
+L13 evidence (2026-10-17): actual Java 25 build and all 30 native scenarios pass.
+The night-care case exercises real goal arbitration from waiting to food and
+back, exact stock/healing/cooldown, distant food and outside-home refusals,
+unchanged daytime reach, outdoor/work exclusion, lead interruption, damaging
+routes, blocked standing room and Apex exclusion. Existing daytime food,
+shelter, travel and work cases also pass. Updated guide preview inspected;
+natural overnight behavior remains gameplay review.
+
 ## Evidence
 
 L3/L4 actual build and the focused fixture/gardening server cases pass (seventeen

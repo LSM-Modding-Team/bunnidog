@@ -396,14 +396,28 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     }
     /** Eligibility, not a food search. Shared with the Calipers resident snapshot. */
     public Foraging.Status foragingStatus() {
+        return this.foragingStatus(false);
+    }
+    /** Night food is a short near-Nest exception; outdoor foraging keeps its daylight rule. */
+    public Foraging.Status troughFeedingStatus() { return this.foragingStatus(true); }
+    boolean canFeedFromTrough() {
+        var status = this.troughFeedingStatus();
+        return status == Foraging.Status.READY || status == Foraging.Status.NEST_MEAL;
+    }
+    private Foraging.Status foragingStatus(boolean trough) {
         if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel)) return Foraging.Status.UNAVAILABLE;
         if (this.seekingRefuge()) return Foraging.Status.DANGER;
+        boolean night = this.homeNight();
+        boolean nightMeal = trough && night && this.homeNest() != null
+                && Foraging.insideNightHome(this.blockPosition().distSqr(this.homeNest()));
+        if (trough && night && this.getLastHurtByMob() != null && this.tickCount-this.getLastHurtByMobTimestamp() < 200)
+            return Foraging.Status.DANGER;
         var status = Foraging.status(!this.isBaby(),this.getHealth() < this.getMaxHealth(),this.homeNest() != null,
-                this.homeNight(),this.hasCombatTarget());
+                night && !nightMeal,this.hasCombatTarget());
         if (status != Foraging.Status.READY) return status;
         if (this.beingTransported()) return Foraging.Status.TRANSPORTED;
         if (!this.foodWithinHome(this.blockPosition())) return Foraging.Status.OUTSIDE_HOME;
-        return this.forageWait() > 0 ? Foraging.Status.RESTING : status;
+        return this.forageWait() > 0 ? Foraging.Status.RESTING : nightMeal ? Foraging.Status.NEST_MEAL : status;
     }
 
     boolean foodWithinHome(BlockPos pos) {
@@ -857,9 +871,10 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         // long stroll) led it more than 16 blocks away. Below panic, avoid and tempt, above the stroll. Idle for a dog without a nest.
         // H4: at night an adult with a home walks to it and stays within 2 blocks until dawn (docs/HOME_SPECS.md R8). Registered BEFORE
         // GoHomeGoal (same priority: the first one in the list wins a tie) and above the stroll, which it keeps from running all night.
-        this.goalSelector.addGoal(6, new NightHomeGoal(this));
-        this.goalSelector.addGoal(6, new GoHomeGoal(this));
-        this.goalSelector.addGoal(7, new TroughGoal(this));
+        // A short healing meal near the Nest can interrupt night waiting; player control remains above it.
+        this.goalSelector.addGoal(6, new TroughGoal(this));
+        this.goalSelector.addGoal(7, new NightHomeGoal(this));
+        this.goalSelector.addGoal(7, new GoHomeGoal(this));
         this.goalSelector.addGoal(7, new HuntGoal(this));
         this.goalSelector.addGoal(7, new GrazeGoal(this));
         this.goalSelector.addGoal(7, new GardenGoal(this));

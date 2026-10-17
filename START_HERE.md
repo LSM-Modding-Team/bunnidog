@@ -20,6 +20,12 @@ is not exposed in this session: use available work budget without inventing quot
 
 ## Latest gameplay work — 2026-10-17
 
+- **L13, nighttime home care:** injured adults may eat real trough stock along
+  safe routes wholly within four blocks of their Nest at night, then resume
+  normal night waiting. Outdoor foraging/work remain daytime; the existing
+  meal recovery is shared. Calipers reports trough-only readiness. Daytime
+  troughs also use safe paths/replans. See `docs/SETTLEMENT_LIFE.md` L13.
+
 - **H7, Nest wayfinding:** use a compass to mark a Nest in its dimension.
   Markers persist if the Nest is removed, preserve components and handle stacks,
   creative/off-hand use and inventory overflow. Empty-hand inspection reports
@@ -89,7 +95,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Care | Live samples, fleece palettes, whiskers/dust, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C8 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow and terrain movement. `docs/CARE_SPECS.md` A1–A4 |
 | Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, led-adult reassignment, Travel Baskets and persistent compass place markers. `docs/HOME_SPECS.md` H1–H7 |
-| Settlement life | Saved trough stock/automation/filters, diet healing, scheduled/called bell visits, fitted furniture, harvest/cultivation, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L12 |
+| Settlement life | Saved trough stock/automation/filters, diet healing/short night meals, bell visits, fitted furniture, harvest/cultivation, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L13 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
 | Drops and endgame | Pelts/materials, Mutagen/Marrow/Tissue/Dust, five stat legends and pedestals. Sample-defined Apex ritual, inherited combat, warned attacks/enrage, boss bar and source-line crest. `docs/DROPS_SPECS.md`, `docs/APEX_SPECS.md` |
@@ -143,8 +149,13 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The current Java 25 build and all **twenty-nine** native scenarios pass
-(twenty-eight mod cases plus native sanity). Latest coverage includes:
+The current Java 25 build and all **thirty** native scenarios pass
+(twenty-nine mod cases plus native sanity). Latest coverage includes:
+
+- **L13:** native goal arbitration from night waiting to a meal and back,
+  exact food/healing/shared rest, four-block search/destination/path bounds,
+  outside-home and distant-stock refusal, unchanged daytime reach, continued
+  outdoor/work exclusion, lead interruption, damaging/blocked routes and Apex.
 
 - **H7:** actual server free/claimed inspection, survival stack conservation,
   named off-hand rebinding, native compass save/tick after Nest removal,

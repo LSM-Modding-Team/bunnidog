@@ -10,9 +10,10 @@ public final class Foraging {
     public static final int GRAZE_TICKS = 40;
     public static final int SEARCH_RADIUS = 8;
     public static final int HUNT_TICKS = 400;
+    public static final int NIGHT_MEAL_RADIUS = 4;
 
     public enum Meal { NONE, HAY, GRASS, WHEAT, PRODUCE }
-    public enum Status { READY, UNAVAILABLE, ADULT, HEALTHY, HOME, DAYTIME, DANGER, TRANSPORTED, OUTSIDE_HOME, RESTING }
+    public enum Status { READY, UNAVAILABLE, ADULT, HEALTHY, HOME, DAYTIME, DANGER, TRANSPORTED, OUTSIDE_HOME, RESTING, NEST_MEAL }
     public static boolean handFood(boolean edible, boolean breedingFood, boolean hurt, boolean canGrow) {
         return edible && !breedingFood && (hurt || canGrow);
     }
@@ -28,6 +29,9 @@ public final class Foraging {
     }
     public static boolean insideHome(double distanceSquared) {
         return distanceSquared >= 0 && distanceSquared <= (double) Home.HOME_RADIUS * Home.HOME_RADIUS;
+    }
+    public static boolean insideNightHome(double distanceSquared) {
+        return distanceSquared >= 0 && distanceSquared <= NIGHT_MEAL_RADIUS*NIGHT_MEAL_RADIUS;
     }
     public static boolean canGraze(Diet diet, Meal meal, boolean mobGriefing) {
         return switch (meal) {

@@ -23,13 +23,23 @@ final class TroughGoal extends Goal {
     private long nextSearch;
     private int ticks, eating;
     TroughGoal(Bunnidog dog) { this.dog = dog; this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK)); }
+    private boolean insideMealArea(BlockPos pos) {
+        return pos != null && this.dog.foodWithinHome(pos) && (!this.dog.homeNight()
+                || Foraging.insideNightHome(pos.distSqr(this.dog.homeNest())));
+    }
+    private boolean safe(Path route) {
+        if (!HomeRoutes.safe(this.dog,route,null)) return false;
+        if (this.dog.homeNight()) for (int i = route.getNextNodeIndex(); i < route.getNodeCount(); i++)
+            if (!insideMealArea(route.getNode(i).asBlockPos())) return false;
+        return true;
+    }
     private FeedingTroughBlockEntity trough(BlockPos pos) {
         return pos != null && this.dog.level() instanceof ServerLevel server && server.hasChunkAt(pos)
-                && this.dog.foodWithinHome(pos) && server.getBlockEntity(pos) instanceof FeedingTroughBlockEntity trough
+                && insideMealArea(pos) && server.getBlockEntity(pos) instanceof FeedingTroughBlockEntity trough
                 && trough.canFeed(this.dog) ? trough : null;
     }
     @Override public boolean canUse() {
-        if (!this.dog.canForage() || !(this.dog.level() instanceof ServerLevel server) || server.getGameTime() < this.nextSearch) return false;
+        if (!this.dog.canFeedFromTrough() || !(this.dog.level() instanceof ServerLevel server) || server.getGameTime() < this.nextSearch) return false;
         this.nextSearch = server.getGameTime()+Foraging.SEARCH_INTERVAL;
         this.food = null;
         var candidates = server.getPoiManager().findAll(h -> h.is(ModPoi.FEEDING_TROUGH.getKey()),p -> trough(p) != null,
@@ -37,15 +47,16 @@ final class TroughGoal extends Goal {
                 .sorted(Comparator.comparingDouble(p -> p.distSqr(this.dog.blockPosition()))).limit(2).toList();
         for (BlockPos p : candidates) for (Direction direction : Direction.Plane.HORIZONTAL) {
             BlockPos spot = p.relative(direction);
-            if (!server.hasChunkAt(spot) || !this.dog.foodWithinHome(spot) || !server.getBlockState(spot).isAir()
-                    || !server.getBlockState(spot.above()).isAir() || !server.getFluidState(spot).isEmpty()
-                    || !server.getBlockState(spot.below()).isFaceSturdy(server,spot.below(),Direction.UP)) continue;
+            if (!insideMealArea(spot) || !HomeRoutes.standing(this.dog,spot)) continue;
             Path candidate = this.dog.getNavigation().createPath(spot,0);
-            if (candidate != null && candidate.canReach()) { this.food = p.immutable(); this.stand = spot; this.path = candidate; return true; }
+            if (safe(candidate)) { this.food = p.immutable(); this.stand = spot; this.path = candidate; return true; }
         }
         return false;
     }
-    @Override public boolean canContinueToUse() { return this.food != null && this.dog.canForage() && trough(this.food) != null && this.ticks < 200; }
+    @Override public boolean canContinueToUse() {
+        return this.food != null && this.dog.canFeedFromTrough() && trough(this.food) != null && this.ticks < 200
+                && insideMealArea(this.stand) && HomeRoutes.standing(this.dog,this.stand) && safe(this.path);
+    }
     @Override public boolean requiresUpdateEveryTick() { return true; }
     @Override public void start() { this.ticks = 0; this.eating = 0; this.dog.getNavigation().moveTo(this.path,1); }
     @Override public void tick() {
@@ -54,7 +65,11 @@ final class TroughGoal extends Goal {
         this.dog.getLookControl().setLookAt(Vec3.atCenterOf(this.food));
         if (this.dog.distanceToSqr(Vec3.atCenterOf(this.food)) > 3.24) {
             this.eating = 0;
-            if (this.ticks % 20 == 0 && !this.dog.getNavigation().moveTo(this.stand.getX()+.5,this.stand.getY(),this.stand.getZ()+.5,1)) this.ticks = 200;
+            if (this.ticks % 20 == 0) {
+                Path route = this.dog.getNavigation().createPath(this.stand,0);
+                if (!safe(route) || !this.dog.getNavigation().moveTo(route,1)) this.ticks = 200;
+                else this.path = route;
+            }
             return;
         }
         this.dog.getNavigation().stop();

@@ -19,6 +19,7 @@ Trough filters explains exact reservations, withdrawals and clearing while empty
 Care dispensers explains one-animal pulses, shared recovery and hopper collection.
 Travel Basket explains packing, safe release, retained identity and Nest release.
 The home page also covers read-only Nest inspection and persistent compass marks.
+The food page explains short safe nighttime trough meals near home.
 
 Craft one with a vanilla book and any guava (the existing bunnidog-food tag).
 Obtaining a guava unlocks its recipe. An additional independent 35% pantry loot
@@ -47,9 +48,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current twenty-nine native server cases pass,
+The actual Java 25 build and current thirty native server cases pass,
 including loading the new book/recipe/loot resources. The expanded 40-page
-contents/home/gardening preview is inspected with a substitute font. Earlier
+contents/home/food preview is inspected with a substitute font. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
 sources establish the ordinary book/packet/click behavior; no new screen or

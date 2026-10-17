@@ -55,7 +55,7 @@ def main():
           'message.bunnidogs.trough.filtered':'Reserved for %s with matching components. Sneak-empty while empty clears the filter.',
           'message.bunnidogs.trough.filter_cleared':'Food filter cleared. This trough accepts any suitable food again.',
           'message.bunnidogs.trough.stock_filter':'%s Reserved for %s (matching components).',
-          'message.bunnidogs.trough.tending.on':'Gardening enabled. Healthy residents tend matching ripe crops beside this trough.',
+          'message.bunnidogs.trough.tending.on':'Gardening enabled. Healthy residents harvest; Bloom +10 also cultivates.',
           'message.bunnidogs.trough.tending.off':'Gardening disabled. Residents still eat stored food.',
           'message.bunnidogs.care.gardening':'Gardening: %s',
           'message.bunnidogs.care.cultivation':'Cultivation: %s',

@@ -73,7 +73,7 @@ public class CalipersItem extends Item {
                         String.format(Locale.ROOT,"%.1f",Math.sqrt(dog.blockPosition().distSqr(nest)))));
         careRow(player,"food",dog.diet() == Diet.PLAIN ? Component.translatable("message.bunnidogs.care.food_guavas")
                 : Component.translatable("message.bunnidogs.care.food_other",dog.diet().foods()));
-        var meals = dog.foragingStatus();
+        var meals = dog.troughFeedingStatus();
         Component foodStatus = meals == Foraging.Status.RESTING ? recovery(dog.forageWait())
                 : Component.translatable("message.bunnidogs.foraging." + meals.name().toLowerCase(Locale.ROOT));
         if (dog.forageWait() > 0 && meals != Foraging.Status.RESTING)

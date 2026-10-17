@@ -70,6 +70,12 @@ garden rest and respects Diet, trough filters/capacity and block protection.
 It creates no food until a later harvest. Ordinary foragers can gather one
 sweet berry from a ripe bush, leaving it to regrow. Calipers names the bonus.
 
+**Night meals (L13):** injured adults near their Nest can eat matching trough
+stock at night. Keep food, safe standing room and the whole route within four
+blocks of home. One item heals the normal 2 HP and starts the shared thirty-second
+meal rest, then night waiting resumes. Calipers explains trough-only readiness;
+outdoor foraging and work still wait for daylight. Leads and danger interrupt.
+
 **Nest wayfinding (H7):** use a compass on a Nest to mark that place. Its needle
 points there in that dimension and spins elsewhere; the marker remains if the
 Nest is removed. Names/components survive and stacked compasses bind one item.
