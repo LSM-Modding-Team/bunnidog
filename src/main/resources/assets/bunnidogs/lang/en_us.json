@@ -239,7 +239,7 @@
   "guide.bunnidogs.page.7.title": "Keep a pedigree",
   "guide.bunnidogs.page.7.body": "Use a Pedigree Book on animals to record them. Ear Tags give permanent codes. Calipers also read a seed or sample held in the other hand. Compare parents before choosing a mate.",
   "guide.bunnidogs.page.8.title": "Nests and travel",
-  "guide.bunnidogs.page.8.body": "An adult claims one free reachable Nest. At night it returns home. Leads and rides pause home routines. While leading it, use a free Nest with an empty hand or lead to move its home.",
+  "guide.bunnidogs.page.8.body": "Adults claim a reachable Nest and return at night. Lead an adult to a free Nest and use it to move home. Empty-hand use inspects the resident. Use a compass to mark a Nest; its place stays marked if removed.",
   "guide.bunnidogs.page.9.title": "Food and troughs",
   "guide.bunnidogs.page.9.body": "Guavas suit every line; other foods follow Diet. New feed stores, markets and pantries hold local food. Fill a trough near home for healing. Sneak-use with both hands empty to withdraw.",
   "guide.bunnidogs.page.10.title": "Life at home",
@@ -359,5 +359,9 @@
   "guide.bunnidogs.index.39": "Travel Basket",
   "message.bunnidogs.care.cultivation": "Cultivation: %s",
   "message.bunnidogs.care.cultivation_bonus": "Bloom +%s bonus; can advance matching unripe crops between harvests",
-  "message.bunnidogs.care.cultivation_requirement": "needs Bloom +%s; ripe harvesting remains available"
+  "message.bunnidogs.care.cultivation_requirement": "needs Bloom +%s; ripe harvesting remains available",
+  "message.bunnidogs.nest.marked": "Compass marked this Nest at %s, %s, %s. The place stays marked if the Nest is removed.",
+  "message.bunnidogs.nest.free": "Free Nest. Lead an adult here to move its home; use a compass to mark this place.",
+  "message.bunnidogs.nest.away": "Claimed Nest; its resident is away. A compass can mark this place.",
+  "message.bunnidogs.nest.resident": "Home of %s (Ear Tag: %s). A compass can mark this place."
 }

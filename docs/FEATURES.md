@@ -70,6 +70,12 @@ garden rest and respects Diet, trough filters/capacity and block protection.
 It creates no food until a later harvest. Ordinary foragers can gather one
 sweet berry from a ripe bush, leaving it to regrow. Calipers names the bonus.
 
+**Nest wayfinding (H7):** use a compass on a Nest to mark that place. Its needle
+points there in that dimension and spins elsewhere; the marker remains if the
+Nest is removed. Names/components survive and stacked compasses bind one item.
+Empty-hand use with no led animal inspects the free/claimed Nest and any nearby
+resident. Led-adult reassignment keeps priority. Inspection changes no tickets.
+
 **Bell calls (L10):** ring a vanilla bell to call healthy adult residents by day,
 including outside noon. Hand use, redstone and projectiles work. Keep it within
 12 blocks of their Nest and leave safe walking space. Calls use the same short

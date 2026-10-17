@@ -20,6 +20,11 @@ is not exposed in this session: use available work budget without inventing quot
 
 ## Latest gameplay work — 2026-10-17
 
+- **H7, Nest wayfinding:** use a compass to mark a Nest in its dimension.
+  Markers persist if the Nest is removed, preserve components and handle stacks,
+  creative/off-hand use and inventory overflow. Empty-hand inspection reports
+  ticket/resident without changing homes. See `docs/HOME_SPECS.md` H7.
+
 - **L12, bred cultivation:** Bloom +10 adults advance matching unripe crops by
   one stage between ripe harvests. Growth and harvest share existing work rest,
   trough capacity/filters and protected safe routes. Ripe sweet berries now
@@ -83,7 +88,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
 | Care | Live samples, fleece palettes, whiskers/dust, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C8 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow and terrain movement. `docs/CARE_SPECS.md` A1–A4 |
-| Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, safe led-adult reassignment and identity-preserving Travel Baskets. `docs/HOME_SPECS.md` H1–H6 |
+| Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, led-adult reassignment, Travel Baskets and persistent compass place markers. `docs/HOME_SPECS.md` H1–H7 |
 | Settlement life | Saved trough stock/automation/filters, diet healing, scheduled/called bell visits, fitted furniture, harvest/cultivation, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L12 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
@@ -138,8 +143,12 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The current Java 25 build and all **twenty-eight** native scenarios pass
-(twenty-seven mod cases plus native sanity). Latest coverage includes:
+The current Java 25 build and all **twenty-nine** native scenarios pass
+(twenty-eight mod cases plus native sanity). Latest coverage includes:
+
+- **H7:** actual server free/claimed inspection, survival stack conservation,
+  named off-hand rebinding, native compass save/tick after Nest removal,
+  single creative binding, denied permission and full-inventory overflow.
 
 - **L12:** exact Bloom threshold, filter/Diet/griefing refusals, interrupted
   growth, one-stage/no-food cultivation, shared rest, ripe priority, ordinary

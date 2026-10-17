@@ -168,3 +168,28 @@ the exact free POI ticket immediately, then another grounded resident claims
 it before release; a fresh spawn cannot ground-pathfind before physics ticks.
 The item and guide previews are inspected. Client use/tooltip rendering and
 long-distance travel remain gameplay review.
+
+## H7: Nest wayfinding and inspection
+
+Use an ordinary compass on a Nest to mark its position in that dimension.
+The native bound-compass needle points to it there and spins in other dimensions.
+This is a persistent place marker: removing the Nest or changing its resident
+does not erase the destination. Rebinding a compass replaces the previous
+target. Names and other components survive; stacked compasses bind one item,
+with inventory overflow dropping normally. A single creative compass is changed
+in place. Binding consumes no Nest or other resource and respects build/use
+permissions. Native item components carry the marker through saves; no new item,
+recipe, block entity or payload is needed.
+
+Use a Nest with both hands empty and no animal on your lead to inspect its
+ticket. A free Nest says so; a claimed Nest names its loaded nearby resident,
+or explains that the resident is away. Inspection never takes/releases a ticket,
+requests terrain, changes a home or redirects an animal. Existing nearest-led
+adult rehoming and its pup/occupied/unreachable feedback keep priority.
+
+H7 evidence (2026-10-17): actual Java 25 build and all 29 native scenarios pass.
+The marker case uses server game-mode interactions, free/claimed ticket checks,
+stack conservation, named off-hand rebinding, native item save/tick after Nest
+removal, single creative binding, denied permission and full-inventory overflow.
+The guide preview is inspected. Native compass rendering and long-distance
+multidimension travel remain client gameplay review.

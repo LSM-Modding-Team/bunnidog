@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+H7 adds ordinary-compass Nest marking and read-only ticket/resident inspection.
+Bound places persist through Nest removal; names/components, stacked/off-hand
+use, creative and inventory overflow follow native item behavior. See
+`HOME_SPECS.md`.
+
 L12 gives Bloom +10 adults one-stage cultivation between ripe harvests, sharing
 the existing garden rest and respecting Diet, trough filters and protection.
 Foragers also harvest ripe sweet berries without removing the bush. Native
