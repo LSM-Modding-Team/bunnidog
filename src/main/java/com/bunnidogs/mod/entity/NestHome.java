@@ -131,7 +131,7 @@ public final class NestHome {
     public void release(ServerLevel level) {
         if (this.nest != null) {
             BlockPos pos = this.nest;
-            if (level.getBlockState(pos).is(ModBlocks.NEST.get())) {
+            if (level.getPoiManager().exists(pos,holder -> holder.is(ModPoi.NEST.getKey()))) {
                 this.giveBack(level, pos);
             }
             this.forget();

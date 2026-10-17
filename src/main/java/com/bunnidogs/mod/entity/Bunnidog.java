@@ -662,6 +662,11 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     /** Domestic routines and tools are inappropriate for the summoned Apex. */
     public boolean acceptsCare() { return true; }
 
+    /** A carried animal leaves its old ticket available and chooses a new home after release. */
+    public void releaseHomeForTravel(ServerLevel server) {
+        if (server == this.level() && this.acceptsCare()) this.nestHome.release(server);
+    }
+
     public NestHome.MoveResult moveHomeTo(ServerLevel level, BlockPos destination) {
         if (level != this.level() || !this.acceptsCare()) return NestHome.MoveResult.INVALID;
         return this.nestHome.moveTo(level, destination);

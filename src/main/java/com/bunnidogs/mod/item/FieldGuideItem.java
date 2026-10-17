@@ -11,7 +11,7 @@ import net.minecraft.world.item.component.WrittenBookContent;
 
 /** Native book UI/packets, translated pages and local page links; no custom screen or payload. */
 public final class FieldGuideItem extends WrittenBookItem {
-    public static final int PAGE_COUNT = 38;
+    public static final int PAGE_COUNT = 39;
     public FieldGuideItem(Properties properties) {
         super(properties.component(DataComponents.WRITTEN_BOOK_CONTENT, content()));
     }

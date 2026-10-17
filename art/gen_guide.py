@@ -42,6 +42,7 @@ PAGES = {
     36: ('Fleece colors', 'Woolly adults yield two wool in their coat colors. Spotted gives one yellow and one brown. Glow gives cyan; moss green; ember red; void purple. Hidden coats add nothing. Calipers names the ready yield.'),
     37: ('Trough filters', 'Sneak-use food to reserve a trough for that exact food and its components, without spending it. Hoppers and gardeners obey the filter. Sneak-empty withdraws stock; repeat while empty to clear the filter.'),
     38: ('Care dispensers', 'Dispensers use Brushes or Sampling Syringes on one eligible bunnidog ahead per pulse. One tool use; hand and machine share recovery. Collect drops with hoppers. Armadillo brushing still works.'),
+    39: ('Travel Basket', 'Craft six planks, leather and a lead into a basket. Pack one calm, unled animal; release on dry solid ground with room. Identity and care rest persist; its old Nest becomes free. Calipers reads the carried line.'),
 }
 INDEX = {2:'Warrens & genes',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
          17:'Registry & shows',19:'Material drops',20:'Apex of the Line',24:'Guava juice',25:'Trough gardening',27:'Boss forecast'}
@@ -90,7 +91,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,1),(495,37),(735,38)]:
+    for x,page in [(255,1),(495,38),(735,39)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         d.text((x+14,35), 'Bunnidogs Guide' if page == 1 else PAGES[page][0], font=bold,fill=(40,39,30))
         if page == 1: body = '\n'.join(INDEX.values())

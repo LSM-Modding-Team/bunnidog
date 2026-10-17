@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_lead": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:lead"
+          }
+        ]
+      }
+    },
+    "has_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bunnidogs:travel_basket"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_lead",
+      "has_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:travel_basket"
+    ]
+  }
+}

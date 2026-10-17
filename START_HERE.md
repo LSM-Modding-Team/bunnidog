@@ -20,6 +20,12 @@ is not exposed in this session: use available work budget without inventing quot
 
 ## Latest gameplay work — 2026-10-17
 
+- **H6, Travel Basket:** carries one existing calm, unled ordinary animal using
+  its full native data. UUID, line, name/parents/tag and paused care state survive
+  native item saves. Packing frees the old Nest; blocked/duplicate/invalid
+  release keeps the payload. Calipers opens its normal animal sheet. See
+  `docs/HOME_SPECS.md` H6; art source `art/gen_basket.py`.
+
 - **C8, dispenser care:** one redstone pulse uses a Brush or Sampling Syringe
   on one eligible animal ahead. Shared hand/machine transactions preserve
   all qualifications, products and recovery; failed care retains the tool.
@@ -50,7 +56,7 @@ shore fishing (Diet D5), native terrain traits (A4), local supplies (L6), living
 dust (C5) and gardening/fitted farm corners (L5). Their full rules and evidence
 are in the care/settlement specs and `docs/FIXES_PLAN.md` 6.5. Do not redo them.
 
-The native Field Guide has 38 translated pages and eleven contents links.
+The native Field Guide has 39 translated pages and eleven contents links.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
@@ -65,7 +71,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
 | Care | Live samples, fleece palettes, whiskers/dust, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C8 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow and terrain movement. `docs/CARE_SPECS.md` A1–A4 |
-| Homes | Claimable Nests, day tether/night return, floor Nests, native leads/rides, safe led-adult reassignment. `docs/HOME_SPECS.md` H1–H5 |
+| Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, safe led-adult reassignment and identity-preserving Travel Baskets. `docs/HOME_SPECS.md` H1–H6 |
 | Settlement life | Saved trough stock/automation/filters, diet healing, scheduled/called bell visits, fitted furniture, gardening, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L11 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
@@ -120,8 +126,14 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The current Java 25 build and all **twenty-six** native scenarios pass
-(twenty-five mod cases plus native sanity). Latest coverage includes:
+The current Java 25 build and all **twenty-seven** native scenarios pass
+(twenty-six mod cases plus native sanity). Latest coverage includes:
+
+- **H6:** actual creative/survival capture, native item save/load, exact UUID,
+  ancestry/tag/name/health/age and six paused recovery timers, immediate Nest
+  ticket release/reclaim, blocked release, occupied/led/Apex refusals, duplicate
+  identity, malformed data and pup release. Fresh mobs need a physics tick
+  before native ground navigation can claim the freed Nest.
 
 - **C8:** actual redstone/scheduled dispenser pulses, all combined products,
   shared refusal, exact pup sample/last charge and native armadillo fallback.
@@ -142,7 +154,7 @@ The current Java 25 build and all **twenty-six** native scenarios pass
   cyan regrowth, spotted's combined yield/one wear, read-only Calipers and all
   palette names/total yields. Save/readiness cases remain covered.
 
-The 38-page guide preview is inspected. Each published GitHub build also checks
+The 39-page guide and basket previews are inspected. Each published GitHub build also checks
 the approved model before uploading its exact-commit artifact. Earlier
 fixture/gardening, diet/fishing, terrain, care/lab/show/registry, transport/Nest,
 refuge/weather, sign/boat and Apex cases remain part of this suite; detailed

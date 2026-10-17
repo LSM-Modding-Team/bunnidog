@@ -16,6 +16,7 @@ import com.bunnidogs.mod.genetics.Stats;
 import com.bunnidogs.mod.item.CalipersItem;
 import com.bunnidogs.mod.item.FieldGuideItem;
 import com.bunnidogs.mod.item.SyringeItem;
+import com.bunnidogs.mod.item.TravelBasketItem;
 import com.bunnidogs.mod.item.GeneSplicerItem;
 import com.bunnidogs.mod.item.EarTagItem;
 import com.bunnidogs.mod.item.GuavaItem;
@@ -192,6 +193,7 @@ public final class ModItems {
     public static final DeferredItem<CalipersItem> CALIPERS = ITEMS.registerItem("calipers", CalipersItem::new, props -> props.stacksTo(1));
     public static final DeferredItem<SyringeItem> SYRINGE = ITEMS.registerItem("syringe", SyringeItem::new,
             props -> props.durability(com.bunnidogs.mod.genetics.Sampling.TOOL_USES));
+    public static final DeferredItem<TravelBasketItem> TRAVEL_BASKET = ITEMS.registerItem("travel_basket",TravelBasketItem::new,props -> props.stacksTo(1));
     public static final DeferredItem<GeneSplicerItem> GENE_SPLICER = ITEMS.registerItem("gene_splicer",GeneSplicerItem::new,
             props -> props.durability(com.bunnidogs.mod.genetics.Splicing.TOOL_USES).rarity(Rarity.RARE));
 
@@ -338,6 +340,7 @@ public final class ModItems {
             event.accept(CALIPERS.get());
             event.accept(FIELD_GUIDE.get());
             event.accept(SYRINGE.get());
+            event.accept(TRAVEL_BASKET.get());
             event.accept(GENE_SPLICER.get());
             event.accept(GUAVA_BOAT.get());
             event.accept(GUAVA_CHEST_BOAT.get());

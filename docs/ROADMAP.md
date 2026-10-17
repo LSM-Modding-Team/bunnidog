@@ -16,6 +16,10 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+H6 adds a craftable Travel Basket preserving one animal's UUID and native
+biology/care state, freeing its old Nest and retaining payload on unsafe release.
+Calipers reads the carried animal without unpacking. See `HOME_SPECS.md`.
+
 C8 adds native dispenser Brush/Syringe care sharing hand-tool eligibility,
 animal recovery and exact products/data, while preserving armadillo brushing.
 One pulse treats one animal; output drops support hopper collection. See

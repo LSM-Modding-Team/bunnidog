@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 38 pages from first warren to Apex, with clickable chapter/contents links.
+open 39 pages from first warren to Apex, with clickable chapter/contents links.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 
@@ -56,6 +56,12 @@ neither distance nor shelter makes an animal immune to harm.
 Nest during thunderstorms. Keep a safe floor and walking space near home.
 Meals, work, home/social routines, breeding, danger and player control take
 priority. Ordinary rain leaves their existing idle routines in place.
+
+**Travel Basket (H6):** craft six planks, leather and a lead. Pack one calm,
+unled ordinary adult or pup, then release on dry solid ground with room for its
+actual size. Identity, health, age, pedigree and paused care recovery persist.
+Packing frees its old Nest; blocked/invalid/duplicate placement keeps the animal
+stored. Calipers reads the carried animal's sheet. The Apex cannot be carried.
 
 **Bell calls (L10):** ring a vanilla bell to call healthy adult residents by day,
 including outside noon. Hand use, redstone and projectiles work. Keep it within

@@ -141,6 +141,14 @@ public class CalipersItem extends Item {
             }
             return InteractionResult.SUCCESS;
         }
+        var carried = TravelBasketItem.readEntry(held);
+        if (carried.isPresent()) {
+            if (!level.isClientSide()) {
+                if (player instanceof ServerPlayer serverPlayer) ModNetwork.sendSheet(serverPlayer,carried.get());
+                else send(player,Readout.tissue(new Tissue(carried.get().genome(),carried.get().stats().orElseThrow())));
+            }
+            return InteractionResult.SUCCESS;
+        }
         Optional<Tissue> tissue = TissueSampleItem.read(held);
         if (tissue.isEmpty()) {
             return InteractionResult.PASS;
@@ -177,7 +185,7 @@ public class CalipersItem extends Item {
         lines.accept(Component.literal("Right-click a bunnidog: its sheet opens").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.calipers.care").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.literal("Right-click a planted seed: its window opens").withStyle(ChatFormatting.GRAY));
-        lines.accept(Component.literal("Or hold a seed or a tissue sample in the other hand: its window opens").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(Component.literal("Or hold a seed, sample or occupied Travel Basket in the other hand").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.literal("Off hand when you kill: a Tissue Sample").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

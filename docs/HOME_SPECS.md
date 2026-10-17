@@ -1,6 +1,6 @@
 # HOME_SPECS — bunnidogs find their own home (session 41, second turn)
 
-**CURRENT (2026-10-16): H1-H4 have prior gameplay reports. U1–U7 put Nests in fitted dens/halls; H3b keeps a Nest in each built house. H5 adds transport-aware behavior and player-directed Nest reassignment, with server GameTest evidence and manual gameplay pending. See START_HERE.md and docs/WARREN_PLAN.md.**
+**CURRENT (2026-10-17): H1-H4 have prior gameplay reports. U1–U7 put Nests in fitted dens/halls; H3b keeps a Nest in each built house. H5 adds transport-aware behavior and player-directed Nest reassignment. H6 adds a Travel Basket preserving an animal's identity and native care state. Current server evidence and remaining gameplay review are in START_HERE.md.**
 
 **Status (session 44): H1-H4 WORK (user). H3b (nests in houses) is plan only.** This REPLACES the hardcoded home of V2a (`restrictTo(treeFloor, 16)` at spawn),
 which the user rejected: "it should work like it does with villagers, some conditions that make it determine its home instead of a
@@ -121,3 +121,50 @@ underground network. It preserves each house's centre-floor Nest and front-door
 access; house claiming and night goals use their existing rules. Surface paths
 skip saved ramp columns. Check both house Nests and den Nests in a newly
 generated village; pure traversal checks are not confirmation of navigation.
+
+## H6: Travel Basket
+
+Craft six any planks, one leather and one lead with `P P / PLP / PSP` (P plank,
+L leather, S lead). The reusable basket stacks to one and is in Tools & Utilities.
+Getting a lead unlocks the recipe. Use an empty basket on a calm ordinary adult
+or pup to pack it; filled baskets have an occupied name, foil and occupant
+tooltip. The Apex, dead animals, leads/connections, riders/vehicles, active combat,
+recent attacks and refuge are refused. Ordinary build permissions apply.
+
+Packing removes that existing animal without death drops and stores its full
+native data in the vanilla `BUCKET_ENTITY_DATA` component with a version marker.
+UUID, genome, bred stats, health, age/breeding rest, parents, Ear Tag, name,
+awards, attributes and saved care/food/work recovery travel together. Native
+remaining timers and age pause while carried, as during unloading. The basket's
+own name/components are retained. Creative also changes the real held basket;
+it neither leaves a second animal nor produces a spare filled carrier.
+
+The old Nest ticket is released immediately and omitted from the carried data.
+Another resident can claim it; a released adult looks for a new home normally.
+Release uses the POI storage rather than requesting the old home's terrain
+chunk, also improving remote ticket release on death. Leads/rides still use
+H5's existing keep-home behavior; basket travel deliberately relinquishes it.
+
+Use the filled basket on dry solid ground with clear space for the animal's
+actual dimensions. Check loaded bounds, support, fluids, block/entity/world-border
+collision and native spawn acceptance before emptying the basket. Blocked,
+unloaded, invalid or refused placement retains the entire payload. An already
+present UUID in any loaded dimension is refused. Release preserves health and
+remaining recovery without growth, healing, cloning or home-ticket theft;
+old movement/fall distance is cleared for safe placement. No biome reroll occurs.
+
+Native item save/load carries all components. Calipers opens the normal animal
+sheet from the other hand, including genome, stats, UUID, parents, Ear Tag and
+age class, without unpacking or changing the payload.
+Malformed occupied data is retained with feedback. Dispensers do not pack/release
+animals. No custom data component, payload or protocol change is needed. The
+39-page Field Guide and `art/gen_basket.py` own the controls/icon/recipe text.
+
+H6 evidence (2026-10-17): Java 25 `build runGameTestServer` passes all 27 required
+native scenarios. `BasketGameTest` uses actual creative/survival interactions,
+native item codec round-trips, blocked/duplicate/invalid release, a pup, exact
+identity/line/parents/tag/name/health/age and all six recovery timers. It checks
+the exact free POI ticket immediately, then another grounded resident claims
+it before release; a fresh spawn cannot ground-pathfind before physics ticks.
+The item and guide previews are inspected. Client use/tooltip rendering and
+long-distance travel remain gameplay review.
