@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+C8 adds native dispenser Brush/Syringe care sharing hand-tool eligibility,
+animal recovery and exact products/data, while preserving armadillo brushing.
+One pulse treats one animal; output drops support hopper collection. See
+`CARE_SPECS.md`.
+
 L11 adds saved exact-component trough filters for manual/hopper/gardening input.
 Virtual templates cost/refund nothing; normal withdrawals retain reservations
 until deliberately cleared while empty. See `SETTLEMENT_LIFE.md`.

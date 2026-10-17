@@ -2,15 +2,12 @@ package com.bunnidogs.mod.entity;
 
 import com.bunnidogs.mod.genetics.Grooming;
 import com.bunnidogs.mod.genetics.Sampling;
-import com.bunnidogs.mod.registry.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 /** Native Brush entity interaction; all recovery belongs to the animal, not the tool/player. */
 final class BunnidogGrooming {
@@ -27,18 +24,12 @@ final class BunnidogGrooming {
             player.sendOverlayMessage(Component.translatable("message.bunnidogs.groom.wait", (dog.groomingWait()+19)/20));
             return InteractionResult.SUCCESS;
         }
-        dog.beginGroomingRecovery();
-        for (var product : products) {
-            var item = switch (product) {
-                case WHISKER -> ModItems.WHISKER.get();
-                case GLOWSTONE -> Items.GLOWSTONE_DUST;
-                case STARLIT -> ModItems.STARLIT_DUST.get();
-            };
-            ItemStack reward = new ItemStack(item,Grooming.COUNT);
+        var gathered = BunnidogCare.groom(dog);
+        if (gathered.isEmpty()) return InteractionResult.SUCCESS;
+        for (ItemStack reward : gathered) {
             if (!player.getInventory().add(reward)) player.drop(reward, false);
         }
         brush.hurtAndBreak(1, player, hand);
-        dog.playSound(SoundEvents.BRUSH_GENERIC, .4F, 1.1F);
         player.sendOverlayMessage(Component.translatable("message.bunnidogs.groom.collected",
                 ComponentUtils.formatList(products,p -> Component.translatable(p.translationKey()))));
         return InteractionResult.SUCCESS;

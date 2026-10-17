@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 37 pages from first warren to Apex, with clickable chapter/contents links.
+open 38 pages from first warren to Apex, with clickable chapter/contents links.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 
@@ -212,6 +212,12 @@ Already-carried alleles are refused: breed carriers to make a trait homozygous.
 One successful splice costs a sample, Mutagen and one of 16 tool uses; the animal
 needs one minute before another splice. Tool selection and recovery are saved.
 Server checks pass; client interaction is pending. See `docs/SPLICER_SPECS.md`.
+
+**Care dispensers (C8):** point a dispenser at an eligible bunnidog and pulse
+redstone. A Brush collects its qualified products together; a Sampling Syringe
+produces its exact tissue sample, including from pups. Hand/machine recovery is
+shared; success costs one tool use and products drop for hoppers. Failed care
+retains the tool. Native armadillo brushing still works at its original cost.
 
 **Woolly fleece (Care C2/C7):** healthy adults expressing woolly build yield two
 wool in their expressed coat's palette with vanilla shears, then regrow it in

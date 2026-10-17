@@ -159,6 +159,39 @@ retain/regrow fleece, Calipers is read-only and every palette resolves to real
 wool colors while conserving the two-item total. The guide preview is inspected;
 client interaction and decorative breeding balance remain gameplay review.
 
+## C8: dispenser care stations
+
+Face a native dispenser toward a bunnidog in the adjacent block and pulse it
+with redstone. A vanilla Brush gathers all of one eligible adult's qualified
+whisker/glowstone/Starlit products together. A Sampling Syringe produces one
+exact Tissue Sample from an eligible adult or pup. Choose the nearest eligible
+ordinary animal in that block; no remote search or terrain loading is needed.
+
+Both paths use the same server animal transactions as hand tools, including
+half-health requirements, expressed traits/bred stats, Apex refusal and saved
+recovery. Switching between hand use and machines cannot bypass a timer.
+One successful treatment wears its tool once; a last charge breaks normally.
+Failed care retains the tool and costs no recovery or durability. Products
+eject as ordinary item entities for players/hoppers, preserving sample data.
+No animal health, age, genes or stats are changed by treatment.
+
+Native armadillo dispenser brushing is retained as a fallback when no bunnidog
+qualifies; its original scute behavior and sixteen-durability cost still apply.
+Brush block/archaeology use is unchanged. Native dispenser shears already handle
+the woolly fleece interface and retain their normal behavior. Existing manual
+creative/tool-breakage/overflow messages remain in place. No recipes, items,
+saved fields, native genetics rules or network version change. The Field Guide
+grows to 38 pages and explains collecting the drops.
+
+Actual Java 25 build and all twenty-six native scenarios pass. The new case
+uses real redstone pulses and scheduled dispenser ticks for combined grooming,
+shared-recovery refusal, an exact pup sample, last-charge breakage and unchanged
+armadillo scute output/cost. Existing manual sampling/grooming/save/creative/
+overflow cases also pass. The older shelter fixture now waits for native roof
+lighting before its path assertions; route requirements remain intact. The
+updated guide preview is inspected. Client stations and multiplayer automation
+balance remain gameplay review.
+
 ## A1/A2: Expressed environmental adaptations
 
 | Expressed trait | Benefit |

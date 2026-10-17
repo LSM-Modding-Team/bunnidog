@@ -7,6 +7,7 @@ import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModEntities;
 import com.bunnidogs.mod.registry.ModFeatures;
 import com.bunnidogs.mod.registry.ModItems;
+import com.bunnidogs.mod.registry.ModDispensers;
 import com.bunnidogs.mod.registry.ModPoi;
 import com.bunnidogs.mod.registry.ModStructures;
 import org.slf4j.Logger;
@@ -43,6 +44,7 @@ public class BunnidogsMod {
         ModItems.ITEMS.register(modEventBus);
         modEventBus.addListener(ModItems::addToCreativeTabs);
         modEventBus.addListener(ModNetwork::register);
+        modEventBus.addListener(ModDispensers::setup);
         NeoForge.EVENT_BUS.addListener(ResidentBellCalls::onGameEvent);
         NeoForge.EVENT_BUS.addListener(TroughInteraction::onRightClick);
     }

@@ -20,6 +20,12 @@ is not exposed in this session: use available work budget without inventing quot
 
 ## Latest gameplay work — 2026-10-17
 
+- **C8, dispenser care:** one redstone pulse uses a Brush or Sampling Syringe
+  on one eligible animal ahead. Shared hand/machine transactions preserve
+  all qualifications, products and recovery; failed care retains the tool.
+  Exact sample data ejects normally. Native armadillo brushing remains.
+  See `docs/CARE_SPECS.md` C8.
+
 - **L11, trough filters:** sneak-food reserves exact item/components without
   spending food. Hoppers/gardeners respect empty reservations. Withdraw stock
   with sneak-empty, then repeat while empty to clear. The virtual template is
@@ -44,7 +50,7 @@ shore fishing (Diet D5), native terrain traits (A4), local supplies (L6), living
 dust (C5) and gardening/fitted farm corners (L5). Their full rules and evidence
 are in the care/settlement specs and `docs/FIXES_PLAN.md` 6.5. Do not redo them.
 
-The native Field Guide has 37 translated pages and eleven contents links.
+The native Field Guide has 38 translated pages and eleven contents links.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
@@ -57,7 +63,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Laboratory | Two sample slots, vial display, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T6 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
-| Care | Live Tissue Samples, coat-palette woolly fleece, whiskers/dust, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C7 |
+| Care | Live samples, fleece palettes, whiskers/dust, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C8 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow and terrain movement. `docs/CARE_SPECS.md` A1–A4 |
 | Homes | Claimable Nests, day tether/night return, floor Nests, native leads/rides, safe led-adult reassignment. `docs/HOME_SPECS.md` H1–H5 |
 | Settlement life | Saved trough stock/automation/filters, diet healing, scheduled/called bell visits, fitted furniture, gardening, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L11 |
@@ -114,8 +120,13 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The current Java 25 build and all **twenty-five** native scenarios pass
-(twenty-four mod cases plus native sanity). Latest coverage includes:
+The current Java 25 build and all **twenty-six** native scenarios pass
+(twenty-five mod cases plus native sanity). Latest coverage includes:
+
+- **C8:** actual redstone/scheduled dispenser pulses, all combined products,
+  shared refusal, exact pup sample/last charge and native armadillo fallback.
+  Manual care cases remain covered. The shelter fixture waits for native roof
+  lighting before assertions rather than assuming two ticks are sufficient.
 
 - **L11:** actual server crouch-food input, exact filter components, conflicts,
   native saves/legacy stock, empty reservation transfers, withdrawal/clear and
@@ -131,7 +142,7 @@ The current Java 25 build and all **twenty-five** native scenarios pass
   cyan regrowth, spotted's combined yield/one wear, read-only Calipers and all
   palette names/total yields. Save/readiness cases remain covered.
 
-The 37-page guide preview is inspected. Each published GitHub build also checks
+The 38-page guide preview is inspected. Each published GitHub build also checks
 the approved model before uploading its exact-commit artifact. Earlier
 fixture/gardening, diet/fishing, terrain, care/lab/show/registry, transport/Nest,
 refuge/weather, sign/boat and Apex cases remain part of this suite; detailed

@@ -28,7 +28,10 @@ public final class StormShelterGameTest {
         trough.insert(new ItemStack(ModItems.GUAVA.get(),4));
         var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),5.5F,1,3.5F);
         dog.setAge(0); dog.setGenome(Genome.DEFAULT); dog.setHealth(dog.getMaxHealth());
-        h.runAfterDelay(2,() -> {
+        h.startSequence().thenExecuteAfter(2,() -> {}).thenWaitUntil(() -> {
+            h.assertTrue(!level.canSeeSky(h.absolutePos(new BlockPos(3,1,3))) && level.canSeeSky(dog.blockPosition()),
+                    "Native lighting must recognize both the new roof and the exposed starting spot");
+        }).thenExecute(() -> {
             var clock = level.dimensionType().defaultClock().orElseThrow();
             long previous = level.clockManager().getTotalTicks(clock);
             float rain = level.getRainLevel(1), thunder = rain > 0 ? level.getThunderLevel(1)/rain : 0;

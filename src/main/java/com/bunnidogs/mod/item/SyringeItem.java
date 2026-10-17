@@ -2,10 +2,10 @@ package com.bunnidogs.mod.item;
 
 import java.util.function.Consumer;
 import com.bunnidogs.mod.entity.Bunnidog;
+import com.bunnidogs.mod.entity.BunnidogCare;
 import com.bunnidogs.mod.genetics.Sampling;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,11 +35,10 @@ public final class SyringeItem extends Item {
             player.sendOverlayMessage(Component.translatable("message.bunnidogs.sampling.wait",(wait+19)/20));
             return InteractionResult.SUCCESS;
         }
-        ItemStack sample = TissueSampleItem.create(dog.genome(),dog.stats());
-        dog.beginSamplingRecovery();
+        ItemStack sample = BunnidogCare.sample(dog);
+        if (sample.isEmpty()) return InteractionResult.SUCCESS;
         if (!player.getInventory().add(sample)) player.drop(sample,false);
         stack.hurtAndBreak(1,player,hand);
-        dog.playSound(SoundEvents.BOTTLE_FILL,.25F,1.4F);
         player.sendOverlayMessage(Component.translatable("message.bunnidogs.sampling.taken"));
         return InteractionResult.SUCCESS;
     }
