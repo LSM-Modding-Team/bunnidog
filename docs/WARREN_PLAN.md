@@ -376,3 +376,19 @@ column/chunk, after tunnel and sign writes. Existing blocks/stock are preserved.
 Standalone level-one surface dens add their trough only after fitting; older
 saved version-1/2 starts keep their prior behavior. Feature/command networks
 use the same pure planner. See `SETTLEMENT_LIFE.md` for mode and gardening.
+
+N7 reserves the northwest hay/lantern station in newly planned grand-tree halls
+for an optional east-facing Nursery Cradle. Its former full-block footprint
+preserves broad aisles. A full dry 3×3/two-air pad must fit without touching
+Nests/labels, and the hall must still fit its trough and bell. Otherwise omit
+the Cradle and keep the ordinary furniture plan. Append its kind to the same
+four-integer optional `LifeFixtures`; saved plans/IDs remain compatible. It
+starts empty, belongs to its owning column and never restocks; existing block
+entities and their incubation survive repeat placement. Older saved rooms keep
+their exact tunnel cells and furniture. See `NURSERY_SPECS.md` N7.
+
+The final Java 25 build, focused warren/layout checks and all 38 native server
+scenarios pass. The fixture case covers the new empty BE, orientation and
+repeat exact seed/incubation preservation; native structure saves retain the
+appended fixture kind while legacy starts stay unchanged. Natural chunk-order
+generation and client exploration remain separate gameplay checks.

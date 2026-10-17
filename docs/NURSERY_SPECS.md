@@ -165,3 +165,32 @@ Cradles, checking unchanged item/age/time/tool and no premature pups. Shared
 inspection agrees with actual crowd refusal. Existing physical hatching,
 redstone and spawn-rollback scenarios remain passing. Guide page 42's preview
 is inspected; native particle appearance and client input remain gameplay review.
+
+## N7 — fitted grand-tree nursery
+
+New level-five grand-tree halls may fit one empty east-facing Cradle in the
+old northwest hay/lantern station's footprint, with a planned dry 3×3/two-air
+hatch pad. New room plans reserve that station; its full-block footprint stays
+the same, keeping broad aisles, all eight floor Nests, doors, other bedding,
+signs and other furniture clear. Omit the Cradle if its pad cannot fit. Reserve
+the pad against later furniture; require the ordinary trough and bell to fit
+as well, or retain their normal plan and omit the Cradle. Retain the room
+footprint. Runtime hatching still
+checks actual occupants and terrain. Smaller/standalone dens keep their layouts.
+
+Append the fixture kind to optional four-integer `LifeFixtures`; preserve old
+IDs and saved plans. The owning chunk writes the block after its room cells,
+using existing support/air checks and no cross-chunk terrain requests. The
+Cradle starts empty and never restocks. Repeat generation preserves its block
+entity, inserted seed and incubation. Existing saved starts do not gain one.
+
+N7 evidence: actual Java 25 `build runGameTestServer` passes all 38 native
+scenarios and the focused warren layout check (90 flat layouts/terrain
+fallbacks). Representative nursery plans retain troughs/bells, all floor Nests,
+labels, complete supported pad space and reachable rooms; layouts that cannot
+retain all furniture omit the Cradle. The native fixture case places an empty
+east-facing Cradle in its owning column, preserves exact seed/stage/time through
+repeat tunnel/furniture placement, and includes the appended kind in actual
+structure save/legacy tests. The revised furnished-warren guide preview is
+inspected. Natural structure discovery/chunk order and client appearance remain
+gameplay review.

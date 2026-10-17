@@ -22,6 +22,12 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-17
 
+- **N7, grand-tree nurseries:** new level-five halls may fit an empty Cradle
+  in an old hay station's footprint with a complete hatch pad. Its fit also
+  requires the ordinary trough/bell; floor Nests, labels, broad aisles and
+  room bounds stay intact. Saved fixture IDs append; old starts and occupied
+  blocks/incubation remain preserved. See `docs/NURSERY_SPECS.md` N7.
+
 - **N6, hatch-pad planning:** sneak-Calipers reads Cradle incubation/signal,
   crowding and actual pad obstructions, with temporary native markers. The
   same loaded-world preflight gates real hatching; inspection consumes/rolls
@@ -114,7 +120,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 |---|---|
 | Genetics and breeding | Seven genes, inherited pairs, bred stats/Bloom, eight guava tiers, litter seeds/crops, infused juice. `docs/FEATURES.md`, `docs/FIXES_PLAN.md` 6 |
 | Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets, forecasts and carried-animal records. `docs/SHEET_SPECS.md` S1–S9 |
-| Nursery | Whole saved seeds, protected crop harvest/recovery, in-place Mutagen, dispenser stations and a craftable Cradle with incubation, native automation, checked hatching and pad planning. `docs/NURSERY_SPECS.md` N1–N6 |
+| Nursery | Whole saved seeds, protected crop harvest/recovery, in-place Mutagen, dispenser stations and a Cradle with incubation, native automation, checked hatching/pad planning and fitted grand-tree nurseries. `docs/NURSERY_SPECS.md` N1–N7 |
 | Laboratory | Two sample slots, vial display, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T6 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
@@ -210,6 +216,10 @@ cases plus native sanity). Latest coverage:
 - **N6:** actual native sneak-Calipers on clear unripe/blocked ripe Cradles
   preserves seed/stage/time/tool and creates no pups; shared inspection reports
   matching crowd refusal. Existing native spawn/redstone cases remain passing.
+- **N7:** focused layout checks preserve complete pads, ordinary troughs/bells,
+  all Nests/labels and route connectivity, omitting the Cradle where needed.
+  Native owner-column placement, empty initial BE, repeat seed/incubation
+  preservation and actual optional/legacy structure saves pass.
 - **S9/H6:** exact carried records through air/block/off-hand/creative use,
   duplicate protection, registry award, invalid UUID/pup refusal and unchanged
   payload. Basket release still preserves all six paused timers, identity,

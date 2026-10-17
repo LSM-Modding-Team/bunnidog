@@ -129,6 +129,11 @@ crowding and a blocked location. Temporary green markers show a clear pad;
 angry particles show trouble and smoke means crowding. This works while empty
 or growing and changes nothing. Normal Calipers still shows litter genetics.
 
+**Grand-tree nurseries (N7):** newly generated level-five halls may include an
+empty Cradle with a fitted pad, alongside their regular trough/bell and eight
+floor Nests. Existing saved warrens retain their old furniture. Actual animals
+and later block changes can occupy a pad; sneak-Calipers checks current conditions.
+
 **Nest wayfinding (H7):** use a compass on a Nest to mark that place. Its needle
 points there in that dimension and spins elsewhere; the marker remains if the
 Nest is removed. Names/components survive and stacked compasses bind one item.

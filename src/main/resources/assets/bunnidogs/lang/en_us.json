@@ -278,7 +278,7 @@
   "guide.bunnidogs.page.25.title": "Trough gardening",
   "guide.bunnidogs.page.25.body": "Hoe-enable a trough. Healthy residents harvest matching ripe food, then rest a minute. Bloom +10 also advances unripe crops one stage. Diet, filters and mob griefing apply. Sweet berries regrow on the bush.",
   "guide.bunnidogs.page.26.title": "Furnished warrens",
-  "guide.bunnidogs.page.26.body": "New dens have a trough with two guavas. Levels 3-5 have a central bell. New farms fit an empty enabled corner trough for matching crops. Crafted and old troughs need a hoe to enable work.",
+  "guide.bunnidogs.page.26.body": "New dens have a trough with two guavas; levels 3-5 may fit a central bell. Grand-tree nurseries may fit an empty Cradle. New farm corners have empty enabled troughs. Use a hoe to enable work on crafted or old troughs.",
   "message.bunnidogs.apex.missing_one": "Missing offering: %s. Empty-hand use checks the ring.",
   "message.bunnidogs.apex.missing_many": "Missing offering: %s, and %s more. Empty-hand use lists them.",
   "message.bunnidogs.apex.none_missing": "none \u2014 all five are ready",

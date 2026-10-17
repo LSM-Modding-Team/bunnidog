@@ -197,6 +197,9 @@ public final class TunnelShape {
             out.put(new Pos(x + p[0], floor - 1, z + p[1]), DenShape.Kind.NEST);
         }
         for (int dx : new int[]{-2, 2}) for (int dz : new int[]{-2, 2}) {
+            // The northwest station is reserved for a Cradle in new fixture plans.
+            // Its eventual full-block footprint matches the old hay, preserving wide-mob aisle clearance.
+            if (dx == -2 && dz == -2) continue;
             out.put(new Pos(x + dx, floor, z + dz), DenShape.Kind.HAY);
             out.put(new Pos(x + dx, floor + 1, z + dz), DenShape.Kind.LANTERN);
         }

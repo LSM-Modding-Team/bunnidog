@@ -13,7 +13,7 @@ import com.bunnidogs.mod.layout.TunnelShape.Pos;
 public final class SettlementFixtures {
     private SettlementFixtures() {}
     // Saved IDs: append only.
-    public enum Kind { TROUGH, BELL }
+    public enum Kind { TROUGH, BELL, NURSERY_CRADLE }
     public record Fixture(Pos pos, Kind kind) {}
     private static final int[][] AROUND = {{1,0},{-1,0},{0,1},{0,-1}};
 
@@ -31,6 +31,7 @@ public final class SettlementFixtures {
                     .mapToInt(c -> c.pos().y()+1).max();
             if (floor.isEmpty()) continue;
             Pos centre = new Pos(tree.dx(),floor.getAsInt(),tree.dz());
+            if (i == 0 && settlement.level() == 5 && nursery(out,cells,reserved,centre,half)) continue;
             add(out,cells,reserved,centre,half,Kind.TROUGH);
             if (i == 0 && settlement.level() >= 3) add(out,cells,reserved,centre,half,Kind.BELL);
         }
@@ -50,6 +51,23 @@ public final class SettlementFixtures {
     private static boolean standing(Map<Pos,DenShape.Kind> cells, Pos p) {
         return cells.get(p) == DenShape.Kind.AIR && cells.get(p.offset(0,1,0)) == DenShape.Kind.AIR
                 && CellarShape.full(cells.get(p.offset(0,-1,0)));
+    }
+    private static boolean nursery(List<Fixture> out, Map<Pos,DenShape.Kind> cells, Set<Pos> reserved, Pos centre, int half) {
+        // Replace the old northwest hay station's footprint, keeping doorways and broad aisles unchanged.
+        Pos p = centre.offset(-half+1,0,-half+1);
+        if (!standing(cells,p) || reserved.contains(p) || reserved.contains(p.offset(0,1,0))
+                || cells.get(p.offset(0,-1,0)) == DenShape.Kind.NEST) return false;
+        List<Pos> pad = new ArrayList<>();
+        for (int x = 1; x <= 3; x++) for (int z = -1; z <= 1; z++) {
+            Pos slot = p.offset(x,0,z); pad.add(slot);
+            if (!standing(cells,slot) || reserved.contains(slot) || reserved.contains(slot.offset(0,1,0))) return false;
+        }
+        var furniture = new ArrayList<Fixture>(); var proposed = new HashSet<>(reserved);
+        furniture.add(new Fixture(p,Kind.NURSERY_CRADLE)); proposed.add(p); proposed.addAll(pad);
+        add(furniture,cells,proposed,centre,half,Kind.TROUGH);
+        add(furniture,cells,proposed,centre,half,Kind.BELL);
+        if (furniture.size() != 3) return false; // The nursery must also retain the hall's ordinary food/social furniture.
+        out.addAll(furniture); reserved.addAll(proposed); return true;
     }
     private static void add(List<Fixture> out, Map<Pos,DenShape.Kind> cells, Set<Pos> reserved,
             Pos centre, int half, Kind kind) {

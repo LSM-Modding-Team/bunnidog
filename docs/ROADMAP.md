@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+N7 fits optional empty Cradles into new level-five grand-tree halls, retaining
+their trough/bell, all floor Nests, routes, labels and old saved starts. The
+station reuses a bedding footprint; its complete pad is reserved during fitting.
+See `NURSERY_SPECS.md` and `WARREN_PLAN.md` 21.
+
 N6 adds read-only sneak-Calipers incubation/crowd/pad checks and temporary
 markers, sharing actual hatch preflight. Native Cradle structure rotation and
 mirroring also follow its facing. See `NURSERY_SPECS.md`.

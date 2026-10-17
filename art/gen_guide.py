@@ -29,7 +29,7 @@ PAGES = {
     23: ('Apex of the Line', 'Watch for its charge: dodge pounces and leave the four-block stomp. Half health enrages it. A player victory drops a crest that reads the original line or stands on a pedestal. Care tools refuse.'),
     24: ('Guava juice', 'Craft a guava with a glass bottle. Hold a seed in the main hand and juice in the other, then use the seed to infuse it. The rolled pup genes determine the drink effects. Better seeds improve them.'),
     25: ('Trough gardening', 'Hoe-enable a trough. Healthy residents harvest matching ripe food, then rest a minute. Bloom +10 also advances unripe crops one stage. Diet, filters and mob griefing apply. Sweet berries regrow on the bush.'),
-    26: ('Furnished warrens', 'New dens have a trough with two guavas. Levels 3-5 have a central bell. New farms fit an empty enabled corner trough for matching crops. Crafted and old troughs need a hoe to enable work.'),
+    26: ('Furnished warrens', 'New dens have a trough with two guavas; levels 3-5 may fit a central bell. Grand-tree nurseries may fit an empty Cradle. New farm corners have empty enabled troughs. Use a hoe to enable work on crafted or old troughs.'),
     27: ('Before the Apex', 'Hold Calipers in the main hand and a Tissue Sample in the other. Use an Apex Crucible for health, attacks and defenses. Empty-hand use lists missing offerings. Reading spends nothing.'),
     28: ('Living harvests', 'Brush healthy adults: glow gives glowstone; starborn at Bloom +20 gives Starlit Dust; moss at Bloom +10 gives moss carpet. Senses +10 adds a whisker. Gather one of each match for one tool use and ten-minute recovery.'),
     29: ('Terrain traits', 'Hoofed adults step up one-block ledges and take half fall damage. Fleet legs reduce soul-sand and honey slowing by 25%; lean builds by 50%. Together: 75%. Cobwebs, Slowness and other hazards remain.'),
@@ -99,7 +99,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,28),(495,42),(735,44)]:
+    for x,page in [(255,26),(495,42),(735,44)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

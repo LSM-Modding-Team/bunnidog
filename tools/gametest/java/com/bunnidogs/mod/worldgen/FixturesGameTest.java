@@ -4,6 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 import com.bunnidogs.mod.block.FeedingTroughBlock;
 import com.bunnidogs.mod.block.FeedingTroughBlockEntity;
+import com.bunnidogs.mod.block.NurseryCradleBlock;
+import com.bunnidogs.mod.block.NurseryCradleBlockEntity;
+import com.bunnidogs.mod.genetics.Genome;
+import com.bunnidogs.mod.genetics.Seed;
+import com.bunnidogs.mod.genetics.Stats;
+import com.bunnidogs.mod.item.SeedItem;
 import com.bunnidogs.mod.genetics.Lineage;
 import com.bunnidogs.mod.layout.DenShape;
 import com.bunnidogs.mod.layout.PropShape;
@@ -13,6 +19,8 @@ import com.bunnidogs.mod.layout.TunnelShape.Pos;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -28,13 +36,15 @@ public final class FixturesGameTest {
         var level = h.getLevel();
         var pos = h.absolutePos(new BlockPos(3,1,3));
         var bell = pos.south(2);
-        for (var p : List.of(pos,bell)) {
+        var nursery = pos.east(2);
+        for (var p : List.of(pos,bell,nursery)) {
             level.setBlock(p.below(),Blocks.STONE.defaultBlockState(),2);
             level.setBlock(p,Blocks.AIR.defaultBlockState(),2);
             level.setBlock(p.above(),Blocks.AIR.defaultBlockState(),2);
         }
         var fixtures = List.of(new SettlementFixtures.Fixture(new Pos(0,0,0),SettlementFixtures.Kind.TROUGH),
-                new SettlementFixtures.Fixture(new Pos(0,0,2),SettlementFixtures.Kind.BELL));
+                new SettlementFixtures.Fixture(new Pos(0,0,2),SettlementFixtures.Kind.BELL),
+                new SettlementFixtures.Fixture(new Pos(2,0,0),SettlementFixtures.Kind.NURSERY_CRADLE));
         var data = SettlementFixtures.encode(fixtures);
         var owner = chunk(pos,level.getMinY(),level.getMaxY()-1);
         var foreign = new BoundingBox(owner.minX()+16,owner.minY(),owner.minZ(),owner.maxX()+16,owner.maxY(),owner.maxZ());
@@ -42,8 +52,19 @@ public final class FixturesGameTest {
         h.assertTrue(level.getBlockState(pos).isAir(),"Another chunk must not write a trough");
         WarrenFixtures.place(level,pos,data,owner);
         WarrenFixtures.place(level,pos,data,chunk(bell,level.getMinY(),level.getMaxY()-1));
+        WarrenFixtures.place(level,pos,data,chunk(nursery,level.getMinY(),level.getMaxY()-1));
         h.assertTrue(level.getBlockState(pos).is(ModBlocks.FEEDING_TROUGH.get()) && level.getBlockState(bell).is(Blocks.BELL),
                 "Owning columns must place their trough and native bell");
+        var cradle = (NurseryCradleBlockEntity)level.getBlockEntity(nursery);
+        h.assertTrue(cradle != null && cradle.storedSeed().isEmpty() && cradle.getBlockState().getValue(NurseryCradleBlock.FACING) == Direction.EAST,
+                "The owning column must place an empty east-facing nursery Cradle");
+        var litter = SeedItem.create(new Seed(Genome.DEFAULT,Stats.ZERO,Genome.DEFAULT,Stats.ZERO,2.5)); cradle.insert(litter); cradle.grow(false);
+        int stage = cradle.age(), wait = cradle.growthWait();
+        var nurseryTunnel = new int[]{2,-1,0,DenShape.Kind.FILL.ordinal(),2,0,0,DenShape.Kind.AIR.ordinal(),2,1,0,DenShape.Kind.AIR.ordinal()};
+        WarrenTunnels.place(level,pos,nurseryTunnel,chunk(nursery,level.getMinY(),level.getMaxY()-1),Lineage.MEADOW);
+        WarrenFixtures.place(level,pos,data,chunk(nursery,level.getMinY(),level.getMaxY()-1));
+        h.assertTrue(level.getBlockEntity(nursery) == cradle && ItemStack.matches(cradle.storedSeed(),litter) && cradle.age() == stage && cradle.growthWait() == wait,
+                "Repeated tunnel/furniture placement must preserve the Cradle's exact seed and incubation");
         var stock = (FeedingTroughBlockEntity)level.getBlockEntity(pos);
         h.assertTrue(stock.food().is(ModItems.GUAVA.get()) && stock.food().getCount() == 2
                 && stock.getBlockState().getValue(FeedingTroughBlock.FILL) == 1

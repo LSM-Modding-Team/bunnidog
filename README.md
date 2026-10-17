@@ -36,6 +36,8 @@ adult with Bloom +10 for one loose Moss Carpet, sharing ordinary grooming rest.
 Use or dispense Mutagen on a planted seed or Cradle to treat its litter in
 place, preserving growth and incubation; repeated treatment keeps the vial.
 Sneak-use Calipers on a Cradle to inspect incubation and mark its hatch pad.
+New level-five grand-tree nurseries may fit an empty Cradle with a clear pad,
+while retaining their trough, bell and floor Nests.
 
 ## Build and play
 

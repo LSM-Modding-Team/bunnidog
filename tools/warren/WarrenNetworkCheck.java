@@ -19,6 +19,7 @@ import java.util.Set;
 
 /** Behaviour checks against synthetic terrain; no Minecraft runtime or rendering required. */
 public final class WarrenNetworkCheck {
+    private static int nurseryFixtures;
     private static class Ground implements TunnelShape.Terrain {
         final Set<Pos> water = new HashSet<>();
         final Set<Pos> protectedBlocks = new HashSet<>();
@@ -83,6 +84,7 @@ public final class WarrenNetworkCheck {
         }
 
         require(labels.containsAll(java.util.EnumSet.allOf(Wayfinding.Label.class)),"Representative fitted warrens must label all room/exit types: " + labels);
+        require(nurseryFixtures > 0,"Representative grand-tree halls must include a fitted nursery where ordinary furniture still fits");
         require(networks >= 85, "Most flat layouts must fit entrances around existing buildings");
         for (UndergroundRooms.Type type : UndergroundRooms.Type.values()) require(features.getOrDefault(type,0) > 0, "Missing planned feature: " + type);
         Settlement settlement = Settlement.generate(new Random(7), 5);
@@ -185,13 +187,29 @@ public final class WarrenNetworkCheck {
         }
         Map<Pos,DenShape.Kind> cells = new HashMap<>(); network.cells().forEach(c -> cells.put(c.pos(),c.kind()));
         var unique = new HashSet<Pos>();
+        long cradles = fixtures.stream().filter(f -> f.kind() == SettlementFixtures.Kind.NURSERY_CRADLE).count();
+        nurseryFixtures += (int)cradles;
+        require(cradles <= 1 && (cradles == 0 || settlement.level() == 5 && network.dens().contains(0)),"Only a fitted grand-tree nursery may have a Cradle");
+        for (var fixture : fixtures) if (fixture.kind() == SettlementFixtures.Kind.NURSERY_CRADLE) {
+            for (int x = 1; x <= 3; x++) for (int z = -1; z <= 1; z++) {
+                var p = fixture.pos(); var slot = new Pos(p.x()+x,p.y(),p.z()+z);
+                var head = new Pos(slot.x(),slot.y()+1,slot.z()); var floor = new Pos(slot.x(),slot.y()-1,slot.z());
+                require(cells.get(slot) == DenShape.Kind.AIR && cells.get(head) == DenShape.Kind.AIR,
+                        "A planned nursery hatch pad must have complete two-block air");
+                require(cells.get(floor) != null && cells.get(floor) != DenShape.Kind.AIR && cells.get(floor) != DenShape.Kind.WATER,
+                        "A planned nursery pad must retain dry floor support");
+                require(fixtures.stream().noneMatch(other -> other.pos().equals(slot) || other.pos().equals(head))
+                        && signs.stream().noneMatch(sign -> sign.pos().equals(slot) || sign.pos().equals(head)),
+                        "A nursery pad must leave labels and other furniture clear");
+            }
+        }
         for (var fixture : fixtures) {
             var p = fixture.pos();
             require(unique.add(p) && cells.get(p) == DenShape.Kind.AIR,"Furniture must occupy distinct spare air cells");
             require(cells.get(new Pos(p.x(),p.y()-1,p.z())) != DenShape.Kind.NEST,"Furniture must leave floor Nests free");
             require(signs.stream().noneMatch(s -> s.pos().x() == p.x() && s.pos().z() == p.z()
                     && Math.abs(s.pos().y()-p.y()) <= 1),"Furniture must leave labels clear");
-            cells.put(p,DenShape.Kind.HAY); // Conservative full-block obstacle for both native shapes.
+            cells.put(p,DenShape.Kind.HAY); // Conservative full-block obstacle for every native fixture shape.
         }
         var furnished = new TunnelShape.Network(cells.entrySet().stream().map(e -> new TunnelShape.Cell(e.getKey(),e.getValue())).toList(),
                 network.dens(),network.mouths(),network.cellars(),network.pathExclusions(),network.features());
