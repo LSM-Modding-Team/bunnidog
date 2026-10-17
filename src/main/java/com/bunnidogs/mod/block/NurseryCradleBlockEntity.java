@@ -63,6 +63,13 @@ public final class NurseryCradleBlockEntity extends net.minecraft.world.level.bl
         this.growthWait = this.age == SeedCropBlock.MAX_AGE ? 0 : STAGE_TICKS;
         changed(); return true;
     }
+    public boolean applyMutagen() {
+        if (this.hatching || !(this.level instanceof ServerLevel)) return false;
+        var seed = seed();
+        if (seed.isEmpty() || seed.get().mutagen()) return false;
+        this.stored.set(ModItems.SEED_DATA.get(),seed.get().withMutagen().toString());
+        changed(); return true;
+    }
     public void serverTick(ServerLevel level) {
         if (this.hatching || this.age >= SeedCropBlock.MAX_AGE || seed().isEmpty()) return;
         if (--this.growthWait <= 0) {

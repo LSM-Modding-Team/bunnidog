@@ -16,6 +16,10 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+N5 lets hand/dispenser Mutagen treat a planted seed or Cradle in place,
+preserving the whole saved item, age and remaining incubation. Repeats/refusals
+retain the vial. The Field Guide has 44 pages. See `NURSERY_SPECS.md`.
+
 C9 adds one renewable Moss Carpet from expressed moss adults at Bloom +10,
 sharing hand/dispenser grooming products, tool wear and saved recovery. L15
 adds native plain-guava/foliage compost values while excluding infused tiers,

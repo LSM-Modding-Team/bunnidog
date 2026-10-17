@@ -4,7 +4,7 @@ A NeoForge mod for Minecraft 26.2: a baby-faced creature with rabbit ears and a
 dog's body, plus breeding, genetics, guavas, warrens, homes and pedigree tools.
 Requires JDK 25. The checked-in Gradle wrapper selects the project Gradle version.
 
-Craft a vanilla book with any guava for the **43-page Field Guide**, with two
+Craft a vanilla book with any guava for the **44-page Field Guide**, with two
 linked contents pages covering its chapters. Sneak-use
 Calipers for care/work readiness, use a hoe on a Feeding Trough to enable
 resident gardening, and explore food stores for supplies suited to each lineage.
@@ -33,6 +33,8 @@ Bloom +10 gardeners compost suitable surplus trough food after crop work,
 keeping eight food items; vanilla hoppers collect the bone meal.
 Plain guavas and guava foliage also compost natively. Brush a healthy moss-coat
 adult with Bloom +10 for one loose Moss Carpet, sharing ordinary grooming rest.
+Use or dispense Mutagen on a planted seed or Cradle to treat its litter in
+place, preserving growth and incubation; repeated treatment keeps the vial.
 
 ## Build and play
 

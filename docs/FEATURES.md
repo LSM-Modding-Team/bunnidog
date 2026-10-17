@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 43 pages from first warren to Apex. Two linked contents pages offer nineteen
+open 44 pages from first warren to Apex. Two linked contents pages offer nineteen
 chapter links; newer chapters return to the second index.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -117,6 +117,12 @@ Use a ripe Cradle empty-handed or give it a fresh redstone pulse to hatch.
 Clear a dry, supported 3×3 pad one to three blocks in front with two blocks of
 air, and stand aside. Obstruction, occupants, crowding or refused spawns retain
 the litter. Holding power does not repeat or hatch a seed that ripens later.
+
+**In-place Mutagen (N5):** use a vial directly on a planted seed or occupied
+Cradle, or dispense it at that block. One application treats the existing
+litter without uprooting it or resetting growth. Names, parents, quality and
+incubation stay intact. Ripe litters may be treated; already-treated or invalid
+targets keep the vial. Existing held-seed/off-hand treatment still works.
 
 **Nest wayfinding (H7):** use a compass on a Nest to mark that place. Its needle
 points there in that dimension and spins elsewhere; the marker remains if the

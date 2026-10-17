@@ -4,6 +4,7 @@ import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.entity.BunnidogCare;
 import com.bunnidogs.mod.block.SeedCropBlock;
 import com.bunnidogs.mod.block.NurseryCradleBlockEntity;
+import com.bunnidogs.mod.item.MutagenItem;
 import java.util.Comparator;
 import java.util.List;
 import net.minecraft.core.dispenser.BlockSource;
@@ -26,24 +27,29 @@ public final class ModDispensers {
             DispenserBlock.registerBehavior(Items.BRUSH,(source,tool) -> brushing.findAnimal(source) != null || previousBrush == null
                     ? brushing.dispense(source,tool) : previousBrush.dispense(source,tool));
             DispenserBlock.registerBehavior(ModItems.SYRINGE.get(),new CareBehavior(true));
-            DispenserBlock.registerBehavior(ModItems.SEED.get(),new NurseryBehavior(false));
-            DispenserBlock.registerBehavior(ModItems.STARLIT_DUST.get(),new NurseryBehavior(true));
+            DispenserBlock.registerBehavior(ModItems.SEED.get(),new NurseryBehavior(NurseryAction.PLANT));
+            DispenserBlock.registerBehavior(ModItems.STARLIT_DUST.get(),new NurseryBehavior(NurseryAction.RIPEN));
+            DispenserBlock.registerBehavior(ModItems.MUTAGEN.get(),new NurseryBehavior(NurseryAction.TREAT));
         });
     }
+    private enum NurseryAction { PLANT, RIPEN, TREAT }
     private static final class NurseryBehavior extends OptionalDispenseItemBehavior {
-        private final boolean ripening;
-        NurseryBehavior(boolean ripening) { this.ripening = ripening; }
+        private final NurseryAction action;
+        NurseryBehavior(NurseryAction action) { this.action = action; }
         @Override protected ItemStack execute(BlockSource source, ItemStack stack) {
             this.setSuccess(false);
             var level = source.level();
             var front = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
             if (!level.hasChunkAt(front)) return stack;
-            boolean changed = level.getBlockEntity(front) instanceof NurseryCradleBlockEntity cradle
-                    ? this.ripening ? cradle.grow(true) : cradle.insert(stack)
-                    : this.ripening ? SeedCropBlock.ripen(level,front,level.getBlockState(front)) : SeedCropBlock.plant(level,front,stack);
+            var cradle = level.getBlockEntity(front) instanceof NurseryCradleBlockEntity held ? held : null;
+            boolean changed = switch (this.action) {
+                case PLANT -> cradle != null ? cradle.insert(stack) : SeedCropBlock.plant(level,front,stack);
+                case RIPEN -> cradle != null ? cradle.grow(true) : SeedCropBlock.ripen(level,front,level.getBlockState(front));
+                case TREAT -> MutagenItem.apply(level,front);
+            };
             if (changed) {
                 stack.shrink(1);
-                if (this.ripening) level.levelEvent(2005,front,15);
+                if (this.action != NurseryAction.PLANT) level.levelEvent(2005,front,15);
                 this.setSuccess(true);
             }
             return stack;

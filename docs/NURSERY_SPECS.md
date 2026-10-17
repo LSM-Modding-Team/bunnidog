@@ -124,3 +124,25 @@ spawn listener refuses the second pup only after observing the crop gone:
 no siblings remain and exactly the named seed returns. Replacing a ripe crop
 with water preserves the water and refunds that seed without a litter. Existing
 support-loss, legacy item saves, Cradle and dispenser cases remain passing.
+
+## N5 — treat a litter in place
+
+Use Mutagen on a valid Seed Crop or occupied Nursery Cradle, or face either
+with a Mutagen dispenser. One successful application sets the existing saved
+Mutagen flag for that exact litter. It changes no parents, bred stats, quality,
+item name/components, crop age, Cradle stage or remaining incubation. Ripe
+seeds may be treated before hatching. A previously treated, empty, malformed,
+unsupported or inappropriate target retains the vial; machines eject nothing.
+Native hand permissions apply and creative preserves the vial. Dispensers
+always spend one on success. Existing held-seed/off-hand treatment is preserved.
+Withdrawal, seed recovery, native saves and Calipers all use the updated seed.
+No new item, data component, packet or mutation/inheritance rule is introduced.
+
+N5 evidence: actual Java 25 build/all 38 native scenarios pass. The native
+treatment case uses real survival off-hand crop interaction, Adventure refusal,
+creative actual-stack preservation, named exact seed/parents/stats/quality,
+unchanged ripe crop and saved Cradle stage/remaining timer, plus native codec
+round-trip. Real scheduled dispenser pulses exercise Cradle/crop success,
+already-treated/empty/wrong targets and no vial ejection. Native incubation
+continues naturally after treatment rather than restarting. The 44-page guide
+preview includes the new treatment page; actual client use remains review.

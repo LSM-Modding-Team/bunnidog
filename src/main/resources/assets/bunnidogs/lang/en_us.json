@@ -388,5 +388,8 @@
   "message.bunnidogs.crop.crowded": "Too many bunnidogs nearby. The crop stays ripe until there is room.",
   "message.bunnidogs.crop.refunded": "Hatching was refused. The original litter seed has been returned.",
   "guide.bunnidogs.page.43.title": "Surplus compost",
-  "guide.bunnidogs.page.43.body": "Bloom +10 adults compost food above an eight-item reserve at hoe-enabled troughs. Place a composter nearby with a safe route. Crop work takes priority. Each job spends one food and rests a minute. Hoppers collect bone meal."
+  "guide.bunnidogs.page.43.body": "Bloom +10 adults compost food above an eight-item reserve at hoe-enabled troughs. Place a composter nearby with a safe route. Crop work takes priority. Each job spends one food and rests a minute. Hoppers collect bone meal.",
+  "tooltip.bunnidogs.mutagen.nursery": "Use on a planted seed or Cradle, or dispense at it; keeps growth",
+  "guide.bunnidogs.page.44.title": "Treat a litter",
+  "guide.bunnidogs.page.44.body": "Use or dispense one Mutagen at a planted seed or occupied Cradle. Growth, incubation, parents, quality and item details stay intact. Treated or invalid litters keep the vial. You can treat a ripe litter before hatching."
 }
