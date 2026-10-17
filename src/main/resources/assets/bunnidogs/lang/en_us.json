@@ -237,7 +237,7 @@
   "guide.bunnidogs.page.6.title": "Guava quality",
   "guide.bunnidogs.page.6.body": "Better guavas improve inherited stat gains. Feed both parents: their qualities are averaged. Golden: 1, Diamond: 2, Netherite: 4, Star: 7, Beacon: 12, Dragon Egg: 20.",
   "guide.bunnidogs.page.7.title": "Keep a pedigree",
-  "guide.bunnidogs.page.7.body": "Use a Pedigree Book on animals to record them. Ear Tags give permanent codes. Calipers also read a seed or sample held in the other hand. Compare parents before choosing a mate.",
+  "guide.bunnidogs.page.7.body": "Use a Pedigree Book on animals to log them. Ear Tags give permanent codes. To log a carried animal, hold its filled basket in the other hand and sneak-use the book. Normal use opens the book.",
   "guide.bunnidogs.page.8.title": "Nests and travel",
   "guide.bunnidogs.page.8.body": "Adults claim a reachable Nest and return at night. Lead an adult to a free Nest and use it to move home. Empty-hand use inspects the resident. Use a compass to mark a Nest; its place stays marked if removed.",
   "guide.bunnidogs.page.9.title": "Food and troughs",
@@ -257,7 +257,7 @@
   "guide.bunnidogs.page.16.title": "Gene Splicer",
   "guide.bunnidogs.page.16.body": "Sneak-use to select a gene. Hold a donor sample in the other hand and carry Mutagen. Use on a healthy adult: one donor copy enters that gene. Costs one sample, Mutagen and tool use.",
   "guide.bunnidogs.page.17.title": "Stable lines",
-  "guide.bunnidogs.page.17.body": "Breed adults with matching copies in all seven genes, including Diet. A Purebred Registry logs up to 24 distinct stable bred lines with recorded parents. Stats still drift each generation.",
+  "guide.bunnidogs.page.17.body": "Register stable bred adults with matching copies in all seven genes and recorded parents. Use the Registry on an animal, or sneak-use with its filled basket in the other hand. Keeps 24 distinct lines.",
   "guide.bunnidogs.page.18.title": "Show Ring",
   "guide.bunnidogs.page.18.body": "Lead a stable bred adult to a Judging Stand. Use empty-handed or with a lead. Every stat needs +5 for bronze, +20 for silver, +50 for gold. Sneak-empty use previews; each tier pays only once.",
   "guide.bunnidogs.page.19.title": "Material drops",
@@ -347,7 +347,7 @@
   "message.bunnidogs.basket.duplicate": "That animal is already in the world. Contents kept.",
   "message.bunnidogs.basket.released": "Released safely; adults can claim a new Nest.",
   "guide.bunnidogs.page.39.title": "Travel Basket",
-  "guide.bunnidogs.page.39.body": "Craft six planks, leather and a lead into a basket. Pack one calm, unled animal; release on dry solid ground with room. Identity and care rest persist; its old Nest becomes free. Calipers reads the carried line.",
+  "guide.bunnidogs.page.39.body": "Craft six planks, leather and a lead into a basket. Pack one calm, unled animal; release on clear dry ground. Identity and care rest persist; its old Nest becomes free. Calipers reads it; sneak-use books to log it.",
   "guide.bunnidogs.more_contents": "More chapters",
   "guide.bunnidogs.main_contents": "Main contents",
   "guide.bunnidogs.index.28": "Living harvests",
@@ -364,5 +364,7 @@
   "message.bunnidogs.nest.free": "Free Nest. Lead an adult here to move its home; use a compass to mark this place.",
   "message.bunnidogs.nest.away": "Claimed Nest; its resident is away. A compass can mark this place.",
   "message.bunnidogs.nest.resident": "Home of %s (Ear Tag: %s). A compass can mark this place.",
-  "message.bunnidogs.foraging.nest_meal": "ready for a safe trough meal within four blocks of home; outdoor foraging rests at night"
+  "message.bunnidogs.foraging.nest_meal": "ready for a safe trough meal within four blocks of home; outdoor foraging rests at night",
+  "tooltip.bunnidogs.basket.records": "Sneak-use a record book in the other hand to log this animal.",
+  "tooltip.bunnidogs.records.carried": "Sneak-use with a filled Travel Basket in the other hand to record."
 }

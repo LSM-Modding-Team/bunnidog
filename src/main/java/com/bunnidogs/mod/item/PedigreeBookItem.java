@@ -16,6 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
 /**
@@ -58,6 +59,7 @@ public class PedigreeBookItem extends Item {
      */
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
+        if (recordCarried(player,hand)) return InteractionResult.SUCCESS;
         Pedigree log = read(player.getItemInHand(hand));
         if (log.size() == 0) {
             if (!level.isClientSide()) {
@@ -68,6 +70,13 @@ public class PedigreeBookItem extends Item {
         }
         return InteractionResult.SUCCESS;
     }
+    private boolean recordCarried(Player player, InteractionHand hand) {
+        return TravelBasketItem.recordCarried(player,hand,entry -> log(player,player.getItemInHand(hand),entry));
+    }
+    @Override public InteractionResult useOn(UseOnContext context) {
+        return context.getPlayer() != null && recordCarried(context.getPlayer(),context.getHand())
+                ? InteractionResult.SUCCESS : super.useOn(context);
+    }
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display,
@@ -75,5 +84,6 @@ public class PedigreeBookItem extends Item {
         super.appendHoverText(stack, context, display, lines, flag);
         lines.accept(Component.literal(read(stack).size() + " of " + Pedigree.MAX_ENTRIES + " animals logged").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.literal("Right-click a bunnidog to log it, the air to open").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(Component.translatable("tooltip.bunnidogs.records.carried").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

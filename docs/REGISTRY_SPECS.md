@@ -28,6 +28,12 @@ Use air to open the registry, including an empty one. The index explains the
 requirements and links to ordinary full animal sheets. Each record is a snapshot;
 editing or losing the representative does not erase the registered breed.
 
+S9 also accepts a carried animal: hold its filled Travel Basket in the other
+hand and sneak-use the registry. This uses the same qualification, first-line
+snapshot, duplicate handling and Breeds True award as live registration.
+Ordinary use still opens the index. Pups remain ineligible even while carried.
+The basket and its animal state are preserved; see `SHEET_SPECS.md` S9.
+
 Hover **GENOME** on an animal/sample sheet to see its fixed-pair count and which
 genes still differ. The Genetics Table's **Two Copies** page forecasts matching
 pairs, plus the chance that a pup fixes all seven pairs. This latter probability

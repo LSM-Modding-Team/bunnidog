@@ -5,6 +5,8 @@ import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.genetics.Stats;
 import com.bunnidogs.mod.item.TravelBasketItem;
+import com.bunnidogs.mod.item.PedigreeBookItem;
+import com.bunnidogs.mod.item.PurebredRegistryItem;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModEntities;
 import com.bunnidogs.mod.registry.ModItems;
@@ -15,9 +17,11 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.item.ItemStack;
@@ -39,6 +43,41 @@ public final class BasketGameTest {
     private static void release(Player player, BlockPos floor) {
         player.getMainHandItem().useOn(new UseOnContext(player,InteractionHand.MAIN_HAND,
                 new BlockHitResult(Vec3.atCenterOf(floor),Direction.UP,floor,false)));
+    }
+    private static void records(GameTestHelper h, ItemStack basket) {
+        var level = h.getLevel();
+        var expected = TravelBasketItem.readEntry(basket).orElseThrow();
+        var carried = basket.copy(); var payload = carried.get(DataComponents.BUCKET_ENTITY_DATA);
+        var clerk = h.makeMockServerPlayerInLevel(); GameType.CREATIVE.updatePlayerAbilities(clerk.getAbilities());
+        var book = new ItemStack(ModItems.PEDIGREE_BOOK.get());
+        clerk.setItemInHand(InteractionHand.MAIN_HAND,book); clerk.setItemInHand(InteractionHand.OFF_HAND,carried);
+        clerk.gameMode.useItem(clerk,level,book,InteractionHand.MAIN_HAND);
+        h.assertTrue(PedigreeBookItem.read(book).size() == 0,"Normal book use must not silently log the other hand");
+        clerk.setShiftKeyDown(true);
+        clerk.gameMode.useItem(clerk,level,book,InteractionHand.MAIN_HAND);
+        h.assertTrue(PedigreeBookItem.read(clerk.getMainHandItem()).entries().equals(java.util.List.of(expected)),
+                "Native sneak-use must log the exact carried identity, parents, tag, stats and age on the actual creative book");
+        var floor = h.absolutePos(new BlockPos(2,0,2));
+        clerk.gameMode.useItemOn(clerk,level,book,InteractionHand.MAIN_HAND,new BlockHitResult(Vec3.atCenterOf(floor),Direction.UP,floor,false));
+        h.assertTrue(PedigreeBookItem.read(book).size() == 1 && payload.equals(carried.get(DataComponents.BUCKET_ENTITY_DATA)),
+                "Aiming at a block must keep the record gesture and deduplicate without unpacking or changing the basket");
+        var registry = new ItemStack(ModItems.PUREBRED_REGISTRY.get()); clerk.setItemInHand(InteractionHand.MAIN_HAND,registry);
+        clerk.gameMode.useItem(clerk,level,registry,InteractionHand.MAIN_HAND);
+        clerk.gameMode.useItem(clerk,level,registry,InteractionHand.MAIN_HAND);
+        h.assertTrue(PurebredRegistryItem.read(registry).entries().equals(java.util.List.of(expected)),
+                "A carried stable bred adult must register once with the same representative snapshot");
+        var award = level.getServer().getAdvancements().get(Identifier.fromNamespaceAndPath("bunnidogs","breeds_true"));
+        h.assertTrue(award != null && clerk.getAdvancements().getOrStartProgress(award).isDone(),"Carried registration must retain the ordinary Breeds True award");
+        clerk.setItemInHand(InteractionHand.MAIN_HAND,carried); clerk.setItemInHand(InteractionHand.OFF_HAND,book);
+        clerk.gameMode.useItem(clerk,level,book,InteractionHand.OFF_HAND);
+        h.assertTrue(PedigreeBookItem.read(book).size() == 1 && payload.equals(carried.get(DataComponents.BUCKET_ENTITY_DATA)),"An off-hand record book must also use the other hand without changing the animal");
+        var malformed = carried.copy(); var invalid = payload.copyTag(); invalid.remove(Entity.TAG_UUID);
+        malformed.set(DataComponents.BUCKET_ENTITY_DATA,CustomData.of(invalid));
+        var malformedBefore = malformed.get(DataComponents.BUCKET_ENTITY_DATA);
+        clerk.setItemInHand(InteractionHand.MAIN_HAND,book); clerk.setItemInHand(InteractionHand.OFF_HAND,malformed);
+        clerk.gameMode.useItem(clerk,level,book,InteractionHand.MAIN_HAND);
+        h.assertTrue(PedigreeBookItem.read(book).size() == 1 && TravelBasketItem.readEntry(malformed).isEmpty()
+                && malformedBefore.equals(malformed.get(DataComponents.BUCKET_ENTITY_DATA)),"Missing identity must refuse recording while retaining the entire occupied payload");
     }
     public static void run(GameTestHelper h) {
         var level = h.getLevel();
@@ -94,6 +133,7 @@ public final class BasketGameTest {
             var entry = TravelBasketItem.readEntry(savedBasket).orElseThrow();
             h.assertTrue(entry.id().orElseThrow().equals(identity) && entry.mother().orElseThrow().equals(Genome.DEFAULT)
                     && entry.tag().isPresent() && !entry.pup(),"Carried Calipers must preserve identity, ancestry and age class on the ordinary animal sheet");
+            records(h,savedBasket);
             var snapshot = savedBasket.get(DataComponents.BUCKET_ENTITY_DATA);
             var duplicate = savedBasket.copy();
             var landing = h.absolutePos(new BlockPos(5,1,5));
@@ -132,6 +172,12 @@ public final class BasketGameTest {
                 survival.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(ModItems.TRAVEL_BASKET.get()));
                 survival.interactOn(pup,InteractionHand.MAIN_HAND,Vec3.ZERO);
                 h.assertTrue(pup.isRemoved() && TravelBasketItem.occupied(survival.getMainHandItem()),"Survival players must also be able to carry a pup");
+                var clerk = h.makeMockServerPlayerInLevel(); clerk.setShiftKeyDown(true);
+                var registry = new ItemStack(ModItems.PUREBRED_REGISTRY.get());
+                clerk.setItemInHand(InteractionHand.MAIN_HAND,registry); clerk.setItemInHand(InteractionHand.OFF_HAND,survival.getMainHandItem().copy());
+                clerk.gameMode.useItem(clerk,level,registry,InteractionHand.MAIN_HAND);
+                h.assertTrue(PurebredRegistryItem.read(registry).size() == 0 && TravelBasketItem.occupied(survival.getMainHandItem()),
+                        "Carrying a real pup must not bypass registry adulthood or consume its basket");
                 h.runAfterDelay(2,() -> {
                     release(survival,h.absolutePos(new BlockPos(3,0,6)));
                     var releasedPup = (Bunnidog)level.getEntityInAnyDimension(pupId);

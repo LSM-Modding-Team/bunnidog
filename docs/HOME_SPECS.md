@@ -198,3 +198,9 @@ L13 adds one bounded exception to H4's night waiting: an injured adult already
 within four blocks may eat from a safe nearby trough using real stock/shared
 meal rest. Its whole route stays within four blocks; afterward the ordinary
 two-block night tether resumes. See `SETTLEMENT_LIFE.md` L13.
+
+S9 lets Pedigree Books and Purebred Registries record a filled basket's occupant
+through deliberate sneak-use with the basket in the other hand. This reuses
+the existing identity snapshot without unpacking or changing saved animal
+state. Missing UUIDs are refused by sheet/record reading as well as release.
+See `SHEET_SPECS.md` S9.

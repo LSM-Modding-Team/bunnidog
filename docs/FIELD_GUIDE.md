@@ -18,6 +18,7 @@ Fleece colors explains expressed palettes, mixed spotted yield and Calipers.
 Trough filters explains exact reservations, withdrawals and clearing while empty.
 Care dispensers explains one-animal pulses, shared recovery and hopper collection.
 Travel Basket explains packing, safe release, retained identity and Nest release.
+Record/registry/basket pages explain deliberate sneak-use for carried records.
 The home page also covers read-only Nest inspection and persistent compass marks.
 The food page explains short safe nighttime trough meals near home.
 
@@ -50,7 +51,7 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 The actual Java 25 build and current thirty native server cases pass,
 including loading the new book/recipe/loot resources. The expanded 40-page
-contents/home/food preview is inspected with a substitute font. Earlier
+record/registry/basket preview is inspected with a substitute font. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
 sources establish the ordinary book/packet/click behavior; no new screen or

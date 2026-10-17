@@ -10,7 +10,7 @@ PAGES = {
     4: ('Breed a seed', 'Feed a guava to each of two ready adults. They drop one seed holding both parents. Its tooltip shows the planned litter, quality and stat drift. The parents then rest.'),
     5: ('Hatch the litter', 'Plant the seed on farmland. Let it ripen, then break the ripe crop to hatch pups. Bone meal speeds growth; Starlit Dust ripens it. Fortune improves quality. Leave room for the litter.'),
     6: ('Guava quality', 'Better guavas improve inherited stat gains. Feed both parents: their qualities are averaged. Golden: 1, Diamond: 2, Netherite: 4, Star: 7, Beacon: 12, Dragon Egg: 20.'),
-    7: ('Keep a pedigree', 'Use a Pedigree Book on animals to record them. Ear Tags give permanent codes. Calipers also read a seed or sample held in the other hand. Compare parents before choosing a mate.'),
+    7: ('Keep a pedigree', 'Use a Pedigree Book on animals to log them. Ear Tags give permanent codes. To log a carried animal, hold its filled basket in the other hand and sneak-use the book. Normal use opens the book.'),
     8: ('Nests and travel', 'Adults claim a reachable Nest and return at night. Lead an adult to a free Nest and use it to move home. Empty-hand use inspects the resident. Use a compass to mark a Nest; its place stays marked if removed.'),
     9: ('Food and troughs', 'Guavas suit every line; other foods follow Diet. Fill a trough for healing. Injured adults can eat near their Nest at night; keep food and a safe route within four blocks of home. Sneak-empty withdraws stock.'),
     10: ('Life at home', 'Healthy adults visit nearby bells at noon. Ring one to call a daytime visit. Keep it within 12 blocks of home, with walking space. Injury, threats, leads, rides and night interrupt.'),
@@ -20,7 +20,7 @@ PAGES = {
     14: ('Physical traits', 'Hoofed legs halve fall damage. Slate coats add 4 armor. Stocky/chonker builds resist knockback by 15%/30%. Snow/woolly resist freezing. A glow coat is self-lit; hidden copies give no benefit.'),
     15: ('Laboratory', 'Put two Tissue Samples on a Genetics Table. Read the source sheets, pup forecast, copy odds and splice plans. Hidden copies count. Reading never spends samples.'),
     16: ('Gene Splicer', 'Sneak-use to select a gene. Hold a donor sample in the other hand and carry Mutagen. Use on a healthy adult: one donor copy enters that gene. Costs one sample, Mutagen and tool use.'),
-    17: ('Stable lines', 'Breed adults with matching copies in all seven genes, including Diet. A Purebred Registry logs up to 24 distinct stable bred lines with recorded parents. Stats still drift each generation.'),
+    17: ('Stable lines', 'Register stable bred adults with matching copies in all seven genes and recorded parents. Use the Registry on an animal, or sneak-use with its filled basket in the other hand. Keeps 24 distinct lines.'),
     18: ('Show Ring', 'Lead a stable bred adult to a Judging Stand. Use empty-handed or with a lead. Every stat needs +5 for bronze, +20 for silver, +50 for gold. Sneak-empty use previews; each tier pays only once.'),
     19: ('Material drops', 'Death drops follow genes and bred points. Player kills unlock signatures and legends; pups give less. Pelts craft leather, sinew makes string, whiskers make Brushes and marrow makes Mutagen.'),
     20: ('The five legends', 'At stat +100, adult player kills can drop a legend. Vitality: Titan Haunch; speed: Gilded Foot; Leap: Moon Sinew; Senses: Listening Shell; Bloom: Everbloom. More points improve the chance.'),
@@ -42,7 +42,7 @@ PAGES = {
     36: ('Fleece colors', 'Woolly adults yield two wool in their coat colors. Spotted gives one yellow and one brown. Glow gives cyan; moss green; ember red; void purple. Hidden coats add nothing. Calipers names the ready yield.'),
     37: ('Trough filters', 'Sneak-use food to reserve a trough for that exact food and its components, without spending it. Hoppers and gardeners obey the filter. Sneak-empty withdraws stock; repeat while empty to clear the filter.'),
     38: ('Care dispensers', 'Dispensers use Brushes or Sampling Syringes on one eligible bunnidog ahead per pulse. One tool use; hand and machine share recovery. Collect drops with hoppers. Armadillo brushing still works.'),
-    39: ('Travel Basket', 'Craft six planks, leather and a lead into a basket. Pack one calm, unled animal; release on dry solid ground with room. Identity and care rest persist; its old Nest becomes free. Calipers reads the carried line.'),
+    39: ('Travel Basket', 'Craft six planks, leather and a lead into a basket. Pack one calm, unled animal; release on clear dry ground. Identity and care rest persist; its old Nest becomes free. Calipers reads it; sneak-use books to log it.'),
 }
 PAGE_COUNT = 40
 MAIN_INDEX = {2:'Warrens & genes',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
@@ -95,7 +95,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,1),(495,8),(735,9)]:
+    for x,page in [(255,7),(495,17),(735,39)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

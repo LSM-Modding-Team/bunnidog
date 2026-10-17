@@ -63,6 +63,9 @@ unled ordinary adult or pup, then release on dry solid ground with room for its
 actual size. Identity, health, age, pedigree and paused care recovery persist.
 Packing frees its old Nest; blocked/invalid/duplicate placement keeps the animal
 stored. Calipers reads the carried animal's sheet. The Apex cannot be carried.
+For records (S9), hold the filled basket in the other hand and sneak-use a
+Pedigree Book or Purebred Registry. Normal use opens the book; registry adults,
+recorded parents and matching copies in all seven genes are still required.
 
 **Bloom cultivation (L12):** Bloom +10 adults advance matching unripe crops by
 one stage when no ripe harvest is available. Growth shares the one-minute

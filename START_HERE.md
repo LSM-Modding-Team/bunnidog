@@ -20,6 +20,12 @@ is not exposed in this session: use available work budget without inventing quot
 
 ## Latest gameplay work — 2026-10-17
 
+- **S9, carried records:** sneak-use a Pedigree Book or Purebred Registry with
+  a filled basket in the other hand to log its native identity snapshot without
+  unpacking. Registry eligibility, first representative and advancement stay
+  shared with live registration. Air/block/off-hand/creative use and malformed
+  identity refusal are covered. See `docs/SHEET_SPECS.md` S9.
+
 - **L13, nighttime home care:** injured adults may eat real trough stock along
   safe routes wholly within four blocks of their Nest at night, then resume
   normal night waiting. Outdoor foraging/work remain daytime; the existing
@@ -88,7 +94,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Area | Current behavior and specification |
 |---|---|
 | Genetics and breeding | Seven genes, inherited pairs, bred stats/Bloom, eight guava tiers, litter seeds/crops, infused juice. `docs/FEATURES.md`, `docs/FIXES_PLAN.md` 6 |
-| Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets and forecasts. `docs/SHEET_SPECS.md` S1–S8 |
+| Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets, forecasts and carried-animal records. `docs/SHEET_SPECS.md` S1–S9 |
 | Laboratory | Two sample slots, vial display, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T6 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
@@ -172,6 +178,9 @@ The current Java 25 build and all **thirty** native scenarios pass
   ticket release/reclaim, blocked release, occupied/led/Apex refusals, duplicate
   identity, malformed data and pup release. Fresh mobs need a physics tick
   before native ground navigation can claim the freed Nest.
+  **S9** extends this case with normal-use preservation, deliberate native
+  air/block/off-hand recording, exact snapshots, deduplication, carried registry
+  advancement, missing-identity refusal, unchanged basket and real pup refusal.
 
 - **C8:** actual redstone/scheduled dispenser pulses, all combined products,
   shared refusal, exact pup sample/last charge and native armadillo fallback.

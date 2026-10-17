@@ -50,9 +50,23 @@ public final class TravelBasketItem extends Item {
     public static Optional<Pedigree.Entry> readEntry(ItemStack stack) {
         if (!stack.is(ModItems.TRAVEL_BASKET.get()) || !occupied(stack)) return Optional.empty();
         var saved = stack.get(DataComponents.BUCKET_ENTITY_DATA).copyTag();
+        var identity = saved.read(Entity.TAG_UUID,UUIDUtil.CODEC);
+        if (identity.isEmpty()) return Optional.empty();
         return line(saved).map(tissue -> new Pedigree.Entry(tissue.genome(),Genome.parse(saved.getStringOr("Mother","")),
-                Genome.parse(saved.getStringOr("Father","")),saved.read(Entity.TAG_UUID,UUIDUtil.CODEC),
+                Genome.parse(saved.getStringOr("Father","")),identity,
                 Optional.of(saved.getStringOr("EarTag","")).filter(tag -> !tag.isEmpty()),Optional.of(tissue.stats()),saved.getIntOr("Age",0) < 0));
+    }
+    /** Shared deliberate record gesture; callbacks run only on the server and never unpack the animal. */
+    public static boolean recordCarried(Player player, InteractionHand hand, Consumer<Pedigree.Entry> recorder) {
+        if (!player.isShiftKeyDown()) return false;
+        var other = player.getItemInHand(hand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+        if (!other.is(ModItems.TRAVEL_BASKET.get()) || !occupied(other)) return false;
+        if (!player.level().isClientSide()) {
+            var entry = readEntry(other);
+            if (entry.isPresent()) recorder.accept(entry.get());
+            else message(player,"invalid");
+        }
+        return true;
     }
     private static Optional<Tissue> line(CompoundTag tag) {
         if (tag.getIntOr(VERSION,0) != 1) return Optional.empty();
@@ -127,6 +141,7 @@ public final class TravelBasketItem extends Item {
             lines.accept(Component.translatable("tooltip.bunnidogs.basket.occupant",saved.getStringOr("BasketName","Bunnidog")).withStyle(ChatFormatting.GRAY));
             lines.accept(Component.translatable("tooltip.bunnidogs.basket.release").withStyle(ChatFormatting.GRAY));
             lines.accept(Component.translatable("tooltip.bunnidogs.basket.calipers").withStyle(ChatFormatting.DARK_GRAY));
+            lines.accept(Component.translatable("tooltip.bunnidogs.basket.records").withStyle(ChatFormatting.DARK_GRAY));
         } else lines.accept(Component.translatable("tooltip.bunnidogs.basket.capture").withStyle(ChatFormatting.GRAY));
     }
 }

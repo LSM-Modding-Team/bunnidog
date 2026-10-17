@@ -16,6 +16,10 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+S9 logs carried native snapshots through deliberate Pedigree Book/Registry
+sneak-use. Registry eligibility, duplicates/representatives and advancement
+remain shared with live use; baskets retain all data. See `SHEET_SPECS.md`.
+
 L13 allows short safe nighttime trough meals within four blocks of home,
 sharing normal stock/healing/meal rest before night waiting resumes. Outdoor
 foraging/work keep daylight rules. Calipers reflects the distinction and trough

@@ -21,6 +21,7 @@ Bloom +10 residents cultivate matching unripe crops beside enabled troughs;
 ordinary foragers also gather sweet berries while keeping the bush.
 Use a compass on a Nest to mark the place, or inspect it empty-handed.
 Injured adults can take safe trough meals within four blocks of home at night.
+Sneak-use record books with a filled basket in the other hand to log its animal.
 
 ## Build and play
 

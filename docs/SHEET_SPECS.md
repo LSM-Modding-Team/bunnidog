@@ -129,3 +129,29 @@ plain Diet; hover text explains its foods and feeding/breeding distinction.
 A temporary layout-only preview of actual Page data was inspected using a test
 font and portrait placeholder; final Minecraft font/portrait appearance remains
 a gameplay check.
+
+## S9: record a carried animal
+
+Hold a filled Travel Basket in the other hand and **sneak-use** a Pedigree Book
+to log its occupant without unpacking. The same gesture on a Purebred Registry
+registers a qualifying stable bred adult. Ordinary use still opens the existing
+book/registry, so logging is deliberate. Both hands work; aiming at a block with
+the record book also handles this gesture before any unrelated item use.
+
+The server reads the existing full `Pedigree.Entry` from native basket data:
+UUID, genome, stats, age class, parents and Ear Tag. Missing/malformed identity
+is refused with feedback while retaining the entire basket. All existing book
+capacity/dedup/update and registry adult/parents/seven-fixed-pair/unique-line
+rules apply. Registry creation shares its live-animal transaction and Breeds
+True advancement. No animal is instantiated, released, edited or healed; native
+payload, recovery, home tickets and item counts stay intact. The actual held
+book receives creative writes. Existing snapshot components, UI and protocol 6
+are retained. Native tooltips and guide pages 7/17/39 explain the controls.
+
+S9 evidence (2026-10-17): actual Java 25 build and all 30 native scenarios pass.
+The existing Basket case now exercises real game-mode air and block use,
+normal-use preservation, exact native records, creative/off-hand writes,
+duplicate protection, carried registry advancement, missing UUID refusal and
+real pup refusal. Its later release still checks all paused native state.
+The shortened record/registry/basket preview is inspected; actual client
+navigation and fonts remain gameplay review.
