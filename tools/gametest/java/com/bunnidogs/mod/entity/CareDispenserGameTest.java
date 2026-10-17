@@ -21,8 +21,12 @@ import net.minecraft.world.phys.AABB;
 
 public final class CareDispenserGameTest {
     private CareDispenserGameTest() {}
+    private static AABB catchment(GameTestHelper h) {
+        var low = h.absolutePos(BlockPos.ZERO); var high = h.absolutePos(new BlockPos(8,6,8));
+        return new AABB(low.getX(),low.getY(),low.getZ(),high.getX(),high.getY(),high.getZ());
+    }
     private static int dropped(GameTestHelper h, BlockPos pos, Item item) {
-        return h.getLevel().getEntitiesOfClass(ItemEntity.class,new AABB(pos).inflate(3),e -> e.getItem().is(item))
+        return h.getLevel().getEntitiesOfClass(ItemEntity.class,catchment(h),e -> e.getItem().is(item))
                 .stream().mapToInt(e -> e.getItem().getCount()).sum();
     }
     private static void pulse(GameTestHelper h, BlockPos pos, Runnable after) {
@@ -34,7 +38,11 @@ public final class CareDispenserGameTest {
     }
     public static void run(GameTestHelper h) {
         var level = h.getLevel();
-        for (int x = 0; x < 8; x++) for (int z = 0; z < 8; z++) h.setBlock(x,0,z,Blocks.STONE);
+        for (int x = 0; x < 8; x++) for (int z = 0; z < 8; z++) {
+            h.setBlock(x,0,z,Blocks.STONE);
+            // Native output has randomized velocity. Keep it inside this fixture, not a tiny moving search window.
+            for (int y = 1; y <= 4; y++) h.setBlock(x,y,z,x == 0 || x == 7 || z == 0 || z == 7 ? Blocks.STONE : Blocks.AIR);
+        }
         h.setBlock(new BlockPos(2,1,3),Blocks.DISPENSER.defaultBlockState().setValue(DispenserBlock.FACING,Direction.EAST));
         var pos = h.absolutePos(new BlockPos(2,1,3));
         var dispenser = (DispenserBlockEntity)level.getBlockEntity(pos);
@@ -51,14 +59,14 @@ public final class CareDispenserGameTest {
                     && dropped(h,pos,ModItems.STARLIT_DUST.get()) == 1 && brush.getDamageValue() == 1 && dog.groomingWait() > 0,
                     "One real powered dispenser pulse must gather all qualified products for one wear and shared recovery");
             pulse(h,pos,() -> {
-                h.assertTrue(dropped(h,pos,ModItems.STARLIT_DUST.get()) == 1 && brush.getDamageValue() == 1,
+                h.assertTrue(dropped(h,pos,ModItems.STARLIT_DUST.get()) == 1 && brush.getDamageValue() == 1 && dispenser.getItem(0).is(Items.BRUSH),
                         "Repeated redstone pulses must retain an unready brush without duplicate products or wear");
                 dog.setAge(-1000);
                 var syringe = new ItemStack(ModItems.SYRINGE.get());
                 syringe.setDamageValue(syringe.getMaxDamage()-1);
                 dispenser.setItem(0,syringe);
                 pulse(h,pos,() -> {
-                    var samples = level.getEntitiesOfClass(ItemEntity.class,new AABB(pos).inflate(3),e -> e.getItem().is(ModItems.TISSUE_SAMPLE.get()));
+                    var samples = level.getEntitiesOfClass(ItemEntity.class,catchment(h),e -> e.getItem().is(ModItems.TISSUE_SAMPLE.get()));
                     var tissue = TissueSampleItem.read(samples.getFirst().getItem()).orElseThrow();
                     h.assertTrue(samples.size() == 1 && tissue.genome().equals(dog.genome()) && tissue.stats().equals(dog.stats())
                             && dog.getHealth() == health && dog.samplingWait() > 0 && dispenser.getItem(0).isEmpty(),

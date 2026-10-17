@@ -309,6 +309,37 @@ refund/drop. It frees the hand after native withdrawal fills the selected slot.
 The existing gardening case also leaves a wrong-filter crop intact. Guide
 preview inspected; client input and modded-device use remain gameplay review.
 
+## L12: bred cultivation and berry tending
+
+Fully healthy adult residents with **Bloom +10** can cultivate compatible crops
+beside a hoe-enabled trough. Ripe harvests take priority; otherwise three seconds
+of work advances one crop by one stage, followed by the existing one-minute
+`GardenWait`. Lower-Bloom adults still harvest normally. Both activities share
+the same recovery, so stats changes, unloading or basket travel cannot bypass it.
+
+Supported crops are wheat, carrots, potatoes, beetroot, Nether wart, low guava
+fruit and sweet-berry bushes. Mature berries yield one sweet berry and return
+to age one. Bloom cultivation can also replace berries on an empty existing
+cave vine; it does not extend vines. Planted bunnidog seeds, stems, fungi,
+chorus trees and arbitrary modded crops are excluded. Growth creates no stock
+or loose item; a later harvest remains necessary.
+
+The resulting food must suit the resident's current Diet and fit the enabled
+trough, including exact filters and available capacity. Existing home/daytime,
+danger, transport, health, griefing and block-protection rules apply. Losing
+the required Bloom or changing the crop/stock/filter interrupts cultivation.
+Native routes must be complete, loaded, home-bounded and free of the same
+hazards rejected by refuge/shelter. No block, item, gene, packet or save format
+is added. Calipers explains whether the adult has the Bloom cultivation bonus.
+
+L12 evidence (2026-10-17): Java 25 `build runGameTestServer` passes all 28 native
+scenarios. The cultivation case covers the exact Bloom threshold, interrupted
+growth, empty wrong filters, Diet/griefing, one-stage/no-food growth, shared
+work rest, ripe priority, ordinary sweet-berry harvest, embryo exclusion, guava
+growth and existing-vine fruiting. The revised guide preview is inspected.
+The dispenser fixture now confines randomized native drops to a catchment;
+previously a product could leave its small query before the next pulse assertion.
+
 ## Evidence
 
 L3/L4 actual build and the focused fixture/gardening server cases pass (seventeen

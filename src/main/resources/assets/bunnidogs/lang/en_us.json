@@ -276,7 +276,7 @@
   "message.bunnidogs.trough.tending.off": "Gardening disabled. Residents still eat stored food.",
   "guide.bunnidogs.index.25": "Gardens & stores",
   "guide.bunnidogs.page.25.title": "Trough gardening",
-  "guide.bunnidogs.page.25.body": "Use a hoe to enable gardening. Fully healthy adults with a Nest gather matching ripe food, then rest a minute. Sneak-use Calipers for work status. Leave walking space; keep mob griefing on.",
+  "guide.bunnidogs.page.25.body": "Hoe-enable a trough. Healthy residents harvest matching ripe food, then rest a minute. Bloom +10 also advances unripe crops one stage. Diet, filters and mob griefing apply. Sweet berries regrow on the bush.",
   "guide.bunnidogs.page.26.title": "Furnished warrens",
   "guide.bunnidogs.page.26.body": "New dens have a trough with two guavas. Levels 3-5 have a central bell. New farms fit an empty enabled corner trough for matching crops. Crafted and old troughs need a hoe to enable work.",
   "message.bunnidogs.apex.missing_one": "Missing offering: %s. Empty-hand use checks the ring.",
@@ -293,7 +293,7 @@
   "guide.bunnidogs.page.27.title": "Before the Apex",
   "guide.bunnidogs.page.27.body": "Hold Calipers in the main hand and a Tissue Sample in the other. Use an Apex Crucible for health, attacks and defenses. Empty-hand use lists missing offerings. Reading spends nothing.",
   "message.bunnidogs.care.gardening": "Gardening: %s",
-  "message.bunnidogs.gardening.ready": "ready to search; needs an enabled trough, room for matching ripe food and a safe path",
+  "message.bunnidogs.gardening.ready": "ready to search; needs an enabled trough, room for matching food and a safe path",
   "message.bunnidogs.gardening.unavailable": "not a resident worker",
   "message.bunnidogs.gardening.adult": "needs an adult",
   "message.bunnidogs.gardening.full_health": "needs full health",
@@ -356,5 +356,8 @@
   "guide.bunnidogs.index.32": "Refuge & storms",
   "guide.bunnidogs.index.34": "Troughs & bell calls",
   "guide.bunnidogs.index.36": "Fleece & dispensers",
-  "guide.bunnidogs.index.39": "Travel Basket"
+  "guide.bunnidogs.index.39": "Travel Basket",
+  "message.bunnidogs.care.cultivation": "Cultivation: %s",
+  "message.bunnidogs.care.cultivation_bonus": "Bloom +%s bonus; can advance matching unripe crops between harvests",
+  "message.bunnidogs.care.cultivation_requirement": "needs Bloom +%s; ripe harvesting remains available"
 }

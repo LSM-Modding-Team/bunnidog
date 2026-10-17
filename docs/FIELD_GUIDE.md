@@ -4,7 +4,8 @@ The growing progression needs an in-game reference. The Field Guide covers
 founders, genes, breeding/seeds/quality, pedigree, Nests and transport, food,
 bell gatherings, living care, adaptations, table/splicing, stable lines,
 shows, materials, legendary drops, the Apex and infused juice.
-The gardening pages include Calipers work status and new fitted corner troughs.
+The gardening pages include fitted corner troughs, Bloom cultivation, berry
+regrowth and the existing work-rest/filter/protection rules.
 Living-dust care has its own page explaining combined yields and shared recovery.
 The terrain page explains inherited stepping and partial slow-block resistance.
 Shore fishing explains resident Fisher prey, needs, healing and recovery.
@@ -45,9 +46,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current twenty-seven native server cases pass,
+The actual Java 25 build and current twenty-eight native server cases pass,
 including loading the new book/recipe/loot resources. The expanded 40-page
-two-contents/basket preview is inspected with a substitute font. Earlier
+two-contents/gardening preview is inspected with a substitute font. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
 sources establish the ordinary book/packet/click behavior; no new screen or

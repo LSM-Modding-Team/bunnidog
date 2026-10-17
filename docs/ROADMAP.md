@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L12 gives Bloom +10 adults one-stage cultivation between ripe harvests, sharing
+the existing garden rest and respecting Diet, trough filters and protection.
+Foragers also harvest ripe sweet berries without removing the bush. Native
+garden paths now use bounded hazard checks. See `SETTLEMENT_LIFE.md`.
+
 P3 expands the Field Guide to 40 pages with two linked contents pages and
 eighteen chapter links. Newer chapters return to their own index; existing
 chapter numbers stay stable. See `FIELD_GUIDE.md`.

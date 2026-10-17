@@ -17,6 +17,8 @@ Ring a nearby bell to call healthy residents for a daytime visit.
 Woolly adults yield wool in their expressed coat's palette; Calipers names it.
 Dispensers use Brushes/Sampling Syringes with the same animal recovery as hand use.
 Travel Baskets move individual animals while preserving identity and care state.
+Bloom +10 residents cultivate matching unripe crops beside enabled troughs;
+ordinary foragers also gather sweet berries while keeping the bush.
 
 ## Build and play
 

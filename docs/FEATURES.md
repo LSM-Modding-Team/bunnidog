@@ -64,6 +64,12 @@ actual size. Identity, health, age, pedigree and paused care recovery persist.
 Packing frees its old Nest; blocked/invalid/duplicate placement keeps the animal
 stored. Calipers reads the carried animal's sheet. The Apex cannot be carried.
 
+**Bloom cultivation (L12):** Bloom +10 adults advance matching unripe crops by
+one stage when no ripe harvest is available. Growth shares the one-minute
+garden rest and respects Diet, trough filters/capacity and block protection.
+It creates no food until a later harvest. Ordinary foragers can gather one
+sweet berry from a ripe bush, leaving it to regrow. Calipers names the bonus.
+
 **Bell calls (L10):** ring a vanilla bell to call healthy adult residents by day,
 including outside noon. Hand use, redstone and projectiles work. Keep it within
 12 blocks of their Nest and leave safe walking space. Calls use the same short

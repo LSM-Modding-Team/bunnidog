@@ -20,6 +20,12 @@ is not exposed in this session: use available work budget without inventing quot
 
 ## Latest gameplay work — 2026-10-17
 
+- **L12, bred cultivation:** Bloom +10 adults advance matching unripe crops by
+  one stage between ripe harvests. Growth and harvest share existing work rest,
+  trough capacity/filters and protected safe routes. Ripe sweet berries now
+  yield one food while keeping the bush. Calipers names the Bloom bonus. See
+  `docs/SETTLEMENT_LIFE.md` L12.
+
 - **P3, guide navigation:** two linked contents pages offer eighteen chapter
   links. Newer chapters return to the second index; existing chapter numbers
   stay stable. Native book/page-change behavior is retained. See
@@ -78,7 +84,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Care | Live samples, fleece palettes, whiskers/dust, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C8 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow and terrain movement. `docs/CARE_SPECS.md` A1–A4 |
 | Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, safe led-adult reassignment and identity-preserving Travel Baskets. `docs/HOME_SPECS.md` H1–H6 |
-| Settlement life | Saved trough stock/automation/filters, diet healing, scheduled/called bell visits, fitted furniture, gardening, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L11 |
+| Settlement life | Saved trough stock/automation/filters, diet healing, scheduled/called bell visits, fitted furniture, harvest/cultivation, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L12 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
 | Drops and endgame | Pelts/materials, Mutagen/Marrow/Tissue/Dust, five stat legends and pedestals. Sample-defined Apex ritual, inherited combat, warned attacks/enrage, boss bar and source-line crest. `docs/DROPS_SPECS.md`, `docs/APEX_SPECS.md` |
@@ -132,8 +138,14 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The current Java 25 build and all **twenty-seven** native scenarios pass
-(twenty-six mod cases plus native sanity). Latest coverage includes:
+The current Java 25 build and all **twenty-eight** native scenarios pass
+(twenty-seven mod cases plus native sanity). Latest coverage includes:
+
+- **L12:** exact Bloom threshold, filter/Diet/griefing refusals, interrupted
+  growth, one-stage/no-food cultivation, shared rest, ripe priority, ordinary
+  berry harvesting, embryo exclusion, guava growth and existing-vine fruiting.
+  The dispenser fixture catches randomized ejected items inside its own walls
+  instead of expecting them to remain in a three-block search box.
 
 - **H6:** actual creative/survival capture, native item save/load, exact UUID,
   ancestry/tag/name/health/age and six paused recovery timers, immediate Nest

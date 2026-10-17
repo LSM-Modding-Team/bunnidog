@@ -99,6 +99,8 @@ public class CalipersItem extends Item {
         var work = dog.gardeningStatus();
         careRow(player, "gardening", work == Gardening.Status.RESTING ? recovery(dog.gardeningWait())
                 : Component.translatable("message.bunnidogs.gardening." + work.name().toLowerCase(Locale.ROOT)));
+        careRow(player,"cultivation",Component.translatable(Gardening.cultivates(dog.stats())
+                ? "message.bunnidogs.care.cultivation_bonus" : "message.bunnidogs.care.cultivation_requirement",Gardening.MIN_CULTIVATION_BLOOM));
     }
 
     private static Component recovery(int ticks) {
