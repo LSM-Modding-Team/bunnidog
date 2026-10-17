@@ -9,6 +9,7 @@ import com.bunnidogs.mod.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
@@ -18,6 +19,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
 
 public final class CareDispenserGameTest {
     private CareDispenserGameTest() {}
@@ -79,7 +82,18 @@ public final class CareDispenserGameTest {
                     pulse(h,pos,() -> {
                         h.assertTrue(dropped(h,pos,Items.ARMADILLO_SCUTE) == 1 && nativeBrush.getDamageValue() == 16,
                                 "The original native armadillo brushing behavior and its tool cost must still work");
-                        h.succeed();
+                        var saved = TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess()); dog.saveWithoutId(saved);
+                        var data = saved.buildResult(); data.remove("GroomWait"); dog.load(TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),data));
+                        int moss = Gene.COAT.alleleNamed("moss").id();
+                        dog.setGenome(dog.genome().with(Gene.COAT,0,moss).with(Gene.COAT,1,moss)); dog.setAge(0); dog.setHealth(dog.getMaxHealth());
+                        var mossBrush = new ItemStack(Items.BRUSH); dispenser.setItem(0,mossBrush);
+                        pulse(h,pos,() -> {
+                            h.assertTrue(dropped(h,pos,Items.MOSS_CARPET) == 1 && dropped(h,pos,ModItems.WHISKER.get()) == 2
+                                    && dropped(h,pos,ModItems.STARLIT_DUST.get()) == 2 && dropped(h,pos,Items.GLOWSTONE_DUST) == 1
+                                    && mossBrush.getDamageValue() == 1 && dog.groomingWait() > 0,
+                                    "One native dispenser pulse must gather the moss/whisker/Starlit combination for one wear and shared recovery");
+                            h.succeed();
+                        });
                     });
                 });
             });

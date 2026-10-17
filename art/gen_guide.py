@@ -31,7 +31,7 @@ PAGES = {
     25: ('Trough gardening', 'Hoe-enable a trough. Healthy residents harvest matching ripe food, then rest a minute. Bloom +10 also advances unripe crops one stage. Diet, filters and mob griefing apply. Sweet berries regrow on the bush.'),
     26: ('Furnished warrens', 'New dens have a trough with two guavas. Levels 3-5 have a central bell. New farms fit an empty enabled corner trough for matching crops. Crafted and old troughs need a hoe to enable work.'),
     27: ('Before the Apex', 'Hold Calipers in the main hand and a Tissue Sample in the other. Use an Apex Crucible for health, attacks and defenses. Empty-hand use lists missing offerings. Reading spends nothing.'),
-    28: ('Living dust', 'Brush a healthy glow adult for one glowstone dust. A starborn adult with Bloom +20 yields one Starlit Dust. Senses +10 still adds a whisker. One Brush use gathers all matches; recovery is ten minutes.'),
+    28: ('Living harvests', 'Brush healthy adults: glow gives glowstone; starborn at Bloom +20 gives Starlit Dust; moss at Bloom +10 gives moss carpet. Senses +10 adds a whisker. Gather one of each match for one tool use and ten-minute recovery.'),
     29: ('Terrain traits', 'Hoofed adults step up one-block ledges and take half fall damage. Fleet legs reduce soul-sand and honey slowing by 25%; lean builds by 50%. Together: 75%. Cobwebs, Slowness and other hazards remain.'),
     30: ('Shore fishing', 'Hurt fisher adults hunt nearby cod, salmon or tropical fish. They need a Nest, daylight and a reachable fish. A kill heals 4 HP, then rests 30 seconds. Pufferfish and land prey are excluded.'),
     31: ('Resident needs', 'Sneak-use Calipers for a claimed Nest, distance, foods and meal recovery. Healthy adults need no healing. Ready means ready to search, not a promise of nearby food. Reading changes nothing.'),
@@ -98,7 +98,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,25),(495,41),(735,43)]:
+    for x,page in [(255,28),(495,41),(735,43)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

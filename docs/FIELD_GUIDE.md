@@ -7,6 +7,8 @@ shows, materials, legendary drops, the Apex and infused juice.
 The gardening pages include fitted corner troughs, Bloom cultivation, berry
 regrowth and the existing work-rest/filter/protection rules.
 Living-dust care has its own page explaining combined yields and shared recovery.
+That living-harvest page now includes moss coats at Bloom +10 yielding moss
+carpet alongside qualified whiskers/dust under one tool use and recovery.
 The terrain page explains inherited stepping and partial slow-block resistance.
 Shore fishing explains resident Fisher prey, needs, healing and recovery.
 Resident needs explains the Calipers home/food/recovery snapshot.
@@ -56,7 +58,7 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 The actual Java 25 build and current thirty-seven native server cases pass,
 including loading the new book/recipe/loot resources. The expanded 43-page
-gardening/Cradle/compost preview is inspected with a substitute font. Earlier
+living-harvest/Cradle/compost preview is inspected with a substitute font. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
 sources establish the ordinary book/packet/click behavior; no new screen or

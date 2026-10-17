@@ -34,6 +34,7 @@ public final class BunnidogCare {
             case WHISKER -> ModItems.WHISKER.get();
             case GLOWSTONE -> Items.GLOWSTONE_DUST;
             case STARLIT -> ModItems.STARLIT_DUST.get();
+            case MOSS -> Items.MOSS_CARPET;
         },Grooming.COUNT)).toList();
         dog.beginGroomingRecovery();
         dog.playSound(SoundEvents.BRUSH_GENERIC,.4F,1.1F);

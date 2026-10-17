@@ -403,6 +403,21 @@ carrots, since the named reserve correctly refuses unnamed crop output.
 The 43-page guide preview is inspected. Natural work cycles and multiplayer
 farm balance remain gameplay review.
 
+## L15: ordinary guava compost data
+
+Native NeoForge compost data gives plain guavas a 65% chance and guava leaves/
+saplings a 30% chance, matching ordinary fruit/foliage. Players and vanilla
+hoppers can use them. Bloom +10 plain-Diet residents may consequently compost
+real orchard surplus through L14's existing reserve, priority and rest rules.
+All seven higher guava tiers remain non-compostable by default, preserving
+their infused ingredients for breeding. The data map merges with native and
+other mod entries rather than replacing them; it changes no item/save format.
+
+Actual build/all 37 native scenarios pass. The composting case reads the real
+loaded values, checks every higher-tier exclusion and runs one real plain
+resident guava job with exactly one cost/eight-item reserve/shared rest. Native
+chance/maturation/hopper coverage remains in the same case.
+
 ## Evidence
 
 L3/L4 actual build and the focused fixture/gardening server cases pass (seventeen

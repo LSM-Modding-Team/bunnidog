@@ -31,6 +31,8 @@ comparator signal. Hatch empty-handed or with a fresh redstone pulse onto a
 clear 3×3 pad in front; failed attempts retain the seed.
 Bloom +10 gardeners compost suitable surplus trough food after crop work,
 keeping eight food items; vanilla hoppers collect the bone meal.
+Plain guavas and guava foliage also compost natively. Brush a healthy moss-coat
+adult with Bloom +10 for one loose Moss Carpet, sharing ordinary grooming rest.
 
 ## Build and play
 

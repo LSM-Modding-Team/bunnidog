@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+C9 adds one renewable Moss Carpet from expressed moss adults at Bloom +10,
+sharing hand/dispenser grooming products, tool wear and saved recovery. L15
+adds native plain-guava/foliage compost values while excluding infused tiers,
+connecting ordinary orchards to L14. See `CARE_SPECS.md`, `SETTLEMENT_LIFE.md`.
+
 L14 connects opted-in resident work to vanilla composting: Bloom +10 adults
 spend suitable surplus food above an eight-item reserve after crop tasks.
 Native chances/maturation/hopper output, Diet/protection/safe paths and shared

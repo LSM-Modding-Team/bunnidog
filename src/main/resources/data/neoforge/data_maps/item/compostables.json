@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": {
+    "bunnidogs:guava": {
+      "chance": 0.65
+    },
+    "bunnidogs:guava_leaves": {
+      "chance": 0.3
+    },
+    "bunnidogs:guava_sapling": {
+      "chance": 0.3
+    }
+  }
+}

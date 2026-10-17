@@ -154,7 +154,7 @@ public final class Plain {
         note(Gene.COAT, "spotted", "Spotted: a coat of dark patches.");
         note(Gene.COAT, "snow", "A white tundra coat.");
         note(Gene.COAT, "sand", "A sandy desert coat.");
-        note(Gene.COAT, "moss", "A mossy swamp coat.");
+        note(Gene.COAT, "moss", "A mossy swamp coat. Brush healthy adults with Bloom +10 for one loose moss carpet every ten minutes.");
         note(Gene.COAT, "pale", "A pale cave coat.");
         note(Gene.COAT, "slate", "A grey mountain coat.");
         note(Gene.COAT, "ember", "A glowing-red Nether coat.");

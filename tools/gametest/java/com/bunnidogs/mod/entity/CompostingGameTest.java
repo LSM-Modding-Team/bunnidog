@@ -9,6 +9,7 @@ import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.genetics.Stats;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModEntities;
+import com.bunnidogs.mod.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -122,6 +123,22 @@ public final class CompostingGameTest {
                 h.assertTrue(output.getItem(0).is(Items.BONE_MEAL) && output.getItem(0).getCount() == 1
                         && level.getBlockState(composter).getValue(ComposterBlock.LEVEL) == 0 && stock.food().getCount() == 8,
                         "An actual native hopper must collect one bone meal and empty compost without touching the food reserve");
+                h.assertTrue(Math.abs(ComposterBlock.getValue(new ItemStack(ModItems.GUAVA.get()))-.65F) < .0001F
+                        && Math.abs(ComposterBlock.getValue(new ItemStack(ModItems.GUAVA_LEAVES.get()))-.3F) < .0001F
+                        && Math.abs(ComposterBlock.getValue(new ItemStack(ModItems.GUAVA_SAPLING.get()))-.3F) < .0001F,
+                        "The actual native data map must register ordinary guava fruit and foliage compost values");
+                h.assertTrue(ModItems.GUAVAS.stream().skip(1).allMatch(tier -> ComposterBlock.getValue(new ItemStack(tier.get())) <= 0),
+                        "Quality-infused guavas must stay outside automatic composting");
+                long before = level.clockManager().getTotalTicks(clock);
+                boolean rule = level.getGameRules().get(GameRules.MOB_GRIEFING);
+                try {
+                    level.clockManager().setTotalTicks(clock,1000); level.getGameRules().set(GameRules.MOB_GRIEFING,true,level.getServer());
+                    ready(dog); dog.setGenome(Genome.DEFAULT); stock.takeAll(); stock.clearFilter(); stock.insert(new ItemStack(ModItems.GUAVA.get(),9));
+                    work(h,dog);
+                    h.assertTrue(stock.food().is(ModItems.GUAVA.get()) && stock.food().getCount() == 8
+                            && level.getBlockState(composter).getValue(ComposterBlock.LEVEL) == 1 && dog.gardeningWait() == Gardening.REST_TICKS,
+                            "A plain high-Bloom resident must compost its actual surplus guavas through the same native work path");
+                } finally { level.clockManager().setTotalTicks(clock,before); level.getGameRules().set(GameRules.MOB_GRIEFING,rule,level.getServer()); }
                 h.succeed();
             });
         });

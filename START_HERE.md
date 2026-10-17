@@ -22,6 +22,13 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-17
 
+- **C9/L15, living materials and orchard recycling:** brushing an expressed
+  moss adult at Bloom +10 yields one Moss Carpet alongside any qualified
+  whisker/Starlit products, sharing one wear and saved recovery. Native
+  compost data adds plain guavas at 65% and leaves/saplings at 30%; higher-tier
+  guavas remain excluded. Plain Bloom gardeners can recycle orchard surplus.
+  See `docs/CARE_SPECS.md` C9 and `docs/SETTLEMENT_LIFE.md` L15.
+
 - **L14, surplus composting:** Bloom +10 residents work a vanilla composter
   beside a hoe-enabled trough after harvesting/cultivation. One real suitable
   food per job, native chances, eight-item reserve and shared saved garden
@@ -99,10 +106,10 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Laboratory | Two sample slots, vial display, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T6 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
-| Care | Live samples, fleece palettes, whiskers/dust, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C8 |
+| Care | Live samples, fleece palettes, whiskers/dust/moss, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C9 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow and terrain movement. `docs/CARE_SPECS.md` A1–A4 |
 | Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, led-adult reassignment, Travel Baskets and persistent compass place markers. `docs/HOME_SPECS.md` H1–H7 |
-| Settlement life | Saved trough stock/automation/filters, diet healing/short night meals, bell visits, fitted furniture, harvest/cultivation/surplus composting, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L14 |
+| Settlement life | Saved trough stock/automation/filters, diet healing/short night meals, bell visits, fitted furniture, harvest/cultivation/surplus composting, guava compost data, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L15 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
 | Drops and endgame | Pelts/materials, Mutagen/Marrow/Tissue/Dust, five stat legends and pedestals. Sample-defined Apex ritual, inherited combat, warned attacks/enrage, boss bar and source-line crest. `docs/DROPS_SPECS.md`, `docs/APEX_SPECS.md` |
@@ -179,6 +186,11 @@ cases plus native sanity). Latest coverage:
   exact named reserve/filter, shared work rest, non-compostable refusal,
   deterministic native failed/successful chances, actual maturation and hopper
   output of exactly one bone meal.
+- **C9/L15:** actual hidden/expressed moss and Bloom +9/+10 hand care,
+  combined moss/whisker/Starlit products, gene-change recovery refusal and
+  real dispenser collection. Native compost data loads correct values,
+  excludes all seven higher guava tiers and lets a plain resident spend one
+  surplus guava while keeping its eight-item reserve.
 - **S9/H6:** exact carried records through air/block/off-hand/creative use,
   duplicate protection, registry award, invalid UUID/pup refusal and unchanged
   payload. Basket release still preserves all six paused timers, identity,

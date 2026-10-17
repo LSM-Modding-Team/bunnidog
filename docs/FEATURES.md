@@ -85,6 +85,14 @@ work, leaving at least eight items for meals. Native chances apply and each job
 shares the one-minute garden rest. Leave safe walking space and use a hopper
 below the composter for ordinary bone meal. Diet, protection and daytime rules
 apply; residents leave mature compost for you or the hopper.
+Plain guavas compost at 65% and guava leaves/saplings at 30% (L15), including
+ordinary manual/hopper use. Higher guava tiers remain non-compostable by default.
+
+**Living moss (C9):** brush a healthy adult expressing a moss coat at Bloom +10
+for one Moss Carpet. Qualified whiskers and Starlit Dust are collected together
+for one Brush wear and the same ten-minute animal recovery. Hidden moss copies
+yield none; changing genes or tools cannot bypass rest. Dispensers share the
+same products and rules. Calipers names the prospective yield.
 
 **Redstone nursery (N1):** face a dispenser at empty space above farmland and
 supply litter seeds. One successful pulse plants one exact saved litter. A

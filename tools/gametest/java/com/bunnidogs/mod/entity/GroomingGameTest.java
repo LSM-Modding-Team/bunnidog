@@ -76,6 +76,7 @@ public final class GroomingGameTest {
         h.assertTrue(whiskers(creative) == 1 && creativeBrush.getDamageValue() == 0 && dog.groomingWait() == Grooming.RECOVERY_TICKS,
                 "Creative must preserve the brush but keep animal recovery");
         dust(h);
+        moss(h);
     }
     private static void dust(GameTestHelper h) {
         var level = h.getLevel();
@@ -128,5 +129,35 @@ public final class GroomingGameTest {
         h.assertTrue(fullBrush.getDamageValue() == 1 && mixed.groomingWait() == Grooming.RECOVERY_TICKS
                 && mixed.getHealth() == health && mixed.genome().equals(mixedGenome) && mixed.stats().equals(Stats.of(0,0,0,10,20)),
                 "Combined products must share one wear/recovery and preserve the living line");
+    }
+    private static void moss(GameTestHelper h) {
+        var level = h.getLevel();
+        int moss = Gene.COAT.alleleNamed("moss").id(), starborn = Gene.FERTILITY.alleleNamed("starborn").id();
+        var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),2,1,2); dog.setAge(0);
+        dog.setGenome(Genome.DEFAULT.with(Gene.COAT,0,Gene.COAT.alleleNamed("void").id()).with(Gene.COAT,1,moss));
+        dog.setStats(Stats.of(0,0,0,0,10)); dog.setHealth(dog.getMaxHealth());
+        var player = h.makeMockPlayer(GameType.SURVIVAL); var brush = new ItemStack(Items.BRUSH);
+        player.setItemInHand(InteractionHand.MAIN_HAND,brush);
+        player.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
+        h.assertTrue(count(player,Items.MOSS_CARPET) == 0 && dog.groomingWait() == 0 && brush.getDamageValue() == 0,
+                "A hidden moss coat must yield no loose growth or spend recovery");
+        var mossGenome = Genome.DEFAULT.with(Gene.COAT,0,moss).with(Gene.COAT,1,moss);
+        dog.setGenome(mossGenome); dog.setStats(Stats.of(0,0,0,0,9));
+        player.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
+        h.assertTrue(count(player,Items.MOSS_CARPET) == 0 && dog.groomingWait() == 0,"Moss growth needs at least +10 bred Bloom");
+        dog.setStats(Stats.of(0,0,0,0,10)); player.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
+        h.assertTrue(count(player,Items.MOSS_CARPET) == 1 && whiskers(player) == 0 && brush.getDamageValue() == 1
+                && dog.groomingWait() == Grooming.RECOVERY_TICKS,"Bloom +10 must yield one moss carpet for one wear and the shared ten-minute recovery");
+        dog.setGenome(mossGenome.with(Gene.FERTILITY,0,starborn).with(Gene.FERTILITY,1,starborn)); dog.setStats(Stats.of(0,0,0,10,20));
+        player.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
+        h.assertTrue(count(player,Items.MOSS_CARPET) == 1 && whiskers(player) == 0 && count(player,ModItems.STARLIT_DUST.get()) == 0
+                && brush.getDamageValue() == 1,"Changing genes or qualifying for new products must never bypass existing moss recovery");
+        var mixed = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),2,1,4); mixed.setAge(0);
+        mixed.setGenome(dog.genome()); mixed.setStats(dog.stats()); mixed.setHealth(mixed.getMaxHealth()); float health = mixed.getHealth();
+        player.interactOn(mixed,InteractionHand.MAIN_HAND,Vec3.ZERO);
+        h.assertTrue(count(player,Items.MOSS_CARPET) == 2 && whiskers(player) == 1 && count(player,ModItems.STARLIT_DUST.get()) == 1
+                && brush.getDamageValue() == 2 && mixed.groomingWait() == Grooming.RECOVERY_TICKS
+                && mixed.getHealth() == health && mixed.genome().equals(dog.genome()) && mixed.stats().equals(dog.stats()),
+                "Moss, whisker and Starlit products must combine for one wear/recovery without altering the living line");
     }
 }

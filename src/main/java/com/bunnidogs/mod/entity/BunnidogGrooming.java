@@ -17,7 +17,7 @@ final class BunnidogGrooming {
         if (!dog.acceptsCare() || !dog.isAlive() || dog.isBaby() || !Sampling.healthy(dog.getHealth(), dog.getMaxHealth())) return message(player, "health");
         var products = Grooming.yields(dog.genome(),dog.stats());
         if (products.isEmpty()) {
-            player.sendOverlayMessage(Component.translatable("message.bunnidogs.groom.traits",Grooming.MIN_SENSES,Grooming.MIN_STARLIT_BLOOM));
+            player.sendOverlayMessage(Component.translatable("message.bunnidogs.groom.traits",Grooming.MIN_SENSES,Grooming.MIN_STARLIT_BLOOM,Grooming.MIN_MOSS_BLOOM));
             return InteractionResult.SUCCESS;
         }
         if (dog.groomingWait() > 0) {

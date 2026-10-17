@@ -93,8 +93,7 @@ versus held redstone power. An actual native spawn listener cancels the second
 pup after removing the Cradle during the first spawn: reentrant extraction and
 hatching see reserved stock, all siblings roll back, exactly the named seed
 returns, and retry succeeds. The existing dispenser case additionally covers
-real Cradle seed/bone-meal/dust pulses and ripe refusal. A fixture allele-slot
-mistake was corrected before the complete passing native run.
+real Cradle seed/bone-meal/dust pulses and ripe refusal.
 
 The authored block textures and guide pages 1/41/42 are previewed and inspected.
 Native client appearance, custom fonts, natural unload/reload and modded transfer

@@ -192,6 +192,31 @@ lighting before its path assertions; route requirements remain intact. The
 updated guide preview is inspected. Client stations and multiplayer automation
 balance remain gameplay review.
 
+## C9: loose moss from a living coat
+
+Healthy adults expressing COAT `moss` with at least **+10 bred Bloom** yield
+one ordinary **Moss Carpet** when brushed. This gathers loose coat growth;
+the approved creature model and atlas remain intact. Hidden moss copies and
+lower Bloom yield none. No climate scan, terrain change or new item is needed.
+
+The product joins existing whiskers/dust in the same grooming transaction:
+one of each matching product, one Brush wear and the same ten-minute saved
+`GroomWait`. A moss/starborn line with Bloom +20 and Senses +10 consequently
+yields moss carpet, Starlit Dust and a whisker together. Switching genes/tools
+cannot bypass recovery. Existing adulthood/half-health/Apex, creative and
+inventory-overflow rules apply equally to hand use and dispensers. Calipers,
+gene hovers and the living-harvest guide page explain the source. Death drops,
+inheritance, stats, protocol and saved formats remain unchanged.
+
+C9 evidence (2026-10-17): actual Java 25 build/all 37 native scenarios pass.
+The existing grooming case covers a moss copy hidden by expressed void,
+Bloom +9/+10, one real hand harvest, gene-change recovery refusal, and combined
+moss/whisker/Starlit yield for one wear with preserved health/genome/stats.
+The real dispenser case also collects that combination without extra wear or
+glow dust; original armadillo fallback and exact sampling remain passing.
+The living-harvest guide preview is inspected. Long-term husbandry balance
+and client use remain gameplay review.
+
 ## A1/A2: Expressed environmental adaptations
 
 | Expressed trait | Benefit |
