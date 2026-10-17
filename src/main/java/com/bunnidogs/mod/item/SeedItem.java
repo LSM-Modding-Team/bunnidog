@@ -72,7 +72,7 @@ public class SeedItem extends Item {
             return InteractionResult.PASS;
         }
         if (!level.isClientSide()) {
-            if (!(level instanceof ServerLevel server) || !SeedCropBlock.plant(server,above,seed.get())) return InteractionResult.FAIL;
+            if (!(level instanceof ServerLevel server) || !SeedCropBlock.plant(server,above,context.getItemInHand())) return InteractionResult.FAIL;
             Player player = context.getPlayer();
             if (player == null || !player.hasInfiniteMaterials()) {
                 context.getItemInHand().shrink(1);
@@ -133,7 +133,8 @@ public class SeedItem extends Item {
                 player.sendSystemMessage(Component.literal("This seed already carries a Mutagen.").withStyle(ChatFormatting.GRAY));
                 return InteractionResult.SUCCESS;
             }
-            ItemStack treated = create(seed.withMutagen());
+            ItemStack treated = seedStack.copyWithCount(1);
+            treated.set(ModItems.SEED_DATA.get(),seed.withMutagen().toString());
             if (player.hasInfiniteMaterials()) {
                 giveOrDrop(player, treated);
             } else {

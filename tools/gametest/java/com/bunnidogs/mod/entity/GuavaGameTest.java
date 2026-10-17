@@ -55,7 +55,7 @@ public final class GuavaGameTest extends GameTestInstance {
     @SubscribeEvent
     public static void registerTests(RegisterGameTestsEvent event) {
         var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.AllOf());
-        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "show", "grooming", "settlement", "apex", "fixtures", "gardening", "pantry", "fishing", "refuge", "storm_shelter", "trough_automation", "bell_calls", "trough_filters", "care_dispensers", "basket", "cultivation", "nest_markers", "night_meals", "nursery"}) {
+        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "show", "grooming", "settlement", "apex", "fixtures", "gardening", "pantry", "fishing", "refuge", "storm_shelter", "trough_automation", "bell_calls", "trough_filters", "care_dispensers", "basket", "cultivation", "nest_markers", "night_meals", "nursery", "seed_recovery"}) {
             event.registerTest(id(name), new GuavaGameTest(name, new TestData<>(environment, id("empty"), 100, 0, true)));
         }
     }
@@ -81,6 +81,7 @@ public final class GuavaGameTest extends GameTestInstance {
             case "nest_markers" -> { NestMarkerGameTest.run(h); return; }
             case "night_meals" -> { NightMealGameTest.run(h); return; }
             case "nursery" -> { NurseryGameTest.run(h); return; }
+            case "seed_recovery" -> SeedRecoveryGameTest.run(h);
             case "fishing" -> { FishingGameTest.run(h); return; }
             case "refuge" -> { RefugeGameTest.run(h); return; }
             case "storm_shelter" -> { StormShelterGameTest.run(h); return; }

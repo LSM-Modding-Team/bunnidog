@@ -17,8 +17,15 @@ coherent validated batches under the standing continuation authorization.
 The user downloads JARs from GitHub Actions artifacts; never attach/link a local
 JAR in chat. Discover `get_usage_limits` at substantial starts/checkpoints. It
 is not exposed in this session: use available work budget without inventing quota.
+Reported percentages are sustained-run targets, including 100%; continue across
+checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-17
+
+- **N2, seed provenance:** crops retain named seeds and arbitrary item
+  components through native saves, unripe harvest and support loss. Legacy
+  crops reconstruct their functional seed. Mutagen changes only its seed data.
+  See `docs/NURSERY_SPECS.md` N2.
 
 - **N1, nursery dispensers:** plant a saved litter into empty space above
   farmland or ripen one valid planted crop with Starlit Dust. Hand/machine
@@ -129,13 +136,15 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **thirty-one** native scenarios pass (thirty mod
+The Java 25 build and all **thirty-two** native scenarios pass (thirty-one mod
 cases plus native sanity). Latest coverage:
 
 - **N1:** real redstone pulses, malformed/blocked/wrong-soil/occupied planting,
   exact parental genomes/stats/quality/Mutagen and native crop saves, dust cost,
   ripe/empty/other-plant refusals, no ejection, real hand survival/creative use
   and native dry-farmland upkeep beneath a Seed Crop.
+- **N2:** whole named/custom-data seeds, defensive copies, native new/legacy
+  saves, actual survival unripe break, support loss and Mutagen split costs.
 - **S9/H6:** exact carried records through air/block/off-hand/creative use,
   duplicate protection, registry award, invalid UUID/pup refusal and unchanged
   payload. Basket release still preserves all six paused timers, identity,

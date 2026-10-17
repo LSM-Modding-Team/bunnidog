@@ -85,7 +85,8 @@ public class SeedCropBlock extends Block implements EntityBlock, BonemealableBlo
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (!this.canSurvive(state, level, pos)) {
             if (level.getBlockEntity(pos) instanceof SeedCropBlockEntity crop) {
-                crop.seed().ifPresent(seed -> dropSeed(level, pos, seed));
+                var stack = crop.seedStack();
+                if (!stack.isEmpty()) dropSeed(level,pos,stack);
             }
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             return;
@@ -119,6 +120,10 @@ public class SeedCropBlock extends Block implements EntityBlock, BonemealableBlo
 
     /** Shared hand/dispenser placement; consume the source only after the crop remembers the complete litter. */
     public static boolean plant(ServerLevel level, BlockPos pos, Seed seed) {
+        return plant(level,pos,SeedItem.create(seed));
+    }
+    public static boolean plant(ServerLevel level, BlockPos pos, net.minecraft.world.item.ItemStack stack) {
+        if (SeedItem.read(stack).isEmpty()) return false;
         if (!level.isInWorldBounds(pos) || !level.getWorldBorder().isWithinBounds(pos)
                 || !level.hasChunkAt(pos) || !level.hasChunkAt(pos.below()) || !level.getBlockState(pos).isAir()
                 || !level.getBlockState(pos.below()).is(Blocks.FARMLAND)) return false;
@@ -128,7 +133,7 @@ public class SeedCropBlock extends Block implements EntityBlock, BonemealableBlo
             if (level.getBlockState(pos).equals(planted)) level.removeBlock(pos,false);
             return false;
         }
-        crop.setSeed(seed);
+        crop.setSeedStack(stack);
         return true;
     }
 
@@ -152,6 +157,9 @@ public class SeedCropBlock extends Block implements EntityBlock, BonemealableBlo
 
     /** Drops a seed item holding this payload in the middle of the block. */
     public static void dropSeed(ServerLevel level, BlockPos pos, Seed seed) {
-        level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5D, pos.getY() + 0.3D, pos.getZ() + 0.5D, SeedItem.create(seed)));
+        dropSeed(level,pos,SeedItem.create(seed));
+    }
+    public static void dropSeed(ServerLevel level, BlockPos pos, net.minecraft.world.item.ItemStack stack) {
+        if (!stack.isEmpty()) level.addFreshEntity(new ItemEntity(level,pos.getX()+.5,pos.getY()+.3,pos.getZ()+.5,stack.copyWithCount(1)));
     }
 }

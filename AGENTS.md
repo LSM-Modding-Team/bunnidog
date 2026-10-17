@@ -17,6 +17,14 @@ are obsolete. The user's current request determines scope.
   confirmation. A completed feature, commit or push is a checkpoint, not by
   itself a reason to stop a continuation. Continue into the next useful work
   while budget permits; reserve time for final validation and delivery.
+- Reported usage is a work target: when the user says "100% left", aim to use
+  that available allowance in one sustained response, with a small delivery
+  reserve. Apply the same preference to other reported percentages. Keep
+  advancing useful coherent work across checkpoints and context compaction;
+  do not end at an arbitrary feature count or treat the first green build as
+  completion. Use the live usage tool when exposed; without it, be candid that
+  exact consumption cannot be metered and use the available turn budget as
+  fully as practical. Do not pad work with redundant checks or filler features.
 - Usage checks: discover and call `get_usage_limits` at the start of substantial
   continuations and between meaningful batches. Read the percentage used and
   reset time for both the 5-hour and weekly limits; use those results alongside

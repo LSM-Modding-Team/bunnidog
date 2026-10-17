@@ -60,7 +60,7 @@ public final class SeedCropHarvest {
 
         if (!SeedCropBlock.isRipe(state)) {
             if (!player.hasInfiniteMaterials()) {
-                SeedCropBlock.dropSeed(level, pos, seed);
+                SeedCropBlock.dropSeed(level,pos,crop.seedStack());
             }
             return;
         }

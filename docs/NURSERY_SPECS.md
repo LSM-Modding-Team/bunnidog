@@ -40,3 +40,46 @@ random decay of empty farmland before planting.
 
 The revised guide preview is inspected. Client redstone contraptions, natural
 chunk travel and multiplayer nursery workflows remain gameplay review.
+
+## N2 — preserve the planted item
+
+Planting by hand or dispenser now stores a one-item copy of the whole seed,
+including its custom name and arbitrary data components. Unripe player recovery
+and lost-support recovery return that item. Functional seed updates and hand
+Mutagen treatment change only `seed_data`; other components survive. Reads and
+source stacks are defensive copies. Optional `SeedItem` uses the native item
+codec beside the existing authoritative `Seed` text; old crops reconstruct their
+ordinary functional seed. Ripening and real litter genetics stay unchanged.
+
+N2 evidence: Java 25 build/all 32 native scenarios pass, including named/custom
+seed copies, native item/crop saves and legacy reconstruction, actual survival
+break, support loss and exact Mutagen split costs without component loss.
+
+## N3 — Nursery Cradle
+
+A craftable full-block incubator holds one whole litter seed. Recipe:
+`WWW / GNG / PPP` (any wool, glass, one Nest, any planks). One minute of loaded
+incubation advances one of seven stages; saved remaining time pauses while
+unloaded. Bone meal adds the existing 2–5 seed-crop stages; Starlit Dust ripens
+at once. Full seeds, names, components, age and remaining time save natively.
+
+Use a seed to insert one. Empty-hand use inspects, or attempts a ripe hatch;
+sneak-use with both hands empty withdraws the seed, resetting incubation.
+Hoppers supply/extract the one seed through the native transactional handler;
+aborted transfers preserve incubation. A comparator reads 0 empty, then
+1/3/5/7/9/11/13/15 as stages advance. Breaking drops contents once; pistons
+cannot move the block. Calipers reads the stored seed forecast. Dispensers can
+supply a seed or apply Starlit Dust to its front face.
+
+A fresh redstone rising edge attempts one ripe hatch. Holding power does not
+repeat or hatch a seed that ripens later; pulse again. The entire 3×3 pad one
+to three blocks in front needs loaded dry two-block air, safe sturdy floors,
+world-border clearance and no living occupants. The existing forty-animal
+local crowd limit applies. Each rolled pup must also fit its actual bounds.
+Create/check the entire litter before adding it; native spawn refusal removes
+any newly added siblings and retains the seed. Successful hatching consumes
+the seed once and uses the existing genes, bred stats, quality/Mutagen and
+parent records, with no Fortune bonus. Every failure retains stored data.
+
+Existing crops, settlements, homes and animal save formats are preserved. No
+screen, payload, custom data component or creature visual change is introduced.
