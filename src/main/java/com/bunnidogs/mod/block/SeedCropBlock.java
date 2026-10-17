@@ -2,6 +2,7 @@ package com.bunnidogs.mod.block;
 
 import com.bunnidogs.mod.genetics.Seed;
 import com.bunnidogs.mod.item.SeedItem;
+import com.bunnidogs.mod.registry.ModBlocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -116,9 +117,27 @@ public class SeedCropBlock extends Block implements EntityBlock, BonemealableBlo
         level.setBlock(pos, state.setValue(AGE, age), 2);
     }
 
-    /** Starlit Dust (D7b): the crop jumps to its last age at once. Like {@link #performBonemeal}, only the state changes; the seed in the block entity stays. */
-    public static void ripen(Level level, BlockPos pos, BlockState state) {
-        level.setBlock(pos, state.setValue(AGE, MAX_AGE), 2);
+    /** Shared hand/dispenser placement; consume the source only after the crop remembers the complete litter. */
+    public static boolean plant(ServerLevel level, BlockPos pos, Seed seed) {
+        if (!level.isInWorldBounds(pos) || !level.getWorldBorder().isWithinBounds(pos)
+                || !level.hasChunkAt(pos) || !level.hasChunkAt(pos.below()) || !level.getBlockState(pos).isAir()
+                || !level.getBlockState(pos.below()).is(Blocks.FARMLAND)) return false;
+        var planted = ModBlocks.SEED_CROP.get().defaultBlockState();
+        if (!level.setBlock(pos,planted,3)) return false;
+        if (!(level.getBlockEntity(pos) instanceof SeedCropBlockEntity crop)) {
+            if (level.getBlockState(pos).equals(planted)) level.removeBlock(pos,false);
+            return false;
+        }
+        crop.setSeed(seed);
+        return true;
+    }
+
+    /** Starlit Dust changes only a valid saved crop's age; refusal retains the consumable. */
+    public static boolean ripen(Level level, BlockPos pos, BlockState state) {
+        return level instanceof ServerLevel && level.hasChunkAt(pos) && level.getWorldBorder().isWithinBounds(pos)
+                && state.getBlock() instanceof SeedCropBlock && !isRipe(state) && state.equals(level.getBlockState(pos))
+                && state.canSurvive(level,pos) && level.getBlockEntity(pos) instanceof SeedCropBlockEntity crop && crop.seed().isPresent()
+                && level.setBlock(pos,state.setValue(AGE,MAX_AGE),2);
     }
 
     /** How many ages one bone meal adds: 2 to 5, the same spread as a vanilla wheat-style crop with 8 ages. */

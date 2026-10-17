@@ -37,7 +37,7 @@ public class StarlitDustItem extends Item {
             return InteractionResult.PASS;
         }
         if (!level.isClientSide()) {
-            SeedCropBlock.ripen(level, pos, state);
+            if (!SeedCropBlock.ripen(level,pos,state)) return InteractionResult.FAIL;
             Player player = context.getPlayer();
             if (player == null || !player.hasInfiniteMaterials()) {
                 context.getItemInHand().shrink(1);
@@ -52,5 +52,6 @@ public class StarlitDustItem extends Item {
         super.appendHoverText(stack, context, display, lines, flag);
         lines.accept(Component.literal("Right-click a planted seed crop: it ripens at once").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.literal("One dust, one crop").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(Component.translatable("tooltip.bunnidogs.dust.dispenser").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

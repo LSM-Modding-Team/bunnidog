@@ -22,6 +22,8 @@ ordinary foragers also gather sweet berries while keeping the bush.
 Use a compass on a Nest to mark the place, or inspect it empty-handed.
 Injured adults can take safe trough meals within four blocks of home at night.
 Sneak-use record books with a filled basket in the other hand to log its animal.
+Nursery dispensers plant litter seeds above farmland and ripen saved crops with
+Starlit Dust, retaining items on refusal. Seed Crops maintain dry farmland.
 
 ## Build and play
 

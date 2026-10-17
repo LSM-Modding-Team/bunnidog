@@ -16,6 +16,10 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+N1 adds native dispenser litter-seed planting and Starlit Dust ripening, sharing
+hand transactions, exact functional seed data and success-only costs. Refusals
+retain items; Seed Crops now maintain dry farmland. See `NURSERY_SPECS.md`.
+
 S9 logs carried native snapshots through deliberate Pedigree Book/Registry
 sneak-use. Registry eligibility, duplicates/representatives and advancement
 remain shared with live use; baskets retain all data. See `SHEET_SPECS.md`.

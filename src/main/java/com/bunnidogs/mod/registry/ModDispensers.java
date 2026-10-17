@@ -2,6 +2,8 @@ package com.bunnidogs.mod.registry;
 
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.entity.BunnidogCare;
+import com.bunnidogs.mod.block.SeedCropBlock;
+import com.bunnidogs.mod.item.SeedItem;
 import java.util.Comparator;
 import java.util.List;
 import net.minecraft.core.dispenser.BlockSource;
@@ -14,7 +16,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
-/** Reusable care tools stay in the dispenser; one pulse treats one eligible ordinary animal. */
+/** Native care and nursery stations: one successful pulse treats one animal or one saved litter. */
 public final class ModDispensers {
     private ModDispensers() {}
     public static void setup(FMLCommonSetupEvent event) {
@@ -24,7 +26,27 @@ public final class ModDispensers {
             DispenserBlock.registerBehavior(Items.BRUSH,(source,tool) -> brushing.findAnimal(source) != null || previousBrush == null
                     ? brushing.dispense(source,tool) : previousBrush.dispense(source,tool));
             DispenserBlock.registerBehavior(ModItems.SYRINGE.get(),new CareBehavior(true));
+            DispenserBlock.registerBehavior(ModItems.SEED.get(),new NurseryBehavior(false));
+            DispenserBlock.registerBehavior(ModItems.STARLIT_DUST.get(),new NurseryBehavior(true));
         });
+    }
+    private static final class NurseryBehavior extends OptionalDispenseItemBehavior {
+        private final boolean ripening;
+        NurseryBehavior(boolean ripening) { this.ripening = ripening; }
+        @Override protected ItemStack execute(BlockSource source, ItemStack stack) {
+            this.setSuccess(false);
+            var level = source.level();
+            var front = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
+            if (!level.hasChunkAt(front)) return stack;
+            boolean changed = this.ripening ? SeedCropBlock.ripen(level,front,level.getBlockState(front))
+                    : SeedItem.read(stack).map(seed -> SeedCropBlock.plant(level,front,seed)).orElse(false);
+            if (changed) {
+                stack.shrink(1);
+                if (this.ripening) level.levelEvent(2005,front,15);
+                this.setSuccess(true);
+            }
+            return stack;
+        }
     }
     private static final class CareBehavior extends OptionalDispenseItemBehavior {
         private final boolean sampling;

@@ -79,6 +79,14 @@ blocks of home. One item heals the normal 2 HP and starts the shared thirty-seco
 meal rest, then night waiting resumes. Calipers explains trough-only readiness;
 outdoor foraging and work still wait for daylight. Leads and danger interrupt.
 
+**Redstone nursery (N1):** face a dispenser at empty space above farmland and
+supply litter seeds. One successful pulse plants one exact saved litter. A
+second dispenser facing the crop can use one Starlit Dust to ripen it. Refused
+planting/ripening retains the item. Break ripe crops to hatch as usual; seeds,
+parents/stats, quality and Mutagen are not rerolled by planting or growth.
+Planted Seed Crops now keep dry farmland. A Dropper delivers loose seed/dust
+items. Hand planting/ripening keeps its ordinary controls and creative costs.
+
 **Nest wayfinding (H7):** use a compass on a Nest to mark that place. Its needle
 points there in that dimension and spins elsewhere; the marker remains if the
 Nest is removed. Names/components survive and stacked compasses bind one item.

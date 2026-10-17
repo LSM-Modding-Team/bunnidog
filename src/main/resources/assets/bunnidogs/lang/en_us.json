@@ -233,7 +233,7 @@
   "guide.bunnidogs.page.4.title": "Breed a seed",
   "guide.bunnidogs.page.4.body": "Feed a guava to each of two ready adults. They drop one seed holding both parents. Its tooltip shows the planned litter, quality and stat drift. The parents then rest.",
   "guide.bunnidogs.page.5.title": "Hatch the litter",
-  "guide.bunnidogs.page.5.body": "Plant the seed on farmland. Let it ripen, then break the ripe crop to hatch pups. Bone meal speeds growth; Starlit Dust ripens it. Fortune improves quality. Leave room for the litter.",
+  "guide.bunnidogs.page.5.body": "Plant a seed on farmland; dispensers plant into air above it. Bone meal speeds growth; hand or dispenser Starlit Dust ripens it. Break the ripe crop to hatch pups. Fortune improves quality. Leave room.",
   "guide.bunnidogs.page.6.title": "Guava quality",
   "guide.bunnidogs.page.6.body": "Better guavas improve inherited stat gains. Feed both parents: their qualities are averaged. Golden: 1, Diamond: 2, Netherite: 4, Star: 7, Beacon: 12, Dragon Egg: 20.",
   "guide.bunnidogs.page.7.title": "Keep a pedigree",
@@ -366,5 +366,7 @@
   "message.bunnidogs.nest.resident": "Home of %s (Ear Tag: %s). A compass can mark this place.",
   "message.bunnidogs.foraging.nest_meal": "ready for a safe trough meal within four blocks of home; outdoor foraging rests at night",
   "tooltip.bunnidogs.basket.records": "Sneak-use a record book in the other hand to log this animal.",
-  "tooltip.bunnidogs.records.carried": "Sneak-use with a filled Travel Basket in the other hand to record."
+  "tooltip.bunnidogs.records.carried": "Sneak-use with a filled Travel Basket in the other hand to record.",
+  "tooltip.bunnidogs.seed.dispenser": "Dispensers plant into empty space above farmland.",
+  "tooltip.bunnidogs.dust.dispenser": "Dispensers ripen one saved Seed Crop per dust; refusals retain it."
 }

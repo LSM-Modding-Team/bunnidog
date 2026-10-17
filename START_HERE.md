@@ -20,6 +20,12 @@ is not exposed in this session: use available work budget without inventing quot
 
 ## Latest gameplay work — 2026-10-17
 
+- **N1, nursery dispensers:** plant a saved litter into empty space above
+  farmland or ripen one valid planted crop with Starlit Dust. Hand/machine
+  actions share success-only costs and preserve the full functional seed.
+  Refusals retain items. Seed Crops now maintain dry farmland. See
+  `docs/NURSERY_SPECS.md`.
+
 - **S9, carried records:** sneak-use a Pedigree Book or Purebred Registry with
   a filled basket in the other hand to log its native identity snapshot without
   unpacking. Registry eligibility, first representative and advancement stay
@@ -43,46 +49,13 @@ is not exposed in this session: use available work budget without inventing quot
   yield one food while keeping the bush. Calipers names the Bloom bonus. See
   `docs/SETTLEMENT_LIFE.md` L12.
 
-- **P3, guide navigation:** two linked contents pages offer eighteen chapter
-  links. Newer chapters return to the second index; existing chapter numbers
-  stay stable. Native book/page-change behavior is retained. See
-  `docs/FIELD_GUIDE.md` P3.
-
-- **H6, Travel Basket:** carries one existing calm, unled ordinary animal using
-  its full native data. UUID, line, name/parents/tag and paused care state survive
-  native item saves. Packing frees the old Nest; blocked/duplicate/invalid
-  release keeps the payload. Calipers opens its normal animal sheet. See
-  `docs/HOME_SPECS.md` H6; art source `art/gen_basket.py`.
-
-- **C8, dispenser care:** one redstone pulse uses a Brush or Sampling Syringe
-  on one eligible animal ahead. Shared hand/machine transactions preserve
-  all qualifications, products and recovery; failed care retains the tool.
-  Exact sample data ejects normally. Native armadillo brushing remains.
-  See `docs/CARE_SPECS.md` C8.
-
-- **L11, trough filters:** sneak-food reserves exact item/components without
-  spending food. Hoppers/gardeners respect empty reservations. Withdraw stock
-  with sneak-empty, then repeat while empty to clear. The virtual template is
-  saved separately and never refunded/dropped. See `SETTLEMENT_LIFE.md` L11.
-
-- **C7, fleece palettes:** woolly adults yield two wool in their expressed coat's
-  palette. Spotted gives one yellow and one brown; other coats use one color.
-  Ready Calipers names the same products as native shearing. Shared regrowth
-  and tool cost persist across gene changes. See `docs/CARE_SPECS.md` C7.
-- **L10, bell calls:** actual native rings request nearby healthy residents by
-  day, outside noon. Pending calls/rate limits are transient and preserve visit
-  rest, home/hearing bounds and safe paths. Injury, danger, transport, night
-  and home changes interrupt. See `docs/SETTLEMENT_LIFE.md` L10.
-- **L9, trough automation:** native hoppers supply/extract the existing stack;
-  comparators read 0 empty through 15 full. The shared transactional handler
-  preserves the effective 16-item limit, filters and exact components. Power
-  a hopper below to retain food. No new saves/menu/refill. See L9 in that spec.
-
-Recent completed work also includes read-only home/food Calipers (C6), bounded
-non-feral threat refuge (L7), low-priority thunderstorm shelter (L8), resident
-shore fishing (Diet D5), native terrain traits (A4), local supplies (L6), living
-dust (C5) and gardening/fitted farm corners (L5). Their full rules and evidence
-are in the care/settlement specs and `docs/FIXES_PLAN.md` 6.5. Do not redo them.
+The previous release already includes two-page guide navigation (P3), full-state
+Travel Baskets (H6), dispenser care with native armadillo fallback (C8), saved
+trough filters (L11), coat-colored fleece (C7), actual bell calls (L10) and
+transactional hopper/comparator troughs (L9). Earlier home/food Calipers, refuge,
+storm shelter, fishing, terrain traits, local supplies, living dust and fitted
+farms are also complete. Their rules/evidence remain in the specifications
+listed below; do not redo them.
 
 The native Field Guide has 40 translated pages and eighteen chapter links across
 two linked contents pages.
@@ -95,6 +68,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 |---|---|
 | Genetics and breeding | Seven genes, inherited pairs, bred stats/Bloom, eight guava tiers, litter seeds/crops, infused juice. `docs/FEATURES.md`, `docs/FIXES_PLAN.md` 6 |
 | Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets, forecasts and carried-animal records. `docs/SHEET_SPECS.md` S1–S9 |
+| Nursery | Native seed planting/ripening, dispenser seed/dust stations, exact saved litters and dry-farmland upkeep. `docs/NURSERY_SPECS.md` N1 |
 | Laboratory | Two sample slots, vial display, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T6 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
@@ -155,58 +129,34 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The current Java 25 build and all **thirty** native scenarios pass
-(twenty-nine mod cases plus native sanity). Latest coverage includes:
+The Java 25 build and all **thirty-one** native scenarios pass (thirty mod
+cases plus native sanity). Latest coverage:
 
-- **L13:** native goal arbitration from night waiting to a meal and back,
-  exact food/healing/shared rest, four-block search/destination/path bounds,
-  outside-home and distant-stock refusal, unchanged daytime reach, continued
-  outdoor/work exclusion, lead interruption, damaging/blocked routes and Apex.
+- **N1:** real redstone pulses, malformed/blocked/wrong-soil/occupied planting,
+  exact parental genomes/stats/quality/Mutagen and native crop saves, dust cost,
+  ripe/empty/other-plant refusals, no ejection, real hand survival/creative use
+  and native dry-farmland upkeep beneath a Seed Crop.
+- **S9/H6:** exact carried records through air/block/off-hand/creative use,
+  duplicate protection, registry award, invalid UUID/pup refusal and unchanged
+  payload. Basket release still preserves all six paused timers, identity,
+  ancestry/tag/name/health/age and home-ticket transfer.
+- **L13:** native night waiting/meal arbitration, exact food/healing/shared
+  rest, short night bounds, ordinary daytime reach, outdoor/work exclusions,
+  lead interruption, damaging/blocked routes and Apex exclusion.
+- **H7:** server free/claimed inspection, stack conservation, named off-hand
+  rebinding, native marker save/tick after Nest removal, creative, permission
+  and full-inventory cases.
+- **L12:** Bloom threshold, one-stage/no-food growth, shared rest, ripe priority,
+  Diet/filter/griefing refusals, interrupted growth, berries, guavas/vines and
+  embryo exclusion. Care-dispenser drops now stay in a physical test catchment.
 
-- **H7:** actual server free/claimed inspection, survival stack conservation,
-  named off-hand rebinding, native compass save/tick after Nest removal,
-  single creative binding, denied permission and full-inventory overflow.
-
-- **L12:** exact Bloom threshold, filter/Diet/griefing refusals, interrupted
-  growth, one-stage/no-food cultivation, shared rest, ripe priority, ordinary
-  berry harvesting, embryo exclusion, guava growth and existing-vine fruiting.
-  The dispenser fixture catches randomized ejected items inside its own walls
-  instead of expecting them to remain in a three-block search box.
-
-- **H6:** actual creative/survival capture, native item save/load, exact UUID,
-  ancestry/tag/name/health/age and six paused recovery timers, immediate Nest
-  ticket release/reclaim, blocked release, occupied/led/Apex refusals, duplicate
-  identity, malformed data and pup release. Fresh mobs need a physics tick
-  before native ground navigation can claim the freed Nest.
-  **S9** extends this case with normal-use preservation, deliberate native
-  air/block/off-hand recording, exact snapshots, deduplication, carried registry
-  advancement, missing-identity refusal, unchanged basket and real pup refusal.
-
-- **C8:** actual redstone/scheduled dispenser pulses, all combined products,
-  shared refusal, exact pup sample/last charge and native armadillo fallback.
-  Manual care cases remain covered. The shelter fixture waits for native roof
-  lighting before assertions rather than assuming two ticks are sufficient.
-
-- **L11:** actual server crouch-food input, exact filter components, conflicts,
-  native saves/legacy stock, empty reservation transfers, withdrawal/clear and
-  no virtual-template refund/drop. Gardeners leave wrong-filter crops intact.
-
-- **L9:** real hopper transfers, effective capacity/components, transaction abort,
-  scheduled comparator changes inside one visual fill level, empty stock and
-  exactly-once break drops. Its drain lock uses actual redstone power.
-- **L10:** real bell/event relay, morning calls after failed-search backoff,
-  safe routes, injured/led refusals, rapid rings, changed home, rest and night.
-  Existing scheduled gatherings remain covered.
-- **C7:** native shears/drop colors, hidden glow, coat changes during recovery,
-  cyan regrowth, spotted's combined yield/one wear, read-only Calipers and all
-  palette names/total yields. Save/readiness cases remain covered.
-
-The 40-page guide and basket previews are inspected. Each published GitHub build also checks
-the approved model before uploading its exact-commit artifact. Earlier
-fixture/gardening, diet/fishing, terrain, care/lab/show/registry, transport/Nest,
-refuge/weather, sign/boat and Apex cases remain part of this suite; detailed
-evidence stays in their specifications. Native path regions use non-loading
-getChunkNow and sight guards use normalized loaded bounds.
+The 40-page guide previews are inspected with a substitute font; the approved
+creature model is unchanged. GitHub additionally checks that model before the
+exact-commit artifact upload. All earlier care/lab/show/registry, diet, home,
+transport, refuge/weather, fixture/garden, pantry, automation/filter/bell,
+sign/boat and Apex cases remain in the suite; detailed evidence lives in their
+specifications. Fresh mob pathfinding needs a native physics tick on the floor.
+Native path regions use non-loading getChunkNow and sight checks loaded bounds.
 
 Native cases establish server behavior. Client interaction/book fonts/lighting,
 natural chunk order/travel/unload, long multiplayer routines, modded transfer

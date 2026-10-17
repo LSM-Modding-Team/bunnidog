@@ -4,11 +4,10 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.Consumer;
 
-import com.bunnidogs.mod.block.SeedCropBlockEntity;
+import com.bunnidogs.mod.block.SeedCropBlock;
 import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.genetics.Infusion;
 import com.bunnidogs.mod.genetics.Seed;
-import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModItems;
 
 import net.minecraft.ChatFormatting;
@@ -24,6 +23,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Blocks;
 
 /**
@@ -72,10 +72,7 @@ public class SeedItem extends Item {
             return InteractionResult.PASS;
         }
         if (!level.isClientSide()) {
-            level.setBlock(above, ModBlocks.SEED_CROP.get().defaultBlockState(), 3);
-            if (level.getBlockEntity(above) instanceof SeedCropBlockEntity crop) {
-                crop.setSeed(seed.get());
-            }
+            if (!(level instanceof ServerLevel server) || !SeedCropBlock.plant(server,above,seed.get())) return InteractionResult.FAIL;
             Player player = context.getPlayer();
             if (player == null || !player.hasInfiniteMaterials()) {
                 context.getItemInHand().shrink(1);
@@ -172,6 +169,7 @@ public class SeedItem extends Item {
         for (String line : seed.get().summary()) {
             lines.accept(Component.literal(line).withStyle(ChatFormatting.GRAY));
         }
+        lines.accept(Component.translatable("tooltip.bunnidogs.seed.dispenser").withStyle(ChatFormatting.DARK_GRAY));
         if (flag.isAdvanced()) {
             lines.accept(Component.literal("Mother " + seed.get().mother() + " / " + seed.get().motherStats())
                     .withStyle(ChatFormatting.DARK_GRAY));
