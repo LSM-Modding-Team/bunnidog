@@ -3,6 +3,7 @@ package com.bunnidogs.mod.registry;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.entity.BunnidogCare;
 import com.bunnidogs.mod.block.SeedCropBlock;
+import com.bunnidogs.mod.block.NurseryCradleBlockEntity;
 import java.util.Comparator;
 import java.util.List;
 import net.minecraft.core.dispenser.BlockSource;
@@ -37,8 +38,9 @@ public final class ModDispensers {
             var level = source.level();
             var front = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
             if (!level.hasChunkAt(front)) return stack;
-            boolean changed = this.ripening ? SeedCropBlock.ripen(level,front,level.getBlockState(front))
-                    : SeedCropBlock.plant(level,front,stack);
+            boolean changed = level.getBlockEntity(front) instanceof NurseryCradleBlockEntity cradle
+                    ? this.ripening ? cradle.grow(true) : cradle.insert(stack)
+                    : this.ripening ? SeedCropBlock.ripen(level,front,level.getBlockState(front)) : SeedCropBlock.plant(level,front,stack);
             if (changed) {
                 stack.shrink(1);
                 if (this.ripening) level.levelEvent(2005,front,15);

@@ -596,23 +596,23 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             BunnidogsMod.LOGGER.info("Litter of {}: seed quality {}", litter.size(), String.format(Locale.ROOT, "%.2f", quality));
         }
         for (Seed.Pup roll : litter) {
-            Bunnidog pup = ModEntities.BUNNIDOG.get().create(level, EntitySpawnReason.BREEDING);
+            Bunnidog pup = createPup(level,seed,roll);
             if (pup == null) {
                 continue;
             }
-            pup.setGenome(roll.genome());
-            pup.setStats(roll.stats());
-            pup.setParents(seed.mother(), seed.father());
-            if (roll.mutated()) {
-                BunnidogsMod.LOGGER.info("Mutation: a pup got a rare {} allele (genome {})",
-                        roll.mutatedGene().displayName(), roll.genome());
-            }
-            pup.setBaby(true);
             pup.snapTo(pos.x, pos.y, pos.z, rng.nextFloat() * 360.0F, 0.0F);
             level.addFreshEntityWithPassengers(pup);
             born.add(pup);
         }
         return born;
+    }
+    /** Common native construction for crop/command and checked nursery hatching. */
+    static Bunnidog createPup(ServerLevel level, Seed seed, Seed.Pup roll) {
+        var pup = ModEntities.BUNNIDOG.get().create(level,EntitySpawnReason.BREEDING);
+        if (pup == null) return null;
+        pup.setGenome(roll.genome()); pup.setStats(roll.stats()); pup.setParents(seed.mother(),seed.father()); pup.setBaby(true);
+        if (roll.mutated()) BunnidogsMod.LOGGER.info("Mutation: a pup got a rare {} allele (genome {})",roll.mutatedGene().displayName(),roll.genome());
+        return pup;
     }
 
     // ------------------------------------------------------------------ parents (Phase 5b)

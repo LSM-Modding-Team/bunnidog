@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 40 pages from first warren to Apex. Two linked contents pages offer eighteen
+open 42 pages from first warren to Apex. Two linked contents pages offer nineteen
 chapter links; newer chapters return to the second index.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -86,6 +86,18 @@ planting/ripening retains the item. Break ripe crops to hatch as usual; seeds,
 parents/stats, quality and Mutagen are not rerolled by planting or growth.
 Planted Seed Crops now keep dry farmland. A Dropper delivers loose seed/dust
 items. Hand planting/ripening keeps its ordinary controls and creative costs.
+
+**Nursery Cradle (N3):** craft `WWW/GNG/PPP` with wool, glass, a Nest and planks.
+Insert one litter seed; each loaded minute adds one of seven stages. Bone meal
+adds 2–5 stages and Starlit Dust ripens it. Hoppers move the whole named seed;
+comparators read 0 empty to 15 ripe. Dispensers supply seeds, meal or dust.
+Use Calipers to forecast the litter. Sneak-use with both hands empty to withdraw
+and reset incubation. Breaking returns the block and seed once.
+
+Use a ripe Cradle empty-handed or give it a fresh redstone pulse to hatch.
+Clear a dry, supported 3×3 pad one to three blocks in front with two blocks of
+air, and stand aside. Obstruction, occupants, crowding or refused spawns retain
+the litter. Holding power does not repeat or hatch a seed that ripens later.
 
 **Nest wayfinding (H7):** use a compass on a Nest to mark that place. Its needle
 points there in that dimension and spins elsewhere; the marker remains if the

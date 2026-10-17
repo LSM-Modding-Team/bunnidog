@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "bunnidogs:block/nursery_cradle_side",
+    "north": "bunnidogs:block/nursery_cradle_front_3",
+    "south": "bunnidogs:block/nursery_cradle_side",
+    "east": "bunnidogs:block/nursery_cradle_side",
+    "west": "bunnidogs:block/nursery_cradle_side",
+    "up": "bunnidogs:block/nursery_cradle_top",
+    "down": "bunnidogs:block/guava_planks"
+  }
+}

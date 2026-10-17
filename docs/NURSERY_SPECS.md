@@ -83,3 +83,19 @@ parent records, with no Fortune bonus. Every failure retains stored data.
 
 Existing crops, settlements, homes and animal save formats are preserved. No
 screen, payload, custom data component or creature visual change is introduced.
+
+N3 evidence: actual Java 25 build/all 35 native server scenarios pass. Three
+dedicated cases cover real hopper insertion/extraction and transaction abort,
+saved exact remaining incubation, actual ticker/comparator, survival insertion,
+bone meal/dust/withdrawal, one block/one stock break drops, obstruction/fluid/
+hazard/occupant/crowd refusal, parental records, empty-hand hatching and fresh
+versus held redstone power. An actual native spawn listener cancels the second
+pup after removing the Cradle during the first spawn: reentrant extraction and
+hatching see reserved stock, all siblings roll back, exactly the named seed
+returns, and retry succeeds. The existing dispenser case additionally covers
+real Cradle seed/bone-meal/dust pulses and ripe refusal. A fixture allele-slot
+mistake was corrected before the complete passing native run.
+
+The authored block textures and guide pages 1/41/42 are previewed and inspected.
+Native client appearance, custom fonts, natural unload/reload and modded transfer
+devices remain gameplay review; server fixtures do not establish those details.

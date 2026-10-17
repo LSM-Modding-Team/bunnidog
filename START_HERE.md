@@ -22,6 +22,13 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-17
 
+- **N3, Nursery Cradle:** craft wool/glass/Nest/planks into a saved one-seed
+  incubator. Loaded minutes, bone meal or Starlit Dust advance growth; hoppers,
+  comparators, dispensers and Calipers share native controls. Empty-hand use
+  or a fresh redstone edge hatches onto a clear dry 3×3 pad in front. Blocked,
+  crowded or externally refused litters retain the seed; partial spawns roll
+  back. Sneak-empty withdraws and resets growth. See `docs/NURSERY_SPECS.md` N3.
+
 - **N2, seed provenance:** crops retain named seeds and arbitrary item
   components through native saves, unripe harvest and support loss. Legacy
   crops reconstruct their functional seed. Mutagen changes only its seed data.
@@ -64,7 +71,7 @@ storm shelter, fishing, terrain traits, local supplies, living dust and fitted
 farms are also complete. Their rules/evidence remain in the specifications
 listed below; do not redo them.
 
-The native Field Guide has 40 translated pages and eighteen chapter links across
+The native Field Guide has 42 translated pages and nineteen chapter links across
 two linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
@@ -75,7 +82,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 |---|---|
 | Genetics and breeding | Seven genes, inherited pairs, bred stats/Bloom, eight guava tiers, litter seeds/crops, infused juice. `docs/FEATURES.md`, `docs/FIXES_PLAN.md` 6 |
 | Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets, forecasts and carried-animal records. `docs/SHEET_SPECS.md` S1–S9 |
-| Nursery | Native seed planting/ripening, dispenser seed/dust stations, exact saved litters and dry-farmland upkeep. `docs/NURSERY_SPECS.md` N1 |
+| Nursery | Whole saved seeds, dispenser crop stations and a craftable Cradle with saved incubation, native automation and checked hatching. `docs/NURSERY_SPECS.md` N1–N3 |
 | Laboratory | Two sample slots, vial display, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T6 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
@@ -136,7 +143,7 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **thirty-two** native scenarios pass (thirty-one mod
+The Java 25 build and all **thirty-five** native scenarios pass (thirty-four mod
 cases plus native sanity). Latest coverage:
 
 - **N1:** real redstone pulses, malformed/blocked/wrong-soil/occupied planting,
@@ -145,6 +152,12 @@ cases plus native sanity). Latest coverage:
   and native dry-farmland upkeep beneath a Seed Crop.
 - **N2:** whole named/custom-data seeds, defensive copies, native new/legacy
   saves, actual survival unripe break, support loss and Mutagen split costs.
+- **N3:** actual hopper supply/drain and transaction abort, native save/ticker/
+  comparator, hand insertion/growth/withdrawal/break drops, real dispenser
+  seed/bone-meal/dust pulses, dry/clear/unoccupied pad and crowd refusals,
+  actual empty-hand/rising-edge hatching and held-power refusal. External
+  spawn cancellation plus reentrant removal rolls back siblings and returns
+  exactly the original named seed; retry succeeds.
 - **S9/H6:** exact carried records through air/block/off-hand/creative use,
   duplicate protection, registry award, invalid UUID/pup refusal and unchanged
   payload. Basket release still preserves all six paused timers, identity,
@@ -159,7 +172,8 @@ cases plus native sanity). Latest coverage:
   Diet/filter/griefing refusals, interrupted growth, berries, guavas/vines and
   embryo exclusion. Care-dispenser drops now stay in a physical test catchment.
 
-The 40-page guide previews are inspected with a substitute font; the approved
+The Cradle textures and 42-page guide previews are inspected with a substitute
+font; the approved
 creature model is unchanged. GitHub additionally checks that model before the
 exact-commit artifact upload. All earlier care/lab/show/registry, diet, home,
 transport, refuge/weather, fixture/garden, pantry, automation/filter/bell,

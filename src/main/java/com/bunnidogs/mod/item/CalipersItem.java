@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.function.Consumer;
 
 import com.bunnidogs.mod.block.SeedCropBlockEntity;
+import com.bunnidogs.mod.block.NurseryCradleBlockEntity;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Diet;
@@ -166,11 +167,14 @@ public class CalipersItem extends Item {
     public InteractionResult useOn(UseOnContext context) {
         Level level = context.getLevel();
         Player player = context.getPlayer();
-        if (player == null || !(level.getBlockEntity(context.getClickedPos()) instanceof SeedCropBlockEntity crop)) {
-            return InteractionResult.PASS;
-        }
+        if (player == null) return InteractionResult.PASS;
+        var block = level.getBlockEntity(context.getClickedPos());
+        Optional<Seed> planted;
+        if (block instanceof SeedCropBlockEntity crop) planted = crop.seed();
+        else if (block instanceof NurseryCradleBlockEntity cradle) planted = cradle.seed();
+        else return InteractionResult.PASS;
         if (!level.isClientSide()) {
-            Optional<Seed> seed = crop.seed();
+            Optional<Seed> seed = planted;
             if (seed.isPresent()) {
                 showSeed(player, seed.get());
             } else {
@@ -186,7 +190,7 @@ public class CalipersItem extends Item {
         super.appendHoverText(stack, context, display, lines, flag);
         lines.accept(Component.literal("Right-click a bunnidog: its sheet opens").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.calipers.care").withStyle(ChatFormatting.GRAY));
-        lines.accept(Component.literal("Right-click a planted seed: its window opens").withStyle(ChatFormatting.GRAY));
+        lines.accept(Component.literal("Right-click a planted seed or Nursery Cradle: litter forecast").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.literal("Or hold a seed, sample or occupied Travel Basket in the other hand").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.literal("Off hand when you kill: a Tissue Sample").withStyle(ChatFormatting.DARK_GRAY));
     }

@@ -20,6 +20,8 @@ Care dispensers explains one-animal pulses, shared recovery and hopper collectio
 Travel Basket explains packing, safe release, retained identity and Nest release.
 Record/registry/basket pages explain deliberate sneak-use for carried records.
 The litter page explains dispenser seed planting and Starlit Dust ripening.
+Pages 41–42 explain the craftable Nursery Cradle, saved incubation, withdrawal,
+growth tools, hopper/comparator controls and safe hatching with a fresh pulse.
 The home page also covers read-only Nest inspection and persistent compass marks.
 The food page explains short safe nighttime trough meals near home.
 
@@ -32,8 +34,8 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Forty pages use the ordinary written-book screen. The two linked contents pages
-offer eighteen clickable chapter links. Each chapter links back to its index. Local page changes
+Forty-two pages use the ordinary written-book screen. The two linked contents pages
+offer nineteen clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
 
@@ -50,9 +52,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current thirty-one native server cases pass,
-including loading the new book/recipe/loot resources. The expanded 40-page
-litter/food/basket preview is inspected with a substitute font. Earlier
+The actual Java 25 build and current thirty-five native server cases pass,
+including loading the new book/recipe/loot resources. The expanded 42-page
+contents/Cradle preview is inspected with a substitute font. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
 sources establish the ordinary book/packet/click behavior; no new screen or
@@ -76,3 +78,7 @@ guides; deliberately overridden written-book components retain their contents.
 The Java/resource build validates this small presentation change. The preview
 covers both indices and the basket chapter; actual native fonts remain client
 review. No new server mechanics or saved format are introduced.
+
+N3 appends pages 41–42 and a ninth main-index chapter, Nursery Cradle. Both
+new pages return to page 1; the second contents page and all earlier chapter
+numbers stay stable. The guide now has nineteen chapter links.

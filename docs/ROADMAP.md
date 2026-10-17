@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+N2 preserves whole planted seeds, names and components through native saves,
+early recovery and Mutagen treatment. N3 adds the Nursery Cradle: one saved
+litter, paused incubation, growth tools, native hopper/comparator/dispenser
+controls and checked 3×3 hatching with atomic spawn rollback. The guide now
+has 42 pages/nineteen chapter links. See `NURSERY_SPECS.md` and `FIELD_GUIDE.md`.
+
 N1 adds native dispenser litter-seed planting and Starlit Dust ripening, sharing
 hand transactions, exact functional seed data and success-only costs. Refusals
 retain items; Seed Crops now maintain dry farmland. See `NURSERY_SPECS.md`.

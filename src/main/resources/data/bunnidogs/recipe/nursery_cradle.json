@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WWW",
+    "GNG",
+    "PPP"
+  ],
+  "key": {
+    "W": "#minecraft:wool",
+    "G": "minecraft:glass",
+    "N": "bunnidogs:nest",
+    "P": "#minecraft:planks"
+  },
+  "result": {
+    "id": "bunnidogs:nursery_cradle"
+  }
+}

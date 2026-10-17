@@ -4,7 +4,7 @@ A NeoForge mod for Minecraft 26.2: a baby-faced creature with rabbit ears and a
 dog's body, plus breeding, genetics, guavas, warrens, homes and pedigree tools.
 Requires JDK 25. The checked-in Gradle wrapper selects the project Gradle version.
 
-Craft a vanilla book with any guava for the **40-page Field Guide**, with two
+Craft a vanilla book with any guava for the **42-page Field Guide**, with two
 linked contents pages covering its chapters. Sneak-use
 Calipers for care/work readiness, use a hoe on a Feeding Trough to enable
 resident gardening, and explore food stores for supplies suited to each lineage.
@@ -25,6 +25,9 @@ Sneak-use record books with a filled basket in the other hand to log its animal.
 Nursery dispensers plant litter seeds above farmland and ripen saved crops with
 Starlit Dust, retaining items on refusal. Seed Crops maintain dry farmland.
 Named seeds retain their item components through planting and early recovery.
+Nursery Cradles incubate one litter with saved progress, hopper access and a
+comparator signal. Hatch empty-handed or with a fresh redstone pulse onto a
+clear 3×3 pad in front; failed attempts retain the seed.
 
 ## Build and play
 

@@ -175,6 +175,7 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> NEST = ITEMS.registerSimpleBlockItem(ModBlocks.NEST);
     public static final DeferredItem<BlockItem> JUDGING_STAND = ITEMS.registerSimpleBlockItem(ModBlocks.JUDGING_STAND);
     public static final DeferredItem<BlockItem> FEEDING_TROUGH = ITEMS.registerSimpleBlockItem(ModBlocks.FEEDING_TROUGH);
+    public static final DeferredItem<BlockItem> NURSERY_CRADLE = ITEMS.registerSimpleBlockItem(ModBlocks.NURSERY_CRADLE);
     public static final DeferredItem<com.bunnidogs.mod.item.ShowRibbonItem> BRONZE_RIBBON = ITEMS.registerItem("bronze_show_ribbon",
             props -> new com.bunnidogs.mod.item.ShowRibbonItem(props, com.bunnidogs.mod.genetics.Show.Tier.BRONZE), props -> props.stacksTo(1).rarity(Rarity.UNCOMMON));
     public static final DeferredItem<com.bunnidogs.mod.item.ShowRibbonItem> SILVER_RIBBON = ITEMS.registerItem("silver_show_ribbon",
@@ -348,6 +349,7 @@ public final class ModItems {
             event.accept(PUREBRED_REGISTRY.get());
             event.accept(JUDGING_STAND.get());
             event.accept(FEEDING_TROUGH.get());
+            event.accept(NURSERY_CRADLE.get());
             event.accept(BRONZE_RIBBON.get());
             event.accept(SILVER_RIBBON.get());
             event.accept(GOLD_RIBBON.get());

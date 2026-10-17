@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_nest": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "bunnidogs:nest"
+          }
+        ]
+      }
+    },
+    "has_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bunnidogs:nursery_cradle"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_nest",
+      "has_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:nursery_cradle"
+    ]
+  }
+}

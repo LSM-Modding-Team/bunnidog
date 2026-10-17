@@ -368,5 +368,21 @@
   "tooltip.bunnidogs.basket.records": "Sneak-use a record book in the other hand to log this animal.",
   "tooltip.bunnidogs.records.carried": "Sneak-use with a filled Travel Basket in the other hand to record.",
   "tooltip.bunnidogs.seed.dispenser": "Dispensers plant into empty space above farmland.",
-  "tooltip.bunnidogs.dust.dispenser": "Dispensers ripen one saved Seed Crop per dust; refusals retain it."
+  "tooltip.bunnidogs.dust.dispenser": "Dispensers ripen one saved Seed Crop per dust; refusals retain it.",
+  "block.bunnidogs.nursery_cradle": "Nursery Cradle",
+  "message.bunnidogs.cradle.empty": "Empty Cradle. Insert a litter seed; the front marks its hatch pad.",
+  "message.bunnidogs.cradle.invalid": "Stored item has no valid litter. Sneak-empty to recover it.",
+  "message.bunnidogs.cradle.growing": "Stage %s/7; next in %ss. Sneak-empty withdraws and resets growth.",
+  "message.bunnidogs.cradle.ready": "Ready. Clear the pad in front, then use empty-handed or pulse redstone.",
+  "message.bunnidogs.cradle.withdrawn": "Recovered the stored seed. Incubation restarts when reinserted.",
+  "message.bunnidogs.cradle.not_ripe": "The litter is still incubating.",
+  "message.bunnidogs.cradle.blocked": "Step aside and clear a dry 3x3 pad in front, with two blocks of air.",
+  "message.bunnidogs.cradle.crowded": "Too many bunnidogs nearby. The ripe litter is retained.",
+  "message.bunnidogs.cradle.refused": "Hatching was refused. The litter is retained.",
+  "message.bunnidogs.cradle.hatched": "Hatched %s pups. The Cradle is empty.",
+  "guide.bunnidogs.index.41": "Nursery Cradle",
+  "guide.bunnidogs.page.41.title": "Nursery Cradle",
+  "guide.bunnidogs.page.41.body": "Craft wool, glass, a Nest and planks into a Nursery Cradle. Insert one seed; a loaded minute adds one stage. Bone meal helps; Starlit Dust ripens it. Sneak-empty withdraws and resets growth. Calipers reads the litter.",
+  "guide.bunnidogs.page.42.title": "Hatch safely",
+  "guide.bunnidogs.page.42.body": "To hatch, use a ripe Cradle empty-handed or pulse redstone. Clear a dry 3x3 pad in front with two blocks of air. Stand aside. Hoppers move seeds; a comparator reads 15 when ripe. Steady power does not repeat."
 }

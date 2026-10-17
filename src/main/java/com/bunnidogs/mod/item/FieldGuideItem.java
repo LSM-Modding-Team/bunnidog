@@ -11,14 +11,14 @@ import net.minecraft.world.item.component.WrittenBookContent;
 
 /** Native book UI/packets, translated pages and local page links; no custom screen or payload. */
 public final class FieldGuideItem extends WrittenBookItem {
-    public static final int PAGE_COUNT = 40;
+    public static final int PAGE_COUNT = 42;
     private static final int MORE_CONTENTS = 40;
     public FieldGuideItem(Properties properties) {
         super(properties.component(DataComponents.WRITTEN_BOOK_CONTENT, content()));
     }
     private static WrittenBookContent content() {
         var pages = new ArrayList<Filterable<Component>>(PAGE_COUNT);
-        pages.add(Filterable.passThrough(contents("guide.bunnidogs.title",new int[]{2,4,8,11,15,17,19,20},
+        pages.add(Filterable.passThrough(contents("guide.bunnidogs.title",new int[]{2,4,41,8,11,15,17,19,20},
                 "guide.bunnidogs.more_contents",MORE_CONTENTS)));
         for (int page = 2; page <= PAGE_COUNT; page++) {
             if (page == MORE_CONTENTS) {
@@ -30,7 +30,7 @@ public final class FieldGuideItem extends WrittenBookItem {
                     .append(Component.literal("\n\n").withStyle(style -> style.withBold(false)))
                     .append(Component.translatable("guide.bunnidogs.page." + page + ".body").withStyle(style -> style.withBold(false)))
                     .append(Component.literal("\n\n").withStyle(style -> style.withBold(false)))
-                    .append(link("guide.bunnidogs.contents",page < 24 ? 1 : MORE_CONTENTS));
+                    .append(link("guide.bunnidogs.contents",page < 24 || page > MORE_CONTENTS ? 1 : MORE_CONTENTS));
             pages.add(Filterable.passThrough(text));
         }
         return new WrittenBookContent(Filterable.passThrough("Bunnidogs Guide"), "Warren Keepers", 0, pages, true);

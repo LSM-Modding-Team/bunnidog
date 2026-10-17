@@ -3,6 +3,8 @@ package com.bunnidogs.mod.registry;
 import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.block.GeneticsTableBlock;
 import com.bunnidogs.mod.block.NestBlock;
+import com.bunnidogs.mod.block.NurseryCradleBlock;
+import com.bunnidogs.mod.block.NurseryCradleBlockEntity;
 import com.bunnidogs.mod.block.JudgingStandBlock;
 import com.bunnidogs.mod.block.FeedingTroughBlock;
 import com.bunnidogs.mod.block.FeedingTroughBlockEntity;
@@ -54,6 +56,7 @@ public final class ModBlocks {
 
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.Item.BLOCK,FEEDING_TROUGH_BE.get(),(trough,side) -> trough.automation());
+        event.registerBlockEntity(Capabilities.Item.BLOCK,NURSERY_CRADLE_BE.get(),(cradle,side) -> cradle.automation());
     }
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(BunnidogsMod.MODID);
@@ -112,6 +115,8 @@ public final class ModBlocks {
             props -> props.strength(2.0F).sound(SoundType.WOOD).noOcclusion());
     public static final DeferredBlock<FeedingTroughBlock> FEEDING_TROUGH = BLOCKS.registerBlock("feeding_trough",FeedingTroughBlock::new,
             props -> props.strength(2.0F).sound(SoundType.WOOD).noOcclusion());
+    public static final DeferredBlock<NurseryCradleBlock> NURSERY_CRADLE = BLOCKS.registerBlock("nursery_cradle",NurseryCradleBlock::new,
+            props -> props.strength(2.5F).sound(SoundType.WOOD).pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK));
 
     /**
      * Guava wood, part 3 (W2): stairs, slab and fence in the planks' texture, vanilla classes, planks' numbers. Their files come from
@@ -188,4 +193,6 @@ public final class ModBlocks {
             BLOCK_ENTITIES.register("genetics_table", () -> new BlockEntityType<>(GeneticsTableBlockEntity::new, GENETICS_TABLE.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FeedingTroughBlockEntity>> FEEDING_TROUGH_BE =
             BLOCK_ENTITIES.register("feeding_trough",() -> new BlockEntityType<>(FeedingTroughBlockEntity::new,FEEDING_TROUGH.get()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<NurseryCradleBlockEntity>> NURSERY_CRADLE_BE =
+            BLOCK_ENTITIES.register("nursery_cradle",() -> new BlockEntityType<>(NurseryCradleBlockEntity::new,NURSERY_CRADLE.get()));
 }

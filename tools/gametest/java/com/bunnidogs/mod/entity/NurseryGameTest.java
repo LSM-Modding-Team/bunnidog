@@ -2,6 +2,7 @@ package com.bunnidogs.mod.entity;
 
 import com.bunnidogs.mod.block.SeedCropBlock;
 import com.bunnidogs.mod.block.SeedCropBlockEntity;
+import com.bunnidogs.mod.block.NurseryCradleBlockEntity;
 import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.genetics.Seed;
@@ -108,12 +109,39 @@ public final class NurseryGameTest {
                                             h.assertTrue(handDust.getCount() == 1 && SeedCropBlock.isRipe(level.getBlockState(handSoil.above())),"Creative hand dust must retain its existing free-use behavior");
                                             h.assertTrue(level.getEntitiesOfClass(ItemEntity.class,new AABB(target).inflate(3),
                                                     entity -> entity.getItem().is(ModItems.SEED.get()) || entity.getItem().is(ModItems.STARLIT_DUST.get())).isEmpty(),"Refused dispensers must not eject nursery consumables");
-                                            h.succeed();
+                                            cradleTools(h,planterPos,dusterPos,seed);
                                         });
                                     });
                                 });
                             });
                         });
+                    });
+                });
+            });
+        });
+    }
+    private static void cradleTools(GameTestHelper h, BlockPos planterPos, BlockPos dusterPos, Seed seed) {
+        var level = h.getLevel(); var target = planterPos.east();
+        level.setBlock(target,ModBlocks.NURSERY_CRADLE.get().defaultBlockState(),3);
+        level.setBlock(target.east(),Blocks.REDSTONE_BLOCK.defaultBlockState(),3);
+        var cradle = (NurseryCradleBlockEntity)level.getBlockEntity(target);
+        var planter = (DispenserBlockEntity)level.getBlockEntity(planterPos);
+        var duster = (DispenserBlockEntity)level.getBlockEntity(dusterPos);
+        pulse(h,planterPos,Direction.WEST,() -> {
+            h.assertTrue(planter.getItem(0).isEmpty() && cradle.seed().orElseThrow().equals(seed),
+                    "A real seed dispenser must supply one exact litter to the cradle");
+            var meal = new ItemStack(net.minecraft.world.item.Items.BONE_MEAL,2); duster.setItem(0,meal);
+            pulse(h,dusterPos,Direction.SOUTH,() -> {
+                h.assertTrue(meal.getCount() == 1 && cradle.age() >= 2 && cradle.age() <= 5,
+                        "Native bone-meal dispensing must partially grow the cradle for one item");
+                var dust = new ItemStack(ModItems.STARLIT_DUST.get(),2); duster.setItem(0,dust);
+                pulse(h,dusterPos,Direction.SOUTH,() -> {
+                    h.assertTrue(dust.getCount() == 1 && cradle.age() == 7 && cradle.stockSignal() == 15 && cradle.seed().orElseThrow().equals(seed),
+                            "A real dust pulse must ripen the original cradle seed for one item");
+                    pulse(h,dusterPos,Direction.SOUTH,() -> {
+                        h.assertTrue(dust.getCount() == 1 && !cradle.storedSeed().isEmpty(),
+                                "A ripe cradle under steady power must retain seed and extra dust");
+                        h.succeed();
                     });
                 });
             });
