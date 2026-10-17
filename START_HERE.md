@@ -18,7 +18,12 @@ The user downloads JARs from GitHub Actions artifacts; never attach/link a local
 JAR in chat. Discover `get_usage_limits` at substantial starts/checkpoints. It
 is not exposed in this session: use available work budget without inventing quota.
 
-## Latest gameplay work — 2026-10-16
+## Latest gameplay work — 2026-10-17
+
+- **L11, trough filters:** sneak-food reserves exact item/components without
+  spending food. Hoppers/gardeners respect empty reservations. Withdraw stock
+  with sneak-empty, then repeat while empty to clear. The virtual template is
+  saved separately and never refunded/dropped. See `SETTLEMENT_LIFE.md` L11.
 
 - **C7, fleece palettes:** woolly adults yield two wool in their expressed coat's
   palette. Spotted gives one yellow and one brown; other coats use one color.
@@ -39,7 +44,7 @@ shore fishing (Diet D5), native terrain traits (A4), local supplies (L6), living
 dust (C5) and gardening/fitted farm corners (L5). Their full rules and evidence
 are in the care/settlement specs and `docs/FIXES_PLAN.md` 6.5. Do not redo them.
 
-The native Field Guide has 36 translated pages and eleven contents links.
+The native Field Guide has 37 translated pages and eleven contents links.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
@@ -55,7 +60,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Care | Live Tissue Samples, coat-palette woolly fleece, whiskers/dust, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C7 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow and terrain movement. `docs/CARE_SPECS.md` A1–A4 |
 | Homes | Claimable Nests, day tether/night return, floor Nests, native leads/rides, safe led-adult reassignment. `docs/HOME_SPECS.md` H1–H5 |
-| Settlement life | Saved trough stock/automation, diet healing, scheduled/called bell visits, fitted furniture, gardening, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L10 |
+| Settlement life | Saved trough stock/automation/filters, diet healing, scheduled/called bell visits, fitted furniture, gardening, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L11 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
 | Drops and endgame | Pelts/materials, Mutagen/Marrow/Tissue/Dust, five stat legends and pedestals. Sample-defined Apex ritual, inherited combat, warned attacks/enrage, boss bar and source-line crest. `docs/DROPS_SPECS.md`, `docs/APEX_SPECS.md` |
@@ -109,8 +114,12 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The current Java 25 build and all **twenty-four** native scenarios pass
-(twenty-three mod cases plus native sanity). Latest coverage includes:
+The current Java 25 build and all **twenty-five** native scenarios pass
+(twenty-four mod cases plus native sanity). Latest coverage includes:
+
+- **L11:** actual server crouch-food input, exact filter components, conflicts,
+  native saves/legacy stock, empty reservation transfers, withdrawal/clear and
+  no virtual-template refund/drop. Gardeners leave wrong-filter crops intact.
 
 - **L9:** real hopper transfers, effective capacity/components, transaction abort,
   scheduled comparator changes inside one visual fill level, empty stock and
@@ -122,7 +131,7 @@ The current Java 25 build and all **twenty-four** native scenarios pass
   cyan regrowth, spotted's combined yield/one wear, read-only Calipers and all
   palette names/total yields. Save/readiness cases remain covered.
 
-The 36-page guide preview is inspected. Each published GitHub build also checks
+The 37-page guide preview is inspected. Each published GitHub build also checks
 the approved model before uploading its exact-commit artifact. Earlier
 fixture/gardening, diet/fishing, terrain, care/lab/show/registry, transport/Nest,
 refuge/weather, sign/boat and Apex cases remain part of this suite; detailed

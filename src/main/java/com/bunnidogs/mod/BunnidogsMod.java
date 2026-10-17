@@ -2,6 +2,7 @@ package com.bunnidogs.mod;
 
 import com.bunnidogs.mod.network.ModNetwork;
 import com.bunnidogs.mod.entity.ResidentBellCalls;
+import com.bunnidogs.mod.block.TroughInteraction;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModEntities;
 import com.bunnidogs.mod.registry.ModFeatures;
@@ -43,5 +44,6 @@ public class BunnidogsMod {
         modEventBus.addListener(ModItems::addToCreativeTabs);
         modEventBus.addListener(ModNetwork::register);
         NeoForge.EVENT_BUS.addListener(ResidentBellCalls::onGameEvent);
+        NeoForge.EVENT_BUS.addListener(TroughInteraction::onRightClick);
     }
 }

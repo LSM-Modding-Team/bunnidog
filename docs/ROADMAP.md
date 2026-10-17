@@ -16,6 +16,10 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L11 adds saved exact-component trough filters for manual/hopper/gardening input.
+Virtual templates cost/refund nothing; normal withdrawals retain reservations
+until deliberately cleared while empty. See `SETTLEMENT_LIFE.md`.
+
 C7 makes woolly fleece follow expressed coat palettes, including spotted's
 two-color pair. Total yield, shared recovery and native shears cost stay the
 same; Calipers names the prospective products. See `CARE_SPECS.md`.

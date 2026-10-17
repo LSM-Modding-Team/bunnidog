@@ -14,6 +14,7 @@ Storm shelter explains idle covered waiting and its priority below care/work.
 Trough automation explains hopper supply/drain, food retention and stock signals.
 Bell calls explains daytime ringing, safe walking space and visit recovery.
 Fleece colors explains expressed palettes, mixed spotted yield and Calipers.
+Trough filters explains exact reservations, withdrawals and clearing while empty.
 
 Craft one with a vanilla book and any guava (the existing bunnidog-food tag).
 Obtaining a guava unlocks its recipe. An additional independent 35% pantry loot
@@ -24,7 +25,7 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Thirty-six pages use the ordinary written-book screen. Page 1 has eleven clickable
+Thirty-seven pages use the ordinary written-book screen. Page 1 has eleven clickable
 chapter links; every other page links back to the contents. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
@@ -42,9 +43,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current twenty-four native server cases pass,
-including loading the new book/recipe/loot resources. The expanded 36-page
-contents/bell-call/fleece preview is inspected with a substitute font. Earlier
+The actual Java 25 build and current twenty-five native server cases pass,
+including loading the new book/recipe/loot resources. The expanded 37-page
+contents/fleece/filter preview is inspected with a substitute font. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
 sources establish the ordinary book/packet/click behavior; no new screen or

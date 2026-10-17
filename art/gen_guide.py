@@ -40,6 +40,7 @@ PAGES = {
     34: ('Trough automation', 'Hoppers fill troughs from above or the side; one below drains stock. Keep it powered to hold food. One food stack fits up to 16. Comparators read stock: 0 empty, 15 full. A hoe still controls gardening.'),
     35: ('Bell calls', 'Ring a bell within 12 blocks of a Nest to call healthy adults by day. Redstone and projectiles work too. Leave safe walking space. Visits last up to 20 seconds, with a minute of rest. Leads and care take priority.'),
     36: ('Fleece colors', 'Woolly adults yield two wool in their coat colors. Spotted gives one yellow and one brown. Glow gives cyan; moss green; ember red; void purple. Hidden coats add nothing. Calipers names the ready yield.'),
+    37: ('Trough filters', 'Sneak-use food to reserve a trough for that exact food and its components, without spending it. Hoppers and gardeners obey the filter. Sneak-empty withdraws stock; repeat while empty to clear the filter.'),
 }
 INDEX = {2:'Warrens & genes',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
          17:'Registry & shows',19:'Material drops',20:'Apex of the Line',24:'Guava juice',25:'Trough gardening',27:'Boss forecast'}
@@ -88,7 +89,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,1),(495,35),(735,36)]:
+    for x,page in [(255,1),(495,36),(735,37)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         d.text((x+14,35), 'Bunnidogs Guide' if page == 1 else PAGES[page][0], font=bold,fill=(40,39,30))
         if page == 1: body = '\n'.join(INDEX.values())

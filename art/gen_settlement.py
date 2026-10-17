@@ -48,8 +48,13 @@ def main():
         value = json.loads(path.read_text()); value.update({
           'block.bunnidogs.feeding_trough':'Feeding Trough',
           'message.bunnidogs.trough.added':'Added %s food; %s stored. One food type, up to 16.',
-          'message.bunnidogs.trough.empty':'Empty trough. Add food; use a hoe to toggle resident gardening.',
-          'message.bunnidogs.trough.stock':'Stored: %s x %s. Sneak-empty: withdraw. Hoe: toggle gardening.',
+          'message.bunnidogs.trough.empty':'Empty trough. Add food; sneak-food sets a filter. Hoe: toggle gardening.',
+          'message.bunnidogs.trough.stock':'Stored: %s x %s. Sneak-empty: withdraw. Sneak-food: filter. Hoe: gardening.',
+          'message.bunnidogs.trough.filter_set':'Reserved for %s with matching components. Food was not consumed.',
+          'message.bunnidogs.trough.filter_conflict':'Withdraw the different stored food before changing the filter.',
+          'message.bunnidogs.trough.filtered':'Reserved for %s with matching components. Sneak-empty while empty clears the filter.',
+          'message.bunnidogs.trough.filter_cleared':'Food filter cleared. This trough accepts any suitable food again.',
+          'message.bunnidogs.trough.stock_filter':'%s Reserved for %s (matching components).',
           'message.bunnidogs.trough.tending.on':'Gardening enabled. Healthy residents tend matching ripe crops beside this trough.',
           'message.bunnidogs.trough.tending.off':'Gardening disabled. Residents still eat stored food.',
           'message.bunnidogs.care.gardening':'Gardening: %s',
@@ -60,7 +65,7 @@ def main():
           'message.bunnidogs.gardening.home':'needs a claimed Nest',
           'message.bunnidogs.gardening.daytime':'rests at night',
           'message.bunnidogs.gardening.transported':'paused while led or riding',
-          'message.bunnidogs.gardening.danger':'paused by danger or a recent attack',
+          'message.bunnidogs.gardening.danger':'paused by danger, seeking refuge or a recent attack',
           'message.bunnidogs.gardening.outside_home':'needs to be within 16 blocks of its Nest',
           'message.bunnidogs.gardening.griefing_off':'needs mob griefing enabled'})
         path.write_text(json.dumps(value,indent=2)+'\n')

@@ -189,8 +189,8 @@
   "message.bunnidogs.care.splice_ready": "recipient ready; donor sample and Mutagen required",
   "block.bunnidogs.feeding_trough": "Feeding Trough",
   "message.bunnidogs.trough.added": "Added %s food; %s stored. One food type, up to 16.",
-  "message.bunnidogs.trough.empty": "Empty trough. Add food; use a hoe to toggle resident gardening.",
-  "message.bunnidogs.trough.stock": "Stored: %s x %s. Sneak-empty: withdraw. Hoe: toggle gardening.",
+  "message.bunnidogs.trough.empty": "Empty trough. Add food; sneak-food sets a filter. Hoe: toggle gardening.",
+  "message.bunnidogs.trough.stock": "Stored: %s x %s. Sneak-empty: withdraw. Sneak-food: filter. Hoe: gardening.",
   "block.bunnidogs.apex_crucible": "Apex Crucible",
   "item.bunnidogs.apex_crest": "Apex Crest",
   "entity.bunnidogs.apex": "Apex of the Line",
@@ -300,7 +300,7 @@
   "message.bunnidogs.gardening.home": "needs a claimed Nest",
   "message.bunnidogs.gardening.daytime": "rests at night",
   "message.bunnidogs.gardening.transported": "paused while led or riding",
-  "message.bunnidogs.gardening.danger": "paused by danger or a recent attack",
+  "message.bunnidogs.gardening.danger": "paused by danger, seeking refuge or a recent attack",
   "message.bunnidogs.gardening.outside_home": "needs to be within 16 blocks of its Nest",
   "message.bunnidogs.gardening.griefing_off": "needs mob griefing enabled",
   "guide.bunnidogs.page.28.title": "Living dust",
@@ -320,5 +320,12 @@
   "guide.bunnidogs.page.35.title": "Bell calls",
   "guide.bunnidogs.page.35.body": "Ring a bell within 12 blocks of a Nest to call healthy adults by day. Redstone and projectiles work too. Leave safe walking space. Visits last up to 20 seconds, with a minute of rest. Leads and care take priority.",
   "guide.bunnidogs.page.36.title": "Fleece colors",
-  "guide.bunnidogs.page.36.body": "Woolly adults yield two wool in their coat colors. Spotted gives one yellow and one brown. Glow gives cyan; moss green; ember red; void purple. Hidden coats add nothing. Calipers names the ready yield."
+  "guide.bunnidogs.page.36.body": "Woolly adults yield two wool in their coat colors. Spotted gives one yellow and one brown. Glow gives cyan; moss green; ember red; void purple. Hidden coats add nothing. Calipers names the ready yield.",
+  "message.bunnidogs.trough.filter_set": "Reserved for %s with matching components. Food was not consumed.",
+  "message.bunnidogs.trough.filter_conflict": "Withdraw the different stored food before changing the filter.",
+  "message.bunnidogs.trough.filtered": "Reserved for %s with matching components. Sneak-empty while empty clears the filter.",
+  "message.bunnidogs.trough.filter_cleared": "Food filter cleared. This trough accepts any suitable food again.",
+  "message.bunnidogs.trough.stock_filter": "%s Reserved for %s (matching components).",
+  "guide.bunnidogs.page.37.title": "Trough filters",
+  "guide.bunnidogs.page.37.body": "Sneak-use food to reserve a trough for that exact food and its components, without spending it. Hoppers and gardeners obey the filter. Sneak-empty withdraws stock; repeat while empty to clear the filter."
 }

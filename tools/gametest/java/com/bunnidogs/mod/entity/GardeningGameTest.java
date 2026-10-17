@@ -73,6 +73,9 @@ public final class GardeningGameTest {
                         && dog.gardeningWait() == 0 && trough.food().isEmpty() && level.getBlockState(cropPos).equals(ripe),
                         "A readiness snapshot must leave crops, stock, home and work recovery untouched");
                 var goal = new GardenGoal(dog);
+                h.assertTrue(trough.setFilter(new ItemStack(Items.POTATO)) && !goal.canUse() && level.getBlockState(cropPos).equals(ripe),
+                        "An empty filtered trough must not make a gardener harvest the wrong crop");
+                trough.clearFilter(); goal = new GardenGoal(dog);
                 h.assertTrue(goal.canUse(),"A healthy forager must find the enabled trough and reachable ripe carrots");
                 goal.start();
                 dog.setPos(Vec3.atBottomCenterOf(h.absolutePos(new BlockPos(5,1,3))));

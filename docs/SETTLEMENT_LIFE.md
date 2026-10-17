@@ -1,4 +1,4 @@
-# Settlement life L1–L10
+# Settlement life L1–L11
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
@@ -277,6 +277,37 @@ lookup, safe native routing, injured/led refusals, rapid-ring limiting, changed
 home interruption, post-visit rest, night refusal and Apex exclusion. Existing
 scheduled-gathering cases still pass. The updated guide preview is inspected;
 natural multiplayer bell use and client contraptions remain gameplay review.
+
+## L11: saved trough filters
+
+Sneak-use suitable food on a trough to reserve it for that exact item and its
+data components. The virtual one-item template consumes nothing and adds no
+stock. A different existing stack must be withdrawn before changing the filter.
+Manual insertion, hopper transfers and gardening all respect the reservation,
+including when the trough is empty. Named food is distinct from unnamed food.
+Normal use still fills; a hoe still controls gardening.
+
+Sneak-use with both hands empty withdraws real stock and retains the filter.
+Repeat while already empty to clear the reservation. Inspection names the filter
+alongside stock. Existing build permissions and explicit interaction denials
+apply. A narrow right-click hook lets this crouched-food action reach the block
+through the native server/client interaction flow, which normally skips blocks
+when crouching with food. Other blocks and denied interactions are untouched.
+
+Optional `FoodFilter` saves the full template components at count one; legacy
+troughs remain unfiltered without restocking. Saved food is preserved even if
+food tags or filter rules later change. Filtering never prevents extraction or
+eating already stored compatible food. The virtual template never drops or
+refunds on clearing/breaking; only actual stock does. Capacity, comparator stock
+math, the existing update packet, block states and native transfer transactions
+remain unchanged. The Field Guide grows to 37 pages.
+
+Actual Java 25 build and all twenty-five native cases pass. The new case uses
+the real crouched server interaction path, exact-component automation, conflict
+refusal, native save/legacy loading, withdrawal/clearing and no virtual-template
+refund/drop. It frees the hand after native withdrawal fills the selected slot.
+The existing gardening case also leaves a wrong-filter crop intact. Guide
+preview inspected; client input and modded-device use remain gameplay review.
 
 ## Evidence
 

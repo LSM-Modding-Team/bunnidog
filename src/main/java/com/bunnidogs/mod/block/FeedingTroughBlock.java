@@ -50,9 +50,15 @@ public final class FeedingTroughBlock extends Block implements EntityBlock {
         }
         if (!FeedingTroughBlockEntity.accepts(stack)) return super.useItemOn(stack,state,level,pos,player,hand,hit);
         if (!level.isClientSide() && level.getBlockEntity(pos) instanceof FeedingTroughBlockEntity trough) {
+            if (player.isShiftKeyDown()) {
+                player.sendOverlayMessage(trough.setFilter(stack)
+                        ? Component.translatable("message.bunnidogs.trough.filter_set",stack.getHoverName())
+                        : Component.translatable("message.bunnidogs.trough.filter_conflict"));
+                return InteractionResult.SUCCESS;
+            }
             int added = trough.insert(stack);
             if (!player.hasInfiniteMaterials()) stack.shrink(added);
-            player.sendOverlayMessage(Component.translatable("message.bunnidogs.trough.added",added,trough.food().getCount()));
+            player.sendOverlayMessage(withFilter(trough,Component.translatable("message.bunnidogs.trough.added",added,trough.food().getCount())));
         }
         return InteractionResult.SUCCESS;
     }
@@ -60,11 +66,20 @@ public final class FeedingTroughBlock extends Block implements EntityBlock {
         if (!player.getMainHandItem().isEmpty()) return InteractionResult.PASS;
         if (!level.isClientSide() && level.getBlockEntity(pos) instanceof FeedingTroughBlockEntity trough) {
             if (player.isShiftKeyDown() && player.getOffhandItem().isEmpty() && player.mayBuild()) {
+                if (trough.food().isEmpty() && !trough.filter().isEmpty()) {
+                    trough.clearFilter();
+                    player.sendOverlayMessage(Component.translatable("message.bunnidogs.trough.filter_cleared"));
+                    return InteractionResult.SUCCESS;
+                }
                 ItemStack taken = trough.takeAll();
                 if (!player.getInventory().add(taken)) player.drop(taken,false);
-            } else player.sendOverlayMessage(trough.food().isEmpty() ? Component.translatable("message.bunnidogs.trough.empty")
-                    : Component.translatable("message.bunnidogs.trough.stock",trough.food().getCount(),trough.food().getHoverName()));
+                if (!trough.filter().isEmpty()) player.sendOverlayMessage(Component.translatable("message.bunnidogs.trough.filtered",trough.filter().getHoverName()));
+            } else player.sendOverlayMessage(withFilter(trough,trough.food().isEmpty() ? Component.translatable("message.bunnidogs.trough.empty")
+                    : Component.translatable("message.bunnidogs.trough.stock",trough.food().getCount(),trough.food().getHoverName())));
         }
         return InteractionResult.SUCCESS;
+    }
+    private static Component withFilter(FeedingTroughBlockEntity trough, Component stock) {
+        return trough.filter().isEmpty() ? stock : Component.translatable("message.bunnidogs.trough.stock_filter",stock,trough.filter().getHoverName());
     }
 }
