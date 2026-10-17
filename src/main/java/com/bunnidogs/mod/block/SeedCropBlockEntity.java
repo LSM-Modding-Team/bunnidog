@@ -8,6 +8,7 @@ import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModItems;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -53,6 +54,18 @@ public class SeedCropBlockEntity extends BlockEntity {
         this.originalSeed = stack.copyWithCount(1);
         setSeed(seed.get());
         return true;
+    }
+
+    /** Reserve stock before native removal or spawning invokes external hooks. */
+    public ItemStack takeSeed() {
+        var out = seedStack();
+        this.seedText = ""; this.originalSeed = ItemStack.EMPTY; setChanged();
+        return out;
+    }
+
+    @Override public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos,state);
+        if (this.level instanceof ServerLevel server) SeedCropBlock.dropSeed(server,pos,takeSeed());
     }
 
     @Override

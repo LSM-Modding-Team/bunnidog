@@ -8,7 +8,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -32,6 +34,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  *
  * <p>Not a vanilla {@code CropBlock}, so it does its own upkeep: it survives on farmland or any dirt-like block (a trampled
  * field does not lose the seed), and when the soil is gone it pops off, giving the seed back, on its next random tick.
+ * Native non-player removal also recovers the seed; a player's accepted removal handles hatching separately.
  * Bone meal (session 6) works through vanilla's {@link BonemealableBlock}, so dispensers can use it too: it grows the
  * crop 2-5 ages at once, like wheat. Starlit Dust (D7b) ripens it at once ({@link #ripen}). Not done yet: a light requirement, right-click harvesting.
  *
@@ -84,10 +87,6 @@ public class SeedCropBlock extends Block implements EntityBlock, BonemealableBlo
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (!this.canSurvive(state, level, pos)) {
-            if (level.getBlockEntity(pos) instanceof SeedCropBlockEntity crop) {
-                var stack = crop.seedStack();
-                if (!stack.isEmpty()) dropSeed(level,pos,stack);
-            }
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             return;
         }
@@ -155,11 +154,17 @@ public class SeedCropBlock extends Block implements EntityBlock, BonemealableBlo
         return new SeedCropBlockEntity(pos, state);
     }
 
+    @Override public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, ItemStack tool,
+                                                boolean willHarvest, FluidState fluid) {
+        return level instanceof ServerLevel server ? SeedCropHarvest.remove(server,pos,state,player,tool)
+                : super.onDestroyedByPlayer(state,level,pos,player,tool,willHarvest,fluid);
+    }
+
     /** Drops a seed item holding this payload in the middle of the block. */
     public static void dropSeed(ServerLevel level, BlockPos pos, Seed seed) {
         dropSeed(level,pos,SeedItem.create(seed));
     }
     public static void dropSeed(ServerLevel level, BlockPos pos, net.minecraft.world.item.ItemStack stack) {
-        if (!stack.isEmpty()) level.addFreshEntity(new ItemEntity(level,pos.getX()+.5,pos.getY()+.3,pos.getZ()+.5,stack.copyWithCount(1)));
+        if (!stack.isEmpty()) Block.popResource(level,pos,stack.copyWithCount(1));
     }
 }

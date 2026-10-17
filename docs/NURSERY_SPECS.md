@@ -99,3 +99,29 @@ mistake was corrected before the complete passing native run.
 The authored block textures and guide pages 1/41/42 are previewed and inspected.
 Native client appearance, custom fonts, natural unload/reload and modded transfer
 devices remain gameplay review; server fixtures do not establish those details.
+
+## N4 — committed harvest and environmental recovery
+
+Crop harvest now runs from native `onDestroyedByPlayer`, after every break-event
+handler and the player's native restrictions have accepted removal. Cancelled
+breaks create no seed items or pups. A crowded ripe crop stays planted and
+retains the entire seed; accepted survival unripe breaks recover it once.
+Creative still destroys unripe crops without drops and hatches ripe crops.
+
+The crop reserves its full item before removal. Ordinary environmental removal
+(including replacement by water) returns the saved seed through native block
+entity removal, without rolling pups. Lost-support upkeep shares that same path.
+Native block-drop rules and explicit no-side-effects removals apply normally.
+Player ripe hatching keeps its existing placement, Fortune bonus and genetics.
+Both crop and debug-command hatches prepare the entire litter and roll back all
+new siblings on native spawn refusal. After a committed crop removal, a failed
+hatch refunds the original seed rather than overwriting the replacement block.
+
+N4 evidence: actual Java 25 build/all 36 native scenarios pass. A real late
+`BreakBlockEvent` cancellation preserves both unripe and ripe crops without
+premature items/pups; Adventure restrictions, accepted survival/creative
+harvests, original parental records and crowded ripe retention pass. A native
+spawn listener refuses the second pup only after observing the crop gone:
+no siblings remain and exactly the named seed returns. Replacing a ripe crop
+with water preserves the water and refunds that seed without a litter. Existing
+support-loss, legacy item saves, Cradle and dispenser cases remain passing.

@@ -85,6 +85,10 @@ public final class NurseryGameTest {
                                 pulse(h,dusterPos,Direction.SOUTH,() -> {
                                     h.assertTrue(dust.getCount() == 1,"Already-ripe crops must retain dispenser dust");
                                     level.setBlock(target,Blocks.AIR.defaultBlockState(),3);
+                                    var recovered = level.getEntitiesOfClass(ItemEntity.class,new AABB(target).inflate(1),entity -> entity.getItem().is(ModItems.SEED.get()));
+                                    h.assertTrue(recovered.stream().mapToInt(entity -> entity.getItem().getCount()).sum() == 1,
+                                            "Deliberately replacing the planted crop must refund exactly its one saved seed");
+                                    recovered.forEach(ItemEntity::discard);
                                     level.setBlock(target,ModBlocks.SEED_CROP.get().defaultBlockState(),3);
                                     pulse(h,dusterPos,Direction.SOUTH,() -> {
                                         h.assertTrue(dust.getCount() == 1 && !SeedCropBlock.isRipe(level.getBlockState(target)),"An empty commanded crop must not waste dust");

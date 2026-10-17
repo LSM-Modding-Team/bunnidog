@@ -384,5 +384,7 @@
   "guide.bunnidogs.page.41.title": "Nursery Cradle",
   "guide.bunnidogs.page.41.body": "Craft wool, glass, a Nest and planks into a Nursery Cradle. Insert one seed; a loaded minute adds one stage. Bone meal helps; Starlit Dust ripens it. Sneak-empty withdraws and resets growth. Calipers reads the litter.",
   "guide.bunnidogs.page.42.title": "Hatch safely",
-  "guide.bunnidogs.page.42.body": "To hatch, use a ripe Cradle empty-handed or pulse redstone. Clear a dry 3x3 pad in front with two blocks of air. Stand aside. Hoppers move seeds; a comparator reads 15 when ripe. Steady power does not repeat."
+  "guide.bunnidogs.page.42.body": "To hatch, use a ripe Cradle empty-handed or pulse redstone. Clear a dry 3x3 pad in front with two blocks of air. Stand aside. Hoppers move seeds; a comparator reads 15 when ripe. Steady power does not repeat.",
+  "message.bunnidogs.crop.crowded": "Too many bunnidogs nearby. The crop stays ripe until there is room.",
+  "message.bunnidogs.crop.refunded": "Hatching was refused. The original litter seed has been returned."
 }

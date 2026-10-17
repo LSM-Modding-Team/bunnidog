@@ -25,6 +25,7 @@ Sneak-use record books with a filled basket in the other hand to log its animal.
 Nursery dispensers plant litter seeds above farmland and ripen saved crops with
 Starlit Dust, retaining items on refusal. Seed Crops maintain dry farmland.
 Named seeds retain their item components through planting and early recovery.
+Protected crop breaks preserve the litter; environmental removal recovers its seed.
 Nursery Cradles incubate one litter with saved progress, hopper access and a
 comparator signal. Hatch empty-handed or with a fresh redstone pulse onto a
 clear 3×3 pad in front; failed attempts retain the seed.

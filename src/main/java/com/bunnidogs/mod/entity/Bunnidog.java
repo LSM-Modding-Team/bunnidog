@@ -580,9 +580,9 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
 
     /**
      * Rolls the litter of a seed ({@link Seed#hatch}) and adds the pups to the world at {@code pos}. Returns the pups;
-     * empty means nothing was born because too many bunnidogs live nearby ({@link Breeding#CROWD_LIMIT}), so the caller
-     * should keep the seed. This is the ONE place pups come from: the {@code /bunnidogs hatch} debug command uses it now
-     * and the ripe seed crop does ({@link com.bunnidogs.mod.block.SeedCropHarvest}), passing its Fortune bonus as {@code extraQuality}.
+     * empty means crowding or native spawn refusal, so the caller should keep the seed. The debug command and ripe
+     * crop use this ordinary placement; Nursery Cradles additionally check and distribute their whole litter on a pad.
+     * Fortune raises crop quality through {@code extraQuality}.
      *
      * <p>Every pup is a baby with its own genome and stat points; mutations are logged in {@code run/logs/latest.log}.
      */
@@ -595,16 +595,22 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         if (!litter.isEmpty() && quality > 0.0D) {
             BunnidogsMod.LOGGER.info("Litter of {}: seed quality {}", litter.size(), String.format(Locale.ROOT, "%.2f", quality));
         }
-        for (Seed.Pup roll : litter) {
-            Bunnidog pup = createPup(level,seed,roll);
-            if (pup == null) {
-                continue;
+        try {
+            for (Seed.Pup roll : litter) {
+                Bunnidog pup = createPup(level,seed,roll);
+                if (pup == null) { born.forEach(Bunnidog::discard); return List.of(); }
+                pup.snapTo(pos.x,pos.y,pos.z,rng.nextFloat()*360.0F,0.0F);
+                born.add(pup);
             }
-            pup.snapTo(pos.x, pos.y, pos.z, rng.nextFloat() * 360.0F, 0.0F);
-            level.addFreshEntityWithPassengers(pup);
-            born.add(pup);
+            for (var pup : born) if (!level.addFreshEntity(pup)) {
+                born.forEach(Bunnidog::discard); return List.of();
+            }
+            return born;
+        } catch (RuntimeException failure) {
+            born.forEach(Bunnidog::discard);
+            BunnidogsMod.LOGGER.warn("Crop/command hatch refused at {}",pos,failure);
+            return List.of();
         }
-        return born;
     }
     /** Common native construction for crop/command and checked nursery hatching. */
     static Bunnidog createPup(ServerLevel level, Seed seed, Seed.Pup roll) {

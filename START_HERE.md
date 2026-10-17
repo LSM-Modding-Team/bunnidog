@@ -22,6 +22,12 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-17
 
+- **N4, committed crop harvest:** break protection and native permissions finish
+  before seed/pup side effects. Cancelled breaks preserve everything; ordinary
+  environmental removal returns the saved seed. Crop/command spawn refusal
+  rolls back siblings; a removed crop refunds its original seed. Fortune and
+  creative ripe hatching remain. See `docs/NURSERY_SPECS.md` N4.
+
 - **N3, Nursery Cradle:** craft wool/glass/Nest/planks into a saved one-seed
   incubator. Loaded minutes, bone meal or Starlit Dust advance growth; hoppers,
   comparators, dispensers and Calipers share native controls. Empty-hand use
@@ -82,7 +88,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 |---|---|
 | Genetics and breeding | Seven genes, inherited pairs, bred stats/Bloom, eight guava tiers, litter seeds/crops, infused juice. `docs/FEATURES.md`, `docs/FIXES_PLAN.md` 6 |
 | Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets, forecasts and carried-animal records. `docs/SHEET_SPECS.md` S1–S9 |
-| Nursery | Whole saved seeds, dispenser crop stations and a craftable Cradle with saved incubation, native automation and checked hatching. `docs/NURSERY_SPECS.md` N1–N3 |
+| Nursery | Whole saved seeds, protected crop harvest/recovery, dispenser stations and a craftable Cradle with saved incubation, native automation and checked hatching. `docs/NURSERY_SPECS.md` N1–N4 |
 | Laboratory | Two sample slots, vial display, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T6 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
@@ -143,7 +149,7 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **thirty-five** native scenarios pass (thirty-four mod
+The Java 25 build and all **thirty-six** native scenarios pass (thirty-five mod
 cases plus native sanity). Latest coverage:
 
 - **N1:** real redstone pulses, malformed/blocked/wrong-soil/occupied planting,
@@ -158,6 +164,9 @@ cases plus native sanity). Latest coverage:
   actual empty-hand/rising-edge hatching and held-power refusal. External
   spawn cancellation plus reentrant removal rolls back siblings and returns
   exactly the original named seed; retry succeeds.
+- **N4:** actual late break cancellation for unripe/ripe crops, Adventure
+  restriction, survival/creative harvests, crowd retention, native partial-spawn
+  refusal with no remaining siblings/one seed refund, and water replacement.
 - **S9/H6:** exact carried records through air/block/off-hand/creative use,
   duplicate protection, registry award, invalid UUID/pup refusal and unchanged
   payload. Basket release still preserves all six paused timers, identity,

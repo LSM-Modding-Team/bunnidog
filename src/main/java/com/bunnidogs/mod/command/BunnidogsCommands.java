@@ -142,7 +142,7 @@ public final class BunnidogsCommands {
     }
 
     /**
-     * Debug, until the seed crop of step 4d exists: hatches the seed in your main hand at your feet. {@code bonus} is
+     * Debug hatch of the seed in your main hand at your feet. {@code bonus} is
      * added to the seed's quality for this hatching only (what Fortune will do at harvest). If too many bunnidogs live
      * nearby nothing hatches and you keep the seed; otherwise one seed is used up.
      */
@@ -158,9 +158,9 @@ public final class BunnidogsCommands {
         List<Bunnidog> born = Bunnidog.hatch(source.getLevel(), player.position(), held.get(), bonus,
                 new Random(player.getRandom().nextLong()));
         if (born.isEmpty()) {
-            source.sendFailure(Component.literal("Nothing hatched: " + Breeding.CROWD_LIMIT
+            source.sendFailure(Component.literal("Hatching was refused or " + Breeding.CROWD_LIMIT
                     + " bunnidogs already live within " + (int) Breeding.CROWD_RADIUS
-                    + " blocks. Walk away and try again; you still have the seed."));
+                    + " blocks. You still have the seed."));
             return 0;
         }
         stack.shrink(1);

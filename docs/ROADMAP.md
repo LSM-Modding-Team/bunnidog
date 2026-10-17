@@ -21,6 +21,8 @@ early recovery and Mutagen treatment. N3 adds the Nursery Cradle: one saved
 litter, paused incubation, growth tools, native hopper/comparator/dispenser
 controls and checked 3×3 hatching with atomic spawn rollback. The guide now
 has 42 pages/nineteen chapter links. See `NURSERY_SPECS.md` and `FIELD_GUIDE.md`.
+N4 moves crop harvest after native break protection, recovers environmental
+loss and rolls back refused crop/command litters with seed preservation.
 
 N1 adds native dispenser litter-seed planting and Starlit Dust ripening, sharing
 hand transactions, exact functional seed data and success-only costs. Refusals

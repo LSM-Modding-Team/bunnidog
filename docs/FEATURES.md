@@ -86,6 +86,10 @@ planting/ripening retains the item. Break ripe crops to hatch as usual; seeds,
 parents/stats, quality and Mutagen are not rerolled by planting or growth.
 Planted Seed Crops now keep dry farmland. A Dropper delivers loose seed/dust
 items. Hand planting/ripening keeps its ordinary controls and creative costs.
+Named seeds retain all item components in the ground and on recovery (N2).
+Cancelled protected breaks create no items or pups (N4). Environmental removal
+returns the seed; a crowded ripe crop stays planted. If native spawning refuses
+a harvested litter, all new siblings roll back and the original seed returns.
 
 **Nursery Cradle (N3):** craft `WWW/GNG/PPP` with wool, glass, a Nest and planks.
 Insert one litter seed; each loaded minute adds one of seven stages. Bone meal
