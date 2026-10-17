@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 42 pages from first warren to Apex. Two linked contents pages offer nineteen
+open 43 pages from first warren to Apex. Two linked contents pages offer nineteen
 chapter links; newer chapters return to the second index.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -78,6 +78,13 @@ stock at night. Keep food, safe standing room and the whole route within four
 blocks of home. One item heals the normal 2 HP and starts the shared thirty-second
 meal rest, then night waiting resumes. Calipers explains trough-only readiness;
 outdoor foraging and work still wait for daylight. Leads and danger interrupt.
+
+**Surplus composting (L14):** place a vanilla composter beside a hoe-enabled
+trough. Healthy Bloom +10 residents compost one suitable real food after crop
+work, leaving at least eight items for meals. Native chances apply and each job
+shares the one-minute garden rest. Leave safe walking space and use a hopper
+below the composter for ordinary bone meal. Diet, protection and daytime rules
+apply; residents leave mature compost for you or the hopper.
 
 **Redstone nursery (N1):** face a dispenser at empty space above farmland and
 supply litter seeds. One successful pulse plants one exact saved litter. A

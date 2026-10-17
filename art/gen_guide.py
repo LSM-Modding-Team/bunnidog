@@ -45,9 +45,10 @@ PAGES = {
     39: ('Travel Basket', 'Craft six planks, leather and a lead into a basket. Pack one calm, unled animal; release on clear dry ground. Identity and care rest persist; its old Nest becomes free. Calipers reads it; sneak-use books to log it.'),
     41: ('Nursery Cradle', 'Craft wool, glass, a Nest and planks into a Nursery Cradle. Insert one seed; a loaded minute adds one stage. Bone meal helps; Starlit Dust ripens it. Sneak-empty withdraws and resets growth. Calipers reads the litter.'),
     42: ('Hatch safely', 'To hatch, use a ripe Cradle empty-handed or pulse redstone. Clear a dry 3x3 pad in front with two blocks of air. Stand aside. Hoppers move seeds; a comparator reads 15 when ripe. Steady power does not repeat.'),
+    43: ('Surplus compost', 'Bloom +10 adults compost food above an eight-item reserve at hoe-enabled troughs. Place a composter nearby with a safe route. Crop work takes priority. Each job spends one food and rests a minute. Hoppers collect bone meal.'),
 }
-PAGE_COUNT = 42
-MAIN_INDEX = {2:'Warrens & genes',4:'Breeding & seeds',41:'Nursery Cradle',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
+PAGE_COUNT = 43
+MAIN_INDEX = {2:'Warrens & genes',4:'Breeding & seeds',41:'Nursery & compost',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
               31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
@@ -97,7 +98,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,1),(495,41),(735,42)]:
+    for x,page in [(255,25),(495,41),(735,43)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

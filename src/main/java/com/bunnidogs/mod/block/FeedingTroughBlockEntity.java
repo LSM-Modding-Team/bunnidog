@@ -86,6 +86,12 @@ public final class FeedingTroughBlockEntity extends BlockEntity {
         if (!(this.level instanceof ServerLevel) || !canFeed(dog)) return false;
         this.food.shrink(1); changed(); return true;
     }
+    /** A work job reserves one exact existing input while leaving its food buffer intact. */
+    public ItemStack takeSurplus(ItemStack expected, int reserve) {
+        if (!(this.level instanceof ServerLevel) || this.food.getCount() <= Math.max(0,reserve)
+                || !ItemStack.isSameItemSameComponents(this.food,expected)) return ItemStack.EMPTY;
+        var out = this.food.split(1); changed(); return out;
+    }
     private void changed() {
         this.setChanged();
         if (this.level instanceof ServerLevel server && !this.isRemoved() && server.getBlockEntity(this.worldPosition) == this) {

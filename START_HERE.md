@@ -22,6 +22,13 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-17
 
+- **L14, surplus composting:** Bloom +10 residents work a vanilla composter
+  beside a hoe-enabled trough after harvesting/cultivation. One real suitable
+  food per job, native chances, eight-item reserve and shared saved garden
+  recovery. Existing protection, safe routes, Diet and domestic restrictions
+  apply; ordinary maturation/hopper output supply bone meal for the nursery.
+  See `docs/SETTLEMENT_LIFE.md` L14.
+
 - **N4, committed crop harvest:** break protection and native permissions finish
   before seed/pup side effects. Cancelled breaks preserve everything; ordinary
   environmental removal returns the saved seed. Crop/command spawn refusal
@@ -77,7 +84,7 @@ storm shelter, fishing, terrain traits, local supplies, living dust and fitted
 farms are also complete. Their rules/evidence remain in the specifications
 listed below; do not redo them.
 
-The native Field Guide has 42 translated pages and nineteen chapter links across
+The native Field Guide has 43 translated pages and nineteen chapter links across
 two linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
@@ -95,7 +102,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Care | Live samples, fleece palettes, whiskers/dust, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C8 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow and terrain movement. `docs/CARE_SPECS.md` A1–A4 |
 | Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, led-adult reassignment, Travel Baskets and persistent compass place markers. `docs/HOME_SPECS.md` H1–H7 |
-| Settlement life | Saved trough stock/automation/filters, diet healing/short night meals, bell visits, fitted furniture, harvest/cultivation, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L13 |
+| Settlement life | Saved trough stock/automation/filters, diet healing/short night meals, bell visits, fitted furniture, harvest/cultivation/surplus composting, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L14 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
 | Drops and endgame | Pelts/materials, Mutagen/Marrow/Tissue/Dust, five stat legends and pedestals. Sample-defined Apex ritual, inherited combat, warned attacks/enrage, boss bar and source-line crest. `docs/DROPS_SPECS.md`, `docs/APEX_SPECS.md` |
@@ -149,7 +156,7 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **thirty-six** native scenarios pass (thirty-five mod
+The Java 25 build and all **thirty-seven** native scenarios pass (thirty-six mod
 cases plus native sanity). Latest coverage:
 
 - **N1:** real redstone pulses, malformed/blocked/wrong-soil/occupied planting,
@@ -167,6 +174,11 @@ cases plus native sanity). Latest coverage:
 - **N4:** actual late break cancellation for unripe/ripe crops, Adventure
   restriction, survival/creative harvests, crowd retention, native partial-spawn
   refusal with no remaining siblings/one seed refund, and water replacement.
+- **L14:** real claimed home/path, Bloom/reserve thresholds, committed transfer
+  interruption, lost Bloom, griefing/protection refusal, crop priorities,
+  exact named reserve/filter, shared work rest, non-compostable refusal,
+  deterministic native failed/successful chances, actual maturation and hopper
+  output of exactly one bone meal.
 - **S9/H6:** exact carried records through air/block/off-hand/creative use,
   duplicate protection, registry award, invalid UUID/pup refusal and unchanged
   payload. Basket release still preserves all six paused timers, identity,
@@ -181,7 +193,7 @@ cases plus native sanity). Latest coverage:
   Diet/filter/griefing refusals, interrupted growth, berries, guavas/vines and
   embryo exclusion. Care-dispenser drops now stay in a physical test catchment.
 
-The Cradle textures and 42-page guide previews are inspected with a substitute
+The Cradle textures and 43-page guide previews are inspected with a substitute
 font; the approved
 creature model is unchanged. GitHub additionally checks that model before the
 exact-commit artifact upload. All earlier care/lab/show/registry, diet, home,

@@ -366,6 +366,43 @@ routes, blocked standing room and Apex exclusion. Existing daytime food,
 shelter, travel and work cases also pass. Updated guide preview inspected;
 natural overnight behavior remains gameplay review.
 
+## L14: surplus composting
+
+Bloom +10 adults may work a nearby vanilla composter from a hoe-enabled trough,
+after ripe harvesting and cultivation candidates. The composter must be within
+the existing three-block work area, at levels 0–6, with a safe loaded native
+route and sight of both blocks. The source stack must suit the expressed Diet,
+have a positive native composting value and contain more than eight items.
+One completed three-second job consumes one exact real food item, retaining a
+reserve of at least eight, and starts the shared one-minute `GardenWait`.
+
+Use native compost chances, maturation, comparator signals and hopper output.
+A failed chance still consumes that item as normal; the first layer follows
+native guaranteed behavior. Residents leave ready compost for players/hoppers.
+No food, compost or bone meal is created free of its input. Full troughs may
+compost surplus; filters still reserve the exact food and are never consumed.
+Non-compostable foods, fewer than nine stock, low Bloom, disabled troughs,
+blocked routes, night, injury, danger, leads/rides, griefing/protection refusal
+or changed inputs interrupt/refuse work. The source item is reserved before
+native composter callbacks; an unused item returns to its original trough or
+drops with its components if that trough is removed. Existing crop and meal
+priorities, recovery saves, homes, allele IDs and protocol remain unchanged.
+
+This connects existing resident food production to ordinary bone meal for
+gardens and Nursery Cradles without another block, item or inventory screen.
+
+L14 evidence (2026-10-17): Java 25 build/all 37 native scenarios pass. The
+new native case claims a real Nest and path, exercises Bloom +9/+10 and the
+eight-item reserve, committed transfer/lost-Bloom interruption, mob-griefing
+and actual block-protection refusal, harvest/cultivation priority, named stock/
+filter preservation, shared rest and non-compostable food refusal. Seeded native
+randomness establishes both failed and successful composter chances with one
+real input each; the actual scheduled tick matures the result and a real hopper
+extracts exactly one bone meal. Priority fixtures use ordinary unfiltered
+carrots, since the named reserve correctly refuses unnamed crop output.
+The 43-page guide preview is inspected. Natural work cycles and multiplayer
+farm balance remain gameplay review.
+
 ## Evidence
 
 L3/L4 actual build and the focused fixture/gardening server cases pass (seventeen

@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L14 connects opted-in resident work to vanilla composting: Bloom +10 adults
+spend suitable surplus food above an eight-item reserve after crop tasks.
+Native chances/maturation/hopper output, Diet/protection/safe paths and shared
+work recovery apply. The guide has 43 pages. See `SETTLEMENT_LIFE.md`.
+
 N2 preserves whole planted seeds, names and components through native saves,
 early recovery and Mutagen treatment. N3 adds the Nursery Cradle: one saved
 litter, paused incubation, growth tools, native hopper/comparator/dispenser

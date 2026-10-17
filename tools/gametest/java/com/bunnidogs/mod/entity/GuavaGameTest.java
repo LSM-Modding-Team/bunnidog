@@ -55,10 +55,9 @@ public final class GuavaGameTest extends GameTestInstance {
     @SubscribeEvent
     public static void registerTests(RegisterGameTestsEvent event) {
         var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.AllOf());
-        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "show", "grooming", "settlement", "apex", "fixtures", "gardening", "pantry", "fishing", "refuge", "storm_shelter", "trough_automation", "bell_calls", "trough_filters", "care_dispensers", "basket", "cultivation", "nest_markers", "night_meals", "nursery", "seed_recovery", "cradle_storage", "cradle_hatching", "cradle_spawn_refusal"}) {
+        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "show", "grooming", "settlement", "apex", "fixtures", "gardening", "pantry", "fishing", "refuge", "storm_shelter", "trough_automation", "bell_calls", "trough_filters", "care_dispensers", "basket", "cultivation", "nest_markers", "night_meals", "nursery", "seed_recovery", "cradle_storage", "cradle_hatching", "cradle_spawn_refusal", "crop_harvest", "composting"}) {
             event.registerTest(id(name), new GuavaGameTest(name, new TestData<>(environment, id("empty"), 100, 0, true)));
         }
-        event.registerTest(id("crop_harvest"),new GuavaGameTest("crop_harvest",new TestData<>(environment,id("empty"),100,0,true)));
     }
     @Override public MapCodec<GuavaGameTest> codec() { return CODEC; }
     @Override protected MutableComponent typeDescription() { return Component.literal(this.scenario); }
@@ -87,6 +86,7 @@ public final class GuavaGameTest extends GameTestInstance {
             case "cradle_hatching" -> { CradleHatchingGameTest.run(h); return; }
             case "cradle_spawn_refusal" -> CradleSpawnRefusalGameTest.run(h);
             case "crop_harvest" -> CropHarvestGameTest.run(h);
+            case "composting" -> { CompostingGameTest.run(h); return; }
             case "fishing" -> { FishingGameTest.run(h); return; }
             case "refuge" -> { RefugeGameTest.run(h); return; }
             case "storm_shelter" -> { StormShelterGameTest.run(h); return; }

@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CaveVines;
 import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.NetherWartBlock;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -40,8 +41,9 @@ final class GardenGoal extends Goal {
     private Path path;
     private long nextSearch;
     private int ticks, working;
-    private boolean harvesting;
-    private record Work(ItemStack produce, BlockState reset, boolean harvest) {}
+    private enum Task { HARVEST, CULTIVATE, COMPOST }
+    private Task task;
+    private record Work(ItemStack produce, BlockState reset, Task task) {}
     private record Candidate(BlockPos trough, BlockPos crop, Work work) {}
     GardenGoal(Bunnidog dog) { this.dog = dog; this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK)); }
     private boolean wanted() {
@@ -58,9 +60,12 @@ final class GardenGoal extends Goal {
             int ripe, int reset, net.minecraft.world.item.Item item, boolean cultivate) {
         int current = state.getValue(age);
         boolean harvest = current >= ripe;
-        return harvest || cultivate ? new Work(new ItemStack(item),state.setValue(age,harvest ? reset : current+1),harvest) : null;
+        return harvest || cultivate ? new Work(new ItemStack(item),state.setValue(age,harvest ? reset : current+1),harvest ? Task.HARVEST : Task.CULTIVATE) : null;
     }
-    private static Work work(BlockState state, boolean cultivate) {
+    private static Work work(BlockState state, boolean cultivate, ItemStack stock) {
+        if (state.is(Blocks.COMPOSTER)) return cultivate && state.getValue(ComposterBlock.LEVEL) < ComposterBlock.MAX_LEVEL
+                && stock.getCount() > Gardening.COMPOST_RESERVE && ComposterBlock.getValue(stock) > 0
+                ? new Work(stock.copyWithCount(1),state,Task.COMPOST) : null;
         if (state.is(ModBlocks.GUAVA_FRUIT.get()))
             return staged(state,GuavaFruitBlock.AGE,GuavaFruitBlock.MAX_AGE,0,ModItems.GUAVA.get(),cultivate);
         if (state.is(Blocks.NETHER_WART))
@@ -69,14 +74,14 @@ final class GardenGoal extends Goal {
             return staged(state,SweetBerryBushBlock.AGE,2,1,Items.SWEET_BERRIES,cultivate);
         if (state.is(Blocks.CAVE_VINES) || state.is(Blocks.CAVE_VINES_PLANT)) {
             boolean berries = state.getValue(CaveVines.BERRIES);
-            return berries || cultivate ? new Work(new ItemStack(Items.GLOW_BERRIES),state.setValue(CaveVines.BERRIES,!berries),berries) : null;
+            return berries || cultivate ? new Work(new ItemStack(Items.GLOW_BERRIES),state.setValue(CaveVines.BERRIES,!berries),berries ? Task.HARVEST : Task.CULTIVATE) : null;
         }
         if (!(state.getBlock() instanceof CropBlock plant)) return null;
         var item = state.is(Blocks.WHEAT) ? Items.WHEAT : state.is(Blocks.CARROTS) ? Items.CARROT
                 : state.is(Blocks.POTATOES) ? Items.POTATO : state.is(Blocks.BEETROOTS) ? Items.BEETROOT : null;
         boolean ripe = plant.isMaxAge(state);
         return item != null && (ripe || cultivate)
-                ? new Work(new ItemStack(item),plant.getStateForAge(ripe ? 0 : plant.getAge(state)+1),ripe) : null;
+                ? new Work(new ItemStack(item),plant.getStateForAge(ripe ? 0 : plant.getAge(state)+1),ripe ? Task.HARVEST : Task.CULTIVATE) : null;
     }
     @Override public boolean canUse() {
         if (!wanted() || this.dog.level().getGameTime() < this.nextSearch) return false;
@@ -91,12 +96,12 @@ final class GardenGoal extends Goal {
             int radius = Gardening.CROP_RADIUS;
             for (BlockPos p : BlockPos.betweenClosed(target.offset(-radius,-1,-radius),target.offset(radius,1,radius))) {
                 if (!level.hasChunkAt(p) || !this.dog.foodWithinHome(p)) continue;
-                var food = work(level.getBlockState(p),Gardening.cultivates(this.dog.stats()));
-                if (food != null && this.dog.canEat(food.produce()) && stock.canInsert(food.produce()))
+                var food = work(level.getBlockState(p),Gardening.cultivates(this.dog.stats()),stock.food());
+                if (food != null && this.dog.canEat(food.produce()) && (food.task() == Task.COMPOST || stock.canInsert(food.produce())))
                     candidates.add(new Candidate(target.immutable(),p.immutable(),food));
             }
         }
-        candidates.sort(Comparator.<Candidate,Boolean>comparing(c -> !c.work().harvest())
+        candidates.sort(Comparator.<Candidate,Task>comparing(c -> c.work().task())
                 .thenComparingDouble(c -> c.crop().distSqr(this.dog.blockPosition())));
         int attempts = 0;
         for (Candidate candidate : candidates.stream().limit(8).toList()) {
@@ -110,7 +115,7 @@ final class GardenGoal extends Goal {
                 this.trough = target.immutable(); this.crop = p; this.stand = spot;
                 this.mature = level.getBlockState(p);
                 var food = candidate.work();
-                this.produce = food.produce(); this.reset = food.reset(); this.harvesting = food.harvest(); this.path = route;
+                this.produce = food.produce(); this.reset = food.reset(); this.task = food.task(); this.path = route;
                 return true;
             }
         }
@@ -120,9 +125,12 @@ final class GardenGoal extends Goal {
         var stock = trough(this.trough);
         return wanted() && this.crop != null && this.dog.level().hasChunkAt(this.crop)
                 && this.dog.canEat(this.produce)
-                && (this.harvesting || Gardening.cultivates(this.dog.stats()))
+                && (this.task == Task.HARVEST || Gardening.cultivates(this.dog.stats()))
                 && this.dog.level().getBlockState(this.crop).equals(this.mature)
-                && stock != null && stock.canInsert(this.produce) && this.ticks < Gardening.MAX_VISIT
+                && stock != null && (this.task == Task.COMPOST
+                    ? stock.food().getCount() > Gardening.COMPOST_RESERVE && ItemStack.isSameItemSameComponents(stock.food(),this.produce)
+                        && ComposterBlock.getValue(this.produce) > 0 : stock.canInsert(this.produce))
+                && this.ticks < Gardening.MAX_VISIT
                 && HomeRoutes.standing(this.dog,this.stand) && HomeRoutes.safe(this.dog,this.path,null);
     }
     @Override public boolean requiresUpdateEveryTick() { return true; }
@@ -153,16 +161,36 @@ final class GardenGoal extends Goal {
                 || !this.reset.canSurvive(level,this.crop)) {
             this.dog.finishedGardening(); this.ticks = Gardening.MAX_VISIT; return;
         }
+        if (this.task == Task.COMPOST) {
+            compost(level); this.ticks = Gardening.MAX_VISIT; return;
+        }
         if (level.setBlock(this.crop,this.reset,3)) {
             var stock = trough(this.trough);
-            if (this.harvesting && (stock == null || stock.insert(this.produce) != 1)) Block.popResource(level,this.crop,this.produce.copy());
-            level.levelEvent(this.harvesting ? 2001 : 2005,this.crop,this.harvesting ? Block.getId(this.mature) : 15);
+            boolean harvest = this.task == Task.HARVEST;
+            if (harvest && (stock == null || stock.insert(this.produce) != 1)) Block.popResource(level,this.crop,this.produce.copy());
+            level.levelEvent(harvest ? 2001 : 2005,this.crop,harvest ? Block.getId(this.mature) : 15);
             this.dog.finishedGardening();
         }
         this.ticks = Gardening.MAX_VISIT;
     }
+    private void compost(ServerLevel level) {
+        var stock = trough(this.trough);
+        if (stock == null) return;
+        var input = stock.takeSurplus(this.produce,Gardening.COMPOST_RESERVE);
+        if (input.isEmpty()) return;
+        // Stock notifications may invoke other blocks. Recheck before calling the native composter.
+        if (level.getBlockState(this.crop).equals(this.mature)) {
+            var updated = ComposterBlock.insertItem(this.dog,this.mature,level,input,this.crop);
+            level.levelEvent(1500,this.crop,updated.equals(this.mature) ? 0 : 1);
+        }
+        if (!input.isEmpty()) {
+            if (level.getBlockEntity(this.trough) == stock && !stock.isRemoved()) input.shrink(stock.insert(input));
+            if (!input.isEmpty()) Block.popResource(level,this.trough,input);
+        }
+        this.dog.finishedGardening();
+    }
     @Override public void stop() {
         this.dog.getNavigation().stop(); this.trough = null; this.crop = null; this.stand = null; this.path = null;
-        this.produce = ItemStack.EMPTY; this.mature = null; this.reset = null;
+        this.produce = ItemStack.EMPTY; this.mature = null; this.reset = null; this.task = null;
     }
 }

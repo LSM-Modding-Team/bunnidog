@@ -22,6 +22,8 @@ Record/registry/basket pages explain deliberate sneak-use for carried records.
 The litter page explains dispenser seed planting and Starlit Dust ripening.
 Pages 41–42 explain the craftable Nursery Cradle, saved incubation, withdrawal,
 growth tools, hopper/comparator controls and safe hatching with a fresh pulse.
+Page 43 connects surplus resident food to native composting, its eight-item
+reserve, crop priority, shared work recovery and ordinary hopper bone meal.
 The home page also covers read-only Nest inspection and persistent compass marks.
 The food page explains short safe nighttime trough meals near home.
 
@@ -34,7 +36,7 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Forty-two pages use the ordinary written-book screen. The two linked contents pages
+Forty-three pages use the ordinary written-book screen. The two linked contents pages
 offer nineteen clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
@@ -52,9 +54,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current thirty-five native server cases pass,
-including loading the new book/recipe/loot resources. The expanded 42-page
-contents/Cradle preview is inspected with a substitute font. Earlier
+The actual Java 25 build and current thirty-seven native server cases pass,
+including loading the new book/recipe/loot resources. The expanded 43-page
+gardening/Cradle/compost preview is inspected with a substitute font. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
 sources establish the ordinary book/packet/click behavior; no new screen or
@@ -82,3 +84,5 @@ review. No new server mechanics or saved format are introduced.
 N3 appends pages 41–42 and a ninth main-index chapter, Nursery Cradle. Both
 new pages return to page 1; the second contents page and all earlier chapter
 numbers stay stable. The guide now has nineteen chapter links.
+L14 appends page 43 under the same main-index chapter, renamed **Nursery &
+compost**; it also returns to page 1. Earlier page numbers remain stable.

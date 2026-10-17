@@ -101,7 +101,7 @@ public class CalipersItem extends Item {
         careRow(player, "gardening", work == Gardening.Status.RESTING ? recovery(dog.gardeningWait())
                 : Component.translatable("message.bunnidogs.gardening." + work.name().toLowerCase(Locale.ROOT)));
         careRow(player,"cultivation",Component.translatable(Gardening.cultivates(dog.stats())
-                ? "message.bunnidogs.care.cultivation_bonus" : "message.bunnidogs.care.cultivation_requirement",Gardening.MIN_CULTIVATION_BLOOM));
+                ? "message.bunnidogs.care.cultivation_bonus" : "message.bunnidogs.care.cultivation_requirement",Gardening.MIN_CULTIVATION_BLOOM,Gardening.COMPOST_RESERVE));
     }
 
     private static Component recovery(int ticks) {
