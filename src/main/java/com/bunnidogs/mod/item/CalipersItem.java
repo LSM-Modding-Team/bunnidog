@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 
 import com.bunnidogs.mod.block.SeedCropBlockEntity;
 import com.bunnidogs.mod.block.NurseryCradleBlockEntity;
+import com.bunnidogs.mod.block.NurseryCradleBlock;
+import com.bunnidogs.mod.entity.NurseryHatching;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Diet;
@@ -20,9 +22,11 @@ import com.bunnidogs.mod.genetics.Tissue;
 import com.bunnidogs.mod.network.ModNetwork;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -162,7 +166,7 @@ public class CalipersItem extends Item {
         return InteractionResult.SUCCESS;
     }
 
-    /** Reads the seed planted in a seed crop; any other block passes. */
+    /** Reads litter genetics, or inspects a Cradle's loaded incubation/pad while crouching. */
     @Override
     public InteractionResult useOn(UseOnContext context) {
         Level level = context.getLevel();
@@ -171,7 +175,13 @@ public class CalipersItem extends Item {
         var block = level.getBlockEntity(context.getClickedPos());
         Optional<Seed> planted;
         if (block instanceof SeedCropBlockEntity crop) planted = crop.seed();
-        else if (block instanceof NurseryCradleBlockEntity cradle) planted = cradle.seed();
+        else if (block instanceof NurseryCradleBlockEntity cradle) {
+            if (player.isShiftKeyDown()) {
+                if (!level.isClientSide()) showCradle(player,cradle);
+                return InteractionResult.SUCCESS;
+            }
+            planted = cradle.seed();
+        }
         else return InteractionResult.PASS;
         if (!level.isClientSide()) {
             Optional<Seed> seed = planted;
@@ -184,6 +194,27 @@ public class CalipersItem extends Item {
         return InteractionResult.SUCCESS;
     }
 
+    private static void showCradle(Player player, NurseryCradleBlockEntity cradle) {
+        if (!(player.level() instanceof ServerLevel server)) return;
+        var facing = cradle.getBlockState().getValue(NurseryCradleBlock.FACING);
+        var check = NurseryHatching.inspect(server,cradle.getBlockPos(),facing);
+        var item = cradle.storedSeed();
+        player.sendSystemMessage(item.isEmpty() ? Component.translatable("message.bunnidogs.cradle.readout_empty")
+                : Component.translatable("message.bunnidogs.cradle.readout",item.getHoverName(),
+                    cradle.age(),(cradle.growthWait()+19)/20,cradle.stockSignal()));
+        var problem = check.problem();
+        String location = problem == null ? "—" : problem.getX()+", "+problem.getY()+", "+problem.getZ();
+        player.sendSystemMessage(Component.translatable("message.bunnidogs.cradle.pad."+check.status().name().toLowerCase(Locale.ROOT),check.nearby(),location));
+        if (problem != null) {
+            if (server.hasChunkAt(problem)) server.sendParticles(ParticleTypes.ANGRY_VILLAGER,
+                    problem.getX()+.5,problem.getY()+.8,problem.getZ()+.5,2,.1,.1,.1,0);
+        } else for (var slot : NurseryHatching.pad(cradle.getBlockPos(),facing)) {
+            if (server.hasChunkAt(slot)) server.sendParticles(check.status() == NurseryHatching.Status.READY
+                    ? ParticleTypes.HAPPY_VILLAGER : ParticleTypes.SMOKE,
+                    slot.getX()+.5,slot.getY()+.15,slot.getZ()+.5,1,0,0,0,0);
+        }
+    }
+
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display,
             Consumer<Component> lines, TooltipFlag flag) {
@@ -191,6 +222,7 @@ public class CalipersItem extends Item {
         lines.accept(Component.literal("Right-click a bunnidog: its sheet opens").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.calipers.care").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.literal("Right-click a planted seed or Nursery Cradle: litter forecast").withStyle(ChatFormatting.GRAY));
+        lines.accept(Component.translatable("tooltip.bunnidogs.calipers.cradle").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.literal("Or hold a seed, sample or occupied Travel Basket in the other hand").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.literal("Off hand when you kill: a Tissue Sample").withStyle(ChatFormatting.DARK_GRAY));
     }

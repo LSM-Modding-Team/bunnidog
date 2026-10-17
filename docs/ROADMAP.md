@@ -16,6 +16,10 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+N6 adds read-only sneak-Calipers incubation/crowd/pad checks and temporary
+markers, sharing actual hatch preflight. Native Cradle structure rotation and
+mirroring also follow its facing. See `NURSERY_SPECS.md`.
+
 N5 lets hand/dispenser Mutagen treat a planted seed or Cradle in place,
 preserving the whole saved item, age and remaining incubation. Repeats/refusals
 retain the vial. The Field Guide has 44 pages. See `NURSERY_SPECS.md`.

@@ -10,6 +10,7 @@ import com.bunnidogs.mod.genetics.Stats;
 import com.bunnidogs.mod.item.SeedItem;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModEntities;
+import com.bunnidogs.mod.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -36,7 +37,18 @@ public final class CradleHatchingGameTest {
         var seed = new Seed(Genome.DEFAULT,Stats.ZERO,Genome.DEFAULT,Stats.ZERO,0);
         var source = SeedItem.create(seed); cradle.insert(source);
         h.assertTrue(cradle.hatch().status() == NurseryHatching.Status.NOT_RIPE && ItemStack.matches(cradle.storedSeed(),source),"Unripe hatch attempts must retain the entire seed");
+        var player = h.makeMockServerPlayerInLevel(); player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
+        player.setShiftKeyDown(true); var calipers = new ItemStack(ModItems.CALIPERS.get()); player.setItemInHand(InteractionHand.MAIN_HAND,calipers);
+        var hit = new BlockHitResult(Vec3.atCenterOf(pos),Direction.UP,pos,false);
+        player.gameMode.useItemOn(player,level,calipers,InteractionHand.MAIN_HAND,hit);
+        h.assertTrue(NurseryHatching.inspect(level,pos,Direction.NORTH).status() == NurseryHatching.Status.READY
+                && ItemStack.matches(cradle.storedSeed(),source) && cradle.age() == 0 && cradle.growthWait() == NurseryCradleBlockEntity.STAGE_TICKS
+                && player.getMainHandItem() == calipers && level.getEntitiesOfClass(Bunnidog.class,new AABB(center).inflate(2),Bunnidog::isBaby).isEmpty(),
+                "Native sneak-Calipers must inspect an unripe clear pad without cost, incubation changes or premature pups");
         cradle.grow(true); level.setBlock(center,Blocks.STONE.defaultBlockState(),3);
+        player.gameMode.useItemOn(player,level,calipers,InteractionHand.MAIN_HAND,hit);
+        h.assertTrue(NurseryHatching.inspect(level,pos,Direction.NORTH).problem().equals(center) && ItemStack.matches(cradle.storedSeed(),source) && cradle.age() == 7,
+                "A ripe blocked-pad readout must identify the actual obstruction while retaining the whole seed");
         h.assertTrue(cradle.hatch().status() == NurseryHatching.Status.BLOCKED,"Solid pad obstructions must retain the ripe seed");
         level.setBlock(center,Blocks.WATER.defaultBlockState(),3);
         h.assertTrue(cradle.hatch().status() == NurseryHatching.Status.BLOCKED,"A flooded hatch pad must be refused");
@@ -52,8 +64,11 @@ public final class CradleHatchingGameTest {
             }
             h.assertTrue(cradle.hatch().status() == NurseryHatching.Status.CROWDED && cradle.age() == 7
                     && ItemStack.matches(cradle.storedSeed(),source),"The native local crowd limit must preserve the ripe litter");
+            h.assertTrue(NurseryHatching.inspect(level,pos,Direction.NORTH).status() == NurseryHatching.Status.CROWDED
+                    && NurseryHatching.inspect(level,pos,Direction.NORTH).nearby() >= Breeding.CROWD_LIMIT,
+                    "Read-only pad inspection and actual hatching must share native crowd refusal");
         } finally { crowd.forEach(Bunnidog::discard); }
-        var player = h.makeMockServerPlayerInLevel(); player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
+        player.setShiftKeyDown(false); player.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY);
         player.gameMode.useItemOn(player,level,ItemStack.EMPTY,InteractionHand.MAIN_HAND,new BlockHitResult(Vec3.atCenterOf(pos),Direction.UP,pos,false));
         var babies = level.getEntitiesOfClass(Bunnidog.class,new AABB(center).inflate(2),Bunnidog::isBaby);
         h.assertTrue(cradle.storedSeed().isEmpty() && babies.size() >= 1 && babies.size() <= 6

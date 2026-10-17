@@ -384,12 +384,18 @@
   "guide.bunnidogs.page.41.title": "Nursery Cradle",
   "guide.bunnidogs.page.41.body": "Craft wool, glass, a Nest and planks into a Nursery Cradle. Insert one seed; a loaded minute adds one stage. Bone meal helps; Starlit Dust ripens it. Sneak-empty withdraws and resets growth. Calipers reads the litter.",
   "guide.bunnidogs.page.42.title": "Hatch safely",
-  "guide.bunnidogs.page.42.body": "To hatch, use a ripe Cradle empty-handed or pulse redstone. Clear a dry 3x3 pad in front with two blocks of air. Stand aside. Hoppers move seeds; a comparator reads 15 when ripe. Steady power does not repeat.",
+  "guide.bunnidogs.page.42.body": "Use a ripe Cradle empty-handed or pulse redstone. Clear a dry 3x3 pad in front with two blocks of air. Sneak-Calipers checks the pad and marks trouble. Hoppers move seeds; comparators read 15 when ripe. Steady power does not repeat.",
   "message.bunnidogs.crop.crowded": "Too many bunnidogs nearby. The crop stays ripe until there is room.",
   "message.bunnidogs.crop.refunded": "Hatching was refused. The original litter seed has been returned.",
   "guide.bunnidogs.page.43.title": "Surplus compost",
   "guide.bunnidogs.page.43.body": "Bloom +10 adults compost food above an eight-item reserve at hoe-enabled troughs. Place a composter nearby with a safe route. Crop work takes priority. Each job spends one food and rests a minute. Hoppers collect bone meal.",
   "tooltip.bunnidogs.mutagen.nursery": "Use on a planted seed or Cradle, or dispense at it; keeps growth",
   "guide.bunnidogs.page.44.title": "Treat a litter",
-  "guide.bunnidogs.page.44.body": "Use or dispense one Mutagen at a planted seed or occupied Cradle. Growth, incubation, parents, quality and item details stay intact. Treated or invalid litters keep the vial. You can treat a ripe litter before hatching."
+  "guide.bunnidogs.page.44.body": "Use or dispense one Mutagen at a planted seed or occupied Cradle. Growth, incubation, parents, quality and item details stay intact. Treated or invalid litters keep the vial. You can treat a ripe litter before hatching.",
+  "message.bunnidogs.cradle.readout": "Cradle \u2014 %s: stage %s/7, next in %ss, comparator %s.",
+  "message.bunnidogs.cradle.pad.ready": "Pad clear. Crowd: %s/40. Hatch when ripe; green marks its nine positions.",
+  "message.bunnidogs.cradle.pad.blocked": "Crowd: %s/40. Pad blocked near %s; clear dry floors and two blocks of air.",
+  "message.bunnidogs.cradle.pad.crowded": "Crowd: %s/40. The pad is clear, but the litter needs fewer bunnidogs nearby.",
+  "tooltip.bunnidogs.calipers.cradle": "Sneak-use a Cradle: incubation, hatch-pad check and temporary markers",
+  "message.bunnidogs.cradle.readout_empty": "Cradle empty; comparator 0. Check the pad before inserting a seed."
 }

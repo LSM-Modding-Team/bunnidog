@@ -146,3 +146,22 @@ round-trip. Real scheduled dispenser pulses exercise Cradle/crop success,
 already-treated/empty/wrong targets and no vial ejection. Native incubation
 continues naturally after treatment rather than restarting. The 44-page guide
 preview includes the new treatment page; actual client use remains review.
+
+## N6 — Calipers pad planning
+
+Sneak-use Calipers on a Cradle to read its stored item, stage, next-stage time,
+comparator and nearby bunnidog count. The shared loaded-world preflight reports
+a clear pad, crowding, or a blocked position (including headroom, floor and
+living occupants). Temporary green particles mark a clear pad's nine places;
+angry particles mark an obstruction, and smoke marks a crowded clear pad.
+Empty Cradles can be planned too. Inspection rolls no litter, spends nothing,
+changes no stock/timer/power and requests no terrain chunks. Normal Calipers
+still opens the genetic forecast. These are current conditions, rechecked by
+real hatching. Native structure rotation/mirroring now updates Cradle facing.
+
+Actual Java 25 build/all 38 native scenarios pass. The extended hatching case
+uses the real native crouched Calipers path for clear unripe/blocked ripe
+Cradles, checking unchanged item/age/time/tool and no premature pups. Shared
+inspection agrees with actual crowd refusal. Existing physical hatching,
+redstone and spawn-rollback scenarios remain passing. Guide page 42's preview
+is inspected; native particle appearance and client input remain gameplay review.

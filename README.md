@@ -35,6 +35,7 @@ Plain guavas and guava foliage also compost natively. Brush a healthy moss-coat
 adult with Bloom +10 for one loose Moss Carpet, sharing ordinary grooming rest.
 Use or dispense Mutagen on a planted seed or Cradle to treat its litter in
 place, preserving growth and incubation; repeated treatment keeps the vial.
+Sneak-use Calipers on a Cradle to inspect incubation and mark its hatch pad.
 
 ## Build and play
 

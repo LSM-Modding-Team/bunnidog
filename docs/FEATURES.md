@@ -124,6 +124,11 @@ litter without uprooting it or resetting growth. Names, parents, quality and
 incubation stay intact. Ripe litters may be treated; already-treated or invalid
 targets keep the vial. Existing held-seed/off-hand treatment still works.
 
+**Cradle planning (N6):** sneak-use Calipers for incubation, comparator output,
+crowding and a blocked location. Temporary green markers show a clear pad;
+angry particles show trouble and smoke means crowding. This works while empty
+or growing and changes nothing. Normal Calipers still shows litter genetics.
+
 **Nest wayfinding (H7):** use a compass on a Nest to mark that place. Its needle
 points there in that dimension and spins elsewhere; the marker remains if the
 Nest is removed. Names/components survive and stacked compasses bind one item.

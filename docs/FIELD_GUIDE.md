@@ -24,6 +24,7 @@ Record/registry/basket pages explain deliberate sneak-use for carried records.
 The litter page explains dispenser seed planting and Starlit Dust ripening.
 Pages 41–42 explain the craftable Nursery Cradle, saved incubation, withdrawal,
 growth tools, hopper/comparator controls and safe hatching with a fresh pulse.
+The safe-hatch page also explains sneak-Calipers pad checks/temporary markers.
 Page 43 connects surplus resident food to native composting, its eight-item
 reserve, crop priority, shared work recovery and ordinary hopper bone meal.
 Page 44 explains in-place hand/dispenser Mutagen, retained incubation and
@@ -60,7 +61,7 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 The actual Java 25 build and current thirty-eight native server cases pass,
 including loading the new book/recipe/loot resources. The expanded 44-page
-living-harvest/treatment/compost preview is inspected with a substitute font. Earlier
+living-harvest/hatch-planning/treatment preview is inspected with a substitute font. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
 sources establish the ordinary book/packet/click behavior; no new screen or

@@ -20,6 +20,8 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -40,6 +42,8 @@ public final class NurseryCradleBlock extends Block implements EntityBlock, Bone
     public NurseryCradleBlock(Properties props) { super(props); registerDefaultState(this.stateDefinition.any().setValue(FACING,Direction.NORTH).setValue(POWERED,false).setValue(FILL,0)); }
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block,BlockState> builder) { builder.add(FACING,POWERED,FILL); }
     @Override public BlockState getStateForPlacement(BlockPlaceContext context) { return defaultBlockState().setValue(FACING,context.getHorizontalDirection().getOpposite()).setValue(POWERED,context.getLevel().hasNeighborSignal(context.getClickedPos())); }
+    @Override protected BlockState rotate(BlockState state, Rotation rotation) { return state.setValue(FACING,rotation.rotate(state.getValue(FACING))); }
+    @Override protected BlockState mirror(BlockState state, Mirror mirror) { return state.rotate(mirror.getRotation(state.getValue(FACING))); }
     @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) { return new NurseryCradleBlockEntity(pos,state); }
     @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return level.isClientSide() || type != ModBlocks.NURSERY_CRADLE_BE.get() ? null
