@@ -508,7 +508,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack held = player.getItemInHand(hand);
-        if (held.is(Items.COMPASS) && player.isShiftKeyDown()) return MineralScouting.use(this,player,hand);
+        if (held.is(Items.COMPASS)) return player.isShiftKeyDown() ? MineralScouting.use(this,player,hand)
+                : ResidentWayfinding.markHome(this,player,hand);
         if (held.is(Items.BONE) && player.isShiftKeyDown()) {
             if (!player.mayBuild()) return InteractionResult.PASS;
             if (!this.level().isClientSide()) {

@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+H8 marks recorded resident Nests with normal compass use, preserving loaded
+and unloaded homes/tickets. L18 adds read-only sneak-Calipers bell roll calls
+with injured-first tags/health/foods/homes and bounded loaded-only counts.
+Build/all 41 native cases pass; guide preview inspected. See `HOME_SPECS.md`
+and `SETTLEMENT_LIFE.md`.
+
 E5 adds a deliberate tagged-resident finder through a renamed spare Ear Tag
 and sneak-Calipers. Loaded 24-block searches use native outlines/cooldowns,
 with exact item/animal preservation. Java 25 build/all 41 cases pass; finder/

@@ -22,6 +22,13 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-18
 
+- **H8/L18, resident wayfinding and roll call:** normal compass use on a
+  resident marks its recorded Nest without requesting its terrain. Sneak-use
+  Calipers on a bell for loaded neighbors, injured first, with tags/health/
+  foods/homes. Both preserve tickets and animal state. Java 25 build/all 41
+  cases pass; home/roll-call/index preview inspected. See `docs/HOME_SPECS.md`
+  H8 and `docs/SETTLEMENT_LIFE.md` L18.
+
 - **E5, resident finder:** rename a spare Ear Tag to an animal code and
   sneak-use Calipers with it opposite. Loaded matches within 24 blocks get
   ten seconds of native outline; five-second native tool rest also follows
@@ -171,7 +178,7 @@ storm shelter, fishing, terrain traits, local supplies, living dust and fitted
 farms are also complete. Their rules/evidence remain in the specifications
 listed below; do not redo them.
 
-The native Field Guide has 51 translated pages and twenty-five chapter links
+The native Field Guide has 52 translated pages and twenty-six chapter links
 across three linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
@@ -188,8 +195,8 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
 | Care | Live samples, fleece palettes, whiskers/dust/moss, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C9 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow, terrain movement and snow footing. `docs/CARE_SPECS.md` A1–A5 |
-| Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, led-adult reassignment, Travel Baskets and persistent compass place markers. `docs/HOME_SPECS.md` H1–H7 |
-| Settlement life | Saved trough stock/automation/filters/redstone pause, diet healing/short night meals, bell visits, fitted furniture, harvest/cultivation/surplus composting, guava compost data, local stores, refuge, storm shelter and opt-in feral Nest guards. `docs/SETTLEMENT_LIFE.md` L1–L17 |
+| Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, led-adult reassignment, Travel Baskets and persistent compass place markers, including resident homes. `docs/HOME_SPECS.md` H1–H8 |
+| Settlement life | Saved trough stock/automation/filters/redstone pause, diet healing/short night meals, bell visits, fitted furniture, harvest/cultivation/surplus composting, guava compost data, local stores, refuge, storm shelter and opt-in feral Nest guards and a read-only bell roll call. `docs/SETTLEMENT_LIFE.md` L1–L18 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Exploration | Native cartographer Warren Maps, bred bat-ear compass surveys with optional mineral-family focus at Senses +20, native working-line milestones and a loaded tagged-resident finder. `docs/EXPLORATION_SPECS.md` E1–E5 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |

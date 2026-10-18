@@ -11,7 +11,7 @@ PAGES = {
     5: ('Hatch the litter', 'Plant a seed on farmland; dispensers plant into air above it. Bone meal speeds growth; hand or dispenser Starlit Dust ripens it. Break the ripe crop to hatch pups. Fortune improves quality. Leave room.'),
     6: ('Guava quality', 'Better guavas improve inherited stat gains. Feed both parents: their qualities are averaged. Golden: 1, Diamond: 2, Netherite: 4, Star: 7, Beacon: 12, Dragon Egg: 20.'),
     7: ('Keep a pedigree', 'Log animals with a Pedigree Book; Ear Tags label them. Sneak-use with a filled basket in the other hand to log its animal. Normal use opens records. Filter contents by traits/tags or senses>=20; hover the field for syntax.'),
-    8: ('Nests and travel', 'Adults claim a reachable Nest and return at night. Lead an adult to a free Nest and use it to move home. Empty-hand use inspects the resident. Use a compass to mark a Nest; its place stays marked if removed.'),
+    8: ('Nests and travel', 'Adults claim reachable Nests and return at night. Lead one to a free Nest and use it to rehome. Empty-hand Nest use inspects it. Use a compass on a Nest or resident to mark home; the place stays marked if removed.'),
     9: ('Food and troughs', 'Guavas suit every line; other foods follow Diet. Fill a trough for healing. Injured adults can eat near their Nest at night; keep food and a safe route within four blocks of home. Sneak-empty withdraws stock.'),
     10: ('Life at home', 'Healthy adults visit nearby bells at noon. Ring one to call a daytime visit. Keep it within 12 blocks of home, with walking space. Injury, threats, leads, rides and night interrupt.'),
     11: ('Gentle sampling', 'Use a Sampling Syringe on an animal at half health or better. It yields one Tissue Sample without harm; recovery takes five minutes. Sneak-use Calipers for care readiness and timers.'),
@@ -38,7 +38,7 @@ PAGES = {
     32: ('Find refuge', 'Non-feral residents retreat from visible threats to a safer dry spot near home. Meals and work pause. Leads and rides take over. Feral lines keep their retaliation. No safe route means no retreat.'),
     33: ('Storm shelter', 'Idle adults wait under cover near their Nest during thunderstorms. Leave a dry floor, room to stand and a safe route. Meals, work, danger and player control take priority. Normal rain keeps idle routines.'),
     34: ('Trough automation', 'Hoppers fill and drain troughs. Power the hopper to hold food. Stock: one matching stack, up to 16; comparators read 0 empty to 15 full. A hoe toggles gardening. Redstone pauses residents: page 49.'),
-    35: ('Bell calls', 'Ring a bell within 12 blocks of a Nest to call healthy adults by day. Redstone and projectiles work too. Leave safe walking space. Visits last up to 20 seconds, with a minute of rest. Leads and care take priority.'),
+    35: ('Bell calls', 'Ring a bell within 12 blocks of a Nest to call healthy adults by day. Redstone and projectiles work too. Safe paths, leads and care take priority. Visits: 20 seconds, one-minute rest. Sneak-Calipers: roll call (page 52).'),
     36: ('Fleece colors', 'Woolly adults yield two wool in their coat colors. Spotted gives one yellow and one brown. Glow gives cyan; moss green; ember red; void purple. Hidden coats add nothing. Calipers names the ready yield.'),
     37: ('Trough filters', 'Sneak-use food to reserve a trough for that exact food and its components, without spending it. Hoppers and gardeners obey the filter. Sneak-empty withdraws stock; repeat while empty to clear the filter.'),
     38: ('Care dispensers', 'Dispensers use Brushes or Sampling Syringes on one eligible bunnidog ahead per pulse. One tool use; hand and machine share recovery. Collect drops with hoppers. Armadillo brushing still works.'),
@@ -53,13 +53,14 @@ PAGES = {
     48: ('Choose a mineral', 'Senses +20 scouts can focus: hold a mineral in the other hand. Raw metals/ingots select their ore; coal, redstone, lapis, gems, quartz or netherite scrap select theirs. No mineral is spent. Every focus shares the same survey rest.'),
     49: ('Pause trough work', 'Power a Feeding Trough to pause resident meals, crops and composting. Stock, filters, hoppers and comparator output still work. Remove power to resume at the next search. The hoe keeps its setting. Empty-hand inspection names the pause.'),
     51: ('Find a tagged animal', 'Rename a spare Ear Tag to a code like BD-3F7A2C. Hold it opposite Calipers; sneak-use the air. Loaded matches within 24 blocks glow ten seconds. Search rest: five seconds. Reusable tag; packed animals are excluded.'),
+    52: ('Bell roll call', 'Sneak-use Calipers on a bell for loaded adults with nearby Nests. Lists tags, health, foods and homes; injured first. Shows up to eight animals within 32 blocks, with Nests within 12. Reading rings no bell and changes nothing.'),
 }
-PAGE_COUNT = 51
+PAGE_COUNT = 52
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
               31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
-NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work',51:'Find a tagged animal'}
+NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work',51:'Find a tagged animal',52:'Bell roll call'}
 
 
 def pantry_guide_pool():
@@ -107,7 +108,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,51),(495,40),(735,50)]:
+    for x,page in [(255,8),(495,52),(735,50)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

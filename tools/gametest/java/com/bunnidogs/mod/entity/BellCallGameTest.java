@@ -3,12 +3,20 @@ package com.bunnidogs.mod.entity;
 import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModEntities;
+import com.bunnidogs.mod.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.BellBlock;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.network.chat.Component;
 
 public final class BellCallGameTest {
     private BellCallGameTest() {}
@@ -31,6 +39,26 @@ public final class BellCallGameTest {
                 var gathering = new BellGatherGoal(dog);
                 h.assertTrue(!gathering.canUse(),"A failed noon lookup must establish the normal search backoff");
                 h.setBlock(4,1,4,Blocks.BELL);
+                var calipers = new ItemStack(ModItems.CALIPERS.get());
+                calipers.set(DataComponents.CUSTOM_NAME,Component.literal("Bell readout"));
+                player.setItemInHand(InteractionHand.OFF_HAND,calipers); player.setShiftKeyDown(true);
+                var before = calipers.copy(); var genes = dog.genome(); var stats = dog.stats();
+                dog.applyEarTag();
+                var census = ResidentCensus.nearby(level,bell);
+                h.assertTrue(census.contains(dog),"Bell roll call must include an adult with a real nearby claimed home");
+                // This native mock Player has no connection; use the real item entry with the server-level readout.
+                calipers.getItem().useOn(new UseOnContext(level,player,InteractionHand.OFF_HAND,calipers,
+                        new BlockHitResult(Vec3.atCenterOf(bell),Direction.UP,bell,false)));
+                h.assertTrue(dog.calledBell() == null && home.equals(dog.homeNest()) && ItemStack.matches(before,calipers)
+                        && dog.genome().equals(genes) && dog.stats().equals(stats),
+                        "Sneak-Calipers roll call must not ring, queue visits, change homes/biology or alter the tool");
+                dog.setAge(-100);
+                h.assertTrue(!ResidentCensus.nearby(level,bell).contains(dog),"Roll call excludes pups even with a cached home");
+                dog.setAge(0);
+                var remote = bell.offset(4096,0,4096);
+                h.assertTrue(!level.hasChunkAt(remote) && ResidentCensus.nearby(level,remote).isEmpty() && !level.hasChunkAt(remote),
+                        "Roll call must never request remote terrain");
+                player.setShiftKeyDown(false); player.setItemInHand(InteractionHand.OFF_HAND,ItemStack.EMPTY);
                 level.clockManager().setTotalTicks(clock,1000);
                 var nativeBell = (BellBlock)Blocks.BELL;
                 dog.setHealth(dog.getMaxHealth()-1);

@@ -204,3 +204,26 @@ through deliberate sneak-use with the basket in the other hand. This reuses
 the existing identity snapshot without unpacking or changing saved animal
 state. Missing UUIDs are refused by sheet/record reading as well as release.
 See `SHEET_SPECS.md` S9.
+
+## H8: mark a resident's home
+
+Use a compass normally on an ordinary living resident to mark its recorded
+Nest. Sneaking keeps E2/E3 mineral scouting. This gives travelers and breeders
+a route back from the animal without first finding its room. The same native
+place-marker transaction preserves components, stack/creative/overflow rules
+and dimension behavior. Chat records the animal and all three coordinates.
+
+Build permission is required. Homeless animals and known loaded missing or
+out-of-world Nests refuse without changing the compass. A recorded unloaded
+home may be marked without requesting its terrain; it is a remembered place,
+not a guarantee that the block still exists. Marking never validates/takes/
+releases a POI ticket, edits the home, redirects AI or spends animal recovery.
+The guide's existing home chapter explains both block and resident gestures.
+
+H8 evidence (2026-10-18): actual Java 25 build/all 41 native scenarios pass.
+The extended Nest-marker case checks a named off-hand compass on a real
+claimed resident, exact ticket/home retention, separate sneak-scout refusal,
+Adventure and loaded-missing refusals, and an unloaded recorded home staying
+unloaded. Existing marker stack/creative/save/overflow cases remain passing.
+Home/roll-call/index guide preview inspected; client compass travel remains
+playtest review.

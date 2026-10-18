@@ -93,6 +93,38 @@ public final class NestMarkerGameTest {
             h.assertTrue(extra.getCount() == 1 && drops.stream().mapToInt(item -> item.getItem().getCount()).sum() == 1,
                     "A full survival inventory must drop exactly the one marked compass");
             h.assertTrue(first.equals(dog.homeNest()),"Marking, re-marking and overflow must not move the resident");
+            var residentCompass = new ItemStack(Items.COMPASS);
+            residentCompass.set(DataComponents.CUSTOM_NAME,Component.literal("Resident's home"));
+            player.setItemInHand(InteractionHand.OFF_HAND,residentCompass);
+            dog.mobInteract(player,InteractionHand.OFF_HAND);
+            h.assertTrue(expected.equals(residentCompass.get(DataComponents.LODESTONE_TRACKER))
+                    && residentCompass.getHoverName().getString().equals("Resident's home") && first.equals(dog.homeNest())
+                    && pois.getCountInRange(holder -> holder.is(ModPoi.NEST.getKey()),first,0,PoiManager.Occupancy.IS_OCCUPIED) == 1,
+                    "A resident must mark its actual home on a named off-hand compass without moving or claiming a ticket");
+            var unchangedResident = residentCompass.copy();
+            player.setShiftKeyDown(true); dog.mobInteract(player,InteractionHand.OFF_HAND); player.setShiftKeyDown(false);
+            h.assertTrue(ItemStack.matches(residentCompass,unchangedResident) && dog.scoutingWait() == 0,
+                    "Sneaking must retain the separate mineral-scout gesture and its trait refusal");
+            player.gameMode.changeGameModeForPlayer(GameType.ADVENTURE);
+            var refused = new ItemStack(Items.COMPASS); player.setItemInHand(InteractionHand.OFF_HAND,refused);
+            dog.mobInteract(player,InteractionHand.OFF_HAND);
+            h.assertTrue(!refused.has(DataComponents.LODESTONE_TRACKER),"Adventure permission must prevent resident home marking");
+            player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
+            level.setBlock(first,Blocks.AIR.defaultBlockState(),3);
+            dog.mobInteract(player,InteractionHand.OFF_HAND);
+            h.assertTrue(!refused.has(DataComponents.LODESTONE_TRACKER) && first.equals(dog.homeNest()),
+                    "A known loaded missing Nest must refuse without editing the cached animal home");
+            var remote = first.offset(4096,0,4096);
+            h.assertTrue(!level.hasChunkAt(remote),"Recorded remote Nest fixture must start unloaded");
+            var savedDog = TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess());
+            dog.saveWithoutId(savedDog); var savedTag = savedDog.buildResult();
+            savedTag.putInt("NestX",remote.getX()); savedTag.putInt("NestY",remote.getY()); savedTag.putInt("NestZ",remote.getZ());
+            var traveling = ModEntities.BUNNIDOG.get().create(level,net.minecraft.world.entity.EntitySpawnReason.LOAD);
+            traveling.load(TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),savedTag));
+            traveling.mobInteract(player,InteractionHand.OFF_HAND);
+            var remoteMarker = new LodestoneTracker(Optional.of(GlobalPos.of(level.dimension(),remote)),false);
+            h.assertTrue(remoteMarker.equals(refused.get(DataComponents.LODESTONE_TRACKER)) && !level.hasChunkAt(remote)
+                    && remote.equals(traveling.homeNest()),"Marking a recorded unloaded home must not load terrain or change its coordinates");
             h.succeed();
         });
     }

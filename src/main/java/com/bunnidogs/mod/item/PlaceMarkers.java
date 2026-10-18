@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.component.LodestoneTracker;
 import net.minecraft.world.level.Level;
 
-/** Persistent native place markers shared by Nests and mineral scouts. Call on the server with a compass. */
+/** Persistent native place markers shared by Nests, residents and mineral scouts. Call on the server with a compass. */
 public final class PlaceMarkers {
     private PlaceMarkers() {}
     public static void bind(Level level, BlockPos pos, Player player, InteractionHand hand) {

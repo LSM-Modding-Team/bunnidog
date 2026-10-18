@@ -58,8 +58,8 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Fifty-one pages use the ordinary written-book screen. Three linked contents pages
-offer twenty-five clickable chapter links. Each chapter links back to its index. Local page changes
+Fifty-two pages use the ordinary written-book screen. Three linked contents pages
+offer twenty-six clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
 
@@ -77,8 +77,8 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 ## Evidence
 
 The actual Java 25 build and current forty-one native server cases pass,
-including loading the book/recipe/loot resources. The expanded 51-page
-finder/More/New preview is inspected with a substitute font; all
+including loading the book/recipe/loot resources. The expanded 52-page
+home/roll-call/New preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -135,3 +135,7 @@ and navigation remain client gameplay review.
 E5 appends page 51, **Find a tagged animal**, with the renamed spare-tag
 Calipers gesture, 24-block loaded range, native outline and shared search rest.
 Page 50 gains its seventh chapter link; all older destinations remain stable.
+
+H8 extends page 8's compass gesture to residents. L18 adds **Bell roll call**
+on page 52; page 35 points to it and page 50 gains its eighth chapter link.
+Existing destinations/native book components remain stable.

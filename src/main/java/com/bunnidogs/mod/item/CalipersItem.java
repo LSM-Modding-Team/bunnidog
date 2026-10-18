@@ -11,6 +11,7 @@ import com.bunnidogs.mod.block.NurseryCradleBlock;
 import com.bunnidogs.mod.entity.NurseryHatching;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.entity.ResidentFinding;
+import com.bunnidogs.mod.entity.ResidentCensus;
 import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Diet;
 import com.bunnidogs.mod.genetics.Foraging;
@@ -37,6 +38,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 
 /**
  * The Calipers show the exact genes and stats of what they touch. Ordinary measurements are read-only;
@@ -180,6 +182,10 @@ public class CalipersItem extends Item {
         Level level = context.getLevel();
         Player player = context.getPlayer();
         if (player == null) return InteractionResult.PASS;
+        if (player.isShiftKeyDown() && level.getBlockState(context.getClickedPos()).is(Blocks.BELL)) {
+            if (level instanceof ServerLevel server) ResidentCensus.show(server,context.getClickedPos(),player);
+            return InteractionResult.SUCCESS;
+        }
         var block = level.getBlockEntity(context.getClickedPos());
         Optional<Seed> planted;
         if (block instanceof SeedCropBlockEntity crop) planted = crop.seed();
@@ -232,6 +238,7 @@ public class CalipersItem extends Item {
         lines.accept(Component.literal("Right-click a planted seed or Nursery Cradle: litter forecast").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.calipers.cradle").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.calipers.finder").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(Component.translatable("tooltip.bunnidogs.calipers.census").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.literal("Or hold a seed, sample or occupied Travel Basket in the other hand").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.literal("Off hand when you kill: a Tissue Sample").withStyle(ChatFormatting.DARK_GRAY));
     }

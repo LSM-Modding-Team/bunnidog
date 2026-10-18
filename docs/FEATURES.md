@@ -449,3 +449,14 @@ supply barrel. New pantry/market/lower-room barrels have small stores of food
 and plain guavas. Existing containers are not refilled; terrain can omit the
 lower floor. Test with `/bunnidogs warren 5 surface` on deep flat ground.
 These additions have build/headless checks and still need gameplay review.
+
+
+**Resident home markers (H8):** normal compass use on a resident marks its
+recorded Nest, including an unloaded remembered home without loading terrain.
+Sneaking retains mineral scouting. Missing loaded homes refuse; whole compass
+components and all home tickets remain intact.
+
+**Bell roll call (L18):** sneak-use Calipers on a bell for loaded adults whose
+Nests lie within twelve blocks and whose bodies lie within thirty-two. Chat
+lists up to eight, injured first, with tags, health, foods and home coordinates,
+plus total/remaining counts. Reading never rings or redirects residents.

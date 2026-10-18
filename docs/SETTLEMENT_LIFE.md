@@ -1,8 +1,33 @@
-# Settlement life L1–L17
+# Settlement life L1–L18
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
 No hunger/starvation system, forced breeding or changes to existing containers.
+
+## L18: read-only bell roll call
+
+Sneak-use Calipers on a bell to list loaded living adult residents whose
+recorded Nests are within twelve blocks of it, while the animals themselves
+are within the native thirty-two-block call radius. No home/terrain/POI/path/
+food search occurs. Unloaded, homeless, pup and Apex animals are excluded.
+This is a local snapshot, not a full settlement census or a promise of visit
+readiness. Adventure players may read it like ordinary Calipers measurements.
+
+Persistent chat gives total loaded/injured counts and up to eight rows of
+name, Ear Tag, current/max health, suitable foods and Nest coordinates. Injured
+animals come first, then nearest Nests and UUID ties. Large groups get an
+explicit remaining count. The code connects to E5 finding; the home connects
+to H8 compass marking. Reading rings no bell, queues no visit and edits no
+items, animal timers, health, home or ticket. No saved state/packet is added.
+The tooltip and guide page 52 describe the gesture.
+
+L18 evidence (2026-10-18): actual Java 25 build/all 41 native cases pass.
+The existing bell-call case reads the actual off-hand Calipers entry beside a
+real claimed resident, verifies no queued call or item/biology/home changes,
+excludes a pup with a cached home and searches a remote origin without loading
+terrain. Real native bell-ring/call/path/recovery cases remain passing.
+The roll-call/home/index preview is inspected; client chat/layout and larger
+natural-warren management remain gameplay review.
 
 ## L17: redstone trough pause
 
