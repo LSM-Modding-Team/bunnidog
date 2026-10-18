@@ -293,7 +293,7 @@
   "guide.bunnidogs.page.27.title": "Before the Apex",
   "guide.bunnidogs.page.27.body": "Hold Calipers in the main hand and a Tissue Sample in the other. Use an Apex Crucible for health, attacks and defenses. Empty-hand use lists missing offerings. Reading spends nothing.",
   "message.bunnidogs.care.gardening": "Gardening: %s",
-  "message.bunnidogs.gardening.ready": "ready to search; needs an enabled trough, room for matching food and a safe path",
+  "message.bunnidogs.gardening.ready": "ready to search; needs an enabled, unpowered trough, matching food, room and a safe route",
   "message.bunnidogs.gardening.unavailable": "not a resident worker",
   "message.bunnidogs.gardening.adult": "needs an adult",
   "message.bunnidogs.gardening.full_health": "needs full health",
@@ -316,7 +316,7 @@
   "guide.bunnidogs.page.33.title": "Storm shelter",
   "guide.bunnidogs.page.33.body": "Idle adults wait under cover near their Nest during thunderstorms. Leave a dry floor, room to stand and a safe route. Meals, work, danger and player control take priority. Normal rain keeps idle routines.",
   "guide.bunnidogs.page.34.title": "Trough automation",
-  "guide.bunnidogs.page.34.body": "Hoppers fill troughs from above or the side; one below drains stock. Keep it powered to hold food. One food stack fits up to 16. Comparators read stock: 0 empty, 15 full. A hoe still controls gardening.",
+  "guide.bunnidogs.page.34.body": "Hoppers fill and drain troughs. Power the hopper to hold food. Stock: one matching stack, up to 16; comparators read 0 empty to 15 full. A hoe toggles gardening. Redstone pauses residents: page 49.",
   "guide.bunnidogs.page.35.title": "Bell calls",
   "guide.bunnidogs.page.35.body": "Ring a bell within 12 blocks of a Nest to call healthy adults by day. Redstone and projectiles work too. Leave safe walking space. Visits last up to 20 seconds, with a minute of rest. Leads and care take priority.",
   "guide.bunnidogs.page.36.title": "Fleece colors",
@@ -445,5 +445,8 @@
   "survey.bunnidogs.focus.quartz": "quartz ore",
   "survey.bunnidogs.focus.debris": "ancient debris",
   "guide.bunnidogs.page.48.title": "Choose a mineral",
-  "guide.bunnidogs.page.48.body": "Senses +20 scouts can focus: hold a mineral in the other hand. Raw metals/ingots select their ore; coal, redstone, lapis, gems, quartz or netherite scrap select theirs. No mineral is spent. Every focus shares the same survey rest."
+  "guide.bunnidogs.page.48.body": "Senses +20 scouts can focus: hold a mineral in the other hand. Raw metals/ingots select their ore; coal, redstone, lapis, gems, quartz or netherite scrap select theirs. No mineral is spent. Every focus shares the same survey rest.",
+  "message.bunnidogs.trough.powered": "Residents paused by redstone. %s",
+  "guide.bunnidogs.page.49.title": "Pause trough work",
+  "guide.bunnidogs.page.49.body": "Power a Feeding Trough to pause resident meals, crops and composting. Stock, filters, hoppers and comparator output still work. Remove power to resume at the next search. The hoe keeps its setting. Empty-hand inspection names the pause."
 }

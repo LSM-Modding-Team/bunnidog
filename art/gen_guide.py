@@ -37,7 +37,7 @@ PAGES = {
     31: ('Resident needs', 'Sneak-use Calipers for a claimed Nest, distance, foods and meal recovery. Healthy adults need no healing. Ready means ready to search, not a promise of nearby food. Reading changes nothing.'),
     32: ('Find refuge', 'Non-feral residents retreat from visible threats to a safer dry spot near home. Meals and work pause. Leads and rides take over. Feral lines keep their retaliation. No safe route means no retreat.'),
     33: ('Storm shelter', 'Idle adults wait under cover near their Nest during thunderstorms. Leave a dry floor, room to stand and a safe route. Meals, work, danger and player control take priority. Normal rain keeps idle routines.'),
-    34: ('Trough automation', 'Hoppers fill troughs from above or the side; one below drains stock. Keep it powered to hold food. One food stack fits up to 16. Comparators read stock: 0 empty, 15 full. A hoe still controls gardening.'),
+    34: ('Trough automation', 'Hoppers fill and drain troughs. Power the hopper to hold food. Stock: one matching stack, up to 16; comparators read 0 empty to 15 full. A hoe toggles gardening. Redstone pauses residents: page 49.'),
     35: ('Bell calls', 'Ring a bell within 12 blocks of a Nest to call healthy adults by day. Redstone and projectiles work too. Leave safe walking space. Visits last up to 20 seconds, with a minute of rest. Leads and care take priority.'),
     36: ('Fleece colors', 'Woolly adults yield two wool in their coat colors. Spotted gives one yellow and one brown. Glow gives cyan; moss green; ember red; void purple. Hidden coats add nothing. Calipers names the ready yield.'),
     37: ('Trough filters', 'Sneak-use food to reserve a trough for that exact food and its components, without spending it. Hoppers and gardeners obey the filter. Sneak-empty withdraws stock; repeat while empty to clear the filter.'),
@@ -51,8 +51,9 @@ PAGES = {
     46: ('Warren maps', 'Journeyman cartographers may sell a Warren Explorer Map for 14 emeralds and a compass. Follow its village marker to a natural Overworld warren. The trade is not guaranteed. Failed searches omit it. Cave dens and End warrens are excluded.'),
     47: ('Mineral scouts', 'Sneak-use a compass on a half-healthy bat-eared adult with Senses +10. Marks ore through rock within six blocks. A survey rests 30 seconds, even when empty. Places stay after mining. Focused surveys: page 48.'),
     48: ('Choose a mineral', 'Senses +20 scouts can focus: hold a mineral in the other hand. Raw metals/ingots select their ore; coal, redstone, lapis, gems, quartz or netherite scrap select theirs. No mineral is spent. Every focus shares the same survey rest.'),
+    49: ('Pause trough work', 'Power a Feeding Trough to pause resident meals, crops and composting. Stock, filters, hoppers and comparator output still work. Remove power to resume at the next search. The hoe keeps its setting. Empty-hand inspection names the pause.'),
 }
-PAGE_COUNT = 48
+PAGE_COUNT = 49
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',41:'Nursery & compost',8:'Homes & food',11:'Care & traits',45:'Nest guards',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
@@ -103,7 +104,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,46),(495,47),(735,48)]:
+    for x,page in [(255,34),(495,48),(735,49)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

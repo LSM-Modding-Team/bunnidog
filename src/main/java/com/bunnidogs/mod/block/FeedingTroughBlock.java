@@ -80,6 +80,8 @@ public final class FeedingTroughBlock extends Block implements EntityBlock {
         return InteractionResult.SUCCESS;
     }
     private static Component withFilter(FeedingTroughBlockEntity trough, Component stock) {
-        return trough.filter().isEmpty() ? stock : Component.translatable("message.bunnidogs.trough.stock_filter",stock,trough.filter().getHoverName());
+        Component detail = trough.filter().isEmpty() ? stock
+                : Component.translatable("message.bunnidogs.trough.stock_filter",stock,trough.filter().getHoverName());
+        return trough.residentsPaused() ? Component.translatable("message.bunnidogs.trough.powered",detail) : detail;
     }
 }

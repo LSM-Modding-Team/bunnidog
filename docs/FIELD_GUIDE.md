@@ -41,6 +41,9 @@ including empty surveys and persistent compass places after mining. The first
 index labels the exploration chapter **Warrens & scouts**; page 2 points to both.
 Page 48 explains Senses +20 mineral cues and shared survey recovery. Page 47
 points to it; all older page numbers and twenty chapter links remain stable.
+Page 49 explains the redstone resident pause, preserved automation and the
+independent hoe setting. The automation page distinguishes powering a hopper
+from powering the trough and points to this new explanation.
 The home page also covers read-only Nest inspection and persistent compass marks.
 The food page explains short safe nighttime trough meals near home.
 
@@ -53,7 +56,7 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Forty-eight pages use the ordinary written-book screen. The two linked contents pages
+Forty-nine pages use the ordinary written-book screen. The two linked contents pages
 offer twenty clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
@@ -72,8 +75,8 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 ## Evidence
 
 The actual Java 25 build and current forty native server cases pass,
-including loading the book/recipe/loot resources. The expanded 48-page
-map/scout/focus preview is inspected with a substitute font. Earlier
+including loading the book/recipe/loot resources. The expanded 49-page
+automation/focus/pause preview is inspected with a substitute font. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
 sources establish the ordinary book/packet/click behavior; no new screen or

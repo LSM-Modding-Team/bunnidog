@@ -1,8 +1,43 @@
-# Settlement life L1–L16
+# Settlement life L1–L17
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
 No hunger/starvation system, forced breeding or changes to existing containers.
+
+## L17: redstone trough pause
+
+Power a Feeding Trough to pause resident meals, harvesting, cultivation and
+surplus composting from that trough. Remove power to make it available again
+at the resident's next bounded search. The hoe's gardening opt-in remains
+independent; it is neither cleared nor replaced by the signal. Other unpowered
+food/work sources remain available under their ordinary rules.
+
+Stock, exact filter, comparator output and manual/hopper insertion/extraction
+keep working while paused. The signal reserves food for automation or later
+work rather than deleting it. Native hopper power rules still apply to the
+hopper itself. Empty-hand stock inspection and insertion feedback mention
+the redstone pause. No extra tick, block-state property, item, save field or
+network change is required: the server reads the current native signal.
+
+Starting/continuing meals and garden jobs share the pause, and actual food
+reservations recheck it. A power interruption before commitment preserves
+health, crops, stock and the existing meal/work recovery. Garden jobs also
+recheck eligibility after external grief/destruction callbacks; a callback
+that powers/removes the source or changes the crop cannot commit stale work.
+If a reserved compost input is refused by a later state/power change, return
+it through the existing exact-item refund path. Already committed work keeps
+its ordinary result/recovery. There is no starvation system or new timer.
+
+L17 evidence (2026-10-18): actual Java 25 build/all 40 native cases pass.
+Existing meal/garden/compost cases exercise real redstone-block power, meal
+interruption without health/stock/rest changes, actual reservation refusal,
+transactional named-stock extraction/insertion and retained full comparator
+signal while paused. Removing power resumes a real meal/job. Power inserted
+by the native crop-protection callback prevents the final harvest and its
+cost/recovery; powered compost selection/surplus reservation also refuse.
+Existing hopper/filter/night-meal/cultivation cases remain passing. Updated
+automation/pause guide preview is inspected; client circuits remain gameplay
+review.
 
 ## L16: opt-in feral Nest guards
 

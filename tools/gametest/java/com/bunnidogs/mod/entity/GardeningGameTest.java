@@ -24,6 +24,9 @@ import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingDestroyBlockEvent;
+import java.util.function.Consumer;
 
 public final class GardeningGameTest {
     private GardeningGameTest() {}
@@ -75,7 +78,25 @@ public final class GardeningGameTest {
                 var goal = new GardenGoal(dog);
                 h.assertTrue(trough.setFilter(new ItemStack(Items.POTATO)) && !goal.canUse() && level.getBlockState(cropPos).equals(ripe),
                         "An empty filtered trough must not make a gardener harvest the wrong crop");
-                trough.clearFilter(); goal = new GardenGoal(dog);
+                trough.clearFilter();
+                var power = troughPos.north(); level.setBlock(power,Blocks.REDSTONE_BLOCK.defaultBlockState(),3);
+                h.assertTrue(!new GardenGoal(dog).canUse(),"A powered enabled trough must refuse new crop jobs");
+                level.setBlock(power,Blocks.AIR.defaultBlockState(),3);
+                var interruptedByPower = new GardenGoal(dog);
+                h.assertTrue(interruptedByPower.canUse(),"Unpowered enabled troughs must resume work");
+                interruptedByPower.start(); dog.setPos(Vec3.atBottomCenterOf(h.absolutePos(new BlockPos(5,1,3))));
+                Consumer<LivingDestroyBlockEvent> pauseAtCommit = event -> {
+                    if (event.getEntity() == dog && event.getPos().equals(cropPos))
+                        level.setBlock(power,Blocks.REDSTONE_BLOCK.defaultBlockState(),3);
+                };
+                NeoForge.EVENT_BUS.addListener(pauseAtCommit);
+                try { for (int i = 0; i < Gardening.WORK_TICKS; i++) interruptedByPower.tick(); }
+                finally { NeoForge.EVENT_BUS.unregister(pauseAtCommit); interruptedByPower.stop(); }
+                h.assertTrue(trough.residentsPaused() && level.getBlockState(cropPos).equals(ripe)
+                        && trough.food().isEmpty() && dog.gardeningWait() == 0,
+                        "Power arriving in a native protection callback must preserve the crop, stock and work recovery");
+                level.setBlock(power,Blocks.AIR.defaultBlockState(),3);
+                goal = new GardenGoal(dog);
                 h.assertTrue(goal.canUse(),"A healthy forager must find the enabled trough and reachable ripe carrots");
                 goal.start();
                 dog.setPos(Vec3.atBottomCenterOf(h.absolutePos(new BlockPos(5,1,3))));

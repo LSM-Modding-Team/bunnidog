@@ -72,6 +72,11 @@ public final class CompostingGameTest {
                 dog.setStats(Stats.of(0,0,0,0,9));
                 h.assertTrue(!new GardenGoal(dog).canUse(),"Low Bloom must leave surplus food untouched");
                 dog.setStats(Stats.of(0,0,0,0,10));
+                var pausePower = troughPos.north(); level.setBlock(pausePower,Blocks.REDSTONE_BLOCK.defaultBlockState(),3);
+                h.assertTrue(stock.residentsPaused() && !new GardenGoal(dog).canUse()
+                        && stock.takeSurplus(carrots,Gardening.COMPOST_RESERVE).isEmpty() && stock.food().getCount() == 9,
+                        "Native power must block both compost selection and the actual surplus reservation");
+                level.setBlock(pausePower,Blocks.AIR.defaultBlockState(),3);
                 var job = new GardenGoal(dog); h.assertTrue(job.canUse(),"Bloom +10 must find the reachable native composter"); job.start();
                 try (var tx = Transaction.openRoot()) { stock.automation().extract(ItemResource.of(carrots),1,tx); tx.commit(); }
                 h.assertTrue(!job.canContinueToUse() && stock.food().getCount() == 8 && dog.gardeningWait() == 0,

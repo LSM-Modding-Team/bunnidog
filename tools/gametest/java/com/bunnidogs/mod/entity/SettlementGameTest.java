@@ -18,6 +18,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public final class SettlementGameTest {
     private SettlementGameTest() {}
@@ -58,6 +60,24 @@ public final class SettlementGameTest {
                 var goal = new TroughGoal(dog);
                 h.assertTrue(goal.canUse(),"An injured resident must find a loaded reachable matching trough");
                 float health = dog.getHealth();
+                goal.start(); goal.tick();
+                var power = pos.north(); level.setBlock(power,Blocks.REDSTONE_BLOCK.defaultBlockState(),3);
+                h.assertTrue(trough.residentsPaused() && !goal.canContinueToUse() && !trough.takeMeal(dog),
+                        "Native power must interrupt a meal and refuse the actual food reservation");
+                for (int i = 0; i < Foraging.GRAZE_TICKS; i++) goal.tick();
+                goal.stop();
+                h.assertTrue(dog.getHealth() == health && dog.forageWait() == 0 && trough.food().getCount() == 16
+                        && !new TroughGoal(dog).canUse(),"A paused meal preserves health, stock and recovery and prevents new searches");
+                try (var tx = Transaction.openRoot()) {
+                    h.assertTrue(trough.automation().extract(ItemResource.of(food),1,tx) == 1,"Automation may drain paused stock"); tx.commit();
+                }
+                try (var tx = Transaction.openRoot()) {
+                    h.assertTrue(trough.automation().insert(ItemResource.of(food),1,tx) == 1,"Automation may refill paused stock"); tx.commit();
+                }
+                h.assertTrue(trough.residentsPaused() && trough.food().getCount() == 16 && trough.stockSignal() == 15,
+                        "Power keeps native inventory transfers, named stock and comparator output available");
+                level.setBlock(power,Blocks.AIR.defaultBlockState(),3);
+                goal = new TroughGoal(dog); h.assertTrue(goal.canUse(),"Removing power must make the preserved meal available again");
                 goal.start();
                 for (int i = 0; i < Foraging.GRAZE_TICKS; i++) goal.tick();
                 goal.stop();

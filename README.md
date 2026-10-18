@@ -4,7 +4,7 @@ A NeoForge mod for Minecraft 26.2: a baby-faced creature with rabbit ears and a
 dog's body, plus breeding, genetics, guavas, warrens, homes and pedigree tools.
 Requires JDK 25. The checked-in Gradle wrapper selects the project Gradle version.
 
-Craft a vanilla book with any guava for the **48-page Field Guide**, with two
+Craft a vanilla book with any guava for the **49-page Field Guide**, with two
 linked contents pages covering its chapters. Sneak-use
 Calipers for care/work readiness, use a hoe on a Feeding Trough to enable
 resident gardening, and explore food stores for supplies suited to each lineage.
@@ -45,6 +45,7 @@ Journeyman cartographers may sell native Warren Explorer Maps to Overworld settl
 Sneak-use a compass on a healthy bat-eared adult with Senses +10 for a nearby
 ore marker. Surveys use loaded terrain and rest thirty seconds, even if empty.
 At Senses +20, a mineral in the other hand selects its ore family without being spent.
+Power a trough to pause resident meals/gardening while preserving stock automation.
 
 ## Build and play
 

@@ -54,7 +54,7 @@ final class GardenGoal extends Goal {
         return pos != null && level.hasChunkAt(pos) && this.dog.foodWithinHome(pos)
                 && level.getBlockState(pos).is(ModBlocks.FEEDING_TROUGH.get())
                 && level.getBlockState(pos).getValue(FeedingTroughBlock.TENDING)
-                && level.getBlockEntity(pos) instanceof FeedingTroughBlockEntity entity ? entity : null;
+                && level.getBlockEntity(pos) instanceof FeedingTroughBlockEntity entity && !entity.residentsPaused() ? entity : null;
     }
     private static Work staged(BlockState state, net.minecraft.world.level.block.state.properties.IntegerProperty age,
             int ripe, int reset, net.minecraft.world.item.Item item, boolean cultivate) {
@@ -161,6 +161,8 @@ final class GardenGoal extends Goal {
                 || !this.reset.canSurvive(level,this.crop)) {
             this.dog.finishedGardening(); this.ticks = Gardening.MAX_VISIT; return;
         }
+        // Protection callbacks may change stock, power, crop state or the animal's eligibility.
+        if (!canContinueToUse()) { this.ticks = Gardening.MAX_VISIT; return; }
         if (this.task == Task.COMPOST) {
             compost(level); this.ticks = Gardening.MAX_VISIT; return;
         }
@@ -179,7 +181,8 @@ final class GardenGoal extends Goal {
         var input = stock.takeSurplus(this.produce,Gardening.COMPOST_RESERVE);
         if (input.isEmpty()) return;
         // Stock notifications may invoke other blocks. Recheck before calling the native composter.
-        if (level.getBlockState(this.crop).equals(this.mature)) {
+        if (level.getBlockEntity(this.trough) == stock && !stock.isRemoved() && !stock.residentsPaused()
+                && level.getBlockState(this.crop).equals(this.mature)) {
             var updated = ComposterBlock.insertItem(this.dog,this.mature,level,input,this.crop);
             level.levelEvent(1500,this.crop,updated.equals(this.mature) ? 0 : 1);
         }

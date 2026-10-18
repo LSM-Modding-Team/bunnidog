@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L17 adds a native redstone pause for resident meals/crop/compost work from a
+trough, retaining its stock/filter/automation/comparator and hoe setting.
+Commit checks include changes during native protection callbacks. Build/all
+40 native cases pass; the 49-page guide preview is inspected. See
+`SETTLEMENT_LIFE.md`.
+
 E3 adds Senses +20 mineral-family focus to compass surveys, using a reusable
 mineral in the other hand and native ore-family tags. Recovery/range remain
 shared and no-match searches retain the old marker. Coordinates now persist

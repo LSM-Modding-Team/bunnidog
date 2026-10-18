@@ -81,14 +81,16 @@ public final class FeedingTroughBlockEntity extends BlockEntity {
         return amount;
     }
     public ItemStack takeAll() { ItemStack out = this.food; this.food = ItemStack.EMPTY; changed(); return out; }
-    public boolean canFeed(Bunnidog dog) { return accepts(this.food) && dog.canEat(this.food); }
+    /** World power pauses resident work; manual and native inventory transfers remain independent. */
+    public boolean residentsPaused() { return this.level != null && this.level.hasNeighborSignal(this.worldPosition); }
+    public boolean canFeed(Bunnidog dog) { return !this.residentsPaused() && accepts(this.food) && dog.canEat(this.food); }
     public boolean takeMeal(Bunnidog dog) {
         if (!(this.level instanceof ServerLevel) || !canFeed(dog)) return false;
         this.food.shrink(1); changed(); return true;
     }
     /** A work job reserves one exact existing input while leaving its food buffer intact. */
     public ItemStack takeSurplus(ItemStack expected, int reserve) {
-        if (!(this.level instanceof ServerLevel) || this.food.getCount() <= Math.max(0,reserve)
+        if (!(this.level instanceof ServerLevel) || this.residentsPaused() || this.food.getCount() <= Math.max(0,reserve)
                 || !ItemStack.isSameItemSameComponents(this.food,expected)) return ItemStack.EMPTY;
         var out = this.food.split(1); changed(); return out;
     }
