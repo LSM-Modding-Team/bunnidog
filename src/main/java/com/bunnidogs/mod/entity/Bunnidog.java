@@ -28,6 +28,7 @@ import com.bunnidogs.mod.genetics.GuavaTier;
 import com.bunnidogs.mod.genetics.Lineage;
 import com.bunnidogs.mod.genetics.Pedigree;
 import com.bunnidogs.mod.genetics.Readout;
+import com.bunnidogs.mod.genetics.RecoveryRest;
 import com.bunnidogs.mod.genetics.Seed;
 import com.bunnidogs.mod.genetics.Stat;
 import com.bunnidogs.mod.genetics.Stats;
@@ -431,6 +432,22 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     boolean foodWithinHome(BlockPos pos) {
         BlockPos nest = this.homeNest();
         return nest != null && Foraging.insideHome(pos.distSqr(nest));
+    }
+
+    /** A cheap care snapshot; actual safe resting spots and routes are searched only by the idle goal. */
+    public RecoveryRest.Status recoveryRestStatus() {
+        if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel)) return RecoveryRest.Status.UNAVAILABLE;
+        if (this.isBaby()) return RecoveryRest.Status.ADULT;
+        if (!RecoveryRest.needed(this.getHealth(),this.getMaxHealth())) return RecoveryRest.Status.HEALTH;
+        if (this.homeNest() == null) return RecoveryRest.Status.HOME;
+        if (this.beingTransported()) return RecoveryRest.Status.TRANSPORTED;
+        if (this.getTarget() != null || this.seekingRefuge()
+                || this.getLastHurtByMob() != null && this.tickCount-this.getLastHurtByMobTimestamp() < 200)
+            return RecoveryRest.Status.DANGER;
+        if (this.homeNight()) return RecoveryRest.Status.NIGHT;
+        if (this.level().isThundering()) return RecoveryRest.Status.WEATHER;
+        return this.foodWithinHome(this.blockPosition()) ? RecoveryRest.Status.READY
+                : RecoveryRest.Status.OUTSIDE_HOME;
     }
 
     void ateForage(float healing) {
@@ -949,6 +966,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.goalSelector.addGoal(7, new GrazeGoal(this));
         this.goalSelector.addGoal(7, new GardenGoal(this));
         this.goalSelector.addGoal(7, new BellGatherGoal(this));
+        this.goalSelector.addGoal(8, new RecoveryRestGoal(this));
         this.goalSelector.addGoal(8, new StormShelterGoal(this));
         this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 6.0F));

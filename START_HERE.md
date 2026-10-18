@@ -22,6 +22,12 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-18
 
+- **L19, recovery rest:** adults below half health seek a safe place near
+  their real Nest instead of strolling by day. Meals and other important
+  goals preempt; thunder releases them for shelter. No passive healing or
+  saved state. Calipers reports readiness. Java 25 build/all 43 native cases
+  pass; recovery/index preview inspected. See `docs/SETTLEMENT_LIFE.md` L19.
+
 - **T7/T8, connected lab bench:** hoppers fill A then B and drain A first,
   retaining whole sample components with native transaction rollback. Actual
   comparators read 0/8/15. Manual placement now uses the real hand, including
@@ -185,7 +191,7 @@ storm shelter, fishing, terrain traits, local supplies, living dust and fitted
 farms are also complete. Their rules/evidence remain in the specifications
 listed below; do not redo them.
 
-The native Field Guide has 52 translated pages and twenty-six chapter links
+The native Field Guide has 53 translated pages and twenty-seven chapter links
 across three linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
@@ -203,7 +209,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Care | Live samples, fleece palettes, whiskers/dust/moss, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C9 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow, terrain movement and snow footing. `docs/CARE_SPECS.md` A1–A5 |
 | Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, led-adult reassignment, Travel Baskets and persistent compass place markers, including resident homes. `docs/HOME_SPECS.md` H1–H8 |
-| Settlement life | Saved trough stock/automation/filters/redstone pause, diet healing/short night meals, bell visits, fitted furniture, harvest/cultivation/surplus composting, guava compost data, local stores, refuge, storm shelter and opt-in feral Nest guards and a read-only bell roll call. `docs/SETTLEMENT_LIFE.md` L1–L18 |
+| Settlement life | Saved trough stock/automation/filters/redstone pause, diet healing/short night meals, bell visits, fitted furniture, harvest/cultivation/surplus composting, guava compost data, local stores, refuge, storm shelter and opt-in feral Nest guards a read-only bell roll call and serious-injury rest. `docs/SETTLEMENT_LIFE.md` L1–L19 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Exploration | Native cartographer Warren Maps, bred bat-ear compass surveys with optional mineral-family focus at Senses +20, native working-line milestones and a loaded tagged-resident finder. `docs/EXPLORATION_SPECS.md` E1–E5 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
@@ -258,7 +264,7 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **forty-two** native scenarios pass (forty-one mod
+The Java 25 build and all **forty-three** native scenarios pass (forty-two mod
 cases plus native sanity). Latest coverage:
 
 - **N1:** real redstone pulses, malformed/blocked/wrong-soil/occupied planting,

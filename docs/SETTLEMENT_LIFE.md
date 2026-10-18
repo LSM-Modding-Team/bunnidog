@@ -1,8 +1,41 @@
-# Settlement life L1–L18
+# Settlement life L1–L19
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
 No hunger/starvation system, forced breeding or changes to existing containers.
+
+## L19: serious-injury rest near home
+
+Ordinary adults strictly below half maximum health replace daytime idle
+strolling with quiet waiting within two blocks of their actual claimed Nest.
+They must already be inside their normal home boundary. Find only loaded,
+dry standing space and consider at most four complete native paths, wholly
+inside the existing home bounds and avoiding hazards. Searches back off five
+seconds, including failure; no safe place means no rest job. An animal already
+safely near home can wait without a new path.
+
+This is idle behavior: meals, hunting, grazing, work, breeding, temptation,
+danger, leads/rides and ordinary home return retain priority. Thunderstorms
+release the job for the existing shelter routine; night keeps native home
+waiting/short meals. A flooded/blocked destination, missing/changed home,
+combat, player control or health rising to half interrupts immediately. Failed
+or exhausted paths stop and retry later. No teleport or chunk request occurs.
+
+Rest supplies no healing, food, growth, stat bonus or reduced care recovery.
+Stock suitable food in a reachable trough: food seeking can preempt rest,
+including while the adult waits between shared meal recoveries. Its home and
+POI ticket are untouched. No new persistent timer/field, pose, model or packet
+is introduced. Sneak-Calipers gives cheap readiness/reasons without a search;
+ready does not promise an available safe spot. Guide page 53 explains it.
+
+L19 evidence (2026-10-18): actual Java 25 build/all 43 native cases pass. The
+new case uses a real claimed home and complete safe path into the two-block
+radius, then waits without healing or item/home/biology changes. Pup, half-
+health, homeless, combat, night and Apex refusals pass. A real higher-priority
+trough goal preempts idle rest before spending stock. Leads, native thunder
+and a flooded resting place interrupt; healing restores normal idling. The
+lab/recovery/index preview is inspected. Long natural routines/client movement
+remain gameplay review.
 
 ## L18: read-only bell roll call
 

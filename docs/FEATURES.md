@@ -468,3 +468,11 @@ hopper to keep samples for reading. Comparators read 0/8/15 occupied slots.
 Whole components/native saves and aborted transfers preserve samples. Manual
 sample use now works from the actual hand, including the off hand; ordinary
 B-first manual take and forecasts stay the same.
+
+
+**Recovery rest (L19):** adults below half health rest at a safe loaded spot
+within two blocks of their claimed Nest during daytime idle periods. Meals,
+danger, breeding, player control and storm shelter take priority. Rest heals
+nothing; keep real suitable food nearby. Unsafe paths/places refuse, and
+healing restores normal idling. Sneak-Calipers reports readiness without
+searching for a path.

@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L19 adds bounded daytime rest near an actual Nest for adults below half
+health, yielding to food/danger/player control and thunderstorm shelter.
+No healing or persistent field; Calipers shares readiness. Java 25 build/all
+43 native cases pass; preview inspected. See `SETTLEMENT_LIFE.md` L19.
+
 T7/T8 connects native hoppers/comparators to the Genetics Table's saved A/B
 samples and repairs actual-hand placement. Transfers preserve components and
 roll back across both slots; manual take/forecasts remain. Java 25 build/all

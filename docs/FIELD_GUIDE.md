@@ -58,8 +58,8 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Fifty-two pages use the ordinary written-book screen. Three linked contents pages
-offer twenty-six clickable chapter links. Each chapter links back to its index. Local page changes
+Fifty-three pages use the ordinary written-book screen. Three linked contents pages
+offer twenty-seven clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
 
@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current forty-two native server cases pass,
-including loading the book/recipe/loot resources. The expanded 52-page
-laboratory/roll-call/New preview is inspected with a substitute font; all
+The actual Java 25 build and current forty-three native server cases pass,
+including loading the book/recipe/loot resources. The expanded 53-page
+laboratory/recovery/New preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -142,3 +142,7 @@ Existing destinations/native book components remain stable.
 
 T7/T8 updates laboratory page 15 with A/B hopper ordering, powered hopper
 retention and 0/8/15 comparator occupancy. Page count/links remain unchanged.
+
+L19 appends **Recovery rest**, page 53, with serious-injury idle behavior,
+meal/danger/weather priorities and no passive healing. Page 50 has nine
+chapter links; the old destinations remain stable.

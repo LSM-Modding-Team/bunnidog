@@ -115,6 +115,7 @@ public class CalipersItem extends Item {
         var scouting = dog.scoutingStatus();
         careRow(player,"scouting",scouting == com.bunnidogs.mod.genetics.Scouting.Status.RESTING ? recovery(dog.scoutingWait())
                 : Component.translatable("message.bunnidogs.scouting."+scouting.name().toLowerCase(Locale.ROOT)));
+        careRow(player,"recovery_rest",Component.translatable("message.bunnidogs.recovery_rest."+dog.recoveryRestStatus().name().toLowerCase(Locale.ROOT)));
     }
 
     private static Component recovery(int ticks) {

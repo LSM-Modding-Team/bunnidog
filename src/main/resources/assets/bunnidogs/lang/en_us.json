@@ -479,5 +479,19 @@
   "tooltip.bunnidogs.calipers.census": "Sneak-use a bell: loaded resident roll call",
   "guide.bunnidogs.index.52": "Bell roll call",
   "guide.bunnidogs.page.52.title": "Bell roll call",
-  "guide.bunnidogs.page.52.body": "Sneak-use Calipers on a bell for loaded adults with nearby Nests. Lists tags, health, foods and homes; injured first. Shows up to eight animals within 32 blocks, with Nests within 12. Reading rings no bell and changes nothing."
+  "guide.bunnidogs.page.52.body": "Sneak-use Calipers on a bell for loaded adults with nearby Nests. Lists tags, health, foods and homes; injured first. Shows up to eight animals within 32 blocks, with Nests within 12. Reading rings no bell and changes nothing.",
+  "message.bunnidogs.care.recovery_rest": "Recovery rest: %s",
+  "message.bunnidogs.recovery_rest.unavailable": "Domestic rest unavailable",
+  "message.bunnidogs.recovery_rest.adult": "Pups follow adults instead",
+  "message.bunnidogs.recovery_rest.health": "Only serious injury (below half health) needs rest",
+  "message.bunnidogs.recovery_rest.home": "Needs a claimed Nest",
+  "message.bunnidogs.recovery_rest.transported": "Player transport takes priority",
+  "message.bunnidogs.recovery_rest.danger": "Danger takes priority",
+  "message.bunnidogs.recovery_rest.night": "Night-home waiting takes priority",
+  "message.bunnidogs.recovery_rest.outside_home": "Must first return inside its home boundary",
+  "message.bunnidogs.recovery_rest.ready": "Ready to seek a safe spot near its Nest; meals take priority",
+  "guide.bunnidogs.index.53": "Recovery rest",
+  "guide.bunnidogs.page.53.title": "Recovery rest",
+  "guide.bunnidogs.page.53.body": "Adults below half health rest near their Nest instead of strolling by day. Food, danger, storms, breeding and leads take priority. Keep a dry safe route. Rest heals nothing; stock suitable food. Sneak-Calipers reports readiness.",
+  "message.bunnidogs.recovery_rest.weather": "Thunderstorm shelter takes priority"
 }

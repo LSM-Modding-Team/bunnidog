@@ -4,13 +4,14 @@ A NeoForge mod for Minecraft 26.2: a baby-faced creature with rabbit ears and a
 dog's body, plus breeding, genetics, guavas, warrens, homes and pedigree tools.
 Requires JDK 25. The checked-in Gradle wrapper selects the project Gradle version.
 
-Craft a vanilla book with any guava for the **52-page Field Guide**, with three
+Craft a vanilla book with any guava for the **53-page Field Guide**, with three
 linked contents pages covering its chapters. Sneak-use
 Calipers for care/work readiness, use a hoe on a Feeding Trough to enable
 resident gardening, and explore food stores for supplies suited to each lineage.
 Living glow/starborn lines yield renewable dust, while inherited terrain traits
 and resident shore fishing give more reasons to develop distinct breeds.
-Residents also seek safer ground around threats and shelter from thunderstorms.
+Residents seek refuge from threats and shelter from thunderstorms.
+Seriously injured adults rest near their Nest between meals, without passive healing.
 Hoppers supply/drain troughs and Genetics Tables; comparators read their stock.
 Sneak-use food to reserve a trough for its exact type/components.
 Ring a nearby bell to call healthy residents for a daytime visit.
