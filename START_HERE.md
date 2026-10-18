@@ -22,6 +22,13 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-18
 
+- **O1–O3, guava orchards:** a plain guava establishes green fruit beneath
+  any leaves; native bone meal advances one age by hand/dispenser. Silk Touch
+  now recovers guava leaves alongside shears. Actual-hand survival/creative,
+  Adventure/protection rollback, exact loot and scheduled support loss pass.
+  Java 25 build/all 46 native cases pass; orchard/region/Habitat guide preview
+  inspected. See `docs/ORCHARD_SPECS.md`.
+
 - **L21, regional farms:** new version-five starts fit desert cactus beds,
   soul-sand wart, swamp mushrooms, cave glow-berry trellises and End chorus
   within the old 3×3 plot. Optional empty enabled troughs, safe terrain fitting
@@ -214,7 +221,7 @@ storm shelter, fishing, terrain traits, local supplies, living dust and fitted
 farms are also complete. Their rules/evidence remain in the specifications
 listed below; do not redo them.
 
-The native Field Guide has 58 translated pages and thirty chapter links
+The native Field Guide has 59 translated pages and thirty-one chapter links
 across four linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
@@ -236,6 +243,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Exploration | Native cartographer Warren Maps, bred bat-ear compass surveys with optional mineral-family focus at Senses +20, native working-line milestones and a loaded tagged-resident finder. `docs/EXPLORATION_SPECS.md` E1–E5 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
+| Orchards | Plain-guava hanging fruit propagation, native bone meal growth and shears/Silk Touch leaf recovery. `docs/ORCHARD_SPECS.md` O1–O3 |
 | Drops and endgame | Pelts/materials, Mutagen/Marrow/Tissue/Dust, five stat legends and pedestals. Sample-defined Apex ritual, inherited combat, warned attacks/enrage, boss bar and source-line crest. `docs/DROPS_SPECS.md`, `docs/APEX_SPECS.md` |
 | Apex preparation | Crucible missing-offering status; main-hand Calipers/off-hand sample forecasts real boss values without spending or spawning. `docs/APEX_SPECS.md` P2 |
 
@@ -287,7 +295,7 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **forty-five** native scenarios pass (forty-four mod
+The Java 25 build and all **forty-six** native scenarios pass (forty-five mod
 cases plus native sanity). Latest coverage:
 
 - **N1:** real redstone pulses, malformed/blocked/wrong-soil/occupied planting,

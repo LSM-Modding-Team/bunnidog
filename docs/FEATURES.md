@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 58 pages from first warren to Apex. Four linked contents pages offer thirty
+open 59 pages from first warren to Apex. Four linked contents pages offer thirty-one
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -499,3 +499,10 @@ a guava-plank trellis and End chorus on end stone. Other regions retain the
 ordinary plot. A safely fitted corner may hold an empty enabled trough. Keep
 food stocked for meals; plants grow natively. Existing settlements keep their
 saved layout, and generation preserves containers and obstructions.
+
+**Guava orchards (O1–O3):** use a plain guava on the underside of any leaves
+with air below to establish a green hanging fruit. Survival spends one from the
+actual hand; creative keeps it. Enhanced guavas never plant. Bone meal advances
+one age, by hand or dispenser; two applications ripen a new fruit. Picking keeps
+the plant to regrow. Shears and Silk Touch each recover one guava leaf block
+without sapling/stick extras. Native protection/Adventure restrictions apply.

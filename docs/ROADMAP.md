@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+O1–O3 adds player-established guava fruit beneath any leaves, one-age native
+bone meal growth by hand/dispenser and Silk Touch recovery of guava leaves.
+Plain-guava/actual-hand costs, native placement protection and saved ages remain
+safe. Java 25 build/all 46 cases pass; orchard/region/Habitat guide preview is
+inspected. See `ORCHARD_SPECS.md`.
+
 L21 gives new version-five farms regional crops and valid supporting blocks,
 including water-free cactus/wart/mushroom/chorus beds and a glow-berry trellis.
 The original footprint, fitted optional troughs and old saved plans remain.

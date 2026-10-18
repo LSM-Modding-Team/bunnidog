@@ -9,10 +9,30 @@
           "name": "bunnidogs:guava_leaves",
           "conditions": [
             {
-              "condition": "minecraft:match_tool",
-              "predicate": {
-                "items": "minecraft:shears"
-              }
+              "condition": "minecraft:any_of",
+              "terms": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "items": "minecraft:shears"
+                  }
+                },
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "predicates": {
+                      "minecraft:enchantments": [
+                        {
+                          "enchantments": "minecraft:silk_touch",
+                          "levels": {
+                            "min": 1
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
             }
           ]
         }
@@ -24,10 +44,30 @@
         {
           "condition": "minecraft:inverted",
           "term": {
-            "condition": "minecraft:match_tool",
-            "predicate": {
-              "items": "minecraft:shears"
-            }
+            "condition": "minecraft:any_of",
+            "terms": [
+              {
+                "condition": "minecraft:match_tool",
+                "predicate": {
+                  "items": "minecraft:shears"
+                }
+              },
+              {
+                "condition": "minecraft:match_tool",
+                "predicate": {
+                  "predicates": {
+                    "minecraft:enchantments": [
+                      {
+                        "enchantments": "minecraft:silk_touch",
+                        "levels": {
+                          "min": 1
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
           }
         }
       ],
@@ -50,10 +90,30 @@
         {
           "condition": "minecraft:inverted",
           "term": {
-            "condition": "minecraft:match_tool",
-            "predicate": {
-              "items": "minecraft:shears"
-            }
+            "condition": "minecraft:any_of",
+            "terms": [
+              {
+                "condition": "minecraft:match_tool",
+                "predicate": {
+                  "items": "minecraft:shears"
+                }
+              },
+              {
+                "condition": "minecraft:match_tool",
+                "predicate": {
+                  "predicates": {
+                    "minecraft:enchantments": [
+                      {
+                        "enchantments": "minecraft:silk_touch",
+                        "levels": {
+                          "min": 1
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
           }
         }
       ],

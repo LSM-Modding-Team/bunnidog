@@ -1,6 +1,7 @@
 package com.bunnidogs.mod.block;
 
 import com.bunnidogs.mod.registry.ModItems;
+import com.bunnidogs.mod.registry.ModBlocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -30,8 +32,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * Right-clicking a ripe one picks it (one plain guava) and sends it back to green, so a tree keeps giving; breaking a ripe one drops
  * a guava too (the loot table {@code data/bunnidogs/loot_table/blocks/guava_fruit.json}), an unripe one drops nothing. It needs leaves
  * above it: when they are gone it falls off at once (a scheduled tick after the shape update, F1); a ripe one drops its guava, a green one nothing. A random tick is the safety net.
+ * Plain guavas can plant green fruit beneath any leaves; native bone meal advances one age per application.
  */
-public class GuavaFruitBlock extends Block {
+public class GuavaFruitBlock extends Block implements BonemealableBlock {
     public static final int MAX_AGE = 2;
     public static final IntegerProperty AGE = BlockStateProperties.AGE_2;
     /** On average 1 random tick in this many grows the fruit one age. */
@@ -46,6 +49,34 @@ public class GuavaFruitBlock extends Block {
 
     public static boolean isRipe(BlockState state) {
         return state.getValue(AGE) >= MAX_AGE;
+    }
+
+    /** A plain guava can establish a green fruit only in dry, loaded air beneath leaves. */
+    public static boolean canPlant(Level level, BlockPos pos) {
+        return !level.isOutsideBuildHeight(pos) && !level.isOutsideBuildHeight(pos.above())
+                && level.hasChunkAt(pos) && level.hasChunkAt(pos.above()) && level.getWorldBorder().isWithinBounds(pos)
+                && level.getBlockState(pos).isAir() && level.getFluidState(pos).isEmpty()
+                && ModBlocks.GUAVA_FRUIT.get().defaultBlockState().canSurvive(level,pos);
+    }
+
+    public static boolean plant(ServerLevel level, BlockPos pos) {
+        return canPlant(level,pos) && level.setBlock(pos,ModBlocks.GUAVA_FRUIT.get().defaultBlockState(),3);
+    }
+
+    @Override
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+        return state.is(this) && !isRipe(state) && state.equals(level.getBlockState(pos)) && canSurvive(state,level,pos);
+    }
+
+    @Override
+    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
+        return isValidBonemealTarget(level,pos,state);
+    }
+
+    /** One successful native hand/dispenser application advances exactly one age. */
+    @Override
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
+        if (isValidBonemealTarget(level,pos,state)) level.setBlock(pos,state.setValue(AGE,state.getValue(AGE)+1),2);
     }
 
     @Override
