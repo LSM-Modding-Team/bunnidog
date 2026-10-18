@@ -62,7 +62,15 @@ final class GardenGoal extends Goal {
         boolean harvest = current >= ripe;
         return harvest || cultivate ? new Work(new ItemStack(item),state.setValue(age,harvest ? reset : current+1),harvest ? Task.HARVEST : Task.CULTIVATE) : null;
     }
-    private static Work work(BlockState state, boolean cultivate, ItemStack stock) {
+    /** Only a spare top is removable: no base, attached flower or upper segment may be broken as a side effect. */
+    private static boolean prunableCactus(ServerLevel level, BlockPos pos) {
+        var state = level.getBlockState(pos);
+        return state.is(Blocks.CACTUS) && level.getBlockState(pos.below()).is(Blocks.CACTUS)
+                && level.getBlockState(pos.above()).isAir() && state.canSurvive(level,pos);
+    }
+    private static Work work(ServerLevel level, BlockPos pos, BlockState state, boolean cultivate, ItemStack stock) {
+        if (state.is(Blocks.CACTUS)) return prunableCactus(level,pos)
+                ? new Work(new ItemStack(Items.CACTUS),Blocks.AIR.defaultBlockState(),Task.HARVEST) : null;
         if (state.is(Blocks.COMPOSTER)) return cultivate && state.getValue(ComposterBlock.LEVEL) < ComposterBlock.MAX_LEVEL
                 && stock.getCount() > Gardening.COMPOST_RESERVE && ComposterBlock.getValue(stock) > 0
                 ? new Work(stock.copyWithCount(1),state,Task.COMPOST) : null;
@@ -94,9 +102,9 @@ final class GardenGoal extends Goal {
         for (BlockPos target : troughs) {
             var stock = trough(target);
             int radius = Gardening.CROP_RADIUS;
-            for (BlockPos p : BlockPos.betweenClosed(target.offset(-radius,-1,-radius),target.offset(radius,1,radius))) {
+            for (BlockPos p : BlockPos.betweenClosed(target.offset(-radius,-1,-radius),target.offset(radius,2,radius))) {
                 if (!level.hasChunkAt(p) || !this.dog.foodWithinHome(p)) continue;
-                var food = work(level.getBlockState(p),Gardening.cultivates(this.dog.stats()),stock.food());
+                var food = work(level,p,level.getBlockState(p),Gardening.cultivates(this.dog.stats()),stock.food());
                 if (food != null && this.dog.canEat(food.produce()) && (food.task() == Task.COMPOST || stock.canInsert(food.produce())))
                     candidates.add(new Candidate(target.immutable(),p.immutable(),food));
             }
@@ -106,7 +114,7 @@ final class GardenGoal extends Goal {
         int attempts = 0;
         for (Candidate candidate : candidates.stream().limit(8).toList()) {
             BlockPos p = candidate.crop(), target = candidate.trough();
-            for (Direction d : Direction.Plane.HORIZONTAL) for (int down = 0; down <= 1; down++) {
+            for (Direction d : Direction.Plane.HORIZONTAL) for (int down = 0; down <= 2; down++) {
                 BlockPos spot = p.relative(d).below(down);
                 if (!HomeRoutes.standing(this.dog,spot) || Vec3.atBottomCenterOf(spot).distanceToSqr(Vec3.atCenterOf(target)) > 9) continue;
                 if (++attempts > 8) return false;
@@ -127,6 +135,7 @@ final class GardenGoal extends Goal {
                 && this.dog.canEat(this.produce)
                 && (this.task == Task.HARVEST || Gardening.cultivates(this.dog.stats()))
                 && this.dog.level().getBlockState(this.crop).equals(this.mature)
+                && (!this.mature.is(Blocks.CACTUS) || prunableCactus((ServerLevel)this.dog.level(),this.crop))
                 && stock != null && (this.task == Task.COMPOST
                     ? stock.food().getCount() > Gardening.COMPOST_RESERVE && ItemStack.isSameItemSameComponents(stock.food(),this.produce)
                         && ComposterBlock.getValue(this.produce) > 0 : stock.canInsert(this.produce))
@@ -136,7 +145,15 @@ final class GardenGoal extends Goal {
     @Override public boolean requiresUpdateEveryTick() { return true; }
     @Override public void start() { this.ticks = 0; this.working = 0; this.dog.getNavigation().moveTo(this.path,1); }
     private boolean sight(BlockPos pos) {
-        var hit = this.dog.level().clip(new ClipContext(this.dog.getEyePosition(),Vec3.atCenterOf(pos),
+        var eye = this.dog.getEyePosition(); var target = Vec3.atCenterOf(pos);
+        if (pos.equals(this.crop) && this.mature.is(Blocks.CACTUS)) {
+            // Its lower segments can hide the top's centre while the near vertical face remains visible.
+            var bounds = this.mature.getCollisionShape(this.dog.level(),pos).bounds();
+            target = new Vec3(Math.clamp(eye.x(),pos.getX()+bounds.minX+.001,pos.getX()+bounds.maxX-.001),
+                    pos.getY()+(bounds.minY+bounds.maxY)/2,
+                    Math.clamp(eye.z(),pos.getZ()+bounds.minZ+.001,pos.getZ()+bounds.maxZ-.001));
+        }
+        var hit = this.dog.level().clip(new ClipContext(eye,target,
                 ClipContext.Block.COLLIDER,ClipContext.Fluid.NONE,this.dog));
         return hit.getType() == HitResult.Type.MISS || hit.getBlockPos().equals(pos);
     }
@@ -144,7 +161,8 @@ final class GardenGoal extends Goal {
         if (!canContinueToUse()) return;
         this.ticks++;
         this.dog.getLookControl().setLookAt(Vec3.atCenterOf(this.crop));
-        if (this.dog.distanceToSqr(Vec3.atCenterOf(this.crop)) > 4 || this.dog.distanceToSqr(Vec3.atCenterOf(this.trough)) > 9) {
+        double reach = this.mature.is(Blocks.CACTUS) ? 9 : 4;
+        if (this.dog.distanceToSqr(Vec3.atCenterOf(this.crop)) > reach || this.dog.distanceToSqr(Vec3.atCenterOf(this.trough)) > 9) {
             this.working = 0;
             if (this.ticks % 20 == 0) {
                 Path route = this.dog.getNavigation().createPath(this.stand,0);

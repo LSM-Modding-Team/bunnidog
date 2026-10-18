@@ -485,3 +485,10 @@ seed rules include starborn and expected stat drift. A held Fortune tool
 adds the real future crop-harvest bonus (highest held level); Cradles get none.
 No cue or sample is spent. Clear hands for plain, untreated forecasts. Choices travel
 with the server snapshot; updated clients and server use network 7.
+
+
+**Cactus gardens (L20):** healthy desert browsers trim one spare top from a
+two-/three-high cactus into a hoe-enabled trough. They keep lower segments
+and flowers, use safe loaded routes and share the existing one-minute work
+rest. Diet, exact filters, power, capacity, griefing and protection apply.
+One base never gets harvested and growth is not accelerated.

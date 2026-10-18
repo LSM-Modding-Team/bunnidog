@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L20 adds protected cactus-top pruning for desert browsers with enabled troughs,
+preserving bases/flowers and rechecking callbacks before one real harvest.
+P5 adds a fourth Habitat index and cactus chapter without renumbering earlier
+pages. Java 25 build/all 44 cases pass; previews inspected. See
+`SETTLEMENT_LIFE.md` L20 and `FIELD_GUIDE.md` P5.
+
 T9/T10 add server-snapshotted guava/Mutagen/Fortune planning to the Genetics Table,
 using real seed quality/drift/treatment and harvest bonus while preserving cues/samples.
 Plain A|B payloads still parse; optional plan data uses matching network 7.

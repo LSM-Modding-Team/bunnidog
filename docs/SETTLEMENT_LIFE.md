@@ -1,8 +1,38 @@
-# Settlement life L1–L19
+# Settlement life L1–L20
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
 No hunger/starvation system, forced breeding or changes to existing containers.
+
+## L20: protected cactus pruning
+
+Healthy desert-browser adults can maintain cactus beside a hoe-enabled trough.
+One job trims one spare top from a two- or three-high column and stores one
+cactus, preserving all lower segments and their ages. A single base, attached
+flower or another segment above is never pruned. Native survival, loaded/home
+bounds, safe grounded paths, exact stock/filter/capacity, redstone pause and
+ordinary protection/mob-griefing rules apply. No Bloom threshold is needed;
+there is no autonomous cactus planting or forced growth.
+
+The existing bounded garden scan reaches two blocks above its trough; a top
+can be pruned from clear ground with a three-block reach. Visibility targets
+the real cactus collision face, avoiding the lower-segment obstruction to its
+centre without ignoring intervening blocks. Other plants retain their shorter
+reach. Candidate standing space includes ground two blocks below a tall crop;
+all native route/hazard checks remain. The top/base/flower conditions recheck
+through commitment, including after native protection callbacks, so new growth
+cannot trigger a chain break. Food goes through existing stock insertion; there
+is no extra loose harvest drop. The saved one-minute work recovery is shared
+with ordinary harvesting, cultivation and composting. Homes/biology are untouched.
+
+L20 evidence (2026-10-18): actual Java 25 build/all 44 native cases pass.
+The new case uses a real home, two-/three-high columns, a complete safe route
+and actual protection callback adding an upper segment. Stale work refuses
+without stock/rest; retry trims the true top, preserves the exact older base,
+stocks one cactus and creates no loose duplicate. Single bases, other diets,
+wrong filters, flowering tops, full stock and disabled griefing refuse.
+Cactus/main/habitat guide preview inspected; natural desert routines remain
+client gameplay review.
 
 ## L19: serious-injury rest near home
 

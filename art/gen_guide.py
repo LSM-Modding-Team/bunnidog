@@ -28,7 +28,7 @@ PAGES = {
     22: ('The ritual ring', 'Use any five slots: three blocks N/E/S/W or two blocks diagonally, at crucible height. Leave dry space above it. Success spends the sample and five legends. The living donor stays safe.'),
     23: ('Apex of the Line', 'Watch for its charge: dodge pounces and leave the four-block stomp. Half health enrages it. A player victory drops a crest that reads the original line or stands on a pedestal. Care tools refuse.'),
     24: ('Guava juice', 'Craft a guava with a glass bottle. Hold a seed in the main hand and juice in the other, then use the seed to infuse it. The rolled pup genes determine the drink effects. Better seeds improve them.'),
-    25: ('Trough gardening', 'Hoe-enable a trough. Healthy residents harvest matching ripe food, then rest a minute. Bloom +10 also advances unripe crops one stage. Diet, filters and mob griefing apply. Sweet berries regrow on the bush.'),
+    25: ('Trough gardening', 'Healthy adults harvest matching food at hoe-enabled troughs, then rest a minute. Bloom +10 grows unripe crops. Diet, filters and mob griefing apply. Berries regrow; cactus pruning: page 57.'),
     26: ('Furnished warrens', 'New dens have a trough with two guavas; levels 3-5 may fit a central bell. Grand-tree nurseries may fit an empty Cradle. New farm corners have empty enabled troughs. Use a hoe to enable work on crafted or old troughs.'),
     27: ('Before the Apex', 'Hold Calipers in the main hand and a Tissue Sample in the other. Use an Apex Crucible for health, attacks and defenses. Empty-hand use lists missing offerings. Reading spends nothing.'),
     28: ('Living harvests', 'Brush healthy adults: glow gives glowstone; starborn at Bloom +20 gives Starlit Dust; moss at Bloom +10 gives moss carpet. Senses +10 adds a whisker. Gather one of each match for one tool use and ten-minute recovery.'),
@@ -57,14 +57,16 @@ PAGES = {
     53: ('Recovery rest', 'Adults below half health rest near their Nest instead of strolling by day. Food, danger, storms, breeding and leads take priority. Keep a dry safe route. Rest heals nothing; stock suitable food. Sneak-Calipers reports readiness.'),
     54: ('Plan a litter', 'Read a Genetics Table holding one guava for both parents, or two to average them. Mutagen previews treatment. Cues and samples are kept. Clear hands for plain, untreated plans. Starborn is included. Fortune: page 55.'),
     55: ('Plan the harvest', 'Read the table with a Fortune tool in either hand. Uses the highest held level, adding 0.5 quality per level at crop harvest. An opposite guava or Mutagen also applies. Cues stay intact. Cradles get no Fortune bonus.'),
+    57: ('Cactus gardens', 'Hoe-enable a trough for desert-browser adults. They trim one spare cactus top, leaving lower segments. Keep clear ground and a safe route. Flowers stay intact. Diet, filters, power, protection and shared work rest apply.'),
 }
-PAGE_COUNT = 55
+PAGE_COUNT = 57
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
               31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
 NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work',51:'Find a tagged animal',52:'Bell roll call',53:'Recovery rest',54:'Plan a litter'}
 
+HABITAT_INDEX = {57:'Cactus gardens'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -93,8 +95,8 @@ def main():
         value = json.loads(path.read_text()); value.update({'item.bunnidogs.field_guide':'Bunnidogs Field Guide',
           'guide.bunnidogs.title':'Bunnidogs Guide','guide.bunnidogs.contents':'Contents',
           'guide.bunnidogs.more_contents':'More chapters','guide.bunnidogs.main_contents':'Main contents',
-          'guide.bunnidogs.new_contents':'New chapters'})
-        for page,label in (MAIN_INDEX | MORE_INDEX | NEW_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
+          'guide.bunnidogs.new_contents':'New chapters','guide.bunnidogs.habitat_contents':'Habitat chapters'})
+        for page,label in (MAIN_INDEX | MORE_INDEX | NEW_INDEX | HABITAT_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
         for page,(title,body) in PAGES.items():
             value[f'guide.bunnidogs.page.{page}.title'] = title
             value[f'guide.bunnidogs.page.{page}.body'] = body
@@ -111,13 +113,14 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,54),(495,55),(735,50)]:
+    for x,page in [(255,57),(495,1),(735,56)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
-        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else PAGES[page][0]
+        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))
-        if page == 1: body = '\n'.join(MAIN_INDEX.values()) + '\n\nMore chapters\nNew chapters'
+        if page == 1: body = '\n'.join(MAIN_INDEX.values()) + '\n\nMore chapters\nNew chapters\nHabitat chapters'
         elif page == 40: body = '\n'.join(MORE_INDEX.values()) + '\n\nMain contents'
         elif page == 50: body = '\n'.join(NEW_INDEX.values()) + '\n\nMain contents'
+        elif page == 56: body = '\n'.join(HABITAT_INDEX.values()) + '\n\nMain contents'
         else: body = '\n'.join(textwrap.wrap(PAGES[page][1],25)) + '\n\nContents'
         d.multiline_text((x+14,75),body,font=font,spacing=6,fill=(40,59,36))
         d.text((x+14,365),f'Page {page} / {PAGE_COUNT}',font=font,fill=(85,77,56))

@@ -276,7 +276,7 @@
   "message.bunnidogs.trough.tending.off": "Gardening disabled. Residents still eat stored food.",
   "guide.bunnidogs.index.25": "Gardens & stores",
   "guide.bunnidogs.page.25.title": "Trough gardening",
-  "guide.bunnidogs.page.25.body": "Hoe-enable a trough. Healthy residents harvest matching ripe food, then rest a minute. Bloom +10 also advances unripe crops one stage. Diet, filters and mob griefing apply. Sweet berries regrow on the bush.",
+  "guide.bunnidogs.page.25.body": "Healthy adults harvest matching food at hoe-enabled troughs, then rest a minute. Bloom +10 grows unripe crops. Diet, filters and mob griefing apply. Berries regrow; cactus pruning: page 57.",
   "guide.bunnidogs.page.26.title": "Furnished warrens",
   "guide.bunnidogs.page.26.body": "New dens have a trough with two guavas; levels 3-5 may fit a central bell. Grand-tree nurseries may fit an empty Cradle. New farm corners have empty enabled troughs. Use a hoe to enable work on crafted or old troughs.",
   "message.bunnidogs.apex.missing_one": "Missing offering: %s. Empty-hand use checks the ring.",
@@ -500,5 +500,9 @@
   "guide.bunnidogs.page.54.title": "Plan a litter",
   "guide.bunnidogs.page.54.body": "Read a Genetics Table holding one guava for both parents, or two to average them. Mutagen previews treatment. Cues and samples are kept. Clear hands for plain, untreated plans. Starborn is included. Fortune: page 55.",
   "guide.bunnidogs.page.55.title": "Plan the harvest",
-  "guide.bunnidogs.page.55.body": "Read the table with a Fortune tool in either hand. Uses the highest held level, adding 0.5 quality per level at crop harvest. An opposite guava or Mutagen also applies. Cues stay intact. Cradles get no Fortune bonus."
+  "guide.bunnidogs.page.55.body": "Read the table with a Fortune tool in either hand. Uses the highest held level, adding 0.5 quality per level at crop harvest. An opposite guava or Mutagen also applies. Cues stay intact. Cradles get no Fortune bonus.",
+  "guide.bunnidogs.habitat_contents": "Habitat chapters",
+  "guide.bunnidogs.index.57": "Cactus gardens",
+  "guide.bunnidogs.page.57.title": "Cactus gardens",
+  "guide.bunnidogs.page.57.body": "Hoe-enable a trough for desert-browser adults. They trim one spare cactus top, leaving lower segments. Keep clear ground and a safe route. Flowers stay intact. Diet, filters, power, protection and shared work rest apply."
 }

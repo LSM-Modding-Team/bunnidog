@@ -58,8 +58,8 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Fifty-five pages use the ordinary written-book screen. Three linked contents pages
-offer twenty-eight clickable chapter links. Each chapter links back to its index. Local page changes
+Fifty-seven pages use the ordinary written-book screen. Four linked contents pages
+offer twenty-nine clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
 
@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current forty-three native server cases pass,
-including loading the book/recipe/loot resources. The expanded 55-page
-litter-plan/harvest/New preview is inspected with a substitute font; all
+The actual Java 25 build and current forty-four native server cases pass,
+including loading the book/recipe/loot resources. The expanded 57-page
+cactus/Main/Habitat preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -154,3 +154,15 @@ quality are explicit. Page 50 has ten chapter links; older page IDs remain.
 T10 adds **Plan the harvest**, page 55, naming native held Fortune, highest-level
 selection, 0.5 quality per level and the Cradle exclusion. Page 54 points onward;
 the ten-entry New contents index and existing page destinations remain stable.
+
+## P5 — Habitat chapters
+
+The New index has ten entries. Page 56 adds a fourth **Habitat chapters**
+index; Main contents links to it beside More and New while keeping eight
+core chapters. Page 57 begins with **Cactus gardens**, also referenced by
+existing gardening page 25. New habitat pages return to 56; earlier page
+numbers, all twenty-eight existing chapter links and their returns stay stable.
+The native book default, translations and click/page packets remain shared.
+The new content and both new navigation views are previewed with a substitute
+font. Build/all 44 server cases pass; native client fonts/navigation remain
+playtest review. The guide now has twenty-nine chapter links.
