@@ -139,3 +139,37 @@ general found-ore survey complete their tasks, and focused work stays locked
 until an actual Senses +20 matching survey succeeds. Native JSON resources
 load with their parent links/rewards. Toasts and the advancement screen remain
 client gameplay review.
+
+## E5: find tagged residents
+
+Rename a spare Ear Tag at an anvil to the target animal's code, such as
+`BD-3F7A2C`. Sneak-use Calipers into the air with that tag in the opposite
+hand. Either hand can hold the tool. Names are trimmed and case-insensitive;
+only an explicit valid custom name is a cue. Ordinary clipping still generates
+the animal's permanent UUID-derived code, regardless of the spare tag's name.
+
+The deliberate search finds living ordinary tagged animals in a 24-block
+sphere through the loaded entity index. It requests no chunks, excludes the
+Apex, baskets and entities beyond the world border, and never edits biology,
+homes, tickets, AI or animal recovery. It applies native Glowing for ten
+seconds to at most sixteen nearest matches, preserving longer native effects
+and normal effect hooks. The outline is visible to other nearby players too.
+Codes have 24 bits: rare collisions can match more than one animal. Persistent
+chat gives the matching count and nearest coordinates; UUID record identity
+is unaffected. The marker does not keep following after its effect expires.
+
+Successful and empty searches share a native five-second Calipers cooldown.
+Changing the cue/tool hand cannot bypass it. Invalid names and missing build
+permission perform no search and start no cooldown. No tag/tool is spent or
+modified. Ordinary Calipers sheets and care inspection stay read-only.
+Tooltips and guide page 51 explain the controls; its new chapter link joins
+page 50 without renumbering existing pages. No saved format or packet changes.
+
+E5 evidence (2026-10-18): actual Java 25 build/all 41 native scenarios pass.
+The new case uses the real off-hand gesture, an otherwise identical tagged
+neighbor, unnamed/normalized cues, Adventure refusal, exact item/biology/home/
+recovery preservation, repeated-use cooldown, empty searches, sphere boundaries
+and longer native effects. The actual search reads an unloaded remote origin
+without requesting terrain. NeoForge loads an added entity's destination on
+`setPos`, so this last check queries the search origin directly. Finder/index
+preview inspected; client outline/fonts and natural warren use remain review.

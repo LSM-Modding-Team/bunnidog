@@ -461,5 +461,13 @@
   "guide.bunnidogs.index.47": "Mineral scouts",
   "guide.bunnidogs.index.49": "Pause trough work",
   "screen.bunnidogs.records.filter": "Filter traits / stats",
-  "screen.bunnidogs.records.filter_help": "Filter contents: tag or trait words; shown:bat, carried:glow, adult, pup; senses>=20, bloom<10 or speed=5. Space-separated terms all match. Clear to restore. Original record numbers and parent links stay intact."
+  "screen.bunnidogs.records.filter_help": "Filter contents: tag or trait words; shown:bat, carried:glow, adult, pup; senses>=20, bloom<10 or speed=5. Space-separated terms all match. Clear to restore. Original record numbers and parent links stay intact.",
+  "message.bunnidogs.finder.name": "Rename a spare Ear Tag to a code such as BD-3F7A2C, then sneak-use Calipers with it in the other hand.",
+  "message.bunnidogs.finder.none": "%s: no loaded matching animal within %s blocks.",
+  "message.bunnidogs.finder.found": "%s: %s nearby match(es). Nearest at %s, %s, %s.",
+  "tooltip.bunnidogs.ear_tag.finder": "Rename a spare to a code; sneak-use Calipers to find that animal",
+  "tooltip.bunnidogs.calipers.finder": "Sneak-use the air with a code-named Ear Tag opposite: find nearby matches",
+  "guide.bunnidogs.index.51": "Find a tagged animal",
+  "guide.bunnidogs.page.51.title": "Find a tagged animal",
+  "guide.bunnidogs.page.51.body": "Rename a spare Ear Tag to a code like BD-3F7A2C. Hold it opposite Calipers; sneak-use the air. Loaded matches within 24 blocks glow ten seconds. Search rest: five seconds. Reusable tag; packed animals are excluded."
 }

@@ -55,7 +55,7 @@ public final class GuavaGameTest extends GameTestInstance {
     @SubscribeEvent
     public static void registerTests(RegisterGameTestsEvent event) {
         var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.AllOf());
-        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "show", "grooming", "settlement", "apex", "fixtures", "gardening", "pantry", "fishing", "refuge", "guarding", "scouting", "storm_shelter", "trough_automation", "bell_calls", "trough_filters", "care_dispensers", "basket", "cultivation", "nest_markers", "night_meals", "nursery", "seed_recovery", "cradle_storage", "cradle_hatching", "cradle_spawn_refusal", "crop_harvest", "composting", "nursery_treatment"}) {
+        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "show", "grooming", "settlement", "apex", "fixtures", "gardening", "pantry", "fishing", "refuge", "guarding", "scouting", "resident_finder", "storm_shelter", "trough_automation", "bell_calls", "trough_filters", "care_dispensers", "basket", "cultivation", "nest_markers", "night_meals", "nursery", "seed_recovery", "cradle_storage", "cradle_hatching", "cradle_spawn_refusal", "crop_harvest", "composting", "nursery_treatment"}) {
             event.registerTest(id(name), new GuavaGameTest(name, new TestData<>(environment, id("empty"), 100, 0, true)));
         }
     }
@@ -92,6 +92,7 @@ public final class GuavaGameTest extends GameTestInstance {
             case "refuge" -> { RefugeGameTest.run(h); return; }
             case "guarding" -> { GuardGameTest.run(h); return; }
             case "scouting" -> ScoutingGameTest.run(h);
+            case "resident_finder" -> ResidentFinderGameTest.run(h);
             case "storm_shelter" -> { StormShelterGameTest.run(h); return; }
             case "trough_automation" -> { TroughAutomationGameTest.run(h); return; }
             case "bell_calls" -> { BellCallGameTest.run(h); return; }

@@ -252,6 +252,8 @@ Debug in game: `/bunnidogs genome`; spawn a chosen genome with `/summon bunnidog
 
 **Ear Tag (Phase 5d):** craft an iron nugget + paper (2 tags), or take one from the Tools tab. Right-click a bunnidog to clip it on: the animal gets a permanent registration code like `BD-3F7A2C`, shown floating over it (unless you already named it) and by the Calipers. One tag per animal; pups are born untagged. Texture: `python3 art/gen_ear_tag.py`.
 
+**Resident finder (E5):** rename a spare Ear Tag at an anvil to a code such as `BD-3F7A2C`. Hold it opposite Calipers and sneak-use the air. Matching loaded animals within 24 blocks receive a ten-second native outline; chat reports count/nearest coordinates. The tag is reusable, searches rest five seconds, and baskets are excluded. Ordinary clipping still gives the animal its own generated code.
+
 **Pedigree Book by UUID (Phase 5e):** the book now recognises each animal exactly (by its UUID): two bunnidogs with identical genes are two entries, and logging the same animal twice changes nothing. If it wears an Ear Tag the tag is shown on its line (`#2  BD-3F7A2C  generation 1  ...`); tagging an animal that is already logged and logging it again just updates its entry. Books from before this update still work.
 
 **Warrens on slopes (session 9):** natural warrens now follow hills and uneven ground (bunnidogs, outer trees and houses used to be dropped on slopes; a house on a slope gets a levelled pad). `/bunnidogs warren [level] surface` builds the natural (surface) kind at your feet to try this on a hill or in a forest; `/bunnidogs warren [level]` is the cave kind as before. Every settlement writes one line to `run/logs/latest.log` (`Warren built at ...` or `Warren gave up at ...` with the reason).

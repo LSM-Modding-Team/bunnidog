@@ -58,8 +58,8 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Fifty pages use the ordinary written-book screen. Three linked contents pages
-offer twenty-four clickable chapter links. Each chapter links back to its index. Local page changes
+Fifty-one pages use the ordinary written-book screen. Three linked contents pages
+offer twenty-five clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
 
@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current forty native server cases pass,
-including loading the book/recipe/loot resources. The expanded 50-page
-record-guidance/More/New preview is inspected with a substitute font; all
+The actual Java 25 build and current forty-one native server cases pass,
+including loading the book/recipe/loot resources. The expanded 51-page
+finder/More/New preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -131,3 +131,7 @@ warren/map/scout references and automation/pause reference. Native local
 book components retain their existing behavior. There is no screen, packet or
 save migration. The generated three-index preview is inspected; native font
 and navigation remain client gameplay review.
+
+E5 appends page 51, **Find a tagged animal**, with the renamed spare-tag
+Calipers gesture, 24-block loaded range, native outline and shared search rest.
+Page 50 gains its seventh chapter link; all older destinations remain stable.

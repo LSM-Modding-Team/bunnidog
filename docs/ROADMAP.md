@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+E5 adds a deliberate tagged-resident finder through a renamed spare Ear Tag
+and sneak-Calipers. Loaded 24-block searches use native outlines/cooldowns,
+with exact item/animal preservation. Java 25 build/all 41 cases pass; finder/
+index preview inspected. See `EXPLORATION_SPECS.md`.
+
 S10 adds native local record filters to Pedigree/Registry contents: tags,
 expressed/hidden copies, recorded age and bred-stat comparisons. Original
 sheet numbers/parent links persist and arrows follow matches. Actual Java 25

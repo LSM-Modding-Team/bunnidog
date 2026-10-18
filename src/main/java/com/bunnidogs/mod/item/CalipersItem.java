@@ -10,6 +10,7 @@ import com.bunnidogs.mod.block.NurseryCradleBlockEntity;
 import com.bunnidogs.mod.block.NurseryCradleBlock;
 import com.bunnidogs.mod.entity.NurseryHatching;
 import com.bunnidogs.mod.entity.Bunnidog;
+import com.bunnidogs.mod.entity.ResidentFinding;
 import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Diet;
 import com.bunnidogs.mod.genetics.Foraging;
@@ -38,7 +39,9 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
 /**
- * The Calipers (Phase 5): measure, do not touch. They show the exact genes and stats of what they touch (windows since Phase 8 S6 and S8; the chat only for a non-player and for the "holds no genes" note):
+ * The Calipers show the exact genes and stats of what they touch. Ordinary measurements are read-only;
+ * sneak-use with a renamed spare Ear Tag deliberately outlines nearby matches for ten seconds.
+ * Measurements (windows since Phase 8 S6 and S8; chat remains the fallback):
  * <ul>
  *   <li>right-click a bunnidog: its sheet opens in a window (Phase 8 S6: {@code Bunnidog#mobInteract} sends the animal to the
  *       player's client, see {@code network/ModNetwork}); before S6 its genome, stats and drift were printed in the chat
@@ -145,6 +148,7 @@ public class CalipersItem extends Item {
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         InteractionHand other = hand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
         ItemStack held = player.getItemInHand(other);
+        if (player.isShiftKeyDown() && held.getItem() instanceof EarTagItem) return ResidentFinding.use(player,hand,held);
         Optional<Seed> seed = SeedItem.read(held);
         if (seed.isPresent()) {
             if (!level.isClientSide()) {
@@ -227,6 +231,7 @@ public class CalipersItem extends Item {
         lines.accept(Component.translatable("tooltip.bunnidogs.calipers.care").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.literal("Right-click a planted seed or Nursery Cradle: litter forecast").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.calipers.cradle").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(Component.translatable("tooltip.bunnidogs.calipers.finder").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.literal("Or hold a seed, sample or occupied Travel Basket in the other hand").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.literal("Off hand when you kill: a Tissue Sample").withStyle(ChatFormatting.DARK_GRAY));
     }
