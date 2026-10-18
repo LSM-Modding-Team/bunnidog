@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bunnidogs.mod.genetics.Pedigree;
 import com.bunnidogs.mod.genetics.Plain;
+import com.bunnidogs.mod.genetics.RecordFilter;
 
 /**
  * Spread 0 of the Pedigree Book (Phase 8 S3, docs/SHEET_SPECS.md section 3): the title, how many animals are logged, one index
@@ -30,20 +31,30 @@ public final class BookContents {
 
     /** Spread {@code n} (0 = contents, then one sheet per animal in book order); {@code n} is clamped into range. */
     public static Page.Spread spread(Pedigree book, int n, Metrics m) {
+        return spread(book,n,m,"");
+    }
+    public static Page.Spread spread(Pedigree book, int n, Metrics m, String query) {
         int clamped = Math.max(0, Math.min(n, book.size()));
-        return clamped == 0 ? contents(book, m) : SheetLayout.sheet(book, clamped - 1, m);
+        return clamped == 0 ? contents(book, m,query) : SheetLayout.sheet(book, clamped - 1, m);
     }
 
     public static Page.Spread contents(Pedigree book, Metrics m) {
+        return contents(book,m,"");
+    }
+    public static Page.Spread contents(Pedigree book, Metrics m, String query) {
         Page left = new Page();
         Page right = new Page();
+        var matches = RecordFilter.indices(book,query);
         left.text(0, 0, "Pedigree Book", Page.Tone.HEAD);
-        left.text(0, Page.LINE, book.size() + " of " + Pedigree.MAX_ENTRIES + " animals", Page.Tone.MUTED);
-        for (int i = 0; i < book.size(); i++) {
-            String whole = "#" + (i + 1) + "  " + Plain.look(book.entries().get(i).genome());
+        left.text(0, Page.LINE, query == null || query.isBlank() ? book.size() + " of " + Pedigree.MAX_ENTRIES + " animals"
+                : matches.size() + " of " + book.size() + " match", Page.Tone.MUTED);
+        for (int row = 0; row < matches.size(); row++) {
+            int i = matches.get(row);
+            var entry = book.entries().get(i);
+            String whole = "#" + (i + 1) + "  " + entry.tag().map(tag -> tag + "  ").orElse("") + Plain.look(entry.genome());
             String line = Page.fit(whole, Page.WIDTH, m);
-            Page page = i < LEFT_ROWS ? left : right;
-            int y = i < LEFT_ROWS ? LEFT_ROWS_Y + Page.LINE * i : Page.LINE * (i - LEFT_ROWS);
+            Page page = row < LEFT_ROWS ? left : right;
+            int y = row < LEFT_ROWS ? LEFT_ROWS_Y + Page.LINE * row : Page.LINE * (row - LEFT_ROWS);
             page.text(0, y, line, Page.Tone.INK);
             page.link(0, y, Page.WIDTH, Page.LINE, i + 1);                    // click: open this animal's sheet
             if (!line.equals(whole)) {

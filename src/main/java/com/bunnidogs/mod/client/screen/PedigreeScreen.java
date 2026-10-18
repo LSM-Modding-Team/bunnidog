@@ -5,6 +5,7 @@ import java.util.List;
 import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Pedigree;
+import com.bunnidogs.mod.genetics.RecordFilter;
 import com.bunnidogs.mod.genetics.Seed;
 import com.bunnidogs.mod.genetics.Tissue;
 import com.bunnidogs.mod.layout.BookContents;
@@ -18,6 +19,8 @@ import com.bunnidogs.mod.registry.ModEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.input.KeyEvent;
@@ -81,6 +84,8 @@ public final class PedigreeScreen extends Screen {
     private Page.Spread current;
     private Button previous;
     private Button next;
+    private EditBox filter;
+    private String query = "";
     /** The throwaway animal drawn in the portrait box of the current sheet; null on the contents spread or when it could not be built. */
     private Bunnidog animal;
     /** Set when building or drawing the animal failed once: the rest of this window uses the flat swatch. */
@@ -188,6 +193,15 @@ public final class PedigreeScreen extends Screen {
                 .bounds(bookLeft() + Page.BOOK_W - 80, y, 80, 20).build();
         addRenderableWidget(this.previous);
         addRenderableWidget(this.next);
+        if (this.seed == null && this.table == null) {
+            this.filter = new EditBox(this.font,bookLeft()+84,y,Page.BOOK_W-168,20,Component.translatable("screen.bunnidogs.records.filter"));
+            this.filter.setMaxLength(80);
+            this.filter.setHint(Component.translatable("screen.bunnidogs.records.filter"));
+            this.filter.setTooltip(Tooltip.create(Component.translatable("screen.bunnidogs.records.filter_help")));
+            this.filter.setValue(this.query);
+            this.filter.setResponder(value -> { this.query = value; this.spread = 0; refresh(); });
+            addRenderableWidget(this.filter);
+        }
         refresh();
     }
 
@@ -203,7 +217,8 @@ public final class PedigreeScreen extends Screen {
         if (oneSheet()) {
             return;
         }
-        int target = Math.max(0, Math.min(this.spread + by, spreadCount() - 1));
+        int target = this.filter != null ? RecordFilter.turn(this.book,this.query,this.spread,by)
+                : Math.max(0, Math.min(this.spread + by, spreadCount() - 1));
         if (target != this.spread) {
             pageSound();
         }
@@ -219,6 +234,7 @@ public final class PedigreeScreen extends Screen {
     /** Left / Right arrow turn the spread like the buttons; any other key (Escape closes the window) goes to the default handling. */
     @Override
     public boolean keyPressed(KeyEvent keyEvent) {
+        if (this.filter != null && this.filter.visible && this.filter.isFocused()) return super.keyPressed(keyEvent);
         if (keyEvent.isLeft()) {
             turn(-1);
             return true;
@@ -275,8 +291,12 @@ public final class PedigreeScreen extends Screen {
             this.animal = buildPortrait(SheetLayout.sampleEntry(this.sample));
             return;
         }
-        this.previous.active = this.spread > 0;
-        this.next.active = this.spread < spreadCount() - 1;
+        this.previous.active = this.filter != null ? RecordFilter.turn(this.book,this.query,this.spread,-1) != this.spread : this.spread > 0;
+        this.next.active = this.filter != null ? RecordFilter.turn(this.book,this.query,this.spread,1) != this.spread : this.spread < spreadCount() - 1;
+        if (this.filter != null) {
+            this.filter.visible = this.spread == 0;
+            if (!this.filter.visible) this.filter.setFocused(false);
+        }
         if (this.table != null) {
             this.current = this.table.spread(this.spread, text -> this.font.width(text));
             this.animal = this.table.isAnalysis(this.spread) ? null : buildPortrait(this.table.entry(this.spread));
@@ -287,8 +307,8 @@ public final class PedigreeScreen extends Screen {
             this.animal = this.spread >= 1 ? buildPortrait(SeedSheet.parentEntry(this.seed, this.spread == 1)) : null;
             return;
         }
-        this.current = this.registry ? RegistryContents.spread(this.book, this.spread, text -> this.font.width(text))
-                : BookContents.spread(this.book, this.spread, text -> this.font.width(text));
+        this.current = this.registry ? RegistryContents.spread(this.book, this.spread, text -> this.font.width(text),this.query)
+                : BookContents.spread(this.book, this.spread, text -> this.font.width(text),this.query);
         this.animal = this.spread >= 1 && this.spread <= this.book.size() ? buildPortrait(this.book.entries().get(this.spread - 1)) : null;
     }
 

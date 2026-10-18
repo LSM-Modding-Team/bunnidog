@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+S10 adds native local record filters to Pedigree/Registry contents: tags,
+expressed/hidden copies, recorded age and bred-stat comparisons. Original
+sheet numbers/parent links persist and arrows follow matches. Actual Java 25
+build/focused query/layout checks pass; filtered/empty records and guide
+previews inspected. Client input/font review remains. See `SHEET_SPECS.md`.
+
 P4 expands the 50-page guide to three contents pages/twenty-four chapter links,
 with direct access to newer systems. E4 adds native one-time working-line XP
 milestones for a successful guard command/general or focused found-ore survey.

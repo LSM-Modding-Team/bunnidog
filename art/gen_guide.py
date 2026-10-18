@@ -10,7 +10,7 @@ PAGES = {
     4: ('Breed a seed', 'Feed a guava to each of two ready adults. They drop one seed holding both parents. Its tooltip shows the planned litter, quality and stat drift. The parents then rest.'),
     5: ('Hatch the litter', 'Plant a seed on farmland; dispensers plant into air above it. Bone meal speeds growth; hand or dispenser Starlit Dust ripens it. Break the ripe crop to hatch pups. Fortune improves quality. Leave room.'),
     6: ('Guava quality', 'Better guavas improve inherited stat gains. Feed both parents: their qualities are averaged. Golden: 1, Diamond: 2, Netherite: 4, Star: 7, Beacon: 12, Dragon Egg: 20.'),
-    7: ('Keep a pedigree', 'Use a Pedigree Book on animals to log them. Ear Tags give permanent codes. To log a carried animal, hold its filled basket in the other hand and sneak-use the book. Normal use opens the book.'),
+    7: ('Keep a pedigree', 'Log animals with a Pedigree Book; Ear Tags label them. Sneak-use with a filled basket in the other hand to log its animal. Normal use opens records. Filter contents by traits/tags or senses>=20; hover the field for syntax.'),
     8: ('Nests and travel', 'Adults claim a reachable Nest and return at night. Lead an adult to a free Nest and use it to move home. Empty-hand use inspects the resident. Use a compass to mark a Nest; its place stays marked if removed.'),
     9: ('Food and troughs', 'Guavas suit every line; other foods follow Diet. Fill a trough for healing. Injured adults can eat near their Nest at night; keep food and a safe route within four blocks of home. Sneak-empty withdraws stock.'),
     10: ('Life at home', 'Healthy adults visit nearby bells at noon. Ring one to call a daytime visit. Keep it within 12 blocks of home, with walking space. Injury, threats, leads, rides and night interrupt.'),
@@ -106,7 +106,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,1),(495,40),(735,50)]:
+    for x,page in [(255,7),(495,40),(735,50)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

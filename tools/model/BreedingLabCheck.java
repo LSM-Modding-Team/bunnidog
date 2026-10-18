@@ -31,7 +31,48 @@ public final class BreedingLabCheck {
         }
         for (Page.Hotspot hot : page.hotspots()) require(hot.y() + hot.h() <= Page.HEIGHT, "Hover outside page");
     }
+    private static void recordFilters() {
+        int bat = Gene.EARS.alleleNamed("bat").id(), huge = Gene.EARS.alleleNamed("huge").id();
+        var expressed = pair(Gene.EARS,bat,bat);
+        var hidden = pair(Gene.EARS,huge,bat);
+        var book = new Pedigree();
+        book.add(entry(Genome.DEFAULT,1));
+        book.add(new Pedigree.Entry(hidden,Optional.empty(),Optional.empty(),Optional.of(new UUID(0,2)),
+                Optional.of("BD-AAAA02"),Optional.of(Stats.of(0,0,0,25,0)),false));
+        book.add(new Pedigree.Entry(expressed,Optional.of(Genome.DEFAULT),Optional.of(hidden),Optional.of(new UUID(0,3)),
+                Optional.of("BD-AAAA03"),Optional.of(Stats.of(1,-2,0,20,15)),false));
+        book.add(new Pedigree.Entry(expressed,Optional.empty(),Optional.empty(),Optional.of(new UUID(0,4)),
+                Optional.empty(),Optional.of(Stats.of(0,0,0,40,30)),true));
+        book.add(new Pedigree.Entry(Genome.DEFAULT,Optional.empty(),Optional.empty()));
+        String original = book.toString();
+        require(RecordFilter.indices(book,"").equals(List.of(0,1,2,3,4)),"Clearing a query must restore original order");
+        require(RecordFilter.indices(book,"bat").equals(List.of(1,2,3)),"Trait words must find both expressed and hidden copies");
+        require(RecordFilter.indices(book,"  SHOWN:bat adult senses>=20  ").equals(List.of(2)),"Terms must combine case-insensitively for real scout candidates");
+        require(RecordFilter.indices(book,"carried:bat").equals(List.of(1)),"Carrier queries must exclude expressed/fixed copies");
+        require(RecordFilter.indices(book,"tag:bd-aaaa03 senses=20 bloom>10").equals(List.of(2)),"Tags and exact/strict bred-stat comparisons must combine");
+        require(RecordFilter.indices(book,"speed<0 vitality>=1").equals(List.of(2)),"Speed aliases and negative bred points must be searchable");
+        require(RecordFilter.indices(book,"senses<=0").equals(List.of(0)) && RecordFilter.indices(book,"pup").equals(List.of(3)),
+                "Unknown legacy stats/age must not masquerade as zero points or an adult");
+        require(RecordFilter.indices(book,"unknown").equals(List.of(4)),"Legacy records must remain discoverable");
+        require(RecordFilter.indices(book,"senses>=999999999999999999999999999").isEmpty()
+                && RecordFilter.indices(book,"senses>=oops").isEmpty(),"Incomplete/oversized comparisons must safely match nothing");
+        var contents = BookContents.spread(book,0,Metrics.ESTIMATE,"shown:bat adult senses>=20");
+        require(contents.left().links().size() == 1 && contents.left().links().getFirst().spread() == 3,
+                "Filtered contents must retain original animal numbers and link destinations");
+        require(RecordFilter.turn(book,"shown:bat adult",0,1) == 3 && RecordFilter.turn(book,"shown:bat adult",3,1) == 3
+                && RecordFilter.turn(book,"shown:bat adult",3,-1) == 0,"Arrows must visit matches and stop at the result boundaries");
+        require(RecordFilter.turn(book,"shown:bat adult",2,1) == 3 && RecordFilter.turn(book,"",0,1) == 1,
+                "Parent-link detours and clearing the filter must retain useful original-order navigation");
+        var registry = RegistryContents.spread(book,0,Metrics.ESTIMATE,"tag:bd-aaaa03");
+        require(registry.left().links().size() == 1 && registry.left().links().getFirst().spread() == 3,
+                "Registry queries must retain original representative links");
+        require(BookContents.spread(book,3,Metrics.ESTIMATE,"shown:bat adult").right().links()
+                .equals(BookContents.spread(book,3,Metrics.ESTIMATE).right().links()),"Unmatched parents must keep their original sheet links");
+        page(contents.left()); page(contents.right()); page(registry.left()); page(registry.right());
+        require(book.toString().equals(original),"Queries must not rewrite saved records, identities or parents");
+    }
     public static void main(String[] args) {
+        recordFilters();
         require(!Social.gatheringTime(5999) && Social.gatheringTime(6000) && Social.gatheringTime(8999)
                 && !Social.gatheringTime(9000) && Social.gatheringTime(30000), "Gathering window must wrap with the native day");
         require(Show.rank(Stats.ZERO) == Show.Tier.NONE, "Unbred stats must not earn a ribbon");

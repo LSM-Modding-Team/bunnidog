@@ -44,6 +44,8 @@ points to it; all older page numbers and twenty chapter links remain stable.
 Page 49 explains the redstone resident pause, preserved automation and the
 independent hoe setting. The automation page distinguishes powering a hopper
 from powering the trough and points to this new explanation.
+S10 updates the existing record page with local trait/tag/stat filtering and
+the input's syntax hover. Page count and existing links remain stable.
 The home page also covers read-only Nest inspection and persistent compass marks.
 The food page explains short safe nighttime trough meals near home.
 
@@ -76,7 +78,8 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 The actual Java 25 build and current forty native server cases pass,
 including loading the book/recipe/loot resources. The expanded 50-page
-three-index preview is inspected with a substitute font. Earlier
+record-guidance/More/New preview is inspected with a substitute font; all
+three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
 sources establish the ordinary book/packet/click behavior; no new screen or

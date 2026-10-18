@@ -1,6 +1,54 @@
-# The Animal Sheet and the restructured Pedigree Book (Phase 8) — S1-S8 and S5b coded (see `docs/CHUNKS.md`); only the Genetics Table is open (the page-turn sound is S7b, session 29)
+# Animal sheets and record books — S1–S10
 
-**CURRENT (session 43): ALL DONE: S1-S8, S5b and S7b work. Nothing open here.**
+Current work includes S9 carried-animal records and S10 local record filters.
+The historical Phase 8 decisions below remain useful background; old chunk-size
+and approval routines are superseded by `AGENTS.md` and current user instructions.
+
+## S10: find breeding records
+
+Pedigree Books and Purebred Registries have a native text filter between their
+contents-page navigation buttons. It stays local to the current screen and
+survives resize/page returns; clearing it restores the whole book. Typing and
+caret arrow keys belong to the focused input. On sheets the input hides and
+normal arrows page through the matching original records. Parent links can
+still open an unmatched parent; subsequent arrows return to matching records.
+
+Queries combine space-separated terms, case-insensitively:
+
+| Query | Meaning |
+|---|---|
+| `bat`, `moss`, `BD-AAAA03` | Trait/hidden-copy words, Ear Tag or recorded code |
+| `shown:bat` | Expressed bat allele only |
+| `carried:glow` | A hidden glow copy, excluding expressed/fixed glow |
+| `tag:AAAA03` | Ear Tag substring only |
+| `adult`, `pup` | Recorded age category |
+| `senses>=20`, `bloom<10`, `speed=-2` | Bred stat points; speed aliases Swiftness |
+| `unknown` | Legacy records without recorded stats/age |
+
+Comparisons support `=`, `<`, `>`, `<=`, `>=` and signed integers. For example,
+`shown:bat adult senses>=20` finds recorded candidates for focused surveying;
+it makes no promise about current live health or recovery. Missing stats/age
+do not count as zero/adult. Incomplete or excessive comparisons safely match
+nothing. The 80-character input has a hover explanation; no regex or script
+is accepted. Plain words match either copy; use `shown:` for working phenotypes.
+
+The filtered count distinguishes matches from total logged records. Rows pack
+into the existing columns but retain original numbers, sheet links, parents
+and generation calculations. Pedigree rows now show their Ear Tags before
+the look, with existing full hover text for clipping. No record, item, packet,
+genome format, registry representative or saved ordering is changed. Standalone
+animal/sample/seed/table windows keep their existing controls. The approved
+creature rendering is untouched.
+
+S10 evidence (2026-10-18): Java 25 build and its focused breeding-lab checks
+pass. They exercise real snapshot queries for expressed/hidden bat, tag case,
+age and missing legacy data, combined positive/negative/exact stat comparisons,
+speed alias, malformed/overflow values, restored order, match navigation,
+parent-link detours and original index/sheet destinations. Parsed books retain
+their exact serialized state. Query results retain page/hover bounds. Generated
+positive/empty record previews and updated guide text are inspected, using a
+substitute font/native-widget approximation. Client typing, focus, native fonts
+and actual keyboard/mouse navigation remain gameplay review.
 
 Docs only. Read this together with `docs/DESIGN.md` ("Phase 8 restructure decisions") and the "Phase 8a" notes in `docs/history/PHASES.md`.
 Where this file and an older Phase 8a statement differ, THIS FILE WINS (8a built a 3-animals-per-page list; this replaces that list).

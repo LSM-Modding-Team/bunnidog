@@ -22,6 +22,14 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-18
 
+- **S10, breeding-record filters:** native contents inputs in Pedigree Books
+  and Registries query tags, expressed/hidden traits, recorded age and bred
+  stat comparisons. Original numbers/parents remain intact; arrows follow
+  matches, including after a parent-link detour. No item/record changes or
+  new packet. Java 25 build/focused query/layout checks pass; filtered/empty
+  record and guide previews inspected. Native input/font use remains client
+  review. See `docs/SHEET_SPECS.md` S10.
+
 - **P4/E4, navigation and working-line goals:** the 50-page guide has three
   linked contents pages/twenty-four chapter links, including direct nursery,
   guard, map, scout and trough-pause entries. Native one-time XP milestones
@@ -166,7 +174,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Area | Current behavior and specification |
 |---|---|
 | Genetics and breeding | Seven genes, inherited pairs, bred stats/Bloom, eight guava tiers, litter seeds/crops, infused juice. `docs/FEATURES.md`, `docs/FIXES_PLAN.md` 6 |
-| Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets, forecasts and carried-animal records. `docs/SHEET_SPECS.md` S1–S9 |
+| Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets, forecasts, carried-animal records and local tag/trait/stat record filters. `docs/SHEET_SPECS.md` S1–S10 |
 | Nursery | Whole saved seeds, protected crop harvest/recovery, in-place Mutagen, dispenser stations and a Cradle with incubation, native automation, checked hatching/pad planning and fitted grand-tree nurseries. `docs/NURSERY_SPECS.md` N1–N7 |
 | Laboratory | Two sample slots, vial display, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T6 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |

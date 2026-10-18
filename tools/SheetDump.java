@@ -25,6 +25,15 @@ public class SheetDump {
         book.add(new Pedigree.Entry(g("33-b3-00-33-00-44"), none, none, Optional.of(UUID.randomUUID()), Optional.of("BD-9C04D2"), Optional.of(Stats.of(60, 22, -3, 8, 30)), true));
         book.add(new Pedigree.Entry(g("00-00-00-00-00-00"), none, none));
         Metrics m = Metrics.ESTIMATE;
+        if (args.length > 0 && args[0].equals("filters")) {
+            for (String query : new String[]{"adult bloom>=10","shown:bat senses>=20"}) {
+                System.out.println("SPREAD filtered");
+                System.out.println("FILTER " + query);
+                var spread = BookContents.spread(book,0,m,query);
+                page("L",spread.left(),m); page("R",spread.right(),m);
+            }
+            return;
+        }
         for (int n = 0; n < BookContents.spreadCount(book); n++) {
             Page.Spread s = BookContents.spread(book, n, m);
             System.out.println("SPREAD " + n);

@@ -237,7 +237,7 @@
   "guide.bunnidogs.page.6.title": "Guava quality",
   "guide.bunnidogs.page.6.body": "Better guavas improve inherited stat gains. Feed both parents: their qualities are averaged. Golden: 1, Diamond: 2, Netherite: 4, Star: 7, Beacon: 12, Dragon Egg: 20.",
   "guide.bunnidogs.page.7.title": "Keep a pedigree",
-  "guide.bunnidogs.page.7.body": "Use a Pedigree Book on animals to log them. Ear Tags give permanent codes. To log a carried animal, hold its filled basket in the other hand and sneak-use the book. Normal use opens the book.",
+  "guide.bunnidogs.page.7.body": "Log animals with a Pedigree Book; Ear Tags label them. Sneak-use with a filled basket in the other hand to log its animal. Normal use opens records. Filter contents by traits/tags or senses>=20; hover the field for syntax.",
   "guide.bunnidogs.page.8.title": "Nests and travel",
   "guide.bunnidogs.page.8.body": "Adults claim a reachable Nest and return at night. Lead an adult to a free Nest and use it to move home. Empty-hand use inspects the resident. Use a compass to mark a Nest; its place stays marked if removed.",
   "guide.bunnidogs.page.9.title": "Food and troughs",
@@ -459,5 +459,7 @@
   "guide.bunnidogs.index.44": "Treat a litter",
   "guide.bunnidogs.index.46": "Warren maps",
   "guide.bunnidogs.index.47": "Mineral scouts",
-  "guide.bunnidogs.index.49": "Pause trough work"
+  "guide.bunnidogs.index.49": "Pause trough work",
+  "screen.bunnidogs.records.filter": "Filter traits / stats",
+  "screen.bunnidogs.records.filter_help": "Filter contents: tag or trait words; shown:bat, carried:glow, adult, pup; senses>=20, bloom<10 or speed=5. Space-separated terms all match. Clear to restore. Original record numbers and parent links stay intact."
 }

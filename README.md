@@ -47,6 +47,8 @@ ore marker. Surveys use loaded terrain and rest thirty seconds, even if empty.
 At Senses +20, a mineral in the other hand selects its ore family without being spent.
 Power a trough to pause resident meals/gardening while preserving stock automation.
 Native working-line advancements reward successful guard commands and mineral surveys.
+Filter Pedigree/Registry contents with tags, traits or `shown:bat adult senses>=20`;
+record numbers and parent links stay intact.
 
 ## Build and play
 

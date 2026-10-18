@@ -3,6 +3,7 @@
 writes art/book_preview.png. The colours are the ones PedigreeScreen uses; the font is NOT Minecraft's (Pillow's), so
 widths are only close. Usage: see tools/SheetDump.java."""
 import sys
+import argparse
 from PIL import Image, ImageDraw, ImageFont
 
 SCALE = 2
@@ -24,8 +25,10 @@ def parse(lines):
     for raw in lines:
         raw = raw.rstrip("\n")
         if raw.startswith("SPREAD"):
-            cur = {"L": [], "R": []}
+            cur = {"L": [], "R": [], "filter": None}
             spreads.append(cur)
+        elif raw.startswith("FILTER "):
+            cur['filter'] = raw[7:]
         elif raw.startswith("PAGE"):
             page = cur[raw.split()[1]]
         elif raw:
@@ -65,16 +68,25 @@ def draw_spread(d, ox, oy, spread, f):
                 d.text((tx, oy + (TOP + int(y)) * SCALE), text, fill=TONES[tone], font=f)
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--output',default='art/book_preview.png')
+    args = parser.parse_args()
     spreads = parse(sys.stdin.readlines())
     cols = 2
     rows = (len(spreads) + cols - 1) // cols
-    cw, ch = (BOOK_W + 12) * SCALE, (BOOK_H + 12) * SCALE
+    cw, ch = (BOOK_W + 12) * SCALE, (BOOK_H + (36 if any(s['filter'] is not None for s in spreads) else 12)) * SCALE
     img = Image.new("RGB", (cols * cw, rows * ch), (40, 40, 44))
     d, f = ImageDraw.Draw(img), font()
     for i, s in enumerate(spreads):
-        draw_spread(d, (i % cols) * cw + 6 * SCALE, (i // cols) * ch + 6 * SCALE, s, f)
-    img.save("art/book_preview.png")
-    print("wrote art/book_preview.png,", len(spreads), "spreads")
+        ox, oy = (i % cols) * cw + 6 * SCALE, (i // cols) * ch + 6 * SCALE
+        draw_spread(d,ox,oy,s,f)
+        if s['filter'] is not None:
+            for x,w,text in [(0,80,'< Previous'),(84,144,s['filter']),(232,80,'Next >')]:
+                y = oy+(BOOK_H+4)*SCALE
+                d.rectangle((ox+x*SCALE,y,ox+(x+w)*SCALE,y+20*SCALE),fill=(38,38,38),outline=(135,135,135),width=2)
+                d.text((ox+(x+4)*SCALE,y+5*SCALE),text,font=f,fill=(230,230,230))
+    img.save(args.output)
+    print('wrote',args.output,',',len(spreads),'spreads; substitute font and native-widget approximation')
 
 if __name__ == '__main__':
     main()
