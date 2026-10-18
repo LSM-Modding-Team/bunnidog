@@ -34,6 +34,8 @@ Page 44 explains in-place hand/dispenser Mutagen, retained incubation and
 success-only costs, including treatment of a ripe litter before hatching.
 Page 45 explains the reusable bone command for feral Nest guards, their
 half-health requirement, bounded defense and Calipers status.
+Page 46 explains native journeyman-cartographer Warren Explorer Maps, price,
+the village marker and Overworld structure limits. Page 2 points to it.
 The home page also covers read-only Nest inspection and persistent compass marks.
 The food page explains short safe nighttime trough meals near home.
 
@@ -46,7 +48,7 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Forty-five pages use the ordinary written-book screen. The two linked contents pages
+Forty-six pages use the ordinary written-book screen. The two linked contents pages
 offer twenty clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
@@ -65,8 +67,8 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 ## Evidence
 
 The actual Java 25 build and current thirty-nine native server cases pass,
-including loading the book/recipe/loot resources. The expanded 45-page
-contents/physical-trait/guard preview is inspected with a substitute font. Earlier
+including loading the book/recipe/loot resources. The expanded 46-page
+warren/guard/map preview is inspected with a substitute font. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
 sources establish the ordinary book/packet/click behavior; no new screen or
@@ -99,3 +101,4 @@ compost**; it also returns to page 1. Earlier page numbers remain stable.
 N5 appends treatment page 44 under the same index, returning to page 1.
 L16 appends guard page 45 and a tenth main-index chapter. Both contents pages
 now have ten chapters; earlier page numbers and native links remain stable.
+E1 appends map page 46 under the warren/exploration chapter, returning to page 1.

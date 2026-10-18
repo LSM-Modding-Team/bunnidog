@@ -227,7 +227,7 @@
   "guide.bunnidogs.index.20": "Apex of the Line",
   "guide.bunnidogs.index.24": "Guava juice",
   "guide.bunnidogs.page.2.title": "Find a warren",
-  "guide.bunnidogs.page.2.body": "Look for guava trees and entrance mounds. Follow lit tunnels to the Nests. Settlements have one to five trees; cave, Nether and End lines live in their own habitats.",
+  "guide.bunnidogs.page.2.body": "Look for guava trees and entrance mounds. Follow lit tunnels to Nests. Settlements have one to five trees; cave, Nether and End lines have their own habitats. Cartographer maps: page 46.",
   "guide.bunnidogs.page.3.title": "Genes and stats",
   "guide.bunnidogs.page.3.body": "Each of seven genes has two copies. Dominance picks the visible trait; hidden copies still pass to pups. Bred stat points are separate. Use Calipers to read both.",
   "guide.bunnidogs.page.4.title": "Breed a seed",
@@ -416,5 +416,8 @@
   "message.bunnidogs.guarding.active": "defending near home; sneak-use a bone to disable",
   "guide.bunnidogs.index.45": "Nest guards",
   "guide.bunnidogs.page.45.title": "Nest guards",
-  "guide.bunnidogs.page.45.body": "Sneak-use a bone on a feral adult with a Nest to toggle guarding. No bone is spent. Free, half-healthy guards bite selected hostiles within eight blocks of home. Leads pause them. Calipers reports readiness. They can still be hurt."
+  "guide.bunnidogs.page.45.body": "Sneak-use a bone on a feral adult with a Nest to toggle guarding. No bone is spent. Free, half-healthy guards bite selected hostiles within eight blocks of home. Leads pause them. Calipers reports readiness. They can still be hurt.",
+  "filled_map.bunnidogs.warren": "Warren Explorer Map",
+  "guide.bunnidogs.page.46.title": "Warren maps",
+  "guide.bunnidogs.page.46.body": "Journeyman cartographers may sell a Warren Explorer Map for 14 emeralds and a compass. Follow its village marker to a natural Overworld warren. The trade is not guaranteed. Failed searches omit it. Cave dens and End warrens are excluded."
 }

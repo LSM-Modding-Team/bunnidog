@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+E1 adds native journeyman-cartographer Warren Explorer Maps, preserving the
+ordinary trade pool and omitting failed/blank results. The target tag includes
+natural Overworld warrens, with native map saves/markers. The 46-page guide
+explains the route. See `EXPLORATION_SPECS.md`.
+
 L16 adds deliberate bone-command feral Nest guards, off in old saves. Defense
 selects tagged hostiles along loaded safe routes within eight blocks of home,
 with native bites and transport/health/gene interruptions. Calipers shares its

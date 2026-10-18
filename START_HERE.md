@@ -22,6 +22,12 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-18
 
+- **E1, Warren Explorer Maps:** journeyman cartographers may sell a native
+  map for fourteen emeralds and a compass. The appended trade pool preserves
+  ordinary offers; native map modifiers omit unlocated results. Targets are
+  natural Overworld warrens, using the normal village marker. See
+  `docs/EXPLORATION_SPECS.md` E1.
+
 - **L16, Nest guards:** sneak-use a bone to opt a feral adult with a Nest
   into bounded defense. Saved preference, selected visible hostiles, complete
   dry routes, eight-block home boundary, native bites and lead/health/gene
@@ -123,7 +129,7 @@ storm shelter, fishing, terrain traits, local supplies, living dust and fitted
 farms are also complete. Their rules/evidence remain in the specifications
 listed below; do not redo them.
 
-The native Field Guide has 45 translated pages and twenty chapter links across
+The native Field Guide has 46 translated pages and twenty chapter links across
 two linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.

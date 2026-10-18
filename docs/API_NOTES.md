@@ -183,6 +183,19 @@ Resolved sources, compiler and actual hopper/scheduled-comparator cases pass;
 implementation: `block/FeedingTroughBlockEntity.java`, `FeedingTroughBlock.java`,
 `registry/ModBlocks.java` and `tools/gametest/.../TroughAutomationGameTest.java`.
 
+### Native villager trade data (E1, 2026-10-18)
+
+Minecraft 26.2 loads `villager_trade` and `trade_set` registries from data.
+Add offers through `data/minecraft/tags/villager_trade/<profession>/level_N.json`
+with `replace: false`; existing generated merchant offers remain native saves.
+Trade JSON uses `wants`, optional `additional_wants`, `gives`, `max_uses`, `xp`,
+`reputation_discount` and `given_item_modifiers`. Native cartographer data chains
+`exploration_map`, translated `set_name` and `filtered`/`discard` so an unlocated
+blank map cannot become an offer. The registry decoration is `village_plains`,
+while its texture asset is `plains_village`; these names are not interchangeable.
+Resolved native data/source and the server-loaded pool/failure case establish
+the format. Successful natural-world map discovery still needs gameplay review.
+
 ### Traps that cost time before
 * The javadoc of NeoForge lags behind its code (old event names). Trust class declarations and `import` lines.
 * `registerGoals()` runs inside the super constructor, before any field initializer of the subclass (see `docs/REFERENCE.md` "Conventions"). Fields with initializers are fine for state the super constructor never touches (`Bunnidog.guavaMemory`).

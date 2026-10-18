@@ -21,6 +21,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 
 public final class PantryGameTest {
     private PantryGameTest() {}
@@ -38,6 +41,7 @@ public final class PantryGameTest {
     }
     public static void run(GameTestHelper h) {
         var level = h.getLevel();
+        maps(h);
         int index = 0;
         int[] cells = {0,0,0,DenShape.Kind.BARREL.ordinal()};
         for (var style : Lineage.values()) {
@@ -91,6 +95,21 @@ public final class PantryGameTest {
         h.assertTrue(existing.getLootTable() == null && ItemStack.isSameItemSameComponents(keepsake,existing.getItem(0)),
                 "Player stock and its native components must be preserved");
         surface(h);
+    }
+    private static void maps(GameTestHelper h) {
+        var level = h.getLevel();
+        var trades = level.registryAccess().lookupOrThrow(Registries.VILLAGER_TRADE);
+        var trade = trades.getOrThrow(ResourceKey.create(Registries.VILLAGER_TRADE,
+                Identifier.fromNamespaceAndPath("bunnidogs","cartographer/warren_map")));
+        var pool = level.registryAccess().lookupOrThrow(Registries.TRADE_SET).getOrThrow(ResourceKey.create(Registries.TRADE_SET,
+                Identifier.withDefaultNamespace("cartographer/level_3"))).value();
+        h.assertTrue(pool.getTrades().contains(trade) && pool.getTrades().stream().anyMatch(t -> t.is(ResourceKey.create(
+                Registries.VILLAGER_TRADE,Identifier.withDefaultNamespace("cartographer/3/compass_emerald")))),
+                "The native cartographer pool must contain the warren map and retain ordinary trades");
+        var context = new LootContext.Builder(new LootParams.Builder(level).create(LootContextParamSets.EMPTY))
+                .create(java.util.Optional.empty());
+        h.assertTrue(trade.value().getOffer(context) == null,
+                "Native map modifiers must discard an unlocated blank map instead of offering it for sale");
     }
     private static void surface(GameTestHelper h) {
         var level = h.getLevel();
