@@ -24,7 +24,7 @@ public final class Adaptations {
     public static boolean luminous(Genome genome) { return genome.expressed(Gene.COAT).name().equals("glow"); }
     public static int blockLight(Genome genome, int environmental) { return luminous(genome) ? 15 : environmental; }
     public static String explanation(Gene gene, Allele allele) {
-        if (gene == Gene.EARS && allele.name().equals("bat")) return "Healthy adults with Senses +10 can mark nearby ore: sneak-use a compass. Six-block range, thirty-second saved recovery.";
+        if (gene == Gene.EARS && allele.name().equals("bat")) return "Healthy adults with Senses +10 can mark nearby ore: sneak-use a compass. At +20, a mineral in the other hand selects its ore family. Six-block range, thirty-second shared recovery.";
         if (gene == Gene.COAT && allele.name().equals("ember")) return "Immune to fire and lava.";
         if (gene == Gene.BUILD && allele.name().equals("woolly"))
             return "Does not freeze in powder snow. Healthy adults yield two wool in their expressed coat's palette with shears every ten minutes.";

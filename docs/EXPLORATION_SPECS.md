@@ -73,3 +73,42 @@ with no new chunk and an empty survey preserving an older marker pass.
 Existing Nest marker stacking/creative/overflow/native-save tests still pass
 through the shared marker helper. The guide preview is inspected. Client
 compass rendering, natural cave use and mining balance remain gameplay review.
+
+## E3: focused mineral surveys
+
+At **+20 bred Senses**, a qualified bat-ear scout can search for one ore family
+instead of every ore. Hold its mineral in the hand opposite the compass:
+
+| Held mineral | Survey target |
+|---|---|
+| Coal | Coal ores |
+| Raw iron / iron ingot | Iron ores |
+| Raw copper / copper ingot | Copper ores |
+| Raw gold / gold ingot | Gold ores, including native Nether gold |
+| Redstone / lapis lazuli | Corresponding redstone / lapis ores |
+| Diamond / emerald | Corresponding gem ores |
+| Quartz | Nether quartz ore |
+| Netherite scrap / netherite ingot | Ancient debris |
+
+Raw metals/ingots use the native block-family tags, including deepslate forms.
+All candidates must also remain in the adjustable `surveyable_ores` tag.
+The mineral is a reusable cue: names, components and counts remain unchanged.
+An unrecognized other-hand item makes a general survey. A recognized cue below
+Senses +20 explains the requirement without spending the general survey or
+changing the compass. Clear the mineral to make a Senses +10 general survey.
+
+Range, loaded/border rules and one saved animal recovery remain shared by every
+family and general surveys. No matching ore means an empty survey and rest;
+there is no fallback to a nearer unwanted mineral. Changing the cue, genes,
+stats or compasses cannot skip recovery. Successful coordinates now go to
+persistent native chat so the player can refer to depth after the action bar
+would disappear. Calipers, gene hovers and guide page 48 explain the advanced
+role. No new item, recipe, data format or network payload is introduced.
+
+E3 evidence (2026-10-18): actual Java 25 build/all 40 native scenarios pass.
+The existing survey case exercises Senses +19/+20 with a named diamond cue,
+marking farther deepslate diamond despite nearer coal. Cue count/name stay
+intact; switching to raw iron retains recovery, and a rested iron search with
+no match never falls back to coal/diamond or changes the older place marker.
+The updated scout/focus guide preview is inspected. Natural focused mining
+and client reading remain gameplay review.

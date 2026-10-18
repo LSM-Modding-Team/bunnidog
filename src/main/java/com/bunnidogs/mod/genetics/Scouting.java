@@ -4,6 +4,7 @@ package com.bunnidogs.mod.genetics;
 public final class Scouting {
     private Scouting() {}
     public static final int MIN_SENSES = 10;
+    public static final int MIN_FOCUSED_SENSES = 20;
     public static final int RADIUS = 6;
     public static final int RECOVERY_TICKS = 30*20;
     public enum Status { UNAVAILABLE, ADULT, HEALTH, TRAITS, COMBAT, RESTING, READY }

@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+E3 adds Senses +20 mineral-family focus to compass surveys, using a reusable
+mineral in the other hand and native ore-family tags. Recovery/range remain
+shared and no-match searches retain the old marker. Coordinates now persist
+in chat. Build/all 40 native cases pass; 48-page guide preview inspected. See
+`EXPLORATION_SPECS.md`.
+
 E2 gives expressed bat ears a bred exploration role: Senses +10 adults mark
 nearby loaded ore on a compass, with a six-block sphere and saved thirty-second
 recovery including empty surveys. Whole place-marker components persist after

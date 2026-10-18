@@ -112,9 +112,41 @@ public final class ScoutingGameTest {
         var remote = dog.blockPosition().offset(4096,0,4096);
         h.assertTrue(!level.hasChunkAt(remote) && MineralScouting.nearest(level,remote) == null && !level.hasChunkAt(remote),
                 "An entirely unloaded survey must never request a chunk");
+        var coal = h.absolutePos(new BlockPos(2,1,3));
+        level.setBlock(coal,Blocks.COAL_ORE.defaultBlockState(),2);
+        level.setBlock(far,Blocks.DEEPSLATE_DIAMOND_ORE.defaultBlockState(),2);
+        var mineral = new ItemStack(Items.DIAMOND,2);
+        mineral.set(DataComponents.CUSTOM_NAME,Component.literal("Focus gem"));
+        player.setItemInHand(InteractionHand.MAIN_HAND,mineral);
+        loaded.setStats(Stats.ZERO.with(Stat.SENSES,19));
         loaded.mobInteract(player,InteractionHand.OFF_HAND);
-        h.assertTrue(loaded.scoutingWait() == Scouting.RECOVERY_TICKS && expected.equals(marked.get(DataComponents.LODESTONE_TRACKER)),
+        h.assertTrue(loaded.scoutingWait() == 0 && expected.equals(marked.get(DataComponents.LODESTONE_TRACKER)),
+                "A requested focus at Senses +19 must refuse without spending the general survey");
+        loaded.setStats(Stats.ZERO.with(Stat.SENSES,20));
+        loaded.mobInteract(player,InteractionHand.OFF_HAND);
+        var diamond = new LodestoneTracker(Optional.of(GlobalPos.of(level.dimension(),far)),false);
+        h.assertTrue(diamond.equals(marked.get(DataComponents.LODESTONE_TRACKER)) && mineral.getCount() == 2
+                && mineral.getHoverName().getString().equals("Focus gem") && loaded.scoutingWait() == Scouting.RECOVERY_TICKS,
+                "A focused native survey must skip nearer coal, include deepslate ores and preserve its named mineral");
+        player.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(Items.RAW_IRON,2));
+        loaded.mobInteract(player,InteractionHand.OFF_HAND);
+        h.assertTrue(loaded.scoutingWait() == Scouting.RECOVERY_TICKS && diamond.equals(marked.get(DataComponents.LODESTONE_TRACKER)),
+                "Changing the requested ore family must not bypass shared recovery");
+        resetRecovery(loaded);
+        loaded.mobInteract(player,InteractionHand.OFF_HAND);
+        h.assertTrue(loaded.scoutingWait() == Scouting.RECOVERY_TICKS && diamond.equals(marked.get(DataComponents.LODESTONE_TRACKER))
+                && player.getMainHandItem().getCount() == 2,
+                "An empty focused iron search must not fall back to nearby coal/diamond or consume its mineral");
+        resetRecovery(loaded); player.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY);
+        level.setBlock(coal,Blocks.STONE.defaultBlockState(),2); level.setBlock(far,Blocks.STONE.defaultBlockState(),2);
+        loaded.mobInteract(player,InteractionHand.OFF_HAND);
+        h.assertTrue(loaded.scoutingWait() == Scouting.RECOVERY_TICKS && diamond.equals(marked.get(DataComponents.LODESTONE_TRACKER)),
                 "An empty survey must rest without changing an old compass marker");
-        h.succeed();
+    }
+    private static void resetRecovery(Bunnidog dog) {
+        var saved = TagValueOutput.createWithContext(ProblemReporter.DISCARDING,dog.level().registryAccess());
+        dog.saveWithoutId(saved);
+        var tag = saved.buildResult(); tag.remove("ScoutWait");
+        dog.load(TagValueInput.create(ProblemReporter.DISCARDING,dog.level().registryAccess(),tag));
     }
 }
