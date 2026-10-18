@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+P4 expands the 50-page guide to three contents pages/twenty-four chapter links,
+with direct access to newer systems. E4 adds native one-time working-line XP
+milestones for a successful guard command/general or focused found-ore survey.
+Build/all 40 native cases pass; the three-index preview is inspected. See
+`FIELD_GUIDE.md` and `EXPLORATION_SPECS.md`.
+
 L17 adds a native redstone pause for resident meals/crop/compost work from a
 trough, retaining its stock/filter/automation/comparator and hoe setting.
 Commit checks include changes during native protection callbacks. Build/all

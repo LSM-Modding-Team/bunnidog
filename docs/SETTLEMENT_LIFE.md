@@ -74,6 +74,8 @@ searching for threats or paths. Ready means ready to search, not a promise of
 an intruder. The guide explains the command and defensive limits. This gives
 recessive feral breeding a deliberate resident role while leaving every
 existing animal's behavior unchanged until the player opts in.
+E4 later adds the native **Standing Watch** task/25 XP for the player's first
+successful enable command; refused/disable commands grant nothing.
 
 L16 evidence (2026-10-18): Java 25 build/all 39 native scenarios pass. The new
 guard case uses a real claimed Nest, off-hand named bone, native Adventure

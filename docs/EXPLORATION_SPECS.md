@@ -112,3 +112,30 @@ intact; switching to raw iron retains recovery, and a rested iron search with
 no match never falls back to coal/diamond or changes the older place marker.
 The updated scout/focus guide preview is inspected. Natural focused mining
 and client reading remain gameplay review.
+
+## E4: working-line milestones
+
+Three native per-player advancements give the new resident/exploration roles
+visible goals alongside the existing stable-line/show progression:
+
+| Advancement | Actual successful trigger | Reward |
+|---|---|---|
+| Standing Watch | Enable a feral adult's Nest guarding | 25 XP |
+| A Quiet Listener | Mark found ore through a qualified compass survey | 25 XP |
+| A Discerning Ear | Mark the selected ore family through a focused survey | 50 XP |
+
+The guard and general-scout tasks join Husbandry; focused scouting follows the
+general-scout task. First making a focused survey can satisfy both. Refused
+commands, empty surveys and inspection grant nothing. Use native saved player
+progress and reward limits, with no extra animal/player fields, items or custom
+criteria/network payload. Repeating commands or successful surveys cannot farm
+the one-time rewards. Data packs can override/remove the advancements normally;
+missing advancement definitions do not break the animal interactions.
+
+E4 evidence (2026-10-18): actual Java 25 build/all 40 native cases pass. The
+existing guard/scout interactions read actual native advancement progress:
+invalid commands/surveys remain incomplete, a successful guard command and
+general found-ore survey complete their tasks, and focused work stays locked
+until an actual Senses +20 matching survey succeeds. Native JSON resources
+load with their parent links/rewards. Toasts and the advancement screen remain
+client gameplay review.

@@ -448,5 +448,16 @@
   "guide.bunnidogs.page.48.body": "Senses +20 scouts can focus: hold a mineral in the other hand. Raw metals/ingots select their ore; coal, redstone, lapis, gems, quartz or netherite scrap select theirs. No mineral is spent. Every focus shares the same survey rest.",
   "message.bunnidogs.trough.powered": "Residents paused by redstone. %s",
   "guide.bunnidogs.page.49.title": "Pause trough work",
-  "guide.bunnidogs.page.49.body": "Power a Feeding Trough to pause resident meals, crops and composting. Stock, filters, hoppers and comparator output still work. Remove power to resume at the next search. The hoe keeps its setting. Empty-hand inspection names the pause."
+  "guide.bunnidogs.page.49.body": "Power a Feeding Trough to pause resident meals, crops and composting. Stock, filters, hoppers and comparator output still work. Remove power to resume at the next search. The hoe keeps its setting. Empty-hand inspection names the pause.",
+  "advancement.bunnidogs.standing_watch.title": "Standing Watch",
+  "advancement.bunnidogs.standing_watch.description": "Ask a feral adult with a Nest to guard its home.",
+  "advancement.bunnidogs.quiet_listener.title": "A Quiet Listener",
+  "advancement.bunnidogs.quiet_listener.description": "Ask a bat-eared adult bred to Senses +10 to mark nearby ore on a compass.",
+  "advancement.bunnidogs.discerning_ear.title": "A Discerning Ear",
+  "advancement.bunnidogs.discerning_ear.description": "Use a mineral cue with a Senses +20 bat-eared scout to find that ore family.",
+  "guide.bunnidogs.new_contents": "New chapters",
+  "guide.bunnidogs.index.44": "Treat a litter",
+  "guide.bunnidogs.index.46": "Warren maps",
+  "guide.bunnidogs.index.47": "Mineral scouts",
+  "guide.bunnidogs.index.49": "Pause trough work"
 }

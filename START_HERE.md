@@ -22,6 +22,13 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-18
 
+- **P4/E4, navigation and working-line goals:** the 50-page guide has three
+  linked contents pages/twenty-four chapter links, including direct nursery,
+  guard, map, scout and trough-pause entries. Native one-time XP milestones
+  reward a successful guard command, found-ore survey and focused survey.
+  Refusals grant none. Build/all 40 native cases pass; three-index preview
+  inspected. See `docs/FIELD_GUIDE.md` P4 and `docs/EXPLORATION_SPECS.md` E4.
+
 - **L17, trough redstone pause:** power reserves a trough from resident
   meals and crop/compost work; manual/automation stock, exact filters and
   comparator output remain available. Jobs recheck before commitment and
@@ -149,8 +156,8 @@ storm shelter, fishing, terrain traits, local supplies, living dust and fitted
 farms are also complete. Their rules/evidence remain in the specifications
 listed below; do not redo them.
 
-The native Field Guide has 49 translated pages and twenty chapter links across
-two linked contents pages.
+The native Field Guide has 50 translated pages and twenty-four chapter links
+across three linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
@@ -169,7 +176,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, led-adult reassignment, Travel Baskets and persistent compass place markers. `docs/HOME_SPECS.md` H1–H7 |
 | Settlement life | Saved trough stock/automation/filters/redstone pause, diet healing/short night meals, bell visits, fitted furniture, harvest/cultivation/surplus composting, guava compost data, local stores, refuge, storm shelter and opt-in feral Nest guards. `docs/SETTLEMENT_LIFE.md` L1–L17 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
-| Exploration | Native cartographer Warren Maps and bred bat-ear compass surveys, with optional mineral-family focus at Senses +20. `docs/EXPLORATION_SPECS.md` E1–E3 |
+| Exploration | Native cartographer Warren Maps, bred bat-ear compass surveys with optional mineral-family focus at Senses +20, and native working-line milestones. `docs/EXPLORATION_SPECS.md` E1–E4 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
 | Drops and endgame | Pelts/materials, Mutagen/Marrow/Tissue/Dust, five stat legends and pedestals. Sample-defined Apex ritual, inherited combat, warned attacks/enrage, boss bar and source-line crest. `docs/DROPS_SPECS.md`, `docs/APEX_SPECS.md` |
 | Apex preparation | Crucible missing-offering status; main-hand Calipers/off-hand sample forecasts real boss values without spending or spawning. `docs/APEX_SPECS.md` P2 |

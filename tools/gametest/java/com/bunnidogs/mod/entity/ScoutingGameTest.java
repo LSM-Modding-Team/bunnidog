@@ -13,6 +13,7 @@ import net.minecraft.core.GlobalPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -63,10 +64,17 @@ public final class ScoutingGameTest {
         dog.setTarget(other); dog.mobInteract(player,InteractionHand.OFF_HAND);
         h.assertTrue(dog.scoutingStatus() == Scouting.Status.COMBAT && dog.scoutingWait() == 0,"Combat must interrupt surveying");
         dog.setTarget(null); other.discard();
+        var listener = level.getServer().getAdvancements().get(Identifier.fromNamespaceAndPath("bunnidogs","quiet_listener"));
+        var discerning = level.getServer().getAdvancements().get(Identifier.fromNamespaceAndPath("bunnidogs","discerning_ear"));
+        h.assertTrue(listener != null && discerning != null && !player.getAdvancements().getOrStartProgress(listener).isDone(),
+                "Refused surveys must not grant an exploration milestone");
         // A player may keep a scout safely on a lead; measuring does not request a journey.
         dog.setLeashedTo(player,false);
         var originalStats = dog.stats(); float health = dog.getHealth();
         dog.mobInteract(player,InteractionHand.OFF_HAND);
+        h.assertTrue(player.getAdvancements().getOrStartProgress(listener).isDone()
+                && !player.getAdvancements().getOrStartProgress(discerning).isDone(),
+                "A successful general survey grants its native milestone without granting focused work");
         var expected = new LodestoneTracker(Optional.of(GlobalPos.of(level.dimension(),near)),false);
         int slot = -1;
         for (int i = 0; i < player.getInventory().getContainerSize(); i++)
@@ -122,12 +130,15 @@ public final class ScoutingGameTest {
         loaded.mobInteract(player,InteractionHand.OFF_HAND);
         h.assertTrue(loaded.scoutingWait() == 0 && expected.equals(marked.get(DataComponents.LODESTONE_TRACKER)),
                 "A requested focus at Senses +19 must refuse without spending the general survey");
+        h.assertTrue(!player.getAdvancements().getOrStartProgress(discerning).isDone(),"Refused focus must not grant advanced work");
         loaded.setStats(Stats.ZERO.with(Stat.SENSES,20));
         loaded.mobInteract(player,InteractionHand.OFF_HAND);
         var diamond = new LodestoneTracker(Optional.of(GlobalPos.of(level.dimension(),far)),false);
         h.assertTrue(diamond.equals(marked.get(DataComponents.LODESTONE_TRACKER)) && mineral.getCount() == 2
                 && mineral.getHoverName().getString().equals("Focus gem") && loaded.scoutingWait() == Scouting.RECOVERY_TICKS,
                 "A focused native survey must skip nearer coal, include deepslate ores and preserve its named mineral");
+        h.assertTrue(player.getAdvancements().getOrStartProgress(discerning).isDone(),
+                "A successful focused survey must grant the advanced native milestone");
         player.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(Items.RAW_IRON,2));
         loaded.mobInteract(player,InteractionHand.OFF_HAND);
         h.assertTrue(loaded.scoutingWait() == Scouting.RECOVERY_TICKS && diamond.equals(marked.get(DataComponents.LODESTONE_TRACKER)),

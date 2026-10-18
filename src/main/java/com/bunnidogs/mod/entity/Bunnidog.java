@@ -516,7 +516,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
                 if (!this.acceptsCare() || !this.isAlive()) message = "unavailable";
                 else if (this.guardEnabled) { this.guardEnabled = false; message = "disabled"; }
                 else if (this.isBaby() || this.temperament() != Temperament.FERAL || this.homeNest() == null) message = "requirement";
-                else { this.guardEnabled = true; message = "enabled"; }
+                else { this.guardEnabled = true; message = "enabled"; WorkingLineProgress.guard(player); }
                 player.sendOverlayMessage(Component.translatable("message.bunnidogs.guard."+message));
             }
             return InteractionResult.SUCCESS;

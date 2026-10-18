@@ -56,8 +56,8 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Forty-nine pages use the ordinary written-book screen. The two linked contents pages
-offer twenty clickable chapter links. Each chapter links back to its index. Local page changes
+Fifty pages use the ordinary written-book screen. Three linked contents pages
+offer twenty-four clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
 
@@ -75,8 +75,8 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 ## Evidence
 
 The actual Java 25 build and current forty native server cases pass,
-including loading the book/recipe/loot resources. The expanded 49-page
-automation/focus/pause preview is inspected with a substitute font. Earlier
+including loading the book/recipe/loot resources. The expanded 50-page
+three-index preview is inspected with a substitute font. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
 sources establish the ordinary book/packet/click behavior; no new screen or
@@ -111,3 +111,20 @@ L16 appends guard page 45 and a tenth main-index chapter. Both contents pages
 now have ten chapters; earlier page numbers and native links remain stable.
 E1 appends map page 46 under the warren/exploration chapter, returning to page 1.
 E2 appends scout page 47 under the same chapter, also returning to page 1.
+
+## P4 — Nursery, resident work and exploration index
+
+Page 50 is a third contents page for the newer systems: Nursery & compost,
+in-place litter treatment, Nest guards, Warren Maps, Mineral scouts and
+the trough work pause. Main contents returns to its eight core chapters and
+links to both **More chapters** and **New chapters**. Page 40 retains its ten
+established links and return to Main contents. The new page has six chapters
+and its own Main return, for twenty-four direct chapter links in total.
+
+Content pages 41–49 now return to page 50; pages 2–23 still return to Main and
+24–39 to More. Earlier content page numbers remain stable, including the
+warren/map/scout references and automation/pause reference. Native local
+`ClickEvent.ChangePage` links, written-book defaults and intentionally overridden
+book components retain their existing behavior. There is no screen, packet or
+save migration. The generated three-index preview is inspected; native font
+and navigation remain client gameplay review.

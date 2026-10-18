@@ -53,11 +53,12 @@ PAGES = {
     48: ('Choose a mineral', 'Senses +20 scouts can focus: hold a mineral in the other hand. Raw metals/ingots select their ore; coal, redstone, lapis, gems, quartz or netherite scrap select theirs. No mineral is spent. Every focus shares the same survey rest.'),
     49: ('Pause trough work', 'Power a Feeding Trough to pause resident meals, crops and composting. Stock, filters, hoppers and comparator output still work. Remove power to resume at the next search. The hoe keeps its setting. Empty-hand inspection names the pause.'),
 }
-PAGE_COUNT = 49
-MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',41:'Nursery & compost',8:'Homes & food',11:'Care & traits',45:'Nest guards',15:'Lab & splicing',
+PAGE_COUNT = 50
+MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
               31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
+NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work'}
 
 
 def pantry_guide_pool():
@@ -86,8 +87,9 @@ def main():
     for path in (RES/'assets/bunnidogs/lang').glob('*.json'):
         value = json.loads(path.read_text()); value.update({'item.bunnidogs.field_guide':'Bunnidogs Field Guide',
           'guide.bunnidogs.title':'Bunnidogs Guide','guide.bunnidogs.contents':'Contents',
-          'guide.bunnidogs.more_contents':'More chapters','guide.bunnidogs.main_contents':'Main contents'})
-        for page,label in (MAIN_INDEX | MORE_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
+          'guide.bunnidogs.more_contents':'More chapters','guide.bunnidogs.main_contents':'Main contents',
+          'guide.bunnidogs.new_contents':'New chapters'})
+        for page,label in (MAIN_INDEX | MORE_INDEX | NEW_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
         for page,(title,body) in PAGES.items():
             value[f'guide.bunnidogs.page.{page}.title'] = title
             value[f'guide.bunnidogs.page.{page}.body'] = body
@@ -104,12 +106,13 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,34),(495,48),(735,49)]:
+    for x,page in [(255,1),(495,40),(735,50)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
-        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else PAGES[page][0]
+        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))
-        if page == 1: body = '\n'.join(MAIN_INDEX.values()) + '\n\nMore chapters'
+        if page == 1: body = '\n'.join(MAIN_INDEX.values()) + '\n\nMore chapters\nNew chapters'
         elif page == 40: body = '\n'.join(MORE_INDEX.values()) + '\n\nMain contents'
+        elif page == 50: body = '\n'.join(NEW_INDEX.values()) + '\n\nMain contents'
         else: body = '\n'.join(textwrap.wrap(PAGES[page][1],25)) + '\n\nContents'
         d.multiline_text((x+14,75),body,font=font,spacing=6,fill=(40,59,36))
         d.text((x+14,365),f'Page {page} / {PAGE_COUNT}',font=font,fill=(85,77,56))

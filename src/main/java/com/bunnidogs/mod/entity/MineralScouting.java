@@ -94,6 +94,7 @@ public final class MineralScouting {
             PlaceMarkers.bind(level,pos,player,hand);
             player.sendSystemMessage(Component.translatable("message.bunnidogs.scouting.marked",level.getBlockState(pos).getBlock().getName(),
                     pos.getX(),pos.getY(),pos.getZ()));
+            WorkingLineProgress.survey(player,focus != Focus.ANY);
         }
         dog.playSound(SoundEvents.AMETHYST_BLOCK_CHIME,.5F,1.2F);
         return InteractionResult.SUCCESS;

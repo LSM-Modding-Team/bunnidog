@@ -1,0 +1,31 @@
+{
+  "parent": "bunnidogs:quiet_listener",
+  "criteria": {
+    "focused": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "focused"
+    ]
+  ],
+  "display": {
+    "icon": {
+      "id": "minecraft:diamond"
+    },
+    "title": {
+      "translate": "advancement.bunnidogs.discerning_ear.title"
+    },
+    "description": {
+      "translate": "advancement.bunnidogs.discerning_ear.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 50
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "parent": "minecraft:husbandry/root",
+  "criteria": {
+    "surveyed": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "surveyed"
+    ]
+  ],
+  "display": {
+    "icon": {
+      "id": "minecraft:compass"
+    },
+    "title": {
+      "translate": "advancement.bunnidogs.quiet_listener.title"
+    },
+    "description": {
+      "translate": "advancement.bunnidogs.quiet_listener.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 25
+  }
+}

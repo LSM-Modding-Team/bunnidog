@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -51,10 +52,15 @@ public final class GuardGameTest {
             player.gameMode.changeGameModeForPlayer(GameType.ADVENTURE);
             dog.mobInteract(player,InteractionHand.OFF_HAND);
             h.assertTrue(!dog.guardEnabled(),"Adventure permissions must prevent changing guarding");
+            var milestone = level.getServer().getAdvancements().get(Identifier.fromNamespaceAndPath("bunnidogs","standing_watch"));
+            h.assertTrue(milestone != null && !player.getAdvancements().getOrStartProgress(milestone).isDone(),
+                    "Refused guard commands must not grant the working-line milestone");
             player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
             dog.mobInteract(player,InteractionHand.OFF_HAND);
             h.assertTrue(dog.guardEnabled() && dog.guardingStatus() == Guarding.Status.READY && bone.getCount() == 3
                     && bone.getHoverName().getString().equals("Guard command"),"Off-hand commands must enable without spending or rewriting a bone");
+            h.assertTrue(player.getAdvancements().getOrStartProgress(milestone).isDone(),
+                    "A real successful guard command must award the native per-player milestone");
             var cow = h.spawnWithNoFreeWill(EntityTypes.COW,3,1,4);
             var creeper = h.spawnWithNoFreeWill(EntityTypes.CREEPER,4,1,3);
             h.assertTrue(!new GuardGoal(dog).canUse() && dog.getTarget() == null,
