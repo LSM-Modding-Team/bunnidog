@@ -165,4 +165,10 @@ numbers, all twenty-eight existing chapter links and their returns stay stable.
 The native book default, translations and click/page packets remain shared.
 The new content and both new navigation views are previewed with a substitute
 font. Build/all 44 server cases pass; native client fonts/navigation remain
-playtest review. The guide now has twenty-nine chapter links.
+playtest review.
+
+L21 appends **Regional farms**, page 58, naming the five habitat-specific
+plots, empty optional troughs, native growth and preserved old settlements.
+The Habitat index gains its second link, for thirty total chapters over 58
+pages. The region/cactus/Habitat text preview is inspected; Java 25 build and
+all 45 native server cases pass. Earlier page destinations stay stable.

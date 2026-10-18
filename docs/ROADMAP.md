@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L21 gives new version-five farms regional crops and valid supporting blocks,
+including water-free cactus/wart/mushroom/chorus beds and a glow-berry trellis.
+The original footprint, fitted optional troughs and old saved plans remain.
+Java 25 build/all 45 native cases pass; layout/guide previews inspected. See
+`SETTLEMENT_LIFE.md` L21 and `WARREN_PLAN.md` 22.
+
 L20 adds protected cactus-top pruning for desert browsers with enabled troughs,
 preserving bases/flowers and rechecking callbacks before one real harvest.
 P5 adds a fourth Habitat index and cactus chapter without renumbering earlier

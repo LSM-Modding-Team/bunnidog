@@ -392,3 +392,28 @@ scenarios pass. The fixture case covers the new empty BE, orientation and
 repeat exact seed/incubation preservation; native structure saves retain the
 appended fixture kind while legacy starts stay unchanged. Natural chunk-order
 generation and client exploration remain separate gameplay checks.
+
+## 22. L21 regional surface farms
+
+New starts save `WarrenVersion=5`; regional `FARM` props use pure
+`RegionalFarms` cells in the original 3×3 footprint and reserved height.
+Desert plots grow a spare cactus top over sand, Nether wart uses soul sand,
+swamp mushrooms use mycelium, cave glow vines hang from a small guava-plank
+trellis and End chorus starts on end stone. Ordinary meadow/tundra/mountain
+geometry is unchanged. Five regional variants need no artificial water.
+Optional empty enabled corner troughs use the existing fitted outside-space
+checks; End plots can now fit them too. Plants retain native growth/survival.
+
+All cells/ground are preflighted before writes; containers and obstructed
+trellises refuse without partial ground changes. Plank ground also refuses
+regional farms, preventing repeat placement atop an old trellis. Anchor/chunk
+ownership and prop IDs are unchanged. Versions one through four retain their
+stored plans and native save versions; there is no upgrade or retrofit on load.
+The explicit command feature uses the new variants for fresh placements.
+
+Java 25 build/all 45 native cases pass, including real plant survival, empty
+troughs, repeated stock preservation, obstruction refusal and version-five/four
+saves. Focused pure checks cover eight lineages × four rotations × trough
+presence. `tools/FarmDump.java` and `art/preview_farms.py` reproduce the actual
+cell preview, with approximate colors. Full natural terrain/chunk-order and
+client lighting/appearance remain gameplay review.

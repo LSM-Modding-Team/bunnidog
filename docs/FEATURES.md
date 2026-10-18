@@ -1,8 +1,8 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 44 pages from first warren to Apex. Two linked contents pages offer nineteen
-chapter links; newer chapters return to the second index.
+open 58 pages from first warren to Apex. Four linked contents pages offer thirty
+chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 
@@ -492,3 +492,10 @@ two-/three-high cactus into a hoe-enabled trough. They keep lower segments
 and flowers, use safe loaded routes and share the existing one-minute work
 rest. Diet, exact filters, power, capacity, griefing and protection apply.
 One base never gets harvested and growth is not accelerated.
+
+**Regional farms (L21):** new settlements can fit desert cactus on sand,
+Nether wart on soul sand, swamp mushrooms on mycelium, cave glow berries under
+a guava-plank trellis and End chorus on end stone. Other regions retain the
+ordinary plot. A safely fitted corner may hold an empty enabled trough. Keep
+food stocked for meals; plants grow natively. Existing settlements keep their
+saved layout, and generation preserves containers and obstructions.

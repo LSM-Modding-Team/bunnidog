@@ -58,15 +58,16 @@ PAGES = {
     54: ('Plan a litter', 'Read a Genetics Table holding one guava for both parents, or two to average them. Mutagen previews treatment. Cues and samples are kept. Clear hands for plain, untreated plans. Starborn is included. Fortune: page 55.'),
     55: ('Plan the harvest', 'Read the table with a Fortune tool in either hand. Uses the highest held level, adding 0.5 quality per level at crop harvest. An opposite guava or Mutagen also applies. Cues stay intact. Cradles get no Fortune bonus.'),
     57: ('Cactus gardens', 'Hoe-enable a trough for desert-browser adults. They trim one spare cactus top, leaving lower segments. Keep clear ground and a safe route. Flowers stay intact. Diet, filters, power, protection and shared work rest apply.'),
+    58: ('Regional farms', 'New farms suit their home: desert cactus, Nether wart, swamp mushrooms, cave glow berries and End chorus. Some fit an empty enabled trough. Stock it for meals. Plants use native growth; old settlements keep their plans.'),
 }
-PAGE_COUNT = 57
+PAGE_COUNT = 58
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
               31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
 NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work',51:'Find a tagged animal',52:'Bell roll call',53:'Recovery rest',54:'Plan a litter'}
 
-HABITAT_INDEX = {57:'Cactus gardens'}
+HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -113,7 +114,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,57),(495,1),(735,56)]:
+    for x,page in [(255,58),(495,57),(735,56)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

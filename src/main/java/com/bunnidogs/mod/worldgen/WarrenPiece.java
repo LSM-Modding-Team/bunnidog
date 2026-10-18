@@ -92,7 +92,7 @@ public class WarrenPiece extends StructurePiece {
         this.wayfinding = wayfinding.clone();
         this.lifeFixtures = lifeFixtures.clone();
         this.woodDetails = true;
-        this.generationVersion = 4;
+        this.generationVersion = 5;
     }
 
     public WarrenPiece(CompoundTag tag) {
@@ -195,7 +195,7 @@ public class WarrenPiece extends StructurePiece {
                         level == 1 && (style != Lineage.END || generationVersion < 2), networkDen,generationVersion >= 3);
             }
         } else if (kind == PROP) {
-            WarrenFeature.buildProp(world, x, y, z, s.props().get(index), true, style,generationVersion >= 4);
+            WarrenFeature.buildProp(world, x, y, z, s.props().get(index), true, style,generationVersion >= 4,generationVersion >= 5);
         } else {
             WarrenFeature.buildHouse(world, x, y, z, s.houses().get(index), true, style, level,woodDetails);
         }

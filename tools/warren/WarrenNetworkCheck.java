@@ -3,6 +3,8 @@ import com.bunnidogs.mod.layout.HouseShape;
 import com.bunnidogs.mod.layout.HouseDetails;
 import com.bunnidogs.mod.layout.PathShape;
 import com.bunnidogs.mod.layout.PropShape;
+import com.bunnidogs.mod.layout.RegionalFarms;
+import com.bunnidogs.mod.genetics.Lineage;
 import com.bunnidogs.mod.layout.Settlement;
 import com.bunnidogs.mod.layout.TunnelShape;
 import com.bunnidogs.mod.layout.TunnelShape.Pos;
@@ -33,6 +35,17 @@ public final class WarrenNetworkCheck {
 
     public static void main(String[] args) {
         for (int turns = 0; turns < 4; turns++) {
+            for (var style : Lineage.values()) for (boolean garden : new boolean[]{false,true}) {
+                var regional = RegionalFarms.cells(style,turns,garden);
+                require(regional.stream().allMatch(c -> Math.abs(c.dx()) <= 1 && Math.abs(c.dz()) <= 1 && c.dy() >= -1 && c.dy() <= PropShape.TOP),
+                        "Regional farms must fit the existing reservation");
+                require(regional.stream().map(c -> new Pos(c.dx(),c.dy(),c.dz())).distinct().count() == regional.size(),"Regional cells cannot overlap");
+                require(regional.stream().filter(c -> c.dy() == -1).count() == 9,"Every regional ground column needs support");
+                require(regional.stream().filter(c -> c.mat() == PropShape.Mat.TROUGH).count() == (garden ? 1 : 0),"Garden opt-in controls the only trough");
+                if (style == Lineage.MEADOW || style == Lineage.TUNDRA || style == Lineage.MOUNTAIN)
+                    require(regional.equals(PropShape.cells(PropShape.Kind.FARM,turns,garden)),"Ordinary agricultural layouts retain their geometry");
+                else require(regional.stream().noneMatch(c -> c.mat() == PropShape.Mat.WATER),"Regional beds need no unsupported water source");
+            }
             var farm = PropShape.cells(PropShape.Kind.FARM,turns,true);
             require(farm.stream().filter(c -> c.mat() == PropShape.Mat.TROUGH).count() == 1,"Each rotated working farm needs one trough");
             require(farm.stream().allMatch(c -> Math.abs(c.dx()) <= 1 && Math.abs(c.dz()) <= 1),"Working farms must retain the old footprint");

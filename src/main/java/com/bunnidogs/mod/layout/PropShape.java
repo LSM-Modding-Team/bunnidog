@@ -23,7 +23,8 @@ public final class PropShape {
 
     public enum Kind { HAYSTACK, WELL, STALL, FARM, PLAZA }
 
-    public enum Mat { HAY, BARREL, COBBLE, MOSSY, WATER, FENCE, SLAB, LANTERN, PUMPKIN, MELON, FARMLAND, WHEAT, CARROTS, POTATOES, FILL, TROUGH }
+    public enum Mat { HAY, BARREL, COBBLE, MOSSY, WATER, FENCE, SLAB, LANTERN, PUMPKIN, MELON, FARMLAND, WHEAT, CARROTS, POTATOES, FILL, TROUGH,
+        SAND, CACTUS, SOUL_SAND, NETHER_WART, MYCELIUM, RED_MUSHROOM, BROWN_MUSHROOM, END_STONE, CHORUS_FLOWER, PLANK, GLOW_VINE }
 
     /** One block of a landmark, relative to the centre column. */
     public record Cell(int dx, int dy, int dz, Mat mat) {}

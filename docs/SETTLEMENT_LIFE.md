@@ -1,8 +1,34 @@
-# Settlement life L1–L20
+# Settlement life L1–L21
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
 No hunger/starvation system, forced breeding or changes to existing containers.
+
+## L21: regional farm beds
+
+New version-five settlement farms use the same 3×3 footprint with suitable
+regional food: a two-high central cactus on sand, wart on soul sand, two red
+and two brown mushrooms on mycelium, two fruiting glow vines under a guava-plank
+trellis, or a chorus flower on end stone. Meadow, tundra and mountain plots
+retain their existing crops. These five variants introduce no water. The cave
+trellis stays within the old three-block height reservation. Native plant
+growth and survival remain authoritative; no boosted growth or restocking.
+
+A safe corner can hold the same empty hoe-enabled trough on solid ground,
+including in End plots. Its outside neighbors must already be dry, sturdy and
+clear. Entire plans fit before any block changes, preserving containers and
+obstructions. Regional farms refuse existing plank roofs as ground, preventing
+a repeat cave placement from stacking trellises. New starts save version five;
+older starts keep their stored version and previous crop plan. No retrofit.
+
+L21 evidence (2026-10-18): Java 25 build/all 45 native scenarios pass. Focused
+layout checks cover all eight lineages, four rotations and trough opt-in/out,
+footprint/height/unique cells and unchanged ordinary geometry. The native case
+places all five special plots, verifies every actual block's survival, no
+fluids, empty enabled troughs, repeat stock preservation, preflight container
+refusal and version-five/four saves. The reproducible FarmDump preview shows
+actual layout cells with approximate colors; guide preview inspected. Natural
+terrain fitting, cave lighting and client appearance still need gameplay review.
 
 ## L20: protected cactus pruning
 

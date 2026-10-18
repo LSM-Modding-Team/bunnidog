@@ -55,7 +55,7 @@ public final class GuavaGameTest extends GameTestInstance {
     @SubscribeEvent
     public static void registerTests(RegisterGameTestsEvent event) {
         var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.AllOf());
-        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "table_automation", "show", "grooming", "settlement", "apex", "fixtures", "gardening", "cactus_gardening", "pantry", "fishing", "refuge", "guarding", "scouting", "resident_finder", "storm_shelter", "recovery_rest", "trough_automation", "bell_calls", "trough_filters", "care_dispensers", "basket", "cultivation", "nest_markers", "night_meals", "nursery", "seed_recovery", "cradle_storage", "cradle_hatching", "cradle_spawn_refusal", "crop_harvest", "composting", "nursery_treatment"}) {
+        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "table_automation", "show", "grooming", "settlement", "apex", "fixtures", "regional_farms", "gardening", "cactus_gardening", "pantry", "fishing", "refuge", "guarding", "scouting", "resident_finder", "storm_shelter", "recovery_rest", "trough_automation", "bell_calls", "trough_filters", "care_dispensers", "basket", "cultivation", "nest_markers", "night_meals", "nursery", "seed_recovery", "cradle_storage", "cradle_hatching", "cradle_spawn_refusal", "crop_harvest", "composting", "nursery_treatment"}) {
             event.registerTest(id(name), new GuavaGameTest(name, new TestData<>(environment, id("empty"), 100, 0, true)));
         }
     }
@@ -76,6 +76,7 @@ public final class GuavaGameTest extends GameTestInstance {
             case "show" -> ShowGameTest.run(h);
             case "apex" -> ApexGameTest.run(h);
             case "fixtures" -> com.bunnidogs.mod.worldgen.FixturesGameTest.run(h);
+            case "regional_farms" -> com.bunnidogs.mod.worldgen.RegionalFarmsGameTest.run(h);
             case "pantry" -> com.bunnidogs.mod.worldgen.PantryGameTest.run(h);
             case "gardening" -> { GardeningGameTest.run(h); return; }
             case "cactus_gardening" -> { CactusGardeningGameTest.run(h); return; }

@@ -22,6 +22,13 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-18
 
+- **L21, regional farms:** new version-five starts fit desert cactus beds,
+  soul-sand wart, swamp mushrooms, cave glow-berry trellises and End chorus
+  within the old 3×3 plot. Optional empty enabled troughs, safe terrain fitting
+  and existing containers are preserved; older starts retain their exact plans.
+  Java 25 build/all 45 native cases pass; actual-layout and guide previews
+  inspected. See `docs/SETTLEMENT_LIFE.md` L21 and `docs/WARREN_PLAN.md` 22.
+
 - **L20/P5, cactus gardens and habitat index:** desert browsers trim one
   spare cactus top into an enabled trough, preserving bases/flowers and
   rechecking native protection callbacks. Safe loaded routes, filters,
@@ -207,7 +214,7 @@ storm shelter, fishing, terrain traits, local supplies, living dust and fitted
 farms are also complete. Their rules/evidence remain in the specifications
 listed below; do not redo them.
 
-The native Field Guide has 57 translated pages and twenty-nine chapter links
+The native Field Guide has 58 translated pages and thirty chapter links
 across four linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
@@ -225,7 +232,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Care | Live samples, fleece palettes, whiskers/dust/moss, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C9 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow, terrain movement and snow footing. `docs/CARE_SPECS.md` A1–A5 |
 | Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, led-adult reassignment, Travel Baskets and persistent compass place markers, including resident homes. `docs/HOME_SPECS.md` H1–H8 |
-| Settlement life | Saved trough stock/automation/filters/redstone pause, diet healing/short night meals, bell visits, fitted furniture, harvest/cultivation/surplus composting, guava compost data, local stores, refuge, storm shelter and opt-in feral Nest guards a read-only bell roll call and serious-injury rest and cactus pruning. `docs/SETTLEMENT_LIFE.md` L1–L20 |
+| Settlement life | Saved trough stock/automation/filters/redstone pause, diet healing/short night meals, bell visits, regional farms/fitted furniture, harvest/cultivation/surplus composting, guava compost data, local stores, refuge, storm shelter, opt-in feral Nest guards, read-only bell roll call, serious-injury rest and cactus pruning. `docs/SETTLEMENT_LIFE.md` L1–L21 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Exploration | Native cartographer Warren Maps, bred bat-ear compass surveys with optional mineral-family focus at Senses +20, native working-line milestones and a loaded tagged-resident finder. `docs/EXPLORATION_SPECS.md` E1–E5 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
@@ -280,7 +287,7 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **forty-four** native scenarios pass (forty-three mod
+The Java 25 build and all **forty-five** native scenarios pass (forty-four mod
 cases plus native sanity). Latest coverage:
 
 - **N1:** real redstone pulses, malformed/blocked/wrong-soil/occupied planting,

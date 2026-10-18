@@ -13,6 +13,7 @@ import com.bunnidogs.mod.layout.HouseShape;
 import com.bunnidogs.mod.layout.HouseDetails;
 import com.bunnidogs.mod.layout.PathShape;
 import com.bunnidogs.mod.layout.PropShape;
+import com.bunnidogs.mod.layout.RegionalFarms;
 import com.bunnidogs.mod.layout.Settlement;
 import com.bunnidogs.mod.layout.TunnelShape;
 import com.bunnidogs.mod.layout.WarrenShape;
@@ -24,6 +25,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.WorldGenLevel;
@@ -185,7 +187,7 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
         List<Settlement.Prop> builtProps = new ArrayList<>();
         int propsWanted = surfaceOnly ? PropShape.kindsFor(trees).size() : 0;
         for (Settlement.Prop prop : settlement.props().subList(0, Math.min(propsWanted, settlement.props().size()))) {
-            if (buildProp(level, floor.getX() + prop.dx(), floor.getY(), floor.getZ() + prop.dz(), prop, true, style,true)) {
+            if (buildProp(level, floor.getX() + prop.dx(), floor.getY(), floor.getZ() + prop.dz(), prop, true, style,true,true)) {
                 props++;
                 builtProps.add(prop);
             }
@@ -310,6 +312,10 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
         return buildProp(level,x,y,z,prop,surface,style,false);
     }
     static boolean buildProp(WorldGenLevel level, int x, int y, int z, Settlement.Prop prop, boolean surface, Lineage style, boolean garden) {
+        return buildProp(level,x,y,z,prop,surface,style,garden,false);
+    }
+    static boolean buildProp(WorldGenLevel level, int x, int y, int z, Settlement.Prop prop, boolean surface,
+            Lineage style, boolean garden, boolean regional) {
         BlockPos centre = groundAt(level, x, y, z, surface);
         if (centre == null) {
             return false;
@@ -321,7 +327,9 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
         for (int dx = -1; dx <= 1; dx++) {
             for (int dz = -1; dz <= 1; dz++) {
                 BlockPos g = groundAt(level, x + dx, centre.getY(), z + dz, surface);
-                if (g == null || level.getBlockState(g.below()).hasBlockEntity()) {
+                if (g == null || level.getBlockState(g.below()).hasBlockEntity()
+                        || regional && prop.kind() == PropShape.Kind.FARM
+                            && level.getBlockState(g.below()).is(BlockTags.PLANKS)) {
                     return false;
                 }
                 ground[n++] = g;
@@ -340,9 +348,11 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
             }
         }
         BlockPos base = new BlockPos(x, top, z);
-        boolean fittedGarden = garden && prop.kind() == PropShape.Kind.FARM && style != Lineage.END
+        boolean fittedGarden = garden && prop.kind() == PropShape.Kind.FARM && (regional || style != Lineage.END)
                 && fitsGarden(level,base,prop.turns());
-        List<PropShape.Cell> cells = PropShape.cells(prop.kind(), prop.turns(),fittedGarden);
+        List<PropShape.Cell> cells = regional && prop.kind() == PropShape.Kind.FARM
+                ? RegionalFarms.cells(style,prop.turns(),fittedGarden)
+                : PropShape.cells(prop.kind(), prop.turns(),fittedGarden);
         for (PropShape.Cell cell : cells) {
             if (cell.dy() >= 0 && !GuavaTree.replaceable(level.getBlockState(base.offset(cell.dx(), cell.dy(), cell.dz())))) {
                 return false;
@@ -392,6 +402,17 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
             case LANTERN -> Blocks.LANTERN.defaultBlockState();
             case PUMPKIN -> Blocks.PUMPKIN.defaultBlockState();
             case MELON -> Blocks.MELON.defaultBlockState();
+            case SAND -> Blocks.SAND.defaultBlockState();
+            case CACTUS -> Blocks.CACTUS.defaultBlockState();
+            case SOUL_SAND -> Blocks.SOUL_SAND.defaultBlockState();
+            case NETHER_WART -> Blocks.NETHER_WART.defaultBlockState();
+            case MYCELIUM -> Blocks.MYCELIUM.defaultBlockState();
+            case RED_MUSHROOM -> Blocks.RED_MUSHROOM.defaultBlockState();
+            case BROWN_MUSHROOM -> Blocks.BROWN_MUSHROOM.defaultBlockState();
+            case END_STONE -> Blocks.END_STONE.defaultBlockState();
+            case CHORUS_FLOWER -> Blocks.CHORUS_FLOWER.defaultBlockState();
+            case PLANK -> ModBlocks.GUAVA_PLANKS.get().defaultBlockState();
+            case GLOW_VINE -> Blocks.CAVE_VINES.defaultBlockState().setValue(net.minecraft.world.level.block.CaveVines.BERRIES,true);
         };
     }
 
