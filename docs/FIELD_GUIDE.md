@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current forty-six native server cases pass,
-including loading the book/recipe/loot resources. The expanded 59-page
-orchard/region/Habitat preview is inspected with a substitute font; all
+The actual Java 25 build and current forty-seven native server cases pass,
+including loading the book/recipe/loot resources. The expanded 60-page
+mushroom/orchard/Habitat preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -177,3 +177,8 @@ O1–O3 appends **Guava orchards**, page 59, covering plain-guava propagation
 beneath any leaves, bone meal growth, repeat picking and shears/Silk Touch
 canopy recovery. Habitat gains its third link, for thirty-one total chapter
 links over 59 pages. The orchard/region/Habitat preview uses a substitute font.
+
+L22 appends **Mushroom beds**, page 60, covering same-color seed conservation,
+native spread, suitable soil/routes and shared work rest. Habitat gains its
+fourth link, for thirty-two chapter links over 60 pages. The new text and
+orchard/Habitat navigation preview is inspected; earlier destinations remain.

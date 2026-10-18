@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L22 adds sustainable red/brown mushroom thinning for matching healthy residents,
+leaving a living same-color companion inside loaded home bounds. Native spread,
+safe routes, protection callbacks and normal trough/work controls apply. Java
+25 build/all 47 cases pass; guide preview inspected. See `SETTLEMENT_LIFE.md`.
+
 O1–O3 adds player-established guava fruit beneath any leaves, one-age native
 bone meal growth by hand/dispenser and Silk Touch recovery of guava leaves.
 Plain-guava/actual-hand costs, native placement protection and saved ages remain

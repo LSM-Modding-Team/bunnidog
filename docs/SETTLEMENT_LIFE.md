@@ -1,8 +1,34 @@
-# Settlement life L1–L21
+# Settlement life L1–L22
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
 No hunger/starvation system, forced breeding or changes to existing containers.
+
+## L22: sustainable mushroom thinning
+
+Healthy adults whose expressed Diet accepts mushrooms can thin small red or
+brown beds beside an enabled trough. A candidate and at least one other living
+mushroom of the **same color** must fit native survival. The companion is within
+a three-block sphere, at most one block higher/lower, loaded and inside the
+same home bounds. The job removes one mushroom and inserts exactly one matching
+item, keeping seed stock for native spread. Huge mushrooms, Nether fungi and
+the final specimen of either color are left alone. No Bloom threshold or
+accelerated growth; native mycelium/light/space rules determine regrowth.
+
+This shares harvesting's existing diet/filter/capacity, safe grounded routes,
+griefing/protection and redstone controls. The companion is rechecked throughout
+the task and after native protection callbacks, so disappearing seed stock
+prevents a stale harvest without stock or work rest. Successful work shares
+the saved one-minute recovery with every other garden/compost task. There is
+no new animal state, item type or automatic planting.
+
+L22 evidence (2026-10-18): Java 25 build/all 47 native cases pass. The new
+claimed-home case checks separate red/brown seed stock, other Diet and exact
+filter refusal, real safe work, a callback removing the companion, successful
+one-item/no-loose-duplicate harvests of both colors, preserved final mushrooms,
+shared recovery and powered/full/griefing refusals. The mushroom/orchard/Habitat
+guide preview is inspected; natural spread and resident routines remain client
+gameplay review.
 
 ## L21: regional farm beds
 

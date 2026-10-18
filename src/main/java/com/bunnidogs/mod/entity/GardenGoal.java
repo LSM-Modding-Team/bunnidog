@@ -68,9 +68,27 @@ final class GardenGoal extends Goal {
         return state.is(Blocks.CACTUS) && level.getBlockState(pos.below()).is(Blocks.CACTUS)
                 && level.getBlockState(pos.above()).isAir() && state.canSurvive(level,pos);
     }
-    private static Work work(ServerLevel level, BlockPos pos, BlockState state, boolean cultivate, ItemStack stock) {
+    private static boolean smallMushroom(BlockState state) {
+        return state.is(Blocks.RED_MUSHROOM) || state.is(Blocks.BROWN_MUSHROOM);
+    }
+    /** Keep another living mushroom of this exact color in the loaded home patch. */
+    private boolean thinnableMushroom(ServerLevel level, BlockPos pos) {
+        var state = level.getBlockState(pos);
+        if (!smallMushroom(state) || !state.canSurvive(level,pos)) return false;
+        int r = Gardening.MUSHROOM_RADIUS;
+        for (var other : BlockPos.betweenClosed(pos.offset(-r,-1,-r),pos.offset(r,1,r))) {
+            if (other.equals(pos) || pos.distSqr(other) > r*r || !level.hasChunkAt(other) || !this.dog.foodWithinHome(other)) continue;
+            var companion = level.getBlockState(other);
+            if (companion.is(state.getBlock()) && companion.canSurvive(level,other)) return true;
+        }
+        return false;
+    }
+    private Work work(ServerLevel level, BlockPos pos, BlockState state, boolean cultivate, ItemStack stock) {
         if (state.is(Blocks.CACTUS)) return prunableCactus(level,pos)
                 ? new Work(new ItemStack(Items.CACTUS),Blocks.AIR.defaultBlockState(),Task.HARVEST) : null;
+        if (smallMushroom(state)) return thinnableMushroom(level,pos)
+                ? new Work(new ItemStack(state.is(Blocks.RED_MUSHROOM) ? Items.RED_MUSHROOM : Items.BROWN_MUSHROOM),
+                    Blocks.AIR.defaultBlockState(),Task.HARVEST) : null;
         if (state.is(Blocks.COMPOSTER)) return cultivate && state.getValue(ComposterBlock.LEVEL) < ComposterBlock.MAX_LEVEL
                 && stock.getCount() > Gardening.COMPOST_RESERVE && ComposterBlock.getValue(stock) > 0
                 ? new Work(stock.copyWithCount(1),state,Task.COMPOST) : null;
@@ -136,6 +154,7 @@ final class GardenGoal extends Goal {
                 && (this.task == Task.HARVEST || Gardening.cultivates(this.dog.stats()))
                 && this.dog.level().getBlockState(this.crop).equals(this.mature)
                 && (!this.mature.is(Blocks.CACTUS) || prunableCactus((ServerLevel)this.dog.level(),this.crop))
+                && (!smallMushroom(this.mature) || thinnableMushroom((ServerLevel)this.dog.level(),this.crop))
                 && stock != null && (this.task == Task.COMPOST
                     ? stock.food().getCount() > Gardening.COMPOST_RESERVE && ItemStack.isSameItemSameComponents(stock.food(),this.produce)
                         && ComposterBlock.getValue(this.produce) > 0 : stock.canInsert(this.produce))

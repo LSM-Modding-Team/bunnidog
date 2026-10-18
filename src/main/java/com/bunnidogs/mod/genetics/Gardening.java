@@ -8,6 +8,7 @@ public final class Gardening {
     public static final int WORK_TICKS = 60;
     public static final int MAX_VISIT = 240;
     public static final int CROP_RADIUS = 3;
+    public static final int MUSHROOM_RADIUS = 3;
     public static final int MIN_CULTIVATION_BLOOM = 10;
     public static final int COMPOST_RESERVE = 8;
     public static boolean cultivates(Stats stats) { return stats.get(Stat.BLOOM) >= MIN_CULTIVATION_BLOOM; }

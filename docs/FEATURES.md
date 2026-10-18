@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 59 pages from first warren to Apex. Four linked contents pages offer thirty-one
+open 60 pages from first warren to Apex. Four linked contents pages offer thirty-two
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -506,3 +506,10 @@ actual hand; creative keeps it. Enhanced guavas never plant. Bone meal advances
 one age, by hand or dispenser; two applications ripen a new fruit. Picking keeps
 the plant to regrow. Shears and Silk Touch each recover one guava leaf block
 without sapling/stick extras. Native protection/Adventure restrictions apply.
+
+**Mushroom beds (L22):** healthy mushroom eaters gather a spare red or brown
+mushroom beside an enabled trough only while another living mushroom of that
+same color remains within three blocks in their loaded home area. One item
+enters stock with the shared one-minute work rest. Native spread replenishes
+the bed; the final seed of each color stays. Filters, power, safe routes,
+capacity and native griefing/protection rules apply.
