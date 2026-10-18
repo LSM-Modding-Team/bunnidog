@@ -10,7 +10,7 @@ import net.minecraft.resources.Identifier;
 
 /**
  * Server to client (Genetics Table T2): "open the window of THIS table". The whole payload is the text form of the table's two samples
- * ({@code TableSheet#toString} / {@code TableSheet.parse}, {@code A|B}), one UTF-8 string, so the client reads it with code that is
+ * ({@code TableSheet#toString} / {@code TableSheet.parse}, {@code A|B} with an optional breeding-plan suffix), one UTF-8 string, so the client reads it with code that is
  * already tested. The shape is exactly that of {@link SamplePayload} (a record, a {@code Type} made from an {@code Identifier}, a one-string codec).
  */
 public record TablePayload(String table) implements CustomPacketPayload {

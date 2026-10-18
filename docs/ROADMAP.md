@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+T9/T10 add server-snapshotted guava/Mutagen/Fortune planning to the Genetics Table,
+using real seed quality/drift/treatment and harvest bonus while preserving cues/samples.
+Plain A|B payloads still parse; optional plan data uses matching network 7.
+Saved items/animals/slots remain unchanged. Build/all 43 cases and focused
+math/page checks pass; previews inspected. See `TABLE_SPECS.md` 9–10.
+
 L19 adds bounded daytime rest near an actual Nest for adults below half
 health, yielding to food/danger/player control and thunderstorm shelter.
 No healing or persistent field; Calipers shares readiness. Java 25 build/all

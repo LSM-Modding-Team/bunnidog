@@ -1,7 +1,7 @@
 # TABLE_SPECS — the Genetics Table (plan, session 36)
 
-**CURRENT (2026-10-18): T7 adds native hopper/comparator automation; T8 repairs
-actual-hand placement. T5/T6 splice plans and inherited-copy forecasts remain.
+**CURRENT (2026-10-18): T9/T10 preview guava feeds, Mutagen and Fortune from held cues.
+T7 adds native hopper/comparator automation; T8 repairs actual-hand placement. T5/T6 splice plans and inherited-copy forecasts remain.
 The user confirmed the earlier d7f39a9 release broadly.**
 
 The user picked the Genetics Table from the open roadmap (session 35: "Genetics Table (block, uses whiskers)"). The roadmap only had one line
@@ -73,7 +73,7 @@ regression checks, without separate reported results.
 Diet update (2026-10-16): the sample sheets and forecast now include inherited
 Diet as a seventh row. Old loaded six-gene samples normalize to plain Diet
 through the existing tissue parser. Both client and server require network
-version 4 at introduction (current protocol is 6). `checkDiets` verifies old table payloads, the diet inheritance odds
+version 4 at introduction (current protocol is 7). `checkDiets` verifies old table payloads, the diet inheritance odds
 and seven-block forecast clearance; the new diet behavior is gameplay-pending.
 
 ## 7. T5/T6: plan splices and fix hidden alleles (2026-10-16)
@@ -152,3 +152,82 @@ off-hand placement, and exactly two remaining named drops on break. Existing
 planning/payload/pure forecast cases remain passing. Laboratory/roll-call/index
 guide preview inspected. Client vials, real hopper circuits and modded devices
 remain gameplay review.
+
+## 9. T9: preview the feed and treatment before spending them
+
+Read the table with one guava in either hand to preview that tier for both
+parents. With two guavas, use their actual quality average, matching real
+breeding. A Mutagen in either hand previews treating that prospective seed.
+One guava opposite Mutagen combines both choices. Clear cues for the default
+plain, untreated forecast. Both samples are needed for analysis; a single
+sample still gives only its source sheet. No item is spent, and no table,
+animal, seed or inventory is edited. All counts/names/components persist.
+
+The plan uses the actual `Seed.of` and `withMutagen` rules. Guava quality and
+starborn bonus combine once, then expected bred stats use that seed's drift.
+Treatment uses the native mutation floor; per-gene look/copy odds and litter
+size remain unchanged and explicitly precede mutation. Fortune remains a
+later crop-harvest bonus. Quality hover names the exact feed pair, both
+quality contributions and the before-Fortune total. Mutation hover/right-side
+working uses the chosen rate. Advanced plans open directly on the forecast;
+normal reads and the Gene Splicer shortcut retain their existing destinations.
+
+This is a server-captured immutable plan, not a client guess at held items
+when the packet arrives. `TableSheet` accepts old `A|B` as plain/untreated and
+keeps that exact serialization for default plans. Nondefault payloads append
+`|tierA,tierB,treated[,fortune]`, with validated tier/level bounds and a 0/1 flag. Invalid
+plans refuse. Native A/B block saves are unchanged; no plan is persisted on
+the bench. Network **7** requires matching updated clients and server because
+the table message gained this optional form. Other item/animal formats stay
+unchanged. Guide page 54 and guava/Mutagen tooltips explain the controls.
+
+T9 evidence: actual Java 25 build/all 43 native cases pass. Focused lab checks
+compare mixed tiers, starborn and treatment against the real seed; preserve
+Mendelian/litter odds; reject malformed plans; and check page bounds for
+ordinary, mixed and top-tier plans. The native table case uses named two-hand
+feeds and a vial, reads without changing cues/samples, checks defaults after
+clearing, and round-trips the actual payload codec. Plain-versus-planned
+forecast and guide/index previews are inspected with substitute fonts. Generate
+that forecast with `tools/PlanDump.java` + `tools/SheetDump.java`, then pipe to
+`art/gen_book_preview.py --output art/planning_preview.png`. Actual client
+navigation/fonts and multiplayer delivery remain gameplay review.
+
+## 10. T10: preview the actual harvest tool
+
+A Fortune-enchanted item in either hand adds its native gameplay enchantment
+level to the immutable plan. Two items choose the highest level rather than
+adding them. Use the same `ItemStack.getEnchantmentLevel`/registry lookup as
+the real Seed Crop harvest; native levels 0–255 are supported. Missing Fortune
+in a replaced registry means no bonus. The tool, enchantments, durability and
+all other components stay intact. Only currently held cues participate:
+
+| Held cues | Preview |
+|---|---|
+| One guava | That tier for both parents |
+| Two guavas | Their actual quality average |
+| Guava + Mutagen | That feed for both, with treatment |
+| Guava + Fortune tool | That feed for both, with harvest bonus |
+| Mutagen + Fortune tool | Plain feed, treatment and harvest bonus |
+| Two Fortune tools | Plain feed with the higher level |
+
+Seed quality remains the feed average plus starborn. Effective **hatching**
+quality additionally uses the real `Seed.fortuneBonus` (0.5 per level), and
+expected stat drift calls the real seed with that extra quality. The quality
+row/hover distinguishes seed subtotal, bonus and effective total. Fortune
+changes no litter size, mutation probability, genes or pre-mutation copy odds.
+The actual bonus is earned only by harvesting a Seed Crop with the appropriate
+tool. Cradle hatching grants none; clear the Fortune cue to plan a Cradle.
+
+A nonzero level is an optional fourth comma field in the same protocol-7 plan;
+old default A|B and three-field plans remain readable. No saved item/seed data
+or actual harvest mechanics change. Guide page 54 points to **Plan the harvest**
+on page 55; page IDs and the ten-entry New index stay stable.
+
+T10 evidence: actual Java 25 build/all 43 native cases pass. Focused math
+checks match real seed drift with Fortune III, preserve base quality and
+pre-mutation/litter odds, reject negative/oversized/malformed levels and bound
+pages even at native level 255. Native table reads an actual named, worn,
+Fortune-enchanted tool, retains the feed/tool and exact 2 -> 3.5 quality working,
+selects the maximum of two tools, and round-trips the extended native packet.
+Plain/feed-treatment/harvest forecast and guide previews are inspected. Client
+input/fonts and natural progression balance remain gameplay review.

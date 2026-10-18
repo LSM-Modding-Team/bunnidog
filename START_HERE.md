@@ -22,6 +22,14 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-18
 
+- **T9/T10, litter plans:** held guavas, optional Mutagen and Fortune tools are
+  reusable forecast cues. The server captures their tiers/flag; seed maths
+  combines feed/starborn once and previews real harvest drift/mutation without
+  spending anything. Plain A|B remains readable; optional plan suffix moves
+  the network to **7**, with all saved items/animals/slots unchanged. Java 25
+  build/all 43 cases and focused plan/page checks pass; forecast/guide/index
+  previews inspected. See `docs/TABLE_SPECS.md` 9–10.
+
 - **L19, recovery rest:** adults below half health seek a safe place near
   their real Nest instead of strolling by day. Meals and other important
   goals preempt; thunder releases them for shelter. No passive healing or
@@ -191,7 +199,7 @@ storm shelter, fishing, terrain traits, local supplies, living dust and fitted
 farms are also complete. Their rules/evidence remain in the specifications
 listed below; do not redo them.
 
-The native Field Guide has 53 translated pages and twenty-seven chapter links
+The native Field Guide has 55 translated pages and twenty-eight chapter links
 across three linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
@@ -203,7 +211,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Genetics and breeding | Seven genes, inherited pairs, bred stats/Bloom, eight guava tiers, litter seeds/crops, infused juice. `docs/FEATURES.md`, `docs/FIXES_PLAN.md` 6 |
 | Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets, forecasts, carried-animal records and local tag/trait/stat record filters. `docs/SHEET_SPECS.md` S1–S10 |
 | Nursery | Whole saved seeds, protected crop harvest/recovery, in-place Mutagen, dispenser stations and a Cradle with incubation, native automation, checked hatching/pad planning and fitted grand-tree nurseries. `docs/NURSERY_SPECS.md` N1–N7 |
-| Laboratory | Two sample slots, native hopper/comparator automation, actual-hand placement, vial display, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T8 |
+| Laboratory | Two sample slots, native hopper/comparator automation, actual-hand placement, vial display, planned feed/treatment/harvest forecasts, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T10 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
 | Care | Live samples, fleece palettes, whiskers/dust/moss, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C9 |
@@ -220,7 +228,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
 - Keep gene/allele IDs append-only. Old six-pair data loads with plain/plain
   Diet; current genomes use seven pairs / 56 bits and mask the signed high sync
-  word. Current network protocol is **6**; matching client/server versions apply.
+  word. Current network protocol is **7**; matching client/server versions apply.
 - Preserve whole item components in samples, books, table slots, vehicles,
   troughs and trophies. Existing inventories and containers are never restocked.
 - Structures save fitted tunnel cells, path exclusions, labels and optional
@@ -317,7 +325,7 @@ cases plus native sanity). Latest coverage:
   Diet/filter/griefing refusals, interrupted growth, berries, guavas/vines and
   embryo exclusion. Care-dispenser drops now stay in a physical test catchment.
 
-The Cradle textures and 44-page guide previews are inspected with a substitute
+The Cradle textures and current guide/forecast previews are inspected with a substitute
 font; the approved
 creature model is unchanged. GitHub additionally checks that model before the
 exact-commit artifact upload. All earlier care/lab/show/registry, diet, home,

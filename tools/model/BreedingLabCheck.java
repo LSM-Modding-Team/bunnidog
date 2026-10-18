@@ -71,8 +71,39 @@ public final class BreedingLabCheck {
         page(contents.left()); page(contents.right()); page(registry.left()); page(registry.right());
         require(book.toString().equals(original),"Queries must not rewrite saved records, identities or parents");
     }
+    private static void plannedCrosses() {
+        int star = Gene.FERTILITY.alleleNamed("starborn").id();
+        Tissue a = new Tissue(pair(Gene.FERTILITY,star,star),Stats.of(1,2,3,4,40));
+        Tissue b = new Tissue(Genome.DEFAULT,Stats.of(5,6,7,8,20));
+        var choices = new BreedingPlan(1,2,true,3);
+        var cross = new Cross(a,b,choices);
+        var expected = Seed.of(a.genome(),a.stats(),b.genome(),b.stats(),GuavaTier.average(1,2)).withMutagen();
+        require(cross.seed().equals(expected),"Plans must use the real seed's guava average, starborn bonus and Mutagen flag exactly once");
+        near(choices.guavaQuality(),1.5); near(cross.mutationChance(),Seed.MUTAGEN_MUTATION_FLOOR);
+        near(cross.effectiveQuality(),expected.quality()+1.5);
+        for (Stat stat : Stat.values()) near(cross.expectedPoints(stat),cross.startPoints(stat)+expected.drift(1.5)[stat.ordinal()]);
+        var ordinary = new Cross(a,b);
+        for (Gene gene : Gene.values()) require(cross.looks(gene).equals(ordinary.looks(gene))
+                && cross.inherited(gene).equals(ordinary.inherited(gene)),"Guavas and treatment cannot alter pre-mutation Mendelian odds");
+        near(cross.litter(),ordinary.litter());
+        var table = new TableSheet(Optional.of(a),Optional.of(b),choices);
+        require(TableSheet.parse(table.toString()).orElseThrow().equals(table),"Extended plans must round-trip with both exact sample snapshots");
+        require(TableSheet.parse(new TableSheet(Optional.of(a),Optional.of(b)).toString()).orElseThrow().plan().equals(BreedingPlan.PLAIN),
+                "Old A|B remains an untreated plain-guava plan");
+        for (String invalid : List.of("-1,0,0","0,8,0","1,2,maybe","NaN,0,0","1,2","1,2,1,-1","1,2,1,256","1,2,1,1,1"))
+            require(TableSheet.parse(a+"|"+b+"|"+invalid).isEmpty(),"Malformed plans must refuse: "+invalid);
+        for (var choice : List.of(BreedingPlan.PLAIN,choices,new BreedingPlan(7,7,true,255))) {
+            var spread = new TableSheet(Optional.of(a),Optional.of(b),choice).spread(TableSheet.FORECAST,Metrics.ESTIMATE);
+            page(spread.left()); page(spread.right());
+        }
+        var forecast = table.spread(TableSheet.FORECAST,Metrics.ESTIMATE);
+        require(forecast.left().hotspots().stream().anyMatch(h -> h.text().contains("Golden Guava + Diamond Guava"))
+                && forecast.right().hotspots().stream().allMatch(h -> h.text().contains("50.0%")),
+                "Visible hover working must name the exact feed pair and planned mutation rate");
+    }
     public static void main(String[] args) {
         recordFilters();
+        plannedCrosses();
         require(!Social.gatheringTime(5999) && Social.gatheringTime(6000) && Social.gatheringTime(8999)
                 && !Social.gatheringTime(9000) && Social.gatheringTime(30000), "Gathering window must wrap with the native day");
         require(Show.rank(Stats.ZERO) == Show.Tier.NONE, "Unbred stats must not earn a ribbon");

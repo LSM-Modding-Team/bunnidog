@@ -58,15 +58,15 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Fifty-three pages use the ordinary written-book screen. Three linked contents pages
-offer twenty-seven clickable chapter links. Each chapter links back to its index. Local page changes
+Fifty-five pages use the ordinary written-book screen. Three linked contents pages
+offer twenty-eight clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
 
 The item inherits native WrittenBookItem and supplies the existing
 WRITTEN_BOOK_CONTENT component as an item default: native book packets, tooltips,
 saves and filtering apply. There is no new screen, payload, server handler or
-custom data component; protocol 6 persists. Default content follows future mod
+custom data component; current protocol 7 is shared with table planning. Default content follows future mod
 updates unless a command explicitly overrides the component.
 
 Art/content source: `art/gen_guide.py`; regenerate with Python 3/Pillow.
@@ -77,8 +77,8 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 ## Evidence
 
 The actual Java 25 build and current forty-three native server cases pass,
-including loading the book/recipe/loot resources. The expanded 53-page
-laboratory/recovery/New preview is inspected with a substitute font; all
+including loading the book/recipe/loot resources. The expanded 55-page
+litter-plan/harvest/New preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -146,3 +146,11 @@ retention and 0/8/15 comparator occupancy. Page count/links remain unchanged.
 L19 appends **Recovery rest**, page 53, with serious-injury idle behavior,
 meal/danger/weather priorities and no passive healing. Page 50 has nine
 chapter links; the old destinations remain stable.
+
+T9 appends **Plan a litter**, page 54, for held guava tiers/averaging and optional
+Mutagen treatment. Cue/sample preservation, default clearing and before-Fortune
+quality are explicit. Page 50 has ten chapter links; older page IDs remain.
+
+T10 adds **Plan the harvest**, page 55, naming native held Fortune, highest-level
+selection, 0.5 quality per level and the Cradle exclusion. Page 54 points onward;
+the ten-entry New contents index and existing page destinations remain stable.

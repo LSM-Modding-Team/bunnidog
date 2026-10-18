@@ -36,7 +36,9 @@ public final class ForecastSheet {
     static final int BLOCK_GAP = Math.max(0, (FOOT_Y - LOOKS_Y - Gene.COUNT * Page.LINE * BLOCK_MAX_LINES) / Gene.COUNT);
 
     public static Page.Spread spread(Tissue a, Tissue b, Metrics m) {
-        Cross cross = new Cross(a, b);
+        return spread(new Cross(a,b),m);
+    }
+    public static Page.Spread spread(Cross cross, Metrics m) {
         return new Page.Spread(left(cross, m), right(cross, m));
     }
 
@@ -50,13 +52,16 @@ public final class ForecastSheet {
         String range = cross.litterLow() == cross.litterHigh() ? "exactly " + cross.litterLow() + " pups" : cross.litterLow() + " or " + cross.litterHigh() + " pups";
         row(page, LITTER_Y, "Litter", String.format(Locale.ROOT, "about %.1f pups", cross.litter()), Page.Tone.INK, range,
                 SeedSheet.litterHover(), m);
-        row(page, MUTATION_Y, "Mutation", String.format(Locale.ROOT, "%.1f%% per pup", cross.mutationChance() * 100.0), Page.Tone.INK, "set by fertility",
+        row(page, MUTATION_Y, "Mutation", String.format(Locale.ROOT, "%.1f%% per pup", cross.mutationChance() * 100.0), Page.Tone.INK,
+                cross.plan().mutagen() ? "Mutagen preview" : "set by fertility",
                 SeedSheet.mutationHover(cross.seed()), m);
-        double quality = cross.quality();
+        double quality = cross.effectiveQuality();
         row(page, QUALITY_Y, "Quality", String.format(Locale.ROOT, "%.2f", quality), quality > 0.0D ? Page.Tone.GOOD : Page.Tone.MUTED,
-                quality > 0.0D ? "starborn bonus only" : "on plain guavas",
-                "The seed quality these two would make if both were fed plain guavas" + (quality > 0.0D ? " (the starborn bonus of the parents is all of it)" : " (none)")
-                        + ". Better guavas and Fortune raise it. " + SeedSheet.qualityHover(), m);
+                cross.plan().fortune() > 0 ? "includes Fortune "+cross.plan().fortune() : cross.plan().guavaQuality() > 0 ? "planned feed" : quality > 0.0D ? "starborn bonus only" : "on plain guavas",
+                String.format(Locale.ROOT,"Planned feed: %s. Guavas add %.2f quality; the parents' starborn bonus adds %.2f. Seed quality %.2f. "
+                        + "Planned Fortune %d adds %.2f at crop harvest: hatching quality %.2f. Cradles get no Fortune bonus. "
+                        + "Held items are preview cues, never spent. Samples are snapshots. ",cross.plan().guavas(),cross.plan().guavaQuality(),
+                        cross.quality()-cross.plan().guavaQuality(),cross.quality(),cross.plan().fortune(),cross.plan().fortuneBonus(),quality)+SeedSheet.qualityHover(), m);
 
         page.text(0, STATS_HEAD_Y, "STATS", Page.Tone.HEAD);
         page.text(STAT_LABEL_W, STATS_HEAD_Y, "A / B", Page.Tone.MUTED);
@@ -71,9 +76,9 @@ public final class ForecastSheet {
             page.text(STAT_LABEL_W, y, Page.fit(signed(pa) + " / " + signed(pb), Page.WIDTH - STAT_LABEL_W - 30, m), Page.Tone.MUTED);
             page.textRight(Page.WIDTH, y, signed(expected), tone(expected));
             page.hotspot(0, y, Page.WIDTH, Page.LINE, String.format(Locale.ROOT,
-                    "%s: A has %s points, B has %s, so a pup starts at %s. The pair's drift adds %s (seed quality %.2f), so about %s points. "
+                    "%s: A has %s points, B has %s, so a pup starts at %s. The pair's drift adds %s (hatching quality %.2f), so about %s points. "
                             + "Each pup is rounded to whole points at random, so siblings differ by a point.",
-                    Plain.statName(stat), signed(pa), signed(pb), signed(cross.startPoints(stat)), signed(drift[stat.ordinal()]), cross.quality(), signed(expected)), -1);
+                    Plain.statName(stat), signed(pa), signed(pb), signed(cross.startPoints(stat)), signed(drift[stat.ordinal()]), cross.effectiveQuality(), signed(expected)), -1);
         }
 
         List<String> note = Page.wrap("A pup: the parents' average plus the drift.", Page.WIDTH, m);

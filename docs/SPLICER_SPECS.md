@@ -34,7 +34,7 @@ No special allele IDs or altered inheritance rules are introduced.
 
 - `bunnidogs:splice_gene` is a persistent, synchronized integer item component.
   Missing selection means Ears; invalid integer values wrap safely across the
-  seven choices. Current network protocol 6 requires matching updated clients
+  seven choices. Current network protocol 7 requires matching updated clients
   and server. Existing genome/sample/seed formats are unchanged.
 - `SpliceWait` saves remaining recovery, clamped to the interval. Missing old
   data means ready; recovery pauses across unloading, like other care timers.

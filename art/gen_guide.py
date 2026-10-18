@@ -55,13 +55,15 @@ PAGES = {
     51: ('Find a tagged animal', 'Rename a spare Ear Tag to a code like BD-3F7A2C. Hold it opposite Calipers; sneak-use the air. Loaded matches within 24 blocks glow ten seconds. Search rest: five seconds. Reusable tag; packed animals are excluded.'),
     52: ('Bell roll call', 'Sneak-use Calipers on a bell for loaded adults with nearby Nests. Lists tags, health, foods and homes; injured first. Shows up to eight animals within 32 blocks, with Nests within 12. Reading rings no bell and changes nothing.'),
     53: ('Recovery rest', 'Adults below half health rest near their Nest instead of strolling by day. Food, danger, storms, breeding and leads take priority. Keep a dry safe route. Rest heals nothing; stock suitable food. Sneak-Calipers reports readiness.'),
+    54: ('Plan a litter', 'Read a Genetics Table holding one guava for both parents, or two to average them. Mutagen previews treatment. Cues and samples are kept. Clear hands for plain, untreated plans. Starborn is included. Fortune: page 55.'),
+    55: ('Plan the harvest', 'Read the table with a Fortune tool in either hand. Uses the highest held level, adding 0.5 quality per level at crop harvest. An opposite guava or Mutagen also applies. Cues stay intact. Cradles get no Fortune bonus.'),
 }
-PAGE_COUNT = 53
+PAGE_COUNT = 55
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
               31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
-NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work',51:'Find a tagged animal',52:'Bell roll call',53:'Recovery rest'}
+NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work',51:'Find a tagged animal',52:'Bell roll call',53:'Recovery rest',54:'Plan a litter'}
 
 
 def pantry_guide_pool():
@@ -109,7 +111,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,15),(495,53),(735,50)]:
+    for x,page in [(255,54),(495,55),(735,50)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

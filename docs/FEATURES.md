@@ -476,3 +476,12 @@ danger, breeding, player control and storm shelter take priority. Rest heals
 nothing; keep real suitable food nearby. Unsafe paths/places refuse, and
 healing restores normal idling. Sneak-Calipers reports readiness without
 searching for a path.
+
+
+**Litter planning (T9/T10):** read a Genetics Table holding one guava to preview
+that tier for both parents, or two to average their qualities. Hold Mutagen
+to preview treatment; one guava opposite the vial combines them. The real
+seed rules include starborn and expected stat drift. A held Fortune tool
+adds the real future crop-harvest bonus (highest held level); Cradles get none.
+No cue or sample is spent. Clear hands for plain, untreated forecasts. Choices travel
+with the server snapshot; updated clients and server use network 7.

@@ -58,5 +58,6 @@ public class MutagenItem extends Item {
         lines.accept(Component.literal("Makes the pups of a seed mutate far more often").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.literal("Hold a seed and this vial in the other hand, then use the seed").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.mutagen.nursery").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(Component.translatable("tooltip.bunnidogs.mutagen.table").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

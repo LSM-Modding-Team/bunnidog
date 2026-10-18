@@ -18,11 +18,12 @@ import java.util.Map;
  *   <li><b>Stats</b> ({@link #expectedPoints}): each pup starts at the parents' average and moves by the pair's {@link Drift}; the seed's own maths.</li>
  * </ul>
  *
- * The forecast is for a seed made from plain guavas (guava quality 0): the only quality it counts is the parents' own starborn bonus, which the seed
- * adds by itself ({@link Seed#of}). Better guavas and Fortune raise it later; the forecast says so instead of guessing which guava you will use.
+ * The default forecast uses plain guavas. An explicit {@link BreedingPlan} previews selected guavas and Mutagen using the same seed maths;
+ * the parents' starborn bonus is added once by {@link Seed#of}. Planned Fortune affects hatching drift, never the saved seed.
  * The two samples are symmetric: nothing here depends on which is called mother and which father.
  */
-public record Cross(Tissue a, Tissue b) {
+public record Cross(Tissue a, Tissue b, BreedingPlan plan) {
+    public Cross(Tissue a, Tissue b) { this(a,b,BreedingPlan.PLAIN); }
     /** One thing the pups can show for a gene, and the chance that a pup shows it. */
     public record Outcome(Allele allele, double chance) {}
 
@@ -31,9 +32,9 @@ public record Cross(Tissue a, Tissue b) {
 
     private static final int COMBINATIONS = 4;
 
-    /** The seed these two would make on plain guavas (its quality is only the starborn bonus); the maths below is the seed's own. */
+    /** The seed these two would make under the selected plan; no rolls or mutation are performed. */
     public Seed seed() {
-        return Seed.of(this.a.genome(), this.a.stats(), this.b.genome(), this.b.stats(), 0.0D);
+        return this.plan.seed(this.a,this.b);
     }
 
     /**
@@ -119,14 +120,17 @@ public record Cross(Tissue a, Tissue b) {
         return seed().mutationChance();
     }
 
-    /** The seed quality of this pair on plain guavas: only the starborn bonus. */
+    /** Planned guava quality plus the pair's starborn bonus, before Fortune. */
     public double quality() {
         return seed().quality();
     }
 
+    /** Planned crop-harvest quality, including Fortune; a Cradle cannot grant the extra bonus. */
+    public double effectiveQuality() { return seed().effectiveQuality(this.plan.fortuneBonus()); }
+
     /** What the pups' stats move by on top of the parents' average, in {@link Stat} order (the seed's own drift at {@link #quality()}). */
     public double[] drift() {
-        return seed().drift(0.0D);
+        return seed().drift(this.plan.fortuneBonus());
     }
 
     /** The average of the two parents' points for a stat, before the drift. */

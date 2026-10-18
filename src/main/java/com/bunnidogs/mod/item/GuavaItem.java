@@ -47,5 +47,6 @@ public class GuavaItem extends Item {
         super.appendHoverText(stack, context, display, lines, flag);
         lines.accept(Component.literal("Seed quality " + tier.qualityText()).withStyle(ChatFormatting.GRAY));
         lines.accept(Component.literal("Averaged over the guavas of both parents").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(Component.translatable("tooltip.bunnidogs.guava.table").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

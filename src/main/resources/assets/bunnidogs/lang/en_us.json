@@ -493,5 +493,12 @@
   "guide.bunnidogs.index.53": "Recovery rest",
   "guide.bunnidogs.page.53.title": "Recovery rest",
   "guide.bunnidogs.page.53.body": "Adults below half health rest near their Nest instead of strolling by day. Food, danger, storms, breeding and leads take priority. Keep a dry safe route. Rest heals nothing; stock suitable food. Sneak-Calipers reports readiness.",
-  "message.bunnidogs.recovery_rest.weather": "Thunderstorm shelter takes priority"
+  "message.bunnidogs.recovery_rest.weather": "Thunderstorm shelter takes priority",
+  "tooltip.bunnidogs.guava.table": "Hold while reading a Genetics Table to preview the feed quality",
+  "tooltip.bunnidogs.mutagen.table": "Hold while reading a Genetics Table to preview treatment without spending it",
+  "guide.bunnidogs.index.54": "Plan a litter",
+  "guide.bunnidogs.page.54.title": "Plan a litter",
+  "guide.bunnidogs.page.54.body": "Read a Genetics Table holding one guava for both parents, or two to average them. Mutagen previews treatment. Cues and samples are kept. Clear hands for plain, untreated plans. Starborn is included. Fortune: page 55.",
+  "guide.bunnidogs.page.55.title": "Plan the harvest",
+  "guide.bunnidogs.page.55.body": "Read the table with a Fortune tool in either hand. Uses the highest held level, adding 0.5 quality per level at crop harvest. An opposite guava or Mutagen also applies. Cues stay intact. Cradles get no Fortune bonus."
 }

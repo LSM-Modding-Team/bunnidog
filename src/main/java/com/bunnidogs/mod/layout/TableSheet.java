@@ -3,6 +3,8 @@ package com.bunnidogs.mod.layout;
 import java.util.Optional;
 
 import com.bunnidogs.mod.genetics.Pedigree;
+import com.bunnidogs.mod.genetics.BreedingPlan;
+import com.bunnidogs.mod.genetics.Cross;
 import com.bunnidogs.mod.genetics.Tissue;
 
 /**
@@ -11,16 +13,18 @@ import com.bunnidogs.mod.genetics.Tissue;
  * there are three analysis spreads: pup looks/stats, inherited copies and both-direction splice plans.
  * Pure Java, like {@link SeedSheet}: the screen only draws what this lays out, and the text form below is what the server sends.
  *
- * <p>Wire text: {@code A|B}, each side the {@link Tissue} text ({@code genome/stats}) or nothing for an empty slot, for example
+ * <p>Wire text: {@code A|B} or {@code A|B|tierA,tierB,treated[,fortune]}, each side the {@link Tissue} text ({@code genome/stats}) or nothing for an empty slot, for example
  * {@code 33-33-33-33-33-33/0,0,0,0,0|} (only A) or {@code |22-32-00-10-00-01/3,-1,0,2,12} (only B).
  */
-public record TableSheet(Optional<Tissue> a, Optional<Tissue> b) {
+public record TableSheet(Optional<Tissue> a, Optional<Tissue> b, BreedingPlan plan) {
+    public TableSheet(Optional<Tissue> a, Optional<Tissue> b) { this(a,b,BreedingPlan.PLAIN); }
     public static final String SEPARATOR = "|";
 
     /** The text form. Round-trips through {@link #parse}. */
     @Override
     public String toString() {
-        return this.a.map(Tissue::toString).orElse("") + SEPARATOR + this.b.map(Tissue::toString).orElse("");
+        return this.a.map(Tissue::toString).orElse("") + SEPARATOR + this.b.map(Tissue::toString).orElse("")
+                + (this.plan.equals(BreedingPlan.PLAIN) ? "" : SEPARATOR+this.plan);
     }
 
     /** Parses the text form; empty if it has no separator or if neither slot holds a readable sample (nothing to show). */
@@ -28,11 +32,11 @@ public record TableSheet(Optional<Tissue> a, Optional<Tissue> b) {
         if (text == null) {
             return Optional.empty();
         }
-        int bar = text.indexOf(SEPARATOR);
-        if (bar < 0) {
-            return Optional.empty();
-        }
-        TableSheet sheet = new TableSheet(slot(text.substring(0, bar)), slot(text.substring(bar + 1)));
+        String[] fields = text.split("\\|",-1);
+        if (fields.length < 2 || fields.length > 3) return Optional.empty();
+        var plan = fields.length == 2 ? Optional.of(BreedingPlan.PLAIN) : BreedingPlan.parse(fields[2]);
+        if (plan.isEmpty()) return Optional.empty();
+        TableSheet sheet = new TableSheet(slot(fields[0]),slot(fields[1]),plan.get());
         return sheet.spreadCount() == 0 ? Optional.empty() : Optional.of(sheet);
     }
 
@@ -84,7 +88,7 @@ public record TableSheet(Optional<Tissue> a, Optional<Tissue> b) {
         if (isAnalysis(n) && n == SPLICING) return SpliceSheet.spread(this.a.orElseThrow(), this.b.orElseThrow(), m);
         if (isAnalysis(n) && n == INHERITANCE) return InheritanceSheet.spread(this.a.orElseThrow(), this.b.orElseThrow(), m);
         if (isForecast(n)) {
-            return ForecastSheet.spread(this.a.orElseThrow(), this.b.orElseThrow(), m);
+            return ForecastSheet.spread(new Cross(this.a.orElseThrow(),this.b.orElseThrow(),this.plan), m);
         }
         return SheetLayout.tableSample(sample(n), slotOf(n) == 0, m);
     }

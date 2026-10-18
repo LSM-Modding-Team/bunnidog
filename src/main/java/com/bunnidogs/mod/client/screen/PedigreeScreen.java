@@ -162,6 +162,7 @@ public final class PedigreeScreen extends Screen {
         this.table = table;
         this.registry = false;
         if (splicing && table.isAnalysis(TableSheet.SPLICING)) this.spread = TableSheet.SPLICING;
+        else if (!table.plan().equals(com.bunnidogs.mod.genetics.BreedingPlan.PLAIN) && table.isForecast(TableSheet.FORECAST)) this.spread = TableSheet.FORECAST;
     }
 
     /** True for the windows of ONE sheet (the Calipers on an animal, a Tissue Sample): no buttons, no page turning, no links. */

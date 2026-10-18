@@ -2,6 +2,7 @@ package com.bunnidogs.mod.block;
 
 import com.bunnidogs.mod.genetics.TableUse;
 import com.bunnidogs.mod.item.TissueSampleItem;
+import com.bunnidogs.mod.item.TablePlanning;
 import com.bunnidogs.mod.layout.TableSheet;
 import com.bunnidogs.mod.network.ModNetwork;
 
@@ -93,7 +94,7 @@ public class GeneticsTableBlock extends Block implements EntityBlock {
             }
             case TAKE -> giveBack(player, table.takeItem(slot));
             case READ -> {
-                TableSheet sheet = new TableSheet(TissueSampleItem.read(table.item(TableUse.SLOT_A)), TissueSampleItem.read(table.item(TableUse.SLOT_B)));
+                TableSheet sheet = TablePlanning.snapshot(table,player);
                 if (sheet.spreadCount() > 0 && player instanceof ServerPlayer serverPlayer) {
                     ModNetwork.sendTable(serverPlayer, sheet);
                 }
