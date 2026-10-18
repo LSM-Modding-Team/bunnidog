@@ -11,7 +11,7 @@ resident gardening, and explore food stores for supplies suited to each lineage.
 Living glow/starborn lines yield renewable dust, while inherited terrain traits
 and resident shore fishing give more reasons to develop distinct breeds.
 Residents also seek safer ground around threats and shelter from thunderstorms.
-Hoppers supply/drain troughs, and comparators read their stock.
+Hoppers supply/drain troughs and Genetics Tables; comparators read their stock.
 Sneak-use food to reserve a trough for its exact type/components.
 Ring a nearby bell to call healthy residents for a daytime visit.
 Woolly adults yield wool in their expressed coat's palette; Calipers names it.

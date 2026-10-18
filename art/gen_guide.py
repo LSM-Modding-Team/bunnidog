@@ -18,7 +18,7 @@ PAGES = {
     12: ('Wool and whiskers', 'Shear a healthy woolly adult for two wool in coat colors. Brush adults at Senses +10 for one whisker. Each needs ten minutes of recovery. Tools wear once; pups yield neither.'),
     13: ('Useful coats', 'Expressed ember resists fire and lava; moss prevents Poison; sand prevents cactus damage; void prevents Levitation. Hidden copies give no protection. Other dangers still matter.'),
     14: ('Physical traits', 'Hoofed legs halve fall damage. Slate adds 4 armor. Stocky/chonker resist knockback by 15%/30%. Snow walks on powder snow; snow/woolly resist freezing. Glow is self-lit. Hidden traits give no benefit.'),
-    15: ('Laboratory', 'Put two Tissue Samples on a Genetics Table. Read the source sheets, pup forecast, copy odds and splice plans. Hidden copies count. Reading never spends samples.'),
+    15: ('Laboratory', 'Put two Tissue Samples on a Genetics Table: sheets, pup forecasts, copy odds and splice plans. Reading spends nothing. Hoppers fill A then B and drain A first; power them to hold samples. Comparators read 0 / 8 / 15.'),
     16: ('Gene Splicer', 'Sneak-use to select a gene. Hold a donor sample in the other hand and carry Mutagen. Use on a healthy adult: one donor copy enters that gene. Costs one sample, Mutagen and tool use.'),
     17: ('Stable lines', 'Register stable bred adults with matching copies in all seven genes and recorded parents. Use the Registry on an animal, or sneak-use with its filled basket in the other hand. Keeps 24 distinct lines.'),
     18: ('Show Ring', 'Lead a stable bred adult to a Judging Stand. Use empty-handed or with a lead. Every stat needs +5 for bronze, +20 for silver, +50 for gold. Sneak-empty use previews; each tier pays only once.'),
@@ -108,7 +108,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,8),(495,52),(735,50)]:
+    for x,page in [(255,15),(495,52),(735,50)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

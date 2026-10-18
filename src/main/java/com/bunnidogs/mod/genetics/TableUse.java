@@ -24,8 +24,8 @@ public final class TableUse {
     public static final int NO_SLOT = -1;
 
     /**
-     * @param handHoldsSample the main hand holds a Tissue Sample whose genes can be read
-     * @param handEmpty       the main hand holds nothing
+     * @param handHoldsSample the actual interacting hand holds a Tissue Sample whose genes can be read
+     * @param handEmpty       both hands hold nothing (required for withdrawal)
      * @param sneaking        the player is sneaking
      * @param aFull           a sample stands on slot A
      * @param bFull           a sample stands on slot B

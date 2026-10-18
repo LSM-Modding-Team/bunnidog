@@ -57,6 +57,7 @@ public final class ModBlocks {
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.Item.BLOCK,FEEDING_TROUGH_BE.get(),(trough,side) -> trough.automation());
         event.registerBlockEntity(Capabilities.Item.BLOCK,NURSERY_CRADLE_BE.get(),(cradle,side) -> cradle.automation());
+        event.registerBlockEntity(Capabilities.Item.BLOCK,GENETICS_TABLE_BE.get(),(table,side) -> table.automation());
     }
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(BunnidogsMod.MODID);

@@ -253,7 +253,7 @@
   "guide.bunnidogs.page.14.title": "Physical traits",
   "guide.bunnidogs.page.14.body": "Hoofed legs halve fall damage. Slate adds 4 armor. Stocky/chonker resist knockback by 15%/30%. Snow walks on powder snow; snow/woolly resist freezing. Glow is self-lit. Hidden traits give no benefit.",
   "guide.bunnidogs.page.15.title": "Laboratory",
-  "guide.bunnidogs.page.15.body": "Put two Tissue Samples on a Genetics Table. Read the source sheets, pup forecast, copy odds and splice plans. Hidden copies count. Reading never spends samples.",
+  "guide.bunnidogs.page.15.body": "Put two Tissue Samples on a Genetics Table: sheets, pup forecasts, copy odds and splice plans. Reading spends nothing. Hoppers fill A then B and drain A first; power them to hold samples. Comparators read 0 / 8 / 15.",
   "guide.bunnidogs.page.16.title": "Gene Splicer",
   "guide.bunnidogs.page.16.body": "Sneak-use to select a gene. Hold a donor sample in the other hand and carry Mutagen. Use on a healthy adult: one donor copy enters that gene. Costs one sample, Mutagen and tool use.",
   "guide.bunnidogs.page.17.title": "Stable lines",

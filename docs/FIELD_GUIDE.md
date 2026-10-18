@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current forty-one native server cases pass,
+The actual Java 25 build and current forty-two native server cases pass,
 including loading the book/recipe/loot resources. The expanded 52-page
-home/roll-call/New preview is inspected with a substitute font; all
+laboratory/roll-call/New preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -139,3 +139,6 @@ Page 50 gains its seventh chapter link; all older destinations remain stable.
 H8 extends page 8's compass gesture to residents. L18 adds **Bell roll call**
 on page 52; page 35 points to it and page 50 gains its eighth chapter link.
 Existing destinations/native book components remain stable.
+
+T7/T8 updates laboratory page 15 with A/B hopper ordering, powered hopper
+retention and 0/8/15 comparator occupancy. Page count/links remain unchanged.

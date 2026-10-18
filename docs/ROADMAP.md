@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+T7/T8 connects native hoppers/comparators to the Genetics Table's saved A/B
+samples and repairs actual-hand placement. Transfers preserve components and
+roll back across both slots; manual take/forecasts remain. Java 25 build/all
+42 cases pass; lab preview inspected. See `TABLE_SPECS.md` 8.
+
 H8 marks recorded resident Nests with normal compass use, preserving loaded
 and unloaded homes/tickets. L18 adds read-only sneak-Calipers bell roll calls
 with injured-first tags/health/foods/homes and bounded loaded-only counts.

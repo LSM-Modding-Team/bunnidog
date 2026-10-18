@@ -1,7 +1,8 @@
 # TABLE_SPECS — the Genetics Table (plan, session 36)
 
-**CURRENT (2026-10-16): T5/T6 add splice plans and inherited-copy forecasts.
-T1–T4 retain their behavior; the user confirmed the d7f39a9 release broadly.**
+**CURRENT (2026-10-18): T7 adds native hopper/comparator automation; T8 repairs
+actual-hand placement. T5/T6 splice plans and inherited-copy forecasts remain.
+The user confirmed the earlier d7f39a9 release broadly.**
 
 The user picked the Genetics Table from the open roadmap (session 35: "Genetics Table (block, uses whiskers)"). The roadmap only had one line
 for it ("the block version of the Calipers", DESIGN line 423: "a Genetics Table block can show the same `genetics/Readout` lines later"),
@@ -112,3 +113,42 @@ checks recessive/carrier/fixed crosses, integer/fractional litter probabilities,
 both-direction splice pages, legacy payloads, page clearance and registry bounds.
 Client navigation, pointer hovers and multiplayer packet delivery remain gameplay
 review. No existing creature geometry or renderer changed.
+
+## 8. T7/T8: a connected lab bench (2026-10-18)
+
+**T7 — Automation:** native item transfer exposes the existing saved A/B slots
+on every side. Each holds one readable Tissue Sample, including arbitrary
+components. Hoppers fill A then B; a full table refuses further input instead
+of swapping or stacking. Extraction starts at A. Power the appropriate hopper
+to retain samples for comparison. Transfers never consume/interpret a sample,
+roll offspring, mutate animals or change the table's manual LIFO withdrawal.
+Comparators read 0 empty, 8 for one sample and 15 for both. This gives a useful
+lab workflow from the existing dispenser sampling stations through hoppers.
+
+Both slots use native transactional journals over the actual saved stacks.
+Aborts restore all touched slots and issue no renderer/comparator updates;
+root commits mark/save/sync the ordinary block entity. Input validation refuses
+blank/malformed samples and other items; extraction can recover existing saved
+contents even if unreadable. `SampleA`, `SampleB` and old single-sample `Item`
+loading stay intact. No replacement inventory, block state, ticking routine,
+menu or payload is introduced. Breaking still returns both whole samples.
+
+**T8 — Actual hand:** native item-on-block handling uses the real interacting
+hand for storing/swapping a sample. An empty main hand passes to a filled off
+hand; both hands empty are required for sneak-withdrawal. One success stores
+one item, survival spends one from that actual stack and creative preserves
+it. Ordinary no-sample reading and B-first manual take/swap remain unchanged.
+This resolves the old main-hand fallback despite T1's any-hand design.
+
+Guide page 15 now describes hopper ordering and comparator signals without
+renumbering pages. Client sample-vial rendering uses existing A/B sync.
+
+T7/T8 evidence: actual Java 25 build/all 42 native cases pass. A real input
+hopper fills two distinct named samples A/B and retains surplus; output drains
+one whole sample. An aborted two-slot transaction restores both inputs. Native
+comparators update to 15, 8 and 0. The case covers unreadable/non-sample input,
+whole A/B saves and legacy Item loading, actual server-mode survival/creative
+off-hand placement, and exactly two remaining named drops on break. Existing
+planning/payload/pure forecast cases remain passing. Laboratory/roll-call/index
+guide preview inspected. Client vials, real hopper circuits and modded devices
+remain gameplay review.

@@ -1,6 +1,7 @@
 package com.bunnidogs.mod.block;
 
 import com.bunnidogs.mod.genetics.TableUse;
+import com.bunnidogs.mod.item.TissueSampleItem;
 import com.bunnidogs.mod.registry.ModBlocks;
 
 import net.minecraft.core.BlockPos;
@@ -17,6 +18,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.CombinedResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStackResourceHandler;
 
 /**
  * The Tissue Samples on a {@link GeneticsTableBlock} (Genetics Table T1 and T2, docs/TABLE_SPECS.md): TWO slots, A and B
@@ -33,6 +38,27 @@ public class GeneticsTableBlockEntity extends BlockEntity {
 
     private ItemStack sampleA = ItemStack.EMPTY;
     private ItemStack sampleB = ItemStack.EMPTY;
+    /** Shared by every side; journals wrap the saved slots rather than keeping a second inventory. */
+    private final ResourceHandler<ItemResource> automation = new CombinedResourceHandler<>(
+            sampleSlot(TableUse.SLOT_A),sampleSlot(TableUse.SLOT_B));
+
+    private ItemStackResourceHandler sampleSlot(int slot) {
+        return new ItemStackResourceHandler() {
+            @Override protected ItemStack getStack() { return item(slot); }
+            @Override protected void setStack(ItemStack stack) {
+                if (slot == TableUse.SLOT_B) sampleB = stack; else sampleA = stack;
+            }
+            @Override protected boolean isValid(ItemResource resource) { return TissueSampleItem.read(resource.toStack()).isPresent(); }
+            @Override protected int getCapacity(ItemResource resource) { return 1; }
+            @Override protected void onRootCommit(ItemStack previous) { changed(); }
+        };
+    }
+
+    public ResourceHandler<ItemResource> automation() { return this.automation; }
+    public int stockSignal() {
+        int occupied = (this.sampleA.isEmpty() ? 0 : 1)+(this.sampleB.isEmpty() ? 0 : 1);
+        return occupied == 0 ? 0 : occupied == 1 ? 8 : 15;
+    }
 
     public GeneticsTableBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.GENETICS_TABLE_BE.get(), pos, state);

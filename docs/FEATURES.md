@@ -460,3 +460,11 @@ components and all home tickets remain intact.
 Nests lie within twelve blocks and whose bodies lie within thirty-two. Chat
 lists up to eight, injured first, with tags, health, foods and home coordinates,
 plus total/remaining counts. Reading never rings or redirects residents.
+
+
+**Lab automation (T7/T8):** hoppers fill a Genetics Table's single-item A/B
+slots in order and extract A first. A full table refuses swaps; power the
+hopper to keep samples for reading. Comparators read 0/8/15 occupied slots.
+Whole components/native saves and aborted transfers preserve samples. Manual
+sample use now works from the actual hand, including the off hand; ordinary
+B-first manual take and forecasts stay the same.

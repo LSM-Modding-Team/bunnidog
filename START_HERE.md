@@ -22,6 +22,13 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-18
 
+- **T7/T8, connected lab bench:** hoppers fill A then B and drain A first,
+  retaining whole sample components with native transaction rollback. Actual
+  comparators read 0/8/15. Manual placement now uses the real hand, including
+  off-hand survival/creative. Save keys, forecasts and B-first manual take
+  remain. Java 25 build/all 42 cases pass; lab guide preview inspected. See
+  `docs/TABLE_SPECS.md` 8.
+
 - **H8/L18, resident wayfinding and roll call:** normal compass use on a
   resident marks its recorded Nest without requesting its terrain. Sneak-use
   Calipers on a bell for loaded neighbors, injured first, with tags/health/
@@ -190,7 +197,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Genetics and breeding | Seven genes, inherited pairs, bred stats/Bloom, eight guava tiers, litter seeds/crops, infused juice. `docs/FEATURES.md`, `docs/FIXES_PLAN.md` 6 |
 | Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets, forecasts, carried-animal records and local tag/trait/stat record filters. `docs/SHEET_SPECS.md` S1–S10 |
 | Nursery | Whole saved seeds, protected crop harvest/recovery, in-place Mutagen, dispenser stations and a Cradle with incubation, native automation, checked hatching/pad planning and fitted grand-tree nurseries. `docs/NURSERY_SPECS.md` N1–N7 |
-| Laboratory | Two sample slots, vial display, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T6 |
+| Laboratory | Two sample slots, native hopper/comparator automation, actual-hand placement, vial display, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T8 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
 | Care | Live samples, fleece palettes, whiskers/dust/moss, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C9 |
@@ -251,7 +258,7 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **forty-one** native scenarios pass (forty mod
+The Java 25 build and all **forty-two** native scenarios pass (forty-one mod
 cases plus native sanity). Latest coverage:
 
 - **N1:** real redstone pulses, malformed/blocked/wrong-soil/occupied planting,

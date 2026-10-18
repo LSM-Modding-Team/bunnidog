@@ -55,7 +55,7 @@ public final class GuavaGameTest extends GameTestInstance {
     @SubscribeEvent
     public static void registerTests(RegisterGameTestsEvent event) {
         var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.AllOf());
-        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "show", "grooming", "settlement", "apex", "fixtures", "gardening", "pantry", "fishing", "refuge", "guarding", "scouting", "resident_finder", "storm_shelter", "trough_automation", "bell_calls", "trough_filters", "care_dispensers", "basket", "cultivation", "nest_markers", "night_meals", "nursery", "seed_recovery", "cradle_storage", "cradle_hatching", "cradle_spawn_refusal", "crop_harvest", "composting", "nursery_treatment"}) {
+        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "table_automation", "show", "grooming", "settlement", "apex", "fixtures", "gardening", "pantry", "fishing", "refuge", "guarding", "scouting", "resident_finder", "storm_shelter", "trough_automation", "bell_calls", "trough_filters", "care_dispensers", "basket", "cultivation", "nest_markers", "night_meals", "nursery", "seed_recovery", "cradle_storage", "cradle_hatching", "cradle_spawn_refusal", "crop_harvest", "composting", "nursery_treatment"}) {
             event.registerTest(id(name), new GuavaGameTest(name, new TestData<>(environment, id("empty"), 100, 0, true)));
         }
     }
@@ -72,6 +72,7 @@ public final class GuavaGameTest extends GameTestInstance {
             case "splicing" -> SplicingGameTest.run(h);
             case "registry" -> RegistryGameTest.run(h);
             case "table_planning" -> TablePlanningGameTest.run(h);
+            case "table_automation" -> { TableAutomationGameTest.run(h); return; }
             case "show" -> ShowGameTest.run(h);
             case "apex" -> ApexGameTest.run(h);
             case "fixtures" -> com.bunnidogs.mod.worldgen.FixturesGameTest.run(h);
