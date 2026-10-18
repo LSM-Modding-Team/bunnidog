@@ -182,12 +182,15 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
                 builtHouses.add(house);
             }
         }
-        // landmarks (Phase 6e): the first ones the level of the trees really built allows; the surface kind only (water and farmland need open sky)
+        // Surface landmarks follow built development; underground cave/Nether farms need no sky or water.
         int props = 0;
         List<Settlement.Prop> builtProps = new ArrayList<>();
-        int propsWanted = surfaceOnly ? PropShape.kindsFor(trees).size() : 0;
-        for (Settlement.Prop prop : settlement.props().subList(0, Math.min(propsWanted, settlement.props().size()))) {
-            if (buildProp(level, floor.getX() + prop.dx(), floor.getY(), floor.getZ() + prop.dz(), prop, true, style,true,true)) {
+        var allowedKinds = PropShape.kindsFor(trees);
+        var eligibleProps = settlement.props().stream().filter(p -> allowedKinds.contains(p.kind())
+                && RegionalFarms.eligible(p.kind(),style,surfaceOnly)).toList();
+        int propsWanted = eligibleProps.size();
+        for (Settlement.Prop prop : eligibleProps) {
+            if (buildProp(level, floor.getX() + prop.dx(), floor.getY(), floor.getZ() + prop.dz(), prop, surfaceOnly, style,true,true)) {
                 props++;
                 builtProps.add(prop);
             }

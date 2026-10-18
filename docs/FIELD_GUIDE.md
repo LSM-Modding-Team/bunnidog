@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current forty-eight native server cases pass,
-including loading the book/recipe/loot resources. The expanded 61-page
-fruit-meal/mushroom/Habitat preview is inspected with a substitute font; all
+The actual Java 25 build and current forty-nine native server cases pass,
+including loading the book/recipe/loot resources. The expanded 64-page
+sapling/underground/seedbed/Habitat preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -188,3 +188,10 @@ diet-matching berries, preserved plants, 2 HP/shared recovery and safe native
 work. Habitat gains its fifth link, for thirty-three chapter links across 61
 pages. The new chapter/mushroom/Habitat preview is inspected with a substitute
 font; native client text/controls remain gameplay review.
+
+O4/O5 appends **Sapling stations**, page 62; L23 adds **Underground farms**,
+page 63; N8 adds **Safe seedbeds**, page 64. Native planting costs/refusals,
+support recovery/soil compatibility, developed cave/Nether plots and intact
+litter fallback are explained. Habitat now has eight entries, for thirty-six
+chapter links over 64 pages. The four-panel text/navigation preview is inspected;
+old page IDs and returns remain stable.

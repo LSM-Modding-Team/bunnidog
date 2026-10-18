@@ -10,6 +10,10 @@ import com.bunnidogs.mod.layout.PropShape.Mat;
 /** Version-five farm variants, all inside the original 3x3 footprint and three-block height reservation. */
 public final class RegionalFarms {
     private RegionalFarms() {}
+    /** Underground features omit sky/water landmarks but can fit their water-free regional farm. */
+    public static boolean eligible(PropShape.Kind kind, Lineage style, boolean surface) {
+        return surface || kind == PropShape.Kind.FARM && (style == Lineage.CAVE || style == Lineage.NETHER);
+    }
     private static void ground(List<Cell> out, Mat soil, boolean garden) {
         for (int x = -1; x <= 1; x++) for (int z = -1; z <= 1; z++)
             out.add(new Cell(x,-1,z,garden && x == -1 && z == -1 ? Mat.FILL : soil));

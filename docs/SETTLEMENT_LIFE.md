@@ -1,8 +1,32 @@
-# Settlement life L1–L22
+# Settlement life L1–L23
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
 No hunger/starvation system, forced breeding or changes to existing containers.
+
+## L23: developed underground farm plots
+
+Fresh cave/Nether feature settlements can now fit their regional farm when
+five guava trees actually survive fitting. Previously all underground
+landmarks were skipped, making their L21 plot variants unreachable there.
+Only the water-free regional `FARM` is eligible underground: cave glow-berry
+trellises and Nether wart/soul-sand beds. Wells, stalls and other surface
+landmarks retain their existing surface scope. Ground fitting uses cave mode
+at the plot's own location, with the same all-cell preflight and optional
+empty enabled trough. Unsafe/blocked plots are simply omitted.
+
+Feature landmarks now use their actual kind's surviving-tree tier instead of
+its position in a potentially shortened candidate list. A missing early
+landmark cannot promote a later high-tier one after tree fitting loses trees.
+The diagnostic wanted count reflects eligible plans. Existing generated
+settlements are not retrofitted; saved structure piece versions/IDs remain.
+
+L23 evidence: Java 25 build/all 49 native cases and existing focused warren
+checks pass. The regional native case now uses cave-mode ground fitting for
+cave/Nether plots and checks repeat container/stock preservation there as well
+as surface roof probing. Surface variants, valid plant survival and legacy
+saved versions remain covered. The new chapter/Habitat preview is inspected;
+full natural discovery/chunk fitting remains gameplay review.
 
 ## L22: sustainable mushroom thinning
 

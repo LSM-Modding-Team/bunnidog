@@ -194,3 +194,22 @@ repeat tunnel/furniture placement, and includes the appended kind in actual
 structure save/legacy tests. The revised furnished-warren guide preview is
 inspected. Natural structure discovery/chunk order and client appearance remain
 gameplay review.
+
+## N8 — 26.2 dirt-like support compatibility
+
+New planting still requires farmland. Existing litter crops now survive on
+both `DIRT` and `GRASS_BLOCKS`, restoring the established dirt-like fallback
+when soil becomes grass, podzol or mycelium. Minecraft 26.2 split these out of
+the older broad `DIRT` meaning. Coarse/rooted/ordinary dirt and farmland remain
+valid; stone and lost support still recover the original whole seed.
+
+Changing soil retains the same block entity, named/component-bearing seed,
+parent genomes/stats/quality/treatment and crop progress. Native random growth
+can continue; soil conversion never hatches or replants the litter. No age,
+inventory, genome or saved-data format changes.
+
+Java 25 build/all 49 native cases pass. The existing whole-seed recovery case
+now changes real farmland to dirt/coarse/rooted/grass/podzol/mycelium, runs actual
+crop ticks and checks the same BE, exact saved seed and non-reset growth. Actual
+support loss then recovers that seed exactly once. The safe-seedbed/Habitat
+guide preview is inspected. Client soil-restyling remains gameplay review.

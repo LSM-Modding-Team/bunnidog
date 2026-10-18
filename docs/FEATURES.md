@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 61 pages from first warren to Apex. Four linked contents pages offer thirty-three
+open 64 pages from first warren to Apex. Four linked contents pages offer thirty-six
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -521,3 +521,19 @@ food rest. The fruit/bush/vine stays to regrow, with no extra loose drop or love
 mode. Outdoor meals use complete safe loaded paths and native protection;
 stale or callback-replaced plants refuse without overwriting blocks or healing.
 Healthy adults leave crops for gardening. Night meals still require troughs.
+
+**Sapling stations (O4/O5):** dispensers plant a Guava Sapling into dry air over
+valid vegetation soil/farmland, spending one only on success. Occupied/invalid
+targets retain stock without ejection. Grass, podzol and mycelium work under
+26.2's native soil rules. Lost support recovers one sapling on its next tick;
+unsupported/stale/unloaded growth refuses. Give the whole tree loaded space.
+
+**Underground farms (L23):** new cave/Nether feature warrens with five fitted
+trees may place their reserved glow-berry trellis or soul-sand wart bed. Native
+cave terrain fitting and optional empty enabled troughs apply; unsafe plots
+are omitted. Existing settlements retain their generated layout.
+
+**Safe seedbeds (N8):** planting still requires farmland. If soil later becomes
+dirt, grass, podzol or mycelium, the same litter crop keeps its whole named seed
+and continues growth. Support loss recovers the original seed once; soil
+changes do not hatch pups, reroll parents or reset crop progress.

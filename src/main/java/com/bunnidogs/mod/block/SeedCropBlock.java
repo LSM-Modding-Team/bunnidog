@@ -81,7 +81,7 @@ public class SeedCropBlock extends Block implements EntityBlock, BonemealableBlo
     @Override
     public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockState soil = level.getBlockState(pos.below());
-        return soil.is(Blocks.FARMLAND) || soil.is(BlockTags.DIRT);
+        return soil.is(Blocks.FARMLAND) || soil.is(BlockTags.DIRT) || soil.is(BlockTags.GRASS_BLOCKS);
     }
 
     @Override

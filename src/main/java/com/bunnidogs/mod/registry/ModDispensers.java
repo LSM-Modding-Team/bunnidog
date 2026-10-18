@@ -7,11 +7,14 @@ import com.bunnidogs.mod.block.NurseryCradleBlockEntity;
 import com.bunnidogs.mod.item.MutagenItem;
 import java.util.Comparator;
 import java.util.List;
+import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -30,9 +33,24 @@ public final class ModDispensers {
             DispenserBlock.registerBehavior(ModItems.SEED.get(),new NurseryBehavior(NurseryAction.PLANT));
             DispenserBlock.registerBehavior(ModItems.STARLIT_DUST.get(),new NurseryBehavior(NurseryAction.RIPEN));
             DispenserBlock.registerBehavior(ModItems.MUTAGEN.get(),new NurseryBehavior(NurseryAction.TREAT));
+            DispenserBlock.registerBehavior(ModItems.GUAVA_SAPLING.get(),new SaplingBehavior());
         });
     }
     private enum NurseryAction { PLANT, RIPEN, TREAT }
+    /** Native block-item placement consumes exactly one; invalid targets retain stock without ejection. */
+    private static final class SaplingBehavior extends OptionalDispenseItemBehavior {
+        @Override protected ItemStack execute(BlockSource source, ItemStack stack) {
+            this.setSuccess(false);
+            var level = source.level(); var direction = source.state().getValue(DispenserBlock.FACING);
+            var front = source.pos().relative(direction);
+            if (!level.hasChunkAt(front) || !level.hasChunkAt(front.below()) || level.isOutsideBuildHeight(front)
+                    || !level.getWorldBorder().isWithinBounds(front) || !level.getBlockState(front).isAir()
+                    || !level.getFluidState(front).isEmpty()) return stack;
+            if (stack.getItem() instanceof BlockItem sapling)
+                this.setSuccess(sapling.place(new DirectionalPlaceContext(level,front,direction,stack,Direction.UP)).consumesAction());
+            return stack;
+        }
+    }
     private static final class NurseryBehavior extends OptionalDispenseItemBehavior {
         private final NurseryAction action;
         NurseryBehavior(NurseryAction action) { this.action = action; }

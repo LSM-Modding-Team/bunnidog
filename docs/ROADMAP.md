@@ -16,6 +16,13 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+O4/O5 adds native dispenser guava saplings, next-tick support recovery and
+supported/bounded growth. Grass/podzol/mycelium work under 26.2 vegetation tags;
+N8 restores the corresponding litter-crop fallback without changing farmland
+planting. L23 allows safe regional farms in fresh five-tree cave/Nether feature
+warrens. Java 25 build/all 49 native cases pass; final guide preview inspected.
+See `ORCHARD_SPECS.md`, `NURSERY_SPECS.md` and `SETTLEMENT_LIFE.md`.
+
 D6 adds injured residents' ripe-guava and diet-matching berry meals, preserving
 plants and sharing ordinary healing/recovery. Grazing now follows complete safe
 loaded routes and rechecks protection callbacks, preserving replacement

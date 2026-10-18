@@ -417,3 +417,25 @@ saves. Focused pure checks cover eight lineages × four rotations × trough
 presence. `tools/FarmDump.java` and `art/preview_farms.py` reproduce the actual
 cell preview, with approximate colors. Full natural terrain/chunk-order and
 client lighting/appearance remain gameplay review.
+
+## 23. L23 underground regional farms
+
+Fresh cave/Nether feature settlements with five fitted trees may now place the
+existing reserved farm prop. The surface-only landmark gate previously omitted
+these L21 variants in their natural feature path. `RegionalFarms.eligible`
+allows only `FARM` for underground CAVE/NETHER styles; water/sky-dependent
+landmarks stay surface-only. Actual plot ground fitting uses cave mode rather
+than surface probing. Native preflight still preserves containers, plant
+survival and optional empty enabled troughs.
+
+Landmark eligibility follows each prop kind's actual surviving-tree tier,
+including when prior candidate kinds are missing. No fresh level-five farm
+appears after tree fitting leaves a smaller settlement. Log counts use eligible
+props. Existing generated settlements and saved structure plans/versions are
+unchanged; no cell bounds, prop IDs, tunnel plans or chunk ownership change.
+
+Java 25 build/all 49 native cases and existing focused warren checks pass.
+Actual cave/Nether plots fit using cave mode, preserve stock on repeat, and
+refuse surface probing onto an old trellis roof. Other region/legacy-version
+cases remain green. Guide preview inspected. Natural feature discovery and
+full chunk-order generation remain gameplay review.

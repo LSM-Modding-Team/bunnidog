@@ -1,6 +1,7 @@
 package com.bunnidogs.mod.entity;
 
 import com.bunnidogs.mod.block.SeedCropBlockEntity;
+import com.bunnidogs.mod.block.SeedCropBlock;
 import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.genetics.Seed;
 import com.bunnidogs.mod.genetics.Stats;
@@ -60,6 +61,16 @@ public final class SeedRecoveryGameTest {
         drops.getFirst().discard();
         level.setBlock(soil,Blocks.FARMLAND.defaultBlockState(),3); player.setItemInHand(InteractionHand.MAIN_HAND,original.copy());
         player.gameMode.useItemOn(player,level,player.getMainHandItem(),InteractionHand.MAIN_HAND,new BlockHitResult(Vec3.atCenterOf(soil),Direction.UP,soil,false));
+        var fallbackCrop = (SeedCropBlockEntity)level.getBlockEntity(pos);
+        level.setBlock(pos,level.getBlockState(pos).setValue(SeedCropBlock.AGE,3),2);
+        for (var support : new net.minecraft.world.level.block.Block[]{Blocks.DIRT,Blocks.COARSE_DIRT,Blocks.ROOTED_DIRT,Blocks.GRASS_BLOCK,Blocks.PODZOL,Blocks.MYCELIUM}) {
+            level.setBlock(soil,support.defaultBlockState(),3);
+            var state = level.getBlockState(pos);
+            h.assertTrue(state.canSurvive(level,pos),"Old dirt-like fallback soil must remain valid in 26.2: "+support);
+            state.randomTick(level,pos,level.getRandom());
+            h.assertTrue(level.getBlockEntity(pos) == fallbackCrop && ItemStack.matches(fallbackCrop.seedStack(),original)
+                    && level.getBlockState(pos).getValue(SeedCropBlock.AGE) >= 3,"Soil conversion must retain the same whole litter and growth, without hatching or resetting");
+        }
         level.setBlock(soil,Blocks.AIR.defaultBlockState(),2);
         level.getBlockState(pos).randomTick(level,pos,level.getRandom());
         var recovered = level.getEntitiesOfClass(ItemEntity.class,new AABB(pos).inflate(2),item -> item.getItem().is(ModItems.SEED.get()));

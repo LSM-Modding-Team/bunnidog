@@ -28,7 +28,8 @@ public final class RegionalFarmsGameTest {
         for (var style : List.of(Lineage.DESERT,Lineage.NETHER,Lineage.SWAMP,Lineage.CAVE,Lineage.END)) {
             clear(h); int turns = style.ordinal()%4;
             var prop = new Settlement.Prop(PropShape.Kind.FARM,0,0,turns);
-            h.assertTrue(WarrenFeature.buildProp(level,centre.getX(),centre.getY(),centre.getZ(),prop,true,style,true,true),"Regional farm must fit: "+style);
+            boolean surface = style != Lineage.CAVE && style != Lineage.NETHER;
+            h.assertTrue(WarrenFeature.buildProp(level,centre.getX(),centre.getY(),centre.getZ(),prop,surface,style,true,true),"Regional farm must fit in its native surface/cave mode: "+style);
             var cells = RegionalFarms.cells(style,turns,true);
             var troughCell = cells.stream().filter(c -> c.mat() == PropShape.Mat.TROUGH).findFirst().orElseThrow();
             var troughPos = centre.offset(troughCell.dx(),0,troughCell.dz());
@@ -43,9 +44,11 @@ public final class RegionalFarmsGameTest {
                     && level.getBlockState(centre.above()).is(Blocks.CACTUS) && level.getBlockState(centre.below()).is(Blocks.SAND),"Desert plots need a spare cactus above sand");
             if (style == Lineage.NETHER) h.assertTrue(cells.stream().filter(c -> c.mat() == PropShape.Mat.SOUL_SAND).count() == 8,"Wart must grow on actual soul sand");
             trough.insert(new ItemStack(Items.CARROT,3));
-            h.assertTrue(!WarrenFeature.buildProp(level,centre.getX(),centre.getY(),centre.getZ(),prop,true,style,true,true)
+            h.assertTrue(!WarrenFeature.buildProp(level,centre.getX(),centre.getY(),centre.getZ(),prop,surface,style,true,true)
                     && level.getBlockEntity(troughPos) == trough && trough.food().getCount() == 3,
                     "Repeated regional placement must not stack new plots or replace existing stock");
+            if (style == Lineage.CAVE) h.assertTrue(!WarrenFeature.buildProp(level,centre.getX(),centre.getY(),centre.getZ(),prop,true,style,true,true)
+                    && level.getBlockEntity(troughPos) == trough && trough.food().getCount() == 3,"Surface-ground probing must also refuse the existing trellis roof without stacking plots");
         }
         clear(h);
         var prop = new Settlement.Prop(PropShape.Kind.FARM,0,0,0);

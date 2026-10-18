@@ -62,15 +62,18 @@ PAGES = {
     59: ('Guava orchards', 'Use one plain guava on the underside of leaves to plant green fruit in air. Any leaf type works. Bone meal adds one age; two ripen it. Pick ripe fruit to keep it growing. Shears or Silk Touch recover guava leaves for new orchards.'),
     60: ('Mushroom beds', 'Healthy mushroom eaters thin red or brown beds beside an enabled trough. Another living mushroom of the same color must remain within three blocks. Keep mycelium and clear routes. Native spread regrows the patch; work rests a minute.'),
     61: ('Fruit meals', 'Injured adult residents eat ripe hanging guavas near home by day. Matching Diets also pick sweet or glow berries. Plants stay to regrow. One meal heals 2 HP and shares the thirty-second food rest. Safe routes and protection apply.'),
+    62: ('Sapling stations', 'Dispensers plant guava saplings into air over valid soil. Blocked targets keep stock. Grass, podzol and mycelium work. Bone meal tries growth. Lost soil drops one sapling. Give the whole tree loaded space.'),
+    63: ('Underground farms', 'New five-tree cave and Nether warrens may fit a regional farm: glow berries under a trellis, or wart on soul sand. Plots need no water. A clear corner may fit an empty enabled trough. Existing settlements keep their plans.'),
+    64: ('Safe seedbeds', 'Plant litter seeds on farmland. If soil changes to dirt, grass, podzol or mycelium, the crop keeps its whole litter and continues growing. Lost support returns the saved seed. Changing soil never hatches it or resets its parents.'),
 }
-PAGE_COUNT = 61
+PAGE_COUNT = 64
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
               31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
 NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work',51:'Find a tagged animal',52:'Bell roll call',53:'Recovery rest',54:'Plan a litter'}
 
-HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds',61:'Fruit meals'}
+HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds',61:'Fruit meals',62:'Sapling stations',63:'Underground farms',64:'Safe seedbeds'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -110,14 +113,14 @@ def main():
         if not any(entry.get('name') == 'bunnidogs:field_guide' for pool in loot['pools'] for entry in pool['entries']):
             loot['pools'].append(pantry_guide_pool())
         write(str(path.relative_to(RES)),loot)
-    preview = Image.new('RGBA',(980,420),(43,46,39,255)); d = ImageDraw.Draw(preview)
+    preview = Image.new('RGBA',(1220,420),(43,46,39,255)); d = ImageDraw.Draw(preview)
     preview.alpha_composite(img.resize((224,224),Image.Resampling.NEAREST),(14,85))
     try:
         font = ImageFont.truetype('DejaVuSans.ttf',13)
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,61),(495,60),(735,56)]:
+    for x,page in [(255,62),(495,63),(735,64),(975,56)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

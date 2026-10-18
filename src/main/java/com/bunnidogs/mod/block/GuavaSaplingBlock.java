@@ -7,15 +7,16 @@ import com.bunnidogs.mod.layout.TreeShape;
 import com.bunnidogs.mod.worldgen.GuavaTree;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -25,6 +26,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * The guava sapling (Phase 4g), crafted from one guava: what makes guavas renewable (the rarity is in finding the first warren, not
  * in a hard cap). Needs dirt or farmland below. Grows into a small guava tree ({@link TreeShape}, built by {@link GuavaTree}) on random
  * ticks, slowly (1 in {@value #GROWTH_ODDS} random ticks) and only if the trunk has room; bone meal tries at once (45%). No light needed.
+ * Support loss recovers one sapling on the next scheduled tick. Growth requires a supported sapling and a loaded, bounded tree plan.
  */
 public class GuavaSaplingBlock extends Block implements BonemealableBlock {
     /** On average 1 random tick in this many tries to grow the tree. */
@@ -45,14 +47,27 @@ public class GuavaSaplingBlock extends Block implements BonemealableBlock {
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-        BlockState soil = level.getBlockState(pos.below());
-        return soil.is(Blocks.FARMLAND) || soil.is(BlockTags.DIRT);
+        var below = pos.below(); var soil = level.getBlockState(below);
+        var decision = soil.canSustainPlant(level,below,Direction.UP,state);
+        return !decision.isDefault() ? decision.isTrue() : soil.is(BlockTags.SUPPORTS_VEGETATION);
+    }
+
+    @Override
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction direction,
+            BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        if (direction == Direction.DOWN && !canSurvive(state,level,pos)) ticks.scheduleTick(pos,this,1);
+        return super.updateShape(state,level,ticks,pos,direction,neighborPos,neighborState,random);
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (!canSurvive(state,level,pos)) level.destroyBlock(pos,true);
     }
 
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (!this.canSurvive(state, level, pos)) {
-            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            level.destroyBlock(pos,true);
             return;
         }
         if (random.nextInt(GROWTH_ODDS) == 0) {
@@ -62,7 +77,14 @@ public class GuavaSaplingBlock extends Block implements BonemealableBlock {
 
     /** Rolls a tree and plants it in place of the sapling if the trunk has room. Returns whether it grew. */
     public static boolean tryGrow(ServerLevel level, BlockPos pos, RandomSource random) {
+        if (!level.hasChunkAt(pos)) return false;
+        var state = level.getBlockState(pos);
+        if (!(state.getBlock() instanceof GuavaSaplingBlock) || !state.canSurvive(level,pos)) return false;
         List<TreeShape.Cell> cells = TreeShape.generate(new Random(random.nextLong()));
+        for (var cell : cells) {
+            var target = pos.offset(cell.dx(),cell.dy(),cell.dz());
+            if (!level.hasChunkAt(target) || level.isOutsideBuildHeight(target) || !level.getWorldBorder().isWithinBounds(target)) return false;
+        }
         if (!GuavaTree.fits(level, pos, cells)) {
             return false;
         }
@@ -74,12 +96,12 @@ public class GuavaSaplingBlock extends Block implements BonemealableBlock {
 
     @Override
     public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
-        return true;
+        return state.is(this) && state.equals(level.getBlockState(pos)) && canSurvive(state,level,pos);
     }
 
     @Override
     public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
-        return random.nextFloat() < BONEMEAL_CHANCE;
+        return isValidBonemealTarget(level,pos,state) && random.nextFloat() < BONEMEAL_CHANCE;
     }
 
     @Override

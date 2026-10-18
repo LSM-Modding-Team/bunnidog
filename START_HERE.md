@@ -22,6 +22,15 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-18
 
+- **O4/O5/L23/N8, habitat completion:** native dispenser sapling stations
+  retain blocked stock; saplings follow 26.2 vegetation soil, recover after
+  support loss and grow only supported, loaded, bounded trees. Litter crops
+  restore grass/podzol/mycelium fallback without changing planting or saved
+  litters. Fresh five-tree cave/Nether features can fit regional farms using
+  their actual terrain mode. Java 25 build/all 49 native cases pass; guide
+  preview inspected. See `docs/ORCHARD_SPECS.md` O4–O5,
+  `docs/SETTLEMENT_LIFE.md` L23 and `docs/NURSERY_SPECS.md` N8.
+
 - **D6, fruit meals and safer grazing:** injured adults eat ripe hanging
   guavas, plus diet-matching sweet/glow berries, near home by day. Plants
   remain, meals heal two HP and share normal food rest. All field grazing
@@ -237,7 +246,7 @@ storm shelter, fishing, terrain traits, local supplies, living dust and fitted
 farms are also complete. Their rules/evidence remain in the specifications
 listed below; do not redo them.
 
-The native Field Guide has 61 translated pages and thirty-three chapter links
+The native Field Guide has 64 translated pages and thirty-six chapter links
 across four linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
@@ -248,7 +257,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 |---|---|
 | Genetics and breeding | Seven genes, inherited pairs, bred stats/Bloom, eight guava tiers, litter seeds/crops, infused juice. `docs/FEATURES.md`, `docs/FIXES_PLAN.md` 6 |
 | Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets, forecasts, carried-animal records and local tag/trait/stat record filters. `docs/SHEET_SPECS.md` S1–S10 |
-| Nursery | Whole saved seeds, protected crop harvest/recovery, in-place Mutagen, dispenser stations and a Cradle with incubation, native automation, checked hatching/pad planning and fitted grand-tree nurseries. `docs/NURSERY_SPECS.md` N1–N7 |
+| Nursery | Whole saved seeds, protected crop harvest/recovery, dirt/grass soil fallback, in-place Mutagen, dispenser stations and a Cradle with incubation, native automation, checked hatching/pad planning and fitted grand-tree nurseries. `docs/NURSERY_SPECS.md` N1–N8 |
 | Laboratory | Two sample slots, native hopper/comparator automation, actual-hand placement, vial display, planned feed/treatment/harvest forecasts, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T10 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
@@ -256,11 +265,11 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow, terrain movement and snow footing. `docs/CARE_SPECS.md` A1–A5 |
 | Outdoor food | Home-bounded crop/grass/hay meals, ripe guavas and diet-matching berries, safe loaded paths and callback-safe commits. `docs/FORAGING_SPECS.md` D6 |
 | Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, led-adult reassignment, Travel Baskets and persistent compass place markers, including resident homes. `docs/HOME_SPECS.md` H1–H8 |
-| Settlement life | Saved trough stock/automation/filters/redstone pause, diet healing/short night meals, bell visits, regional farms/fitted furniture, harvest/cultivation/surplus composting, guava compost data, local stores, refuge, storm shelter, opt-in feral Nest guards, read-only bell roll call, serious-injury rest, cactus pruning and sustainable mushroom beds. `docs/SETTLEMENT_LIFE.md` L1–L22 |
+| Settlement life | Saved trough stock/automation/filters/redstone pause, diet healing/short night meals, bell visits, regional farms/fitted furniture including developed cave/Nether farms, harvest/cultivation/surplus composting, guava compost data, local stores, refuge, storm shelter, opt-in feral Nest guards, read-only bell roll call, serious-injury rest, cactus pruning and sustainable mushroom beds. `docs/SETTLEMENT_LIFE.md` L1–L23 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Exploration | Native cartographer Warren Maps, bred bat-ear compass surveys with optional mineral-family focus at Senses +20, native working-line milestones and a loaded tagged-resident finder. `docs/EXPLORATION_SPECS.md` E1–E5 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
-| Orchards | Plain-guava hanging fruit propagation, native bone meal growth and shears/Silk Touch leaf recovery. `docs/ORCHARD_SPECS.md` O1–O3 |
+| Orchards | Plain-guava hanging fruit propagation, native bone meal, shears/Silk Touch leaf recovery, native dispenser sapling stations and supported/bounded tree growth. `docs/ORCHARD_SPECS.md` O1–O5 |
 | Drops and endgame | Pelts/materials, Mutagen/Marrow/Tissue/Dust, five stat legends and pedestals. Sample-defined Apex ritual, inherited combat, warned attacks/enrage, boss bar and source-line crest. `docs/DROPS_SPECS.md`, `docs/APEX_SPECS.md` |
 | Apex preparation | Crucible missing-offering status; main-hand Calipers/off-hand sample forecasts real boss values without spending or spawning. `docs/APEX_SPECS.md` P2 |
 
@@ -312,7 +321,7 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **forty-eight** native scenarios pass (forty-seven mod
+The Java 25 build and all **forty-nine** native scenarios pass (forty-eight mod
 cases plus native sanity). Latest coverage:
 
 - **N1:** real redstone pulses, malformed/blocked/wrong-soil/occupied planting,
