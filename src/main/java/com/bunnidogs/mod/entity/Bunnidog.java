@@ -16,6 +16,7 @@ import com.bunnidogs.mod.genetics.Fleece;
 import com.bunnidogs.mod.genetics.Splicing;
 import com.bunnidogs.mod.genetics.Grooming;
 import com.bunnidogs.mod.genetics.Gardening;
+import com.bunnidogs.mod.genetics.Guarding;
 import com.bunnidogs.mod.genetics.Social;
 import com.bunnidogs.mod.genetics.Home;
 import com.bunnidogs.mod.genetics.EarTag;
@@ -184,6 +185,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private long nextFleeceTick;
     private long nextSpliceTick;
     private LivingEntity huntingTarget;
+    private boolean guardEnabled;
+    private Mob guardingTarget;
     private Mob refugeThreat;
     private BlockPos calledBell;
     private long bellCallUntil, nextBellCallTick;
@@ -456,6 +459,21 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
 
     void huntTarget(LivingEntity target) { this.huntingTarget = target; }
     boolean hasCombatTarget() { return this.getTarget() != null && this.getTarget() != this.huntingTarget; }
+    void guardTarget(Mob target) { this.guardingTarget = target; }
+    public boolean guardEnabled() { return this.guardEnabled; }
+    /** A cheap status snapshot; no intruder/path search and no claim or target changes. */
+    public Guarding.Status guardingStatus() {
+        if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel)) return Guarding.Status.UNAVAILABLE;
+        if (!this.guardEnabled) return Guarding.Status.DISABLED;
+        if (this.isBaby()) return Guarding.Status.ADULT;
+        if (this.temperament() != Temperament.FERAL) return Guarding.Status.FERAL;
+        if (this.homeNest() == null) return Guarding.Status.HOME;
+        if (this.beingTransported()) return Guarding.Status.TRANSPORTED;
+        if (!Sampling.healthy(this.getHealth(),this.getMaxHealth())) return Guarding.Status.HEALTH;
+        if (this.getTarget() != null && this.getTarget() != this.guardingTarget) return Guarding.Status.COMBAT;
+        if (!Guarding.within(this.blockPosition().distSqr(this.homeNest()))) return Guarding.Status.OUTSIDE_HOME;
+        return this.guardingTarget != null && this.guardingTarget.isAlive() ? Guarding.Status.ACTIVE : Guarding.Status.READY;
+    }
     void refugeFrom(Mob threat) { this.refugeThreat = threat; }
     public boolean seekingRefuge() { return this.refugeThreat != null && this.refugeThreat.isAlive(); }
 
@@ -488,6 +506,18 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack held = player.getItemInHand(hand);
+        if (held.is(Items.BONE) && player.isShiftKeyDown()) {
+            if (!player.mayBuild()) return InteractionResult.PASS;
+            if (!this.level().isClientSide()) {
+                String message;
+                if (!this.acceptsCare() || !this.isAlive()) message = "unavailable";
+                else if (this.guardEnabled) { this.guardEnabled = false; message = "disabled"; }
+                else if (this.isBaby() || this.temperament() != Temperament.FERAL || this.homeNest() == null) message = "requirement";
+                else { this.guardEnabled = true; message = "enabled"; }
+                player.sendOverlayMessage(Component.translatable("message.bunnidogs.guard."+message));
+            }
+            return InteractionResult.SUCCESS;
+        }
         if (held.getItem() instanceof CalipersItem) {
             // Phase 5: the Calipers measure instead of feeding or riding; they never reach vanilla's feeding code.
             // Normal use opens the sheet; sneak-use reports a server-side care snapshot in chat.
@@ -776,6 +806,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         output.putString(TAG_GENOME, this.genome().toString());
         output.putString(TAG_STATS, this.stats().toString());
         if (this.highestShowAward > 0) output.putInt("ShowAward", this.highestShowAward);
+        if (this.guardEnabled) output.putBoolean("GuardNest",true);
         if (this.gardeningWait() > 0) output.putInt("GardenWait",this.gardeningWait());
         output.putInt("ForageWait",this.forageWait());
         if (this.samplingWait() > 0) output.putInt("SampleWait",this.samplingWait());
@@ -819,6 +850,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         super.readAdditionalSaveData(input);
         if (!this.level().isClientSide()) this.applyAdaptations();
         this.highestShowAward = Math.max(0, input.getIntOr("ShowAward", 0));
+        this.guardEnabled = input.getBooleanOr("GuardNest",false);
+        this.guardingTarget = null;
         this.nextGardenTick = this.level().getGameTime()+Math.clamp(input.getIntOr("GardenWait",0),0,
                 com.bunnidogs.mod.genetics.Gardening.REST_TICKS);
         this.nextGroomTick = this.level().getGameTime()+Math.clamp(input.getIntOr("GroomWait",0),0,Grooming.RECOVERY_TICKS);
@@ -853,6 +886,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             }
         });
         this.goalSelector.addGoal(2, new RefugeGoal(this));
+        this.goalSelector.addGoal(2, new GuardGoal(this));
         // Skittish ones keep their distance from players.
         this.goalSelector.addGoal(2, new AvoidEntityGoal<Player>(this, Player.class, 8.0F, 1.0D, 1.6D) {
             @Override
@@ -865,12 +899,14 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             @Override
             public boolean canUse() {
                 return Bunnidog.this.temperament() == Temperament.FERAL
-                        && Bunnidog.this.getTarget() != Bunnidog.this.huntingTarget && super.canUse();
+                        && Bunnidog.this.getTarget() != Bunnidog.this.huntingTarget
+                        && Bunnidog.this.getTarget() != Bunnidog.this.guardingTarget && super.canUse();
             }
             @Override
             public boolean canContinueToUse() {
                 return Bunnidog.this.temperament() == Temperament.FERAL
-                        && Bunnidog.this.getTarget() != Bunnidog.this.huntingTarget && super.canContinueToUse();
+                        && Bunnidog.this.getTarget() != Bunnidog.this.huntingTarget
+                        && Bunnidog.this.getTarget() != Bunnidog.this.guardingTarget && super.canContinueToUse();
             }
         });
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this) {

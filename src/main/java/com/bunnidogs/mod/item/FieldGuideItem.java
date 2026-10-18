@@ -11,14 +11,14 @@ import net.minecraft.world.item.component.WrittenBookContent;
 
 /** Native book UI/packets, translated pages and local page links; no custom screen or payload. */
 public final class FieldGuideItem extends WrittenBookItem {
-    public static final int PAGE_COUNT = 44;
+    public static final int PAGE_COUNT = 45;
     private static final int MORE_CONTENTS = 40;
     public FieldGuideItem(Properties properties) {
         super(properties.component(DataComponents.WRITTEN_BOOK_CONTENT, content()));
     }
     private static WrittenBookContent content() {
         var pages = new ArrayList<Filterable<Component>>(PAGE_COUNT);
-        pages.add(Filterable.passThrough(contents("guide.bunnidogs.title",new int[]{2,4,41,8,11,15,17,19,20},
+        pages.add(Filterable.passThrough(contents("guide.bunnidogs.title",new int[]{2,4,41,8,11,45,15,17,19,20},
                 "guide.bunnidogs.more_contents",MORE_CONTENTS)));
         for (int page = 2; page <= PAGE_COUNT; page++) {
             if (page == MORE_CONTENTS) {

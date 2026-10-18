@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L16 adds deliberate bone-command feral Nest guards, off in old saves. Defense
+selects tagged hostiles along loaded safe routes within eight blocks of home,
+with native bites and transport/health/gene interruptions. Calipers shares its
+status; the 45-page guide has twenty chapter links. Build/all 39 native cases
+pass; guide preview inspected. See `SETTLEMENT_LIFE.md`.
+
 A5 gives expressed snow coats native powder-snow footing and escape jumping.
 Hidden snow and woolly alone still sink; native descending/fall rules and safe
 domestic routes remain. Gene edits apply immediately. Build/all 38 server

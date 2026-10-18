@@ -10,4 +10,6 @@ public final class ModResidentTags {
     private ModResidentTags() {}
     public static final TagKey<EntityType<?>> THREATS = TagKey.create(Registries.ENTITY_TYPE,
             Identifier.fromNamespaceAndPath(BunnidogsMod.MODID,"resident_threats"));
+    public static final TagKey<EntityType<?>> GUARD_INTRUDERS = TagKey.create(Registries.ENTITY_TYPE,
+            Identifier.fromNamespaceAndPath(BunnidogsMod.MODID,"guard_intruders"));
 }

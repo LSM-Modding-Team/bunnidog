@@ -47,9 +47,10 @@ PAGES = {
     42: ('Hatch safely', 'Use a ripe Cradle empty-handed or pulse redstone. Clear a dry 3x3 pad in front with two blocks of air. Sneak-Calipers checks the pad and marks trouble. Hoppers move seeds; comparators read 15 when ripe. Steady power does not repeat.'),
     43: ('Surplus compost', 'Bloom +10 adults compost food above an eight-item reserve at hoe-enabled troughs. Place a composter nearby with a safe route. Crop work takes priority. Each job spends one food and rests a minute. Hoppers collect bone meal.'),
     44: ('Treat a litter', 'Use or dispense one Mutagen at a planted seed or occupied Cradle. Growth, incubation, parents, quality and item details stay intact. Treated or invalid litters keep the vial. You can treat a ripe litter before hatching.'),
+    45: ('Nest guards', 'Sneak-use a bone on a feral adult with a Nest to toggle guarding. No bone is spent. Free, half-healthy guards bite selected hostiles within eight blocks of home. Leads pause them. Calipers reports readiness. They can still be hurt.'),
 }
-PAGE_COUNT = 44
-MAIN_INDEX = {2:'Warrens & genes',4:'Breeding & seeds',41:'Nursery & compost',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
+PAGE_COUNT = 45
+MAIN_INDEX = {2:'Warrens & genes',4:'Breeding & seeds',41:'Nursery & compost',8:'Homes & food',11:'Care & traits',45:'Nest guards',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
               31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
@@ -99,7 +100,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,14),(495,42),(735,44)]:
+    for x,page in [(255,1),(495,14),(735,45)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

@@ -1,8 +1,53 @@
-# Settlement life L1–L11
+# Settlement life L1–L16
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
 No hunger/starvation system, forced breeding or changes to existing containers.
+
+## L16: opt-in feral Nest guards
+
+Sneak-use an ordinary bone on a living feral adult with a claimed Nest to
+enable guarding; repeat to disable. The bone is a reusable command and is
+never consumed. Adventure/spectator players cannot change this setting. Once
+enabled it may be disabled even after losing the home or changing temperament.
+Old animals default off. Optional `GuardNest` saves the choice; current targets
+and short search/pursuit timers are transient. Baskets preserve the preference,
+with work paused until a new Nest is claimed. Apex copies remain ineligible.
+
+A free adult at least half healthy may intercept visible, non-allied tagged
+hostile mobs within **eight blocks of both itself and its Nest**, by day or
+night. The default `bunnidogs:guard_intruders` tag includes ordinary undead,
+pillagers/vindicators and endermites, excluding creepers, major bosses and
+neutral animals. Even data packs cannot make this routine select players,
+bunnidogs, tameable animals or non-hostile mobs. Ordinary feral retaliation
+still applies separately when attacked.
+
+The defense uses the existing two-point native bite, at most once per second,
+without free healing or stat bonuses. Search every two seconds, consider at
+most four complete paths, and limit one pursuit to ten seconds. Every checked
+path node must stay in the same eight-block home boundary and pass the shared
+loaded, dry, hazard-avoiding route rules. Recheck routes/positions while working;
+losing sight, safety, health, temperament, home or player control stops this job.
+Leads/rides, native floating and danger take precedence. Guard targets pause
+domestic jobs and the generic retaliation melee must not bypass the guard's
+bounded path. Stopping clears only the target this job owns, preserving any
+new external retaliation target. No teleport, terrain edits, extra home ticket,
+inventory changes or chunk loading are introduced.
+
+Sneak-Calipers shares the cheap enabled/ready/active/paused status without
+searching for threats or paths. Ready means ready to search, not a promise of
+an intruder. The guide explains the command and defensive limits. This gives
+recessive feral breeding a deliberate resident role while leaving every
+existing animal's behavior unchanged until the player opts in.
+
+L16 evidence (2026-10-18): Java 25 build/all 39 native scenarios pass. The new
+guard case uses a real claimed Nest, off-hand named bone, native Adventure
+permissions, passive/creeper refusals, a complete route, lead interruption,
+hidden-feral and half-health boundaries, external target preservation, a target
+leaving home, actual water-trench refusal and a real native kill without meal
+healing. Native saves retain the choice and old data defaults off; Calipers
+is read-only. Updated guide/index preview inspected. Natural settlement combat
+and balance remain client gameplay review.
 
 ## L1: Feeding Trough
 
