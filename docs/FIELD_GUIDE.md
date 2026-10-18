@@ -36,6 +36,9 @@ Page 45 explains the reusable bone command for feral Nest guards, their
 half-health requirement, bounded defense and Calipers status.
 Page 46 explains native journeyman-cartographer Warren Explorer Maps, price,
 the village marker and Overworld structure limits. Page 2 points to it.
+Page 47 explains bred bat-ear mineral surveying, six-block range, shared rest
+including empty surveys and persistent compass places after mining. The first
+index labels the exploration chapter **Warrens & scouts**; page 2 points to both.
 The home page also covers read-only Nest inspection and persistent compass marks.
 The food page explains short safe nighttime trough meals near home.
 
@@ -48,7 +51,7 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Forty-six pages use the ordinary written-book screen. The two linked contents pages
+Forty-seven pages use the ordinary written-book screen. The two linked contents pages
 offer twenty clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
@@ -66,9 +69,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current thirty-nine native server cases pass,
-including loading the book/recipe/loot resources. The expanded 46-page
-warren/guard/map preview is inspected with a substitute font. Earlier
+The actual Java 25 build and current forty native server cases pass,
+including loading the book/recipe/loot resources. The expanded 47-page
+contents/map/scout preview is inspected with a substitute font. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
 sources establish the ordinary book/packet/click behavior; no new screen or
@@ -102,3 +105,4 @@ N5 appends treatment page 44 under the same index, returning to page 1.
 L16 appends guard page 45 and a tenth main-index chapter. Both contents pages
 now have ten chapters; earlier page numbers and native links remain stable.
 E1 appends map page 46 under the warren/exploration chapter, returning to page 1.
+E2 appends scout page 47 under the same chapter, also returning to page 1.

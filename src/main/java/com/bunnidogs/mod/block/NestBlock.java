@@ -4,10 +4,9 @@ import java.util.Comparator;
 import java.util.Optional;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.entity.NestHome;
+import com.bunnidogs.mod.item.PlaceMarkers;
 import com.bunnidogs.mod.registry.ModPoi;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -18,7 +17,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.LodestoneTracker;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -45,14 +43,7 @@ public final class NestBlock extends Block {
         var actual = player.getItemInHand(hand);
         if (!player.mayBuild() || !player.mayUseItemAt(pos,hit.getDirection(),actual)) return InteractionResult.PASS;
         if (level instanceof ServerLevel) {
-            var tracker = new LodestoneTracker(Optional.of(GlobalPos.of(level.dimension(),pos)),false);
-            if (actual.getCount() == 1) actual.set(DataComponents.LODESTONE_TRACKER,tracker);
-            else {
-                var marked = actual.copyWithCount(1);
-                marked.set(DataComponents.LODESTONE_TRACKER,tracker);
-                actual.consume(1,player);
-                if (!player.getInventory().add(marked)) player.drop(marked,false);
-            }
+            PlaceMarkers.bind(level,pos,player,hand);
             level.playSound(null,pos,SoundEvents.LODESTONE_COMPASS_LOCK,SoundSource.PLAYERS,.6F,1);
             player.sendOverlayMessage(Component.translatable("message.bunnidogs.nest.marked",pos.getX(),pos.getY(),pos.getZ()));
         }

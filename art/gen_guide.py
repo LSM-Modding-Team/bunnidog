@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw, ImageFont
 from gen_syringe import ROOT, RES, write
 
 PAGES = {
-    2: ('Find a warren', 'Look for guava trees and entrance mounds. Follow lit tunnels to Nests. Settlements have one to five trees; cave, Nether and End lines have their own habitats. Cartographer maps: page 46.'),
+    2: ('Find a warren', 'Look for guava trees and entrance mounds. Follow lit tunnels to Nests. Settlements have one to five trees; cave, Nether and End lines have their own habitats. Maps: page 46. Scouts: page 47.'),
     3: ('Genes and stats', 'Each of seven genes has two copies. Dominance picks the visible trait; hidden copies still pass to pups. Bred stat points are separate. Use Calipers to read both.'),
     4: ('Breed a seed', 'Feed a guava to each of two ready adults. They drop one seed holding both parents. Its tooltip shows the planned litter, quality and stat drift. The parents then rest.'),
     5: ('Hatch the litter', 'Plant a seed on farmland; dispensers plant into air above it. Bone meal speeds growth; hand or dispenser Starlit Dust ripens it. Break the ripe crop to hatch pups. Fortune improves quality. Leave room.'),
@@ -49,9 +49,10 @@ PAGES = {
     44: ('Treat a litter', 'Use or dispense one Mutagen at a planted seed or occupied Cradle. Growth, incubation, parents, quality and item details stay intact. Treated or invalid litters keep the vial. You can treat a ripe litter before hatching.'),
     45: ('Nest guards', 'Sneak-use a bone on a feral adult with a Nest to toggle guarding. No bone is spent. Free, half-healthy guards bite selected hostiles within eight blocks of home. Leads pause them. Calipers reports readiness. They can still be hurt.'),
     46: ('Warren maps', 'Journeyman cartographers may sell a Warren Explorer Map for 14 emeralds and a compass. Follow its village marker to a natural Overworld warren. The trade is not guaranteed. Failed searches omit it. Cave dens and End warrens are excluded.'),
+    47: ('Mineral scouts', 'Sneak-use a compass on a healthy bat-eared adult with Senses +10. It marks nearest ore within six blocks, through rock. Surveys rest 30 seconds, even if empty. Markers stay after mining. Calipers checks readiness.'),
 }
-PAGE_COUNT = 46
-MAIN_INDEX = {2:'Warrens & genes',4:'Breeding & seeds',41:'Nursery & compost',8:'Homes & food',11:'Care & traits',45:'Nest guards',15:'Lab & splicing',
+PAGE_COUNT = 47
+MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',41:'Nursery & compost',8:'Homes & food',11:'Care & traits',45:'Nest guards',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
               31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
@@ -101,7 +102,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,2),(495,45),(735,46)]:
+    for x,page in [(255,1),(495,46),(735,47)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

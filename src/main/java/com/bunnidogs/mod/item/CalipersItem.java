@@ -107,6 +107,9 @@ public class CalipersItem extends Item {
         careRow(player,"cultivation",Component.translatable(Gardening.cultivates(dog.stats())
                 ? "message.bunnidogs.care.cultivation_bonus" : "message.bunnidogs.care.cultivation_requirement",Gardening.MIN_CULTIVATION_BLOOM,Gardening.COMPOST_RESERVE));
         careRow(player,"guarding",Component.translatable("message.bunnidogs.guarding."+dog.guardingStatus().name().toLowerCase(Locale.ROOT)));
+        var scouting = dog.scoutingStatus();
+        careRow(player,"scouting",scouting == com.bunnidogs.mod.genetics.Scouting.Status.RESTING ? recovery(dog.scoutingWait())
+                : Component.translatable("message.bunnidogs.scouting."+scouting.name().toLowerCase(Locale.ROOT)));
     }
 
     private static Component recovery(int ticks) {

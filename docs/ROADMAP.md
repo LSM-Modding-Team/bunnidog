@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+E2 gives expressed bat ears a bred exploration role: Senses +10 adults mark
+nearby loaded ore on a compass, with a six-block sphere and saved thirty-second
+recovery including empty surveys. Whole place-marker components persist after
+mining; Calipers shares readiness. Build/all 40 native cases pass; the 47-page
+guide preview is inspected. See `EXPLORATION_SPECS.md`.
+
 E1 adds native journeyman-cartographer Warren Explorer Maps, preserving the
 ordinary trade pool and omitting failed/blank results. The target tag includes
 natural Overworld warrens, with native map saves/markers. The 46-page guide

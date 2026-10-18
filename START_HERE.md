@@ -22,6 +22,13 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-18
 
+- **E2, mineral scouts:** sneak-use a compass on a half-healthy bat-eared
+  adult at Senses +10 to mark the nearest ore within six blocks. Through-rock
+  survey reads loaded/bordered terrain only, with saved thirty-second rest
+  even when empty. Whole compass details and animal/ore state persist;
+  Calipers is read-only. Build/all 40 native cases pass; guide preview
+  inspected. See `docs/EXPLORATION_SPECS.md` E2.
+
 - **E1, Warren Explorer Maps:** journeyman cartographers may sell a native
   map for fourteen emeralds and a compass. The appended trade pool preserves
   ordinary offers; native map modifiers omit unlocated results. Targets are
@@ -129,7 +136,7 @@ storm shelter, fishing, terrain traits, local supplies, living dust and fitted
 farms are also complete. Their rules/evidence remain in the specifications
 listed below; do not redo them.
 
-The native Field Guide has 46 translated pages and twenty chapter links across
+The native Field Guide has 47 translated pages and twenty chapter links across
 two linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
@@ -149,6 +156,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, led-adult reassignment, Travel Baskets and persistent compass place markers. `docs/HOME_SPECS.md` H1–H7 |
 | Settlement life | Saved trough stock/automation/filters, diet healing/short night meals, bell visits, fitted furniture, harvest/cultivation/surplus composting, guava compost data, local stores, refuge, storm shelter and opt-in feral Nest guards. `docs/SETTLEMENT_LIFE.md` L1–L16 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
+| Exploration | Native cartographer Warren Maps and bred bat-ear compass ore surveys. `docs/EXPLORATION_SPECS.md` E1–E2 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
 | Drops and endgame | Pelts/materials, Mutagen/Marrow/Tissue/Dust, five stat legends and pedestals. Sample-defined Apex ritual, inherited combat, warned attacks/enrage, boss bar and source-line crest. `docs/DROPS_SPECS.md`, `docs/APEX_SPECS.md` |
 | Apex preparation | Crucible missing-offering status; main-hand Calipers/off-hand sample forecasts real boss values without spending or spawning. `docs/APEX_SPECS.md` P2 |
@@ -201,7 +209,7 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **thirty-nine** native scenarios pass (thirty-eight mod
+The Java 25 build and all **forty** native scenarios pass (thirty-nine mod
 cases plus native sanity). Latest coverage:
 
 - **N1:** real redstone pulses, malformed/blocked/wrong-soil/occupied planting,

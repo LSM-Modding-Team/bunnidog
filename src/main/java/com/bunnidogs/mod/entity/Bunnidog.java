@@ -12,6 +12,7 @@ import com.bunnidogs.mod.genetics.Diet;
 import com.bunnidogs.mod.genetics.Foraging;
 import com.bunnidogs.mod.genetics.Adaptations;
 import com.bunnidogs.mod.genetics.Sampling;
+import com.bunnidogs.mod.genetics.Scouting;
 import com.bunnidogs.mod.genetics.Fleece;
 import com.bunnidogs.mod.genetics.Splicing;
 import com.bunnidogs.mod.genetics.Grooming;
@@ -181,6 +182,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private long nextForageTick;
     private long nextGardenTick;
     private long nextSampleTick;
+    private long nextScoutTick;
     private long nextGroomTick;
     private long nextFleeceTick;
     private long nextSpliceTick;
@@ -506,6 +508,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack held = player.getItemInHand(hand);
+        if (held.is(Items.COMPASS) && player.isShiftKeyDown()) return MineralScouting.use(this,player,hand);
         if (held.is(Items.BONE) && player.isShiftKeyDown()) {
             if (!player.mayBuild()) return InteractionResult.PASS;
             if (!this.level().isClientSide()) {
@@ -766,6 +769,18 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         return (int)Math.clamp(this.nextGroomTick-this.level().getGameTime(),0L,(long)Grooming.RECOVERY_TICKS);
     }
     public void beginGroomingRecovery() { this.nextGroomTick = this.level().getGameTime()+Grooming.RECOVERY_TICKS; }
+    public int scoutingWait() {
+        return (int)Math.clamp(this.nextScoutTick-this.level().getGameTime(),0L,(long)Scouting.RECOVERY_TICKS);
+    }
+    public void beginScoutingRecovery() { this.nextScoutTick = this.level().getGameTime()+Scouting.RECOVERY_TICKS; }
+    public Scouting.Status scoutingStatus() {
+        if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel)) return Scouting.Status.UNAVAILABLE;
+        if (this.isBaby()) return Scouting.Status.ADULT;
+        if (!Sampling.healthy(this.getHealth(),this.getMaxHealth())) return Scouting.Status.HEALTH;
+        if (!Scouting.qualified(this.genome(),this.stats())) return Scouting.Status.TRAITS;
+        if (this.getTarget() != null || this.seekingRefuge()) return Scouting.Status.COMBAT;
+        return this.scoutingWait() > 0 ? Scouting.Status.RESTING : Scouting.Status.READY;
+    }
     public void beginSamplingRecovery() {
         this.nextSampleTick = this.level().getGameTime()+Sampling.RECOVERY_TICKS;
     }
@@ -810,6 +825,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         if (this.gardeningWait() > 0) output.putInt("GardenWait",this.gardeningWait());
         output.putInt("ForageWait",this.forageWait());
         if (this.samplingWait() > 0) output.putInt("SampleWait",this.samplingWait());
+        if (this.scoutingWait() > 0) output.putInt("ScoutWait",this.scoutingWait());
         if (this.groomingWait() > 0) output.putInt("GroomWait",this.groomingWait());
         if (this.fleeceWait() > 0) output.putInt("FleeceWait",this.fleeceWait());
         if (this.splicingWait() > 0) output.putInt("SpliceWait",this.splicingWait());
@@ -855,6 +871,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.nextGardenTick = this.level().getGameTime()+Math.clamp(input.getIntOr("GardenWait",0),0,
                 com.bunnidogs.mod.genetics.Gardening.REST_TICKS);
         this.nextGroomTick = this.level().getGameTime()+Math.clamp(input.getIntOr("GroomWait",0),0,Grooming.RECOVERY_TICKS);
+        this.nextScoutTick = this.level().getGameTime()+Math.clamp(input.getIntOr("ScoutWait",0),0,Scouting.RECOVERY_TICKS);
         this.nextForageTick = this.level().getGameTime() + Math.clamp(input.getIntOr("ForageWait", 0), 0, Foraging.MEAL_COOLDOWN);
         this.nextSampleTick = this.level().getGameTime()+Math.clamp(input.getIntOr("SampleWait",0),0,
                 Sampling.RECOVERY_TICKS);
