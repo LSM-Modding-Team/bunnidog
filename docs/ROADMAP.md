@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+D6 adds injured residents' ripe-guava and diet-matching berry meals, preserving
+plants and sharing ordinary healing/recovery. Grazing now follows complete safe
+loaded routes and rechecks protection callbacks, preserving replacement
+containers and legacy crop/hay behavior. Java 25 build/all 48 cases pass; guide
+preview inspected. See `FORAGING_SPECS.md`.
+
 L22 adds sustainable red/brown mushroom thinning for matching healthy residents,
 leaving a living same-color companion inside loaded home bounds. Native spread,
 safe routes, protection callbacks and normal trough/work controls apply. Java

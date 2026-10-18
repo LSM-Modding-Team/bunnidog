@@ -61,15 +61,16 @@ PAGES = {
     58: ('Regional farms', 'New farms suit their home: desert cactus, Nether wart, swamp mushrooms, cave glow berries and End chorus. Some fit an empty enabled trough. Stock it for meals. Plants use native growth; old settlements keep their plans.'),
     59: ('Guava orchards', 'Use one plain guava on the underside of leaves to plant green fruit in air. Any leaf type works. Bone meal adds one age; two ripen it. Pick ripe fruit to keep it growing. Shears or Silk Touch recover guava leaves for new orchards.'),
     60: ('Mushroom beds', 'Healthy mushroom eaters thin red or brown beds beside an enabled trough. Another living mushroom of the same color must remain within three blocks. Keep mycelium and clear routes. Native spread regrows the patch; work rests a minute.'),
+    61: ('Fruit meals', 'Injured adult residents eat ripe hanging guavas near home by day. Matching Diets also pick sweet or glow berries. Plants stay to regrow. One meal heals 2 HP and shares the thirty-second food rest. Safe routes and protection apply.'),
 }
-PAGE_COUNT = 60
+PAGE_COUNT = 61
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
               31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
 NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work',51:'Find a tagged animal',52:'Bell roll call',53:'Recovery rest',54:'Plan a litter'}
 
-HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds'}
+HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds',61:'Fruit meals'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -116,7 +117,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,60),(495,59),(735,56)]:
+    for x,page in [(255,61),(495,60),(735,56)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

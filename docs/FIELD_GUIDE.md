@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current forty-seven native server cases pass,
-including loading the book/recipe/loot resources. The expanded 60-page
-mushroom/orchard/Habitat preview is inspected with a substitute font; all
+The actual Java 25 build and current forty-eight native server cases pass,
+including loading the book/recipe/loot resources. The expanded 61-page
+fruit-meal/mushroom/Habitat preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -182,3 +182,9 @@ L22 appends **Mushroom beds**, page 60, covering same-color seed conservation,
 native spread, suitable soil/routes and shared work rest. Habitat gains its
 fourth link, for thirty-two chapter links over 60 pages. The new text and
 orchard/Habitat navigation preview is inspected; earlier destinations remain.
+
+D6 appends **Fruit meals**, page 61, explaining injured residents' guavas and
+diet-matching berries, preserved plants, 2 HP/shared recovery and safe native
+work. Habitat gains its fifth link, for thirty-three chapter links across 61
+pages. The new chapter/mushroom/Habitat preview is inspected with a substitute
+font; native client text/controls remain gameplay review.

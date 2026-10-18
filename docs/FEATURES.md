@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 60 pages from first warren to Apex. Four linked contents pages offer thirty-two
+open 61 pages from first warren to Apex. Four linked contents pages offer thirty-three
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -513,3 +513,11 @@ same color remains within three blocks in their loaded home area. One item
 enters stock with the shared one-minute work rest. Native spread replenishes
 the bed; the final seed of each color stays. Filters, power, safe routes,
 capacity and native griefing/protection rules apply.
+
+**Fruit meals (Diet D6):** injured adult residents eat ripe hanging guavas near
+their Nest by day; matching Diets also gather sweet/glow berries, including
+native vine heads/bodies. One meal heals 2 HP and shares the normal thirty-second
+food rest. The fruit/bush/vine stays to regrow, with no extra loose drop or love
+mode. Outdoor meals use complete safe loaded paths and native protection;
+stale or callback-replaced plants refuse without overwriting blocks or healing.
+Healthy adults leave crops for gardening. Night meals still require troughs.
