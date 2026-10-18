@@ -11,6 +11,8 @@ Living-dust care has its own page explaining combined yields and shared recovery
 That living-harvest page now includes moss coats at Bloom +10 yielding moss
 carpet alongside qualified whiskers/dust under one tool use and recovery.
 The terrain page explains inherited stepping and partial slow-block resistance.
+Physical traits also explains expressed snow coats walking on powder snow,
+beside snow/woolly freezing protection; A5 updates that page without renumbering.
 Shore fishing explains resident Fisher prey, needs, healing and recovery.
 Resident needs explains the Calipers home/food/recovery snapshot.
 Refuge explains non-feral residents' bounded response to visible threats.

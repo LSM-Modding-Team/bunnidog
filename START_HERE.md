@@ -20,7 +20,14 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Latest gameplay work — 2026-10-17
+## Latest gameplay work — 2026-10-18
+
+- **A5, snow footing:** expressed snow coats use native powder-snow surface
+  collision and escape jumping. Woolly keeps freezing protection without
+  footing, hidden snow gains none, and gene edits update immediately. Native
+  descending/inside-snow rules and conservative home routes remain. Actual
+  build/all 38 server cases pass; guide preview inspected. See
+  `docs/CARE_SPECS.md` A5.
 
 - **N7, grand-tree nurseries:** new level-five halls may fit an empty Cradle
   in an old hay station's footprint with a complete hatch pad. Its fit also
@@ -125,7 +132,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
 | Care | Live samples, fleece palettes, whiskers/dust/moss, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C9 |
-| Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow and terrain movement. `docs/CARE_SPECS.md` A1–A4 |
+| Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow, terrain movement and snow footing. `docs/CARE_SPECS.md` A1–A5 |
 | Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, led-adult reassignment, Travel Baskets and persistent compass place markers. `docs/HOME_SPECS.md` H1–H7 |
 | Settlement life | Saved trough stock/automation/filters, diet healing/short night meals, bell visits, fitted furniture, harvest/cultivation/surplus composting, guava compost data, local stores, refuge and storm shelter. `docs/SETTLEMENT_LIFE.md` L1–L15 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |

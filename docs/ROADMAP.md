@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+A5 gives expressed snow coats native powder-snow footing and escape jumping.
+Hidden snow and woolly alone still sink; native descending/fall rules and safe
+domestic routes remain. Gene edits apply immediately. Build/all 38 server
+scenarios pass; physical-trait guide preview inspected. See `CARE_SPECS.md`.
+
 N7 fits optional empty Cradles into new level-five grand-tree halls, retaining
 their trough/bell, all floor Nests, routes, labels and old saved starts. The
 station reuses a bedding footprint; its complete pad is reserved during fitting.

@@ -237,8 +237,9 @@ native equipment/tag protection and damage hooks still apply.
 
 `Plain.effect` explains these benefits on sheets and forecasts. Existing gene
 slots, allele IDs, inheritance, stat drift, juice effects, genome formats and
-body multipliers stay unchanged. Cold protection prevents freezing damage, not
-sinking in powder snow. Hoofed legs reduce falls rather than making them harmless.
+body multipliers stay unchanged. Woolly protection prevents freezing damage;
+A5 adds surface footing specifically to expressed snow coats. Hoofed legs
+reduce falls rather than making them harmless.
 
 A2 extends practical protection to swamp, desert and End coats. It follows
 ordinary expression: a moss/void animal expressing void remains vulnerable to
@@ -310,6 +311,26 @@ two loads preserving external bases and gene edits removing only their bonuses.
 Actual build and all nineteen server scenarios pass; guide preview inspected.
 Client movement feel, natural terrain travel and long-term balance remain
 gameplay review.
+
+## A5: powder-snow footing
+
+Expressed snow coats acquire native powder-snow surface collision, as native
+snow-walkable animals do. Woolly builds retain freezing protection without this
+footing; hidden snow copies gain neither coat benefit. The same per-animal
+native tag query enables Minecraft's powder-snow escape jump goal. Falling into
+snow, standing beneath its surface and descending retain native collision rules.
+This does not make falls safe or change the conservative domestic route checks.
+
+Only the native snow-walkable query gains the expressed benefit; ordinary data
+pack entity tags and equipment protections still apply. Gene edits take effect
+immediately on both sides, using the existing synced genome. No item, attribute,
+saved field, gene ID, network version or creature visual changes are required.
+
+A5 evidence (2026-10-18): actual Java 25 build/all 38 native scenarios pass.
+The existing adaptation case moves real native collisions for expressed/hidden
+snow, woolly, descending, already-inside snow and expression removal. Native
+escape-goal eligibility changes with expression. The physical-trait guide
+preview is inspected; natural snowy travel remains client gameplay review.
 
 ## Evidence and follow-up
 

@@ -59,6 +59,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Items;
@@ -74,6 +76,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.ai.goal.ClimbOnTopOfPowderSnowGoal;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.FollowParentGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -700,6 +703,12 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     public boolean canFreeze() {
         return super.canFreeze() && (this.entityData == null || !Adaptations.coldProof(this.genome()));
     }
+    /** Native snow collision and escape queries may vary per expressed animal, not just per entity type. */
+    @Override
+    public boolean is(TagKey<EntityType<?>> tag) {
+        return super.is(tag) || tag.equals(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)
+                && this.entityData != null && Adaptations.snowFooted(this.genome());
+    }
     @Override
     public boolean canBeAffected(MobEffectInstance effect) {
         if (!super.canBeAffected(effect)) return false;
@@ -835,6 +844,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(0, new ClimbOnTopOfPowderSnowGoal(this,this.level()));
         // Everyone flees when hurt, except feral ones, who fight back instead.
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.5D) {
             @Override

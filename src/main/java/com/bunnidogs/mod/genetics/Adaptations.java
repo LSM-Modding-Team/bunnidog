@@ -7,6 +7,7 @@ public final class Adaptations {
     public static boolean coldProof(Genome genome) {
         return genome.expressed(Gene.COAT).name().equals("snow") || genome.expressed(Gene.BUILD).name().equals("woolly");
     }
+    public static boolean snowFooted(Genome genome) { return genome.expressed(Gene.COAT).name().equals("snow"); }
     public static float fallMultiplier(Genome genome) { return genome.expressed(Gene.LEGS).name().equals("hoofed") ? .5F : 1F; }
     public static boolean poisonProof(Genome genome) { return genome.expressed(Gene.COAT).name().equals("moss"); }
     public static boolean cactusProof(Genome genome) { return genome.expressed(Gene.COAT).name().equals("sand"); }
@@ -27,7 +28,7 @@ public final class Adaptations {
         if (gene == Gene.BUILD && allele.name().equals("woolly"))
             return "Does not freeze in powder snow. Healthy adults yield two wool in their expressed coat's palette with shears every ten minutes.";
         if (gene == Gene.COAT && allele.name().equals("snow"))
-            return "Does not freeze in powder snow.";
+            return "Does not freeze in powder snow. Walks on its surface and can climb out; descending and long falls retain native snow collision rules.";
         if (gene == Gene.COAT && allele.name().equals("moss")) return "Immune to poison, but not wither or other magic.";
         if (gene == Gene.COAT && allele.name().equals("sand")) return "Immune to cactus damage; other thorns still hurt.";
         if (gene == Gene.COAT && allele.name().equals("void")) return "Immune to levitation; shulker impacts and falls still hurt.";

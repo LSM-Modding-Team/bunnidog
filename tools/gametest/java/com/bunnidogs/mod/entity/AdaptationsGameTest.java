@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.ClimbOnTopOfPowderSnowGoal;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.block.Blocks;
@@ -33,6 +34,7 @@ public final class AdaptationsGameTest {
     }
     public static void run(GameTestHelper h) {
         terrain(h);
+        snowFooting(h);
         var level = h.getLevel();
         var normal = dog(h,Genome.DEFAULT,1);
         var ember = dog(h,with(Gene.COAT,"ember"),2);
@@ -135,6 +137,35 @@ public final class AdaptationsGameTest {
     private static final class TerrainProbe extends Bunnidog {
         TerrainProbe(ServerLevel level) { super(ModEntities.BUNNIDOG.get(),level); this.setNoAi(true); this.setAge(0); }
         float speedFactor() { return this.getBlockSpeedFactor(); }
+    }
+    private static void snowFooting(GameTestHelper h) {
+        var level = h.getLevel();
+        var snow = h.absolutePos(new BlockPos(2,1,5));
+        level.setBlock(snow,Blocks.POWDER_SNOW.defaultBlockState(),2);
+        var top = Vec3.atBottomCenterOf(snow.above());
+        var probe = new TerrainProbe(level);
+        var hidden = with(Gene.COAT,"ember").with(Gene.COAT,1,Gene.COAT.alleleNamed("snow").id());
+        for (var genome : new Genome[]{Genome.DEFAULT,with(Gene.BUILD,"woolly"),hidden,with(Gene.COAT,"snow")}) {
+            probe.setGenome(genome); probe.setPos(top); probe.fallDistance = 0;
+            probe.move(MoverType.SELF,new Vec3(0,-.5,0));
+            boolean footed = genome.equals(with(Gene.COAT,"snow"));
+            h.assertTrue(Math.abs(probe.getY()-(footed ? top.y : top.y-.5)) < .001,
+                    "Only expressed snow may acquire native surface footing; woolly and hidden snow still sink");
+        }
+        probe.setShiftKeyDown(true); probe.setPos(top); probe.fallDistance = 0;
+        probe.move(MoverType.SELF,new Vec3(0,-.5,0));
+        h.assertTrue(probe.getY() < top.y-.4,"Snow footing must retain the native descending exception");
+        probe.setShiftKeyDown(false); probe.setPos(top.add(0,-.25,0)); probe.fallDistance = 0;
+        probe.move(MoverType.SELF,new Vec3(0,-.25,0));
+        h.assertTrue(probe.getY() < top.y-.4,"Snow footing must not create a collision floor inside powder snow");
+        probe.isInPowderSnow = true;
+        var escape = new ClimbOnTopOfPowderSnowGoal(probe,level);
+        h.assertTrue(escape.canUse(),"Expressed snow must also qualify for the native powder-snow escape goal");
+        probe.setGenome(Genome.DEFAULT);
+        h.assertTrue(!escape.canUse(),"Changing expression must remove snow escape eligibility immediately");
+        probe.setPos(top); probe.fallDistance = 0; probe.move(MoverType.SELF,new Vec3(0,-.5,0));
+        h.assertTrue(probe.getY() < top.y-.4,"Changing expression must immediately restore ordinary snow collision");
+        level.setBlock(snow,Blocks.AIR.defaultBlockState(),2);
     }
     private static void terrain(GameTestHelper h) {
         var level = h.getLevel();
