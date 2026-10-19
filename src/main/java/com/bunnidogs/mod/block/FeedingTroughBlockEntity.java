@@ -3,6 +3,7 @@ package com.bunnidogs.mod.block;
 import java.util.Arrays;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Diet;
+import com.bunnidogs.mod.genetics.TroughWork;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModDietTags;
 import com.bunnidogs.mod.registry.ModItems;
@@ -30,6 +31,7 @@ public final class FeedingTroughBlockEntity extends BlockEntity {
     public static final int CAPACITY = 16;
     private ItemStack food = ItemStack.EMPTY;
     private ItemStack filter = ItemStack.EMPTY;
+    private TroughWork workMode = TroughWork.MIXED;
     /** One journal for every side, retaining the existing Food save and exact components. */
     private final ItemStackResourceHandler automation = new ItemStackResourceHandler() {
         @Override protected ItemStack getStack() { return food; }
@@ -47,6 +49,9 @@ public final class FeedingTroughBlockEntity extends BlockEntity {
     }
     public ItemStack food() { return this.food; }
     public ItemStack filter() { return this.filter.copy(); }
+    public TroughWork workMode() { return this.workMode; }
+    public boolean allowsWork(TroughWork.Job job) { return this.workMode.allows(job); }
+    public void setWorkMode(TroughWork mode) { this.workMode = mode; changed(); }
     private boolean acceptsInput(ItemStack stack) {
         return accepts(stack) && (this.filter.isEmpty() || ItemStack.isSameItemSameComponents(this.filter,stack));
     }
@@ -110,10 +115,12 @@ public final class FeedingTroughBlockEntity extends BlockEntity {
         super.saveAdditional(output);
         if (!this.food.isEmpty()) output.store("Food",ItemStack.CODEC,this.food);
         if (!this.filter.isEmpty()) output.store("FoodFilter",ItemStack.CODEC,this.filter);
+        if (this.workMode != TroughWork.MIXED) output.putString("WorkMode",this.workMode.key());
     }
     @Override protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input); this.food = input.read("Food",ItemStack.CODEC).orElse(ItemStack.EMPTY);
         this.filter = input.read("FoodFilter",ItemStack.CODEC).map(stack -> stack.copyWithCount(1)).orElse(ItemStack.EMPTY);
+        this.workMode = TroughWork.read(input.getStringOr("WorkMode","mixed"));
     }
     @Override public void preRemoveSideEffects(BlockPos pos, BlockState state) {
         super.preRemoveSideEffects(pos,state);

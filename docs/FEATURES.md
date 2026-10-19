@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 74 pages from first warren to Apex. Five linked contents pages offer forty-three
+open 77 pages from first warren to Apex. Five linked contents pages offer forty-six
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -584,3 +584,12 @@ the old one. An unloaded resident retains its claim.
 melon slices in their ordinary local-food rolls and have an independent 35%
 chance of one or two melon seeds. Other lineages keep their foods; emptied or
 player-filled containers are never refilled.
+
+**Select resident jobs (L28–L30/N9):** sneak-use a hoe on a trough to cycle and
+enable Mixed, Garden, Gather, Compost or Nursery work. Normal hoe use toggles
+work while retaining its mode. Old troughs keep Mixed. Food/filter/automation
+still work normally. Garden mode lets Bloom +10 adults spend one self-planting
+food to restore a valid gap; Nursery lets Bloom +20 adults spend one ordinary
+guava for exactly one occupied Cradle stage. Both leave eight food in reserve,
+share one-minute work rest and refund interrupted jobs. Nurses preserve the
+whole litter and never hatch it. See `RESIDENT_WORK.md` for supported plants.

@@ -63,6 +63,14 @@ public final class NurseryCradleBlockEntity extends net.minecraft.world.level.bl
         this.growthWait = this.age == SeedCropBlock.MAX_AGE ? 0 : STAGE_TICKS;
         changed(); return true;
     }
+    /** A resident pays for one exact stage, never rerolling or replacing the saved litter. */
+    public boolean nurture(ItemStack expected, int expectedAge) {
+        if (this.hatching || !(this.level instanceof ServerLevel server) || !attached(server) || seed().isEmpty() || this.age != expectedAge
+                || this.age >= SeedCropBlock.MAX_AGE || !ItemStack.matches(this.stored,expected)) return false;
+        this.age++;
+        this.growthWait = this.age == SeedCropBlock.MAX_AGE ? 0 : STAGE_TICKS;
+        changed(); return true;
+    }
     public boolean applyMutagen() {
         if (this.hatching || !(this.level instanceof ServerLevel)) return false;
         var seed = seed();

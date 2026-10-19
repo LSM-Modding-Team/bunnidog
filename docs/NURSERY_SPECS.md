@@ -213,3 +213,15 @@ now changes real farmland to dirt/coarse/rooted/grass/podzol/mycelium, runs actu
 crop ticks and checks the same BE, exact saved seed and non-reset growth. Actual
 support loss then recovers that seed exactly once. The safe-seedbed/Habitat
 guide preview is inspected. Client soil-restyling remains gameplay review.
+
+## N9: resident nursery workers
+
+An explicitly Nursery-mode enabled trough lets a healthy Bloom +20 adult
+spend one plain guava above an eight-food reserve to tend a nearby occupied
+Cradle by one exact stage. All ordinary daytime/home/work safety rules apply.
+The job shares GardenWait and preserves the whole seed, quality, parents,
+Mutagen, name and other components. Ripe/empty Cradles and upgraded guavas
+refuse. Workers never hatch litters. `RESIDENT_WORK.md` L30 specifies snapshot
+rechecks, stock-callback refunds and native evidence. Java 25 build/all 59
+native cases pass; guide/Calipers documentation is updated. Client worker
+behavior and natural incubation cycles remain gameplay review.

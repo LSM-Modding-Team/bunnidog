@@ -42,6 +42,13 @@ public final class FeedingTroughBlock extends Block implements EntityBlock {
         if (!player.mayBuild()) return InteractionResult.PASS;
         if (stack.is(ItemTags.HOES)) {
             if (!level.isClientSide()) {
+                if (player.isShiftKeyDown() && level.getBlockEntity(pos) instanceof FeedingTroughBlockEntity trough) {
+                    trough.setWorkMode(trough.workMode().next());
+                    level.setBlock(pos,level.getBlockState(pos).setValue(TENDING,true),3);
+                    player.sendOverlayMessage(Component.translatable("message.bunnidogs.trough.mode_set",
+                            Component.translatable("work.bunnidogs.mode."+trough.workMode().key())));
+                    return InteractionResult.SUCCESS;
+                }
                 boolean tending = !state.getValue(TENDING);
                 level.setBlock(pos,state.setValue(TENDING,tending),3);
                 player.sendOverlayMessage(Component.translatable("message.bunnidogs.trough.tending." + (tending ? "on" : "off")));
@@ -82,6 +89,9 @@ public final class FeedingTroughBlock extends Block implements EntityBlock {
     private static Component withFilter(FeedingTroughBlockEntity trough, Component stock) {
         Component detail = trough.filter().isEmpty() ? stock
                 : Component.translatable("message.bunnidogs.trough.stock_filter",stock,trough.filter().getHoverName());
+        detail = Component.translatable("message.bunnidogs.trough.work",detail,
+                Component.translatable("work.bunnidogs.mode."+trough.workMode().key()),
+                Component.translatable(trough.getBlockState().getValue(TENDING) ? "work.bunnidogs.enabled" : "work.bunnidogs.disabled"));
         return trough.residentsPaused() ? Component.translatable("message.bunnidogs.trough.powered",detail) : detail;
     }
 }

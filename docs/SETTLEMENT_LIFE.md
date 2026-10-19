@@ -769,3 +769,11 @@ preservation. Sixteen deterministic native chest seeds cover both optional
 supply outcomes while preserving the guaranteed guava and local-food pools.
 Guide stem-growing page names meadow seed supplies. Natural exploration remains
 client/gameplay review.
+
+## L28–L30: selected work, restoration and nursery tending
+
+`RESIDENT_WORK.md` defines five saved work modes (L28), real-food gap restoration
+in Garden mode (L29), and paid one-stage Cradle care in Nursery mode (L30/N9).
+Old/new default Mixed keeps existing jobs; more food-spending work requires an
+explicit mode. Native controls/saves, resource conservation and protected work
+pass all 59 native cases. The 77-page guide includes the new controls and jobs.

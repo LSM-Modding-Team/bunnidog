@@ -74,8 +74,11 @@ PAGES = {
     72: ('Habitat meals', 'Injured matching lines eat spare cactus tops, extra same-color mushrooms, ripe wart or stem-linked melons near home by day. Growing stock stays. No trough is needed. A meal heals 2 HP and shares thirty-second food rest.'),
     73: ('Nest signals', 'Read a Nest with a comparator: 15 means claimed, 0 means free. The resident can be away or unloaded. Rehoming updates both Nests. Packing into a Travel Basket or death frees the old one.'),
     74: ('Repair a canopy', 'A dispenser plants one plain guava into an empty dry gap beneath leaves. Other targets eject the guava as food, so pulse once to repair a canopy. Upgraded guavas never plant fruit. Bone meal grows it; shears pick it.'),
+    75: ('Work modes', 'Sneak-hoe cycles Mixed, Garden, Gather, Compost and Nursery, enabling work. Normal hoe toggles it; power pauses it. Mixed harvests, grows, gathers and composts. Garden replants; Nursery tends Cradles.'),
+    76: ('Restore a garden', 'Garden mode: Bloom +10 residents spend one suitable food above an eight-item reserve to replant a valid gap. Use the plant\'s normal soil or support. Carrots, guavas and berries are examples. Jobs share one-minute work rest.'),
+    77: ('Nursery workers', 'Nursery mode: Bloom +20 adults spend one plain guava above an eight-food reserve for one Cradle stage. The whole litter stays. Jobs share garden rest. Players or redstone hatch ripe litters.'),
 }
-PAGE_COUNT = 74
+PAGE_COUNT = 77
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
@@ -83,7 +86,7 @@ MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Livi
 NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work',51:'Find a tagged animal',52:'Bell roll call',53:'Recovery rest',54:'Plan a litter'}
 
 HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds',61:'Fruit meals',62:'Sapling stations',63:'Underground farms',64:'Safe seedbeds',65:'Snow-coat care'}
-WORK_INDEX = {67:'Loose food meals',68:'Trough gathering',69:'Melon beds',71:'Orchard pickers',72:'Habitat meals',73:'Nest signals'}
+WORK_INDEX = {67:'Loose food meals',68:'Trough gathering',69:'Melon beds',71:'Orchard pickers',72:'Habitat meals',73:'Nest signals',75:'Work modes',76:'Restore a garden',77:'Nursery workers'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -130,7 +133,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,71),(495,74),(735,73),(975,66)]:
+    for x,page in [(255,75),(495,76),(735,77),(975,66)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

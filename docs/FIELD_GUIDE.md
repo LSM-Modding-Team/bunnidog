@@ -58,8 +58,8 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Seventy-four pages use the ordinary written-book screen. Five linked contents pages
-offer forty-three clickable chapter links. Each chapter links back to its index. Local page changes
+Seventy-seven pages use the ordinary written-book screen. Five linked contents pages
+offer forty-six clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
 
@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current fifty-six native server cases pass,
-including loading the book/recipe/loot resources. The expanded 74-page
-orchard/repair/Nest-signal/Working preview is inspected with a substitute font; all
+The actual Java 25 build and current fifty-nine native server cases pass,
+including loading the book/recipe/loot resources. The expanded 77-page
+mode/restoration/nursery/Working preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -233,3 +233,10 @@ IDs/returns. L27 updates stem page 70 with meadow seed supplies. New content
 and the six-link Working index are previewed with a substitute font; Java 25
 build/all 56 native cases pass. Native client fonts/navigation remain gameplay
 review; written-book defaults and protocol 7 stay shared.
+
+L28–L30/N9 appends **Work modes** (75), **Restore a garden** (76) and
+**Nursery workers** (77). Working has nine direct chapter links, retaining its
+Main/Habitat footers within fourteen lines. All older destinations stay. There
+are 77 pages/five indices/forty-six chapter links. The mode/restoration/nursery/
+Working preview is inspected with a substitute font; Java 25 build/all 59 native
+cases pass. Native client controls/fonts remain gameplay review.

@@ -22,6 +22,17 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **L28–L30/N9, selected resident jobs:** sneak-hoe selects/enables Mixed,
+  Garden, Gather, Compost or Nursery work, with default/legacy Mixed behavior.
+  Garden Bloom +10 adults replant valid gaps from real self-planting food;
+  Nursery Bloom +20 adults spend a plain guava for one exact Cradle stage.
+  Both keep eight food, share GardenWait, preserve components and refund
+  callback-interrupted costs. Nurses preserve the whole litter and never
+  hatch it. Calipers names the nursery bonus. The guide has 77 pages/five
+  indices/forty-six chapter links. Java 25 build/all 59 native cases pass;
+  guide preview inspected. See `docs/RESIDENT_WORK.md` and N9 in
+  `docs/NURSERY_SPECS.md`.
+
 - **O6/O7/D8/H9/L27, orchard and habitat routines:** shears dispensers pick
   ripe guavas with one wear while retaining native animal/beehive shearing.
   Plain guavas plant canopy gaps; invalid planting keeps ordinary food
@@ -361,8 +372,15 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **fifty-six** native scenarios pass (fifty-five mod
+The Java 25 build and all **fifty-nine** native scenarios pass (fifty-eight mod
 cases plus native sanity). Latest coverage:
+
+- **L28–L30/N9:** actual crouched off-hand mode cycling/toggle/Adventure,
+  policy/native legacy saves, exact named stock/filter, real paths and Bloom/
+  reserve thresholds, native placement refusal and replacement containers,
+  source removal/refund conservation, paid carrot/guava restoration, cactus
+  occupant/embryo exclusions, stock-callback litter swaps, exact nursery
+  stage/cost/pedigree preservation and no autonomous hatch.
 
 - **O6/O7:** real picking/planting pulses, exact wear/stock/components, stale/
   unripe/unsupported/unloaded refusal, hopper collection, ordinary beehive

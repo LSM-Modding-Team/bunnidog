@@ -8,6 +8,7 @@ import com.bunnidogs.mod.block.FeedingTroughBlockEntity;
 import com.bunnidogs.mod.genetics.Foraging;
 import com.bunnidogs.mod.genetics.Gardening;
 import com.bunnidogs.mod.genetics.Scavenging;
+import com.bunnidogs.mod.genetics.TroughWork;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModPoi;
 import net.minecraft.core.BlockPos;
@@ -45,7 +46,8 @@ final class LooseFoodGoal extends Goal {
         var level = this.dog.level();
         return pos != null && level.hasChunkAt(pos) && this.dog.foodWithinHome(pos)
                 && level.getBlockState(pos).is(ModBlocks.FEEDING_TROUGH.get()) && level.getBlockState(pos).getValue(FeedingTroughBlock.TENDING)
-                && level.getBlockEntity(pos) instanceof FeedingTroughBlockEntity stock && !stock.residentsPaused() ? stock : null;
+                && level.getBlockEntity(pos) instanceof FeedingTroughBlockEntity stock && !stock.residentsPaused()
+                && stock.allowsWork(TroughWork.Job.GATHER) ? stock : null;
     }
     private boolean nearTrough(ItemEntity item, BlockPos pos) {
         return item.position().distanceToSqr(Vec3.atCenterOf(pos)) <= Scavenging.TROUGH_RADIUS*Scavenging.TROUGH_RADIUS;

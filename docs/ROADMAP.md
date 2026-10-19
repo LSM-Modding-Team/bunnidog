@@ -16,6 +16,13 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L28–L30/N9 adds selected trough jobs, surplus garden restoration and exact
+one-stage nursery tending. Default Mixed preserves old routines; Garden/Nursery
+explicitly opt into food-spending jobs with an eight-food reserve. Native
+callbacks cannot overwrite containers, lose the reserved input or alter a
+replacement litter. Java 25 build/all 59 cases pass; 77-page guide preview
+inspected. See `RESIDENT_WORK.md` and `NURSERY_SPECS.md`.
+
 O6/O7 completes guava stations with dispenser shears and plain-guava canopy
 repair, retaining old shears/food fallbacks. D8 adds sustainable regional plant
 meals through shared garden/meal growing-stock rules. H9 exposes Nest POI claims
