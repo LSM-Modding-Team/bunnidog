@@ -329,7 +329,7 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
   yield one food while keeping the bush. Calipers names the Bloom bonus. See
   `docs/SETTLEMENT_LIFE.md` L12.
 
-The previous release already includes two-page guide navigation (P3), full-state
+Established earlier systems include native guide navigation (P3), full-state
 Travel Baskets (H6), dispenser care with native armadillo fallback (C8), saved
 trough filters (L11), coat-colored fleece (C7), actual bell calls (L10) and
 transactional hopper/comparator troughs (L9). Earlier home/food Calipers, refuge,
@@ -348,19 +348,19 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 |---|---|
 | Genetics and breeding | Seven genes, inherited pairs, bred stats/Bloom, eight guava tiers, litter seeds/crops, infused juice. `docs/FEATURES.md`, `docs/FIXES_PLAN.md` 6 |
 | Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets, forecasts, carried-animal records and local tag/trait/stat record filters. `docs/SHEET_SPECS.md` S1–S10 |
-| Nursery | Whole saved seeds, protected crop harvest/recovery, dirt/grass soil fallback, in-place Mutagen, dispenser stations and a Cradle with incubation, native automation, checked hatching/pad planning and fitted grand-tree nurseries. `docs/NURSERY_SPECS.md` N1–N8 |
+| Nursery | Whole saved seeds, protected crop harvest/recovery, dirt/grass soil fallback, in-place Mutagen, dispenser stations and a Cradle with incubation, native automation, checked hatching/pad planning and fitted grand-tree nurseries plus exact paid resident tending. `docs/NURSERY_SPECS.md` N1–N9 |
 | Laboratory | Two sample slots, native hopper/comparator automation, actual-hand placement, vial display, planned feed/treatment/harvest forecasts, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T10 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
 | Care | Live samples, fleece palettes, whiskers/dust/moss/cold-climate frost, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C10 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow, terrain movement and snow footing. `docs/CARE_SPECS.md` A1–A5 |
-| Outdoor food | Home-bounded crop/grass/hay meals, ripe guavas/berries and old ordinary loose food, safe loaded paths, reservations and callback-safe commits. `docs/FORAGING_SPECS.md` D6–D7 |
-| Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, led-adult reassignment, Travel Baskets and persistent compass place markers, including resident homes. `docs/HOME_SPECS.md` H1–H8 |
-| Settlement life | Saved trough stock/automation/filters/redstone pause, diet healing/short night meals, bell visits, regional farms/fitted furniture including developed cave/Nether farms, harvest/cultivation/surplus composting, loose-food gathering, guava compost data, local stores, refuge, storm shelter, opt-in feral Nest guards, read-only bell roll call, serious-injury rest, cactus pruning and sustainable mushroom beds. `docs/SETTLEMENT_LIFE.md` L1–L24 |
+| Outdoor food | Home-bounded crop/grass/hay/fruit and sustainable habitat meals, old ordinary loose food, bounded dry hunting/shore fishing, spent-chorus care, reservations and callback-safe commits. `docs/FORAGING_SPECS.md` D6–D10 |
+| Homes/travel | Claimable Nests and comparator signals, day tether/night return, floor Nests, native leads/rides and led-adult reassignment. Travel Baskets preserve whole animals by hand/native dispenser; compasses mark places and resident homes. `docs/HOME_SPECS.md` H1–H10 |
+| Settlement life | Trough stock/automation/filters/power, Diet healing and short night meals; bell visits, regional and meadow-melon farms, local supplies, refuge/storm/rest/guards and read-only roll calls. Selected harvest/cultivation/compost/gather/garden-restoration/nursery/supply jobs share exact stock, safe routes and saved work rest. `docs/SETTLEMENT_LIFE.md` L1–L34, `docs/RESIDENT_WORK.md` |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Exploration | Native cartographer Warren Maps, bred bat-ear compass surveys with optional mineral-family focus at Senses +20, native working-line milestones and a loaded tagged-resident finder. `docs/EXPLORATION_SPECS.md` E1–E5 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
-| Orchards | Plain-guava hanging fruit propagation, native bone meal, shears/Silk Touch leaf recovery, native dispenser sapling stations and supported/bounded tree growth. `docs/ORCHARD_SPECS.md` O1–O5 |
+| Orchards | Plain-guava hanging fruit propagation, native bone meal, shears/Silk Touch leaf recovery, dispenser saplings/fruit picking/canopy repair and supported/bounded tree growth. `docs/ORCHARD_SPECS.md` O1–O7 |
 | Drops and endgame | Pelts/materials, Mutagen/Marrow/Tissue/Dust, five stat legends and pedestals. Sample-defined Apex ritual, inherited combat, warned attacks/enrage, boss bar and source-line crest. `docs/DROPS_SPECS.md`, `docs/APEX_SPECS.md` |
 | Apex preparation | Crucible missing-offering status; main-hand Calipers/off-hand sample forecasts real boss values without spending or spawning. `docs/APEX_SPECS.md` P2 |
 
