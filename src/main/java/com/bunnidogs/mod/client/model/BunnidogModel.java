@@ -2,13 +2,14 @@ package com.bunnidogs.mod.client.model;
 
 import com.bunnidogs.mod.client.renderer.BunnidogRenderState;
 import com.bunnidogs.mod.genetics.Temperament;
+import com.bunnidogs.mod.genetics.FertilityMark;
 
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
 
 /**
- * Bunnidog model: hand-written ANIMATION and GENE PROPORTIONS only.
+ * Bunnidog model: hand-written animation, gene proportions and expressed-part visibility.
  * The skeleton/loader is in GENERATED {@link BunnidogModelLayer}; the connected
  * textured mesh is generated alongside it by art/gen_bunnidog.py.
  *
@@ -39,6 +40,8 @@ public class BunnidogModel extends EntityModel<BunnidogRenderState> {
     private final ModelPart legBr;
     private final ModelPart legBl;
     private final ModelPart tail;
+    private final ModelPart[] webbing;
+    private final java.util.EnumMap<FertilityMark,ModelPart> fertilityMarks = new java.util.EnumMap<>(FertilityMark.class);
 
     public BunnidogModel(ModelPart root) {
         super(root);
@@ -52,6 +55,10 @@ public class BunnidogModel extends EntityModel<BunnidogRenderState> {
         this.legBr = root.getChild("leg_br");
         this.legBl = root.getChild("leg_bl");
         this.tail = root.getChild("tail");
+        this.webbing = new ModelPart[]{this.legFr.getChild("leg_fr_web"),this.legFl.getChild("leg_fl_web"),
+                this.legBr.getChild("leg_br_web"),this.legBl.getChild("leg_bl_web")};
+        for (var mark : FertilityMark.values()) if (mark != FertilityMark.NONE)
+            this.fertilityMarks.put(mark,this.tail.getChild("fertility_"+mark.name().toLowerCase(java.util.Locale.ROOT)));
     }
 
     @Override
@@ -60,6 +67,8 @@ public class BunnidogModel extends EntityModel<BunnidogRenderState> {
 
         applyProportions(state);
         applyPupSize(state);
+        for (var membrane : this.webbing) membrane.visible = state.webbed;
+        this.fertilityMarks.forEach((mark,part) -> part.visible = state.fertilityMark == mark);
 
         // Head follows where the mob is looking.
         this.head.xRot += Mth.clamp(state.xRot, -30.0F, 30.0F) * DEG_TO_RAD;
@@ -69,6 +78,7 @@ public class BunnidogModel extends EntityModel<BunnidogRenderState> {
         float pos = state.walkAnimationPos;
         float speed = state.walkAnimationSpeed;
         float swing = Mth.cos(pos * 0.6662F) * 0.85F * speed;
+        if (state.paddling) swing = Mth.sin(state.ageInTicks*.8F)*.55F;
         this.legFr.xRot = swing;
         this.legBl.xRot = swing;
         this.legFl.xRot = -swing;

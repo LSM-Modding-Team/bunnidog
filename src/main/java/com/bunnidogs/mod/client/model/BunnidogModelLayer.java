@@ -33,6 +33,22 @@ public final class BunnidogModelLayer {
                 CubeListBuilder.create(), PartPose.offsetAndRotation(-2.3F, 18.9F, 4.2F, 0.0F, 0.0F, 0.0F));
         PartDefinition tail = root.addOrReplaceChild("tail",
                 CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 18.9F, 6.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition leg_fr_web = leg_fr.addOrReplaceChild("leg_fr_web",
+                CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition leg_fl_web = leg_fl.addOrReplaceChild("leg_fl_web",
+                CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition leg_br_web = leg_br.addOrReplaceChild("leg_br_web",
+                CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition leg_bl_web = leg_bl.addOrReplaceChild("leg_bl_web",
+                CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition fertility_prolific = tail.addOrReplaceChild("fertility_prolific",
+                CubeListBuilder.create(), PartPose.offsetAndRotation(0.16367F, -1.05F, 1.8F, 0.0F, 0.0F, 0.0F));
+        PartDefinition fertility_shy = tail.addOrReplaceChild("fertility_shy",
+                CubeListBuilder.create(), PartPose.offsetAndRotation(0.16367F, -1.05F, 1.8F, 0.0F, 0.0F, 0.0F));
+        PartDefinition fertility_swarm = tail.addOrReplaceChild("fertility_swarm",
+                CubeListBuilder.create(), PartPose.offsetAndRotation(0.16367F, -1.05F, 1.8F, 0.0F, 0.0F, 0.0F));
+        PartDefinition fertility_starborn = tail.addOrReplaceChild("fertility_starborn",
+                CubeListBuilder.create(), PartPose.offsetAndRotation(0.16367F, -1.05F, 1.8F, 0.0F, 0.0F, 0.0F));
         return LayerDefinition.create(mesh, 512, 512);
     }
 

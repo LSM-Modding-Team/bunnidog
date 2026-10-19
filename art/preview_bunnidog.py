@@ -15,7 +15,7 @@ from gen_bunnidog import PARTS, ROOT, TILES, build_geometry, rotation
 from sculpt_bunnidog import HIP_HEIGHT
 
 
-def world_faces(ear_scale=1, leg_scale=1, build_scale=1, baby=False):
+def world_faces(ear_scale=1, leg_scale=1, build_scale=1, baby=False, webbed=False, parts=None, fertility='average'):
     build_geometry()
     bones = {p['name']: p for p in PARTS}
     matrices = {}
@@ -27,7 +27,7 @@ def world_faces(ear_scale=1, leg_scale=1, build_scale=1, baby=False):
         scale = np.eye(3)
         if name.startswith('ear_'):
             scale = np.diag((1 + (ear_scale - 1) * .4, ear_scale, 1))
-        elif name.startswith('leg_'):
+        elif name in ('leg_fr','leg_fl','leg_br','leg_bl'):
             thick = 1 + (build_scale - 1) * .6
             scale = np.diag((thick, leg_scale, thick))
         elif name == 'body':
@@ -46,6 +46,12 @@ def world_faces(ear_scale=1, leg_scale=1, build_scale=1, baby=False):
         return r, offset
     faces = []
     for t in TILES:
+        if parts is not None and t['parent'] not in parts:
+            continue
+        if t['parent'].endswith('_web') and not webbed:
+            continue
+        if t['parent'].startswith('fertility_') and t['parent'] != 'fertility_'+fertility:
+            continue
         r, off = matrix(t['parent'])
         corners = np.asarray(t['corners']) @ r.T + off
         if baby:

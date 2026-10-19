@@ -88,8 +88,10 @@ PAGES = {
     87: ('Guava hand care', 'Sneak-feed a plain guava to heal 2 HP and help pups grow without starting breeding. Healthy adults keep it; upgraded guavas stay for breeding. Existing love quality and rests stay. Normal feeding breeds.'),
     88: ('Snow surface routes', 'Snow-footed residents cross powder-snow surfaces on home routes. Woolly or hidden snow gives no footing. Deep powder and other hazards stay blocked. Lost footing or floors interrupt jobs. Keep dry room above.'),
     90: ('Phase legs', 'End founders may express Phase legs. After a nonlethal attack, grounded adults blink 3-6 blocks to safe dry ground, farther from danger. Recovery: 20 seconds. Leads, rides and passengers prevent it. Damage still lands.'),
+    91: ('Webbed paws', 'Swamp webbed legs add 50% water propulsion but still need air. Land speed and jumps are slightly lower. Toe membranes show only when expressed. Breed or splice them into other coats. Home work keeps dry routes.'),
+    92: ('Fertility marks', 'Tail tips show fertility: average bare; prolific one rosette; shy a green bud; swarm three rosettes; starborn a violet star. Pups show them too. Marks show expressed genes, not readiness.'),
 }
-PAGE_COUNT = 90
+PAGE_COUNT = 92
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
@@ -99,7 +101,7 @@ NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'War
 HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds',61:'Fruit meals',62:'Sapling stations',63:'Underground farms',64:'Safe seedbeds',89:'Lineage traits'}
 WORK_INDEX = {67:'Loose food meals',68:'Trough gathering',69:'Melon beds',71:'Orchard pickers',72:'Habitat meals',73:'Nest signals',75:'Work modes',76:'Restore a garden',84:'Specialist work'}
 SPECIALIST_INDEX = {77:'Nursery workers',79:'Work roll call',80:'Safe hunting',81:'Chorus gardens',82:'Basket stations',83:'Supply the troughs',85:'Pause a resident',86:'Cradle controls',87:'Guava hand care'}
-LINEAGE_INDEX = {13:'Useful coats',14:'Physical traits',29:'Terrain traits',65:'Snow-coat care',88:'Snow surface routes',90:'Phase legs'}
+LINEAGE_INDEX = {13:'Useful coats',14:'Physical traits',29:'Terrain traits',65:'Snow-coat care',88:'Snow surface routes',90:'Phase legs',91:'Webbed paws',92:'Fertility marks'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -146,7 +148,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,90),(495,89),(735,56),(975,88)]:
+    for x,page in [(255,92),(495,89),(735,90),(975,91)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else 'Lineage traits' if page == 89 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

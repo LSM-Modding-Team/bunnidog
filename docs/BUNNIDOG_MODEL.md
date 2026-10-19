@@ -47,7 +47,12 @@ The generator exports twelve 512×512 atlases, the bundled `bunnidog.mesh`, an
 editable Free Model mesh in `art/bunnidog.bbmodel`, and the Java animation
 skeleton in `BunnidogModelLayer.java`. `BunnidogMesh.java` loads the mesh onto the
 skeleton and renders interpolated vertex normals, reusing render scratch storage.
-The model has the approved former Low geometry: 2,172 quads and 8,688 vertices.
+The base model has the approved former Low geometry: 2,172 quads and 8,688
+vertices. A8 adds four optional, expressed-only webbed-paw children totaling
+72 faces / 288 vertices. A9 also adds mutually exclusive tail-tip fertility phenotypes. The stored mesh
+contains 2,460 faces / 9,840 vertices; an unmarked non-webbed animal still
+renders the original 2,172 faces with exact approved coordinates and normals.
+The largest rendered combination is webbed/swarm: 2,364 faces.
 There is one model and no graphics preset or distance switching.
 
 The head uses a continuous UV chart, shared texels across neighboring polygons,
@@ -93,3 +98,23 @@ The approved Low geometry retains deeper sockets/lid rolls, full asymmetric
 cheeks, integrated bridge and infant nose tip, lip rolls and chin. The shading
 fix does not move these vertices. The user's Low/Ultra screenshots confirm both
 previous tiers ran in-game; confirmation of the continuity fix remains pending.
+
+## Expressed webbed-paw variant (A8)
+
+`art/preview_webbed.py` compares actual ordinary/webbed paw geometry and a
+swamp animal, using the regenerated atlas. Only the extra skin membranes
+between the existing toes are conditional; nails, paws and all base anatomy
+remain. Native render-state extraction follows expressed genes, and model setup
+resets visibility and paddling between animals. The real model gate checks both
+render budgets, pose resets and the existing lighting/ground-contact invariants.
+Preview inspected; native client appearance remains playtest review.
+
+## Visible fertility (A9)
+
+Four optional tail-child groups show the existing expressed Fertility allele:
+prolific has one rosette, shy a closed green bud, swarm three rosettes and
+starborn a violet star; average keeps the original tip. They inherit normal
+tail motion/pup scaling, never indicate current breeding readiness and leave
+the fixed face/body unchanged. Only one mark or none renders per animal.
+`art/preview_fertility.py` renders the actual exported parts/atlas, and the model
+gate checks every mark with webbing and a complete ordinary reset.

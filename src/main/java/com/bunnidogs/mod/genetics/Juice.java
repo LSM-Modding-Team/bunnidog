@@ -119,6 +119,7 @@ public final class Juice {
         DEFS.put("legs:fleet", List.of(self("speed", "Speed", 75, 360, 3, Stat.SWIFTNESS)));
         DEFS.put("legs:hoofed", List.of(self("jump_boost", "Jump Boost", 75, 360, 3, Stat.LEAP)));
         DEFS.put("legs:phase", List.of(self("slow_falling", "Slow Falling", 45, 300, 0, Stat.LEAP)));
+        DEFS.put("legs:webbed", List.of(self("dolphins_grace", "Dolphin's Grace", 90, 600, 0, Stat.SWIFTNESS)));
         // build: toughness, or speed for the light ones; the chonker pays for it with Slowness (never scales)
         DEFS.put("build:stocky", List.of(self("resistance", "Resistance", 45, 300, 2, Stat.VITALITY)));
         DEFS.put("build:slim", List.of(self("speed", "Speed", 30, 300, 3, Stat.SWIFTNESS)));

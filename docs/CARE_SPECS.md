@@ -38,7 +38,7 @@ client gameplay review.
 - `FleeceWait` saves clamped remaining ticks. A synced readiness boolean handles
   client prediction and becomes ready when server time reaches the deadline.
   Missing old data means ready; regrowth pauses across unloading. Network version
-  5 introduced that sync; current protocol 7 also includes splicer selection and
+  5 introduced that sync; current protocol 8 also includes splicer selection and new wild leg semantics and
   requires matching updated clients and server.
 
 ## C3: Loose-whisker grooming
@@ -449,3 +449,92 @@ cancellation, unsafe/unloaded redirects, callback gene/position changes and
 hazardous landing refusal. Focused inheritance/format/trend/juice checks pass.
 The 90-page guide preview is inspected. Client combat/particles remain playtest
 review; this does not change the approved creature meshes.
+
+## A8: swamp swimming and webbed paws
+
+This completes the swimming/webbed-paw feature left in the original Phase 3
+lineage plan. LEGS `webbed` appends saved id **7**, dominance 13, physical
+scale 0.95. Fresh swamp founders receive it with 80% probability per copy.
+Existing genomes are never rewritten, and common founders/mutations do not
+create this wild allele. Springy mutation legs still dominate it; webbed and
+Phase compete in the same inherited gene. Its wild trend is **+2 Swiftness /
+-1 Leap**, with ordinary physical land speed about 3% lower and jumps 6% lower.
+
+Expressed animals, including pups, gain a named transient **+0.5 Swim Speed**
+modifier. On the ordinary native base of 1 this gives **50% stronger native
+water propulsion**. External attribute bases/modifiers survive gene changes and
+reloads; the bonus cannot accumulate. Air, drowning, lava and native water
+physics remain. Domestic routes continue requiring dry safe ground; swimming
+is an inherited physical adaptation, not permission for workers to dive.
+Webbed infusion gives 90 seconds of Dolphin's Grace, scaling with quality and
+Swiftness up to ten minutes and merging normally with matching juice effects.
+
+Only expressed webbed legs render thin photographic skin membranes between
+existing toes. The four optional leg-child parts add **72 quads / 288 vertices**;
+all **2,172 approved base faces retain their exact coordinates and normals**.
+Ordinary animals still submit exactly 8,688 vertices; a webbed animal with unmarked fertility submits
+8,976 before A9 adds any separate tail mark. Existing paw/toe/nail asymmetry, body, face, ears and coat sources stay.
+The source pipeline regenerates the mesh, all twelve 512px atlases, skeleton
+and editable Blockbench model together. Model setup resets membrane visibility
+for every animal and gives webbed water movement a paddling stroke. This uses
+existing synced genomes, without a new payload or saved appearance field.
+
+Java 25 build, model gate and all **73 native scenarios** pass. Real native
+water travel establishes the 1.5 propulsion ratio and hidden-copy refusal;
+actual drowning still damages a swimmer. Native reloads preserve one genetic
+bonus alongside an external base, and gene/pup changes apply immediately.
+Focused allele-table, inheritance/mutation, old-format, trait/trend/readout and
+juice checks pass. The model gate exercises optional visibility, paddling,
+ordinary reset, head lighting/UVs, winding/normals and planted gene/pup poses.
+Actual-geometry paw/body and 91-page/seven-index guide previews are inspected.
+Native client swimming/animation and natural swamp populations remain playtest review.
+
+## A9: visible fertility phenotypes
+
+The original genome/Phase 2–3 design left Fertility's visible cue undefined.
+Its existing alleles now have distinct small **tail-tip marks**:
+
+| Expressed Fertility | Visible tail tip | Optional faces |
+|---|---|---|
+| average | Original unmarked tip | 0 |
+| prolific | One open rose-colored rosette | 40 |
+| shy | One closed green bud | 18 |
+| swarm | Three small rose-colored rosettes | 120 |
+| starborn | One violet star-shaped flower | 38 |
+
+These complete the core rule “genes are visible; tools give exact measurements.”
+They follow the existing expressed allele on adults/pups and the source-defined
+Apex. A hidden copy never draws its mark; ordinary dominance/breeding/splicing
+apply. They indicate **fertility phenotype**, independently of age, love,
+recovery, current mating eligibility or bred Bloom points. No breeding number,
+genome id/order, timer or saved appearance field changes.
+
+Four optional tail-child parts inherit normal tail motion and pup transforms.
+Model setup selects exactly one or none for every animal, resetting the shared
+renderer before another animal is drawn. The source generator owns their geometry,
+small matte color patches, all twelve atlases, binary mesh, skeleton and editable
+Blockbench visibility. The fixed photographic face/body and all 2,172 approved
+base faces retain exact positions and normals. An unmarked non-webbed animal
+still submits 8,688 vertices. The combined source mesh stores **2,460 faces /
+9,840 vertices**, including every mutually exclusive mark and optional webbing;
+the largest rendered combination (swarm + webbed) is **2,364 faces / 9,456
+vertices**. There are no distance/quality presets or extra rendering passes.
+
+Gene hovers describe each real mark, and guide page **92** gives the complete
+visual key, linked from Lineage traits. The guide now has **92 pages, seven
+indices and 63 chapter links**. `art/preview_fertility.py` renders actual exported
+tail-tip geometry/atlases; that preview and the current guide are inspected.
+
+Java 25 build/model gate/all **73 native scenarios** pass. The model gate draws
+all fertility/webbing combinations, verifies exact per-variant budgets and resets,
+and retains winding, normals, UVs/head continuity, smooth rendering and planted
+leg/pup checks. Focused genetics checks verify distinct existing alleles, hidden
+copies, inherited starborn, old-format reading and real hover descriptions.
+Client appearance remains playtest review.
+
+### Client compatibility for A7–A9
+
+Network protocol is **8**. Payload layouts and save formats stay the same, but
+older clients cannot parse Phase/webbed allele ids. Requiring the updated client
+and server prevents silent wrong traits or unreadable sheets. Existing genomes,
+items, animals and worlds retain their data; new lineages supply the new legs.

@@ -197,7 +197,7 @@ def build_bbmodel(img):
     for part in PARTS:
         groups[part['name']] = dict(name=part['name'], origin=part['pivot'], rotation=part['rot'],
                                     uuid=stable_uuid(part['name']), children=[], export=True,
-                                    isOpen=False, visibility=True)
+                                    isOpen=False, visibility=not (part['name'].endswith('_web') or part['name'].startswith('fertility_')))
         vertices, faces = {}, {}
         for ti, t in enumerate(q for q in TILES if q['parent'] == part['name']):
             keys = [f'v{ti}_{i}' for i in range(4)]

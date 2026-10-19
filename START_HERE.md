@@ -22,6 +22,23 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **A9, planned fertility visibility:** existing fertility alleles now show
+  distinct tail-tip phenotypes: bare, one rosette, closed green bud, three
+  rosettes or violet star. Hidden copies stay hidden; pups inherit the look.
+  Breeding/readiness/Bloom values stay intact. Combined build/model/all 73
+  native cases pass; all mark/foot variants reset correctly and exact approved
+  base coordinates/normals remain. Actual geometry and 92-page/seven-index
+  guide previews inspected. Update client and server together: protocol **8**
+  also prevents older clients misreading the new Phase/webbed allele ids.
+
+- **A8, planned swamp swimming/webbed paws:** appended LEGS `webbed` gives
+  fresh swamp lines native +0.5 Swim Speed, expressed toe membranes and water
+  paddling, with land/jump tradeoffs and retained drowning. Native movement,
+  hidden copies and external-attribute save/gene changes pass with all 73
+  cases and the model gate. All 2,172 base faces retain exact coordinates/
+  normals; only the expressed variant adds 72 faces. Geometry and 91-page/
+  seven-index guide previews inspected. See `docs/CARE_SPECS.md` A8.
+
 - **U1 completion, entrance trails:** new version-seven small surface warrens
   fit complete worn trails from each actual mouth round its mound to the tree
   patch. Unsafe sides fall back or stay untouched; old starts keep their plans.
@@ -100,7 +117,7 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
   remain unchanged. Java 25 build/all 59 native cases and focused rotated
   layout checks pass, including real native fruit growth, protected gap
   refusal and exact generation-version saves. Farm/78-page guide previews
-  inspected. See `docs/SETTLEMENT_LIFE.md` L31 and `docs/WARREN_PLAN.md` 23.
+  inspected. See `docs/SETTLEMENT_LIFE.md` L31 and `docs/WARREN_PLAN.md` 24.
 
 - **L28–L30/N9, selected resident jobs:** sneak-hoe selects/enables Mixed,
   Garden, Gather, Compost or Nursery work, with default/legacy Mixed behavior.
@@ -393,7 +410,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
 | Care | Live samples, fleece palettes, whiskers/dust/moss/cold-climate frost, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C10 |
-| Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow, terrain movement and snow footing. `docs/CARE_SPECS.md` A1–A6 |
+| Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow, terrain movement and snow footing, End Phase, swamp swimming and visible fertility marks. `docs/CARE_SPECS.md` A1–A9 |
 | Outdoor food | Home-bounded crop/grass/hay/fruit and sustainable habitat meals, old ordinary loose food, bounded dry hunting/shore fishing, spent-chorus care, reservations and callback-safe commits. `docs/FORAGING_SPECS.md` D6–D11 |
 | Homes/travel | Claimable Nests and comparator signals, day tether/night return, floor Nests, native leads/rides and led-adult reassignment. Travel Baskets preserve whole animals by hand/native dispenser; compasses mark places and resident homes. `docs/HOME_SPECS.md` H1–H10 |
 | Settlement life | Trough stock/automation/filters/power, Diet healing and short night meals; bell visits, regional and meadow-melon farms, local supplies, refuge/storm/rest/guards and read-only roll calls. Selected harvest/cultivation/compost/gather/garden-restoration/nursery/supply jobs share exact stock, safe routes and saved work rest. `docs/SETTLEMENT_LIFE.md` L1–L35, `docs/RESIDENT_WORK.md` |
@@ -408,7 +425,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
 - Keep gene/allele IDs append-only. Old six-pair data loads with plain/plain
   Diet; current genomes use seven pairs / 56 bits and mask the signed high sync
-  word. Current network protocol is **7**; matching client/server versions apply.
+  word. Current network protocol is **8**; matching client/server versions apply.
 - Preserve whole item components in samples, books, table slots, vehicles,
   troughs and trophies. Existing inventories and containers are never restocked.
 - Structures save fitted tunnel cells, path exclusions, labels and optional
@@ -423,8 +440,12 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
 ## Approved visuals
 
-The sole model is approved **Low**, 2,172 quads / 8,688 vertices with twelve
-512px coat atlases. Preserve the photographic baby face, human/rabbit ears,
+The sole base model is approved **Low**, 2,172 quads / 8,688 vertices with twelve
+512px coat atlases. Expressed webbed legs add 72 optional membrane faces / 288
+vertices, leaving all approved base coordinates/normals exact. The four mutually exclusive fertility marks add 0/40/18/120/38 faces.
+The stored mesh has 2,460 faces / 9,840 vertices; an unmarked ordinary animal
+retains the original render budget. The largest webbed/swarm combination renders
+2,364 faces / 9,456 vertices. Preserve the photographic baby face, human/rabbit ears,
 compact robust body, outward paws, short fur and source imperfections. Do not
 restore tiers, distance switching or graphics configuration. Sources:
 `art/sculpt_bunnidog.py`, `art/gen_bunnidog.py`, `art/reference/`.
@@ -434,8 +455,8 @@ continuous front UV chart; no geometry was added. Closely spaced front-ring
 normal change fell from 0.478 to 0.038. Software preview inspected. The user's
 prior Low/Ultra screenshots establish earlier rendering; final client lighting
 and performance of the fix remain gameplay review. See `docs/BUNNIDOG_MODEL.md`
-and `docs/GRAPHICS.md`. This continuation does not alter creature geometry,
-atlases, renderer or animation.
+and `docs/GRAPHICS.md`. A8/A9 add expressed webbing/paddling and tail-tip variants; the approved base
+geometry and face remain exact.
 
 ## Validation and evidence
 
@@ -452,8 +473,15 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **seventy-two** native scenarios pass (seventy-one mod
+The Java 25 build and all **seventy-three** native scenarios pass (seventy-two mod
 cases plus native sanity). Latest coverage:
+
+- **A8/A9/U1 completion:** real new/legacy structure pieces and fully fitted
+  trails preserve mouths, tree, Nests, containers, fluids and ores. Native
+  swimming establishes stronger propulsion with retained drowning and exact
+  external-attribute saves. Actual model draws cover every optional phenotype
+  and shared-render resets. Focused genetics/inheritance/legacy/trend/readout/
+  juice checks pass. Current optional geometry and guide previews inspected.
 
 - **A7:** actual attacks and defensive blinks, retained damage/home, recovery
   saves, hidden-copy/pup/transport exclusions, native cancellation, unsafe

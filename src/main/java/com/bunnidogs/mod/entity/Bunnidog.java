@@ -131,6 +131,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private static final Identifier TRAIT_KNOCKBACK = Identifier.fromNamespaceAndPath("bunnidogs","inherited_knockback_resistance");
     private static final Identifier TRAIT_STEP = Identifier.fromNamespaceAndPath("bunnidogs","inherited_step_height");
     private static final Identifier TRAIT_TERRAIN = Identifier.fromNamespaceAndPath("bunnidogs","inherited_movement_efficiency");
+    private static final Identifier TRAIT_SWIM = Identifier.fromNamespaceAndPath("bunnidogs","inherited_swim_speed");
     // Base stats of an "average" bunnidog; the genes scale these (see Traits multipliers).
     public static final double BASE_HEALTH = 8.0D;
     public static final double BASE_SPEED = 0.25D;
@@ -323,6 +324,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.inheritedBonus(Attributes.KNOCKBACK_RESISTANCE,TRAIT_KNOCKBACK,Adaptations.knockbackResistance(this.genome()));
         this.inheritedBonus(Attributes.STEP_HEIGHT,TRAIT_STEP,Adaptations.stepBonus(this.genome()));
         this.inheritedBonus(Attributes.MOVEMENT_EFFICIENCY,TRAIT_TERRAIN,Adaptations.movementEfficiency(this.genome()));
+        this.inheritedBonus(net.neoforged.neoforge.common.NeoForgeMod.SWIM_SPEED,TRAIT_SWIM,Adaptations.swimBonus(this.genome()));
     }
     private void inheritedBonus(Holder<Attribute> attribute, Identifier id, double amount) {
         var value = this.getAttribute(attribute);

@@ -1,4 +1,9 @@
-# Bunnidogs — game design (current, agreed with the user)
+# Bunnidogs — agreed design and historical decisions
+
+Current implementation status is `START_HERE.md` and `docs/ROADMAP.md`. Older
+“not done” statements below preserve session history. A7/A8 now finish the
+original Phase 3 End blink and swamp swimming/webbed paws; A9 supplies the
+missing fertility phenotype. See `docs/CARE_SPECS.md`.
 
 **Contents (the sections are in the order they were written; find one with `grep -n '^## ' docs/DESIGN.md`):**
 * *Core design*: Skeleton "Generations"; Phase 1, 2, 3 decisions (genome, breeding, lineages); "Seed & Guava loop" (the long design of seeds, crops, guava tiers, stat drift); Phase 4a-4e and 4g decisions; Session 6 tier qualities; Rejected / parked skeletons.
@@ -21,7 +26,7 @@ bunnidogs, waiting for the litter, inspecting the babies. Systems are **optimist
 | Legs | length, paws vs hooves | speed, jump height |
 | Build | chonk level | health, carrying capacity |
 | Temperament | posture, tail | skittish / loyal / feral |
-| **Fertility** (replaces the old "Face" gene) | (visible cue TBD) | **how often they breed and litter size** |
+| **Fertility** (replaces the old "Face" gene) | expressed tail-tip bud/rosette/star (A9) | **how often they breed and litter size** |
 
 Fertility trade-off: high fertility = bigger swarm capacity but LESS CONTROLLED evolution (more random offspring).
 The face itself stays a fixed baby-like face (the uncanny look is the base model, not a gene).

@@ -57,6 +57,8 @@ public class GenomeCheck {
         founders();
         lineages();
         phaseAllele();
+        webbedAllele();
+        fertilityMarks();
         stats();
         seeds();
         guavaTiers();
@@ -693,6 +695,51 @@ public class GenomeCheck {
                 && Phasing.farther(4,16) && !Phasing.farther(4,15),"Blink range, level changes and useful escape distance stay bounded");
     }
 
+    static void webbedAllele() {
+        var allele = Gene.LEGS.alleleNamed("webbed");
+        check(allele.id() == 7 && allele.isWild() && allele.lineage() == Lineage.SWAMP && allele.weight() == 0,
+                "Webbed legs append at id 7 without replacing Phase or any saved leg allele");
+        check(Founders.recipe(Lineage.SWAMP).stream().anyMatch(s -> s.gene() == Gene.LEGS && s.allele().equals("webbed") && s.chance() == .8),
+                "Fresh swamp founders receive the swimming signature");
+        var fixed = homozygous(Genome.DEFAULT,Gene.LEGS,"webbed");
+        var rng = new java.util.Random(73);
+        for (int i = 0; i < 32; i++) {
+            var pup = Genome.breed(fixed,Genome.DEFAULT,rng,0).genome();
+            check(pup.alleleId(Gene.LEGS,0) == 7 && pup.alleleId(Gene.LEGS,1) == 0 && Adaptations.swimBonus(pup) == .5,
+                    "Ordinary breeding transmits expressed webbed feet");
+        }
+        check(Adaptations.swimBonus(fixed.with(Gene.LEGS,1,Gene.LEGS.alleleNamed("springy").id())) == 0,
+                "Hidden swimming alleles cannot grant propulsion");
+        near(fixed.traits().speedMultiplier(),.97,1e-6,"Webbed legs retain their small land-speed cost");
+        near(fixed.traits().jumpMultiplier(),.94,1e-6,"Webbed legs retain their small jumping cost");
+        var terms = Trends.terms(Gene.LEGS,allele);
+        check(terms.size() == 2 && terms.get(0).stat() == Stat.SWIFTNESS && terms.get(1).stat() == Stat.LEAP,
+                "Webbed breeding trades Leap for Swiftness");
+        check(Juice.effects(fixed,Stats.ZERO,0).stream().anyMatch(e -> e.id().equals("minecraft:dolphins_grace") && e.ticks() == 1800),
+                "Webbed infusion supplies ninety-second Dolphin's Grace");
+    }
+
+    static void fertilityMarks() {
+        var marks = java.util.EnumSet.noneOf(FertilityMark.class);
+        for (var allele : Gene.FERTILITY.alleles()) {
+            var fixed = homozygous(Genome.DEFAULT,Gene.FERTILITY,allele.name());
+            var mark = FertilityMark.of(fixed); marks.add(mark);
+            check(Plain.effect(Gene.FERTILITY,allele).contains(mark.description()),"Sheets must explain the actual inherited fertility mark");
+            check(Genome.parse(fixed.toString()).map(FertilityMark::of).orElseThrow() == mark,
+                    "The phenotype uses the existing saved allele, without another appearance field");
+        }
+        check(marks.size() == Gene.FERTILITY.alleleCount(),"Every original fertility allele must have a distinct visible phenotype");
+        int prolific = Gene.FERTILITY.alleleNamed("prolific").id(), average = Gene.FERTILITY.alleleNamed("average").id();
+        check(FertilityMark.of(Genome.DEFAULT.with(Gene.FERTILITY,0,prolific).with(Gene.FERTILITY,1,average)) == FertilityMark.NONE,
+                "The dominant average copy must hide prolific's rosette");
+        int swarm = Gene.FERTILITY.alleleNamed("swarm").id();
+        var pair = Genome.DEFAULT.with(Gene.FERTILITY,0,swarm).with(Gene.FERTILITY,1,prolific);
+        check(FertilityMark.of(pair) == FertilityMark.SWARM,"A visible mutation must select only its own cluster");
+        var rng = new java.util.Random(92);
+        for (int i = 0; i < 32; i++) check(FertilityMark.of(Genome.breed(homozygous(Genome.DEFAULT,Gene.FERTILITY,"starborn"),
+                Genome.DEFAULT,rng,0).genome()) == FertilityMark.STARBORN,"Breeding must transmit the dominant visible End star without changing fertility rules");
+    }
+
     static void stats() {
         System.out.println("bred stats + Bloom (Phase 4a)");
 
@@ -818,7 +865,7 @@ public class GenomeCheck {
                 "build/stocky VITALITY SWIFTNESS", "build/slim SWIFTNESS VITALITY", "build/chonker VITALITY SWIFTNESS",
                 "build/woolly VITALITY LEAP", "build/lean SWIFTNESS VITALITY",
                 "legs/long SWIFTNESS SENSES", "legs/short SENSES SWIFTNESS", "legs/springy LEAP SENSES",
-                "legs/fleet SWIFTNESS VITALITY", "legs/hoofed LEAP SWIFTNESS", "legs/phase LEAP VITALITY",
+                "legs/fleet SWIFTNESS VITALITY", "legs/hoofed LEAP SWIFTNESS", "legs/phase LEAP VITALITY", "legs/webbed SWIFTNESS LEAP",
                 "ears/long SENSES VITALITY", "ears/short VITALITY SENSES", "ears/huge SENSES VITALITY",
                 "ears/tiny VITALITY SENSES", "ears/fennec SENSES VITALITY", "ears/bat SENSES LEAP",
                 "temperament/skittish SWIFTNESS VITALITY", "temperament/feral VITALITY SENSES", "temperament/stoic VITALITY SWIFTNESS",
@@ -1423,7 +1470,7 @@ public class GenomeCheck {
                 "legs:standard", "legs:short", "build:average", "fertility:average", "fertility:prolific", "fertility:shy"}) {
             check(!Juice.DEFS.containsKey(plain), plain + ": a plain allele has no effect");
         }
-        check(Juice.DEFS.size() == 29, "29 alleles have effects, got " + Juice.DEFS.size());
+        check(Juice.DEFS.size() == 30, "30 alleles have effects, got " + Juice.DEFS.size());
 
         // --- every def: real vanilla ids, sane caps, a drawback never scales
         for (var entry : Juice.DEFS.entrySet()) {

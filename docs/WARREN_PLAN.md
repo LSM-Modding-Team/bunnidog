@@ -441,7 +441,7 @@ refuse surface probing onto an old trellis roof. Other region/legacy-version
 cases remain green. Guide preview inspected. Natural feature discovery and
 full chunk-order generation remain gameplay review.
 
-## 23 — Version-six meadow melon beds (L31)
+## 24. Version-six meadow melon beds (L31)
 
 Only fresh meadow farm props change: two young melon stems and two explicitly
 empty dirt fruit spaces share the old 3×3 farm with water/crops and optional

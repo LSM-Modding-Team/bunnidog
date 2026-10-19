@@ -1,10 +1,37 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 88 pages from first warren to Apex. Six linked contents pages offer fifty-five
-chapter links; Habitat chapters collect regional gardens.
+open 92 pages from first warren to Apex. Seven linked contents pages offer sixty-three
+chapter links; Habitat and Lineage traits collect regional gardens and inherited abilities.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
+
+**End Phase legs (A7):** find fresh End founders and breed or splice their Phase
+legs into a line. Grounded adults blink 3–6 blocks to safe dry ground after an
+actual nonlethal attack, farther from danger. Damage still lands; recovery is
+20 seconds and persists while saved/packed. Leads, rides and passengers prevent
+blinking. A resident stays inside its Nest boundary, and native teleport
+protection can refuse it. Phase animals can cross ordinary fences/walls.
+
+**Swamp webbed paws (A8):** fresh swamp lines carry webbed legs. Expressed
+animals gain 50% stronger ordinary native water propulsion and visible toe
+membranes/paddling, with slightly slower land speed/lower jumps. They still
+need air; home jobs keep dry routes. Breeding/splicing transfers the trait
+across coats. Existing animals retain their genes. Phase/webbed juice give Slow
+Falling/Dolphin's Grace respectively; gene hovers show exact numbers.
+
+**Visible fertility (A9):** read the tail tip: average is unmarked; prolific has
+one rose rosette; shy a closed green bud; swarm three rosettes; starborn a violet
+star. Only the expressed allele shows, including pups. This identifies fertility
+rather than current breeding readiness or bred Bloom. The fixed baby face stays.
+
+**Completed small-warren trails (U1):** fresh version-seven level-one surface
+warrens fit worn paths from each mouth around its mound to the tree patch. A
+blocked side uses the opposite route or leaves no paving; old generated/saved
+starts keep their prior layouts. Higher-level streets retain their plans.
+
+Update both client and server for this batch (network protocol 8). World/item/
+animal formats stay compatible; the new wild leg ids need the updated client.
 
 **Apex preparation (P2):** empty-hand crucible use lists missing legendary
 offerings. Hold Calipers in the main hand and a Tissue Sample in the other, then

@@ -49,7 +49,7 @@ public class BunnidogModelCheck {
                 }
             }
         });
-        require(faces == 2172, "Lightweight mesh budget changed: " + faces);
+        require(faces == 2460, "Base plus optional webbing/fertility mesh budget changed: " + faces);
         for (var coat : com.bunnidogs.mod.genetics.Gene.COAT.alleles()) {
             try (var stream = BunnidogModelCheck.class.getResourceAsStream("/assets/bunnidogs/textures/entity/bunnidog_" + coat.name() + ".png")) {
                 require(stream != null, "Missing coat texture: " + coat.name());
@@ -102,7 +102,7 @@ public class BunnidogModelCheck {
                     return proxy;
                 });
         root.render(new PoseStack(), consumer, 0xF000F0, 0);
-        require(rendered[0] == vertices, "Custom smooth renderer dropped vertices");
+        require(rendered[0] == 8688, "Ordinary animals must render exactly the approved 2172 base faces");
         java.util.Map.Entry<Float, Vector3f> previousRing = null;
         int closeRings = 0;
         for (var ring : frontRings.entrySet()) {
@@ -114,6 +114,29 @@ public class BunnidogModelCheck {
             previousRing = ring;
         }
         require(closeRings > 0, "Head ring continuity was not exercised");
+        state.webbed = true; state.paddling = true; state.ageInTicks = 4;
+        model.setupAnim(state);
+        int beforeWebbed = rendered[0]; root.render(new PoseStack(),consumer,0xF000F0,0);
+        require(rendered[0]-beforeWebbed == 8976 && root.getChild("leg_fr").getChild("leg_fr_web").visible
+                && Math.abs(root.getChild("leg_fr").xRot) > .001,"Webbed animals must render all membranes and paddle in water");
+        state.webbed = false; state.paddling = false;
+        model.setupAnim(state);
+        int beforeOrdinary = rendered[0]; root.render(new PoseStack(),consumer,0xF000F0,0);
+        require(rendered[0]-beforeOrdinary == 8688 && !root.getChild("leg_fr").getChild("leg_fr_web").visible,
+                "Webbed visibility and swimming animation must reset for the next ordinary animal");
+        int[] markFaces = {0,40,18,120,38};
+        for (var mark : com.bunnidogs.mod.genetics.FertilityMark.values()) {
+            state.fertilityMark = mark; state.webbed = true;
+            model.setupAnim(state);
+            int beforeMark = rendered[0]; root.render(new PoseStack(),consumer,0xF000F0,0);
+            require(rendered[0]-beforeMark == 8976+4*markFaces[mark.ordinal()],"Only the expressed fertility mark may render: "+mark);
+            for (var other : com.bunnidogs.mod.genetics.FertilityMark.values()) if (other != com.bunnidogs.mod.genetics.FertilityMark.NONE)
+                require(root.getChild("tail").getChild("fertility_"+other.name().toLowerCase(java.util.Locale.ROOT)).visible == (other == mark),
+                        "Fertility selection must reset all other variants on the shared model");
+        }
+        state.fertilityMark = com.bunnidogs.mod.genetics.FertilityMark.NONE; state.webbed = false;
+        model.setupAnim(state); int beforeReset = rendered[0]; root.render(new PoseStack(),consumer,0xF000F0,0);
+        require(rendered[0]-beforeReset == 8688,"Optional fertility and webbing parts must never leak into ordinary render budgets");
         float adultGround = ground(root);
         require(Math.abs(adultGround - 24) < .1, "Adult paws not on ground: " + adultGround);
         for (float leg : new float[]{.75F, 1.35F}) {
@@ -128,6 +151,6 @@ public class BunnidogModelCheck {
         state.isBaby = false;
         model.setupAnim(state);
         require(root.xScale == 1 && root.getChild("head").xScale == 1, "Baby scaling leaks into adult");
-        System.out.println("Model OK: " + faces + " faces, " + vertices + " vertices; winding, continuous head UVs/normals, smooth render path, gene ground contact and baby reset passed.");
+        System.out.println("Model OK: " + faces + " stored faces, " + vertices + " vertices; ordinary 2172 faces, webbed +72, expressed fertility +0/40/18/120/38; winding, continuous head UVs/normals, smooth render path, variant/paddle reset, gene ground contact and baby reset passed.");
     }
 }

@@ -1,6 +1,6 @@
 # Bunnidog rendering
 
-The former Low model is the sole model: **2,172 quads, 8,688 submitted vertices,
+The former Low model is the sole base: **2,172 quads, 8,688 submitted vertices,
 twelve 512×512 coat atlases**. The user compared Low and Ultra in-game and chose
 Low for its performance and nose shape. The presets, client config screen,
 distance switching and unused assets are removed. An old graphics config file
@@ -21,7 +21,7 @@ Two independent problems made rows visible:
   head chart now gives adjacent polygons shared UVs and texels. It occupies a
   508×224 region inside the same 512px atlas, with duplicated edge texels.
 
-The mesh positions are byte-identical to the approved Low model; face count,
+For that lighting change, mesh positions stayed identical to the approved Low model; face count,
 nose, ears, stance, bones and animation remain unchanged. The skin/photo and
 coat sources are unchanged. Body patches use the remaining atlas space.
 
@@ -38,3 +38,22 @@ confirm the final lighting under the user's setup.
 GitHub Actions builds and uploads the JAR after successful validation. Download
 it from the successful **Build** run's **Artifacts** section; no JAR delivery
 through chat. The prior four-tier comparison is historical, not current setup.
+
+## Optional inherited webbing (A8)
+
+The model now also stores 72 optional membrane faces on four leg-child parts.
+Only an expressed webbed animal renders them (2,244 faces / 8,976 vertices
+before any fertility mark);
+ordinary animals keep the exact approved base geometry and original 2,172-face
+render budget. Gene selection and water paddling reset per animal. The twelve
+atlases, mesh, skeleton and editable Blockbench model are regenerated together.
+Head chart/lighting and photographic source assets remain. Actual-geometry
+previews and native mesh/render checks pass; client review is still separate.
+
+A9 adds four mutually exclusive small fertility marks on tail children, costing
+0/40/18/120/38 faces for average/prolific/shy/swarm/starborn. The mesh stores
+2,460 faces / 9,840 vertices, while the largest actual combination is 2,364
+faces / 9,456 vertices. An unmarked non-webbed animal retains the original
+2,172-face render budget and all original coordinates/normals. The renderer
+selects and resets variants in the existing draw pass; there is no new level
+of detail or global character redesign. Actual geometry previews are inspected.

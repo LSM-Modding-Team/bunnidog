@@ -50,6 +50,7 @@ public final class Founders {
         RECIPES.put(Lineage.SWAMP, List.of(
                 sig(Gene.COAT, "moss", 0.60),
                 sig(Gene.COAT, "glow", 0.25),                         // recessive: mostly carried, rarely shown
+                sig(Gene.LEGS, "webbed", 0.80),
                 sig(Gene.FERTILITY, "prolific", 0.50), sig(Gene.DIET, "mushroom_eater", 0.85)));
         RECIPES.put(Lineage.CAVE, List.of(
                 sig(Gene.COAT, "pale", 0.90),

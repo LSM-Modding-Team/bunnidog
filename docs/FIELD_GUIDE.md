@@ -3,7 +3,9 @@
 A7 appends page 90 for the End's defensive Phase legs and index 89, **Lineage
 traits**. Habitat links to that index, which links coats, physical/terrain
 traits, snow care/routes and Phase. Snow pages and Phase return there. The
-guide now has **90 pages, seven indices and 61 chapter links**. Existing page
+guide now has **92 pages, seven indices and 63 chapter links**. A8 appends
+webbed paws on page 91; A9 appends the fertility visual key at 92. Both link
+from Lineage traits and return there. Existing page
 numbers stay stable; the substitute-font preview is inspected. Native client
 font, reading and combat playtesting remain separate.
 
@@ -73,7 +75,7 @@ book stacks to one and appears beside the Calipers in Tools & Utilities.
 The item inherits native WrittenBookItem and supplies the existing
 WRITTEN_BOOK_CONTENT component as an item default: native book packets, tooltips,
 saves and filtering apply. There is no new screen, payload, server handler or
-custom data component; current protocol 7 is shared with table planning. Default content follows future mod
+custom data component; current protocol 8 is shared with the other tools and new wild leg semantics. Default content follows future mod
 updates unless a command explicitly overrides the component.
 
 Art/content source: `art/gen_guide.py`; regenerate with Python 3/Pillow.

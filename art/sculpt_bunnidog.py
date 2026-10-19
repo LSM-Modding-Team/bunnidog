@@ -325,7 +325,8 @@ def define(bone, quad, tiles):
             for i in range(paw_sides):
                 a, b = i * 2 * math.pi / paw_sides, (i + 1) * 2 * math.pi / paw_sides
                 quad(f'{name}_paw_{j}_{i}', name, (paw(j / paw_rows, a), paw(j / paw_rows, b), paw((j + 1) / paw_rows, b), paw((j + 1) / paw_rows, a)), 'paw')
-        for toe, (lateral, length, width) in enumerate(((-.67, .73, .25), (-.22, 1, .28), (.25, .93, .27), (.67, .63, .23))):
+        toes = ((-.67, .73, .25), (-.22, 1, .28), (.25, .93, .27), (.67, .63, .23))
+        for toe, (lateral, length, width) in enumerate(toes):
             def digit(t, a):
                 forward = .43 + t * length
                 bend = lateral + .13 * math.sin(t * 1.7) * (1 if lateral > 0 else -1)
@@ -350,6 +351,30 @@ def define(bone, quad, tiles):
                     a, b = i * 2 * math.pi / nail_sides, (i + 1) * 2 * math.pi / nail_sides
                     quad(f'{name}_nail_{toe}_{j}_{i}', name, (nail(j / nail_rows, a), nail(j / nail_rows, b), nail((j + 1) / nail_rows, b), nail((j + 1) / nail_rows, a)), 'nail')
 
+        # The swamp's expressed webbed allele alone renders these thin closed
+        # membranes. Existing paw, toe, nail and body surfaces remain exact.
+        web = name + '_web'
+        pivot = {'leg_fr':(3.1,5.6,-1.4),'leg_fl':(-3.1,5.6,-1.35),
+                 'leg_br':(2.3,5.6,4.3),'leg_bl':(-2.3,5.6,4.2)}[name]
+        bone(web, pivot, name)
+        for gap, (left, right) in enumerate(zip(toes, toes[1:])):
+            l0, length_l, width_l = left; r0, length_r, width_r = right
+            # Overlap the digit sides slightly to avoid hairline cracks while
+            # keeping their separate tips/nails and the reference's asymmetry.
+            root_l, root_r = l0 + width_l*.4, r0 - width_r*.4
+            tip_l = l0 + .13*math.sin(1.45)*(1 if l0 > 0 else -1) + width_l*.45
+            tip_r = r0 + .13*math.sin(1.45)*(1 if r0 > 0 else -1) - width_r*.45
+            front = .43 + min(length_l,length_r)*.93
+            top = [paw_point(root_l,.68,.32),paw_point(root_r,.68,.32),
+                   paw_point(tip_r,front,.27),paw_point(tip_l,front,.27)]
+            bottom = [paw_point(root_l,.68,.17),paw_point(root_r,.68,.17),
+                      paw_point(tip_r,front,.16),paw_point(tip_l,front,.16)]
+            quad(f'{web}_{gap}_top',web,top,'paw')
+            quad(f'{web}_{gap}_bottom',web,tuple(reversed(bottom)),'paw')
+            for edge in range(4):
+                n = (edge+1)%4
+                quad(f'{web}_{gap}_edge_{edge}',web,(top[n],top[edge],bottom[edge],bottom[n]),'paw')
+
     # Short, naturally tapering dog tail, mostly hidden from the frontal photo.
     def tail(t, a):
         r = .55 * (1 - t) + .035
@@ -358,6 +383,52 @@ def define(bone, quad, tiles):
         for i in range(tail_sides):
             a, b = i * 2 * math.pi / tail_sides, (i + 1) * 2 * math.pi / tail_sides
             quad(f'tail_{j}_{i}', 'tail', (tail((j + 1) / tail_rows, a), tail((j + 1) / tail_rows, b), tail(j / tail_rows, b), tail(j / tail_rows, a)), 'fur')
+
+    # Fertility was the sole original gene with no inherited visible cue. Its
+    # optional small tail-tip buds leave every approved base surface unchanged.
+    tip = (.18*math.sin(2),6.65,7.8)
+    def bud_surface(key, parent, center, radii, material, sides=4, rows=2, yaw=0):
+        def point(row, side):
+            lat = -math.pi/2 + row*math.pi/rows
+            angle = side*2*math.pi/sides
+            a, b = radii[0]*math.cos(lat)*math.cos(angle), radii[2]*math.cos(lat)*math.sin(angle)
+            return (center[0]+a*math.cos(yaw)-b*math.sin(yaw),center[1]+radii[1]*math.sin(lat),
+                    center[2]+a*math.sin(yaw)+b*math.cos(yaw))
+        for row in range(rows):
+            for side in range(sides):
+                quad(f'{key}_{row}_{side}',parent,(point(row,side),point(row+1,side),point(row+1,side+1),point(row,side+1)),material)
+    def rosette(key, parent, center, scale=1):
+        for petal in range(4):
+            angle = petal*math.pi/2+.18
+            c = (center[0]+math.cos(angle)*.38*scale,center[1],center[2]+math.sin(angle)*.38*scale)
+            bud_surface(f'{key}_petal_{petal}',parent,c,(.36*scale,.13*scale,.21*scale),'fertility_rose',yaw=angle)
+        bud_surface(key+'_pollen',parent,(center[0],center[1]+.06*scale,center[2]),(.19*scale,.16*scale,.19*scale),'fertility_pollen')
+    for mark in ('prolific','shy','swarm','starborn'):
+        parent = 'fertility_'+mark
+        bone(parent,tip,'tail')
+        center = (tip[0],tip[1]+.10,tip[2])
+        if mark == 'shy':
+            bud_surface(parent,parent,(tip[0],tip[1]+.25,tip[2]),(.27,.43,.27),'fertility_bud',sides=6,rows=3)
+        elif mark == 'prolific':
+            rosette(parent,parent,center)
+        elif mark == 'swarm':
+            for cluster in range(3):
+                angle = cluster*2*math.pi/3
+                c = (center[0]+math.cos(angle)*.43,center[1]+(.08 if cluster == 1 else 0),center[2]+math.sin(angle)*.43)
+                rosette(f'{parent}_{cluster}',parent,c,.68)
+        else:
+            # Closed ten-sided prism: five pointed petals, a shallow underside
+            # and a small pollen center. It remains matte, without artificial light.
+            ring = [(center[0]+math.cos(i*math.pi/5)*(.72 if i%2 == 0 else .3),center[1],
+                     center[2]+math.sin(i*math.pi/5)*(.72 if i%2 == 0 else .3)) for i in range(10)]
+            top = [(x,y+.09,z) for x,y,z in ring]; bottom = [(x,y-.09,z) for x,y,z in ring]
+            tc=(center[0],center[1]+.09,center[2]); bc=(center[0],center[1]-.09,center[2])
+            for i in range(10):
+                n=(i+1)%10
+                quad(f'{parent}_top_{i}',parent,(tc,top[n],top[i],tc),'fertility_star')
+                quad(f'{parent}_bottom_{i}',parent,(bc,bottom[i],bottom[n],bc),'fertility_star')
+                quad(f'{parent}_side_{i}',parent,(top[i],top[n],bottom[n],bottom[i]),'fertility_star')
+            bud_surface(parent+'_pollen',parent,(center[0],center[1]+.12,center[2]),(.16,.12,.16),'fertility_pollen')
 
 
 
@@ -462,6 +533,12 @@ def surface_color(material, points, tile, fx, fy):
         weight = np.clip(np.abs(u) * 2.2 - .8, 0, 1)
     elif material in ('ear_back', 'fur', 'hair'):
         color = fur
+    elif material.startswith('fertility_'):
+        palette = {'fertility_rose':(189,116,135),'fertility_bud':(94,121,64),
+                   'fertility_star':(157,120,196),'fertility_pollen':(217,179,86)}
+        grain = .92 + .06*np.sin(x*17+z*13+y*9)
+        color = np.asarray(palette[material])*grain[...,None]
+        weight[:] = 0
     elif material == 'nail':
         grain = .5 + .5 * np.sin(x * 36 + z * 21)
         color = np.stack((107 + grain * 25, 94 + grain * 22, 74 + grain * 18), axis=-1)
@@ -479,7 +556,7 @@ def surface_color(material, points, tile, fx, fy):
             use = np.clip((-z - .8) / 1.1, 0, 1)
         if material == 'paw':
             # A wrinkled paw-skin patch avoids projecting the floor between toes.
-            name = tile['parent']
+            name = tile['parent'].removesuffix('_web')
             cx, cz, yaw, sx, sy = {
                 'leg_fr': (4.35, -3.4, .49, 270, 1105),
                 'leg_fl': (-4, -3.25, -.37, 955, 1120),

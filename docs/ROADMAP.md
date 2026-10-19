@@ -8,14 +8,13 @@ do not apply. Verify old completion claims against code before choosing work.
 
 | Feature | Actual status | Original plan |
 |---|---|---|
-| Swamp swimming/webbed paws | No inherited swimming benefit or webbed leg allele yet | `DESIGN.md`, Phase 3 environmental effects |
-| Visible fertility cue | Fertility mechanics exist; the creature still has no expressed visual cue | `DESIGN.md`, Genome/Phase 2–3 |
 | Coat camouflage | A proposal without defined triggers or gameplay tradeoffs; specify before coding | `DESIGN.md`, Phase 3 environmental effects |
 
 The same original lineage paragraph also proposed cave night vision. Ore sense
 is already implemented through bat-ear surveys; native animals already perceive
 targets in darkness, so a separate vision benefit still needs a useful definition.
-The End Phase ability is now A7 below. Older `DESIGN.md` “not done” statements
+The End Phase ability, swamp swimming and fertility visibility are now
+A7–A9 below. Older `DESIGN.md` “not done” statements
 are historical snapshots, including systems since completed; do not redo them.
 
 ## Done (do not redo)
@@ -32,6 +31,21 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+A9 completes planned fertility visibility with distinct expressed tail-tip
+marks on existing adults/pups. Hidden copies, breeding values and readiness
+remain; hovers/guide share the visual key. All approved base faces remain exact.
+Combined build/model/all 73 native scenarios pass; the actual-geometry and
+92-page/seven-index guide previews are inspected. Client/server protocol **8**
+requires the new leg-allele semantics on both sides, with old saves preserved.
+See `CARE_SPECS.md` A9.
+
+A8 completes planned swamp swimming/webbed paws: an appended inherited leg
+allele, native +0.5 Swim Speed with retained drowning, small land tradeoffs,
+juice and expressed-only toe membranes/paddling. All approved base coordinates/
+normals remain exact; ordinary rendering retains its original budget. Build,
+model gate and all 73 native scenarios pass; actual geometry and 91-page guide
+previews are inspected. See `CARE_SPECS.md` A8.
+
 U1's omitted small-warren trails are complete. Fresh version-seven surface
 clusters fit complete mouth-to-tree trails round actual mounds; blocked sides
 fall back or leave no paving. Native saved older starts keep their plans.
@@ -43,8 +57,9 @@ with End founders, stat tradeoffs and infused juice. Real attacks still hurt;
 grounded adults escape to safe loaded landings, respecting transport, homes,
 native teleport protection and saved twenty-second recovery. Build/all 71
 native scenarios pass; the 90-page/seven-index guide preview is inspected.
-See `CARE_SPECS.md` A7. Original Phase 3b still has unfinished swamp swimming,
-fertility visibility and camouflage proposals; these are not marked complete.
+See `CARE_SPECS.md` A7. The swamp
+adaptation is now A8; fertility visibility is now A9. Camouflage remains a design
+proposal without a defined gameplay benefit.
 
 A6 lets native snow-footed residents use supported powder-snow surfaces for
 home routines, meals and work. Interior powder, changed/lost footing, missing

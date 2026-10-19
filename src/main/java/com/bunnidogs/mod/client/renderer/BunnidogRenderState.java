@@ -1,6 +1,7 @@
 package com.bunnidogs.mod.client.renderer;
 
 import com.bunnidogs.mod.genetics.Temperament;
+import com.bunnidogs.mod.genetics.FertilityMark;
 
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 
@@ -17,5 +18,8 @@ public class BunnidogRenderState extends LivingEntityRenderState {
     public float legScale = 1.0F;
     /** Body width multiplier (Build gene). */
     public float buildScale = 1.0F;
+    public boolean webbed;
+    public boolean paddling;
+    public FertilityMark fertilityMark = FertilityMark.NONE;
     public Temperament temperament = Temperament.LOYAL;
 }
