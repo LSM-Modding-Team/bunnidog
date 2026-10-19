@@ -6,6 +6,7 @@ import com.bunnidogs.mod.block.SeedCropBlock;
 import com.bunnidogs.mod.block.GuavaFruitBlock;
 import com.bunnidogs.mod.block.NurseryCradleBlockEntity;
 import com.bunnidogs.mod.item.MutagenItem;
+import com.bunnidogs.mod.item.TravelBasketItem;
 import java.util.Comparator;
 import java.util.List;
 import net.minecraft.core.Direction;
@@ -17,6 +18,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -35,6 +37,7 @@ public final class ModDispensers {
             DispenserBlock.registerBehavior(ModItems.STARLIT_DUST.get(),new NurseryBehavior(NurseryAction.RIPEN));
             DispenserBlock.registerBehavior(ModItems.MUTAGEN.get(),new NurseryBehavior(NurseryAction.TREAT));
             DispenserBlock.registerBehavior(ModItems.GUAVA_SAPLING.get(),new SaplingBehavior());
+            DispenserBlock.registerBehavior(ModItems.TRAVEL_BASKET.get(),new BasketBehavior());
             var previousGuava = DispenserBlock.DISPENSER_REGISTRY.get(ModItems.GUAVA.get());
             var droppingGuava = previousGuava == null ? new DefaultDispenseItemBehavior() : previousGuava;
             var plantingFruit = new FruitPlantingBehavior();
@@ -50,6 +53,33 @@ public final class ModDispensers {
                         ? picking.dispense(source,tool) : previousShears.dispense(source,tool);
             });
         });
+    }
+    /** Reserve the actual slot before home/spawn callbacks can remove or refill the dispenser. */
+    private static final class BasketBehavior extends OptionalDispenseItemBehavior {
+        @Override protected ItemStack execute(BlockSource source, ItemStack stack) {
+            this.setSuccess(false);
+            var level = source.level(); var inventory = source.blockEntity();
+            if (stack.getCount() != 1 || inventory.isRemoved() || level.getBlockEntity(source.pos()) != inventory) return stack;
+            int slot = -1;
+            for (int i = 0; i < inventory.getContainerSize(); i++) if (inventory.getItem(i) == stack) { slot = i; break; }
+            if (slot < 0) return stack;
+            var front = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
+            if (!level.hasChunkAt(front)) return stack;
+            var reserved = stack.split(1);
+            if (TravelBasketItem.occupied(reserved)) this.setSuccess(TravelBasketItem.release(level,front,reserved).success());
+            else {
+                var dog = level.getEntitiesOfClass(Bunnidog.class,new AABB(front),
+                        candidate -> TravelBasketItem.captureStatus(candidate) == TravelBasketItem.Result.READY).stream()
+                        .min(Comparator.<Bunnidog>comparingDouble(candidate -> candidate.distanceToSqr(Vec3.atCenterOf(front)))
+                                .thenComparing(Bunnidog::getUUID)).orElse(null);
+                if (dog != null) this.setSuccess(TravelBasketItem.capture(level,reserved,dog).success());
+            }
+            boolean attached = !inventory.isRemoved() && level.getBlockEntity(source.pos()) == inventory;
+            if (attached && inventory.getItem(slot).isEmpty()) return reserved;
+            // A vanished source or callback-refilled slot must not lose/duplicate either item.
+            Block.popResource(level,source.pos(),reserved);
+            return !inventory.isRemoved() && level.getBlockEntity(source.pos()) == inventory ? inventory.getItem(slot) : ItemStack.EMPTY;
+        }
     }
     /** A valid canopy gap uses one plain guava; other targets keep the original food-ejection behavior. */
     private static final class FruitPlantingBehavior extends OptionalDispenseItemBehavior {

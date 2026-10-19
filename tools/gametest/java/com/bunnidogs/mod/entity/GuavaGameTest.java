@@ -55,7 +55,7 @@ public final class GuavaGameTest extends GameTestInstance {
     @SubscribeEvent
     public static void registerTests(RegisterGameTestsEvent event) {
         var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.AllOf());
-        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "table_automation", "show", "grooming", "cold_care", "settlement", "apex", "fixtures", "regional_farms", "orchard", "orchard_picking", "sapling_station", "gardening", "cactus_gardening", "mushroom_gardening", "melon_gardening", "fruit_foraging", "regional_meals", "loose_food", "food_gathering", "pantry", "fishing", "hunt_safety", "refuge", "guarding", "scouting", "resident_finder", "storm_shelter", "recovery_rest", "trough_automation", "bell_calls", "trough_filters", "care_dispensers", "basket", "cultivation", "nest_markers", "nest_signals", "night_meals", "nursery", "seed_recovery", "cradle_storage", "cradle_hatching", "cradle_spawn_refusal", "crop_harvest", "composting", "work_modes", "work_census", "garden_restoration", "nursery_workers", "nursery_treatment"}) {
+        for (String name : new String[]{"boats", "signs", "transport", "rehoming", "wayfinding", "sampling", "adaptations", "fleece", "splicing", "registry", "table_planning", "table_automation", "show", "grooming", "cold_care", "settlement", "apex", "fixtures", "regional_farms", "orchard", "orchard_picking", "sapling_station", "gardening", "cactus_gardening", "mushroom_gardening", "melon_gardening", "fruit_foraging", "regional_meals", "loose_food", "food_gathering", "pantry", "fishing", "hunt_safety", "chorus_care", "refuge", "guarding", "scouting", "resident_finder", "storm_shelter", "recovery_rest", "trough_automation", "bell_calls", "trough_filters", "care_dispensers", "basket", "basket_dispenser", "basket_callbacks", "cultivation", "nest_markers", "nest_signals", "night_meals", "nursery", "seed_recovery", "cradle_storage", "cradle_hatching", "cradle_spawn_refusal", "crop_harvest", "composting", "work_modes", "work_census", "garden_restoration", "nursery_workers", "nursery_treatment"}) {
             event.registerTest(id(name), new GuavaGameTest(name, new TestData<>(environment, id("empty"), name.equals("nest_signals") ? 180 : 100, 0, true)));
         }
     }
@@ -118,6 +118,9 @@ public final class GuavaGameTest extends GameTestInstance {
             case "trough_filters" -> { TroughFilterGameTest.run(h); return; }
             case "care_dispensers" -> { CareDispenserGameTest.run(h); return; }
             case "basket" -> { BasketGameTest.run(h); return; }
+            case "basket_dispenser" -> { BasketDispenserGameTest.run(h); return; }
+            case "basket_callbacks" -> { BasketDispenserGameTest.callbacks(h); return; }
+            case "chorus_care" -> { ChorusCareGameTest.run(h); return; }
             case "grooming" -> GroomingGameTest.run(h);
             case "cold_care" -> { ColdCareGameTest.run(h); return; }
             case "settlement" -> { SettlementGameTest.run(h); return; }

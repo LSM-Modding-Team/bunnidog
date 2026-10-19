@@ -22,6 +22,16 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **D10/L33/H10, End care and basket stations:** Bloom +20 chorus-compatible
+  adults revive only spent flowers, preserving branches and yielding one fruit
+  to a work trough or direct meal. Native dispensers pack/release one existing
+  animal, preserving paused care and exact identity. Full-body dry placement,
+  reentrant UUID guards and whole-slot reservation conserve baskets through
+  cancelled spawns, removed sources and callback refills. Java 25 build/all 64
+  native cases pass; the 82-page guide preview is inspected. See
+  `docs/FORAGING_SPECS.md` D10 and `docs/HOME_SPECS.md` H10.
+
+
 - **D9/L32, safe hunts and work roll call:** hunters/fishers choose bounded
   dry approach/shore routes, interrupt on changed homes/terrain/protection
   and leave named, led or transported prey alone. Only an eligible chosen
@@ -316,7 +326,7 @@ storm shelter, fishing, terrain traits, local supplies, living dust and fitted
 farms are also complete. Their rules/evidence remain in the specifications
 listed below; do not redo them.
 
-The native Field Guide has 68 translated pages and thirty-nine chapter links
+The native Field Guide has 82 translated pages and forty-six chapter links
 across five linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.

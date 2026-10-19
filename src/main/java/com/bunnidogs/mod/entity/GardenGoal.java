@@ -24,6 +24,7 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CaveVines;
+import net.minecraft.world.level.block.ChorusFlowerBlock;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.NetherWartBlock;
@@ -85,6 +86,8 @@ final class GardenGoal extends Goal {
                 && stock.getCount() > Gardening.COMPOST_RESERVE && level.getBlockEntity(pos) instanceof NurseryCradleBlockEntity cradle
                 && cradle.seed().isPresent() && cradle.age() < SeedCropBlock.MAX_AGE
                 ? new Work(stock.copyWithCount(1),state,Task.NURTURE) : null;
+        if (state.is(Blocks.CHORUS_FLOWER)) return ResidentPlants.spentChorus(this.dog,pos)
+                ? new Work(new ItemStack(Items.CHORUS_FRUIT),state.setValue(ChorusFlowerBlock.AGE,0),Task.HARVEST) : null;
         if (state.is(Blocks.MELON)) return ResidentPlants.linkedMelon(this.dog,pos)
                 ? new Work(new ItemStack(Items.MELON_SLICE),Blocks.AIR.defaultBlockState(),Task.HARVEST) : null;
         if (state.is(Blocks.MELON_STEM)) return cultivate && state.getValue(StemBlock.AGE) < StemBlock.MAX_AGE && state.canSurvive(level,pos)
@@ -166,6 +169,7 @@ final class GardenGoal extends Goal {
                 && (!this.mature.is(Blocks.MELON) || ResidentPlants.linkedMelon(this.dog,this.crop))
                 && (!this.mature.is(Blocks.CACTUS) || ResidentPlants.spareCactus(this.dog,this.crop))
                 && (!ResidentPlants.mushroom(this.mature) || ResidentPlants.spareMushroom(this.dog,this.crop))
+                && (!this.mature.is(Blocks.CHORUS_FLOWER) || ResidentPlants.spentChorus(this.dog,this.crop))
                 && (this.task != Task.PLANT || this.reset.equals(ResidentPlanting.plan((ServerLevel)this.dog.level(),this.crop,this.produce)))
                 && (this.task != Task.NURTURE || this.nursery != null && this.dog.level().getBlockEntity(this.crop) == this.nursery && this.nursery.seed().isPresent()
                         && this.nursery.age() == this.nurseryAge && ItemStack.matches(this.nursery.storedSeed(),this.litter))

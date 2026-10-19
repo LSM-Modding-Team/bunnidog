@@ -58,7 +58,7 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Eighty pages use the ordinary written-book screen. Five linked contents pages
+Eighty-two pages use the ordinary written-book screen. Five linked contents pages
 offer forty-six clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current sixty-one native server cases pass,
-including loading the book/recipe/loot resources. The expanded 80-page
-roll-call/hunting/mode/Working preview is inspected with a substitute font; all
+The actual Java 25 build and current sixty-four native server cases pass,
+including loading the book/recipe/loot resources. The expanded 82-page
+End-care/basket-station/Travel/Working preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -251,3 +251,8 @@ L32 adds **Work roll call** (79), referenced by Work modes (75). D9 adds
 There are 80 pages; five indices/forty-six chapter links stay. The new content/
 navigation preview is inspected; build/all 61 native cases pass. Native client
 fonts/chat/navigation remain gameplay review.
+
+D10/L33 and H10 append pages 81–82 for spent-chorus care and native basket
+stations. Regional farms points to 81; Travel Basket points to 82. Basket
+stations returns to More chapters; End care returns to Working residents.
+All earlier numbers and the five indices/forty-six chapter links remain.

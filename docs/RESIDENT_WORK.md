@@ -101,3 +101,11 @@ Calipers, checks selected nursery/gather trait and pup eligibility, power and
 work pause, and compares whole stock/filter/mode saves, animal NBT, tag,
 navigation and tool before/after inspection. Remote requests leave chunks
 unloaded. Guide preview inspected; client chat display remains gameplay review.
+
+## L33: End-garden specialists
+
+Bloom +20 workers with a chorus-fruit Diet revive only supported spent chorus
+flowers and bank one fruit beside enabled Mixed/Garden troughs. Native living
+branch ages stay unchanged; each job shares normal garden rest. Injured matching
+adults use the same stock-preserving rule for a direct meal. See
+`FORAGING_SPECS.md` D10 for mechanics and evidence.

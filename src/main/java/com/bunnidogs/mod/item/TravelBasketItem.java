@@ -1,6 +1,12 @@
 package com.bunnidogs.mod.item;
 
 import java.util.Optional;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import java.util.Locale;
 import java.util.function.Consumer;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Genome;
@@ -39,6 +45,13 @@ import net.minecraft.world.phys.Vec3;
 /** One existing animal in native bucket data. Failure keeps both the basket and its occupant intact. */
 public final class TravelBasketItem extends Item {
     private static final String VERSION = "BunnidogsBasket";
+    private static final Set<Bunnidog> CAPTURING = Collections.newSetFromMap(new IdentityHashMap<>());
+    private static final Set<UUID> RELEASING = new HashSet<>();
+    public enum Result {
+        READY, CAPTURED, RELEASED, FULL, ORDINARY, TRANSPORTED, DANGER, INVALID, BLOCKED, DUPLICATE;
+        public String key() { return name().toLowerCase(Locale.ROOT); }
+        public boolean success() { return this == CAPTURED || this == RELEASED; }
+    }
     public TravelBasketItem(Properties props) { super(props); }
     public static boolean occupied(ItemStack stack) {
         return !stack.getOrDefault(DataComponents.BUCKET_ENTITY_DATA,CustomData.EMPTY).isEmpty();
@@ -82,24 +95,38 @@ public final class TravelBasketItem extends Item {
         if (!(dog.level() instanceof ServerLevel server)) return InteractionResult.SUCCESS;
         ItemStack actual = player.getItemInHand(hand); // Creative native interaction may pass a temporary copy.
         if (!player.mayBuild() || actual.getCount() != 1) return message(player,"permission");
-        if (occupied(actual)) return message(player,"full");
-        if (!dog.isAlive() || !dog.acceptsCare() || dog.getType() != ModEntities.BUNNIDOG.get()) return message(player,"ordinary");
+        var result = capture(server,actual,dog);
+        if (result.success()) player.playSound(SoundEvents.BUNDLE_INSERT,.6F,1);
+        return message(player,result.key());
+    }
+    /** Read-only eligibility shared by hands and native dispensers. */
+    public static Result captureStatus(Bunnidog dog) {
+        if (!dog.isAlive() || !dog.acceptsCare() || dog.getType() != ModEntities.BUNNIDOG.get()) return Result.ORDINARY;
         if (dog.beingTransported() || dog.isVehicle()
-                || !Leashable.leashableInArea(dog,leashed -> leashed.getLeashHolder() == dog).isEmpty()) return message(player,"transported");
-        if (dog.getTarget() != null || dog.seekingRefuge()
-                || dog.getLastHurtByMob() != null && dog.tickCount-dog.getLastHurtByMobTimestamp() < 200) return message(player,"danger");
-        var output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING,server.registryAccess());
-        dog.saveWithoutId(output);
-        var saved = output.buildResult();
-        saved.putInt(VERSION,1);
-        saved.putString("BasketName",dog.getName().getString());
-        saved.remove("NestX"); saved.remove("NestY"); saved.remove("NestZ");
-        saved.remove(Entity.TAG_POS); saved.remove("Motion");
-        actual.set(DataComponents.BUCKET_ENTITY_DATA,CustomData.of(saved));
-        dog.releaseHomeForTravel(server);
-        dog.discard();
-        player.playSound(SoundEvents.BUNDLE_INSERT,.6F,1);
-        return message(player,"captured");
+                || !Leashable.leashableInArea(dog,leashed -> leashed.getLeashHolder() == dog).isEmpty()) return Result.TRANSPORTED;
+        if (CAPTURING.contains(dog) || dog.getTarget() != null || dog.seekingRefuge()
+                || dog.getLastHurtByMob() != null && dog.tickCount-dog.getLastHurtByMobTimestamp() < 200) return Result.DANGER;
+        return Result.READY;
+    }
+    public static Result capture(ServerLevel server, ItemStack basket, Bunnidog dog) {
+        if (!basket.is(ModItems.TRAVEL_BASKET.get()) || basket.getCount() != 1 || dog.level() != server) return Result.INVALID;
+        if (occupied(basket)) return Result.FULL;
+        var status = captureStatus(dog);
+        if (status != Result.READY) return status;
+        CAPTURING.add(dog);
+        try {
+            var output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING,server.registryAccess());
+            dog.saveWithoutId(output);
+            var saved = output.buildResult();
+            saved.putInt(VERSION,1);
+            saved.putString("BasketName",dog.getName().getString());
+            saved.remove("NestX"); saved.remove("NestY"); saved.remove("NestZ");
+            saved.remove(Entity.TAG_POS); saved.remove("Motion");
+            basket.set(DataComponents.BUCKET_ENTITY_DATA,CustomData.of(saved));
+            dog.releaseHomeForTravel(server);
+            dog.discard();
+            return Result.CAPTURED;
+        } finally { CAPTURING.remove(dog); }
     }
     @Override public InteractionResult useOn(UseOnContext context) {
         ItemStack basket = context.getItemInHand();
@@ -109,26 +136,40 @@ public final class TravelBasketItem extends Item {
         if (!(context.getLevel() instanceof ServerLevel server)) return InteractionResult.SUCCESS;
         var spot = context.getClickedPos().relative(context.getClickedFace());
         if (!player.mayBuild() || basket.getCount() != 1 || !player.mayUseItemAt(spot,context.getClickedFace(),basket)) return message(player,"permission");
-        if (!server.hasChunkAt(spot) || !server.getBlockState(spot.below()).isFaceSturdy(server,spot.below(),Direction.UP)) return message(player,"blocked");
-        var saved = basket.get(DataComponents.BUCKET_ENTITY_DATA).copyTag();
+        var result = release(server,spot,basket);
+        if (result.success()) player.playSound(SoundEvents.BUNDLE_REMOVE_ONE,.6F,1);
+        return message(player,result.key());
+    }
+    /** Release the existing identity only into a loaded, supported, dry body-sized space. */
+    public static Result release(ServerLevel server, BlockPos spot, ItemStack basket) {
+        if (!basket.is(ModItems.TRAVEL_BASKET.get()) || basket.getCount() != 1 || !occupied(basket)) return Result.INVALID;
+        if (server.isOutsideBuildHeight(spot) || !server.getWorldBorder().isWithinBounds(spot)
+                || !server.hasChunksAt(spot.below(),spot.above())
+                || !server.getBlockState(spot.below()).isFaceSturdy(server,spot.below(),Direction.UP)) return Result.BLOCKED;
+        var original = basket.get(DataComponents.BUCKET_ENTITY_DATA);
+        var saved = original.copyTag();
         var identity = saved.read(Entity.TAG_UUID,UUIDUtil.CODEC);
-        if (line(saved).isEmpty() || identity.isEmpty()) return message(player,"invalid");
-        if (server.getEntityInAnyDimension(identity.get()) != null) return message(player,"duplicate");
-        Bunnidog dog = ModEntities.BUNNIDOG.get().create(server,EntitySpawnReason.BUCKET);
-        if (dog == null) return message(player,"blocked");
-        saved.store(Entity.TAG_POS,Vec3.CODEC,Vec3.atBottomCenterOf(spot));
-        saved.remove("NestX"); saved.remove("NestY"); saved.remove("NestZ");
+        if (line(saved).isEmpty() || identity.isEmpty()) return Result.INVALID;
+        if (server.getEntityInAnyDimension(identity.get()) != null || !RELEASING.add(identity.get())) return Result.DUPLICATE;
         try {
-            dog.load(TagValueInput.create(ProblemReporter.DISCARDING,server.registryAccess(),saved));
-        } catch (RuntimeException invalid) { return message(player,"invalid"); }
-        dog.setDeltaMovement(Vec3.ZERO); dog.resetFallDistance();
-        var box = dog.getBoundingBox();
-        if (!dog.isAlive() || !dog.getUUID().equals(identity.get())) return message(player,"invalid");
-        if (!server.hasChunksAt(BlockPos.containing(box.minX,box.minY,box.minZ),BlockPos.containing(box.maxX,box.maxY,box.maxZ))
-                || !server.noCollision(dog,box,true) || !server.addFreshEntity(dog)) return message(player,"blocked");
-        basket.remove(DataComponents.BUCKET_ENTITY_DATA);
-        player.playSound(SoundEvents.BUNDLE_REMOVE_ONE,.6F,1);
-        return message(player,"released");
+            Bunnidog dog = ModEntities.BUNNIDOG.get().create(server,EntitySpawnReason.BUCKET);
+            if (dog == null) return Result.BLOCKED;
+            saved.store(Entity.TAG_POS,Vec3.CODEC,Vec3.atBottomCenterOf(spot));
+            saved.remove("NestX"); saved.remove("NestY"); saved.remove("NestZ");
+            try { dog.load(TagValueInput.create(ProblemReporter.DISCARDING,server.registryAccess(),saved)); }
+            catch (RuntimeException invalid) { return Result.INVALID; }
+            dog.setDeltaMovement(Vec3.ZERO); dog.resetFallDistance();
+            var box = dog.getBoundingBox();
+            var low = BlockPos.containing(box.minX,box.minY,box.minZ);
+            var high = BlockPos.containing(box.maxX-1e-7,box.maxY-1e-7,box.maxZ-1e-7);
+            if (!dog.isAlive() || !dog.getUUID().equals(identity.get())) return Result.INVALID;
+            if (server.isOutsideBuildHeight(low) || server.isOutsideBuildHeight(high) || !server.getWorldBorder().isWithinBounds(box)
+                    || !server.hasChunksAt(low,high) || !server.getFluidState(spot.below()).isEmpty()) return Result.BLOCKED;
+            for (var cell : BlockPos.betweenClosed(low,high)) if (!server.getFluidState(cell).isEmpty()) return Result.BLOCKED;
+            if (!server.noCollision(dog,box,true) || !server.addFreshEntity(dog)) return Result.BLOCKED;
+            if (original.equals(basket.get(DataComponents.BUCKET_ENTITY_DATA))) basket.remove(DataComponents.BUCKET_ENTITY_DATA);
+            return Result.RELEASED;
+        } finally { RELEASING.remove(identity.get()); }
     }
     private static InteractionResult message(Player player, String key) {
         player.sendOverlayMessage(Component.translatable("message.bunnidogs.basket."+key));

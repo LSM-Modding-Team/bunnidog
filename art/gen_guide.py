@@ -42,7 +42,7 @@ PAGES = {
     36: ('Fleece colors', 'Woolly adults yield two wool in their coat colors. Spotted gives one yellow and one brown. Glow gives cyan; moss green; ember red; void purple. Hidden coats add nothing. Calipers names the ready yield.'),
     37: ('Trough filters', 'Sneak-use food to reserve a trough for that exact food and its components, without spending it. Hoppers and gardeners obey the filter. Sneak-empty withdraws stock; repeat while empty to clear the filter.'),
     38: ('Care dispensers', 'Dispensers use Brushes or Sampling Syringes on one eligible bunnidog ahead per pulse. One tool use; hand and machine share recovery. Collect drops with hoppers. Armadillo brushing still works.'),
-    39: ('Travel Basket', 'Craft six planks, leather and a lead into a basket. Pack one calm, unled animal; release on clear dry ground. Identity and care rest persist; its old Nest becomes free. Calipers reads it; sneak-use books to log it.'),
+    39: ('Travel Basket', 'Craft six planks, leather and a lead into a basket. Pack one calm unled animal; release on clear dry ground. Identity and care rest persist; its old Nest becomes free. Calipers reads it. Stations: 82.'),
     41: ('Nursery Cradle', 'Craft wool, glass, a Nest and planks into a Nursery Cradle. Insert one seed; a loaded minute adds one stage. Bone meal helps; Starlit Dust ripens it. Sneak-empty withdraws and resets growth. Calipers reads the litter.'),
     42: ('Hatch safely', 'Use a ripe Cradle empty-handed or pulse redstone. Clear a dry 3x3 pad in front with two blocks of air. Sneak-Calipers checks the pad and marks trouble. Hoppers move seeds; comparators read 15 when ripe. Steady power does not repeat.'),
     43: ('Surplus compost', 'Bloom +10 adults compost food above an eight-item reserve at hoe-enabled troughs. Place a composter nearby with a safe route. Crop work takes priority. Each job spends one food and rests a minute. Hoppers collect bone meal.'),
@@ -58,7 +58,7 @@ PAGES = {
     54: ('Plan a litter', 'Read a Genetics Table holding one guava for both parents, or two to average them. Mutagen previews treatment. Cues and samples are kept. Clear hands for plain, untreated plans. Starborn is included. Fortune: page 55.'),
     55: ('Plan the harvest', 'Read the table with a Fortune tool in either hand. Uses the highest held level, adding 0.5 quality per level at crop harvest. An opposite guava or Mutagen also applies. Cues stay intact. Cradles get no Fortune bonus.'),
     57: ('Cactus gardens', 'Hoe-enable a trough for desert-browser adults. They trim one spare cactus top, leaving lower segments. Keep clear ground and a safe route. Flowers stay intact. Diet, filters, power, protection and shared work rest apply.'),
-    58: ('Regional farms', 'New farms suit their home: desert cactus, Nether wart, swamp mushrooms, cave glow berries and End chorus. Some fit an empty enabled trough. Stock it for meals. Plants use native growth; old settlements keep their plans.'),
+    58: ('Regional farms', 'New farms grow desert cactus, Nether wart, swamp mushrooms, cave glow berries or End chorus. Some fit an empty enabled trough. Stock it for meals. Old settlements keep their plans. End care: 81.'),
     59: ('Guava orchards', 'Use one plain guava on the underside of leaves to plant green fruit in air. Any leaf type works. Bone meal adds one age; two ripen it. Pick ripe fruit to keep it growing. Shears or Silk Touch recover guava leaves for new orchards.'),
     60: ('Mushroom beds', 'Healthy mushroom eaters thin red or brown beds beside an enabled trough. Another living mushroom of the same color must remain within three blocks. Keep mycelium and clear routes. Native spread regrows the patch; work rests a minute.'),
     61: ('Fruit meals', 'Injured adult residents eat ripe hanging guavas near home by day. Matching Diets also pick sweet or glow berries. Plants stay to regrow. One meal heals 2 HP and shares the thirty-second food rest. Safe routes and protection apply.'),
@@ -80,8 +80,10 @@ PAGES = {
     78: ('Meadow melon farms', 'Fresh five-tree meadow farms mix young melon stems with ordinary crops. Empty dirt spaces allow fruit; a clear corner may fit an enabled trough. Plants grow naturally. Old settlements keep their plans. Garden repair: page 76.'),
     79: ('Work roll call', 'Sneak-use Calipers on a trough for its mode, food, filter and nearby residents. The report explains age, health, home, traits, recovery and stock limits. Ready means eligible to search. Leave a clear route and the right work nearby.'),
     80: ('Safe hunting', 'Wounded hunters and fishers follow dry home routes to wild prey. They stop for unsafe terrain, changed homes or protection. Named, leashed and transported animals stay. One kill heals 4 HP and shares thirty-second food rest.'),
+    81: ('Chorus gardens', 'Bloom +20 chorus eaters revive spent flowers for one fruit. Mixed/Garden troughs store it; injured adults eat it for 2 HP. Living flowers keep their branch age. Leave supported branches and dry paths.'),
+    82: ('Basket stations', 'A dispenser packs one calm unled bunnidog ahead. Filled baskets release onto clear dry ground. Failed pulses keep the basket. Identity and care rest persist. Each pulse acts once; sort with hoppers.'),
 }
-PAGE_COUNT = 80
+PAGE_COUNT = 82
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
@@ -136,7 +138,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,79),(495,80),(735,75),(975,66)]:
+    for x,page in [(255,81),(495,82),(735,39),(975,66)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

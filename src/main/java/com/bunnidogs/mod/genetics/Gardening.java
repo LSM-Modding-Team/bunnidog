@@ -11,9 +11,11 @@ public final class Gardening {
     public static final int MUSHROOM_RADIUS = 3;
     public static final int MIN_CULTIVATION_BLOOM = 10;
     public static final int MIN_NURSERY_BLOOM = 20;
+    public static final int MIN_CHORUS_BLOOM = 20;
     public static final int COMPOST_RESERVE = 8;
     public static boolean cultivates(Stats stats) { return stats.get(Stat.BLOOM) >= MIN_CULTIVATION_BLOOM; }
     public static boolean nurses(Stats stats) { return stats.get(Stat.BLOOM) >= MIN_NURSERY_BLOOM; }
+    public static boolean tendsChorus(Stats stats) { return stats.get(Stat.BLOOM) >= MIN_CHORUS_BLOOM; }
     public enum Status { READY, UNAVAILABLE, ADULT, FULL_HEALTH, HOME, DAYTIME, TRANSPORTED, DANGER, RESTING, OUTSIDE_HOME, GRIEFING_OFF }
     public static Status status(boolean adult, boolean healthy, boolean home, boolean night,
             boolean transported, boolean danger, boolean rested) {

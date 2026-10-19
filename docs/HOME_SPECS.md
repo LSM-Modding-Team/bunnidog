@@ -257,3 +257,41 @@ Both signal ends update. A deliberately unnotified native ticket release is
 corrected by the real scheduled refresh. A remote unloaded notification/query leaves terrain
 unloaded. Existing home/basket/marker cases remain passing. Guide preview
 inspected; client redstone displays and natural unload cycles need gameplay review.
+
+## H10: Travel Basket stations
+
+Native dispensers now operate Travel Baskets one animal per pulse. An empty
+basket packs the nearest eligible ordinary bunnidog intersecting the front
+block (distance, then UUID breaks ties). The same hand rules exclude led/riding/
+vehicle animals, leash holders, recent attackers, combat/refuge and the Apex.
+A filled basket releases its existing identity at the front block's bottom
+center. Provide loaded, bordered, supported, dry space for the animal's full
+body; native collision and spawn acceptance still decide success. Hand release
+now shares these full-body dry/build-border checks. Refused or malformed
+occupied stock stays in the dispenser, with all original data. No ejection.
+
+The exact genome, stats, name, parents, tag, age, health and remaining care/meal/
+work timers travel in existing version-one native bucket data. Packing frees
+the old Nest; release does not claim it. No new saved field, item or packet.
+A known live identity or a release already inside native spawn callbacks
+refuses a copied basket. This guards loaded identities and the current release,
+not an unloaded-world global UUID ledger.
+
+The dispenser reserves its whole one-item input before home/spawn callbacks.
+If the source disappears, return the resulting full/empty basket once as an
+item. If callbacks refill the original slot, preserve that new stock and drop
+the resulting basket once instead of overwriting it. A source removed during a
+refused spawn therefore refunds one occupied basket; it cannot also drop the
+original input while spawning an animal. Capture/release guards stop reentrant
+packing or unpacking of the same identity. Native block-drop rules apply to
+these returns. Each new pulse acts on the current empty/full basket; use
+separate stations or sort baskets with hoppers when building a transport line.
+
+Java 25 build/all 64 native cases pass. Two new machine cases exercise actual
+redstone capture/release, led refusal, named whole-animal identity/recoveries,
+freed Nest ticket, blocked/wet/duplicate/malformed refusal without ejection,
+reentrant same-UUID refusal during native spawn, source removal plus spawn
+cancellation returning one exact full basket, and accepted-spawn slot refill
+preserving new diamonds plus one empty basket. The existing hand/creative/pup/
+record/save cases remain passing. Guide preview inspected; client transport
+lines and natural world travel remain gameplay review.

@@ -35,6 +35,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
@@ -114,6 +115,8 @@ public class CalipersItem extends Item {
                 ? "message.bunnidogs.care.cultivation_bonus" : "message.bunnidogs.care.cultivation_requirement",Gardening.MIN_CULTIVATION_BLOOM,Gardening.COMPOST_RESERVE));
         careRow(player,"nursery",Component.translatable(Gardening.nurses(dog.stats())
                 ? "message.bunnidogs.care.nursery_bonus" : "message.bunnidogs.care.nursery_requirement",Gardening.MIN_NURSERY_BLOOM,Gardening.COMPOST_RESERVE));
+        if (dog.canEat(new ItemStack(Items.CHORUS_FRUIT))) careRow(player,"chorus",Component.translatable(Gardening.tendsChorus(dog.stats())
+                ? "message.bunnidogs.care.chorus_bonus" : "message.bunnidogs.care.chorus_requirement",Gardening.MIN_CHORUS_BLOOM));
         careRow(player,"guarding",Component.translatable("message.bunnidogs.guarding."+dog.guardingStatus().name().toLowerCase(Locale.ROOT)));
         careRow(player,"gathering",Component.translatable(com.bunnidogs.mod.genetics.Scavenging.gathers(dog.stats())
                 ? "message.bunnidogs.care.gathering_bonus" : "message.bunnidogs.care.gathering_requirement",

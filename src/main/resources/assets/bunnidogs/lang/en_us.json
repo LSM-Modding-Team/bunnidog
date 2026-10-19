@@ -347,7 +347,7 @@
   "message.bunnidogs.basket.duplicate": "That animal is already in the world. Contents kept.",
   "message.bunnidogs.basket.released": "Released safely; adults can claim a new Nest.",
   "guide.bunnidogs.page.39.title": "Travel Basket",
-  "guide.bunnidogs.page.39.body": "Craft six planks, leather and a lead into a basket. Pack one calm, unled animal; release on clear dry ground. Identity and care rest persist; its old Nest becomes free. Calipers reads it; sneak-use books to log it.",
+  "guide.bunnidogs.page.39.body": "Craft six planks, leather and a lead into a basket. Pack one calm unled animal; release on clear dry ground. Identity and care rest persist; its old Nest becomes free. Calipers reads it. Stations: 82.",
   "guide.bunnidogs.more_contents": "More chapters",
   "guide.bunnidogs.main_contents": "Main contents",
   "guide.bunnidogs.index.28": "Living harvests",
@@ -507,7 +507,7 @@
   "guide.bunnidogs.page.57.body": "Hoe-enable a trough for desert-browser adults. They trim one spare cactus top, leaving lower segments. Keep clear ground and a safe route. Flowers stay intact. Diet, filters, power, protection and shared work rest apply.",
   "guide.bunnidogs.index.58": "Regional farms",
   "guide.bunnidogs.page.58.title": "Regional farms",
-  "guide.bunnidogs.page.58.body": "New farms suit their home: desert cactus, Nether wart, swamp mushrooms, cave glow berries and End chorus. Some fit an empty enabled trough. Stock it for meals. Plants use native growth; old settlements keep their plans.",
+  "guide.bunnidogs.page.58.body": "New farms grow desert cactus, Nether wart, swamp mushrooms, cave glow berries or End chorus. Some fit an empty enabled trough. Stock it for meals. Old settlements keep their plans. End care: 81.",
   "tooltip.bunnidogs.guava.plant": "Use beneath leaves to grow a new hanging fruit",
   "guide.bunnidogs.index.59": "Guava orchards",
   "guide.bunnidogs.page.59.title": "Guava orchards",
@@ -599,5 +599,12 @@
   "guide.bunnidogs.page.79.title": "Work roll call",
   "guide.bunnidogs.page.79.body": "Sneak-use Calipers on a trough for its mode, food, filter and nearby residents. The report explains age, health, home, traits, recovery and stock limits. Ready means eligible to search. Leave a clear route and the right work nearby.",
   "guide.bunnidogs.page.80.title": "Safe hunting",
-  "guide.bunnidogs.page.80.body": "Wounded hunters and fishers follow dry home routes to wild prey. They stop for unsafe terrain, changed homes or protection. Named, leashed and transported animals stay. One kill heals 4 HP and shares thirty-second food rest."
+  "guide.bunnidogs.page.80.body": "Wounded hunters and fishers follow dry home routes to wild prey. They stop for unsafe terrain, changed homes or protection. Named, leashed and transported animals stay. One kill heals 4 HP and shares thirty-second food rest.",
+  "message.bunnidogs.care.chorus": "End garden care",
+  "message.bunnidogs.care.chorus_bonus": "Bloom +%s: revive spent chorus flowers for one fruit, keeping the plant",
+  "message.bunnidogs.care.chorus_requirement": "Breed Bloom to +%s to revive spent chorus flowers",
+  "guide.bunnidogs.page.81.title": "Chorus gardens",
+  "guide.bunnidogs.page.81.body": "Bloom +20 chorus eaters revive spent flowers for one fruit. Mixed/Garden troughs store it; injured adults eat it for 2 HP. Living flowers keep their branch age. Leave supported branches and dry paths.",
+  "guide.bunnidogs.page.82.title": "Basket stations",
+  "guide.bunnidogs.page.82.body": "A dispenser packs one calm unled bunnidog ahead. Filled baskets release onto clear dry ground. Failed pulses keep the basket. Identity and care rest persist. Each pulse acts once; sort with hoppers."
 }

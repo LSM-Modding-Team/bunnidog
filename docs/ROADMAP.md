@@ -16,6 +16,14 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+D10/L33 adds Bloom +20 spent-chorus care with shared sustainable meals/work.
+H10 adds native Travel Basket dispensers and shared dry whole-body placement,
+conserving occupied/empty stock through cancelled/reentrant spawns and changed
+source slots. Existing bucket format/identity and paused timers persist. Java
+25 build/all 64 native cases pass; 82-page guide preview inspected. See
+`FORAGING_SPECS.md`, `HOME_SPECS.md` and `RESIDENT_WORK.md`.
+
+
 D9 replaces unrestricted food pursuit with safe dry approaches and shore
 bites, protecting named/led/transported prey and owned combat targets. Shared
 route checks re-evaluate actual hazards after terrain changes. L32 adds a

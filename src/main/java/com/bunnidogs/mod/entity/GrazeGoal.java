@@ -17,6 +17,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CaveVines;
+import net.minecraft.world.level.block.ChorusFlowerBlock;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.NetherWartBlock;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
@@ -63,6 +64,8 @@ final class GrazeGoal extends Goal {
                     : state.is(Blocks.SHORT_GRASS) ? Blocks.AIR.defaultBlockState() : state);
         }
         if (!griefing) return null;
+        if (state.is(Blocks.CHORUS_FLOWER) && this.dog.canEat(new ItemStack(Items.CHORUS_FRUIT)) && ResidentPlants.spentChorus(this.dog,pos))
+            return new Meal(state,state.setValue(ChorusFlowerBlock.AGE,0));
         if (state.is(Blocks.CACTUS) && this.dog.canEat(new ItemStack(Items.CACTUS)) && ResidentPlants.spareCactus(this.dog,pos))
             return new Meal(state,Blocks.AIR.defaultBlockState());
         if (ResidentPlants.mushroom(state) && this.dog.canEat(new ItemStack(state.getBlock())) && ResidentPlants.spareMushroom(this.dog,pos))

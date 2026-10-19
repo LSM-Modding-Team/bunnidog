@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 80 pages from first warren to Apex. Five linked contents pages offer forty-six
+open 82 pages from first warren to Apex. Five linked contents pages offer forty-six
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -63,6 +63,9 @@ unled ordinary adult or pup, then release on dry solid ground with room for its
 actual size. Identity, health, age, pedigree and paused care recovery persist.
 Packing frees its old Nest; blocked/invalid/duplicate placement keeps the animal
 stored. Calipers reads the carried animal's sheet. The Apex cannot be carried.
+Dispensers pack one eligible animal ahead into an empty basket, or release a
+filled one onto dry supported ground. Failed pulses keep it; use separate
+stations or sort baskets with hoppers to avoid alternating capture/release.
 For records (S9), hold the filled basket in the other hand and sneak-use a
 Pedigree Book or Purebred Registry. Normal use opens the book; registry adults,
 recorded parents and matching copies in all seven genes are still required.
@@ -611,3 +614,9 @@ filter and up to eight nearby resident rows. It explains health/home/recovery,
 traits, power, reserve and capacity limits. Counts include loaded residents
 within eight blocks, with eligible workers first. Ready means eligible to
 search; provide the correct target and a clear route. Reading changes nothing.
+
+**End gardens (D10/L33):** Bloom +20 adults with a chorus-fruit Diet revive spent
+chorus flowers for one fruit, leaving branches and living flowers intact.
+Healthy adults bank it at enabled Mixed/Garden troughs; injured adults eat it
+directly for 2 HP. Existing power/protection, safe home routes and work/food
+recovery apply. Calipers names this bonus for compatible lines.

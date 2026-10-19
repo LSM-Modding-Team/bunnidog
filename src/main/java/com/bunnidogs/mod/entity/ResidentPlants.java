@@ -4,6 +4,7 @@ import com.bunnidogs.mod.genetics.Gardening;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ChorusFlowerBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -20,6 +21,13 @@ final class ResidentPlants {
     }
     static boolean mushroom(BlockState state) {
         return state.is(Blocks.RED_MUSHROOM) || state.is(Blocks.BROWN_MUSHROOM);
+    }
+    static boolean spentChorus(Bunnidog dog, BlockPos pos) {
+        var level = dog.level();
+        if (!level.hasChunkAt(pos) || !dog.foodWithinHome(pos) || !Gardening.tendsChorus(dog.stats())) return false;
+        var state = level.getBlockState(pos);
+        return state.is(Blocks.CHORUS_FLOWER) && state.getValue(ChorusFlowerBlock.AGE) == ChorusFlowerBlock.DEAD_AGE
+                && state.canSurvive(level,pos);
     }
     static boolean spareMushroom(Bunnidog dog, BlockPos pos) {
         var level = dog.level();

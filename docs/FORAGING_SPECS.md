@@ -133,3 +133,29 @@ preservation of a replacement combat target. The prior fishing case still
 performs its real shore kill with exact healing/rest. All earlier resident/
 care/automation scenarios remain passing. Guide preview inspected; natural
 pursuit over varied terrain and client behavior need gameplay review.
+
+## D10 / L33: care for spent chorus
+
+Bloom +20 adults whose Diet accepts chorus fruit can revive a supported spent
+chorus flower (native AGE 5) to AGE 0 for one fruit. Healthy residents bank it
+at a Mixed/Garden enabled trough; injured adults can eat that fruit directly
+for the normal two HP and 600-tick food rest, without a trough. Direct meals
+never teleport the animal or create an additional loose fruit. Healthy work
+shares the existing 1,200-tick GardenWait. Calipers reports the Bloom threshold
+only for chorus-compatible lines. This adds a bred End-garden role; ordinary
+Bloom-zero founders gain no free flower work.
+
+Chorus flower ages 0–4 describe native branch generations, not ripeness. Those
+living flowers stay unchanged, including at high Bloom. Reviving only spent
+flowers preserves the branch and end-stone support, then allows ordinary
+native random growth; it never forces a branch, fruit drop or growth tick.
+The fruit is this mod's care yield, separate from vanilla flower block loot.
+Existing home/daytime/health/transport/danger, Diet/filter/capacity, safe dry
+routes, power/mode, native grief/destroy protection and saved recovery rules
+apply. Exact state, living support and the Bloom bonus recheck after callbacks.
+
+Java 25 build/all 64 native cases pass. The new chorus case checks living-age,
+Bloom +19/+20, Diet, work mode and power refusals, a protection callback that
+removes the bonus, exact one-fruit/age-zero/shared-rest work, preserved branches
+and a direct two-HP meal without loose food. The End/basket guide preview is
+inspected; natural native branch growth and client behavior remain playtest review.
