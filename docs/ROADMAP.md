@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L31 adds two young melon stems and protected fruit gaps to fresh meadow farms.
+New starts save generation version six; version-five/older starts and other
+regional farms retain their layouts. Actual native growth, rotated fit and
+save/preflight checks pass with all 59 scenarios. Farm/78-page guide previews
+inspected. See `SETTLEMENT_LIFE.md` and `WARREN_PLAN.md`.
+
 L28–L30/N9 adds selected trough jobs, surplus garden restoration and exact
 one-stage nursery tending. Default Mixed preserves old routines; Garden/Nursery
 explicitly opt into food-spending jobs with an eight-food reserve. Native

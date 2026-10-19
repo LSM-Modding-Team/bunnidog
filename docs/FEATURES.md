@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 77 pages from first warren to Apex. Five linked contents pages offer forty-six
+open 78 pages from first warren to Apex. Five linked contents pages offer forty-six
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -593,3 +593,9 @@ food to restore a valid gap; Nursery lets Bloom +20 adults spend one ordinary
 guava for exactly one occupied Cradle stage. Both leave eight food in reserve,
 share one-minute work rest and refund interrupted jobs. Nurses preserve the
 whole litter and never hatch it. See `RESIDENT_WORK.md` for supported plants.
+
+**Meadow melon farms (L31):** fresh five-tree meadow settlements now mix young
+melon stems with wheat/roots, native water and empty dirt fruit spaces. A
+clear corner can fit an empty enabled trough. Plants grow and fruit normally;
+old saved settlements retain their existing crop layouts. Garden-mode workers
+can later restore valid gaps from surplus food.

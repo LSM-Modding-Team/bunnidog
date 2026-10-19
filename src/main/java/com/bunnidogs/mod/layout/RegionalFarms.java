@@ -7,7 +7,7 @@ import com.bunnidogs.mod.genetics.Lineage;
 import com.bunnidogs.mod.layout.PropShape.Cell;
 import com.bunnidogs.mod.layout.PropShape.Mat;
 
-/** Version-five farm variants, all inside the original 3x3 footprint and three-block height reservation. */
+/** Versioned farm variants, all inside the original 3x3 footprint and three-block height reservation. */
 public final class RegionalFarms {
     private RegionalFarms() {}
     /** Underground features omit sky/water landmarks but can fit their water-free regional farm. */
@@ -20,8 +20,22 @@ public final class RegionalFarms {
         if (garden) out.add(new Cell(-1,0,-1,Mat.TROUGH));
     }
     public static List<Cell> cells(Lineage style, int turns, boolean garden) {
+        return cells(style,turns,garden,false);
+    }
+    public static List<Cell> cells(Lineage style, int turns, boolean garden, boolean melonBeds) {
         var raw = new ArrayList<Cell>();
         switch (style) {
+            case MEADOW -> {
+                if (!melonBeds) return PropShape.cells(PropShape.Kind.FARM,turns,garden);
+                for (int x = -1; x <= 1; x++) for (int z = -1; z <= 1; z++) {
+                    boolean trough = garden && x == -1 && z == -1;
+                    boolean fruit = z == 1 && x != 0;
+                    raw.add(new Cell(x,-1,z,x == 0 && z == 0 ? Mat.WATER : trough || fruit ? Mat.FILL : Mat.FARMLAND));
+                    if (x == 0 && z == 0) continue;
+                    raw.add(new Cell(x,0,z,trough ? Mat.TROUGH : fruit ? Mat.FRUIT_SPACE : z == 0 ? Mat.MELON_STEM
+                            : x == 0 ? z < 0 ? Mat.POTATOES : Mat.CARROTS : Mat.WHEAT));
+                }
+            }
             case DESERT -> {
                 ground(raw,Mat.SAND,garden);
                 raw.add(new Cell(0,0,0,Mat.CACTUS)); raw.add(new Cell(0,1,0,Mat.CACTUS));

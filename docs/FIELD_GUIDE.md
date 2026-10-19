@@ -58,7 +58,7 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Seventy-seven pages use the ordinary written-book screen. Five linked contents pages
+Seventy-eight pages use the ordinary written-book screen. Five linked contents pages
 offer forty-six clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
@@ -77,7 +77,7 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 ## Evidence
 
 The actual Java 25 build and current fifty-nine native server cases pass,
-including loading the book/recipe/loot resources. The expanded 77-page
+including loading the book/recipe/loot resources. The expanded 78-page
 mode/restoration/nursery/Working preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
@@ -240,3 +240,8 @@ Main/Habitat footers within fourteen lines. All older destinations stay. There
 are 77 pages/five indices/forty-six chapter links. The mode/restoration/nursery/
 Working preview is inspected with a substitute font; Java 25 build/all 59 native
 cases pass. Native client controls/fonts remain gameplay review.
+
+L31 adds **Meadow melon farms** (78), reached from melon page 69 and returning
+to Working. There are 78 pages; five indices/forty-six chapter links stay.
+The farm cells and guide text preview are inspected; Java 25 build/all 59
+native cases pass. Older guide destinations remain stable.

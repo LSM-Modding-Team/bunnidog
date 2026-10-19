@@ -22,6 +22,15 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **L31, meadow melon plots:** fresh version-six meadow farms mix two young
+  melon stems with crops, one native water source and two reserved dirt fruit
+  gaps. Optional corner troughs and the original 3×3 reservation remain.
+  Version-five/older plans keep their prior crops; other regional layouts
+  remain unchanged. Java 25 build/all 59 native cases and focused rotated
+  layout checks pass, including real native fruit growth, protected gap
+  refusal and exact generation-version saves. Farm/78-page guide previews
+  inspected. See `docs/SETTLEMENT_LIFE.md` L31 and `docs/WARREN_PLAN.md` 23.
+
 - **L28–L30/N9, selected resident jobs:** sneak-hoe selects/enables Mixed,
   Garden, Gather, Compost or Nursery work, with default/legacy Mixed behavior.
   Garden Bloom +10 adults replant valid gaps from real self-planting food;

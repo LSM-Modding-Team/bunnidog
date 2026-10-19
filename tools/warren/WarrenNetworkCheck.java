@@ -45,6 +45,18 @@ public final class WarrenNetworkCheck {
                 if (style == Lineage.MEADOW || style == Lineage.TUNDRA || style == Lineage.MOUNTAIN)
                     require(regional.equals(PropShape.cells(PropShape.Kind.FARM,turns,garden)),"Ordinary agricultural layouts retain their geometry");
                 else require(regional.stream().noneMatch(c -> c.mat() == PropShape.Mat.WATER),"Regional beds need no unsupported water source");
+                var current = RegionalFarms.cells(style,turns,garden,true);
+                if (style != Lineage.MEADOW) require(current.equals(regional),"Version six must retain other regional plots");
+                else {
+                    require(current.stream().allMatch(c -> Math.abs(c.dx()) <= 1 && Math.abs(c.dz()) <= 1 && c.dy() >= -1 && c.dy() <= 0),"Melon beds must fit the old reservation");
+                    require(current.stream().map(c -> new Pos(c.dx(),c.dy(),c.dz())).distinct().count() == current.size(),"Melon bed cells cannot overlap");
+                    require(current.stream().filter(c -> c.dy() == -1).count() == 9 && current.stream().filter(c -> c.mat() == PropShape.Mat.WATER).count() == 1,"Melon beds need all nine supports and one native water source");
+                    var stems = current.stream().filter(c -> c.mat() == PropShape.Mat.MELON_STEM).toList();
+                    var spaces = current.stream().filter(c -> c.mat() == PropShape.Mat.FRUIT_SPACE).toList();
+                    require(stems.size() == 2 && spaces.size() == 2,"Meadow beds need two stems and two reserved fruit gaps");
+                    require(spaces.stream().allMatch(p -> stems.stream().anyMatch(s -> Math.abs(s.dx()-p.dx())+Math.abs(s.dz()-p.dz()) == 1)),"Each rotated fruit gap must touch a stem");
+                    require(current.stream().filter(c -> c.mat() == PropShape.Mat.TROUGH).count() == (garden ? 1 : 0),"Melon beds keep their optional single corner trough");
+                }
             }
             var farm = PropShape.cells(PropShape.Kind.FARM,turns,true);
             require(farm.stream().filter(c -> c.mat() == PropShape.Mat.TROUGH).count() == 1,"Each rotated working farm needs one trough");

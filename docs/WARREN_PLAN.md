@@ -439,3 +439,16 @@ Actual cave/Nether plots fit using cave mode, preserve stock on repeat, and
 refuse surface probing onto an old trellis roof. Other region/legacy-version
 cases remain green. Guide preview inspected. Natural feature discovery and
 full chunk-order generation remain gameplay review.
+
+## 23 — Version-six meadow melon beds (L31)
+
+Only fresh meadow farm props change: two young melon stems and two explicitly
+empty dirt fruit spaces share the old 3×3 farm with water/crops and optional
+corner trough. New pieces write WarrenVersion six; loaded old versions remain
+untouched and select their original cells. Version-five RegionalFarms.cells
+and older buildProp overloads remain available for those plans. Two appended
+material kinds preserve earlier enum ordinals; full authored-cell preflight
+also protects future fruit gaps. Other habitats/props/tunnels/fixtures stay.
+Native rotations, growth, container/repeat preservation and version saves,
+plus focused layout checks, pass with the current 59-scenario suite. See
+SETTLEMENT_LIFE.md L31 for details and remaining terrain/client review.

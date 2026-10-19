@@ -777,3 +777,29 @@ in Garden mode (L29), and paid one-stage Cradle care in Nursery mode (L30/N9).
 Old/new default Mixed keeps existing jobs; more food-spending work requires an
 explicit mode. Native controls/saves, resource conservation and protected work
 pass all 59 native cases. The 77-page guide includes the new controls and jobs.
+
+## L31: fresh meadow melon plots
+
+New meadow farms mix two age-three melon stems with wheat/roots and one native
+water source. Two dirt cells are explicitly reserved as air for future fruit;
+the existing optional empty hoe-enabled corner trough replaces one crop when
+its outside walking space fits. Layouts rotate within the old 3×3 footprint
+and height reservation. Native growth supplies fruit; no mature melon or free
+new stock is placed. The ordinary native growth rules may use other valid
+neighboring soil as well, so players should keep room around the stems.
+
+New pieces save WarrenVersion six. Version-five/older pieces keep the former
+crop geometry; other regional farm types and every existing saved tunnel,
+fixture, container, house and tree plan remain unchanged. Direct fresh feature
+placement uses the new layout. Preflight includes fruit-gap air cells, so a
+protected container there refuses the whole plot before soil/crops are edited.
+Repeated placement preserves grown fruit and trough stock.
+
+Java 25 build/all 59 native cases pass. The existing regional-farm scenario
+now exercises all four meadow rotations, valid young stems/real dirt gaps,
+actual native age-seven fruit growth, untouched repeat stock and protected-gap
+refusal, plus six/five/four generation-version saves and old meadow crop
+selection. Focused layout checks cover footprint/unique supports/water, both
+corner variants, stem-to-gap adjacency and unchanged other regions. Actual
+cell/farm and guide previews are inspected. Natural terrain and long growth
+cycles remain gameplay review.

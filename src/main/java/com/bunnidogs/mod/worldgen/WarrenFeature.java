@@ -190,7 +190,7 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
                 && RegionalFarms.eligible(p.kind(),style,surfaceOnly)).toList();
         int propsWanted = eligibleProps.size();
         for (Settlement.Prop prop : eligibleProps) {
-            if (buildProp(level, floor.getX() + prop.dx(), floor.getY(), floor.getZ() + prop.dz(), prop, surfaceOnly, style,true,true)) {
+            if (buildProp(level, floor.getX() + prop.dx(), floor.getY(), floor.getZ() + prop.dz(), prop, surfaceOnly, style,true,true,true)) {
                 props++;
                 builtProps.add(prop);
             }
@@ -319,6 +319,10 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
     }
     static boolean buildProp(WorldGenLevel level, int x, int y, int z, Settlement.Prop prop, boolean surface,
             Lineage style, boolean garden, boolean regional) {
+        return buildProp(level,x,y,z,prop,surface,style,garden,regional,false);
+    }
+    static boolean buildProp(WorldGenLevel level, int x, int y, int z, Settlement.Prop prop, boolean surface,
+            Lineage style, boolean garden, boolean regional, boolean melonBeds) {
         BlockPos centre = groundAt(level, x, y, z, surface);
         if (centre == null) {
             return false;
@@ -354,7 +358,7 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
         boolean fittedGarden = garden && prop.kind() == PropShape.Kind.FARM && (regional || style != Lineage.END)
                 && fitsGarden(level,base,prop.turns());
         List<PropShape.Cell> cells = regional && prop.kind() == PropShape.Kind.FARM
-                ? RegionalFarms.cells(style,prop.turns(),fittedGarden)
+                ? RegionalFarms.cells(style,prop.turns(),fittedGarden,melonBeds)
                 : PropShape.cells(prop.kind(), prop.turns(),fittedGarden);
         for (PropShape.Cell cell : cells) {
             if (cell.dy() >= 0 && !GuavaTree.replaceable(level.getBlockState(base.offset(cell.dx(), cell.dy(), cell.dz())))) {
@@ -416,6 +420,8 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
             case CHORUS_FLOWER -> Blocks.CHORUS_FLOWER.defaultBlockState();
             case PLANK -> ModBlocks.GUAVA_PLANKS.get().defaultBlockState();
             case GLOW_VINE -> Blocks.CAVE_VINES.defaultBlockState().setValue(net.minecraft.world.level.block.CaveVines.BERRIES,true);
+            case MELON_STEM -> Blocks.MELON_STEM.defaultBlockState().setValue(net.minecraft.world.level.block.StemBlock.AGE,3);
+            case FRUIT_SPACE -> Blocks.AIR.defaultBlockState();
         };
     }
 

@@ -10,9 +10,11 @@ import com.bunnidogs.mod.layout.Settlement;
 import com.bunnidogs.mod.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 
 public final class RegionalFarmsGameTest {
@@ -51,6 +53,37 @@ public final class RegionalFarmsGameTest {
                     && level.getBlockEntity(troughPos) == trough && trough.food().getCount() == 3,"Surface-ground probing must also refuse the existing trellis roof without stacking plots");
         }
         clear(h);
+        for (int turns = 0; turns < 4; turns++) {
+            clear(h); var meadow = new Settlement.Prop(PropShape.Kind.FARM,0,0,turns);
+            h.assertTrue(WarrenFeature.buildProp(level,centre.getX(),centre.getY(),centre.getZ(),meadow,true,Lineage.MEADOW,true,true,true),"Fresh meadow melon beds must fit in every rotation");
+            var cells = RegionalFarms.cells(Lineage.MEADOW,turns,true,true);
+            var stems = cells.stream().filter(c -> c.mat() == PropShape.Mat.MELON_STEM).map(c -> centre.offset(c.dx(),c.dy(),c.dz())).toList();
+            for (var stem : stems) h.assertTrue(level.getBlockState(stem).is(Blocks.MELON_STEM) && level.getBlockState(stem).getValue(StemBlock.AGE) == 3
+                    && level.getBlockState(stem).canSurvive(level,stem),"New melon stems must begin young on valid farmland");
+            for (var gap : cells.stream().filter(c -> c.mat() == PropShape.Mat.FRUIT_SPACE).toList()) {
+                var pos = centre.offset(gap.dx(),gap.dy(),gap.dz());
+                h.assertTrue(level.getBlockState(pos).isAir() && level.getBlockState(pos.below()).is(Blocks.DIRT),"Melon gaps must be real empty cells over native fruit-support soil");
+            }
+            var corner = cells.stream().filter(c -> c.mat() == PropShape.Mat.TROUGH).findFirst().orElseThrow();
+            var pos = centre.offset(corner.dx(),corner.dy(),corner.dz()); var trough = (FeedingTroughBlockEntity)level.getBlockEntity(pos);
+            h.assertTrue(trough != null && trough.food().isEmpty(),"Meadow workers must start with an empty optional trough");
+            var stem = stems.getFirst(); level.setBlock(stem,Blocks.MELON_STEM.defaultBlockState().setValue(StemBlock.AGE,7),3);
+            var random = RandomSource.create(107);
+            for (int attempt = 0; attempt < 64 && level.getBlockState(stem).is(Blocks.MELON_STEM); attempt++)
+                level.getBlockState(stem).randomTick(level,stem,random);
+            h.assertTrue(level.getBlockState(stem).is(Blocks.ATTACHED_MELON_STEM),"Native growth must turn a supported ripe stem into real attached fruit");
+            trough.insert(new ItemStack(Items.MELON_SLICE,3));
+            h.assertTrue(!WarrenFeature.buildProp(level,centre.getX(),centre.getY(),centre.getZ(),meadow,true,Lineage.MEADOW,true,true,true)
+                    && level.getBlockEntity(pos) == trough && trough.food().getCount() == 3,"Repeated meadow generation must preserve working stock and grown fruit");
+        }
+        clear(h);
+        var oldMeadow = new Settlement.Prop(PropShape.Kind.FARM,0,0,0);
+        h.assertTrue(WarrenFeature.buildProp(level,centre.getX(),centre.getY(),centre.getZ(),oldMeadow,true,Lineage.MEADOW,true,true)
+                && level.getBlockState(centre.west()).is(Blocks.CARROTS),"Version-five meadow starts must keep their original crop geometry");
+        clear(h); var fruitGap = centre.offset(-1,0,1); level.setBlock(fruitGap,Blocks.CHEST.defaultBlockState(),3); var gapChest = level.getBlockEntity(fruitGap);
+        h.assertTrue(!WarrenFeature.buildProp(level,centre.getX(),centre.getY(),centre.getZ(),oldMeadow,true,Lineage.MEADOW,true,true,true)
+                && level.getBlockEntity(fruitGap) == gapChest && level.getBlockState(centre.below()).is(Blocks.GRASS_BLOCK),"A protected future fruit gap must refuse before any farm write");
+        clear(h);
         var prop = new Settlement.Prop(PropShape.Kind.FARM,0,0,0);
         h.assertTrue(WarrenFeature.buildProp(level,centre.getX(),centre.getY(),centre.getZ(),prop,true,Lineage.DESERT,false,false)
                 && level.getBlockState(centre.offset(-1,0,-1)).is(Blocks.WHEAT),"Old desert starts retain the previous crop plan");
@@ -61,8 +94,10 @@ public final class RegionalFarmsGameTest {
         var context = StructurePieceSerializationContext.fromLevel(level);
         var piece = new WarrenPiece(WarrenPiece.PROP,0,7,5,centre.getX(),centre.getZ(),centre.getY());
         var saved = piece.createTag(context);
-        h.assertTrue(saved.getIntOr("WarrenVersion",0) == 5 && new WarrenPiece(saved).createTag(context).getIntOr("WarrenVersion",0) == 5,
-                "New starts retain regional generation version five through native saves");
+        h.assertTrue(saved.getIntOr("WarrenVersion",0) == 6 && new WarrenPiece(saved).createTag(context).getIntOr("WarrenVersion",0) == 6,
+                "New starts retain meadow generation version six through native saves");
+        saved.putInt("WarrenVersion",5);
+        h.assertTrue(new WarrenPiece(saved).createTag(context).getIntOr("WarrenVersion",0) == 5,"Version-five plots must remain version five when loaded");
         saved.putInt("WarrenVersion",4);
         h.assertTrue(new WarrenPiece(saved).createTag(context).getIntOr("WarrenVersion",0) == 4,"Old starts must never be upgraded during load");
     }

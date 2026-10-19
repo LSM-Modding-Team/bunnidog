@@ -542,7 +542,7 @@
   "guide.bunnidogs.page.68.body": "Healthy adults at Senses +10 move one old loose matching food into a nearby hoe-enabled trough by day. Diet, filters, power and safe routes apply. Collection shares the one-minute garden rest. Loose meals: page 67.",
   "guide.bunnidogs.index.69": "Melon beds",
   "guide.bunnidogs.page.69.title": "Melon beds",
-  "guide.bunnidogs.page.69.body": "Healthy foragers and omnivores harvest one slice from a melon beside its living attached stem, near a hoe-enabled trough. The stem stays to regrow fruit; decorative melons stay. Slices heal or grow matching lines. Stems: page 70.",
+  "guide.bunnidogs.page.69.body": "Healthy foragers and omnivores harvest a slice beside a living attached melon stem, near an enabled trough. The stem regrows fruit; decorative melons stay. Slices heal or grow matching lines. Stems: 70. Farms: 78.",
   "guide.bunnidogs.page.70.title": "Grow melon stems",
   "guide.bunnidogs.page.70.body": "Bloom +10 grows a young melon stem by one age at an enabled trough. No food is made. Mature stems await native fruit growth; leave nearby soil and air. Meadow stores may hold seeds. All jobs share one-minute garden rest.",
   "guide.bunnidogs.index.71": "Orchard pickers",
@@ -576,5 +576,7 @@
   "guide.bunnidogs.page.76.title": "Restore a garden",
   "guide.bunnidogs.page.76.body": "Garden mode: Bloom +10 residents spend one suitable food above an eight-item reserve to replant a valid gap. Use the plant's normal soil or support. Carrots, guavas and berries are examples. Jobs share one-minute work rest.",
   "guide.bunnidogs.page.77.title": "Nursery workers",
-  "guide.bunnidogs.page.77.body": "Nursery mode: Bloom +20 adults spend one plain guava above an eight-food reserve for one Cradle stage. The whole litter stays. Jobs share garden rest. Players or redstone hatch ripe litters."
+  "guide.bunnidogs.page.77.body": "Nursery mode: Bloom +20 adults spend one plain guava above an eight-food reserve for one Cradle stage. The whole litter stays. Jobs share garden rest. Players or redstone hatch ripe litters.",
+  "guide.bunnidogs.page.78.title": "Meadow melon farms",
+  "guide.bunnidogs.page.78.body": "Fresh five-tree meadow farms mix young melon stems with ordinary crops. Empty dirt spaces allow fruit; a clear corner may fit an enabled trough. Plants grow naturally. Old settlements keep their plans. Garden repair: page 76."
 }
