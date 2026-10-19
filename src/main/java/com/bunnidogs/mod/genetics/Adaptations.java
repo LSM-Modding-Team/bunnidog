@@ -27,6 +27,10 @@ public final class Adaptations {
     public static double swimBonus(Genome genome) { return webbed(genome) ? .5 : 0; }
     public static int blockLight(Genome genome, int environmental) { return luminous(genome) ? 15 : environmental; }
     public static String explanation(Gene gene, Allele allele) {
+        String adaptation = environmentalExplanation(gene,allele);
+        return gene == Gene.COAT ? (adaptation.isEmpty() ? "" : adaptation+" ")+Camouflage.explanation(allele) : adaptation;
+    }
+    private static String environmentalExplanation(Gene gene, Allele allele) {
         if (gene == Gene.FERTILITY) return FertilityMark.of(allele).description()+" shows this expressed fertility allele, not current breeding readiness.";
         if (gene == Gene.LEGS && allele.name().equals("webbed")) return "Adds 0.5 Swim Speed, normally 50% stronger water propulsion. Webbing shows between the toes. Still needs air; domestic routes still avoid deep water and lava.";
         if (gene == Gene.LEGS && allele.name().equals("phase")) return "Grounded adults blink three to six blocks away after a nonlethal attack, then recover for twenty seconds. Needs safe loaded dry ground inside the current home boundary. Leads, rides and passengers prevent blinking; damage still lands.";

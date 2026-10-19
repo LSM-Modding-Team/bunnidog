@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "QGQ",
+    "CWC",
+    " R "
+  ],
+  "key": {
+    "Q": "minecraft:quartz",
+    "G": "minecraft:glass",
+    "C": "minecraft:copper_ingot",
+    "W": "bunnidogs:whisker",
+    "R": "minecraft:comparator"
+  },
+  "result": {
+    "id": "bunnidogs:pedigree_comparator"
+  }
+}

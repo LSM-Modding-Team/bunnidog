@@ -3,11 +3,15 @@ package com.bunnidogs.mod.registry;
 import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.worldgen.WarrenPiece;
 import com.bunnidogs.mod.worldgen.WarrenStructure;
+import com.bunnidogs.mod.worldgen.BreedingBarnStructure;
+import com.bunnidogs.mod.worldgen.BarnPreservation;
+import com.mojang.serialization.MapCodec;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -17,9 +21,14 @@ public final class ModStructures {
 
     public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES = DeferredRegister.create(Registries.STRUCTURE_TYPE, BunnidogsMod.MODID);
     public static final DeferredRegister<StructurePieceType> PIECE_TYPES = DeferredRegister.create(Registries.STRUCTURE_PIECE, BunnidogsMod.MODID);
+    public static final DeferredRegister<MapCodec<? extends StructureProcessor>> PROCESSORS = DeferredRegister.create(Registries.STRUCTURE_PROCESSOR,BunnidogsMod.MODID);
+    public static final DeferredHolder<MapCodec<? extends StructureProcessor>,MapCodec<BarnPreservation>> BARN_PRESERVATION =
+            PROCESSORS.register("barn_preservation",() -> BarnPreservation.CODEC);
 
     public static final DeferredHolder<StructureType<?>, StructureType<WarrenStructure>> WARREN_VILLAGE =
             STRUCTURE_TYPES.register("warren_village", () -> () -> WarrenStructure.CODEC);
+    public static final DeferredHolder<StructureType<?>, StructureType<BreedingBarnStructure>> BREEDING_BARN =
+            STRUCTURE_TYPES.register("breeding_barn", () -> () -> BreedingBarnStructure.CODEC);
 
     public static final DeferredHolder<StructurePieceType, StructurePieceType> WARREN_PIECE =
             PIECE_TYPES.register("warren_piece", () -> (StructurePieceType.ContextlessType) WarrenPiece::new);

@@ -183,6 +183,8 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> BREEDING_PEN = ITEMS.registerSimpleBlockItem(ModBlocks.BREEDING_PEN,
             props -> props.component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.pen.ports")))));
     public static final DeferredItem<BlockItem> SPECIMEN_JAR = ITEMS.registerSimpleBlockItem(ModBlocks.SPECIMEN_JAR);
+    public static final DeferredItem<BlockItem> PEDIGREE_COMPARATOR = ITEMS.registerSimpleBlockItem(ModBlocks.PEDIGREE_COMPARATOR,
+            props -> props.component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.detector.controls")))));
     public static final DeferredItem<com.bunnidogs.mod.item.ShowRibbonItem> BRONZE_RIBBON = ITEMS.registerItem("bronze_show_ribbon",
             props -> new com.bunnidogs.mod.item.ShowRibbonItem(props, com.bunnidogs.mod.genetics.Show.Tier.BRONZE), props -> props.stacksTo(1).rarity(Rarity.UNCOMMON));
     public static final DeferredItem<com.bunnidogs.mod.item.ShowRibbonItem> SILVER_RIBBON = ITEMS.registerItem("silver_show_ribbon",
@@ -379,6 +381,7 @@ public final class ModItems {
             event.accept(NURSERY_CRADLE.get());
             event.accept(JUICER.get());
             event.accept(BREEDING_PEN.get());
+            event.accept(PEDIGREE_COMPARATOR.get());
             event.accept(BRONZE_RIBBON.get());
             event.accept(SILVER_RIBBON.get());
             event.accept(GOLD_RIBBON.get());

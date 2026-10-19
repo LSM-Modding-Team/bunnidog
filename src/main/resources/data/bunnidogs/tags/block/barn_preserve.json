@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:features_cannot_replace",
+    {
+      "id": "#c:ores",
+      "required": false
+    },
+    "minecraft:ancient_debris"
+  ]
+}

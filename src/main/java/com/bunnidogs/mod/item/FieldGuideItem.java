@@ -12,7 +12,7 @@ import net.minecraft.world.item.component.WrittenBookContent;
 
 /** Native book UI/packets, translated pages and local page links; no custom screen or payload. */
 public final class FieldGuideItem extends WrittenBookItem {
-    public static final int PAGE_COUNT = 100;
+    public static final int PAGE_COUNT = 109;
     private static final int MORE_CONTENTS = 40;
     private static final int NEW_CONTENTS = 50;
     private static final int HABITAT_CONTENTS = 56;
@@ -20,6 +20,7 @@ public final class FieldGuideItem extends WrittenBookItem {
     private static final int SPECIALIST_CONTENTS = 84;
     private static final int LINEAGE_CONTENTS = 89;
     private static final int WORKSHOP_CONTENTS = 98;
+    private static final int FIELD_CONTENTS = 101;
     public FieldGuideItem(Properties properties) {
         super(properties.component(DataComponents.WRITTEN_BOOK_CONTENT, content()));
     }
@@ -29,13 +30,18 @@ public final class FieldGuideItem extends WrittenBookItem {
                 "guide.bunnidogs.more_contents",MORE_CONTENTS).append("\n").append(link("guide.bunnidogs.new_contents",NEW_CONTENTS))
                 .append("\n").append(link("guide.bunnidogs.habitat_contents",HABITAT_CONTENTS))));
         for (int page = 2; page <= PAGE_COUNT; page++) {
+            if (page == FIELD_CONTENTS) {
+                pages.add(Filterable.passThrough(contents("guide.bunnidogs.field_contents",new int[]{102,103,104,105,106,107,108,109,WORKSHOP_CONTENTS},
+                        "guide.bunnidogs.main_contents",1).append("\n").append(link("guide.bunnidogs.more_contents",MORE_CONTENTS))));
+                continue;
+            }
             if (page == WORKSHOP_CONTENTS) {
                 pages.add(Filterable.passThrough(contents("guide.bunnidogs.workshop_contents",new int[]{15,17,24,93,94,95,96,97,99},
                         "guide.bunnidogs.main_contents",1).append("\n").append(link("guide.bunnidogs.more_contents",MORE_CONTENTS))));
                 continue;
             }
             if (page == LINEAGE_CONTENTS) {
-                pages.add(Filterable.passThrough(contents("guide.bunnidogs.lineage_contents",new int[]{13,14,29,65,88,90,91,92,WORKSHOP_CONTENTS},
+                pages.add(Filterable.passThrough(contents("guide.bunnidogs.lineage_contents",new int[]{13,14,29,65,88,90,91,92,FIELD_CONTENTS},
                         "guide.bunnidogs.main_contents",1).append("\n").append(link("guide.bunnidogs.habitat_contents",HABITAT_CONTENTS))));
                 continue;
             }
@@ -55,7 +61,7 @@ public final class FieldGuideItem extends WrittenBookItem {
                 continue;
             }
             if (page == MORE_CONTENTS) {
-                pages.add(Filterable.passThrough(contents("guide.bunnidogs.more_contents",new int[]{WORKSHOP_CONTENTS,25,27,28,29,31,32,34,36,39},
+                pages.add(Filterable.passThrough(contents("guide.bunnidogs.more_contents",new int[]{WORKSHOP_CONTENTS,25,27,28,FIELD_CONTENTS,31,32,34,36,39},
                         "guide.bunnidogs.main_contents",1)));
                 continue;
             }
@@ -68,7 +74,7 @@ public final class FieldGuideItem extends WrittenBookItem {
                     .append(Component.literal("\n\n").withStyle(style -> style.withBold(false)))
                     .append(Component.translatable("guide.bunnidogs.page." + page + ".body").withStyle(style -> style.withBold(false)))
                     .append(Component.literal("\n\n").withStyle(style -> style.withBold(false)))
-                    .append(link("guide.bunnidogs.contents",page >= 93 || page == 24 ? WORKSHOP_CONTENTS : page == 65 || page == 88 || page > LINEAGE_CONTENTS ? LINEAGE_CONTENTS : page == 77 || page >= 79 ? SPECIALIST_CONTENTS : page > WORK_CONTENTS ? WORK_CONTENTS : page > HABITAT_CONTENTS ? HABITAT_CONTENTS
+                    .append(link("guide.bunnidogs.contents",page > FIELD_CONTENTS ? FIELD_CONTENTS : page >= 93 || page == 24 ? WORKSHOP_CONTENTS : page == 65 || page == 88 || page > LINEAGE_CONTENTS ? LINEAGE_CONTENTS : page == 77 || page >= 79 ? SPECIALIST_CONTENTS : page > WORK_CONTENTS ? WORK_CONTENTS : page > HABITAT_CONTENTS ? HABITAT_CONTENTS
                             : page > MORE_CONTENTS ? NEW_CONTENTS : page < 24 ? 1 : MORE_CONTENTS));
             pages.add(Filterable.passThrough(text));
         }

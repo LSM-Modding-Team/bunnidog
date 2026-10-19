@@ -1,5 +1,9 @@
 # Animal care and inherited adaptations
 
+Current A10 completes the original coat-camouflage proposal below. Client/server
+protocol **11** also includes Breeder villagers and genetic redstone; update
+both sides. Earlier per-feature protocol/test counts are historical checkpoints.
+
 Implemented 2026-10-16 under the user's standing design latitude. These additions
 make a valuable breeding animal useful while alive, and give several wild traits
 clear environmental benefits. Compiler/server evidence is separate from manual
@@ -538,3 +542,53 @@ Network protocol is **8**. Payload layouts and save formats stay the same, but
 older clients cannot parse Phase/webbed allele ids. Requiring the updated client
 and server prevents silent wrong traits or unreadable sheets. Existing genomes,
 items, animals and worlds retain their data; new lineages supply the new legs.
+
+## A10: coat camouflage
+
+The original coat-camouflage plan now gives existing expressed colors a local
+survival benefit. A **full-health, calm, grounded** animal on matching dry support
+has **half normal native visual acquisition range**, and its **STEP** game events
+are suppressed before native sculk/Warden listeners receive them. The ordinary
+visible coat and walking sounds remain. Native targeting retains its two-block
+minimum and any selector that explicitly ignores visibility keeps its behavior.
+Already acquired targets, damage, collisions and Warden sniffing remain native.
+
+| Expressed coat | Matching support |
+|---|---|
+| tan, cream, sand | Sand/red sand and sandstone forms |
+| brown, spotted | Exposed dirt, coarse/rooted dirt, podzol, path/farmland, mud/roots |
+| moss | Grass block, moss/pale moss and carpets, leaves |
+| snow | Snow layers, snow blocks, powder snow with actual standing footing |
+| pale | Stone, diorite/polished diorite, calcite, tuff |
+| slate | Deepslate forms, blackstone forms, basalt forms |
+| ember | Netherrack, nether/red nether bricks, nether-wart block, crimson nylium |
+| void | Obsidian/crying obsidian and purpur block/pillar |
+| glow | Luminous; cannot blend |
+
+The eight `bunnidogs:camouflage/*` native block tags are editable by datapacks.
+Support is one actual loaded `getOnPos()` block; air and fluids do not qualify.
+Natural ambient light and spawn biome do not impose additional requirements.
+Hidden copies grant no second cover; a hidden glow copy behind pale does not
+light the coat. Pups inherit the same expressed camouflage.
+
+Injury, current hurt animation, target/refuge danger, love/guava memory, sprinting,
+fire, Glowing effects, water/lava, jumps, leads, vehicles and passengers break
+cover. Native recent attacker memory also disturbs a freshly healed animal for
+the first five seconds after its attack. There is no new recovery timer to save.
+The Apex is excluded. Changing genes, footing or readiness is effective at the
+next actual visibility/event query; no per-tick environment scan or home claim
+is added. Sneak-Calipers explains blended/exposed/disturbed/luminous status.
+
+Only walking **STEP** events from that blended animal are canceled. Eating,
+attacks, landings, tools, other entities and other vibrations still reach native
+listeners. Native damage/effects and other mods' visibility multipliers compose
+normally. No invisibility effect, altered navigation, save field or mesh is added.
+
+Native fixtures cover every shipped coat/tag, hidden copies, pups, support and
+health/love/Glowing/transport/combat changes, exact read-only inspection and
+native save derivation. Actual native targeting demonstrates reduced long-range
+acquisition, retained close detection, invisibility composition and real damage.
+Actual movement and a real sculk sensor demonstrate silent blended STEP dispatch,
+retained eating frequency eight and restored exposed STEP frequency one. This
+passes with the full 85-case implementation checkpoint. Natural Warden encounters
+and client gameplay remain manual review.

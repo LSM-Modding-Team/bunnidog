@@ -22,6 +22,16 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **A10/V1/V2/R1, fieldcraft:** finishes coat camouflage, Breeder villagers,
+  abandoned breeding barns and the live Pedigree Comparator from the original
+  plans. Healthy calm coats blend on matching ground with reduced native sight
+  and STEP vibrations. Native careers buy regional pelts and supply workshops;
+  dry-site versioned barns have real preserved one-time loot and empty stations.
+  Sample-programmed redstone reads all seven live gene pairs, including hidden
+  copies. Build/all **85** native scenarios pass at the implementation checkpoint.
+  The guide now has **109 pages, nine indices and 82 chapter links**. Update both
+  sides: protocol **11**. See `docs/BREEDER_SPECS.md`, `CARE_SPECS.md` A10.
+
 - **G6/S11, planned Breeding Pen and seed quality colors:** a two-manger Pen
   spends one actual guava on each isolated, healthy housed parent, then leaves
   mating/seeds/rest to the native BreedGoal. Directional hoppers, saved stock,
@@ -444,7 +454,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
 - Keep gene/allele IDs append-only. Old six-pair data loads with plain/plain
   Diet; current genomes use seven pairs / 56 bits and mask the signed high sync
-  word. Current network protocol is **8**; matching client/server versions apply.
+  word. Current network protocol is **11**; matching client/server versions apply.
 - Preserve whole item components in samples, books, table slots, vehicles,
   troughs and trophies. Existing inventories and containers are never restocked.
 - Structures save fitted tunnel cells, path exclusions, labels and optional
@@ -492,8 +502,15 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **eighty** native scenarios pass (seventy-nine mod
+The Java 25 build and all **eighty-five** native scenarios pass (eighty-four mod
 cases plus native sanity). Latest coverage:
+
+- **A10/V1/V2/R1:** actual native targeting and real sculk STEP/eating signals;
+  native Pen job assignment, all career ranks/regional offers, payments, stock
+  and merchant saves; authored NBT/native start, four rotated barn pieces, real
+  deferred loot and preserved-container replay; actual sample controls, unphased/
+  hidden gene pairs and native comparator/lamp responses. Final guide count is
+  109. Client art, natural barn distribution/map searches remain gameplay review.
 
 - **G6/S11:** real hopper-fed redstone courtship, actual native mating with the
   correct two parental genomes, tier average and cooldown; held-power refusal;

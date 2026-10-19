@@ -25,4 +25,7 @@ public final class ModPoi {
             () -> new PoiType(Set.copyOf(ModBlocks.NEST.get().getStateDefinition().getPossibleStates()), Home.NEST_TICKETS, Home.NEST_RANGE));
     public static final DeferredHolder<PoiType, PoiType> FEEDING_TROUGH = POI_TYPES.register("feeding_trough",
             () -> new PoiType(Set.copyOf(ModBlocks.FEEDING_TROUGH.get().getStateDefinition().getPossibleStates()),1,1));
+    /** A villager's work ticket is independent of the two animals' real Nest claims. */
+    public static final DeferredHolder<PoiType, PoiType> BREEDING_PEN = POI_TYPES.register("breeding_pen",
+            () -> new PoiType(Set.copyOf(ModBlocks.BREEDING_PEN.get().getStateDefinition().getPossibleStates()),1,1));
 }

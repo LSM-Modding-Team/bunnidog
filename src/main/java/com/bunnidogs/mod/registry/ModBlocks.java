@@ -24,6 +24,8 @@ import com.bunnidogs.mod.block.BreedingPenBlockEntity;
 import com.bunnidogs.mod.block.PeltRugBlock;
 import com.bunnidogs.mod.block.SpecimenJarBlock;
 import com.bunnidogs.mod.block.SpecimenJarBlockEntity;
+import com.bunnidogs.mod.block.PedigreeComparatorBlock;
+import com.bunnidogs.mod.block.PedigreeComparatorBlockEntity;
 import com.bunnidogs.mod.genetics.Gene;
 
 import net.minecraft.core.registries.Registries;
@@ -204,6 +206,10 @@ public final class ModBlocks {
             props -> props.strength(2.5F).sound(SoundType.WOOD).noOcclusion().pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BreedingPenBlockEntity>> BREEDING_PEN_BE =
             BLOCK_ENTITIES.register("breeding_pen",() -> new BlockEntityType<>(BreedingPenBlockEntity::new,BREEDING_PEN.get()));
+    public static final DeferredBlock<PedigreeComparatorBlock> PEDIGREE_COMPARATOR = BLOCKS.registerBlock("pedigree_comparator",PedigreeComparatorBlock::new,
+            props -> props.strength(2.5F).sound(SoundType.METAL).noOcclusion().pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK));
+    public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<PedigreeComparatorBlockEntity>> PEDIGREE_COMPARATOR_BE =
+            BLOCK_ENTITIES.register("pedigree_comparator",() -> new BlockEntityType<>(PedigreeComparatorBlockEntity::new,PEDIGREE_COMPARATOR.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<JuicerBlockEntity>> JUICER_BE =
             BLOCK_ENTITIES.register("juicer",() -> new BlockEntityType<>(JuicerBlockEntity::new,JUICER.get()));
     public static final DeferredBlock<SpecimenJarBlock> SPECIMEN_JAR = BLOCKS.registerBlock("specimen_jar",SpecimenJarBlock::new,

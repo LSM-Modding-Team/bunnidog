@@ -8,9 +8,17 @@ do not apply. Verify old completion claims against code before choosing work.
 
 | Feature | Actual status | Original plan |
 |---|---|---|
-| Coat camouflage | A proposal without defined triggers or gameplay tradeoffs; specify before coding | `DESIGN.md`, Phase 3 environmental effects |
+| Build-based carrying capacity | Original gene table proposes it; animals currently have no carried inventory | `DESIGN.md`, core genome table |
+| Isolated island lineage | A sketch without distinctive alleles or a fitted location yet | `DESIGN.md`, wild lineages |
+| Regional kennels / Show Ring arena structures | Layout sketches; the working Show Ring is already implemented | `DESIGN.md`, bloat layer |
 
-The same original lineage paragraph also proposed cave night vision. Ore sense
+**A10** now completes coat camouflage with native sight/STEP behavior and
+explicit matching-ground/calm tradeoffs. **V1/V2/R1** finish the same skeleton's
+Breeder profession, abandoned breeding barn and live Pedigree Comparator.
+See `BREEDER_SPECS.md` and `CARE_SPECS.md` A10. These are implemented features,
+with client/natural-world playtests remaining; do not treat them as missing code.
+
+The original lineage paragraph also proposed cave night vision. Ore sense
 is already implemented through bat-ear surveys; native animals already perceive
 targets in darkness, so a separate vision benefit still needs a useful definition.
 The End Phase ability, swamp swimming and fertility visibility are now
@@ -42,6 +50,15 @@ Delivered, not individually confirmed: **U6a** advancement, **U1** level-1 dens
 and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
+
+A10/V1/V2/R1 completes four original proposals: coat camouflage, native Breeder
+careers with regional contracts, rare dry-site abandoned barns and live genetic
+redstone. Versioned native barn pieces preserve existing containers/fluids/ore
+and one-time supply loot. A sample-imprinted detector compares all seven pairs,
+including hidden copies; exact/analog signals drive real vanilla circuits.
+Build/all 85 native cases pass at the implementation checkpoint. The fresh guide
+now has 109 pages/nine indices/82 links; protocol **11** requires both sides.
+See `BREEDER_SPECS.md` and `CARE_SPECS.md` A10.
 
 G6/S11 finishes the Breeding Pen and stored-quality seed colors. Real isolated
 residents receive their own paid guava tier, then use normal mating and rest;
@@ -87,8 +104,8 @@ grounded adults escape to safe loaded landings, respecting transport, homes,
 native teleport protection and saved twenty-second recovery. Build/all 71
 native scenarios pass; the 90-page/seven-index guide preview is inspected.
 See `CARE_SPECS.md` A7. The swamp
-adaptation is now A8; fertility visibility is now A9. Camouflage remains a design
-proposal without a defined gameplay benefit.
+adaptation is now A8; fertility visibility is now A9. Camouflage is completed
+later by A10 above.
 
 A6 lets native snow-footed residents use supported powder-snow surfaces for
 home routines, meals and work. Interior powder, changed/lost footing, missing

@@ -70,9 +70,9 @@ public final class LineageEditingGameTest {
                 && LineageNames.clean("é".repeat(40)).isPresent() && LineageNames.clean("§4red").isEmpty(),"Malformed legacy additions and formatting cannot poison book parsing");
         var guide = new ItemStack(ModItems.FIELD_GUIDE.get());
         var content = guide.get(DataComponents.WRITTEN_BOOK_CONTENT);
-        h.assertTrue(content != null && content.pages().size() == 100,"Fresh native guides include the appended workshop chapters without renumbering old pages");
+        h.assertTrue(content != null && content.pages().size() == 109,"Fresh native guides include fieldcraft chapters past page 100 without renumbering old pages");
         var out = TagValueOutput.createWithContext(ProblemReporter.DISCARDING,h.getLevel().registryAccess()); out.store("Guide",ItemStack.CODEC,guide);
         var loadedGuide = TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),out.buildResult()).read("Guide",ItemStack.CODEC).orElseThrow();
-        h.assertTrue(loadedGuide.get(DataComponents.WRITTEN_BOOK_CONTENT).pages().size() == 100,"The complete guide survives the native written-book item codec");
+        h.assertTrue(loadedGuide.get(DataComponents.WRITTEN_BOOK_CONTENT).pages().size() == 109,"The complete guide survives the native written-book item codec");
     }
 }

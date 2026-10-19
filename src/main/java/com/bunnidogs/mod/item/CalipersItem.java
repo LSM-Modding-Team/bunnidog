@@ -85,6 +85,8 @@ public class CalipersItem extends Item {
                         String.format(Locale.ROOT,"%.1f",Math.sqrt(dog.blockPosition().distSqr(nest)))));
         careRow(player,"food",dog.diet() == Diet.PLAIN ? Component.translatable("message.bunnidogs.care.food_guavas")
                 : Component.translatable("message.bunnidogs.care.food_other",dog.diet().foods()));
+        careRow(player,"camouflage",Component.translatable("message.bunnidogs.camouflage."+dog.camouflageStatus().name().toLowerCase(Locale.ROOT),
+                com.bunnidogs.mod.genetics.Camouflage.cover(dog.genome()).ground()));
         var meals = dog.troughFeedingStatus();
         Component foodStatus = meals == Foraging.Status.RESTING ? recovery(dog.forageWait())
                 : Component.translatable("message.bunnidogs.foraging." + meals.name().toLowerCase(Locale.ROOT));
@@ -203,6 +205,10 @@ public class CalipersItem extends Item {
             return InteractionResult.SUCCESS;
         }
         var block = level.getBlockEntity(context.getClickedPos());
+        if (block instanceof com.bunnidogs.mod.block.PedigreeComparatorBlockEntity) {
+            com.bunnidogs.mod.block.PedigreeComparatorBlock.inspect(level,context.getClickedPos(),player);
+            return InteractionResult.SUCCESS;
+        }
         if (block instanceof com.bunnidogs.mod.block.BreedingPenBlockEntity) {
             com.bunnidogs.mod.block.BreedingPenBlock.inspect(level,context.getClickedPos(),player);
             return InteractionResult.SUCCESS;

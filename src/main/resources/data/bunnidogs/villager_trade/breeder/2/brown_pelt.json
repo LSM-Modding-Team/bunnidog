@@ -1,0 +1,24 @@
+{
+  "wants": {
+    "id": "bunnidogs:brown_pelt",
+    "count": 4
+  },
+  "gives": {
+    "id": "minecraft:emerald",
+    "count": 1
+  },
+  "max_uses": 12,
+  "xp": 10,
+  "reputation_discount": 0.05,
+  "merchant_predicate": {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+      "minecraft:predicates": {
+        "minecraft:villager/variant": [
+          "minecraft:taiga"
+        ]
+      }
+    }
+  }
+}

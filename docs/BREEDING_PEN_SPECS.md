@@ -100,7 +100,8 @@ in-game check; headless resource checks do not establish it.
 
 ## Compatibility, guide and validation
 
-Update both sides for **protocol 10**, which requires the new controller and
+G6/S11 introduced **protocol 10**; current fieldcraft content requires **11** on
+both sides. The original update requires the new controller and
 client model property. Existing genome, animal, seed and other item formats
 remain forward compatible. There are no new custom packets. Fresh Field Guides
 have **100 pages, eight indices and 73 chapter links**: workshop index 98 links

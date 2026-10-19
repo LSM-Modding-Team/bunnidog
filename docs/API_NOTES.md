@@ -248,3 +248,42 @@ Moved to `docs/history/API_HISTORY.md` (sections: Where each fact comes from; Ve
   expressed-only webbing/fertility transitions pass the model gate.
 - Protocol 8 changes required allele semantics, not payload shapes or old save
   formats. Older clients cannot interpret new leg ids 6 and 7 safely.
+
+## A10 / native Breeders, barns and genetic redstone (26.2)
+
+- `LivingEntity.getVisibilityPercent(Entity)` already applies native sneaking,
+  invisibility and NeoForge visibility hooks. Compose the camouflage multiplier
+  with `super`; `TargetingConditions` retains its native two-block minimum.
+  `VanillaGameEvent` cancellation prevents delivery to native listeners. Filter
+  exactly `GameEvent.STEP` and the actual source animal; suppressing every
+  vibration or overriding `isSteppingCarefully()` would affect unrelated mechanics.
+- 26.2 `VillagerProfession` is a registered record with holder predicates and an
+  `Int2ObjectMap<ResourceKey<TradeSet>>`. Native `villager_trade`, `trade_set` and
+  trade tags provide offers; old `VillagerTradesEvent` advice does not apply.
+  `merchant_predicate` uses entity predicate `minecraft:villager/variant`.
+  `AssignProfessionFromJobSite` resolves the native POI to the registered holder.
+  Trade costs require specific item ids, rather than an item tag. A native
+  conditional regional pool can retry unavailable predicates until its amount.
+- The native villager jacket is `texOffs(0,38)`, 8×20×6. Its front is U6–13,
+  V44–63. Inner-body-only art is occluded by the biome jacket. Profession texture
+  identifiers follow the profession namespace for villager and zombie villager.
+- `JigsawPlacement.addPieces` now takes `JigsawStructure.MaxDistance`, alias
+  lookup, `DimensionPadding` and `LiquidSettings`. Use a named center anchor and
+  depth **1** for this lone root: this resolved implementation adds its collected
+  pieces inside the positive-depth branch. A native pool piece saves its inline
+  element/rotation and versioned template identifier.
+- `StructureProcessor` is an interface exposing `codec()`. Register its
+  `MapCodec<? extends StructureProcessor>` directly under
+  `Registries.STRUCTURE_PROCESSOR`; there is no old processor-type wrapper to
+  implement. Override NeoForge's `process(..., StructureTemplate)`; `null` skips
+  the cell. The preservation processor checks loaded existing state before every
+  placement, including air carves and deferred-loot containers.
+- Resolved 26.2 structure NBT `DataVersion` is **4903**. Validate authored palette
+  property names: native readers can otherwise ignore stale properties such as
+  a vanilla Sapling `stage` on this mod's custom stage-free sapling. Base terrain
+  fitting must include both `DIRT` and the separate `GRASS_BLOCKS` tag.
+- Native block `POWER` stores 0–15; its ordinary weak signal and analog output
+  share detector results. Scheduled server block ticks pause with unloaded
+  chunks. Copying reference information needs no item capability or physical
+  sample inventory. Compare each diploid pair unordered while preserving saved
+  allele order. Current required content protocol is **11**.

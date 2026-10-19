@@ -1,0 +1,120 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "facing": "north"
+      },
+      "apply": {
+        "model": "bunnidogs:block/pedigree_comparator",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "reference": "true"
+      },
+      "apply": {
+        "model": "bunnidogs:block/pedigree_comparator_reference",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "power": "1|2|3|4|5|6|7|8|9|10|11|12|13|14|15"
+      },
+      "apply": {
+        "model": "bunnidogs:block/pedigree_comparator_signal",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "east"
+      },
+      "apply": {
+        "model": "bunnidogs:block/pedigree_comparator",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "reference": "true"
+      },
+      "apply": {
+        "model": "bunnidogs:block/pedigree_comparator_reference",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "power": "1|2|3|4|5|6|7|8|9|10|11|12|13|14|15"
+      },
+      "apply": {
+        "model": "bunnidogs:block/pedigree_comparator_signal",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "south"
+      },
+      "apply": {
+        "model": "bunnidogs:block/pedigree_comparator",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "reference": "true"
+      },
+      "apply": {
+        "model": "bunnidogs:block/pedigree_comparator_reference",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "power": "1|2|3|4|5|6|7|8|9|10|11|12|13|14|15"
+      },
+      "apply": {
+        "model": "bunnidogs:block/pedigree_comparator_signal",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "west"
+      },
+      "apply": {
+        "model": "bunnidogs:block/pedigree_comparator",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "reference": "true"
+      },
+      "apply": {
+        "model": "bunnidogs:block/pedigree_comparator_reference",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "power": "1|2|3|4|5|6|7|8|9|10|11|12|13|14|15"
+      },
+      "apply": {
+        "model": "bunnidogs:block/pedigree_comparator_signal",
+        "y": 270
+      }
+    }
+  ]
+}

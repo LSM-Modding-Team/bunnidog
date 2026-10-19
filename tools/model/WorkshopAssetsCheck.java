@@ -36,7 +36,7 @@ public final class WorkshopAssetsCheck {
         }
     }
     public static void main(String[] args) throws Exception {
-        for (String block : new String[]{"juicer","specimen_jar","breeding_pen"}) {
+        for (String block : new String[]{"juicer","specimen_jar","breeding_pen","pedigree_comparator"}) {
             refs(json("assets/bunnidogs/blockstates/"+block+".json"),"");
             refs(json("assets/bunnidogs/items/"+block+".json"),"");
         }

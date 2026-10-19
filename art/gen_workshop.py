@@ -206,9 +206,10 @@ def model_faces(name,front=False):
             yield sum(x+y*.8+z for x,y,z in points)/4,points,img,face.get('uv',uv),side
 
 
-def draw_model(preview,name,origin,front=False):
+def draw_model(preview,name,origin,front=False,layers=()):
     d = ImageDraw.Draw(preview,'RGBA'); ox,oy = origin
-    for _,points,img,uv,side in sorted(model_faces(name,front),key=lambda face:face[0]):
+    faces = (face for model in (name,*layers) for face in model_faces(model,front))
+    for _,points,img,uv,side in sorted(faces,key=lambda face:face[0]):
         p0,p1,_,p3 = points
         project = lambda u,v: (ox+(p0[0]+u*(p1[0]-p0[0])+v*(p3[0]-p0[0])-p0[2]-u*(p1[2]-p0[2])-v*(p3[2]-p0[2]))*8,
             oy+((p0[0]+u*(p1[0]-p0[0])+v*(p3[0]-p0[0])+p0[2]+u*(p1[2]-p0[2])+v*(p3[2]-p0[2]))*.42-p0[1]-u*(p1[1]-p0[1])-v*(p3[1]-p0[1]))*8)

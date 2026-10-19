@@ -1,0 +1,80 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "bunnidogs:block/detector_copper",
+    "copper": "bunnidogs:block/detector_copper",
+    "ivory": "bunnidogs:block/detector_ivory",
+    "reference": "bunnidogs:block/detector_reference",
+    "signal": "bunnidogs:block/detector_signal"
+  },
+  "elements": [
+    {
+      "from": [
+        6,
+        6,
+        2.35
+      ],
+      "to": [
+        10,
+        9,
+        2.5
+      ],
+      "faces": {
+        "up": {
+          "texture": "#reference",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "down": {
+          "texture": "#reference",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#reference",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#reference",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#reference",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#reference",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      }
+    }
+  ]
+}

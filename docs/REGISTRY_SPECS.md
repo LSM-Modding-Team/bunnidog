@@ -56,8 +56,8 @@ The new item reuses the existing `pedigree_data` snapshot component and text
 format. It filters unfinished/duplicate records on read. The ordinary Pedigree
 Book still logs individuals and updates their snapshots as before. No genome,
 animal or existing item format changes. Protocol 6 was the G2 checkpoint;
-G5 introduced edit packets at **protocol 9**. Current G6/S11 content uses
-**protocol 10** on both sides; the G5 packet shapes remain unchanged.
+G5 introduced edit packets at **protocol 9**. Current fieldcraft content uses
+**protocol 11** on both sides; the G5 packet shapes remain unchanged.
 
 Native creative entity interaction passes a temporary stack copy. Registry writes
 target the actual held book; Gene Splicer selection on animals now does likewise.

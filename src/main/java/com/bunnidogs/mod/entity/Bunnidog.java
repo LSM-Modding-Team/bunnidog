@@ -772,6 +772,17 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     /** Domestic routines and tools are inappropriate for the summoned Apex. */
     public boolean acceptsCare() { return true; }
 
+    public com.bunnidogs.mod.genetics.Camouflage.Status camouflageStatus() {
+        return CoatCamouflage.status(this);
+    }
+
+    @Override
+    public double getVisibilityPercent(net.minecraft.world.entity.Entity observer) {
+        double nativeVisibility = super.getVisibilityPercent(observer);
+        return this.entityData != null && this.camouflageStatus() == com.bunnidogs.mod.genetics.Camouflage.Status.BLENDED
+                ? nativeVisibility*com.bunnidogs.mod.genetics.Camouflage.VISIBILITY : nativeVisibility;
+    }
+
     /** A carried animal leaves its old ticket available and chooses a new home after release. */
     public void releaseHomeForTravel(ServerLevel server) {
         if (server == this.level() && this.acceptsCare()) this.nestHome.release(server);

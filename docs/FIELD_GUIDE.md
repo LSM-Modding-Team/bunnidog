@@ -1,6 +1,13 @@
 # P1 — Bunnidogs Field Guide
 
-**G6/S11:** current fresh guides have **100 pages, eight indices and 73 chapter
+**A10/V1/V2/R1:** fresh guides now have **109 pages, nine indices and 82 chapter
+links**. More chapters and Lineage traits link to fieldcraft index 101, whose
+pages 102–109 explain camouflage/cover, Breeder careers/prices, barns and genetic
+redstone. These chapters return to 101; existing pages retain their numbers.
+Native book saves support the appended pages beyond 100. Craft a fresh guide;
+older copies retain their saved content. See `BREEDER_SPECS.md` and `CARE_SPECS.md`.
+
+**Prior G6/S11 checkpoint:** fresh guides had **100 pages, eight indices and 73 chapter
 links**. Workshop index 98 adds Pen page 99, which points to seed-quality colors
 at 100. Both return to the workshop. Earlier numbers remain; the native item
 codec retains all hundred pages. Pen/seed/guide previews and the full build/all

@@ -1,0 +1,38 @@
+{
+  "parent": "bunnidogs:enter_warren",
+  "display": {
+    "icon": {
+      "id": "bunnidogs:breeding_pen"
+    },
+    "title": {
+      "translate": "advancements.bunnidogs.barn.title"
+    },
+    "description": {
+      "translate": "advancements.bunnidogs.barn.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "found": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "structures": "bunnidogs:breeding_barn"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "found"
+    ]
+  ]
+}

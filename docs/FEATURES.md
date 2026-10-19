@@ -1,12 +1,40 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 100 pages from first warren to Apex. Eight linked contents pages offer 73
-chapter links, including the breeder workshop. Habitat and Lineage traits
+open 109 pages from first warren to Apex. Nine linked contents pages offer 82
+chapter links, including breeder workshop and fieldcraft. Habitat and Lineage traits
 collect regional gardens and inherited abilities.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 Craft a fresh guide for the appended chapters in an existing world.
+
+**Coat camouflage (A10):** full-health calm animals blend on matching support:
+sand for tan/cream/sand, exposed earth for brown/spotted, green cover for moss,
+snow for snow, pale/dark stone for pale/slate, netherrack for ember and obsidian/
+purpur for void. Glow cannot blend. Native detection range halves and walking
+vibrations stop; injury, danger, love, Glowing, water, jumping and transport break
+cover. Eating/attacks/landings still reach sculk. Sneak-Calipers explains status.
+
+**Breeder villagers (V1):** place a Breeding Pen for an unemployed adult villager.
+Native trade progression supplies tags, guides, syringes, Pens, Juicers and early
+quality guavas. Apprentice pelt contracts follow the villager's region. Master
+diamond fruit and Splicers still require real diamonds/Marrow beside emeralds.
+The Pen keeps its own paid animal stock. See `BREEDER_SPECS.md` for base prices.
+
+**Abandoned breeding barns (V2):** explore new dry clearings for weathered guava
+barns with empty workshop tools, two Nests and one native supply chest. Restore
+the broken paddock rail before bringing animals. Existing containers, fluid and
+ore are protected; opened loot is never restocked. Cartographers may sell Barn
+Explorer Maps. Use `/locate structure bunnidogs:breeding_barn` to find candidates.
+
+**Pedigree Comparator (R1):** craft quartz/glass, copper/Whisker and a comparator.
+Use a Tissue Sample to copy its reference without spending it. Exactly one
+bunnidog centered on the clear front block gives 15 when all seven pairs match.
+Hidden copies count; pair order, stats and age do not. Empty-hand switches analog
+mode: 1 + 2 per matched pair. Sneak with both hands empty clears; Calipers reads.
+Blocked/absent/crowded pads output 0. Checks run every half second, powering normal
+redstone and comparators for player-built gates and sorting. The information saves
+on the block and clears when broken; no physical sample inventory is held.
 
 **Breeding Pen (G6):** craft `FHF / PWP / CCC` with wooden fences, hay, planks,
 a Whisker and copper. Place inside a dry pen with two healthy, ready adult

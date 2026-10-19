@@ -1,0 +1,7 @@
+{
+  "type": "bunnidogs:breeding_barn",
+  "biomes": "#bunnidogs:has_structure/breeding_barn",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "beard_thin"
+}

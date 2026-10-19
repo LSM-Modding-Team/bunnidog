@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:stone",
+    "minecraft:diorite",
+    "minecraft:polished_diorite",
+    "minecraft:calcite",
+    "minecraft:tuff"
+  ]
+}

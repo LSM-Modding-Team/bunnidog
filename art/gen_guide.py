@@ -97,19 +97,28 @@ PAGES = {
     97: ('Specimen Jars', 'Insert a Tissue Sample to show its coat; use to read the full sheet. Sneak with both hands empty to recover it. Breaking drops jar and sample. Comparator: 0 empty; 1 plus 2 per fixed gene pair, up to 15.'),
     99: ('Breeding Pen', 'Keep two ready adults with Nests in dry space; no other adults within 12 blocks. Parents must be within 4 of the Pen and under 3 apart. Load A/B guavas. Empty-hand or pulse feeds; Calipers inspects. Seed colors: 100.'),
     100: ('Seed quality colors', 'Seed bands: plain 0, gold 1, diamond 2, netherite 4, star 7, beacon 12, egg 20, command 33. Fractions use the lower band. Tooltips give exact quality. Fortune adds quality at harvest. Stored genes and Mutagen stay intact.'),
+    102: ('Coat camouflage', 'Healthy calm grounded coats blend: half visual range, no walking vibrations. Injury, danger, love, Glowing, water and transport break cover. Other vibrations still reach sculk.'),
+    103: ('Matching ground', 'Tan/cream/sand: sand. Brown/spotted: earth. Moss: green cover. Snow: snow. Pale/slate: light/dark stone. Ember: netherrack. Void: obsidian or purpur. Glow cannot blend. Calipers shows cover.'),
+    104: ('The Breeder', 'An unemployed adult villager claims a Breeding Pen job site. Animal Nests stay separate. Trading locks the career; native restocks and discounts apply. Your Pen still pays its own guavas.'),
+    105: ('Breeder supplies', 'Novice: 20 guavas for 1 emerald; 1 emerald for 4 tags, 2 for a guide. Apprentice: 4 local pelts for 1 emerald; syringe costs 4. Journeyman: 8 sinew for 1 emerald; Pen costs 10.'),
+    106: ('Expert trades', 'Expert: Juicer 12 emeralds; golden guava 8. Master: diamond guava 32 emeralds + 4 diamonds; Splicer 24 emeralds + 1 Mutant Marrow. Prices vary. Stock renews at work.'),
+    107: ('Abandoned barns', 'New dry clearings may hold rare barns: empty tools, two Nests and one supply chest. Repair the broken rail. Cartographers may sell Barn Explorer Maps for 10 emeralds + a compass.'),
+    108: ('Gene comparator', 'Use a sample to copy genes for free. Keep the front block and headroom empty, with one animal on the pad. Seven matching gene pairs give 15. Hidden copies count; pair order, stats and age do not.'),
+    109: ('Genetic circuits', 'Empty-hand switches exact/analog; sneak with both hands empty clears. Analog: 1 + 2 per matched pair. Missing, blocked or crowded pads give 0. Checks each half second. Calipers inspects.'),
 }
-PAGE_COUNT = 100
+PAGE_COUNT = 109
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
-MORE_INDEX = {98:'Breeder workshop',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
+MORE_INDEX = {98:'Breeder workshop',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',101:'Coats & fieldcraft',
               31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
 NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work',51:'Find a tagged animal',52:'Bell roll call',53:'Recovery rest',54:'Plan a litter'}
 
 HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds',61:'Fruit meals',62:'Sapling stations',63:'Underground farms',64:'Safe seedbeds',89:'Lineage traits'}
 WORK_INDEX = {67:'Loose food meals',68:'Trough gathering',69:'Melon beds',71:'Orchard pickers',72:'Habitat meals',73:'Nest signals',75:'Work modes',76:'Restore a garden',84:'Specialist work'}
 SPECIALIST_INDEX = {77:'Nursery workers',79:'Work roll call',80:'Safe hunting',81:'Chorus gardens',82:'Basket stations',83:'Supply the troughs',85:'Pause a resident',86:'Cradle controls',87:'Guava hand care'}
-LINEAGE_INDEX = {13:'Useful coats',14:'Physical traits',29:'Terrain traits',65:'Snow-coat care',88:'Snow surface routes',90:'Phase legs',91:'Webbed paws',92:'Fertility marks',98:'Breeder workshop'}
+LINEAGE_INDEX = {13:'Useful coats',14:'Physical traits',29:'Terrain traits',65:'Snow-coat care',88:'Snow surface routes',90:'Phase legs',91:'Webbed paws',92:'Fertility marks',101:'Coats & fieldcraft'}
 WORKSHOP_INDEX = {15:'Genetics Table',17:'Stable line registry',24:'Juice & infusion',93:'The Juicer',94:'Richer juice',95:'Name a lineage',96:'Pelt rugs',97:'Specimen Jars',99:'Pens & seed colors'}
+FIELD_INDEX = {102:'Coat camouflage',103:'Matching ground',104:'The Breeder',105:'Breeder supplies',106:'Expert trades',107:'Abandoned barns',108:'Pedigree Comparator',109:'Genetic circuits',98:'Breeder workshop'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -138,8 +147,8 @@ def main():
         value = json.loads(path.read_text()); value.update({'item.bunnidogs.field_guide':'Bunnidogs Field Guide',
           'guide.bunnidogs.title':'Bunnidogs Guide','guide.bunnidogs.contents':'Contents',
           'guide.bunnidogs.more_contents':'More chapters','guide.bunnidogs.main_contents':'Main contents',
-          'guide.bunnidogs.new_contents':'New chapters','guide.bunnidogs.habitat_contents':'Habitat chapters','guide.bunnidogs.work_contents':'Working residents','guide.bunnidogs.specialist_contents':'Specialist work','guide.bunnidogs.lineage_contents':'Lineage traits','guide.bunnidogs.workshop_contents':'Breeder workshop'})
-        for page,label in (MAIN_INDEX | MORE_INDEX | NEW_INDEX | HABITAT_INDEX | WORK_INDEX | SPECIALIST_INDEX | LINEAGE_INDEX | WORKSHOP_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
+          'guide.bunnidogs.new_contents':'New chapters','guide.bunnidogs.habitat_contents':'Habitat chapters','guide.bunnidogs.work_contents':'Working residents','guide.bunnidogs.specialist_contents':'Specialist work','guide.bunnidogs.lineage_contents':'Lineage traits','guide.bunnidogs.workshop_contents':'Breeder workshop','guide.bunnidogs.field_contents':'Coats & fieldcraft'})
+        for page,label in (MAIN_INDEX | MORE_INDEX | NEW_INDEX | HABITAT_INDEX | WORK_INDEX | SPECIALIST_INDEX | LINEAGE_INDEX | WORKSHOP_INDEX | FIELD_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
         for page,(title,body) in PAGES.items():
             value[f'guide.bunnidogs.page.{page}.title'] = title
             value[f'guide.bunnidogs.page.{page}.body'] = body
@@ -149,16 +158,18 @@ def main():
         if not any(entry.get('name') == 'bunnidogs:field_guide' for pool in loot['pools'] for entry in pool['entries']):
             loot['pools'].append(pantry_guide_pool())
         write(str(path.relative_to(RES)),loot)
-    preview = Image.new('RGBA',(1220,830),(43,46,39,255)); d = ImageDraw.Draw(preview)
+    preview = Image.new('RGBA',(1220,1240),(43,46,39,255)); d = ImageDraw.Draw(preview)
     preview.alpha_composite(img.resize((224,224),Image.Resampling.NEAREST),(14,85))
     try:
         font = ImageFont.truetype('DejaVuSans.ttf',13)
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page,oy in [(255,99,0),(495,100,0),(735,98,0),(975,4,0),(255,96,410),(495,97,410),(735,89,410),(975,24,410)]:
+    for x,page,oy in [(255,102,0),(495,103,0),(735,104,0),(975,101,0),
+            (255,105,410),(495,106,410),(735,107,410),(975,98,410),
+            (255,108,820),(495,109,820),(735,89,820),(975,100,820)]:
         d.rectangle((x,oy+20,x+224,oy+397),fill=(230,216,174),outline=(117,90,48),width=2)
-        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else 'Lineage traits' if page == 89 else 'Breeder workshop' if page == 98 else PAGES[page][0]
+        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else 'Lineage traits' if page == 89 else 'Breeder workshop' if page == 98 else 'Coats & fieldcraft' if page == 101 else PAGES[page][0]
         d.text((x+14,oy+35),title,font=bold,fill=(40,39,30))
         if page == 1: body = '\n'.join(MAIN_INDEX.values()) + '\n\nMore chapters\nNew chapters\nHabitat chapters'
         elif page == 40: body = '\n'.join(MORE_INDEX.values()) + '\n\nMain contents'
@@ -168,6 +179,7 @@ def main():
         elif page == 84: body = '\n'.join(SPECIALIST_INDEX.values()) + '\n\nMain contents\nWorking residents'
         elif page == 89: body = '\n'.join(LINEAGE_INDEX.values()) + '\n\nMain contents\nHabitat chapters'
         elif page == 98: body = '\n'.join(WORKSHOP_INDEX.values()) + '\n\nMain contents\nMore chapters'
+        elif page == 101: body = '\n'.join(FIELD_INDEX.values()) + '\n\nMain contents\nMore chapters'
         else: body = '\n'.join(textwrap.wrap(PAGES[page][1],25)) + '\n\nContents'
         d.multiline_text((x+14,oy+75),body,font=font,spacing=6,fill=(40,59,36))
         d.text((x+14,oy+365),f'Page {page} / {PAGE_COUNT}',font=font,fill=(85,77,56))
