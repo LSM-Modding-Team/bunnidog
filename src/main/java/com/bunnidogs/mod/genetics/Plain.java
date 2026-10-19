@@ -167,6 +167,7 @@ public final class Plain {
         note(Gene.LEGS, "springy", "Springy legs: a spring in every step.");
         note(Gene.LEGS, "fleet", "Fleet legs: built to run.");
         note(Gene.LEGS, "hoofed", "Hoofed legs: goat legs, made for jumping.");
+        note(Gene.LEGS, "phase", "Phase legs: an End lineage's defensive blink.");
 
         note(Gene.BUILD, "average", "The common default.");
         note(Gene.BUILD, "stocky", "Stocky: broad and tough.");

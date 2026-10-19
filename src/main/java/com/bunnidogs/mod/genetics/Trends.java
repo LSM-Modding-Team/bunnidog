@@ -54,6 +54,7 @@ public final class Trends {
         put(Gene.LEGS, "springy", Stat.LEAP, Stat.SENSES);
         put(Gene.LEGS, "fleet", Stat.SWIFTNESS, Stat.VITALITY);
         put(Gene.LEGS, "hoofed", Stat.LEAP, Stat.SWIFTNESS);
+        put(Gene.LEGS, "phase", Stat.LEAP, Stat.VITALITY);
         // Ears
         put(Gene.EARS, "long", Stat.SENSES, Stat.VITALITY);
         put(Gene.EARS, "short", Stat.VITALITY, Stat.SENSES);

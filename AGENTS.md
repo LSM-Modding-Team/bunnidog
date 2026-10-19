@@ -6,6 +6,9 @@ past decisions; their Claude sandbox, chunk-size, upload and approval routines
 are obsolete. The user's current request determines scope.
 
 - Complete the requested change through implementation and appropriate validation.
+  For continuations, prioritize unfinished accepted features in the plans over
+  further quality-of-life additions. Audit implementation claims against code;
+  distinguish missing implementation from features awaiting manual playtesting.
   Do not limit work to 2–6 files, one API, or one feature fragment per turn.
   Do not start unrelated roadmap work when fixing a reported issue.
 - Continuation preference: when the user says "continue", advance through as much

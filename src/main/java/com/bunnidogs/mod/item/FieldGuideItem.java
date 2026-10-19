@@ -12,12 +12,13 @@ import net.minecraft.world.item.component.WrittenBookContent;
 
 /** Native book UI/packets, translated pages and local page links; no custom screen or payload. */
 public final class FieldGuideItem extends WrittenBookItem {
-    public static final int PAGE_COUNT = 88;
+    public static final int PAGE_COUNT = 90;
     private static final int MORE_CONTENTS = 40;
     private static final int NEW_CONTENTS = 50;
     private static final int HABITAT_CONTENTS = 56;
     private static final int WORK_CONTENTS = 66;
     private static final int SPECIALIST_CONTENTS = 84;
+    private static final int LINEAGE_CONTENTS = 89;
     public FieldGuideItem(Properties properties) {
         super(properties.component(DataComponents.WRITTEN_BOOK_CONTENT, content()));
     }
@@ -27,6 +28,11 @@ public final class FieldGuideItem extends WrittenBookItem {
                 "guide.bunnidogs.more_contents",MORE_CONTENTS).append("\n").append(link("guide.bunnidogs.new_contents",NEW_CONTENTS))
                 .append("\n").append(link("guide.bunnidogs.habitat_contents",HABITAT_CONTENTS))));
         for (int page = 2; page <= PAGE_COUNT; page++) {
+            if (page == LINEAGE_CONTENTS) {
+                pages.add(Filterable.passThrough(contents("guide.bunnidogs.lineage_contents",new int[]{13,14,29,65,88,90},
+                        "guide.bunnidogs.main_contents",1).append("\n").append(link("guide.bunnidogs.habitat_contents",HABITAT_CONTENTS))));
+                continue;
+            }
             if (page == SPECIALIST_CONTENTS) {
                 pages.add(Filterable.passThrough(contents("guide.bunnidogs.specialist_contents",new int[]{77,79,80,81,82,83,85,86,87},
                         "guide.bunnidogs.main_contents",1).append("\n").append(link("guide.bunnidogs.work_contents",WORK_CONTENTS))));
@@ -38,7 +44,7 @@ public final class FieldGuideItem extends WrittenBookItem {
                 continue;
             }
             if (page == HABITAT_CONTENTS) {
-                pages.add(Filterable.passThrough(contents("guide.bunnidogs.habitat_contents",new int[]{57,58,59,60,61,62,63,64,65},
+                pages.add(Filterable.passThrough(contents("guide.bunnidogs.habitat_contents",new int[]{57,58,59,60,61,62,63,64,LINEAGE_CONTENTS},
                         "guide.bunnidogs.main_contents",1).append("\n").append(link("guide.bunnidogs.work_contents",WORK_CONTENTS))));
                 continue;
             }
@@ -56,7 +62,7 @@ public final class FieldGuideItem extends WrittenBookItem {
                     .append(Component.literal("\n\n").withStyle(style -> style.withBold(false)))
                     .append(Component.translatable("guide.bunnidogs.page." + page + ".body").withStyle(style -> style.withBold(false)))
                     .append(Component.literal("\n\n").withStyle(style -> style.withBold(false)))
-                    .append(link("guide.bunnidogs.contents",page == 88 ? HABITAT_CONTENTS : page == 77 || page >= 79 ? SPECIALIST_CONTENTS : page > WORK_CONTENTS ? WORK_CONTENTS : page > HABITAT_CONTENTS ? HABITAT_CONTENTS
+                    .append(link("guide.bunnidogs.contents",page == 65 || page == 88 || page > LINEAGE_CONTENTS ? LINEAGE_CONTENTS : page == 77 || page >= 79 ? SPECIALIST_CONTENTS : page > WORK_CONTENTS ? WORK_CONTENTS : page > HABITAT_CONTENTS ? HABITAT_CONTENTS
                             : page > MORE_CONTENTS ? NEW_CONTENTS : page < 24 ? 1 : MORE_CONTENTS));
             pages.add(Filterable.passThrough(text));
         }

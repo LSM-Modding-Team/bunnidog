@@ -22,8 +22,10 @@ public final class Adaptations {
                 + (genome.expressed(Gene.BUILD).name().equals("lean") ? .5 : 0);
     }
     public static boolean luminous(Genome genome) { return genome.expressed(Gene.COAT).name().equals("glow"); }
+    public static boolean phasing(Genome genome) { return genome.expressed(Gene.LEGS).name().equals("phase"); }
     public static int blockLight(Genome genome, int environmental) { return luminous(genome) ? 15 : environmental; }
     public static String explanation(Gene gene, Allele allele) {
+        if (gene == Gene.LEGS && allele.name().equals("phase")) return "Grounded adults blink three to six blocks away after a nonlethal attack, then recover for twenty seconds. Needs safe loaded dry ground inside the current home boundary. Leads, rides and passengers prevent blinking; damage still lands.";
         if (gene == Gene.EARS && allele.name().equals("bat")) return "Healthy adults with Senses +10 can mark nearby ore: sneak-use a compass. At +20, a mineral in the other hand selects its ore family. Six-block range, thirty-second shared recovery.";
         if (gene == Gene.COAT && allele.name().equals("ember")) return "Immune to fire and lava.";
         if (gene == Gene.BUILD && allele.name().equals("woolly"))

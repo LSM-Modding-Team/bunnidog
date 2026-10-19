@@ -56,6 +56,7 @@ public class GenomeCheck {
         breeding();
         founders();
         lineages();
+        phaseAllele();
         stats();
         seeds();
         guavaTiers();
@@ -667,6 +668,31 @@ public class GenomeCheck {
 
 
     // ---------------------------------------------------------------------------------------------
+    static void phaseAllele() {
+        Allele phase = Gene.LEGS.alleleNamed("phase");
+        check(phase.id() == 6 && phase.isWild() && phase.lineage() == Lineage.END && phase.weight() == 0,
+                "Phase is appended at Legs id 6, End-only and outside the common/mutation pool");
+        check(Founders.recipe(Lineage.END).stream().anyMatch(s -> s.gene() == Gene.LEGS && s.allele().equals("phase") && s.chance() == .75),
+                "Fresh End founders carry the accepted Phase signature");
+        var fixed = homozygous(Genome.DEFAULT,Gene.LEGS,"phase");
+        var pups = new java.util.Random(52);
+        for (int i = 0; i < 32; i++) {
+            Genome pup = Genome.breed(fixed,Genome.DEFAULT,pups,0).genome();
+            check(pup.alleleId(Gene.LEGS,0) == 6 && pup.alleleId(Gene.LEGS,1) == 0 && Adaptations.phasing(pup),
+                    "An End Phase parent transmits its expressed dominant copy through ordinary inheritance");
+        }
+        check(!Adaptations.phasing(fixed.with(Gene.LEGS,1,Gene.LEGS.alleleNamed("springy").id())),
+                "A hidden Phase copy must not grant the ability");
+        check(Genome.parse("00-aa-66-00-11-44").orElseThrow().equals(fixed.with(Gene.COAT,0,10).with(Gene.COAT,1,10)
+                .with(Gene.TEMPERAMENT,0,1).with(Gene.TEMPERAMENT,1,1).with(Gene.FERTILITY,0,4).with(Gene.FERTILITY,1,4)),
+                "The ordinary six-pair text upgrade retains the new leg allele and supplies legacy plain Diet");
+        check(Juice.effects(fixed,Stats.ZERO,0).stream().anyMatch(e -> e.id().equals("minecraft:slow_falling") && e.ticks() == 900),
+                "Infused Phase juice yields its own real forty-five-second Slow Falling effect");
+        check(Phasing.inRange(9,1) && Phasing.inRange(36,-1) && !Phasing.inRange(37,0)
+                && !Phasing.inRange(8,0) && !Phasing.inRange(16,2) && !Phasing.inRange(Double.NaN,0)
+                && Phasing.farther(4,16) && !Phasing.farther(4,15),"Blink range, level changes and useful escape distance stay bounded");
+    }
+
     static void stats() {
         System.out.println("bred stats + Bloom (Phase 4a)");
 
@@ -792,7 +818,7 @@ public class GenomeCheck {
                 "build/stocky VITALITY SWIFTNESS", "build/slim SWIFTNESS VITALITY", "build/chonker VITALITY SWIFTNESS",
                 "build/woolly VITALITY LEAP", "build/lean SWIFTNESS VITALITY",
                 "legs/long SWIFTNESS SENSES", "legs/short SENSES SWIFTNESS", "legs/springy LEAP SENSES",
-                "legs/fleet SWIFTNESS VITALITY", "legs/hoofed LEAP SWIFTNESS",
+                "legs/fleet SWIFTNESS VITALITY", "legs/hoofed LEAP SWIFTNESS", "legs/phase LEAP VITALITY",
                 "ears/long SENSES VITALITY", "ears/short VITALITY SENSES", "ears/huge SENSES VITALITY",
                 "ears/tiny VITALITY SENSES", "ears/fennec SENSES VITALITY", "ears/bat SENSES LEAP",
                 "temperament/skittish SWIFTNESS VITALITY", "temperament/feral VITALITY SENSES", "temperament/stoic VITALITY SWIFTNESS",
@@ -1397,7 +1423,7 @@ public class GenomeCheck {
                 "legs:standard", "legs:short", "build:average", "fertility:average", "fertility:prolific", "fertility:shy"}) {
             check(!Juice.DEFS.containsKey(plain), plain + ": a plain allele has no effect");
         }
-        check(Juice.DEFS.size() == 28, "28 alleles have effects, got " + Juice.DEFS.size());
+        check(Juice.DEFS.size() == 29, "29 alleles have effects, got " + Juice.DEFS.size());
 
         // --- every def: real vanilla ids, sane caps, a drawback never scales
         for (var entry : Juice.DEFS.entrySet()) {

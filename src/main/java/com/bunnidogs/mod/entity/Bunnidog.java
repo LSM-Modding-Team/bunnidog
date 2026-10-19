@@ -181,6 +181,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private final GuavaMemory guavaMemory = new GuavaMemory();
     /** H2: the Nest this dog has claimed (docs/HOME_SPECS.md); server side only. */
     private final NestHome nestHome = new NestHome(this);
+    private final PhaseEscape phaseEscape = new PhaseEscape(this);
     private long nextForageTick;
     private long nextGardenTick;
     private long nextSampleTick;
@@ -805,6 +806,16 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         return (int)Math.clamp(this.nextSampleTick-this.level().getGameTime(),0L,
                 (long)Sampling.RECOVERY_TICKS);
     }
+    public int phaseWait() { return this.phaseEscape.waitTicks(); }
+
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        float before = this.getHealth()+this.getAbsorptionAmount();
+        boolean hurt = super.hurtServer(level,source,amount);
+        if (hurt && this.getHealth()+this.getAbsorptionAmount() < before && source.getEntity() instanceof LivingEntity attacker)
+            this.phaseEscape.afterAttack(level,attacker);
+        return hurt;
+    }
     public int groomingWait() {
         return (int)Math.clamp(this.nextGroomTick-this.level().getGameTime(),0L,(long)Grooming.RECOVERY_TICKS);
     }
@@ -870,6 +881,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         if (this.groomingWait() > 0) output.putInt("GroomWait",this.groomingWait());
         if (this.fleeceWait() > 0) output.putInt("FleeceWait",this.fleeceWait());
         if (this.splicingWait() > 0) output.putInt("SpliceWait",this.splicingWait());
+        if (this.phaseWait() > 0) output.putInt("PhaseWait",this.phaseWait());
         if (this.motherGenome != null && this.fatherGenome != null) {
             output.putString(TAG_MOTHER, this.motherGenome.toString());
             output.putString(TAG_FATHER, this.fatherGenome.toString());
@@ -921,6 +933,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
                 Fleece.REGROW_TICKS);
         this.entityData.set(DATA_FLEECE_READY,this.fleeceWait() == 0);
         this.nextSpliceTick = this.level().getGameTime()+Math.clamp(input.getIntOr("SpliceWait",0),0,Splicing.RECOVERY_TICKS);
+        this.phaseEscape.restore(input.getIntOr("PhaseWait",0));
         // Phase 4e: a save from before it, or a bunnidog not in love, has neither tag = no memory.
         this.guavaMemory.restore(input.getIntOr(TAG_LOVE_TIER, 0), input.getIntOr(TAG_LOVE_TIER_TICKS, 0));
         // H2: a save from before it, or a dog without a nest, has no Y = no nest.

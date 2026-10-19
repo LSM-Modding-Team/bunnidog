@@ -64,6 +64,7 @@ public final class Founders {
                 sig(Gene.TEMPERAMENT, "feral", 0.85), sig(Gene.DIET, "nether_forager", 0.85)));
         RECIPES.put(Lineage.END, List.of(
                 sig(Gene.COAT, "void", 0.90),
+                sig(Gene.LEGS, "phase", 0.75),
                 sig(Gene.TEMPERAMENT, "skittish", 0.40),
                 sig(Gene.FERTILITY, "starborn", 0.40), sig(Gene.DIET, "chorus_eater", 0.85))); // seed quality: see Drift
     }

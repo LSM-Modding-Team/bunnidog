@@ -403,3 +403,49 @@ interiors, a newly damaging floor, neighboring fire, removed support and native
 descending. Restored footing/safety permits a real one-food/two-HP/normal-rest
 meal. Existing physics, collision, climate-care and all other route cases stay
 passing. Guide preview inspected; natural tundra navigation remains playtest review.
+
+## A7: the End lineage's Phase legs
+
+This completes the missing Phase ability in `DESIGN.md`, Phase 3's original
+lineage plan. LEGS `phase` is appended at saved allele **6**, dominance 12,
+ordinary physical scale 1.0. New End founders receive it with 75% probability
+per copy. Existing animals, seeds and samples keep their exact genomes; the
+allele neither enters common founders nor becomes a mutation target. Springy
+legs still dominate it. Its ordinary wild trend is **+2 Leap / -1 Vitality**;
+infused juice gives 45 seconds of Slow Falling, scaling with quality/Leap up
+to five minutes. Ordinary breeding, sheets, samples and splicing support it.
+
+A grounded living adult expressing Phase can blink after an actual nonlethal
+attack from another living entity. The original health/absorption damage is
+paid first; fall, fire and other environmental hits do not trigger it. Pups,
+hidden copies and the Apex do not blink. Leads, rides and passengers prevent
+it. Forty-eight bounded candidate positions seek dry supported landings three
+to six blocks away, at most one block higher/lower and at least two blocks
+farther from the attacker. A resident's landing stays within sixteen blocks
+of its recorded Nest. Homeless adults can also defend themselves. This is a
+teleport, so ordinary fences/walls are not guaranteed to contain a Phase line;
+leads or baskets retain transport control.
+
+Checks cover the loaded whole body and neighboring native path hazards,
+collision, liquid, full-block support and world border. There is no terrain
+load, path search, home reassignment or damage immunity. Native
+`EntityTeleportEvent.EnderEntity` can cancel or redirect the attempt. The final
+target, current genes, transport, origin and home are rechecked after that
+callback; unsafe redirects retain the callback's state and cost no recovery.
+An in-progress guard prevents recursive attacks from recursively blinking.
+
+Successful movement stops navigation/knockback, emits portal particles and a
+quiet native teleport sound, and starts **400 ticks / twenty seconds** of
+recovery. `PhaseWait` stores bounded remaining ticks, pausing while unloaded or
+packed; missing old data means ready. Recovery is reserved before movement
+callbacks can save the animal. Sneak-Calipers shows this line's recovery or
+transport pause. The native guide adds Phase on page 90 and a seventh, linked
+Lineage traits index at 89, retaining all old page numbers.
+
+Java 25 build/all **71** native scenarios pass. The added case exercises actual
+attacks and movement, retained damage/home, recovery and legacy saves, hidden
+genes, pups, leads/rides, lethal/environmental hits, the Apex, native event
+cancellation, unsafe/unloaded redirects, callback gene/position changes and
+hazardous landing refusal. Focused inheritance/format/trend/juice checks pass.
+The 90-page guide preview is inspected. Client combat/particles remain playtest
+review; this does not change the approved creature meshes.

@@ -1,5 +1,12 @@
 # P1 — Bunnidogs Field Guide
 
+A7 appends page 90 for the End's defensive Phase legs and index 89, **Lineage
+traits**. Habitat links to that index, which links coats, physical/terrain
+traits, snow care/routes and Phase. Snow pages and Phase return there. The
+guide now has **90 pages, seven indices and 61 chapter links**. Existing page
+numbers stay stable; the substitute-font preview is inspected. Native client
+font, reading and combat playtesting remain separate.
+
 The growing progression needs an in-game reference. The Field Guide covers
 founders, genes, breeding/seeds/quality, pedigree, Nests and transport, food,
 bell gatherings, living care, adaptations, table/splicing, stable lines,

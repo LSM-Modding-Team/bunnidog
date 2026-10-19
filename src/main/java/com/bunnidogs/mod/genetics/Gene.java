@@ -45,7 +45,8 @@ public enum Gene {
             spec("short",    1, 0.80f, 3),
             spec("springy", 50, 1.50f, 0),
             wild("fleet",   10, 1.35f, Lineage.DESERT),  // fast
-            wild("hoofed",  11, 1.30f, Lineage.MOUNTAIN)), // goat legs: long jumps
+            wild("hoofed",  11, 1.30f, Lineage.MOUNTAIN), // goat legs: long jumps
+            wild("phase",   12, 1.00f, Lineage.END)),     // short defensive blinks, not longer physical legs
     BUILD("build",                                        // value = chonk (health + visible width)
             spec("average",  3, 1.00f, 6),
             spec("stocky",   2, 1.25f, 3),

@@ -22,6 +22,14 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **A7, planned End Phase ability:** appended LEGS `phase` gives fresh End
+  founders and bred descendants a defensive blink after real nonlethal attacks.
+  Damage remains; safe loaded landings, home/transport limits and native
+  cancellation apply. Twenty-second recovery survives native saves/baskets.
+  Stat tradeoffs, juice and readouts are connected. Java 25 build/all 71 native
+  scenarios pass; the 90-page/seven-index guide preview is inspected. See
+  `docs/CARE_SPECS.md` A7. Client combat remains unverified.
+
 - **A6, snow surface home routes:** animals with actual native powder-snow
   footing can use its supported dry surface for domestic routes. Deep powder,
   changed/lost footing or floor, magma and neighboring fire still stop jobs.
@@ -437,8 +445,16 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **sixty-one** native scenarios pass (sixty mod
+The Java 25 build and all **seventy-one** native scenarios pass (seventy mod
 cases plus native sanity). Latest coverage:
+
+- **A7:** actual attacks and defensive blinks, retained damage/home, recovery
+  saves, hidden-copy/pup/transport exclusions, native cancellation, unsafe
+  redirects and callback gene/position changes. Focused pure inheritance,
+  legacy-format, range and juice checks pass. The historical full GenomeCheck
+  also reports 32 stale assertions against older source-code shapes; those
+  source-string checks do not establish current native behavior and were not
+  rewritten in this feature batch.
 
 - **D9/L32:** real wild-prey kill/heal/rest, named/leashed/boat exclusions,
   new magma under an existing route, renamed prey, relocation and target
@@ -542,9 +558,11 @@ command feature; U1/H3b natural home/den review remains useful.
 
 ## Continuing
 
-`docs/ROADMAP.md` lists optional next work; coherent additions beyond it are
-already authorized. Prefer useful habitat/resident behavior or clarity, define
-bounded rules first, and complete meaningful batches through build and delivery.
+`docs/ROADMAP.md` tracks unfinished planned work as well as optional candidates.
+Prioritize completing those features over further comfort controls. Substantial
+coherent additions remain authorized; define bounded rules and complete meaningful
+batches through build and delivery. Keep missing work distinct from manual playtest
+evidence: a pending gameplay check does not make an implemented system a stub.
 For terrain review use `/bunnidogs warren 1 surface`, `3 surface`, `5 surface`,
 cave/Nether `1`, End `5 surface`, and natural structure lookup:
 `/locate structure bunnidogs:warren_village` or `bunnidogs:warren_end_village`.

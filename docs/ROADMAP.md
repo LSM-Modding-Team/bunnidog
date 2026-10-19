@@ -1,6 +1,23 @@
 # ROADMAP (current; replaces the old one in docs/history/ROADMAP_OLD.md)
 
-Each item is one or a few small chunks. "Needs" = what must exist first. The user decides the order; unless they say otherwise, prefer items that fix reported problems and need no new Minecraft API.
+The user requests substantial continuations, prioritizing unfinished planned
+features over more quality-of-life controls. Historical per-turn chunk limits
+do not apply. Verify old completion claims against code before choosing work.
+
+## Unfinished work from the original plans
+
+| Feature | Actual status | Original plan |
+|---|---|---|
+| Small-warren entrance trails | Mounds/dens exist, but mouth-to-tree trails were omitted from U1 | `WARREN_PLAN.md` 5–8, 12 |
+| Swamp swimming/webbed paws | No inherited swimming benefit or webbed leg allele yet | `DESIGN.md`, Phase 3 environmental effects |
+| Visible fertility cue | Fertility mechanics exist; the creature still has no expressed visual cue | `DESIGN.md`, Genome/Phase 2–3 |
+| Coat camouflage | A proposal without defined triggers or gameplay tradeoffs; specify before coding | `DESIGN.md`, Phase 3 environmental effects |
+
+The same original lineage paragraph also proposed cave night vision. Ore sense
+is already implemented through bat-ear surveys; native animals already perceive
+targets in darkness, so a separate vision benefit still needs a useful definition.
+The End Phase ability is now A7 below. Older `DESIGN.md` “not done” statements
+are historical snapshots, including systems since completed; do not redo them.
 
 ## Done (do not redo)
 Genome, breeding, wild lineages, bred stats and Bloom, seeds and crops, guava ladder (8 tiers), juice and infusion, warrens and villages (levels 1-5, houses, paths, landmarks, styles by biome, meeting tree), guava wood (log, leaves, planks, stripped forms, stairs, slab, fence), Calipers, Pedigree Book and sheet windows (S1-S8), Ear Tags, drops (D1-D8: pelts, flesh, materials, Mutagen, Marrow, Tissue Sample, Starlit Dust, legends, Trophy Pedestal, worn tag), Genetics Table T1–T4, bug batch F1-F3, Nest + claiming homes (H1-H4, H3b delivered).
@@ -15,6 +32,14 @@ Delivered, not individually confirmed: **U6a** advancement, **U1** level-1 dens
 and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
+
+A7 completes the End's planned Phase blink as an appended inherited leg allele,
+with End founders, stat tradeoffs and infused juice. Real attacks still hurt;
+grounded adults escape to safe loaded landings, respecting transport, homes,
+native teleport protection and saved twenty-second recovery. Build/all 71
+native scenarios pass; the 90-page/seven-index guide preview is inspected.
+See `CARE_SPECS.md` A7. Original Phase 3b still has unfinished swamp swimming,
+fertility visibility and camouflage proposals; these are not marked complete.
 
 A6 lets native snow-footed residents use supported powder-snow surfaces for
 home routines, meals and work. Interior powder, changed/lost footing, missing
