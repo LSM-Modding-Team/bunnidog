@@ -76,6 +76,10 @@ public final class Pedigree {
     public enum Added { ADDED, UPDATED, ALREADY, FULL }
 
     private final List<Entry> entries = new ArrayList<>();
+    private LineageNames lineageNames = new LineageNames();
+    public LineageNames lineageNames() { return this.lineageNames; }
+    public void setLineageNames(LineageNames names) { this.lineageNames = names.retain(this); }
+    public Optional<String> lineageName(Genome genome) { return this.lineageNames.name(genome); }
 
     public int size() {
         return entries.size();

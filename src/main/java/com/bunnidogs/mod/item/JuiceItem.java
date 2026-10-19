@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.genetics.Infusion;
 import com.bunnidogs.mod.genetics.Juice;
+import com.bunnidogs.mod.genetics.GuavaTier;
 import com.bunnidogs.mod.registry.ModItems;
 
 import net.minecraft.ChatFormatting;
@@ -31,8 +32,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
 /**
- * Guava juice (Phase 4f). Two registered items use this class: the plain {@code guava_juice} (crafted from a guava and a glass
- * bottle; drinking it only restores a little hunger) and the {@code infused_guava_juice}, which holds an {@link Infusion} (a
+ * Guava juice. Eight uninfused carriers preserve their guava tier (drinking only restores a little hunger);
+ * {@code infused_guava_juice} holds an {@link Infusion} (a
  * frozen "liquid pup" made from a seed, see {@link SeedItem#use}) in the data component {@code bunnidogs:infusion_data} and
  * gives the effects its genes call for ({@link Juice}).
  *
@@ -44,9 +45,20 @@ import net.minecraft.world.phys.AABB;
 public class JuiceItem extends Item {
     /** Ticks of the drinking animation (a vanilla potion takes 32). */
     public static final int DRINK_TICKS = 32;
+    private final GuavaTier tier;
 
     public JuiceItem(Properties properties) {
+        this(properties,GuavaTier.PLAIN);
+    }
+
+    public JuiceItem(Properties properties, GuavaTier tier) {
         super(properties);
+        this.tier = tier;
+    }
+
+    public static Optional<GuavaTier> carrier(ItemStack stack) {
+        return !stack.isEmpty() && stack.getItem() instanceof JuiceItem juice && !stack.is(ModItems.INFUSED_JUICE.get())
+                ? Optional.of(juice.tier) : Optional.empty();
     }
 
     /** A bottle of infused juice holding this liquid pup. */
@@ -134,9 +146,10 @@ public class JuiceItem extends Item {
         Optional<Infusion> infusion = read(stack);
         if (infusion.isEmpty()) {
             lines.accept(Component.literal("Restores a little hunger").withStyle(ChatFormatting.GRAY));
-            if (stack.is(ModItems.GUAVA_JUICE.get())) {
-                lines.accept(Component.literal("Hold a seed and this bottle in the other hand, then use the seed").withStyle(ChatFormatting.DARK_GRAY));
-            }
+            carrier(stack).ifPresent(t -> {
+                lines.accept(Component.translatable("tooltip.bunnidogs.juice.carrier",t.qualityText()).withStyle(ChatFormatting.GRAY));
+                lines.accept(Component.translatable("tooltip.bunnidogs.juice.infuse").withStyle(ChatFormatting.DARK_GRAY));
+            });
             return;
         }
         for (String line : infusion.get().summary()) {

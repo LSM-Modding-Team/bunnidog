@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "bunnidogs:command_block_guava",
+    "minecraft:glass_bottle"
+  ],
+  "result": {
+    "id": "bunnidogs:command_block_guava_juice"
+  }
+}

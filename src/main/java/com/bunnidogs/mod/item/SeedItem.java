@@ -82,10 +82,11 @@ public class SeedItem extends Item {
     }
 
     /**
-     * Infusion (Phase 4f): with a seed in the main hand and a plain guava juice in the OFF hand, using the seed (a right-click
+     * Infusion: with a seed in the main hand and uninfused guava juice in the OFF hand, using the seed (a right-click
      * that planting did not take: not on farmland) rolls ONE phantom pup from the seed ({@link Infusion#roll}), uses up the
-     * seed and the juice, and hands over a bottle of infused juice that holds it. Anything else passes. Only the plain juice is
-     * accepted (an infused bottle cannot be infused again). Not a crafting recipe on purpose: the result carries data.
+     * seed and the juice, and hands over a bottle of infused juice that holds it. Anything else passes. Only uninfused juice is
+     * accepted as a carrier (an infused bottle cannot be infused again). Rich carriers lift effect quality, not inherited
+     * stat drift. The Juicer offers the same paid random roll for automated processing.
      */
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
@@ -95,11 +96,12 @@ public class SeedItem extends Item {
         if (hand == InteractionHand.MAIN_HAND && seed.isPresent() && juiceStack.is(ModItems.MUTAGEN.get())) {
             return applyMutagen(level, player, hand, seedStack, juiceStack, seed.get());
         }
-        if (hand != InteractionHand.MAIN_HAND || seed.isEmpty() || !juiceStack.is(ModItems.GUAVA_JUICE.get())) {
+        var carrier = JuiceItem.carrier(juiceStack);
+        if (hand != InteractionHand.MAIN_HAND || seed.isEmpty() || carrier.isEmpty()) {
             return InteractionResult.PASS;
         }
         if (!level.isClientSide()) {
-            Infusion phantom = Infusion.roll(seed.get(), new Random(level.getRandom().nextLong()));
+            Infusion phantom = Infusion.roll(seed.get(), carrier.get(), new Random(level.getRandom().nextLong()));
             ItemStack bottle = JuiceItem.create(phantom);
             if (player.hasInfiniteMaterials()) {
                 giveOrDrop(player, bottle);

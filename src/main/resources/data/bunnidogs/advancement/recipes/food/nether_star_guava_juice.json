@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_input": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "bunnidogs:nether_star_guava"
+          }
+        ]
+      }
+    },
+    "has_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bunnidogs:nether_star_guava_juice"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_input",
+      "has_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:nether_star_guava_juice"
+    ]
+  }
+}

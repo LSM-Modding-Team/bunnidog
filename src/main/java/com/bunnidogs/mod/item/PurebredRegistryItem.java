@@ -33,7 +33,9 @@ public final class PurebredRegistryItem extends Item {
     public PurebredRegistryItem(Properties properties) { super(properties); }
 
     public static Pedigree read(ItemStack stack) {
-        return Purebreds.read(stack.get(ModItems.PEDIGREE_DATA.get()));
+        var book = Purebreds.read(stack.get(ModItems.PEDIGREE_DATA.get()));
+        book.setLineageNames(com.bunnidogs.mod.genetics.LineageNames.parse(stack.get(ModItems.LINEAGE_NAMES.get())));
+        return book;
     }
 
     @Override
@@ -73,7 +75,7 @@ public final class PurebredRegistryItem extends Item {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (recordCarried(player,hand)) return InteractionResult.SUCCESS;
-        if (level.isClientSide()) ClientScreens.openRegistry(read(player.getItemInHand(hand)));
+        if (level.isClientSide()) ClientScreens.openRegistry(read(player.getItemInHand(hand)),hand,player.getItemInHand(hand));
         return InteractionResult.SUCCESS;
     }
     private boolean recordCarried(Player player, InteractionHand hand) {

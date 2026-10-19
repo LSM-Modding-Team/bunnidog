@@ -1,5 +1,11 @@
 # Purebred Registry G2
 
+**G5 naming is implemented:** select a record in an opened Registry and choose
+**Name lineage**. Names are local to this book's exact genotypes and searchable
+with `line:text`. A bounded server-acknowledged edit preserves first-representative
+snapshots, qualification and advancement rules. An optional `lineage_names`
+component carries labels; old books need no migration. See `WORKSHOP_SPECS.md` G5.
+
 Implemented 2026-10-16. The registry gives breeding a persistent collection goal:
 fix a stable genome, then record an adult representative. A stable mixed-lineage
 breed is valid; matching a wild founder recipe is not a requirement.
@@ -49,7 +55,8 @@ so it cannot fix a pair by repeated use. Breed to complete the registry goal.
 The new item reuses the existing `pedigree_data` snapshot component and text
 format. It filters unfinished/duplicate records on read. The ordinary Pedigree
 Book still logs individuals and updates their snapshots as before. No genome,
-animal or existing item format changes; network protocol remains 6.
+animal or existing item format changes. Protocol 6 was the G2 checkpoint;
+current G5 edit packets require **protocol 9** on both sides.
 
 Native creative entity interaction passes a temporary stack copy. Registry writes
 target the actual held book; Gene Splicer selection on animals now does likewise.

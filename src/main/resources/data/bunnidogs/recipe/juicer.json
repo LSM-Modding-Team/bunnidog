@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PIP",
+    "PBP",
+    "CCC"
+  ],
+  "key": {
+    "P": "#minecraft:planks",
+    "I": "minecraft:iron_ingot",
+    "B": "minecraft:glass_bottle",
+    "C": "minecraft:copper_ingot"
+  },
+  "result": {
+    "id": "bunnidogs:juicer"
+  }
+}

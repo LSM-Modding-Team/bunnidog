@@ -1,0 +1,43 @@
+{
+  "variants": {
+    "specimen=0": {
+      "model": "bunnidogs:block/specimen_jar_0"
+    },
+    "specimen=1": {
+      "model": "bunnidogs:block/specimen_jar_1"
+    },
+    "specimen=2": {
+      "model": "bunnidogs:block/specimen_jar_2"
+    },
+    "specimen=3": {
+      "model": "bunnidogs:block/specimen_jar_3"
+    },
+    "specimen=4": {
+      "model": "bunnidogs:block/specimen_jar_4"
+    },
+    "specimen=5": {
+      "model": "bunnidogs:block/specimen_jar_5"
+    },
+    "specimen=6": {
+      "model": "bunnidogs:block/specimen_jar_6"
+    },
+    "specimen=7": {
+      "model": "bunnidogs:block/specimen_jar_7"
+    },
+    "specimen=8": {
+      "model": "bunnidogs:block/specimen_jar_8"
+    },
+    "specimen=9": {
+      "model": "bunnidogs:block/specimen_jar_9"
+    },
+    "specimen=10": {
+      "model": "bunnidogs:block/specimen_jar_10"
+    },
+    "specimen=11": {
+      "model": "bunnidogs:block/specimen_jar_11"
+    },
+    "specimen=12": {
+      "model": "bunnidogs:block/specimen_jar_12"
+    }
+  }
+}

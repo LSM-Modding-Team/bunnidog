@@ -17,6 +17,12 @@ import com.bunnidogs.mod.block.SeedCropBlockEntity;
 import com.bunnidogs.mod.block.TrophyPedestalBlock;
 import com.bunnidogs.mod.block.ApexCrucibleBlock;
 import com.bunnidogs.mod.block.TrophyPedestalBlockEntity;
+import com.bunnidogs.mod.block.JuicerBlock;
+import com.bunnidogs.mod.block.JuicerBlockEntity;
+import com.bunnidogs.mod.block.PeltRugBlock;
+import com.bunnidogs.mod.block.SpecimenJarBlock;
+import com.bunnidogs.mod.block.SpecimenJarBlockEntity;
+import com.bunnidogs.mod.genetics.Gene;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
@@ -58,11 +64,19 @@ public final class ModBlocks {
         event.registerBlockEntity(Capabilities.Item.BLOCK,FEEDING_TROUGH_BE.get(),(trough,side) -> trough.automation());
         event.registerBlockEntity(Capabilities.Item.BLOCK,NURSERY_CRADLE_BE.get(),(cradle,side) -> cradle.automation());
         event.registerBlockEntity(Capabilities.Item.BLOCK,GENETICS_TABLE_BE.get(),(table,side) -> table.automation());
+        event.registerBlockEntity(Capabilities.Item.BLOCK,JUICER_BE.get(),(juicer,side) -> juicer.automation(side));
     }
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(BunnidogsMod.MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, BunnidogsMod.MODID);
+    public static final java.util.Map<String,DeferredBlock<PeltRugBlock>> PELT_RUGS = registerPeltRugs();
+    private static java.util.Map<String,DeferredBlock<PeltRugBlock>> registerPeltRugs() {
+        var rugs = new java.util.LinkedHashMap<String,DeferredBlock<PeltRugBlock>>();
+        for (var coat : Gene.COAT.alleles()) rugs.put(coat.name(),BLOCKS.registerBlock(coat.name()+"_pelt_rug",PeltRugBlock::new,
+                props -> props.strength(.1F).sound(SoundType.WOOL).noOcclusion().ignitedByLava()));
+        return java.util.Collections.unmodifiableMap(rugs);
+    }
 
     /** Namespaced so the native sign editors resolve our GUI textures; interaction sounds remain oak's. */
     public static final WoodType GUAVA_WOOD_TYPE = WoodType.register(new WoodType(BunnidogsMod.MODID + ":guava", BlockSetType.OAK));
@@ -181,6 +195,14 @@ public final class ModBlocks {
     /** The Genetics Table (T1, docs/TABLE_SPECS.md): a lab bench that holds and reads one Tissue Sample ({@link GeneticsTableBlockEntity}); its item is registered in {@link ModItems}. Loot: data/bunnidogs/loot_table/blocks/genetics_table.json. */
     public static final DeferredBlock<GeneticsTableBlock> GENETICS_TABLE = BLOCKS.registerBlock("genetics_table", GeneticsTableBlock::new,
             props -> props.strength(2.5F).sound(SoundType.WOOD).noOcclusion());
+    public static final DeferredBlock<JuicerBlock> JUICER = BLOCKS.registerBlock("juicer",JuicerBlock::new,
+            props -> props.strength(2.5F).sound(SoundType.WOOD).noOcclusion().pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<JuicerBlockEntity>> JUICER_BE =
+            BLOCK_ENTITIES.register("juicer",() -> new BlockEntityType<>(JuicerBlockEntity::new,JUICER.get()));
+    public static final DeferredBlock<SpecimenJarBlock> SPECIMEN_JAR = BLOCKS.registerBlock("specimen_jar",SpecimenJarBlock::new,
+            props -> props.strength(.3F).sound(SoundType.GLASS).noOcclusion().pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SpecimenJarBlockEntity>> SPECIMEN_JAR_BE =
+            BLOCK_ENTITIES.register("specimen_jar",() -> new BlockEntityType<>(SpecimenJarBlockEntity::new,SPECIMEN_JAR.get()));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SeedCropBlockEntity>> SEED_CROP_BE =
             BLOCK_ENTITIES.register("seed_crop", () -> new BlockEntityType<>(SeedCropBlockEntity::new, SEED_CROP.get()));

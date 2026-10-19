@@ -26,7 +26,7 @@ public final class RegistryContents {
         for (int row = 0; row < matches.size(); row++) {
             int i = matches.get(row);
             var entry = registry.entries().get(i);
-            String whole = "#" + (i + 1) + "  " + entry.tag().orElse(Plain.look(entry.genome()));
+            String whole = "#" + (i + 1) + "  " + registry.lineageName(entry.genome()).orElseGet(() -> entry.tag().orElse(Plain.look(entry.genome())));
             Page page = row < 14 ? left : right;
             int y = row < 14 ? 27 + Page.LINE * row : Page.LINE * (row - 14);
             page.text(0, y, Page.fit(whole, Page.WIDTH, metrics), Page.Tone.INK);

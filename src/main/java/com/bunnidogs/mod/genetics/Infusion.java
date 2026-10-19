@@ -36,6 +36,12 @@ public record Infusion(Genome genome, Stats stats, double quality) {
         return new Infusion(child.genome(), stats, seed.quality());
     }
 
+    /** A richer carrier lifts potion quality, without changing the seed's inherited genome or stat drift. */
+    public static Infusion roll(Seed seed, GuavaTier carrier, RandomGenerator rng) {
+        Infusion child = roll(seed,rng);
+        return new Infusion(child.genome(),child.stats(),Math.max(child.quality(),carrier.quality()));
+    }
+
     /** The effects of this bottle: the saturation first, then the gene effects ({@link Juice#effects}). */
     public List<Juice.Spec> specs() {
         List<Juice.Spec> out = new ArrayList<>();
@@ -59,7 +65,7 @@ public record Infusion(Genome genome, Stats stats, double quality) {
         for (Juice.Spec s : effects) {
             lines.add(s.describe());
         }
-        lines.add(String.format(Locale.ROOT, "Made from a seed of quality %.2f", quality));
+        lines.add(String.format(Locale.ROOT, "Infusion quality %.2f", quality));
         return lines;
     }
 

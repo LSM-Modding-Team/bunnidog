@@ -10,7 +10,7 @@ PAGES = {
     4: ('Breed a seed', 'Feed a guava normally to each of two ready adults. They drop one seed holding both parents. Its tooltip shows the planned litter, quality and stat drift. The parents then rest.'),
     5: ('Hatch the litter', 'Plant a seed on farmland; dispensers plant into air above it. Bone meal speeds growth; hand or dispenser Starlit Dust ripens it. Break the ripe crop to hatch pups. Fortune improves quality. Leave room.'),
     6: ('Guava quality', 'Better guavas improve inherited stat gains. Feed both parents: their qualities are averaged. Golden: 1, Diamond: 2, Netherite: 4, Star: 7, Beacon: 12, Dragon Egg: 20.'),
-    7: ('Keep a pedigree', 'Log animals with a Pedigree Book; Ear Tags label them. Sneak-use with a filled basket in the other hand to log its animal. Normal use opens records. Filter contents by traits/tags or senses>=20; hover the field for syntax.'),
+    7: ('Keep a pedigree', 'Log animals with a Pedigree Book; Ear Tags label them. Sneak-use with a filled basket to log its animal. Normal use opens records. Filter by traits, tags or senses>=20. Name recorded lines: page 95.'),
     8: ('Nests and travel', 'Adults claim reachable Nests and return at night. Lead one to a free Nest and use it to rehome. Empty-hand Nest use inspects it. Use a compass on a Nest or resident to mark home; the place stays marked if removed.'),
     9: ('Food and troughs', 'Guavas suit every line; other foods follow Diet. Troughs heal injured residents, including safe night meals within four blocks of home. Sneak-empty withdraws stock. Direct guava care: 87.'),
     10: ('Life at home', 'Healthy adults visit nearby bells at noon. Ring one to call a daytime visit. Keep it within 12 blocks of home, with walking space. Injury, threats, leads, rides and night interrupt.'),
@@ -18,7 +18,7 @@ PAGES = {
     12: ('Wool and whiskers', 'Shear a healthy woolly adult for two wool in coat colors. Brush adults at Senses +10 for one whisker. Each needs ten minutes of recovery. Tools wear once; pups yield neither.'),
     13: ('Useful coats', 'Expressed ember resists fire and lava; moss prevents Poison; sand prevents cactus damage; void prevents Levitation. Hidden copies give no protection. Other dangers still matter.'),
     14: ('Physical traits', 'Hoofed legs halve fall damage. Slate adds 4 armor. Stocky/chonker resist knockback by 15%/30%. Snow walks on powder snow; snow/woolly resist freezing. Glow is self-lit. Hidden traits give no benefit.'),
-    15: ('Laboratory', 'Put two Tissue Samples on a Genetics Table: sheets, pup forecasts, copy odds and splice plans. Reading spends nothing. Hoppers fill A then B and drain A first; power them to hold samples. Comparators read 0 / 8 / 15.'),
+    15: ('Laboratory', 'Put two Tissue Samples on a Genetics Table: sheets, pup forecasts, copy odds and splice plans. Hoppers fill A then B and drain A first; power them to hold samples. Comparators: 0 / 8 / 15. Workshop: page 98.'),
     16: ('Gene Splicer', 'Sneak-use to select a gene. Hold a donor sample in the other hand and carry Mutagen. Use on a healthy adult: one donor copy enters that gene. Costs one sample, Mutagen and tool use.'),
     17: ('Stable lines', 'Register stable bred adults with matching copies in all seven genes and recorded parents. Use the Registry on an animal, or sneak-use with its filled basket in the other hand. Keeps 24 distinct lines.'),
     18: ('Show Ring', 'Lead a stable bred adult to a Judging Stand. Use empty-handed or with a lead. Every stat needs +5 for bronze, +20 for silver, +50 for gold. Sneak-empty use previews; each tier pays only once.'),
@@ -27,7 +27,7 @@ PAGES = {
     21: ('Apex ritual', 'Craft an Apex Crucible from seven obsidian, a Mutant Marrow and a diamond. Put all five distinct legends on Trophy Pedestals in its ring. Offer a Tissue Sample to choose the boss line.'),
     22: ('The ritual ring', 'Use any five slots: three blocks N/E/S/W or two blocks diagonally, at crucible height. Leave dry space above it. Success spends the sample and five legends. The living donor stays safe.'),
     23: ('Apex of the Line', 'Watch for its charge: dodge pounces and leave the four-block stomp. Half health enrages it. A player victory drops a crest that reads the original line or stands on a pedestal. Care tools refuse.'),
-    24: ('Guava juice', 'Craft a guava with a glass bottle. Hold a seed in the main hand and juice in the other, then use the seed to infuse it. The rolled pup genes determine the drink effects. Better seeds improve them.'),
+    24: ('Guava juice', 'Craft any guava with glass, or use a Juicer (93). Use a main-hand seed with juice off-hand to infuse. One seed makes one frozen bottle. Genes choose effects; seed quality and richer juice (94) improve them.'),
     25: ('Trough gardening', 'Healthy adults harvest matching food at hoe-enabled troughs, then rest a minute. Bloom +10 grows unripe crops. Diet, filters and mob griefing apply. Berries regrow; cactus pruning: page 57.'),
     26: ('Furnished warrens', 'New dens have a trough with two guavas; levels 3-5 may fit a central bell. Grand-tree nurseries may fit an empty Cradle. New farm corners have empty enabled troughs. Use a hoe to enable work on crafted or old troughs.'),
     27: ('Before the Apex', 'Hold Calipers in the main hand and a Tissue Sample in the other. Use an Apex Crucible for health, attacks and defenses. Empty-hand use lists missing offerings. Reading spends nothing.'),
@@ -90,18 +90,24 @@ PAGES = {
     90: ('Phase legs', 'End founders may express Phase legs. After a nonlethal attack, grounded adults blink 3-6 blocks to safe dry ground, farther from danger. Recovery: 20 seconds. Leads, rides and passengers prevent it. Damage still lands.'),
     91: ('Webbed paws', 'Swamp webbed legs add 50% water propulsion but still need air. Land speed and jumps are slightly lower. Toe membranes show only when expressed. Breed or splice them into other coats. Home work keeps dry routes.'),
     92: ('Fertility marks', 'Tail tips show fertility: average bare; prolific one rosette; shy a green bud; swarm three rosettes; starborn a violet star. Pups show them too. Marks show expressed genes, not readiness.'),
+    93: ('The Juicer', 'Load guava + bottle, or seed + juice. A pair takes 5 seconds; power pauses. Hoppers feed fruit/seed above and bottles/juice beside, then drain below. Empty-hand takes output; sneak-empty recovers inputs.'),
+    94: ('Richer juice', 'All eight guava tiers make juice. Infusion uses the higher seed or juice quality. The seed still decides genes and inherited stat drift. Uninfused drinks only restore hunger; save rich juice for infusion.'),
+    95: ('Name a lineage', 'Open a Pedigree Book or Registry, choose a record, then Name lineage. Limit: 40 characters; empty clears. Names label that exact genome in this book. Search line:name. Re-logging keeps names; animals stay unchanged.'),
+    96: ('Pelt rugs', 'Two matching pelts and string craft one coat rug. All 12 coats keep their colors and patterns. Place on a supported floor; removing support drops the rug. Mixed pelts still craft leather without string.'),
+    97: ('Specimen Jars', 'Insert a Tissue Sample to show its coat; use to read the full sheet. Sneak with both hands empty to recover it. Breaking drops jar and sample. Comparator: 0 empty; 1 plus 2 per fixed gene pair, up to 15.'),
 }
-PAGE_COUNT = 92
+PAGE_COUNT = 98
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
-MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
+MORE_INDEX = {98:'Breeder workshop',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
               31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
 NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work',51:'Find a tagged animal',52:'Bell roll call',53:'Recovery rest',54:'Plan a litter'}
 
 HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds',61:'Fruit meals',62:'Sapling stations',63:'Underground farms',64:'Safe seedbeds',89:'Lineage traits'}
 WORK_INDEX = {67:'Loose food meals',68:'Trough gathering',69:'Melon beds',71:'Orchard pickers',72:'Habitat meals',73:'Nest signals',75:'Work modes',76:'Restore a garden',84:'Specialist work'}
 SPECIALIST_INDEX = {77:'Nursery workers',79:'Work roll call',80:'Safe hunting',81:'Chorus gardens',82:'Basket stations',83:'Supply the troughs',85:'Pause a resident',86:'Cradle controls',87:'Guava hand care'}
-LINEAGE_INDEX = {13:'Useful coats',14:'Physical traits',29:'Terrain traits',65:'Snow-coat care',88:'Snow surface routes',90:'Phase legs',91:'Webbed paws',92:'Fertility marks'}
+LINEAGE_INDEX = {13:'Useful coats',14:'Physical traits',29:'Terrain traits',65:'Snow-coat care',88:'Snow surface routes',90:'Phase legs',91:'Webbed paws',92:'Fertility marks',98:'Breeder workshop'}
+WORKSHOP_INDEX = {15:'Genetics Table',17:'Stable line registry',24:'Juice & infusion',93:'The Juicer',94:'Richer juice',95:'Name a lineage',96:'Pelt rugs',97:'Specimen Jars'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -130,8 +136,8 @@ def main():
         value = json.loads(path.read_text()); value.update({'item.bunnidogs.field_guide':'Bunnidogs Field Guide',
           'guide.bunnidogs.title':'Bunnidogs Guide','guide.bunnidogs.contents':'Contents',
           'guide.bunnidogs.more_contents':'More chapters','guide.bunnidogs.main_contents':'Main contents',
-          'guide.bunnidogs.new_contents':'New chapters','guide.bunnidogs.habitat_contents':'Habitat chapters','guide.bunnidogs.work_contents':'Working residents','guide.bunnidogs.specialist_contents':'Specialist work','guide.bunnidogs.lineage_contents':'Lineage traits'})
-        for page,label in (MAIN_INDEX | MORE_INDEX | NEW_INDEX | HABITAT_INDEX | WORK_INDEX | SPECIALIST_INDEX | LINEAGE_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
+          'guide.bunnidogs.new_contents':'New chapters','guide.bunnidogs.habitat_contents':'Habitat chapters','guide.bunnidogs.work_contents':'Working residents','guide.bunnidogs.specialist_contents':'Specialist work','guide.bunnidogs.lineage_contents':'Lineage traits','guide.bunnidogs.workshop_contents':'Breeder workshop'})
+        for page,label in (MAIN_INDEX | MORE_INDEX | NEW_INDEX | HABITAT_INDEX | WORK_INDEX | SPECIALIST_INDEX | LINEAGE_INDEX | WORKSHOP_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
         for page,(title,body) in PAGES.items():
             value[f'guide.bunnidogs.page.{page}.title'] = title
             value[f'guide.bunnidogs.page.{page}.body'] = body
@@ -141,17 +147,17 @@ def main():
         if not any(entry.get('name') == 'bunnidogs:field_guide' for pool in loot['pools'] for entry in pool['entries']):
             loot['pools'].append(pantry_guide_pool())
         write(str(path.relative_to(RES)),loot)
-    preview = Image.new('RGBA',(1220,420),(43,46,39,255)); d = ImageDraw.Draw(preview)
+    preview = Image.new('RGBA',(1220,830),(43,46,39,255)); d = ImageDraw.Draw(preview)
     preview.alpha_composite(img.resize((224,224),Image.Resampling.NEAREST),(14,85))
     try:
         font = ImageFont.truetype('DejaVuSans.ttf',13)
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,92),(495,89),(735,90),(975,91)]:
-        d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
-        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else 'Lineage traits' if page == 89 else PAGES[page][0]
-        d.text((x+14,35),title,font=bold,fill=(40,39,30))
+    for x,page,oy in [(255,98,0),(495,93,0),(735,94,0),(975,95,0),(255,96,410),(495,97,410),(735,89,410),(975,24,410)]:
+        d.rectangle((x,oy+20,x+224,oy+397),fill=(230,216,174),outline=(117,90,48),width=2)
+        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else 'Lineage traits' if page == 89 else 'Breeder workshop' if page == 98 else PAGES[page][0]
+        d.text((x+14,oy+35),title,font=bold,fill=(40,39,30))
         if page == 1: body = '\n'.join(MAIN_INDEX.values()) + '\n\nMore chapters\nNew chapters\nHabitat chapters'
         elif page == 40: body = '\n'.join(MORE_INDEX.values()) + '\n\nMain contents'
         elif page == 50: body = '\n'.join(NEW_INDEX.values()) + '\n\nMain contents'
@@ -159,9 +165,10 @@ def main():
         elif page == 66: body = '\n'.join(WORK_INDEX.values()) + '\n\nMain contents\nHabitat chapters'
         elif page == 84: body = '\n'.join(SPECIALIST_INDEX.values()) + '\n\nMain contents\nWorking residents'
         elif page == 89: body = '\n'.join(LINEAGE_INDEX.values()) + '\n\nMain contents\nHabitat chapters'
+        elif page == 98: body = '\n'.join(WORKSHOP_INDEX.values()) + '\n\nMain contents\nMore chapters'
         else: body = '\n'.join(textwrap.wrap(PAGES[page][1],25)) + '\n\nContents'
-        d.multiline_text((x+14,75),body,font=font,spacing=6,fill=(40,59,36))
-        d.text((x+14,365),f'Page {page} / {PAGE_COUNT}',font=font,fill=(85,77,56))
+        d.multiline_text((x+14,oy+75),body,font=font,spacing=6,fill=(40,59,36))
+        d.text((x+14,oy+365),f'Page {page} / {PAGE_COUNT}',font=font,fill=(85,77,56))
     d.text((15,350),'Book icon + text preview',font=font,fill=(224,217,185))
     d.text((15,375),'Substitute font; native UI pending',font=ImageFont.load_default(),fill=(224,217,185))
     preview.save(ROOT/'art/guide_preview.png')

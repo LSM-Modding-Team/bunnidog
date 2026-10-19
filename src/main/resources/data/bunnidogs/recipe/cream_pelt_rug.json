@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "bunnidogs:cream_pelt",
+    "bunnidogs:cream_pelt",
+    "minecraft:string"
+  ],
+  "result": {
+    "id": "bunnidogs:cream_pelt_rug"
+  }
+}

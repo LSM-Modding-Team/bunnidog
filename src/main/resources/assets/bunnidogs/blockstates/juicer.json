@@ -1,0 +1,36 @@
+{
+  "variants": {
+    "facing=north,working=false": {
+      "model": "bunnidogs:block/juicer_0",
+      "y": 0
+    },
+    "facing=north,working=true": {
+      "model": "bunnidogs:block/juicer_1",
+      "y": 0
+    },
+    "facing=east,working=false": {
+      "model": "bunnidogs:block/juicer_0",
+      "y": 90
+    },
+    "facing=east,working=true": {
+      "model": "bunnidogs:block/juicer_1",
+      "y": 90
+    },
+    "facing=south,working=false": {
+      "model": "bunnidogs:block/juicer_0",
+      "y": 180
+    },
+    "facing=south,working=true": {
+      "model": "bunnidogs:block/juicer_1",
+      "y": 180
+    },
+    "facing=west,working=false": {
+      "model": "bunnidogs:block/juicer_0",
+      "y": 270
+    },
+    "facing=west,working=true": {
+      "model": "bunnidogs:block/juicer_1",
+      "y": 270
+    }
+  }
+}

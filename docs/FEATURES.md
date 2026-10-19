@@ -1,10 +1,44 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 92 pages from first warren to Apex. Seven linked contents pages offer sixty-three
-chapter links; Habitat and Lineage traits collect regional gardens and inherited abilities.
+open 98 pages from first warren to Apex. Eight linked contents pages offer 72
+chapter links, including the breeder workshop. Habitat and Lineage traits
+collect regional gardens and inherited abilities.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
+Craft a fresh guide for the appended chapters in an existing world.
+
+**Juicer (J1):** craft `PIP / PBP / CCC` with planks, iron, a bottle and copper.
+Load guava + bottle to press matching juice, or a valid litter seed + uninfused
+juice to make one frozen infusion. Each pair takes five loaded seconds; power
+pauses it. Hoppers feed fruit/seeds above, bottles/juice horizontally and extract
+results below. Empty-hand use collects results; sneak with both hands empty
+recovers inputs. Blocked output waits without consuming the pair. Comparators
+report output stock; saved stations retain exact items and progress.
+
+**Richer juice (J2):** every guava tier crafts/presses its own juice. Hand or
+Juicer infusion uses the higher seed/carrier quality for effects. The seed still
+determines rolled genes, mutation and inherited stat drift. Ordinary drinking
+gives the same hunger restoration at every tier; keep rich carriers for infusion.
+The original plain recipe and hand use work.
+
+**Name a lineage (G5):** open a Pedigree Book or Registry, select a record and
+choose **Name lineage**. Use up to 40 characters; empty clears. Labels belong to
+that exact genome in this book, appear in the index/sheets and match `line:name`
+searches. Re-logging preserves names. Acknowledged saves prevent a changed held
+book from receiving an old edit. Animals, Ear Tags, parents and stats stay intact.
+
+**Pelt rugs (D12):** two matching pelts and a string craft one coat rug. All
+twelve coats have their own colors/patterns. Place on a supported floor, choosing
+its orientation; removing support returns the rug. Mixed pelts still make leather
+without string. Find rugs under Functional Blocks in creative.
+
+**Specimen Jars (T5):** craft one wooden slab and three glass in ` P / G G /  G `
+for two jars. Insert a Tissue Sample with either hand. The vial shows its coat;
+use opens its complete genetic sheet. Sneak with both hands empty to recover
+the sample; breaking drops jar and exact sample. Comparators read zero empty,
+otherwise one plus twice the number of fixed gene pairs, up to fifteen. This
+reads genes, without claiming the animal qualifies for the Registry.
 
 **End Phase legs (A7):** find fresh End founders and breed or splice their Phase
 legs into a line. Grounded adults blink 3–6 blocks to safe dry ground after an
@@ -30,8 +64,8 @@ warrens fit worn paths from each mouth around its mound to the tree patch. A
 blocked side uses the opposite route or leaves no paving; old generated/saved
 starts keep their prior layouts. Higher-level streets retain their plans.
 
-Update both client and server for this batch (network protocol 8). World/item/
-animal formats stay compatible; the new wild leg ids need the updated client.
+Update both client and server for this batch (network protocol 9). World/item/
+animal formats stay compatible; keeper name edits use the new packet handlers.
 
 **Apex preparation (P2):** empty-hand crucible use lists missing legendary
 offerings. Hold Calipers in the main hand and a Tissue Sample in the other, then

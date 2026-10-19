@@ -103,6 +103,7 @@ public final class BreedingLabCheck {
     }
     public static void main(String[] args) {
         recordFilters();
+        namedLines();
         plannedCrosses();
         require(!Social.gatheringTime(5999) && Social.gatheringTime(6000) && Social.gatheringTime(8999)
                 && !Social.gatheringTime(9000) && Social.gatheringTime(30000), "Gathering window must wrap with the native day");
@@ -182,5 +183,23 @@ public final class BreedingLabCheck {
         page(index.left()); page(index.right());
         require(index.left().links().size() + index.right().links().size() == Pedigree.MAX_ENTRIES, "Full index must link every line");
         System.out.println("Breeding lab OK: recessive/carrier/fixed odds, integer/fractional litters, splice pages and stable-line registry.");
+    }
+
+    private static void namedLines() {
+        var book = new Pedigree(); book.add(entry(Genome.DEFAULT,101));
+        var names = new LineageNames(); String label = "W".repeat(LineageNames.MAX_CODE_POINTS);
+        require(names.rename(Genome.DEFAULT,label),"Maximum-length keeper name must be accepted"); book.setLineageNames(names);
+        require(LineageNames.parse(names.toString()).name(Genome.DEFAULT).orElseThrow().equals(label),"Names round-trip separately from legacy pedigree text");
+        var contents = BookContents.contents(book,Metrics.ESTIMATE);
+        var registry = RegistryContents.spread(book,0,Metrics.ESTIMATE);
+        var sheet = SheetLayout.sheet(book,0,Metrics.ESTIMATE);
+        for (var spread : List.of(contents,registry,sheet)) { page(spread.left()); page(spread.right()); }
+        require(contents.left().hotspots().stream().anyMatch(h -> h.text().contains(label))
+                && sheet.left().hotspots().stream().anyMatch(h -> h.text().contains(label)),"Clipped names must remain readable in full hovers");
+        require(RecordFilter.indices(book,"line:WWW").equals(List.of(0)),"Named lines participate in local original-order search");
+        require(names.rename(Genome.DEFAULT,"adult vitality>=100"),"Literal words that resemble query syntax remain valid personal labels"); book.setLineageNames(names);
+        require(RecordFilter.indices(book,"vitality>=100").isEmpty() && RecordFilter.indices(book,"pup").isEmpty(),"Names cannot bypass age or numeric predicates");
+        var old = Pedigree.parse(book.toString());
+        require(old.entries().equals(book.entries()) && old.lineageName(Genome.DEFAULT).isEmpty(),"Names do not rewrite or extend the old snapshot format");
     }
 }

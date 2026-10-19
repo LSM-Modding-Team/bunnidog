@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "bunnidogs:sand_pelt",
+    "bunnidogs:sand_pelt",
+    "minecraft:string"
+  ],
+  "result": {
+    "id": "bunnidogs:sand_pelt_rug"
+  }
+}

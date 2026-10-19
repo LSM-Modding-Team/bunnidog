@@ -4,6 +4,10 @@ Current implementation status is `START_HERE.md` and `docs/ROADMAP.md`. Older
 “not done” statements below preserve session history. A7/A8 now finish the
 original Phase 3 End blink and swamp swimming/webbed paws; A9 supplies the
 missing fertility phenotype. See `docs/CARE_SPECS.md`.
+J1/J2/G5/T5 now supply the deferred Juicer, tier-dependent juice, player-named
+lineages and Specimen Jars. D12 adds matching-coat rugs from the pelt-material
+hook. The Juicer fulfills the random-processing alternative to crafting previews;
+see `docs/WORKSHOP_SPECS.md` for current mechanics and evidence.
 
 **Contents (the sections are in the order they were written; find one with `grep -n '^## ' docs/DESIGN.md`):**
 * *Core design*: Skeleton "Generations"; Phase 1, 2, 3 decisions (genome, breeding, lineages); "Seed & Guava loop" (the long design of seeds, crops, guava tiers, stat drift); Phase 4a-4e and 4g decisions; Session 6 tier qualities; Rejected / parked skeletons.

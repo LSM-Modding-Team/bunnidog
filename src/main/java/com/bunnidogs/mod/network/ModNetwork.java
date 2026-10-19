@@ -21,10 +21,15 @@ public final class ModNetwork {
     private ModNetwork() {}
 
     /** Bump for payload shape or saved allele semantics that an older client cannot read. */
-    public static final String VERSION = "8";
+    public static final String VERSION = "9";
 
     public static void register(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar(VERSION);
+        registrar.playToServer(LineageEditPayload.TYPE,LineageEditPayload.STREAM_CODEC,
+                (payload,context) -> PacketDistributor.sendToPlayer((ServerPlayer)context.player(),
+                        com.bunnidogs.mod.item.LineageEditing.apply(context.player(),payload)));
+        registrar.playToClient(LineageResultPayload.TYPE,LineageResultPayload.STREAM_CODEC,
+                (payload,context) -> ClientScreens.lineageResult(payload));
         registrar.playToClient(SheetPayload.TYPE, SheetPayload.STREAM_CODEC,
                 (payload, context) -> Pedigree.parseEntry(payload.entry()).ifPresent(ClientScreens::openSheet));
         registrar.playToClient(SeedPayload.TYPE, SeedPayload.STREAM_CODEC,

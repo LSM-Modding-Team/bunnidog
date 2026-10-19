@@ -32,7 +32,9 @@ public class PedigreeBookItem extends Item {
 
     /** The log held by this stack (empty if it has none or it is unreadable). */
     public static Pedigree read(ItemStack stack) {
-        return Pedigree.parse(stack.get(ModItems.PEDIGREE_DATA.get()));
+        var book = Pedigree.parse(stack.get(ModItems.PEDIGREE_DATA.get()));
+        book.setLineageNames(com.bunnidogs.mod.genetics.LineageNames.parse(stack.get(ModItems.LINEAGE_NAMES.get())));
+        return book;
     }
 
     /** Logs one animal into the book and tells the player what happened. Call on the server. */
@@ -66,7 +68,7 @@ public class PedigreeBookItem extends Item {
                 player.sendSystemMessage(Component.literal("The book is empty. Right-click a bunnidog to log it.").withStyle(ChatFormatting.GRAY));
             }
         } else if (level.isClientSide()) {
-            ClientScreens.openBook(log);
+            ClientScreens.openBook(log,hand,player.getItemInHand(hand));
         }
         return InteractionResult.SUCCESS;
     }

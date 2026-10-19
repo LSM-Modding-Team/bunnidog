@@ -153,7 +153,7 @@ public final class SheetLayout {
         Genome g = e.genome();
         Page page = new Page();
         String header = switch (kind) {
-            case BOOK -> "#" + (index + 1) + e.tag().map(t -> "  " + t).orElse("");
+            case BOOK -> "#" + (index + 1) + book.lineageName(g).map(name -> "  "+name).orElseGet(() -> e.tag().map(t -> "  " + t).orElse(""));
             case SINGLE -> e.tag().orElse("Bunnidog");
             case SAMPLE -> "Tissue sample";
             case TABLE_A -> "Table: sample A";
@@ -161,7 +161,9 @@ public final class SheetLayout {
             case MOTHER -> "Seed: mother";
             case FATHER -> "Seed: father";
         };
-        page.text(0, 0, header, Page.Tone.HEAD);
+        int headerWidth = Page.WIDTH-(e.stats().isPresent() && !isSample(kind) ? m.width(e.pup() ? "pup" : "adult")+4 : 0);
+        page.text(0, 0, Page.fit(header,headerWidth,m), Page.Tone.HEAD);
+        if (book != null) page.hotspot(0,0,headerWidth,Page.LINE,header+e.tag().map(t -> ". Ear tag: "+t).orElse("")+". Keeper names label this exact recorded genome; they do not change inherited traits.",-1);
         if (e.stats().isPresent() && !isSample(kind)) {
             page.textRight(Page.WIDTH, 0, e.pup() ? "pup" : "adult", Page.Tone.MUTED);
         }

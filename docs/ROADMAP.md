@@ -17,6 +17,12 @@ The End Phase ability, swamp swimming and fertility visibility are now
 A7–A9 below. Older `DESIGN.md` “not done” statements
 are historical snapshots, including systems since completed; do not redo them.
 
+The next original-plan audit also found the workshop ideas deferred in
+`DESIGN.md`: Juicer, tier-dependent juice, named pedigree lineages and Specimen
+Jars. They are now complete as **J1/J2/G5/T5**, alongside **D12** coat rugs from
+the pelt-material hook. The Juicer supplies the plan's alternative to custom
+random crafting results. See `WORKSHOP_SPECS.md`; do not re-add them as missing.
+
 ## Done (do not redo)
 Genome, breeding, wild lineages, bred stats and Bloom, seeds and crops, guava ladder (8 tiers), juice and infusion, warrens and villages (levels 1-5, houses, paths, landmarks, styles by biome, meeting tree), guava wood (log, leaves, planks, stripped forms, stairs, slab, fence), Calipers, Pedigree Book and sheet windows (S1-S8), Ear Tags, drops (D1-D8: pelts, flesh, materials, Mutagen, Marrow, Tissue Sample, Starlit Dust, legends, Trophy Pedestal, worn tag), Genetics Table T1–T4, bug batch F1-F3, Nest + claiming homes (H1-H4, H3b delivered).
 U2/U3 received the user's "good, works well" gameplay feedback (individual
@@ -30,6 +36,15 @@ Delivered, not individually confirmed: **U6a** advancement, **U1** level-1 dens
 and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
+
+J1/J2/G5/D12/T5 adds the breeder workshop: a saved/automated screw press, eight
+carrier tiers with shared hand/station infusion, personal named genotypes in
+books/registries, twelve native carpet rugs and coat-visible Specimen Jars with
+sample reading and fixed-pair comparator signals. The guide has 98 pages/eight
+indices/72 chapter links. Build, focused assets/layout and all 77 native scenarios
+pass; workshop/guide previews are inspected. New bounded edit packets use
+protocol **9**; old item/animal/genome formats stay compatible. Client text entry,
+block appearance and gameplay remain manual review.
 
 A9 completes planned fertility visibility with distinct expressed tail-tip
 marks on existing adults/pups. Hidden copies, breeding values and readiness

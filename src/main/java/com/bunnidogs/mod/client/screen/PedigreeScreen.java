@@ -6,6 +6,8 @@ import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Pedigree;
 import com.bunnidogs.mod.genetics.RecordFilter;
+import com.bunnidogs.mod.genetics.LineageNames;
+import com.bunnidogs.mod.network.LineageEditPayload;
 import com.bunnidogs.mod.genetics.Seed;
 import com.bunnidogs.mod.genetics.Tissue;
 import com.bunnidogs.mod.layout.BookContents;
@@ -29,6 +31,7 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.InteractionHand;
 
 /**
  * The open Pedigree Book (Phase 8 S3; S6 gave it the one-sheet Calipers window, S8 the Tissue Sample window and the seed window): a contents spread, then one spread per logged animal (docs/SHEET_SPECS.md). It draws
@@ -85,6 +88,9 @@ public final class PedigreeScreen extends Screen {
     private Button previous;
     private Button next;
     private EditBox filter;
+    private Button rename;
+    private InteractionHand editHand;
+    private String records = "", savedNames = "";
     private String query = "";
     /** The throwaway animal drawn in the portrait box of the current sheet; null on the contents spread or when it could not be built. */
     private Bunnidog animal;
@@ -105,6 +111,16 @@ public final class PedigreeScreen extends Screen {
         this.seed = null;
         this.table = null;
         this.registry = registry;
+    }
+    public PedigreeScreen editable(InteractionHand hand, String records, String names) {
+        this.editHand = hand; this.records = records; this.savedNames = names; return this;
+    }
+    void applyNames(String names) { this.savedNames = names; this.book.setLineageNames(LineageNames.parse(names)); }
+    private void editName() {
+        if (this.editHand == null || this.spread <= 0 || this.spread > this.book.size()) return;
+        var genome = this.book.entries().get(this.spread-1).genome();
+        Minecraft.getInstance().gui.setScreen(new LineageNameScreen(this,new LineageEditPayload(
+                this.editHand == InteractionHand.MAIN_HAND ? 0 : 1,this.records,this.savedNames,genome.toString(),this.book.lineageName(genome).orElse(""))));
     }
 
     /** The Calipers window (Phase 8 S6): the sheet of one animal that is in no book. */
@@ -202,6 +218,11 @@ public final class PedigreeScreen extends Screen {
             this.filter.setValue(this.query);
             this.filter.setResponder(value -> { this.query = value; this.spread = 0; refresh(); });
             addRenderableWidget(this.filter);
+            if (this.editHand != null) {
+                this.rename = Button.builder(Component.translatable("screen.bunnidogs.lineage.name"),button -> editName())
+                        .bounds(bookLeft()+84,y,Page.BOOK_W-168,20).build();
+                addRenderableWidget(this.rename);
+            }
         }
         refresh();
     }
@@ -297,6 +318,13 @@ public final class PedigreeScreen extends Screen {
         if (this.filter != null) {
             this.filter.visible = this.spread == 0;
             if (!this.filter.visible) this.filter.setFocused(false);
+        }
+        if (this.rename != null) {
+            this.rename.visible = this.spread > 0;
+            if (this.rename.visible) {
+                var name = this.book.lineageName(this.book.entries().get(this.spread-1).genome());
+                this.rename.setTooltip(Tooltip.create(Component.literal(name.orElse("Name this exact recorded genotype"))));
+            }
         }
         if (this.table != null) {
             this.current = this.table.spread(this.spread, text -> this.font.width(text));

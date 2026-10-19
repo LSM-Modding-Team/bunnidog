@@ -51,7 +51,8 @@ public final class BookContents {
         for (int row = 0; row < matches.size(); row++) {
             int i = matches.get(row);
             var entry = book.entries().get(i);
-            String whole = "#" + (i + 1) + "  " + entry.tag().map(tag -> tag + "  ").orElse("") + Plain.look(entry.genome());
+            String whole = "#" + (i + 1) + "  " + book.lineageName(entry.genome()).map(name -> name+"  ").orElse("")
+                    + entry.tag().map(tag -> tag + "  ").orElse("") + Plain.look(entry.genome());
             String line = Page.fit(whole, Page.WIDTH, m);
             Page page = row < LEFT_ROWS ? left : right;
             int y = row < LEFT_ROWS ? LEFT_ROWS_Y + Page.LINE * row : Page.LINE * (row - LEFT_ROWS);

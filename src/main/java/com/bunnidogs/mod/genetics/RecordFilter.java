@@ -25,7 +25,12 @@ public final class RecordFilter {
         var entries = book.entries();
         for (int i = 0; i < entries.size(); i++) {
             boolean match = true;
-            for (var term : terms) if (!matches(entries.get(i),term)) { match = false; break; }
+            for (var term : terms) {
+                String name = book.lineageName(entries.get(i).genome()).orElse("").toLowerCase(Locale.ROOT);
+                boolean named = term.startsWith("line:") ? !term.substring(5).isEmpty() && name.contains(term.substring(5))
+                        : !term.contains(":") && !COMPARISON.matcher(term).matches() && !term.equals("adult") && !term.equals("pup") && name.contains(term);
+                if (!(term.startsWith("line:") ? named : matches(entries.get(i),term) || named)) { match = false; break; }
+            }
             if (match) out.add(i);
         }
         return List.copyOf(out);

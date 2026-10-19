@@ -168,6 +168,11 @@ Per stat, player kill, adult only, count 1, NOT affected by Looting:
 2% at 100 points, 4% at 200, 8% at 400, 15% from 750. A line bred for several stats rolls each one separately.
 
 ## 3. Pelts: one per coat, built to be used later
+**D12 update:** all twelve pelts now craft matching coat rugs (two matching pelts
+plus string). Native carpet support/drops retain the coat; mixed pelts still
+craft leather. This develops the optional rug hook below under the user's
+standing design latitude. See `WORKSHOP_SPECS.md` D12.
+
 * **Items:** `bunnidogs:<coat>_pelt` for each allele of `Gene.COAT` (tan, cream, brown, spotted, snow, sand, moss, pale, slate, ember, void, glow). Generated from ONE loop over the coat table, exactly like the textures
   of the entity: a new coat in `Gene.COAT` means a new pelt, and the self-check fails until its texture, model, lang line and tag entry exist.
 * **Tag:** `bunnidogs:pelts` contains all of them, so any later recipe can say `#bunnidogs:pelts` for "any pelt" or name one coat for "this exact pelt".

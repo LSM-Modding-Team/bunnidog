@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "bunnidogs:item/dragon_egg_guava_juice"
+  }
+}

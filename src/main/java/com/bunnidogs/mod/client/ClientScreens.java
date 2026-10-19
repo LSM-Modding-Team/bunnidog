@@ -9,6 +9,11 @@ import com.bunnidogs.mod.item.GeneSplicerItem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
+import com.bunnidogs.mod.registry.ModItems;
+import com.bunnidogs.mod.network.LineageResultPayload;
+import com.bunnidogs.mod.client.screen.LineageNameScreen;
 
 /**
  * The one door from common code to the client's windows (Phase 8 S3). Items call it only inside {@code level.isClientSide()},
@@ -19,12 +24,19 @@ public final class ClientScreens {
     private ClientScreens() {}
 
     /** Opens the Pedigree Book window on this log (a snapshot of it). */
-    public static void openBook(Pedigree book) {
-        Minecraft.getInstance().gui.setScreen(new PedigreeScreen(book));
+    public static void openBook(Pedigree book, InteractionHand hand, ItemStack stack) {
+        Minecraft.getInstance().gui.setScreen(editable(new PedigreeScreen(book),hand,stack));
     }
 
-    public static void openRegistry(Pedigree registry) {
-        Minecraft.getInstance().gui.setScreen(new PedigreeScreen(registry, true));
+    public static void openRegistry(Pedigree registry, InteractionHand hand, ItemStack stack) {
+        Minecraft.getInstance().gui.setScreen(editable(new PedigreeScreen(registry,true),hand,stack));
+    }
+    private static PedigreeScreen editable(PedigreeScreen screen, InteractionHand hand, ItemStack stack) {
+        return screen.editable(hand,stack.getOrDefault(ModItems.PEDIGREE_DATA.get(),""),stack.getOrDefault(ModItems.LINEAGE_NAMES.get(),""));
+    }
+    public static void lineageResult(LineageResultPayload result) {
+        var screen = Minecraft.getInstance().gui.screen();
+        if (screen instanceof LineageNameScreen editor) editor.accept(result);
     }
 
     public static void openRibbon(Pedigree.Entry animal, Component title) {

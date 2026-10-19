@@ -271,6 +271,15 @@ tasks.register('checkBreedingLab', JavaExec) {
     javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
 }
 tasks.named('check').configure { dependsOn tasks.named('checkBreedingLab') }
+tasks.register('checkWorkshopAssets', JavaExec) {
+    group = 'verification'
+    description = 'Check workshop model/texture references, state coverage and saved coat colors.'
+    dependsOn tasks.named('modelCheckClasses')
+    classpath = sourceSets.modelCheck.runtimeClasspath
+    mainClass = 'WorkshopAssetsCheck'
+    javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
+}
+tasks.named('check').configure { dependsOn tasks.named('checkWorkshopAssets') }
 tasks.register('checkBunnidogModel', JavaExec) {
     group = 'verification'
     description = 'Load and render the actual Bunnidog mesh and check animation invariants headlessly.'

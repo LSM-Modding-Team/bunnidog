@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/carpet",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "wool": "bunnidogs:block/pale_pelt_rug"
+  }
+}

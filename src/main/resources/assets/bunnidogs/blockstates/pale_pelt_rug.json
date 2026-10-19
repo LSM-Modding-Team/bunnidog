@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "bunnidogs:block/pale_pelt_rug",
+      "y": 0
+    },
+    "facing=east": {
+      "model": "bunnidogs:block/pale_pelt_rug",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "bunnidogs:block/pale_pelt_rug",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "bunnidogs:block/pale_pelt_rug",
+      "y": 270
+    }
+  }
+}

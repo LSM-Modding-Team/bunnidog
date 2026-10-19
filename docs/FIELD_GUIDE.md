@@ -1,9 +1,19 @@
 # P1 — Bunnidogs Field Guide
 
-A7 appends page 90 for the End's defensive Phase legs and index 89, **Lineage
+**P8 workshop expansion:** fresh guides now have **98 pages, eight indices and
+72 chapter links**. New chapters 93–97 explain the Juicer, richer juice, keeper
+lineage names, pelt rugs and Specimen Jars. Index 98 groups them with the existing
+Table, Registry and juice pages; More chapters and Lineage traits link to it.
+Page 24 and new workshop chapters return there. Old page numbers remain stable;
+old written guides retain saved contents, so craft a fresh one for these pages.
+The 98-page native item codec, build/all 77 scenarios and generated page previews
+pass. Client fonts/text entry/navigation remain manual review. Earlier entries
+below retain their checkpoint counts. See `WORKSHOP_SPECS.md` P8.
+
+At the preceding A7–A9 checkpoint, A7 appended page 90 for the End's defensive Phase legs and index 89, **Lineage
 traits**. Habitat links to that index, which links coats, physical/terrain
 traits, snow care/routes and Phase. Snow pages and Phase return there. The
-guide now has **92 pages, seven indices and 63 chapter links**. A8 appends
+guide had **92 pages, seven indices and 63 chapter links**. A8 appends
 webbed paws on page 91; A9 appends the fertility visual key at 92. Both link
 from Lineage traits and return there. Existing page
 numbers stay stable; the substitute-font preview is inspected. Native client

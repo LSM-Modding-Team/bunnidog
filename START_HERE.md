@@ -22,6 +22,16 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **J1/J2/G5/D12/T5, breeder workshop:** the planned Juicer presses all eight
+  guava tiers and performs paid random seed infusion, with directional hoppers,
+  saved five-second work, output waiting and redstone pause. Rich carriers lift
+  effect quality while preserving seed inheritance/drift. Books/Registries
+  name exact recorded genotypes through acknowledged edits, with preserved
+  snapshots and searchable labels. Twelve pelt rugs and sample Jars complete
+  the collection; jars preserve samples and expose fixed-pair signals. The guide
+  reaches 98 pages/eight indices/72 chapter links. Workshop/guide previews are
+  inspected. Update both sides: protocol **9**. See `docs/WORKSHOP_SPECS.md`.
+
 - **A9, planned fertility visibility:** existing fertility alleles now show
   distinct tail-tip phenotypes: bare, one rosette, closed green bud, three
   rosettes or violet star. Hidden copies stay hidden; pups inherit the look.
@@ -467,14 +477,23 @@ source /workspace/.bunnidog-setup/activate.sh
 ./gradlew build runGameTestServer --no-daemon
 ```
 
-`build` includes focused diet, breeding-lab, wood/boat asset and warren checks.
+`build` includes focused diet, breeding-lab, workshop/wood/boat asset and warren checks.
 Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions runs
 `build checkBunnidogModel runGameTestServer` before uploading its commit artifact.
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **seventy-three** native scenarios pass (seventy-two mod
+The Java 25 build and all **seventy-seven** native scenarios pass (seventy-six mod
 cases plus native sanity). Latest coverage:
+
+- **J1/J2/G5/D12/T5:** real top/side/output hoppers, every tier's crafting and
+  pressing, blocked/aborted output, saved partial work, power pause and unchanged
+  seed inheritance; bounded acknowledged name edits, Unicode/snapshot/native
+  item/guide saves and changed-book refusal; all twelve native rug recipes,
+  placement/support drops; jar coats, full samples, access and actual comparator
+  outputs. Named page bounds/search, visual states/texture references and the
+  unchanged animal model gate pass. Native client GUI/art playtests remain open.
+  Historical GenomeCheck source assertions were not rerun.
 
 - **A8/A9/U1 completion:** real new/legacy structure pieces and fully fitted
   trails preserve mouths, tree, Nests, containers, fluids and ores. Native

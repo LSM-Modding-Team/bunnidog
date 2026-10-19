@@ -65,8 +65,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
  * so it can be written by hand: {@code /give @s bunnidogs:seed[bunnidogs:seed_data="00-00-00-11-00-00|00-00-00-11-00-00|1.5"]}.
  * Seeds with different payloads never stack.
  *
- * <p>Phase 4f: guava juice. The plain juice and the infused one are two items of one class ({@link JuiceItem}); the second holds a
- * liquid pup in the component {@link #INFUSION_DATA}. Infusing is done with the seed ({@code SeedItem#use}), not with a recipe.
+ * <p>Guava juice: eight tier carriers and the infused item share {@link JuiceItem}. The latter holds a
+ * liquid pup in {@link #INFUSION_DATA}. Infuse through {@code SeedItem#use} or the Juicer.
  *
  * <p>Phase 5: the Calipers ({@link CalipersItem}), the first tool; the Pedigree Book ({@link PedigreeBookItem}); the Ear Tag ({@link EarTagItem}).
  *
@@ -176,6 +176,8 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> JUDGING_STAND = ITEMS.registerSimpleBlockItem(ModBlocks.JUDGING_STAND);
     public static final DeferredItem<BlockItem> FEEDING_TROUGH = ITEMS.registerSimpleBlockItem(ModBlocks.FEEDING_TROUGH);
     public static final DeferredItem<BlockItem> NURSERY_CRADLE = ITEMS.registerSimpleBlockItem(ModBlocks.NURSERY_CRADLE);
+    public static final DeferredItem<BlockItem> JUICER = ITEMS.registerSimpleBlockItem(ModBlocks.JUICER);
+    public static final DeferredItem<BlockItem> SPECIMEN_JAR = ITEMS.registerSimpleBlockItem(ModBlocks.SPECIMEN_JAR);
     public static final DeferredItem<com.bunnidogs.mod.item.ShowRibbonItem> BRONZE_RIBBON = ITEMS.registerItem("bronze_show_ribbon",
             props -> new com.bunnidogs.mod.item.ShowRibbonItem(props, com.bunnidogs.mod.genetics.Show.Tier.BRONZE), props -> props.stacksTo(1).rarity(Rarity.UNCOMMON));
     public static final DeferredItem<com.bunnidogs.mod.item.ShowRibbonItem> SILVER_RIBBON = ITEMS.registerItem("silver_show_ribbon",
@@ -185,6 +187,16 @@ public final class ModItems {
 
     /** Plain guava juice (Phase 4f): a guava and a glass bottle. Drinking it restores a little hunger; it is what a seed is infused into. */
     public static final DeferredItem<JuiceItem> GUAVA_JUICE = ITEMS.registerItem("guava_juice", JuiceItem::new, props -> props.stacksTo(16));
+    /** Stable plain id, with the richer carriers appended in guava-ladder order. */
+    public static final List<DeferredItem<JuiceItem>> JUICES = registerJuices();
+    private static List<DeferredItem<JuiceItem>> registerJuices() {
+        var juices = new java.util.ArrayList<DeferredItem<JuiceItem>>();
+        juices.add(GUAVA_JUICE);
+        for (GuavaTier tier : GuavaTier.values()) if (tier != GuavaTier.PLAIN)
+            juices.add(ITEMS.registerItem(tier.id()+"_juice",props -> new JuiceItem(props,tier),
+                    props -> props.stacksTo(16).rarity(rarityOf(tier))));
+        return List.copyOf(juices);
+    }
 
     /** A bottle holding a liquid pup (a seed that was infused). Make stacks with {@link JuiceItem#create}. */
     public static final DeferredItem<JuiceItem> INFUSED_JUICE = ITEMS.registerItem("infused_guava_juice", JuiceItem::new,
@@ -204,6 +216,9 @@ public final class ModItems {
     /** The log of a Pedigree Book (Phase 5c): {@link com.bunnidogs.mod.genetics.Pedigree#toString()} as a string, saved and synced like {@link #SEED_DATA}. */
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> PEDIGREE_DATA =
             COMPONENTS.registerComponentType("pedigree_data",
+                    builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> LINEAGE_NAMES =
+            COMPONENTS.registerComponentType("lineage_names",
                     builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
 
     /** The Pedigree Book (Phase 5c): a book and a guava (data/bunnidogs/recipe/pedigree_book.json). */
@@ -236,6 +251,13 @@ public final class ModItems {
      * craft one leather (data/bunnidogs/recipe/leather_from_bunnidog_pelts.json).
      */
     public static final Map<String, DeferredItem<Item>> PELTS = registerPelts();
+    public static final Map<String,DeferredItem<BlockItem>> PELT_RUGS = registerPeltRugs();
+    private static Map<String,DeferredItem<BlockItem>> registerPeltRugs() {
+        var rugs = new LinkedHashMap<String,DeferredItem<BlockItem>>();
+        for (var coat : Gene.COAT.alleles()) rugs.put(coat.name(),ITEMS.registerSimpleBlockItem(ModBlocks.PELT_RUGS.get(coat.name()),
+                props -> props.rarity(coat.isRare() ? Rarity.RARE : coat.isWild() ? Rarity.UNCOMMON : Rarity.COMMON)));
+        return Collections.unmodifiableMap(rugs);
+    }
 
     private static Map<String, DeferredItem<Item>> registerPelts() {
         Map<String, DeferredItem<Item>> pelts = new LinkedHashMap<>();
@@ -331,7 +353,7 @@ public final class ModItems {
             for (DeferredItem<GuavaItem> guava : GUAVAS) {
                 event.accept(guava.get());
             }
-            event.accept(GUAVA_JUICE.get());
+            for (var juice : JUICES) event.accept(juice.get());
             event.accept(RAW_BUNNIDOG_FLESH.get());
             event.accept(COOKED_BUNNIDOG_FLESH.get());
             event.accept(PRIME_HAUNCH.get());
@@ -350,6 +372,7 @@ public final class ModItems {
             event.accept(JUDGING_STAND.get());
             event.accept(FEEDING_TROUGH.get());
             event.accept(NURSERY_CRADLE.get());
+            event.accept(JUICER.get());
             event.accept(BRONZE_RIBBON.get());
             event.accept(SILVER_RIBBON.get());
             event.accept(GOLD_RIBBON.get());
@@ -382,6 +405,8 @@ public final class ModItems {
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
             event.accept(GUAVA_SIGN.get());
             event.accept(GUAVA_HANGING_SIGN.get());
+            event.accept(SPECIMEN_JAR.get());
+            for (var rug : PELT_RUGS.values()) event.accept(rug.get());
         }
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             // One plain sample seed (two default parents, quality 0) so a seed can be had in creative mode.
