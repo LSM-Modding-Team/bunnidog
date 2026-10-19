@@ -65,7 +65,7 @@ PAGES = {
     62: ('Sapling stations', 'Dispensers plant guava saplings into air over valid soil. Blocked targets keep stock. Grass, podzol and mycelium work. Bone meal tries growth. Lost soil drops one sapling. Give the whole tree loaded space.'),
     63: ('Underground farms', 'New five-tree cave and Nether warrens may fit a regional farm: glow berries under a trellis, or wart on soul sand. Plots need no water. A clear corner may fit an empty enabled trough. Existing settlements keep their plans.'),
     64: ('Safe seedbeds', 'Plant litter seeds on farmland. If soil changes to dirt, grass, podzol or mycelium, the crop keeps its whole litter and continues growing. Lost support returns the saved seed. Changing soil never hatches it or resets its parents.'),
-    65: ('Snow-coat care', 'Brush healthy adult snow coats at Bloom +10 in a climate cold enough for snow to gather one snowball. Hidden snow gives none. Whiskers and Starlit Dust can combine. Hand and dispenser brushes share ten-minute rest. Shears gather wool separately.'),
+    65: ('Snow-coat care', 'Brush healthy adult snow coats at Bloom +10 in a snowy climate for one snowball. Whiskers and Starlit Dust can combine under shared ten-minute rest. Shears gather wool separately. Home routes: page 88.'),
     67: ('Loose food meals', 'Injured adults eat ordinary loose food near home by day after ten seconds. Diet, pickup delays and owner reservations apply. Upgraded guavas stay. One item heals 2 HP; food rest is thirty seconds. Keep a dry clear route.'),
     68: ('Trough gathering', 'Healthy adults at Senses +10 move one old loose matching food into a nearby hoe-enabled trough by day. Diet, filters, power and safe routes apply. Collection shares the one-minute garden rest. Loose meals: page 67.'),
     69: ('Melon beds', 'Healthy foragers and omnivores harvest a slice beside a living attached melon stem, near an enabled trough. The stem regrows fruit; decorative melons stay. Slices heal or grow matching lines. Stems: 70. Farms: 78.'),
@@ -86,15 +86,16 @@ PAGES = {
     85: ('Pause a resident', 'Sneak-use a hoe on a resident to pause or resume chores, with no wear. Meals, breeding and home routines continue. Pups can keep the preference. Calipers shows the pause; Travel Baskets preserve it.'),
     86: ('Cradle controls', 'Sneak-hoe a Cradle for manual-only hatching. Incubation and nursery work continue; ripe litters still hatch by empty-hand use. Re-enable redstone, then send a fresh pulse. Calipers reports the setting.'),
     87: ('Guava hand care', 'Sneak-feed a plain guava to heal 2 HP and help pups grow without starting breeding. Healthy adults keep it; upgraded guavas stay for breeding. Existing love quality and rests stay. Normal feeding breeds.'),
+    88: ('Snow surface routes', 'Snow-footed residents cross powder-snow surfaces on home routes. Woolly or hidden snow gives no footing. Deep powder and other hazards stay blocked. Lost footing or floors interrupt jobs. Keep dry room above.'),
 }
-PAGE_COUNT = 87
+PAGE_COUNT = 88
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
               31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
 NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work',51:'Find a tagged animal',52:'Bell roll call',53:'Recovery rest',54:'Plan a litter'}
 
-HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds',61:'Fruit meals',62:'Sapling stations',63:'Underground farms',64:'Safe seedbeds',65:'Snow-coat care'}
+HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds',61:'Fruit meals',62:'Sapling stations',63:'Underground farms',64:'Safe seedbeds',65:'Snow care & routes'}
 WORK_INDEX = {67:'Loose food meals',68:'Trough gathering',69:'Melon beds',71:'Orchard pickers',72:'Habitat meals',73:'Nest signals',75:'Work modes',76:'Restore a garden',84:'Specialist work'}
 SPECIALIST_INDEX = {77:'Nursery workers',79:'Work roll call',80:'Safe hunting',81:'Chorus gardens',82:'Basket stations',83:'Supply the troughs',85:'Pause a resident',86:'Cradle controls',87:'Guava hand care'}
 
@@ -143,7 +144,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,87),(495,9),(735,84),(975,86)]:
+    for x,page in [(255,88),(495,65),(735,56),(975,87)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

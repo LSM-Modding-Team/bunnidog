@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 87 pages from first warren to Apex. Six linked contents pages offer fifty-five
+open 88 pages from first warren to Apex. Six linked contents pages offer fifty-five
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -638,3 +638,9 @@ a fresh pulse to restore automatic hatching. Tools spend no durability.
 grow without breeding. Healthy adults and upgraded guavas keep food. Existing
 love quality/time and care/work/food rests are preserved. Normal feeding still
 starts breeding. The plain guava tooltip explains the gesture.
+
+**Snow routes (A6):** expressed snow coats can use supported powder-snow
+surfaces for home routines, meals and work. Woolly or hidden snow alone gives
+no footing. Powder interiors, missing floors and neighboring hazards stay
+unsafe; losing the trait interrupts existing snow routes. Native equipment
+and data-pack footing also apply.

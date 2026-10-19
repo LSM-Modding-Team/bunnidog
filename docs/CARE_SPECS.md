@@ -342,7 +342,8 @@ snow-walkable animals do. Woolly builds retain freezing protection without this
 footing; hidden snow copies gain neither coat benefit. The same per-animal
 native tag query enables Minecraft's powder-snow escape jump goal. Falling into
 snow, standing beneath its surface and descending retain native collision rules.
-This does not make falls safe or change the conservative domestic route checks.
+This does not make falls safe. A6 below extends domestic routes only to
+supported native-footing surfaces while retaining other hazard checks.
 
 Only the native snow-walkable query gains the expressed benefit; ordinary data
 pack entity tags and equipment protections still apply. Gene edits take effect
@@ -376,3 +377,29 @@ actual Brush use, exact yield/wear, preserved animal state, repeated-use refusal
 saved/missing recovery, last-charge breakage and creative use. The combined
 build/server suite passes; client input and long-term farm balance remain manual
 playtests. No large genetics rerun is needed for this isolated care rule.
+
+## A6: supported powder-snow home routes
+
+Residents with native powder-snow footing, normally an expressed snow coat,
+can use the top of powder snow for home routines, meals and work. A standing
+place still needs two empty dry body cells in the loaded home area; only its
+powder floor gains the native support exception. Woolly cold protection and
+hidden snow alone still give no footing. Native equipment/data-pack footing
+continues to count. Descending animals do not claim surface support.
+
+Interior POWDER_SNOW stays unsafe. Native ON_TOP_OF_POWDER_SNOW is accepted only
+while native footing is present, with an additional native neighbor-hazard
+check: the ordinary surface classification skips that check. Adjacent fire,
+damaging floors, water/lava, missing floor, other hazards and complete loaded
+home-route rules remain. A changed expressed trait/footing or removed floor
+invalidates an already cached route before the job commits. No movement
+costs, AI priorities, genome format, equipment or collision rules are changed.
+
+Java 25 build/all 70 native scenarios pass. The new route case claims a real
+home and creates a complete native meal path through a corridor requiring
+ON_TOP_OF_POWDER_SNOW nodes. It checks supported work cells, expressed-trait
+loss during that cached route, woolly-without-footing refusal, unsafe powder
+interiors, a newly damaging floor, neighboring fire, removed support and native
+descending. Restored footing/safety permits a real one-food/two-HP/normal-rest
+meal. Existing physics, collision, climate-care and all other route cases stay
+passing. Guide preview inspected; natural tundra navigation remains playtest review.

@@ -58,7 +58,7 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Eighty-seven pages use the ordinary written-book screen. Six linked contents pages
+Eighty-eight pages use the ordinary written-book screen. Six linked contents pages
 offer fifty-five clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current sixty-nine native server cases pass,
-including loading the book/recipe/loot resources. The expanded 87-page
-guava-care/food/Specialist/Cradle-control preview is inspected with a substitute font; all
+The actual Java 25 build and current seventy native server cases pass,
+including loading the book/recipe/loot resources. The expanded 88-page
+snow-route/snow-care/Habitat/guava-care preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -278,3 +278,8 @@ D11 appends **Guava hand care** (87), a ninth Specialist entry returning to 84.
 Food and troughs points to it; Breed a seed specifies normal feeding. Earlier
 numbers remain stable. There are 87 pages/six indices/fifty-five chapter links;
 care/food/Specialist/Cradle-control previews are inspected.
+
+A6 appends **Snow surface routes** (88), returning to Habitat. Snow-coat care
+points to it; its Habitat label is now **Snow care & routes**. There are 88
+pages/six indices/fifty-five chapter links. Snow route/care/Habitat/guava-care
+previews are inspected; actual client fonts and natural snow travel need playtesting.

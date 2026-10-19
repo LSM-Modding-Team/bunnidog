@@ -4,7 +4,7 @@ A NeoForge mod for Minecraft 26.2: a baby-faced creature with rabbit ears and a
 dog's body, plus breeding, genetics, guavas, warrens, homes and pedigree tools.
 Requires JDK 25. Client and server must both use the updated mod (network 7). The checked-in Gradle wrapper selects the project Gradle version.
 
-Craft a vanilla book with any guava for the **87-page Field Guide**, with six
+Craft a vanilla book with any guava for the **88-page Field Guide**, with six
 linked contents pages covering its chapters. Sneak-use
 Calipers for care/work readiness, use a hoe on a Feeding Trough to enable
 resident gardening, and explore food stores for supplies suited to each lineage.
@@ -71,6 +71,7 @@ Sneak-use Calipers on a Cradle to inspect incubation and mark its hatch pad.
 New level-five grand-tree nurseries may fit an empty Cradle with a clear pad,
 while retaining their trough, bell and floor Nests.
 Snow coats walk on powder snow and use native escape jumps.
+Their home routines can cross supported powder surfaces while avoiding interiors and other hazards.
 Sneak-use a bone on a feral adult with a Nest to toggle bounded guarding;
 the command spends no bone. Calipers reports its enabled/paused status.
 Journeyman cartographers may sell native Warren Explorer Maps to Overworld settlements.

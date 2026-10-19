@@ -16,6 +16,13 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+A6 lets native snow-footed residents use supported powder-snow surfaces for
+home routines, meals and work. Interior powder, changed/lost footing, missing
+floors and neighboring hazards remain unsafe. Native path costs and collision
+are unchanged. All 70 native cases pass, including a real powder-only corridor,
+gene/hazard interruptions and an actual meal. The 88-page guide preview is
+inspected. See `CARE_SPECS.md` A6.
+
 D11 adds deliberate plain-guava hand care through sneak feeding. Actual
 survival/creative/off-hand care heals/grows without love, preserves existing
 breeding quality/time and rests, and keeps healthy/upgraded inputs. Manual

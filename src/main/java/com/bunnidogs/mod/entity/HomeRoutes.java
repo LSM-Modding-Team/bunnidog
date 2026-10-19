@@ -6,6 +6,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.PowderSnowBlock;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.pathfinder.PathfindingContext;
@@ -25,17 +27,27 @@ final class HomeRoutes {
         return pos != null && level.hasChunkAt(pos) && dog.foodWithinHome(pos)
                 && level.getBlockState(pos).isAir() && level.getBlockState(pos.above()).isAir()
                 && level.getFluidState(pos).isEmpty() && level.getFluidState(pos.above()).isEmpty()
-                && level.getBlockState(pos.below()).isFaceSturdy(level,pos.below(),Direction.UP) && dryCell(dog,pos);
+                && (level.getBlockState(pos.below()).isFaceSturdy(level,pos.below(),Direction.UP)
+                    || level.getBlockState(pos.below()).is(Blocks.POWDER_SNOW) && snowFooting(dog)) && dryCell(dog,pos);
     }
-    private static boolean dangerous(PathType type) {
+    private static boolean snowFooting(Bunnidog dog) { return !dog.isDescending() && PowderSnowBlock.canEntityWalkOnPowderSnow(dog); }
+    private static boolean dangerous(Bunnidog dog, PathType type) {
         return switch (type) {
-            case WATER, LAVA, FIRE, FIRE_IN_NEIGHBOR, DAMAGING, DAMAGE_CAUTIOUS, POWDER_SNOW, ON_TOP_OF_POWDER_SNOW -> true;
+            case WATER, LAVA, FIRE, FIRE_IN_NEIGHBOR, DAMAGING, DAMAGE_CAUTIOUS, POWDER_SNOW -> true;
+            case ON_TOP_OF_POWDER_SNOW -> !snowFooting(dog);
             default -> false;
         };
     }
+    private static boolean hazardous(Bunnidog dog, PathfindingContext context, BlockPos pos, PathType type) {
+        if (dangerous(dog,type)) return true;
+        // Native top-of-powder classification skips neighbors; retain the same fire/hazard veto as dry ground.
+        return type == PathType.ON_TOP_OF_POWDER_SNOW
+                && dangerous(dog,WalkNodeEvaluator.checkNeighbourBlocks(context,pos.getX(),pos.getY(),pos.getZ(),type));
+    }
     static boolean dryCell(Bunnidog dog, BlockPos pos) {
-        return dog.level().hasChunksAt(pos.offset(-1,-1,-1),pos.offset(1,1,1))
-                && !dangerous(WalkNodeEvaluator.getPathTypeStatic(dog,pos));
+        if (!dog.level().hasChunksAt(pos.offset(-1,-1,-1),pos.offset(1,1,1))) return false;
+        var context = new PathfindingContext(dog.level(),dog);
+        return !hazardous(dog,context,pos,WalkNodeEvaluator.getPathTypeStatic(context,pos.mutable()));
     }
     static boolean visible(Bunnidog dog, Entity mob) {
         BlockPos from = dog.blockPosition(), to = mob.blockPosition();
@@ -52,9 +64,10 @@ final class HomeRoutes {
             if (!dog.level().hasChunkAt(node.asBlockPos()) || !dog.foodWithinHome(node.asBlockPos())
                     || threat != null && node.asBlockPos().distSqr(threat.blockPosition()) < clearance) return false;
             var pos = node.asBlockPos();
-            if (dangerous(node.type) || !dog.level().hasChunksAt(pos.offset(-1,-1,-1),pos.offset(1,1,1))) return false;
+            if (dangerous(dog,node.type) || !dog.level().hasChunksAt(pos.offset(-1,-1,-1),pos.offset(1,1,1))) return false;
             var current = WalkNodeEvaluator.getPathTypeStatic(context,pos.mutable());
-            if (dangerous(current) || node.type == PathType.WALKABLE && current == PathType.OPEN) return false;
+            if (hazardous(dog,context,pos,current)
+                    || (node.type == PathType.WALKABLE || node.type == PathType.ON_TOP_OF_POWDER_SNOW) && current == PathType.OPEN) return false;
         }
         return true;
     }

@@ -187,3 +187,9 @@ real native heal callback replaces the hand with diamonds after seeing the
 reserved final guava; new stock and biology remain intact. The Apex still
 refuses. The new care/food/Specialist/Cradle guide preview is inspected; client
 gestures and long-term husbandry remain gameplay review.
+
+A6 permits dry powder-snow surfaces only for residents with actual native
+footing. Meals/work still reject powder interiors, lost footing/support and
+all other hazards, including the native neighbor check omitted by vanilla's
+surface classifier. See `CARE_SPECS.md` A6 for route evidence; all 70 native
+scenarios pass.

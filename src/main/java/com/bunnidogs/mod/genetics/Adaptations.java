@@ -29,7 +29,7 @@ public final class Adaptations {
         if (gene == Gene.BUILD && allele.name().equals("woolly"))
             return "Does not freeze in powder snow. Healthy adults yield two wool in their expressed coat's palette with shears every ten minutes.";
         if (gene == Gene.COAT && allele.name().equals("snow"))
-            return "Does not freeze in powder snow; walks on its surface and can climb out. Falls still hurt. Brush healthy Bloom +10 adults in cold climates for one snowball, sharing ten-minute grooming rest.";
+            return "Does not freeze in powder snow; walks on its surface and can climb out. Home routines use supported powder surfaces, avoiding interiors and other hazards. Falls still hurt. Brush healthy Bloom +10 adults in cold climates for one snowball, sharing ten-minute grooming rest.";
         if (gene == Gene.COAT && allele.name().equals("moss")) return "Immune to poison, but not wither or other magic.";
         if (gene == Gene.COAT && allele.name().equals("sand")) return "Immune to cactus damage; other thorns still hurt.";
         if (gene == Gene.COAT && allele.name().equals("void")) return "Immune to levitation; shulker impacts and falls still hurt.";
