@@ -12,11 +12,12 @@ import net.minecraft.world.item.component.WrittenBookContent;
 
 /** Native book UI/packets, translated pages and local page links; no custom screen or payload. */
 public final class FieldGuideItem extends WrittenBookItem {
-    public static final int PAGE_COUNT = 82;
+    public static final int PAGE_COUNT = 84;
     private static final int MORE_CONTENTS = 40;
     private static final int NEW_CONTENTS = 50;
     private static final int HABITAT_CONTENTS = 56;
     private static final int WORK_CONTENTS = 66;
+    private static final int SPECIALIST_CONTENTS = 84;
     public FieldGuideItem(Properties properties) {
         super(properties.component(DataComponents.WRITTEN_BOOK_CONTENT, content()));
     }
@@ -26,8 +27,13 @@ public final class FieldGuideItem extends WrittenBookItem {
                 "guide.bunnidogs.more_contents",MORE_CONTENTS).append("\n").append(link("guide.bunnidogs.new_contents",NEW_CONTENTS))
                 .append("\n").append(link("guide.bunnidogs.habitat_contents",HABITAT_CONTENTS))));
         for (int page = 2; page <= PAGE_COUNT; page++) {
+            if (page == SPECIALIST_CONTENTS) {
+                pages.add(Filterable.passThrough(contents("guide.bunnidogs.specialist_contents",new int[]{77,79,80,81,82,83},
+                        "guide.bunnidogs.main_contents",1).append("\n").append(link("guide.bunnidogs.work_contents",WORK_CONTENTS))));
+                continue;
+            }
             if (page == WORK_CONTENTS) {
-                pages.add(Filterable.passThrough(contents("guide.bunnidogs.work_contents",new int[]{67,68,69,71,72,73,75,76,77},
+                pages.add(Filterable.passThrough(contents("guide.bunnidogs.work_contents",new int[]{67,68,69,71,72,73,75,76,SPECIALIST_CONTENTS},
                         "guide.bunnidogs.main_contents",1).append("\n").append(link("guide.bunnidogs.habitat_contents",HABITAT_CONTENTS))));
                 continue;
             }
@@ -50,7 +56,7 @@ public final class FieldGuideItem extends WrittenBookItem {
                     .append(Component.literal("\n\n").withStyle(style -> style.withBold(false)))
                     .append(Component.translatable("guide.bunnidogs.page." + page + ".body").withStyle(style -> style.withBold(false)))
                     .append(Component.literal("\n\n").withStyle(style -> style.withBold(false)))
-                    .append(link("guide.bunnidogs.contents",page == 82 ? MORE_CONTENTS : page > WORK_CONTENTS ? WORK_CONTENTS : page > HABITAT_CONTENTS ? HABITAT_CONTENTS
+                    .append(link("guide.bunnidogs.contents",page == 77 || page >= 79 ? SPECIALIST_CONTENTS : page > WORK_CONTENTS ? WORK_CONTENTS : page > HABITAT_CONTENTS ? HABITAT_CONTENTS
                             : page > MORE_CONTENTS ? NEW_CONTENTS : page < 24 ? 1 : MORE_CONTENTS));
             pages.add(Filterable.passThrough(text));
         }

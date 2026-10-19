@@ -8,9 +8,10 @@ public enum TroughWork {
     GARDEN("garden", Job.HARVEST,Job.CULTIVATE,Job.PLANT,Job.GATHER),
     GATHER("gather", Job.GATHER),
     COMPOST("compost", Job.COMPOST),
-    NURSERY("nursery", Job.NURTURE);
+    NURSERY("nursery", Job.NURTURE),
+    SUPPLY("supply", Job.SUPPLY);
 
-    public enum Job { HARVEST, CULTIVATE, PLANT, COMPOST, GATHER, NURTURE }
+    public enum Job { HARVEST, CULTIVATE, PLANT, COMPOST, GATHER, NURTURE, SUPPLY }
     private final String key;
     private final EnumSet<Job> jobs;
     TroughWork(String key, Job... jobs) {

@@ -7,6 +7,7 @@ import com.bunnidogs.mod.genetics.Gardening;
 import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.genetics.Stats;
+import com.bunnidogs.mod.genetics.TroughWork;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModEntities;
 import com.bunnidogs.mod.registry.ModItems;
@@ -28,6 +29,7 @@ import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDestroyBlockEvent;
+import net.neoforged.neoforge.event.level.BlockEvent.NeighborNotifyEvent;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
@@ -91,6 +93,22 @@ public final class CompostingGameTest {
                 try { work(h,dog); } finally { NeoForge.EVENT_BUS.unregister(protect); }
                 h.assertTrue(stock.food().getCount() == 9 && level.getBlockState(composter).getValue(ComposterBlock.LEVEL) == 0,
                         "Native block protection must preserve both compost and real input"); ready(dog);
+                stock.insert(carrots.copyWithCount(2));
+                for (Runnable invalidate : new Runnable[]{() -> stock.setWorkMode(TroughWork.GATHER),() -> dog.setStats(Stats.ZERO)}) {
+                    boolean[] invoked = {false};
+                    Consumer<NeighborNotifyEvent> changed = event -> {
+                        if (!invoked[0] && event.getLevel() == level && event.getPos().equals(troughPos) && stock.food().getCount() == 10) {
+                            invoked[0] = true; invalidate.run();
+                        }
+                    };
+                    NeoForge.EVENT_BUS.addListener(changed);
+                    try { work(h,dog); } finally { NeoForge.EVENT_BUS.unregister(changed); }
+                    h.assertTrue(invoked[0] && stock.food().getCount() == 11 && ItemStack.isSameItemSameComponents(stock.food(),carrots)
+                            && ItemStack.isSameItemSameComponents(stock.filter(),carrots) && dog.gardeningWait() == 0
+                            && level.getBlockState(composter).getValue(ComposterBlock.LEVEL) == 0,
+                            "A mode or Bloom change inside actual surplus notifications must refund the exact input without compost or work rest");
+                    stock.setWorkMode(TroughWork.MIXED); dog.setStats(Stats.of(0,0,0,0,10));
+                }
                 stock.takeAll(); stock.clearFilter(); stock.insert(new ItemStack(Items.CARROT,9));
                 var crop = composter.north(); level.setBlock(crop.below(),Blocks.FARMLAND.defaultBlockState(),3);
                 var plant = (CropBlock)Blocks.CARROTS; level.setBlock(crop,plant.getStateForAge(plant.getMaxAge()),3);

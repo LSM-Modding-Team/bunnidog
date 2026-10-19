@@ -8,6 +8,7 @@ import com.bunnidogs.mod.block.FeedingTroughBlock;
 import com.bunnidogs.mod.block.FeedingTroughBlockEntity;
 import com.bunnidogs.mod.genetics.Gardening;
 import com.bunnidogs.mod.genetics.Scavenging;
+import com.bunnidogs.mod.genetics.Supplying;
 import com.bunnidogs.mod.genetics.TroughWork;
 import com.bunnidogs.mod.item.GuavaItem;
 import com.bunnidogs.mod.registry.ModItems;
@@ -43,6 +44,10 @@ public final class WorkCensus {
         if (mode == TroughWork.NURSERY) {
             if (!Gardening.nurses(dog.stats())) return reason(dog,"bloom",Gardening.MIN_NURSERY_BLOOM);
             if (!food.is(ModItems.GUAVA.get()) || food.getCount() <= Gardening.COMPOST_RESERVE) return reason(dog,"nursery_food",Gardening.COMPOST_RESERVE);
+        } else if (mode == TroughWork.SUPPLY) {
+            if (!Supplying.qualified(dog.stats())) return reason(dog,"senses",Supplying.MIN_SENSES);
+            if (GuavaItem.tierOf(template) > 0) return reason(dog,"ordinary_food");
+            if (food.getCount() <= Supplying.RESERVE) return reason(dog,"supply_food",Supplying.RESERVE);
         } else if (mode == TroughWork.GATHER) {
             if (!Scavenging.gathers(dog.stats())) return reason(dog,"senses",Scavenging.MIN_GATHERING_SENSES);
             if (GuavaItem.tierOf(template) > 0) return reason(dog,"ordinary_food");

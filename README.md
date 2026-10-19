@@ -4,7 +4,7 @@ A NeoForge mod for Minecraft 26.2: a baby-faced creature with rabbit ears and a
 dog's body, plus breeding, genetics, guavas, warrens, homes and pedigree tools.
 Requires JDK 25. Client and server must both use the updated mod (network 7). The checked-in Gradle wrapper selects the project Gradle version.
 
-Craft a vanilla book with any guava for the **82-page Field Guide**, with five
+Craft a vanilla book with any guava for the **84-page Field Guide**, with six
 linked contents pages covering its chapters. Sneak-use
 Calipers for care/work readiness, use a hoe on a Feeding Trough to enable
 resident gardening, and explore food stores for supplies suited to each lineage.
@@ -24,9 +24,10 @@ Foragers harvest attached melons into one slice while preserving their stems; Bl
 Injured matching lines eat spare cactus, mushrooms, ripe wart and attached melons without troughs.
 Dispenser shears pick ripe guavas; plain-guava dispensers repair canopy gaps.
 Meadow stores can supply melon slices and a few seeds. Nest comparators read 15 claimed / 0 free.
-Sneak-hoe selects trough work: Mixed, Garden, Gather, Compost or Nursery.
+Sneak-hoe selects trough work: Mixed, Garden, Gather, Compost, Nursery or Supply.
 Garden workers at Bloom +10 replant from real surplus; Nursery workers at +20 tend a Cradle stage.
 Both spending jobs keep eight food in reserve and share work recovery.
+Senses +20 Supply workers move ordinary surplus to nearby feeding dishes, keeping eight at source.
 Fresh five-tree meadow farms include young melon stems and open dirt fruit spaces; old plans stay.
 Sneak-Calipers on a trough explains nearby worker readiness for its selected mode.
 Hunters/fishers use dry home routes and leave named, leashed or transported prey alone.

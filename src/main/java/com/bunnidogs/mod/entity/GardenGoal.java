@@ -250,17 +250,18 @@ final class GardenGoal extends Goal {
         if (stock == null) return;
         var input = stock.takeSurplus(this.produce,Gardening.COMPOST_RESERVE);
         if (input.isEmpty()) return;
-        // Stock notifications may invoke other blocks. Recheck before calling the native composter.
-        if (level.getBlockEntity(this.trough) == stock && !stock.isRemoved() && !stock.residentsPaused()
-                && level.getBlockState(this.crop).equals(this.mature)) {
+        boolean attempted = false;
+        // Stock notifications may change the mode, worker or route as well as either block.
+        if (trough(this.trough) == stock && continuing(true)) {
             var updated = ComposterBlock.insertItem(this.dog,this.mature,level,input,this.crop);
+            attempted = true;
             level.levelEvent(1500,this.crop,updated.equals(this.mature) ? 0 : 1);
         }
         if (!input.isEmpty()) {
             if (level.getBlockEntity(this.trough) == stock && !stock.isRemoved()) input.shrink(stock.insert(input));
             if (!input.isEmpty()) Block.popResource(level,this.trough,input);
         }
-        this.dog.finishedGardening();
+        if (attempted) this.dog.finishedGardening();
     }
     @Override public void stop() {
         this.dog.getNavigation().stop(); this.trough = null; this.crop = null; this.stand = null; this.path = null;

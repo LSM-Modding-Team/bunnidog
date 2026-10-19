@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 82 pages from first warren to Apex. Five linked contents pages offer forty-six
+open 84 pages from first warren to Apex. Six linked contents pages offer fifty-two
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -589,7 +589,7 @@ chance of one or two melon seeds. Other lineages keep their foods; emptied or
 player-filled containers are never refilled.
 
 **Select resident jobs (L28–L30/N9):** sneak-use a hoe on a trough to cycle and
-enable Mixed, Garden, Gather, Compost or Nursery work. Normal hoe use toggles
+enable Mixed, Garden, Gather, Compost, Nursery or Supply work. Normal hoe use toggles
 work while retaining its mode. Old troughs keep Mixed. Food/filter/automation
 still work normally. Garden mode lets Bloom +10 adults spend one self-planting
 food to restore a valid gap; Nursery lets Bloom +20 adults spend one ordinary
@@ -620,3 +620,9 @@ chorus flowers for one fruit, leaving branches and living flowers intact.
 Healthy adults bank it at enabled Mixed/Garden troughs; injured adults eat it
 directly for 2 HP. Existing power/protection, safe home routes and work/food
 recovery apply. Calipers names this bonus for compatible lines.
+
+**Supply workers (L34):** select Supply on a trough with more than eight ordinary
+food. Healthy Senses +20 adults move one food to a compatible non-Supply dish
+within four blocks, stopping at eight there. The destination can keep gardening
+off. Both dishes need no power, dry home routes and exact filter compatibility.
+Each transfer shares one-minute garden rest; upgraded guavas stay for breeding.

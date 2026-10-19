@@ -74,7 +74,7 @@ PAGES = {
     72: ('Habitat meals', 'Injured matching lines eat spare cactus tops, extra same-color mushrooms, ripe wart or stem-linked melons near home by day. Growing stock stays. No trough is needed. A meal heals 2 HP and shares thirty-second food rest. Predators: 80.'),
     73: ('Nest signals', 'Read a Nest with a comparator: 15 means claimed, 0 means free. The resident can be away or unloaded. Rehoming updates both Nests. Packing into a Travel Basket or death frees the old one.'),
     74: ('Repair a canopy', 'A dispenser plants one plain guava into an empty dry gap beneath leaves. Other targets eject the guava as food, so pulse once to repair a canopy. Upgraded guavas never plant fruit. Bone meal grows it; shears pick it.'),
-    75: ('Work modes', 'Sneak-hoe cycles Mixed, Garden, Gather, Compost and Nursery, enabling work. Normal hoe toggles it; power pauses it. Mixed harvests, grows, gathers and composts. Garden replants; Nursery tends Cradles. Roll call: 79.'),
+    75: ('Work modes', 'Sneak-hoe cycles Mixed, Garden, Gather, Compost, Nursery and Supply, enabling work. Normal hoe toggles it; power pauses it. Mixed keeps old routines. Garden replants; specialists: page 84.'),
     76: ('Restore a garden', 'Garden mode: Bloom +10 residents spend one suitable food above an eight-item reserve to replant a valid gap. Use the plant\'s normal soil or support. Carrots, guavas and berries are examples. Jobs share one-minute work rest.'),
     77: ('Nursery workers', 'Nursery mode: Bloom +20 adults spend one plain guava above an eight-food reserve for one Cradle stage. The whole litter stays. Jobs share garden rest. Players or redstone hatch ripe litters.'),
     78: ('Meadow melon farms', 'Fresh five-tree meadow farms mix young melon stems with ordinary crops. Empty dirt spaces allow fruit; a clear corner may fit an enabled trough. Plants grow naturally. Old settlements keep their plans. Garden repair: page 76.'),
@@ -82,8 +82,9 @@ PAGES = {
     80: ('Safe hunting', 'Wounded hunters and fishers follow dry home routes to wild prey. They stop for unsafe terrain, changed homes or protection. Named, leashed and transported animals stay. One kill heals 4 HP and shares thirty-second food rest.'),
     81: ('Chorus gardens', 'Bloom +20 chorus eaters revive spent flowers for one fruit. Mixed/Garden troughs store it; injured adults eat it for 2 HP. Living flowers keep their branch age. Leave supported branches and dry paths.'),
     82: ('Basket stations', 'A dispenser packs one calm unled bunnidog ahead. Filled baskets release onto clear dry ground. Failed pulses keep the basket. Identity and care rest persist. Each pulse acts once; sort with hoppers.'),
+    83: ('Supply the troughs', 'Supply mode: Senses +20 adults move one ordinary surplus food to a nearby non-Supply trough below eight food, keeping eight at source. Keep both unpowered with dry paths. One job shares the one-minute work rest.'),
 }
-PAGE_COUNT = 82
+PAGE_COUNT = 84
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
@@ -91,7 +92,8 @@ MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Livi
 NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work',51:'Find a tagged animal',52:'Bell roll call',53:'Recovery rest',54:'Plan a litter'}
 
 HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds',61:'Fruit meals',62:'Sapling stations',63:'Underground farms',64:'Safe seedbeds',65:'Snow-coat care'}
-WORK_INDEX = {67:'Loose food meals',68:'Trough gathering',69:'Melon beds',71:'Orchard pickers',72:'Habitat meals',73:'Nest signals',75:'Work modes',76:'Restore a garden',77:'Nursery workers'}
+WORK_INDEX = {67:'Loose food meals',68:'Trough gathering',69:'Melon beds',71:'Orchard pickers',72:'Habitat meals',73:'Nest signals',75:'Work modes',76:'Restore a garden',84:'Specialist work'}
+SPECIALIST_INDEX = {77:'Nursery workers',79:'Work roll call',80:'Safe hunting',81:'Chorus gardens',82:'Basket stations',83:'Supply the troughs'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -120,8 +122,8 @@ def main():
         value = json.loads(path.read_text()); value.update({'item.bunnidogs.field_guide':'Bunnidogs Field Guide',
           'guide.bunnidogs.title':'Bunnidogs Guide','guide.bunnidogs.contents':'Contents',
           'guide.bunnidogs.more_contents':'More chapters','guide.bunnidogs.main_contents':'Main contents',
-          'guide.bunnidogs.new_contents':'New chapters','guide.bunnidogs.habitat_contents':'Habitat chapters','guide.bunnidogs.work_contents':'Working residents'})
-        for page,label in (MAIN_INDEX | MORE_INDEX | NEW_INDEX | HABITAT_INDEX | WORK_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
+          'guide.bunnidogs.new_contents':'New chapters','guide.bunnidogs.habitat_contents':'Habitat chapters','guide.bunnidogs.work_contents':'Working residents','guide.bunnidogs.specialist_contents':'Specialist work'})
+        for page,label in (MAIN_INDEX | MORE_INDEX | NEW_INDEX | HABITAT_INDEX | WORK_INDEX | SPECIALIST_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
         for page,(title,body) in PAGES.items():
             value[f'guide.bunnidogs.page.{page}.title'] = title
             value[f'guide.bunnidogs.page.{page}.body'] = body
@@ -138,15 +140,16 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,81),(495,82),(735,39),(975,66)]:
+    for x,page in [(255,83),(495,84),(735,75),(975,66)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
-        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else PAGES[page][0]
+        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))
         if page == 1: body = '\n'.join(MAIN_INDEX.values()) + '\n\nMore chapters\nNew chapters\nHabitat chapters'
         elif page == 40: body = '\n'.join(MORE_INDEX.values()) + '\n\nMain contents'
         elif page == 50: body = '\n'.join(NEW_INDEX.values()) + '\n\nMain contents'
         elif page == 56: body = '\n'.join(HABITAT_INDEX.values()) + '\n\nMain contents\nWorking residents'
         elif page == 66: body = '\n'.join(WORK_INDEX.values()) + '\n\nMain contents\nHabitat chapters'
+        elif page == 84: body = '\n'.join(SPECIALIST_INDEX.values()) + '\n\nMain contents\nWorking residents'
         else: body = '\n'.join(textwrap.wrap(PAGES[page][1],25)) + '\n\nContents'
         d.multiline_text((x+14,75),body,font=font,spacing=6,fill=(40,59,36))
         d.text((x+14,365),f'Page {page} / {PAGE_COUNT}',font=font,fill=(85,77,56))

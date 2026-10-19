@@ -16,6 +16,14 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L34 appends opt-in Supply mode: Senses +20 residents atomically move one ordinary
+surplus food to a nearby meal trough, retaining an eight-item source reserve and
+destination ceiling. Safe paths, component filters, power and shared rest apply;
+post-commit container removals conserve all food. Compost rechecks mode/worker/
+route after actual surplus notifications and refunds interrupted jobs without
+rest. Java 25 build/all 66 native cases pass; 84-page/six-index guide preview
+inspected. See `RESIDENT_WORK.md`, `SETTLEMENT_LIFE.md` and `FIELD_GUIDE.md`.
+
 D10/L33 adds Bloom +20 spent-chorus care with shared sustainable meals/work.
 H10 adds native Travel Basket dispensers and shared dry whole-body placement,
 conserving occupied/empty stock through cancelled/reentrant spawns and changed

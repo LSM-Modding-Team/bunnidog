@@ -22,6 +22,17 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **L34, resident supply:** appended Supply mode lets healthy Senses +20 adults
+  move one ordinary surplus food to a nearby meal dish below eight food, keeping
+  eight at source. Both exact stacks share one native transaction, safe paths,
+  power/filter/protection rechecks and GardenWait. Callback removal of both
+  dishes conserves their committed stock. Compost now also rechecks the entire
+  job after reserving food and refunds interrupted mode/Bloom changes without
+  work rest. Java 25 build/all 66 native cases pass. The 84-page guide has six
+  indices/fifty-two chapter links; Supply/Specialist/Working previews inspected.
+  See `docs/RESIDENT_WORK.md` L34 and `docs/SETTLEMENT_LIFE.md` L14.
+
+
 - **D10/L33/H10, End care and basket stations:** Bloom +20 chorus-compatible
   adults revive only spent flowers, preserving branches and yielding one fruit
   to a work trough or direct meal. Native dispensers pack/release one existing
@@ -326,8 +337,8 @@ storm shelter, fishing, terrain traits, local supplies, living dust and fitted
 farms are also complete. Their rules/evidence remain in the specifications
 listed below; do not redo them.
 
-The native Field Guide has 82 translated pages and forty-six chapter links
-across five linked contents pages.
+The native Field Guide has 84 translated pages and fifty-two chapter links
+across six linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 

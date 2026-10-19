@@ -1,4 +1,4 @@
-# Resident work L28–L30 / N9
+# Resident work L28–L34 / N9
 
 These jobs extend the existing opted-in, healthy adult routine. Work needs a
 claimed Nest, daytime, safe loaded routes, sight/reach, no danger/transport,
@@ -19,6 +19,7 @@ Adventure/interaction protection. Redstone pauses resident access as before.
 | Gather | Loose-food gathering only |
 | Compost | Surplus composting only |
 | Nursery | One-stage Cradle tending only |
+| Supply | One surplus food to a nearby non-Supply feeding dish below eight |
 
 Modes affect work, while food/healing, filters, stock capacity, native hoppers
 and comparator behavior keep their existing rules. Empty-hand inspection names
@@ -109,3 +110,43 @@ flowers and bank one fruit beside enabled Mixed/Garden troughs. Native living
 branch ages stay unchanged; each job shares normal garden rest. Injured matching
 adults use the same stock-preserving rule for a direct meal. See
 `FORAGING_SPECS.md` D10 for mechanics and evidence.
+
+## L34: supply nearby feeding troughs
+
+Supply is an explicit sixth work mode, appended after Nursery. Healthy adult
+residents at Senses +20 move one ordinary Diet-matching food from its source
+above an eight-item reserve into a nearby non-Supply trough below eight food.
+The destination need not enable gardening: it can be a dedicated meal dish.
+Both troughs must be unpowered, exact-component compatible, inside the same
+claimed home area and within four blocks of each other. Upgraded guavas stay
+for breeding. No inventories other than the two actual troughs are touched.
+
+A complete dry loaded native route must reach a clear standing place within
+three blocks of both dishes, with sight to both. The existing one-minute garden
+rest and full-health/daytime/home/Diet/griefing/danger/transport rules apply.
+Capture both block-entity identities, the home and one exact food template;
+recheck mode, stock, filters, power, animal and path before commitment and after
+the native mob-griefing callback. A native transaction extracts/inserts exactly
+one item together; abort restores both. Notifications follow committed stock,
+so a callback removing a trough drops only its actual post-transfer contents.
+There is no in-flight item, new animal save state or new network payload.
+
+The work roll call explains the Senses threshold, ordinary food and surplus
+requirements. Like its other modes, Ready means eligible to search, not a
+promise that a destination or route exists. Source Supply troughs are not
+destinations, preventing two supply stations from bouncing their reserves.
+
+Search reads at most twelve nearby loaded troughs, tries at most two eligible
+sources and eight native paths. Its bounded approach prevents busy settlements
+from making a route search per dish pair. Source/destination positions and
+current identities remain checked throughout the job.
+
+Java 25 build/all 66 native cases pass. Two new native scenarios verify Senses
++19/+20 and census readiness including a full source, exact filters, both power
+pauses, legacy Mixed and Supply-destination exclusions, source reserve, upgraded
+guavas, native mode/stock saves, paired rollback and destination-refused rollback,
+real complete routes, exact named transfers/shared rest and the eight-food
+ceiling. Real protection callbacks change mode/filter before transfer; real
+post-commit stock notifications remove both dishes, returning exactly eleven
+named food with no ghost stock. The guide preview is inspected; natural supply
+loops and client controls remain gameplay review.

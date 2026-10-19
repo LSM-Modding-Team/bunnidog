@@ -810,3 +810,20 @@ Sneak-Calipers on a trough explains selected-mode worker eligibility without
 performing searches or changing residents/food. `RESIDENT_WORK.md` L32 gives
 its bounded loaded-only scope, reasons and native evidence. All 61 native
 cases pass, including actual hand interaction and whole-state preservation.
+
+## L33–L34: End care and supply stations
+
+Bloom +20 chorus-compatible residents revive spent flowers for one fruit,
+preserving living branch ages/support. See `FORAGING_SPECS.md` D10 and
+`RESIDENT_WORK.md` L33. Supply mode lets Senses +20 adults stock nearby meal
+troughs from ordinary surplus with an eight-food source reserve and destination
+ceiling; native paired transactions preserve exact food through rollback and
+container removal. See `RESIDENT_WORK.md` L34.
+
+L14 correction: after reserving compost input, recheck the entire job, including
+mode, Diet/Bloom/health/home, safe route and actual blocks. An interrupted job
+refunds its exact food and starts no work rest; a real native compost attempt
+still spends one food/rests even when its ordinary random chance fails. The
+existing compost scenario now changes mode and Bloom from actual source-fill
+notifications, retaining eleven named food/filter and zero compost/rest. Java
+25 build/all 66 native cases pass, including all earlier work and food cases.

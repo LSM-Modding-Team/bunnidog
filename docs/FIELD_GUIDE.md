@@ -58,8 +58,8 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Eighty-two pages use the ordinary written-book screen. Five linked contents pages
-offer forty-six clickable chapter links. Each chapter links back to its index. Local page changes
+Eighty-four pages use the ordinary written-book screen. Six linked contents pages
+offer fifty-two clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
 
@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current sixty-four native server cases pass,
-including loading the book/recipe/loot resources. The expanded 82-page
-End-care/basket-station/Travel/Working preview is inspected with a substitute font; all
+The actual Java 25 build and current sixty-six native server cases pass,
+including loading the book/recipe/loot resources. The expanded 84-page
+Supply/Specialist/mode/Working preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -256,3 +256,14 @@ D10/L33 and H10 append pages 81–82 for spent-chorus care and native basket
 stations. Regional farms points to 81; Travel Basket points to 82. Basket
 stations returns to More chapters; End care returns to Working residents.
 All earlier numbers and the five indices/forty-six chapter links remain.
+
+## P7 — Specialist work
+
+L34 adds **Supply the troughs** at 83. Page 84 is a sixth contents page linking
+Nursery workers, Work roll call, Safe hunting, Chorus gardens, Basket stations
+and Supply. Working residents points to this group in its former Nursery row,
+keeping its native text-area budget. These six chapters return to Specialist
+work; its footer links to Working and Main. Older page numbers remain stable.
+There are 84 pages and fifty-two chapter links. Supply/Specialist/mode/Working
+previews are inspected with the substitute font; native client fonts and clicks
+remain gameplay review.

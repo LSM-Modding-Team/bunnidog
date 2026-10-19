@@ -92,7 +92,7 @@ public final class ResidentWorkGameTest {
         player.setShiftKeyDown(false); player.gameMode.useItemOn(player,level,hoe,InteractionHand.OFF_HAND,hit);
         h.assertTrue(!level.getBlockState(pos).getValue(FeedingTroughBlock.TENDING) && stock.workMode() == TroughWork.GARDEN,"Ordinary hoe use pauses without losing the selected mode");
         player.setShiftKeyDown(true);
-        for (var expected : new TroughWork[]{TroughWork.GATHER,TroughWork.COMPOST,TroughWork.NURSERY,TroughWork.MIXED}) {
+        for (var expected : new TroughWork[]{TroughWork.GATHER,TroughWork.COMPOST,TroughWork.NURSERY,TroughWork.SUPPLY,TroughWork.MIXED}) {
             player.gameMode.useItemOn(player,level,hoe,InteractionHand.OFF_HAND,hit);
             h.assertTrue(stock.workMode() == expected && hoe.getDamageValue() == 0,"Mode cycling must be stable and spend no tool durability");
         }

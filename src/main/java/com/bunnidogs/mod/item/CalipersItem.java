@@ -121,6 +121,9 @@ public class CalipersItem extends Item {
         careRow(player,"gathering",Component.translatable(com.bunnidogs.mod.genetics.Scavenging.gathers(dog.stats())
                 ? "message.bunnidogs.care.gathering_bonus" : "message.bunnidogs.care.gathering_requirement",
                 com.bunnidogs.mod.genetics.Scavenging.MIN_GATHERING_SENSES));
+        careRow(player,"supplying",Component.translatable(com.bunnidogs.mod.genetics.Supplying.qualified(dog.stats())
+                ? "message.bunnidogs.care.supplying_bonus" : "message.bunnidogs.care.supplying_requirement",
+                com.bunnidogs.mod.genetics.Supplying.MIN_SENSES,com.bunnidogs.mod.genetics.Supplying.RESERVE));
         var scouting = dog.scoutingStatus();
         careRow(player,"scouting",scouting == com.bunnidogs.mod.genetics.Scouting.Status.RESTING ? recovery(dog.scoutingWait())
                 : Component.translatable("message.bunnidogs.scouting."+scouting.name().toLowerCase(Locale.ROOT)));
