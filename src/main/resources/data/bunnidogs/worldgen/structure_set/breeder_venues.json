@@ -1,0 +1,30 @@
+{
+  "structures": [
+    {
+      "structure": "bunnidogs:meadow_kennel",
+      "weight": 3
+    },
+    {
+      "structure": "bunnidogs:desert_kennel",
+      "weight": 3
+    },
+    {
+      "structure": "bunnidogs:snowy_kennel",
+      "weight": 3
+    },
+    {
+      "structure": "bunnidogs:show_ring",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 32,
+    "separation": 12,
+    "salt": 631447208,
+    "exclusion_zone": {
+      "other_set": "bunnidogs:warren_village",
+      "chunk_count": 3
+    }
+  }
+}

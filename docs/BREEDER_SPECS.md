@@ -7,6 +7,14 @@ network protocol **11**; current H11 uses **12**, so update client and server
 together. Existing animal, seed, sample, pedigree and warren saves retain their
 formats. Camouflage is `CARE_SPECS.md` A10.
 
+V3/V4 adds three intact regional kennels and a public Show Ring arena alongside
+the abandoned barn. Their housing/workshop stations begin empty and use existing
+mechanics; native explorer maps and supplies are described in `VENUE_SPECS.md`.
+Current required protocol is **13**.
+The V3/V4 placement review also corrects new barn starts for both native anchor
+and ground offsets, so their floor replaces the supporting surface rather than
+sitting one block below it. Saved starts retain their recorded positions.
+
 ## V1 — native Breeder profession
 
 An unemployed adult villager can claim a **Breeding Pen** as a job site. Every

@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "bunnidogs:cartographer/warren_map",
-    "bunnidogs:cartographer/barn_map"
+    "bunnidogs:cartographer/barn_map",
+    "bunnidogs:cartographer/kennel_map"
   ]
 }

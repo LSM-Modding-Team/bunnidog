@@ -65,7 +65,11 @@ public final class BreedingBarnGameTest {
         var context = new Structure.GenerationContext(level.registryAccess(),generator,generator.getBiomeSource(),
                 level.getChunkSource().randomState(),manager,level.getSeed(),new ChunkPos(0,0),level,biome -> true);
         var start = structure.findGenerationPoint(context).orElseThrow();
-        h.assertTrue(start.getPiecesBuilder().build().pieces().size() == 1,"Actual native dry-site planning must produce its saved root piece");
+        var pieces = start.getPiecesBuilder().build().pieces();
+        h.assertTrue(pieces.size() == 1,"Actual native dry-site planning must produce its saved root piece");
+        int firstFree = generator.getFirstFreeHeight(8,8,net.minecraft.world.level.levelgen.Heightmap.Types.WORLD_SURFACE_WG,level,context.randomState());
+        h.assertTrue(pieces.getFirst().getBoundingBox().minY() == firstFree-1,
+                "The named barn anchor plus native ground delta must not bury the actual generated foundation");
         h.assertTrue(level.getServer().getAdvancements().get(id("old_breeding_grounds")) != null,"The native barn discovery advancement must parse");
         var pool = level.registryAccess().lookupOrThrow(Registries.TEMPLATE_POOL)
                 .getOrThrow(ResourceKey.create(Registries.TEMPLATE_POOL,id("breeding_barn/start"))).value();

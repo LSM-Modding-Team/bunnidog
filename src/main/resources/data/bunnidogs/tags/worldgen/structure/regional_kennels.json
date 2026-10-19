@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "bunnidogs:meadow_kennel",
+    "bunnidogs:desert_kennel",
+    "bunnidogs:snowy_kennel"
+  ]
+}

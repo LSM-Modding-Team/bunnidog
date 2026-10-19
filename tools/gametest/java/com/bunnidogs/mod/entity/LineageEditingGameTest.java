@@ -70,12 +70,12 @@ public final class LineageEditingGameTest {
                 && LineageNames.clean("é".repeat(40)).isPresent() && LineageNames.clean("§4red").isEmpty(),"Malformed legacy additions and formatting cannot poison book parsing");
         var guide = new ItemStack(ModItems.FIELD_GUIDE.get());
         var content = guide.get(DataComponents.WRITTEN_BOOK_CONTENT);
-        h.assertTrue(content != null && content.pages().size() == 111,"Fresh native guides include fieldcraft/cargo chapters past page 100 without renumbering old pages");
+        h.assertTrue(content != null && content.pages().size() == 116,"Fresh native guides include venue chapters past page 100 without renumbering old pages");
         // Change the title so the item codec must serialize the pages rather than using the preset default component.
         guide.set(DataComponents.WRITTEN_BOOK_CONTENT,new net.minecraft.world.item.component.WrittenBookContent(
                 net.minecraft.server.network.Filterable.passThrough("Archive copy"),content.author(),content.generation(),content.pages(),content.resolved()));
         var out = TagValueOutput.createWithContext(ProblemReporter.DISCARDING,h.getLevel().registryAccess()); out.store("Guide",ItemStack.CODEC,guide);
         var loadedGuide = TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),out.buildResult()).read("Guide",ItemStack.CODEC).orElseThrow();
-        h.assertTrue(loadedGuide.get(DataComponents.WRITTEN_BOOK_CONTENT).pages().size() == 111,"A saved customized guide serializes every page through the native written-book item codec");
+        h.assertTrue(loadedGuide.get(DataComponents.WRITTEN_BOOK_CONTENT).pages().size() == 116,"A saved customized guide serializes every page through the native written-book item codec");
     }
 }

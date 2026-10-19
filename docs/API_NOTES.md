@@ -317,3 +317,30 @@ Moved to `docs/history/API_HISTORY.md` (sections: Where each fact comes from; Ve
   title first: the changed `WRITTEN_BOOK_CONTENT` must then encode through the
   native item codec. Preset guides follow current item defaults; explicit saved
   book components retain their own page count. Current protocol is **12**.
+
+## V3/V4 — native regional venues (26.2)
+
+- A small `Structure` codec can combine `settingsCodec(i)`, native
+  `StructureTemplatePool.CODEC` holders, an `Identifier` anchor and bounded radius
+  with `RecordCodecBuilder`. Native pool pieces then retain rotation, clipping
+  and saved template identifiers without a second custom piece/save format.
+- With no heightmap projection, `JigsawPlacement` uses adjustedPosition.y as
+  bottomY, subtracting both the named anchor's local Y and the single element's
+  ground delta (1). Our anchor y=1/floor y=0 templates therefore pass
+  `firstFree + 1` to put their foundation at `firstFree - 1`. Assert the actual
+  planned native piece bounds as well as manually placing rotated templates.
+  This corrects new barn starts too; previously saved pieces keep their positions.
+- A shared random-spread StructureSet selects one weighted biome-eligible venue
+  and natively excludes warren candidate chunks. It avoids mutual overlap among
+  new venues without assuming a native placement can have several exclusion
+  zones. Other independent structure sets retain their existing placement.
+- Fixture placement can pass one actual chunk `BoundingBox` at a time to
+  `PoolElementStructurePiece.postProcess`. In every native rotation, the authored
+  floor Nests accept real claims, the actual Pen consumes its own hand stock,
+  and the stand awards a qualified entrant at the marked spot only once.
+  Reload/replay preserves opened supplies and a genuine occupied pedestal.
+- Native location predicates accept a structure tag as `#bunnidogs:regional_kennels`;
+  ExplorationMapFunction's destination is the structure-tag identifier without
+  `#`. Add map trade entries to native career-level tags without replacing the
+  existing Warren/Barn offers. Native written-book saves retain the customized
+  116-page guide. Current required content protocol is **13**.

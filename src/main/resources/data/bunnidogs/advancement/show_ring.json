@@ -1,0 +1,38 @@
+{
+  "parent": "bunnidogs:regional_kennel",
+  "display": {
+    "icon": {
+      "id": "bunnidogs:judging_stand"
+    },
+    "title": {
+      "translate": "advancements.bunnidogs.show_ring.title"
+    },
+    "description": {
+      "translate": "advancements.bunnidogs.show_ring.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "found": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "structures": "bunnidogs:show_ring"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "found"
+    ]
+  ]
+}

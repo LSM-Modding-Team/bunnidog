@@ -4,6 +4,7 @@ import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.worldgen.WarrenPiece;
 import com.bunnidogs.mod.worldgen.WarrenStructure;
 import com.bunnidogs.mod.worldgen.BreedingBarnStructure;
+import com.bunnidogs.mod.worldgen.BreederVenueStructure;
 import com.bunnidogs.mod.worldgen.BarnPreservation;
 import com.mojang.serialization.MapCodec;
 
@@ -29,6 +30,8 @@ public final class ModStructures {
             STRUCTURE_TYPES.register("warren_village", () -> () -> WarrenStructure.CODEC);
     public static final DeferredHolder<StructureType<?>, StructureType<BreedingBarnStructure>> BREEDING_BARN =
             STRUCTURE_TYPES.register("breeding_barn", () -> () -> BreedingBarnStructure.CODEC);
+    public static final DeferredHolder<StructureType<?>, StructureType<BreederVenueStructure>> BREEDER_VENUE =
+            STRUCTURE_TYPES.register("breeder_venue", () -> () -> BreederVenueStructure.CODEC);
 
     public static final DeferredHolder<StructurePieceType, StructurePieceType> WARREN_PIECE =
             PIECE_TYPES.register("warren_piece", () -> (StructurePieceType.ContextlessType) WarrenPiece::new);

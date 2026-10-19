@@ -9,7 +9,12 @@ do not apply. Verify old completion claims against code before choosing work.
 | Feature | Actual status | Original plan |
 |---|---|---|
 | Isolated island lineage | A sketch without distinctive alleles or a fitted location yet | `DESIGN.md`, wild lineages |
-| Regional kennels / Show Ring arena structures | Layout sketches; the working Show Ring is already implemented | `DESIGN.md`, bloat layer |
+
+**V3/V4** now complete the regional-kennel and Show Ring arena sketches with
+three regional layouts, fitted two-parent housing and a public contest site.
+Native maps/supply loot connect exploration; actual existing courtship/judging
+remains required. See `VENUE_SPECS.md`. Natural siting, GPU appearance and map
+routes are gameplay review, rather than missing implementations.
 
 **A10** now completes coat camouflage with native sight/STEP behavior and
 explicit matching-ground/calm tradeoffs. **V1/V2/R1** finish the same skeleton's
@@ -52,6 +57,14 @@ Delivered, not individually confirmed: **U6a** advancement, **U1** level-1 dens
 and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
+
+V3/V4 finishes three intact regional kennels and the public Show Ring arena,
+with shared, warren-aware placement, saved native templates, empty care stations,
+one-time supplies, discoveries and native cartographer maps. Actual chunk-clipped
+placement in all sixteen variant/rotation combinations, paid parent feeding,
+genuine one-time gold judging and opened supply preservation pass with all
+**88** native cases. Four layout previews and the current **116/10/88** guide
+are inspected. Update both client and server: protocol **13**.
 
 H11 supplies Build-based native bundle carrying, exact whole-item storage,
 last-first hand controls, preserved excess after a smaller build, native movement

@@ -1,0 +1,10 @@
+{
+  "type": "bunnidogs:breeder_venue",
+  "start_pool": "bunnidogs:show_ring/start",
+  "start_jigsaw_name": "bunnidogs:venue_center",
+  "site_radius": 16,
+  "biomes": "#bunnidogs:has_structure/show_ring",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "beard_thin"
+}

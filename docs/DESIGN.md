@@ -18,7 +18,9 @@ V1/V2/R1 supply the original Breeder, abandoned barn and Pedigree Comparator
 sketches with native careers/loot and live unphased gene-pair redstone. See
 `BREEDER_SPECS.md`. H11 completes the original Build-based carrying-capacity
 proposal with native bundle panniers and a retained-cargo overload tradeoff;
-see `CARRYING_SPECS.md`. Island/other-building sketches remain proposals.
+see `CARRYING_SPECS.md`. V3/V4 now complete regional kennels and the physical
+Show Ring arena with native venues, maps and useful player-establishment sites;
+see `VENUE_SPECS.md`. The isolated island lineage remains a proposal.
 
 **Contents (the sections are in the order they were written; find one with `grep -n '^## ' docs/DESIGN.md`):**
 * *Core design*: Skeleton "Generations"; Phase 1, 2, 3 decisions (genome, breeding, lineages); "Seed & Guava loop" (the long design of seeds, crops, guava tiers, stat drift); Phase 4a-4e and 4g decisions; Session 6 tier qualities; Rejected / parked skeletons.

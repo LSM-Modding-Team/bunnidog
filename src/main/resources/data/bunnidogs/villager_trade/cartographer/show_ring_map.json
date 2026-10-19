@@ -1,0 +1,43 @@
+{
+  "wants": {
+    "id": "minecraft:emerald",
+    "count": 16
+  },
+  "additional_wants": {
+    "id": "minecraft:compass"
+  },
+  "gives": {
+    "id": "minecraft:map"
+  },
+  "max_uses": 6,
+  "xp": 15,
+  "reputation_discount": 0.2,
+  "given_item_modifiers": [
+    {
+      "function": "minecraft:exploration_map",
+      "destination": "bunnidogs:on_show_ring_maps",
+      "decoration": "minecraft:mansion",
+      "search_radius": 50,
+      "skip_existing_chunks": true
+    },
+    {
+      "function": "minecraft:set_name",
+      "name": {
+        "translate": "filled_map.bunnidogs.show_ring"
+      },
+      "target": "item_name"
+    },
+    {
+      "function": "minecraft:filtered",
+      "item_filter": {
+        "items": "minecraft:filled_map",
+        "predicates": {
+          "minecraft:map_id": {}
+        }
+      },
+      "on_fail": {
+        "function": "minecraft:discard"
+      }
+    }
+  ]
+}

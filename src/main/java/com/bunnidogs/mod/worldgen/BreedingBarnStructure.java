@@ -39,8 +39,9 @@ public final class BreedingBarnStructure extends Structure {
             return new BarnSite.Surface(y,ground && floor.getFluidState().isEmpty());
         });
         if (height.isEmpty()) return Optional.empty();
+        // Account for the y=1 anchor plus native single-pool ground delta: floor must be first-free - 1.
         return JigsawPlacement.addPieces(context,context.registryAccess().lookupOrThrow(Registries.TEMPLATE_POOL).getOrThrow(START),
-                Optional.of(ANCHOR),1,new BlockPos(x,height.getAsInt(),z),false,Optional.empty(),
+                Optional.of(ANCHOR),1,new BlockPos(x,height.getAsInt()+1,z),false,Optional.empty(),
                 new JigsawStructure.MaxDistance(32),PoolAliasLookup.EMPTY,DimensionPadding.ZERO,LiquidSettings.IGNORE_WATERLOGGING);
     }
     @Override public StructureType<?> type() { return ModStructures.BREEDING_BARN.get(); }

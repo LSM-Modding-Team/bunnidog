@@ -1,0 +1,10 @@
+{
+  "type": "bunnidogs:breeder_venue",
+  "start_pool": "bunnidogs:meadow_kennel/start",
+  "start_jigsaw_name": "bunnidogs:venue_center",
+  "site_radius": 12,
+  "biomes": "#bunnidogs:has_structure/meadow_kennel",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "beard_thin"
+}

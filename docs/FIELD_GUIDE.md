@@ -1,6 +1,14 @@
 # P1 — Bunnidogs Field Guide
 
-**H11:** current preset guides have **111 pages, nine indices and 82 chapter
+**V3/V4:** current preset guides have **116 pages, ten indices and 88 chapter
+links**. More chapters now links Workshops & sites at **112**. That index keeps
+workshop **98** and barn **107** reachable, and adds regional kennels **113**,
+pairing yard **114**, Show Ring arenas **115** and native maps **116**. The new
+chapters return to 112; original page numbers stay intact. The native customized
+item codec retains all 116 pages. The generated guide preview is inspected;
+native font/navigation remain gameplay review.
+
+**Prior H11 checkpoint:** preset guides had **111 pages, nine indices and 82 chapter
 links**. Fieldcraft index 101 adds Bundle carriers at 110, which continues to
 cargo safety/overload at 111. Both return there. The unchanged workshop remains
 reachable from More chapters and existing workshop pages. Existing preset items

@@ -22,6 +22,20 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **V3/V4, planned regional kennels and Show Ring arena:** three intact kennel
+  styles provide fitted two-parent yards, floor Nests and empty care workshops.
+  A larger public arena supplies holding bays, native judging and trophy space.
+  Shared placement keeps the new venues apart and excludes nearby warren
+  candidates. Native maps, discoveries and one-time supplies connect exploration;
+  animals, stocked stations and ribbons remain player-earned. Build/all **88**
+  native cases pass at the implementation checkpoint, including all sixteen
+  template/rotation combinations and actual paid pairing/gold judging. Four cell
+  layout previews and the **116-page, ten-index, 88-link** guide are inspected.
+  Protocol **13** requires updated client/server. See `docs/VENUE_SPECS.md`.
+  Final combined build/all **88** native cases also pass, with actual planned
+  floor heights corrected for venue/new barn anchors and earned-pedestal replay
+  preservation checked. Saved existing starts keep their recorded positions.
+
 - **H11, planned Build carrying capacity:** ordinary adults equip one to four
   native bundles according to expressed Build. Whole contents/names/colors,
   last-first retrieval, excess retention and native equipment death/basket saves

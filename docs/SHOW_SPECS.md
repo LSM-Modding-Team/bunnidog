@@ -4,6 +4,10 @@ Implemented 2026-10-16 under standing continuation/design authorization. A stand
 marks a player-built show area; no prescribed multiblock ring or village rewrite
 is required. This adds a non-lethal goal after stable-line registration.
 
+V4 now adds a naturally placed public arena with holding bays, a marked judging
+place and empty pedestals. It uses these exact ordinary stand/award rules; no
+building is required for a player-crafted stand. See `VENUE_SPECS.md`.
+
 ## Rules
 
 - Craft a Judging Stand: ` B /PGP/PWP` (B vanilla book, P any planks, G gold
