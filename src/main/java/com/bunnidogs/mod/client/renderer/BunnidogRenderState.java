@@ -20,6 +20,7 @@ public class BunnidogRenderState extends LivingEntityRenderState {
     public float buildScale = 1.0F;
     public boolean webbed;
     public boolean paddling;
+    public int bundleCount;
     public FertilityMark fertilityMark = FertilityMark.NONE;
     public Temperament temperament = Temperament.LOYAL;
 }

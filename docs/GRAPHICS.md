@@ -52,8 +52,16 @@ previews and native mesh/render checks pass; client review is still separate.
 
 A9 adds four mutually exclusive small fertility marks on tail children, costing
 0/40/18/120/38 faces for average/prolific/shy/swarm/starborn. The mesh stores
-2,460 faces / 9,840 vertices, while the largest actual combination is 2,364
+2,460 faces / 9,840 vertices, while the largest sculpt-only combination is 2,364
 faces / 9,456 vertices. An unmarked non-webbed animal retains the original
 2,172-face render budget and all original coordinates/normals. The renderer
 selects and resets variants in the existing draw pass; there is no new level
 of detail or global character redesign. Actual geometry previews are inspected.
+
+H11's optional bundle panniers use their own native equipment pass and 64×32
+atlas, adding 0/78/96/114/132 faces for zero through four bundles. Empty animals
+skip the pass. The largest equipped webbed/swarm animal is 2,496 faces / 9,984
+vertices. The approved head, smooth fur normals/UVs and stored sculpt remain
+exact; shared body/pup transforms and actual equipment visibility/draw budgets
+pass the model gate. Fitted actual-sculpt preview inspected; native GPU appearance
+and performance still need gameplay review. Source: `art/gen_packs.py`.

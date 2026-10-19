@@ -23,7 +23,7 @@ public final class CoatCamouflage {
         if (cover == Camouflage.Cover.NONE) return Camouflage.Status.LUMINOUS;
         if (dog.getHealth() < dog.getMaxHealth() || dog.hurtTime > 0 || dog.getTarget() != null
                 || dog.seekingRefuge() || dog.isInLove() || dog.loveTierTicks() > 0 || dog.beingTransported()
-                || dog.isVehicle() || dog.isSprinting() || dog.isOnFire() || dog.isCurrentlyGlowing()
+                || dog.isVehicle() || dog.carriedBundleCount() > 0 || dog.isSprinting() || dog.isOnFire() || dog.isCurrentlyGlowing()
                 || dog.isInWater() || dog.isInLava() || !dog.onGround()
                 || dog.getLastHurtByMob() != null && dog.tickCount-dog.getLastHurtByMobTimestamp() < Camouflage.DISTURBED_TICKS)
             return Camouflage.Status.DISTURBED;

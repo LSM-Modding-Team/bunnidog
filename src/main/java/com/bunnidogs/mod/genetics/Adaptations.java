@@ -28,7 +28,8 @@ public final class Adaptations {
     public static int blockLight(Genome genome, int environmental) { return luminous(genome) ? 15 : environmental; }
     public static String explanation(Gene gene, Allele allele) {
         String adaptation = environmentalExplanation(gene,allele);
-        return gene == Gene.COAT ? (adaptation.isEmpty() ? "" : adaptation+" ")+Camouflage.explanation(allele) : adaptation;
+        if (gene == Gene.COAT) return (adaptation.isEmpty() ? "" : adaptation+" ")+Camouflage.explanation(allele);
+        return gene == Gene.BUILD ? (adaptation.isEmpty() ? "" : adaptation+" ")+Carrying.explanation(allele) : adaptation;
     }
     private static String environmentalExplanation(Gene gene, Allele allele) {
         if (gene == Gene.FERTILITY) return FertilityMark.of(allele).description()+" shows this expressed fertility allele, not current breeding readiness.";

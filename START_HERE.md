@@ -22,6 +22,16 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **H11, planned Build carrying capacity:** ordinary adults equip one to four
+  native bundles according to expressed Build. Whole contents/names/colors,
+  last-first retrieval, excess retention and native equipment death/basket saves
+  conserve actual cargo. Excess bundles impose a named 25%-each movement penalty;
+  visible cargo breaks camouflage. Separate fitted panniers add no geometry/pass
+  to unadorned animals and preserve the approved sculpt. Build/model/all **87**
+  native cases pass at the cargo checkpoint; actual-sculpt preview inspected.
+  Fresh guide: **111 pages, nine indices, 82 links**. Protocol **12** requires
+  updated client and server. See `docs/CARRYING_SPECS.md`.
+
 - **A10/V1/V2/R1, fieldcraft:** finishes coat camouflage, Breeder villagers,
   abandoned breeding barns and the live Pedigree Comparator from the original
   plans. Healthy calm coats blend on matching ground with reduced native sight
@@ -454,7 +464,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
 - Keep gene/allele IDs append-only. Old six-pair data loads with plain/plain
   Diet; current genomes use seven pairs / 56 bits and mask the signed high sync
-  word. Current network protocol is **11**; matching client/server versions apply.
+  word. Current network protocol is **12**; matching client/server versions apply.
 - Preserve whole item components in samples, books, table slots, vehicles,
   troughs and trophies. Existing inventories and containers are never restocked.
 - Structures save fitted tunnel cells, path exclusions, labels and optional
@@ -479,6 +489,12 @@ compact robust body, outward paws, short fur and source imperfections. Do not
 restore tiers, distance switching or graphics configuration. Sources:
 `art/sculpt_bunnidog.py`, `art/gen_bunnidog.py`, `art/reference/`.
 
+H11's fitted bundle panniers are separate optional equipment from
+`art/gen_packs.py`: zero through four bundles add 0/78/96/114/132 quads.
+Unadorned animals skip the pass; the largest equipped combination is 2,496
+faces / 9,984 vertices. Native model checks verify exact shared body/pup/leg
+poses and per-animal reset; the actual-sculpt accessory preview is inspected.
+
 The latest head-lighting fix uses authored surface-derivative normals and one
 continuous front UV chart; no geometry was added. Closely spaced front-ring
 normal change fell from 0.478 to 0.038. Software preview inspected. The user's
@@ -502,15 +518,23 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **eighty-five** native scenarios pass (eighty-four mod
+The Java 25 build and all **eighty-seven** native scenarios pass (eighty-six mod
 cases plus native sanity). Latest coverage:
+
+- **H11:** native colored bundles/full item components, actual hand controls,
+  all expressed capacities/hidden copies, smaller-build cargo retention and
+  one overload multiplier with native/external-attribute reloads; immutable care
+  inspection, last-first return, Adventure/pup refusal and creative behavior.
+  Real equipment death with mob loot off/reentrant callback and real basket
+  capture/release conserve whole cargo/identity. Optional geometry resets and
+  exact shared body/pup/leg poses pass; gameplay/GPU review remains separate.
 
 - **A10/V1/V2/R1:** actual native targeting and real sculk STEP/eating signals;
   native Pen job assignment, all career ranks/regional offers, payments, stock
   and merchant saves; authored NBT/native start, four rotated barn pieces, real
   deferred loot and preserved-container replay; actual sample controls, unphased/
   hidden gene pairs and native comparator/lamp responses. Final guide count is
-  109. Client art, natural barn distribution/map searches remain gameplay review.
+  111 after H11. Client art, natural barn distribution/map searches remain gameplay review.
 
 - **G6/S11:** real hopper-fed redstone courtship, actual native mating with the
   correct two parental genomes, tier average and cooldown; held-power refusal;

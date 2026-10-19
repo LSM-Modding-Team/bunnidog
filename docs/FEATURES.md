@@ -1,12 +1,20 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 109 pages from first warren to Apex. Nine linked contents pages offer 82
+open 111 pages from first warren to Apex. Nine linked contents pages offer 82
 chapter links, including breeder workshop and fieldcraft. Habitat and Lineage traits
 collect regional gardens and inherited abilities.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 Craft a fresh guide for the appended chapters in an existing world.
+
+**Bundle carriers (H11):** use a bundle on a calm adult to equip it. Slim/lean
+carry one, average two, stocky/woolly three, chonker four. Both hands empty:
+normal use inspects; sneak retrieves the last. Whole contents, names and colors
+save and travel in baskets. Smaller builds retain excess but slow 25% per extra
+bundle, up to 75%; retrieval restores speed. Cargo drops as equipment on death
+and exposes camouflage. Calipers reports count/capacity/overload. Visible leather
+panniers are separate from the approved animal sculpt. See `CARRYING_SPECS.md`.
 
 **Coat camouflage (A10):** full-health calm animals blend on matching support:
 sand for tan/cream/sand, exposed earth for brown/spotted, green cover for moss,

@@ -16,8 +16,9 @@ A10 now supplies the coat-camouflage proposal through matching terrain, reduced
 native sight and quiet walking vibrations; `CARE_SPECS.md` defines the tradeoffs.
 V1/V2/R1 supply the original Breeder, abandoned barn and Pedigree Comparator
 sketches with native careers/loot and live unphased gene-pair redstone. See
-`BREEDER_SPECS.md`. Original carrying-capacity and island/other-building sketches
-remain proposals rather than claims of implemented behavior.
+`BREEDER_SPECS.md`. H11 completes the original Build-based carrying-capacity
+proposal with native bundle panniers and a retained-cargo overload tradeoff;
+see `CARRYING_SPECS.md`. Island/other-building sketches remain proposals.
 
 **Contents (the sections are in the order they were written; find one with `grep -n '^## ' docs/DESIGN.md`):**
 * *Core design*: Skeleton "Generations"; Phase 1, 2, 3 decisions (genome, breeding, lineages); "Seed & Guava loop" (the long design of seeds, crops, guava tiers, stat drift); Phase 4a-4e and 4g decisions; Session 6 tier qualities; Rejected / parked skeletons.

@@ -33,6 +33,7 @@ public class BunnidogRenderer extends MobRenderer<Bunnidog, BunnidogRenderState,
 
     public BunnidogRenderer(EntityRendererProvider.Context context) {
         super(context, new BunnidogModel(BunnidogModelLayer.sculpt(context.bakeLayer(LAYER))), 0.35F);
+        this.addLayer(new BunnidogPackLayer(this,context.bakeLayer(BunnidogPackLayer.LAYER)));
     }
 
     @Override
@@ -56,6 +57,7 @@ public class BunnidogRenderer extends MobRenderer<Bunnidog, BunnidogRenderState,
         state.temperament = traits.temperament();
         state.webbed = Adaptations.webbed(entity.genome());
         state.paddling = state.webbed && entity.isInWater();
+        state.bundleCount = entity.acceptsCare() ? entity.carriedBundleCount() : 0;
         state.fertilityMark = com.bunnidogs.mod.genetics.FertilityMark.of(entity.genome());
     }
 

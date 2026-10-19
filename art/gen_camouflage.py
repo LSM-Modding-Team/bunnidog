@@ -25,7 +25,7 @@ def main():
         'message.bunnidogs.care.camouflage': 'Camouflage: %s',
         'message.bunnidogs.camouflage.unavailable': 'unavailable',
         'message.bunnidogs.camouflage.luminous': 'a luminous coat cannot blend in',
-        'message.bunnidogs.camouflage.disturbed': 'needs full health, calm, dry footing and no transport or glowing effect',
+        'message.bunnidogs.camouflage.disturbed': 'needs full health, calm, dry footing and no cargo, transport or glowing effect',
         'message.bunnidogs.camouflage.exposed': 'exposed; matching ground is %s',
         'message.bunnidogs.camouflage.blended': 'blended on %s; half visual range and no walking vibrations',
     }

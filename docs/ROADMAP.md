@@ -8,7 +8,6 @@ do not apply. Verify old completion claims against code before choosing work.
 
 | Feature | Actual status | Original plan |
 |---|---|---|
-| Build-based carrying capacity | Original gene table proposes it; animals currently have no carried inventory | `DESIGN.md`, core genome table |
 | Isolated island lineage | A sketch without distinctive alleles or a fitted location yet | `DESIGN.md`, wild lineages |
 | Regional kennels / Show Ring arena structures | Layout sketches; the working Show Ring is already implemented | `DESIGN.md`, bloat layer |
 
@@ -17,6 +16,9 @@ explicit matching-ground/calm tradeoffs. **V1/V2/R1** finish the same skeleton's
 Breeder profession, abandoned breeding barn and live Pedigree Comparator.
 See `BREEDER_SPECS.md` and `CARE_SPECS.md` A10. These are implemented features,
 with client/natural-world playtests remaining; do not treat them as missing code.
+**H11** also completes the original Build/carrying-capacity table with native
+bundle carriers, retained excess cargo, an overload tradeoff and fitted separate
+equipment. See `CARRYING_SPECS.md`.
 
 The original lineage paragraph also proposed cave night vision. Ore sense
 is already implemented through bat-ear surveys; native animals already perceive
@@ -50,6 +52,13 @@ Delivered, not individually confirmed: **U6a** advancement, **U1** level-1 dens
 and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
+
+H11 supplies Build-based native bundle carrying, exact whole-item storage,
+last-first hand controls, preserved excess after a smaller build, native movement
+penalties and equipment death/basket conservation. Cargo exposes camouflage.
+Fitted separate panniers follow exact body/leg/pup poses while preserving all
+approved geometry. Build/model/all 87 native cases pass; the actual-sculpt
+preview is inspected. Current guide 111/9/82, protocol **12** on both sides.
 
 A10/V1/V2/R1 completes four original proposals: coat camouflage, native Breeder
 careers with regional contracts, rare dry-site abandoned barns and live genetic

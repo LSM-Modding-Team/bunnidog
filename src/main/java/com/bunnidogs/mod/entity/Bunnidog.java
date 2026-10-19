@@ -132,6 +132,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private static final Identifier TRAIT_STEP = Identifier.fromNamespaceAndPath("bunnidogs","inherited_step_height");
     private static final Identifier TRAIT_TERRAIN = Identifier.fromNamespaceAndPath("bunnidogs","inherited_movement_efficiency");
     private static final Identifier TRAIT_SWIM = Identifier.fromNamespaceAndPath("bunnidogs","inherited_swim_speed");
+    private static final Identifier CARGO_LOAD = Identifier.fromNamespaceAndPath("bunnidogs","overloaded_bundle_packs");
     // Base stats of an "average" bunnidog; the genes scale these (see Traits multipliers).
     public static final double BASE_HEALTH = 8.0D;
     public static final double BASE_SPEED = 0.25D;
@@ -157,6 +158,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             SynchedEntityData.defineId(Bunnidog.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> DATA_FLEECE_READY =
             SynchedEntityData.defineId(Bunnidog.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> DATA_BUNDLE_COUNT = SynchedEntityData.defineId(Bunnidog.class,EntityDataSerializers.INT);
 
     // Cache of the decoded genome. NO initializers on purpose: fields with initializers would be reset after the
     // super constructor, which is harmless here but pointless.
@@ -183,6 +185,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     /** H2: the Nest this dog has claimed (docs/HOME_SPECS.md); server side only. */
     private final NestHome nestHome = new NestHome(this);
     private final PhaseEscape phaseEscape = new PhaseEscape(this);
+    private final BunnidogPacks packs = new BunnidogPacks(this);
     private long nextForageTick;
     private long nextGardenTick;
     private long nextSampleTick;
@@ -224,6 +227,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         builder.define(DATA_GENES_LO, 0);
         builder.define(DATA_GENES_HI, 0);
         builder.define(DATA_FLEECE_READY,true);
+        builder.define(DATA_BUNDLE_COUNT,0);
     }
 
     /** The decoded genome. Cheap: only re-decodes when the synced value changed. */
@@ -325,6 +329,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.inheritedBonus(Attributes.STEP_HEIGHT,TRAIT_STEP,Adaptations.stepBonus(this.genome()));
         this.inheritedBonus(Attributes.MOVEMENT_EFFICIENCY,TRAIT_TERRAIN,Adaptations.movementEfficiency(this.genome()));
         this.inheritedBonus(net.neoforged.neoforge.common.NeoForgeMod.SWIM_SPEED,TRAIT_SWIM,Adaptations.swimBonus(this.genome()));
+        this.applyCargoLoad();
     }
     private void inheritedBonus(Holder<Attribute> attribute, Identifier id, double amount) {
         var value = this.getAttribute(attribute);
@@ -543,6 +548,9 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack held = player.getItemInHand(hand);
+        if (held.getItem() instanceof net.minecraft.world.item.BundleItem) return this.packs.equip(player,held);
+        if (held.isEmpty() && player.getMainHandItem().isEmpty() && player.getOffhandItem().isEmpty()
+                && this.carriedBundleCount() > 0) return this.packs.emptyHands(player);
         if (held.is(net.minecraft.tags.ItemTags.HOES) && player.isShiftKeyDown()) {
             if (!player.mayBuild() || !this.acceptsCare() || !this.isAlive()) return InteractionResult.PASS;
             if (!this.level().isClientSide()) {
@@ -772,6 +780,26 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     /** Domestic routines and tools are inappropriate for the summoned Apex. */
     public boolean acceptsCare() { return true; }
 
+    public int carriedBundleCount() { return this.entityData.get(DATA_BUNDLE_COUNT); }
+    public int bundleCapacity() { return com.bunnidogs.mod.genetics.Carrying.capacity(this.genome()); }
+    public List<ItemStack> carriedBundles() { return this.packs.snapshot(); }
+    public com.bunnidogs.mod.genetics.Carrying.Status carryingStatus() { return this.packs.status(); }
+    public int carryingSlowdown() { return com.bunnidogs.mod.genetics.Carrying.slowdown(this.carriedBundleCount(),this.bundleCapacity()); }
+    void syncBundleCount(int count) { this.entityData.set(DATA_BUNDLE_COUNT,count); this.applyCargoLoad(); }
+    private void applyCargoLoad() {
+        if (this.level().isClientSide() || this.entityData == null) return;
+        var speed = this.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (speed == null) return;
+        int slowdown = this.carryingSlowdown();
+        if (slowdown == 0) speed.removeModifier(CARGO_LOAD);
+        else speed.addOrUpdateTransientModifier(new AttributeModifier(CARGO_LOAD,-slowdown/100D,AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+    }
+
+    @Override protected void dropEquipment(ServerLevel level) {
+        super.dropEquipment(level);
+        this.packs.dropEquipment(level);
+    }
+
     public com.bunnidogs.mod.genetics.Camouflage.Status camouflageStatus() {
         return CoatCamouflage.status(this);
     }
@@ -893,6 +921,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     @Override
     public void addAdditionalSaveData(ValueOutput output) {
         super.addAdditionalSaveData(output);
+        this.packs.save(output);
         output.putString(TAG_GENOME, this.genome().toString());
         output.putString(TAG_STATS, this.stats().toString());
         if (this.highestShowAward > 0) output.putInt("ShowAward", this.highestShowAward);
@@ -941,6 +970,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         // Phase 5d: a save from before it, or an untagged bunnidog, has no tag. (The name shown above it is vanilla's own saved CustomName.)
         this.earTag = EarTag.parse(input.getStringOr(TAG_EAR_TAG, "")).orElse(null);
         super.readAdditionalSaveData(input);
+        this.packs.load(input);
         if (!this.level().isClientSide()) this.applyAdaptations();
         this.highestShowAward = Math.max(0, input.getIntOr("ShowAward", 0));
         this.guardEnabled = input.getBooleanOr("GuardNest",false);

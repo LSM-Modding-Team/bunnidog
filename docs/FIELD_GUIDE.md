@@ -1,6 +1,14 @@
 # P1 — Bunnidogs Field Guide
 
-**A10/V1/V2/R1:** fresh guides now have **109 pages, nine indices and 82 chapter
+**H11:** current preset guides have **111 pages, nine indices and 82 chapter
+links**. Fieldcraft index 101 adds Bundle carriers at 110, which continues to
+cargo safety/overload at 111. Both return there. The unchanged workshop remains
+reachable from More chapters and existing workshop pages. Existing preset items
+use current defaults; copies with explicitly saved book content can retain old
+page counts, so craft a fresh guide if needed. The native save check changes the
+title to force real page serialization rather than relying on the preset default.
+
+**Prior A10/V1/V2/R1 checkpoint:** fresh guides had **109 pages, nine indices and 82 chapter
 links**. More chapters and Lineage traits link to fieldcraft index 101, whose
 pages 102–109 explain camouflage/cover, Breeder careers/prices, barns and genetic
 redstone. These chapters return to 101; existing pages retain their numbers.

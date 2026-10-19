@@ -287,3 +287,33 @@ Moved to `docs/history/API_HISTORY.md` (sections: Where each fact comes from; Ve
   chunks. Copying reference information needs no item capability or physical
   sample inventory. Compare each diploid pair unordered while preserving saved
   allele order. Current required content protocol is **11**.
+
+## H11 — native bundle carriers and separate equipment (26.2)
+
+- Native colored items are `Items.DYED_BUNDLE`, a `ColorCollection<Item>`.
+  Use `pick(DyeColor)` or its record accessors; old `Items.BLUE_BUNDLE` constants
+  and a generic collection `get` are absent. `BundleContents.Mutable` inserts
+  actual stacks and produces `toImmutable()`; storing the whole bundle's
+  `ItemStack.CODEC` preserves native contents/selection and arbitrary components.
+- `LivingEntity.dropAllDeathLoot` calls `dropEquipment(ServerLevel)` independently
+  of `shouldDropLoot`, then posts native captured drops. Reserve/clear cargo in
+  that hook before spawning, so mob-loot rules retain their distinction between
+  generated materials and player equipment, and reentrant handlers see no stock.
+- Overload uses a named transient `ADD_MULTIPLIED_TOTAL` movement-speed modifier.
+  Reapply after native attribute load and update when count or expressed genes
+  change. Removing only this id preserves external attributes and prevents load
+  accumulation. No per-tick cargo search is required.
+- Native `RenderLayer.submit` queues its own `EntityModel` with the entity's
+  render-state snapshot. Separate equipment must share exact body/root transforms
+  and derive the approved body pivot. `ModelPart.getInitialPose()` and the
+  `PartPose` record support that attachment. Reset every bag's visibility even
+  when the same model draws several entities; no-gear state skips the pass.
+- The model gate's head UV/normal continuity applies to the 512px animal atlas,
+  rather than the separate 64×32 flat-shaded equipment texture. Native cube gear
+  corners legitimately have distinct face normals. Its actual draw/reset/pose
+  checks remain separate from the unchanged sculpt checks.
+- `ItemStack.CODEC` can omit a preset item's default components. To prove that
+  a guide with more than 100 pages actually serializes those pages, customize its
+  title first: the changed `WRITTEN_BOOK_CONTENT` must then encode through the
+  native item codec. Preset guides follow current item defaults; explicit saved
+  book components retain their own page count. Current protocol is **12**.

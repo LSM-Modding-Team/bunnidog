@@ -2,6 +2,8 @@ package com.bunnidogs.mod.client;
 
 import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.client.model.BunnidogModelLayer;
+import com.bunnidogs.mod.client.model.BunnidogPackModelLayer;
+import com.bunnidogs.mod.client.renderer.BunnidogPackLayer;
 import com.bunnidogs.mod.client.renderer.BunnidogRenderer;
 import com.bunnidogs.mod.client.renderer.TrophyPedestalRenderer;
 import com.bunnidogs.mod.client.renderer.GeneticsTableRenderer;
@@ -33,6 +35,7 @@ public final class BunnidogsClient {
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(BunnidogRenderer.LAYER, BunnidogModelLayer::createBodyLayer);
+        event.registerLayerDefinition(BunnidogPackLayer.LAYER,BunnidogPackModelLayer::createLayer);
         event.registerLayerDefinition(GUAVA_BOAT_LAYER, BoatModel::createBoatModel);
         event.registerLayerDefinition(GUAVA_CHEST_BOAT_LAYER, BoatModel::createChestBoatModel);
     }

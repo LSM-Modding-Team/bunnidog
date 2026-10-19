@@ -87,6 +87,8 @@ public class CalipersItem extends Item {
                 : Component.translatable("message.bunnidogs.care.food_other",dog.diet().foods()));
         careRow(player,"camouflage",Component.translatable("message.bunnidogs.camouflage."+dog.camouflageStatus().name().toLowerCase(Locale.ROOT),
                 com.bunnidogs.mod.genetics.Camouflage.cover(dog.genome()).ground()));
+        careRow(player,"packs",Component.translatable(dog.carryingSlowdown() > 0 ? "message.bunnidogs.packs.overloaded" : "message.bunnidogs.packs.stock",
+                dog.carriedBundleCount(),dog.bundleCapacity(),dog.carryingSlowdown()));
         var meals = dog.troughFeedingStatus();
         Component foodStatus = meals == Foraging.Status.RESTING ? recovery(dog.forageWait())
                 : Component.translatable("message.bunnidogs.foraging." + meals.name().toLowerCase(Locale.ROOT));

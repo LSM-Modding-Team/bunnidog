@@ -2,9 +2,10 @@
 
 Implemented 2026-10-19 from the original `DESIGN.md` Breeder, abandoned breeding
 barn and Pedigree Comparator proposals. These give the completed workshop an
-economy, an exploration site and live genetic sorting. Current network protocol
-is **11**; update client and server together. Existing animal, seed, sample,
-pedigree and warren saves retain their formats. Camouflage is `CARE_SPECS.md` A10.
+economy, an exploration site and live genetic sorting. That checkpoint used
+network protocol **11**; current H11 uses **12**, so update client and server
+together. Existing animal, seed, sample, pedigree and warren saves retain their
+formats. Camouflage is `CARE_SPECS.md` A10.
 
 ## V1 — native Breeder profession
 

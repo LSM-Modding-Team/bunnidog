@@ -67,6 +67,7 @@ public class BunnidogModelCheck {
         var sharedNormals = new java.util.HashMap<String, Vector3f>();
         var sharedUvs = new java.util.HashMap<String, float[]>();
         var frontRings = new java.util.TreeMap<Float, Vector3f>();
+        boolean[] animalMaterial = {true};
         VertexConsumer consumer = (VertexConsumer) Proxy.newProxyInstance(
                 VertexConsumer.class.getClassLoader(), new Class<?>[]{VertexConsumer.class}, (proxy, method, values) -> {
                     if (method.isDefault()) return InvocationHandler.invokeDefault(proxy, method, values);
@@ -83,7 +84,7 @@ public class BunnidogModelCheck {
                         require(Math.abs(nx * nx + ny * ny + nz * nz - 1) < .01, "Non-unit rendered normal");
                         rendered[0]++;
                         // The continuous head chart occupies the top 224 texel rows.
-                        if (pending[4] <= 225.5F / 512 + .00001F) {
+                        if (animalMaterial[0] && pending[4] <= 225.5F / 512 + .00001F) {
                             String key = Math.round(pending[0] * 100000) + ":" + Math.round(pending[1] * 100000) + ":" + Math.round(pending[2] * 100000);
                             Vector3f normal = new Vector3f(nx, ny, nz);
                             Vector3f previous = sharedNormals.putIfAbsent(key, normal);
@@ -151,6 +152,22 @@ public class BunnidogModelCheck {
         state.isBaby = false;
         model.setupAnim(state);
         require(root.xScale == 1 && root.getChild("head").xScale == 1, "Baby scaling leaks into adult");
-        System.out.println("Model OK: " + faces + " stored faces, " + vertices + " vertices; ordinary 2172 faces, webbed +72, expressed fertility +0/40/18/120/38; winding, continuous head UVs/normals, smooth render path, variant/paddle reset, gene ground contact and baby reset passed.");
+        var packRoot = com.bunnidogs.mod.client.model.BunnidogPackModelLayer.createLayer().bakeRoot();
+        animalMaterial[0] = false;
+        var packs = new com.bunnidogs.mod.client.model.BunnidogPackModel(packRoot);
+        for (float build : new float[]{.7F,1,1.6F}) for (float leg : new float[]{.8F,1,1.5F}) for (boolean baby : new boolean[]{false,true}) {
+            state.buildScale = build; state.legScale = leg; state.isBaby = baby;
+            model.setupAnim(state);
+            for (int count : new int[]{4,1,0,3,2,0}) {
+                state.bundleCount = count; packs.setupAnim(state);
+                var body = root.getChild("body"); var equipment = packRoot.getChild("body");
+                require(body.storePose().equals(equipment.storePose()) && root.storePose().equals(packRoot.storePose())
+                        && body.xScale == equipment.xScale && body.yScale == equipment.yScale && body.zScale == equipment.zScale
+                        && root.xScale == packRoot.xScale,"Separate packs must exactly follow the approved body/ground pose through genes and pups");
+                int before = rendered[0]; packRoot.render(new PoseStack(),consumer,0xF000F0,0);
+                require(rendered[0]-before == (count == 0 ? 0 : 4*(60+18*count)),"Shared equipment models must reset every bag and add no faces when empty");
+            }
+        }
+        System.out.println("Model OK: " + faces + " stored faces, " + vertices + " vertices; ordinary 2172 faces, webbed +72, fertility +0/40/18/120/38, separate packs +0/78/96/114/132; winding, head UVs/normals, smooth rendering, equipment/body pose, variants, ground contact and baby reset passed.");
     }
 }

@@ -1,8 +1,9 @@
 # Animal care and inherited adaptations
 
-Current A10 completes the original coat-camouflage proposal below. Client/server
-protocol **11** also includes Breeder villagers and genetic redstone; update
-both sides. Earlier per-feature protocol/test counts are historical checkpoints.
+Current A10 completes the original coat-camouflage proposal below. H11 adds
+Build-based native bundle carriers, with cargo breaking cover. Current
+client/server protocol **12** includes the equipment count and art; update both
+sides. Earlier per-feature protocol/test counts are historical checkpoints.
 
 Implemented 2026-10-16 under the user's standing design latitude. These additions
 make a valuable breeding animal useful while alive, and give several wild traits
@@ -571,7 +572,7 @@ Natural ambient light and spawn biome do not impose additional requirements.
 Hidden copies grant no second cover; a hidden glow copy behind pale does not
 light the coat. Pups inherit the same expressed camouflage.
 
-Injury, current hurt animation, target/refuge danger, love/guava memory, sprinting,
+Injury, carried bundles, current hurt animation, target/refuge danger, love/guava memory, sprinting,
 fire, Glowing effects, water/lava, jumps, leads, vehicles and passengers break
 cover. Native recent attacker memory also disturbs a freshly healed animal for
 the first five seconds after its attack. There is no new recovery timer to save.

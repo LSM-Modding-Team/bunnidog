@@ -52,8 +52,17 @@ vertices. A8 adds four optional, expressed-only webbed-paw children totaling
 72 faces / 288 vertices. A9 also adds mutually exclusive tail-tip fertility phenotypes. The stored mesh
 contains 2,460 faces / 9,840 vertices; an unmarked non-webbed animal still
 renders the original 2,172 faces with exact approved coordinates and normals.
-The largest rendered combination is webbed/swarm: 2,364 faces.
+The largest sculpt-only rendered combination is webbed/swarm: 2,364 faces.
 There is one model and no graphics preset or distance switching.
+
+H11 adds separate native bundle panniers from `art/gen_packs.py`. Their 64×32
+material and equipment layer leave this mesh/atlas intact; unadorned animals
+submit no extra pass. One through four bundles add 78/96/114/132 quads, making
+the largest currently equipped combination 2,496 faces / 9,984 vertices.
+Shared body/root transforms follow the exact approved pivot, leg lift, Build
+proportions and pup ground scaling. Native model checks cover actual extra
+draws, per-animal visibility reset and body pose; the fitted actual-sculpt
+preview is `art/bunnidog_packs_preview.png`. Client playtesting remains separate.
 
 The head uses a continuous UV chart, shared texels across neighboring polygons,
 and normals derived from the authored surface instead of uneven adjacent faces.

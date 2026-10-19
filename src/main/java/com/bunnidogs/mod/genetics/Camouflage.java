@@ -32,6 +32,6 @@ public final class Camouflage {
         Cover cover = cover(coat.name());
         return cover == Cover.NONE ? "Its light prevents camouflage."
                 : "When healthy and calm on " + cover.ground()
-                + ", halves native visual detection range and leaves no walking vibrations. Injury, combat, love, light effects, water and transport break cover; attacks and landings still make vibrations.";
+                + ", halves native visual detection range and leaves no walking vibrations. Injury, combat, love, Glowing, water, transport and carried bundles break cover; attacks and landings still make vibrations.";
     }
 }

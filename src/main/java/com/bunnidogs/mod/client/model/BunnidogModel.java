@@ -21,13 +21,9 @@ public class BunnidogModel extends EntityModel<BunnidogRenderState> {
     private static final float DEG_TO_RAD = (float) Math.PI / 180.0F;
     /** Ground-to-hip distance shared with the generated skeleton. */
     private static final float LEG_LENGTH = BunnidogModelLayer.LEG_LENGTH;
-    /** Ground level in model space (y-down, feet at y=24). */
-    private static final float GROUND_Y = 24.0F;
     /**
-     * Pups: how big the whole model is, and how much bigger the head is on top of that (babies have big heads).
-     * If pups ever look TINY in game, vanilla is already shrinking babies too: set PUP_SCALE to 1.0F.
+     * Pups: the shared ground/body size lives in BunnidogBodyPose; babies also keep a larger head.
      */
-    private static final float PUP_SCALE = 0.65F;
     private static final float PUP_HEAD_SCALE = 1.08F;
 
     private final ModelPart rootPart;
@@ -109,7 +105,7 @@ public class BunnidogModel extends EntityModel<BunnidogRenderState> {
     private void applyProportions(BunnidogRenderState state) {
         // Legs: stretch, and raise/lower everything above them by the same amount so paws stay on the ground.
         float lift = LEG_LENGTH * (state.legScale - 1.0F);
-        this.body.y -= lift;
+        BunnidogBodyPose.body(this.body,state);
         this.head.y -= lift;
         this.tail.y -= lift;
         this.legFr.y -= lift;
@@ -121,11 +117,6 @@ public class BunnidogModel extends EntityModel<BunnidogRenderState> {
         scaleLeg(this.legFl, state.legScale, legThickness);
         scaleLeg(this.legBr, state.legScale, legThickness);
         scaleLeg(this.legBl, state.legScale, legThickness);
-
-        // Build: chonk widens the body most, lengthens it a little and deepens it about half as much as it widens.
-        this.body.xScale = state.buildScale;
-        this.body.yScale = 1.0F + (state.buildScale - 1.0F) * 0.6F;
-        this.body.zScale = 1.0F + (state.buildScale - 1.0F) * 0.3F;
 
         // Ears: grow up from the base; a bit wider when longer so they do not look like sticks.
         float earWidth = 1.0F + (state.earScale - 1.0F) * 0.4F;
@@ -140,11 +131,7 @@ public class BunnidogModel extends EntityModel<BunnidogRenderState> {
      * bigger head. Scales are assigned every frame, adults included: this one model instance draws every bunnidog.
      */
     private void applyPupSize(BunnidogRenderState state) {
-        float size = state.isBaby ? PUP_SCALE : 1.0F;
-        this.rootPart.xScale = size;
-        this.rootPart.yScale = size;
-        this.rootPart.zScale = size;
-        this.rootPart.y += GROUND_Y * (1.0F - size);
+        BunnidogBodyPose.root(this.rootPart,state);
 
         float headSize = state.isBaby ? PUP_HEAD_SCALE : 1.0F;
         this.head.xScale = headSize;
