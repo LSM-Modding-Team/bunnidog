@@ -58,8 +58,8 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Eighty-six pages use the ordinary written-book screen. Six linked contents pages
-offer fifty-four clickable chapter links. Each chapter links back to its index. Local page changes
+Eighty-seven pages use the ordinary written-book screen. Six linked contents pages
+offer fifty-five clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
 
@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current sixty-eight native server cases pass,
-including loading the book/recipe/loot resources. The expanded 86-page
-resident-pause/Cradle-control/Specialist/mode preview is inspected with a substitute font; all
+The actual Java 25 build and current sixty-nine native server cases pass,
+including loading the book/recipe/loot resources. The expanded 87-page
+guava-care/food/Specialist/Cradle-control preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -273,3 +273,8 @@ the Specialist work index and return there; existing page numbers remain.
 Work modes points to 85; Hatch safely points to 86. The eight-entry Specialist
 index keeps its two footer links. The guide has 86 pages/six indices/fifty-four
 chapter links; both new chapters, Specialist and modes are previewed.
+
+D11 appends **Guava hand care** (87), a ninth Specialist entry returning to 84.
+Food and troughs points to it; Breed a seed specifies normal feeding. Earlier
+numbers remain stable. There are 87 pages/six indices/fifty-five chapter links;
+care/food/Specialist/Cradle-control previews are inspected.

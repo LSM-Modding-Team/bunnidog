@@ -159,3 +159,31 @@ Bloom +19/+20, Diet, work mode and power refusals, a protection callback that
 removes the bonus, exact one-fruit/age-zero/shared-rest work, preserved branches
 and a direct two-HP meal without loose food. The End/basket guide preview is
 inspected; natural native branch growth and client behavior remain playtest review.
+
+## D11: deliberate hand care with a plain guava
+
+Sneak-feed a plain guava to an ordinary living bunnidog for direct care instead
+of breeding. One guava heals the normal two HP and grows a pup by the existing
+hand-food amount. Every Diet accepts this explicit guava care, including plain
+lines that otherwise have few hand-fed healing foods. An adult needing no
+healing keeps the guava and enters no love mode. Higher-tier guavas are kept
+with an explanation; use normal feeding to spend them on breeding as before.
+
+Manual care uses the existing hand-food rules, including creative preservation
+and no new hand-feeding cooldown. It neither resets nor reduces existing meal,
+work or care rests, breeding cooldown or an already remembered love tier/time.
+Paused workers may still be cared for. Ordinary non-breeding hand foods keep
+their Diet and need/growth rules. Both manual care paths now consume the actual
+hand's input before native healing callbacks, preserving any replacement stock
+that a callback puts in that hand. Genome, stats, ancestry and tags remain
+unchanged; the Apex still rejects food. No new item, field or packet is added.
+
+Java 25 build/all 69 native scenarios pass. The new native hand-care case uses
+a named actual off-hand stack, paused plain-Diet adult with breeding cooldown,
+exact two-HP healing, preserved food/work rest, ready adult without love/memory,
+healthy and upgraded refusal, real pup growth, creative hand preservation,
+normal Golden-guava breeding and care retaining its exact love tier/time. A
+real native heal callback replaces the hand with diamonds after seeing the
+reserved final guava; new stock and biology remain intact. The Apex still
+refuses. The new care/food/Specialist/Cradle guide preview is inspected; client
+gestures and long-term husbandry remain gameplay review.

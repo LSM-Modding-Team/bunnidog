@@ -580,14 +580,24 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             return InteractionResult.SUCCESS;
         }
         if (held.is(Items.BRUSH)) return BunnidogGrooming.use(this, player, held, hand);
-        if (!isBunnidogFood(held) && this.canEat(held)) {
+        boolean guavaCare = player.isShiftKeyDown() && held.getItem() instanceof GuavaItem;
+        if (guavaCare) {
+            if (!this.acceptsCare() || !this.isAlive() || !this.canEat(held)) return InteractionResult.PASS;
+            if (!held.is(ModItems.GUAVA.get())) {
+                if (!this.level().isClientSide()) player.sendOverlayMessage(Component.translatable("message.bunnidogs.feeding.plain_care"));
+                return InteractionResult.SUCCESS;
+            }
+        }
+        if (guavaCare || !isBunnidogFood(held) && this.canEat(held)) {
             if (!Foraging.handFood(true, false, this.getHealth() < this.getMaxHealth(), this.canAgeUp())) {
-                return InteractionResult.PASS;
+                if (guavaCare && !this.level().isClientSide()) player.sendOverlayMessage(Component.translatable("message.bunnidogs.feeding.no_care"));
+                return guavaCare ? InteractionResult.SUCCESS : InteractionResult.PASS;
             }
             if (!this.level().isClientSide()) {
+                // Reserve the real hand's food before native healing hooks can replace that hand.
+                held.consume(1, player);
                 this.heal(Foraging.HEAL);
                 if (this.canAgeUp()) this.ageUp(getSpeedUpSecondsWhenFeeding(-this.getAge()), true);
-                held.consume(1, player);
                 this.playEatingSound();
             }
             return InteractionResult.SUCCESS;

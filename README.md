@@ -4,7 +4,7 @@ A NeoForge mod for Minecraft 26.2: a baby-faced creature with rabbit ears and a
 dog's body, plus breeding, genetics, guavas, warrens, homes and pedigree tools.
 Requires JDK 25. Client and server must both use the updated mod (network 7). The checked-in Gradle wrapper selects the project Gradle version.
 
-Craft a vanilla book with any guava for the **86-page Field Guide**, with six
+Craft a vanilla book with any guava for the **87-page Field Guide**, with six
 linked contents pages covering its chapters. Sneak-use
 Calipers for care/work readiness, use a hoe on a Feeding Trough to enable
 resident gardening, and explore food stores for supplies suited to each lineage.
@@ -46,6 +46,7 @@ Ring a nearby bell to call healthy residents for a daytime visit.
 Woolly adults yield wool in their expressed coat's palette; Calipers names it.
 Dispensers use Brushes/Sampling Syringes with the same animal recovery as hand use.
 Travel Baskets move individual animals while preserving identity and care state.
+Sneak-feed a plain guava for healing/pup growth without breeding; normal feeding breeds.
 Bloom +10 residents cultivate matching unripe crops beside enabled troughs;
 ordinary foragers also gather sweet berries while keeping the bush.
 Use a compass on a Nest or resident to mark home; inspect a Nest empty-handed.

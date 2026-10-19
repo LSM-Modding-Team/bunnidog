@@ -77,6 +77,9 @@ public class GuavaItem extends Item {
         lines.accept(Component.literal("Seed quality " + tier.qualityText()).withStyle(ChatFormatting.GRAY));
         lines.accept(Component.literal("Averaged over the guavas of both parents").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.guava.table").withStyle(ChatFormatting.DARK_GRAY));
-        if (tier == GuavaTier.PLAIN) lines.accept(Component.translatable("tooltip.bunnidogs.guava.plant").withStyle(ChatFormatting.DARK_GRAY));
+        if (tier == GuavaTier.PLAIN) {
+            lines.accept(Component.translatable("tooltip.bunnidogs.guava.plant").withStyle(ChatFormatting.DARK_GRAY));
+            lines.accept(Component.translatable("tooltip.bunnidogs.guava.care").withStyle(ChatFormatting.DARK_GRAY));
+        }
     }
 }

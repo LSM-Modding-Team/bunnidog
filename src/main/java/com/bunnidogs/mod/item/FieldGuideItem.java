@@ -12,7 +12,7 @@ import net.minecraft.world.item.component.WrittenBookContent;
 
 /** Native book UI/packets, translated pages and local page links; no custom screen or payload. */
 public final class FieldGuideItem extends WrittenBookItem {
-    public static final int PAGE_COUNT = 86;
+    public static final int PAGE_COUNT = 87;
     private static final int MORE_CONTENTS = 40;
     private static final int NEW_CONTENTS = 50;
     private static final int HABITAT_CONTENTS = 56;
@@ -28,7 +28,7 @@ public final class FieldGuideItem extends WrittenBookItem {
                 .append("\n").append(link("guide.bunnidogs.habitat_contents",HABITAT_CONTENTS))));
         for (int page = 2; page <= PAGE_COUNT; page++) {
             if (page == SPECIALIST_CONTENTS) {
-                pages.add(Filterable.passThrough(contents("guide.bunnidogs.specialist_contents",new int[]{77,79,80,81,82,83,85,86},
+                pages.add(Filterable.passThrough(contents("guide.bunnidogs.specialist_contents",new int[]{77,79,80,81,82,83,85,86,87},
                         "guide.bunnidogs.main_contents",1).append("\n").append(link("guide.bunnidogs.work_contents",WORK_CONTENTS))));
                 continue;
             }

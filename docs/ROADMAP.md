@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+D11 adds deliberate plain-guava hand care through sneak feeding. Actual
+survival/creative/off-hand care heals/grows without love, preserves existing
+breeding quality/time and rests, and keeps healthy/upgraded inputs. Manual
+food now pays before native heal callbacks can refill the hand. All 69 native
+cases pass; the 87-page guide preview is inspected. See `FORAGING_SPECS.md`.
+
 L35 adds saved per-resident work pause through sneak-hoe without interrupting
 meals/breeding/home/care. N10 adds optional manual-only Cradle hatching: native
 queued pulses respect it, while incubation and deliberate manual hatching remain.

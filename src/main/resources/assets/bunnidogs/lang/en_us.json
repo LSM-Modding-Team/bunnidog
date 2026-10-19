@@ -231,7 +231,7 @@
   "guide.bunnidogs.page.3.title": "Genes and stats",
   "guide.bunnidogs.page.3.body": "Each of seven genes has two copies. Dominance picks the visible trait; hidden copies still pass to pups. Bred stat points are separate. Use Calipers to read both.",
   "guide.bunnidogs.page.4.title": "Breed a seed",
-  "guide.bunnidogs.page.4.body": "Feed a guava to each of two ready adults. They drop one seed holding both parents. Its tooltip shows the planned litter, quality and stat drift. The parents then rest.",
+  "guide.bunnidogs.page.4.body": "Feed a guava normally to each of two ready adults. They drop one seed holding both parents. Its tooltip shows the planned litter, quality and stat drift. The parents then rest.",
   "guide.bunnidogs.page.5.title": "Hatch the litter",
   "guide.bunnidogs.page.5.body": "Plant a seed on farmland; dispensers plant into air above it. Bone meal speeds growth; hand or dispenser Starlit Dust ripens it. Break the ripe crop to hatch pups. Fortune improves quality. Leave room.",
   "guide.bunnidogs.page.6.title": "Guava quality",
@@ -241,7 +241,7 @@
   "guide.bunnidogs.page.8.title": "Nests and travel",
   "guide.bunnidogs.page.8.body": "Adults claim reachable Nests and return at night. Lead one to a free Nest and use it to rehome. Empty-hand Nest use inspects it. Use a compass on a Nest or resident to mark home; the place stays marked if removed.",
   "guide.bunnidogs.page.9.title": "Food and troughs",
-  "guide.bunnidogs.page.9.body": "Guavas suit every line; other foods follow Diet. Fill a trough for healing. Injured adults can eat near their Nest at night; keep food and a safe route within four blocks of home. Sneak-empty withdraws stock.",
+  "guide.bunnidogs.page.9.body": "Guavas suit every line; other foods follow Diet. Troughs heal injured residents, including safe night meals within four blocks of home. Sneak-empty withdraws stock. Direct guava care: 87.",
   "guide.bunnidogs.page.10.title": "Life at home",
   "guide.bunnidogs.page.10.body": "Healthy adults visit nearby bells at noon. Ring one to call a daytime visit. Keep it within 12 blocks of home, with walking space. Injury, threats, leads, rides and night interrupt.",
   "guide.bunnidogs.page.11.title": "Gentle sampling",
@@ -631,5 +631,11 @@
   "guide.bunnidogs.page.85.title": "Pause a resident",
   "guide.bunnidogs.page.85.body": "Sneak-use a hoe on a resident to pause or resume chores, with no wear. Meals, breeding and home routines continue. Pups can keep the preference. Calipers shows the pause; Travel Baskets preserve it.",
   "guide.bunnidogs.page.86.title": "Cradle controls",
-  "guide.bunnidogs.page.86.body": "Sneak-hoe a Cradle for manual-only hatching. Incubation and nursery work continue; ripe litters still hatch by empty-hand use. Re-enable redstone, then send a fresh pulse. Calipers reports the setting."
+  "guide.bunnidogs.page.86.body": "Sneak-hoe a Cradle for manual-only hatching. Incubation and nursery work continue; ripe litters still hatch by empty-hand use. Re-enable redstone, then send a fresh pulse. Calipers reports the setting.",
+  "message.bunnidogs.feeding.plain_care": "Use a plain guava for direct care. Normal feeding spends upgraded guavas on breeding.",
+  "message.bunnidogs.feeding.no_care": "This adult needs no healing. Normal guava feeding starts breeding.",
+  "tooltip.bunnidogs.guava.care": "Sneak-feed for healing or pup growth; normal feed breeds",
+  "guide.bunnidogs.index.87": "Guava hand care",
+  "guide.bunnidogs.page.87.title": "Guava hand care",
+  "guide.bunnidogs.page.87.body": "Sneak-feed a plain guava to heal 2 HP and help pups grow without starting breeding. Healthy adults keep it; upgraded guavas stay for breeding. Existing love quality and rests stay. Normal feeding breeds."
 }

@@ -7,12 +7,12 @@ from gen_syringe import ROOT, RES, write
 PAGES = {
     2: ('Find a warren', 'Look for guava trees and entrance mounds. Follow lit tunnels to Nests. Settlements have one to five trees; cave, Nether and End lines have their own habitats. Maps: page 46. Scouts: page 47.'),
     3: ('Genes and stats', 'Each of seven genes has two copies. Dominance picks the visible trait; hidden copies still pass to pups. Bred stat points are separate. Use Calipers to read both.'),
-    4: ('Breed a seed', 'Feed a guava to each of two ready adults. They drop one seed holding both parents. Its tooltip shows the planned litter, quality and stat drift. The parents then rest.'),
+    4: ('Breed a seed', 'Feed a guava normally to each of two ready adults. They drop one seed holding both parents. Its tooltip shows the planned litter, quality and stat drift. The parents then rest.'),
     5: ('Hatch the litter', 'Plant a seed on farmland; dispensers plant into air above it. Bone meal speeds growth; hand or dispenser Starlit Dust ripens it. Break the ripe crop to hatch pups. Fortune improves quality. Leave room.'),
     6: ('Guava quality', 'Better guavas improve inherited stat gains. Feed both parents: their qualities are averaged. Golden: 1, Diamond: 2, Netherite: 4, Star: 7, Beacon: 12, Dragon Egg: 20.'),
     7: ('Keep a pedigree', 'Log animals with a Pedigree Book; Ear Tags label them. Sneak-use with a filled basket in the other hand to log its animal. Normal use opens records. Filter contents by traits/tags or senses>=20; hover the field for syntax.'),
     8: ('Nests and travel', 'Adults claim reachable Nests and return at night. Lead one to a free Nest and use it to rehome. Empty-hand Nest use inspects it. Use a compass on a Nest or resident to mark home; the place stays marked if removed.'),
-    9: ('Food and troughs', 'Guavas suit every line; other foods follow Diet. Fill a trough for healing. Injured adults can eat near their Nest at night; keep food and a safe route within four blocks of home. Sneak-empty withdraws stock.'),
+    9: ('Food and troughs', 'Guavas suit every line; other foods follow Diet. Troughs heal injured residents, including safe night meals within four blocks of home. Sneak-empty withdraws stock. Direct guava care: 87.'),
     10: ('Life at home', 'Healthy adults visit nearby bells at noon. Ring one to call a daytime visit. Keep it within 12 blocks of home, with walking space. Injury, threats, leads, rides and night interrupt.'),
     11: ('Gentle sampling', 'Use a Sampling Syringe on an animal at half health or better. It yields one Tissue Sample without harm; recovery takes five minutes. Sneak-use Calipers for care readiness and timers.'),
     12: ('Wool and whiskers', 'Shear a healthy woolly adult for two wool in coat colors. Brush adults at Senses +10 for one whisker. Each needs ten minutes of recovery. Tools wear once; pups yield neither.'),
@@ -85,8 +85,9 @@ PAGES = {
     83: ('Supply the troughs', 'Supply mode: Senses +20 adults move one ordinary surplus food to a nearby non-Supply trough below eight food, keeping eight at source. Keep both unpowered with dry paths. One job shares the one-minute work rest.'),
     85: ('Pause a resident', 'Sneak-use a hoe on a resident to pause or resume chores, with no wear. Meals, breeding and home routines continue. Pups can keep the preference. Calipers shows the pause; Travel Baskets preserve it.'),
     86: ('Cradle controls', 'Sneak-hoe a Cradle for manual-only hatching. Incubation and nursery work continue; ripe litters still hatch by empty-hand use. Re-enable redstone, then send a fresh pulse. Calipers reports the setting.'),
+    87: ('Guava hand care', 'Sneak-feed a plain guava to heal 2 HP and help pups grow without starting breeding. Healthy adults keep it; upgraded guavas stay for breeding. Existing love quality and rests stay. Normal feeding breeds.'),
 }
-PAGE_COUNT = 86
+PAGE_COUNT = 87
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
@@ -95,7 +96,7 @@ NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'War
 
 HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds',61:'Fruit meals',62:'Sapling stations',63:'Underground farms',64:'Safe seedbeds',65:'Snow-coat care'}
 WORK_INDEX = {67:'Loose food meals',68:'Trough gathering',69:'Melon beds',71:'Orchard pickers',72:'Habitat meals',73:'Nest signals',75:'Work modes',76:'Restore a garden',84:'Specialist work'}
-SPECIALIST_INDEX = {77:'Nursery workers',79:'Work roll call',80:'Safe hunting',81:'Chorus gardens',82:'Basket stations',83:'Supply the troughs',85:'Pause a resident',86:'Cradle controls'}
+SPECIALIST_INDEX = {77:'Nursery workers',79:'Work roll call',80:'Safe hunting',81:'Chorus gardens',82:'Basket stations',83:'Supply the troughs',85:'Pause a resident',86:'Cradle controls',87:'Guava hand care'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -142,7 +143,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,85),(495,86),(735,84),(975,75)]:
+    for x,page in [(255,87),(495,9),(735,84),(975,86)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

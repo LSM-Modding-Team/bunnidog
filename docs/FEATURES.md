@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 86 pages from first warren to Apex. Six linked contents pages offer fifty-four
+open 87 pages from first warren to Apex. Six linked contents pages offer fifty-five
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -633,3 +633,8 @@ continue; the saved preference travels in baskets. Sneak-hoe a Cradle to make
 hatching manual only. Its incubation, nursery tending and stock automation
 continue; ripe empty-hand hatching stays available. Re-enable redstone and send
 a fresh pulse to restore automatic hatching. Tools spend no durability.
+
+**Guava hand care (D11):** sneak-feed a plain guava to heal 2 HP and help pups
+grow without breeding. Healthy adults and upgraded guavas keep food. Existing
+love quality/time and care/work/food rests are preserved. Normal feeding still
+starts breeding. The plain guava tooltip explains the gesture.
