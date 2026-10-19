@@ -188,23 +188,27 @@ def jars():
         'screen.bunnidogs.records.filter_help':'Filter: trait/tag words or line:name; shown:bat, carried:glow, adult, pup; senses>=20, bloom<10 or speed=5. Space-separated terms all match. Clear to restore original record numbers and parent links.'})
 
 
-def model_faces(name):
+def model_faces(name,front=False):
     """Project the real native model's exposed faces for a small headless art preview."""
     data = json.loads((RES/f'assets/bunnidogs/models/block/{name}.json').read_text())
     for element in data['elements']:
         x0,y0,z0 = element['from']; x1,y1,z1 = element['to']
-        for side,points,uv in [('south',[(x0,y1,z1),(x1,y1,z1),(x1,y0,z1),(x0,y0,z1)],[x0,16-y1,x1,16-y0]),
+        faces = [('south',[(x0,y1,z1),(x1,y1,z1),(x1,y0,z1),(x0,y0,z1)],[x0,16-y1,x1,16-y0]),
                             ('east',[(x1,y1,z1),(x1,y1,z0),(x1,y0,z0),(x1,y0,z1)],[16-z1,16-y1,16-z0,16-y0]),
-                            ('up',[(x0,y1,z0),(x1,y1,z0),(x1,y1,z1),(x0,y1,z1)],[x0,z0,x1,z1])]:
+                            ('up',[(x0,y1,z0),(x1,y1,z0),(x1,y1,z1),(x0,y1,z1)],[x0,z0,x1,z1])]
+        if front: faces[:2] = [('north',[(x1,y1,z0),(x0,y1,z0),(x0,y0,z0),(x1,y0,z0)],[16-x1,16-y1,16-x0,16-y0]),
+                              ('west',[(x0,y1,z0),(x0,y1,z1),(x0,y0,z1),(x0,y0,z0)],[z0,16-y1,z1,16-y0])]
+        for side,points,uv in faces:
             face = element['faces'][side]; texture = data['textures'][face['texture'][1:]]
             path = RES/('assets/'+texture.replace(':','/textures/')+'.png')
             img = Image.open(path).convert('RGBA') if path.exists() else Image.new('RGBA',(16,16),(188,191,190,255))
+            if front: points = [(16-x,y,16-z) for x,y,z in points]
             yield sum(x+y*.8+z for x,y,z in points)/4,points,img,face.get('uv',uv),side
 
 
-def draw_model(preview,name,origin):
+def draw_model(preview,name,origin,front=False):
     d = ImageDraw.Draw(preview,'RGBA'); ox,oy = origin
-    for _,points,img,uv,side in sorted(model_faces(name),key=lambda face:face[0]):
+    for _,points,img,uv,side in sorted(model_faces(name,front),key=lambda face:face[0]):
         p0,p1,_,p3 = points
         project = lambda u,v: (ox+(p0[0]+u*(p1[0]-p0[0])+v*(p3[0]-p0[0])-p0[2]-u*(p1[2]-p0[2])-v*(p3[2]-p0[2]))*8,
             oy+((p0[0]+u*(p1[0]-p0[0])+v*(p3[0]-p0[0])+p0[2]+u*(p1[2]-p0[2])+v*(p3[2]-p0[2]))*.42-p0[1]-u*(p1[1]-p0[1])-v*(p3[1]-p0[1]))*8)

@@ -19,6 +19,8 @@ import com.bunnidogs.mod.block.ApexCrucibleBlock;
 import com.bunnidogs.mod.block.TrophyPedestalBlockEntity;
 import com.bunnidogs.mod.block.JuicerBlock;
 import com.bunnidogs.mod.block.JuicerBlockEntity;
+import com.bunnidogs.mod.block.BreedingPenBlock;
+import com.bunnidogs.mod.block.BreedingPenBlockEntity;
 import com.bunnidogs.mod.block.PeltRugBlock;
 import com.bunnidogs.mod.block.SpecimenJarBlock;
 import com.bunnidogs.mod.block.SpecimenJarBlockEntity;
@@ -65,6 +67,7 @@ public final class ModBlocks {
         event.registerBlockEntity(Capabilities.Item.BLOCK,NURSERY_CRADLE_BE.get(),(cradle,side) -> cradle.automation());
         event.registerBlockEntity(Capabilities.Item.BLOCK,GENETICS_TABLE_BE.get(),(table,side) -> table.automation());
         event.registerBlockEntity(Capabilities.Item.BLOCK,JUICER_BE.get(),(juicer,side) -> juicer.automation(side));
+        event.registerBlockEntity(Capabilities.Item.BLOCK,BREEDING_PEN_BE.get(),(pen,side) -> pen.automation(side));
     }
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(BunnidogsMod.MODID);
@@ -197,6 +200,10 @@ public final class ModBlocks {
             props -> props.strength(2.5F).sound(SoundType.WOOD).noOcclusion());
     public static final DeferredBlock<JuicerBlock> JUICER = BLOCKS.registerBlock("juicer",JuicerBlock::new,
             props -> props.strength(2.5F).sound(SoundType.WOOD).noOcclusion().pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK));
+    public static final DeferredBlock<BreedingPenBlock> BREEDING_PEN = BLOCKS.registerBlock("breeding_pen",BreedingPenBlock::new,
+            props -> props.strength(2.5F).sound(SoundType.WOOD).noOcclusion().pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BreedingPenBlockEntity>> BREEDING_PEN_BE =
+            BLOCK_ENTITIES.register("breeding_pen",() -> new BlockEntityType<>(BreedingPenBlockEntity::new,BREEDING_PEN.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<JuicerBlockEntity>> JUICER_BE =
             BLOCK_ENTITIES.register("juicer",() -> new BlockEntityType<>(JuicerBlockEntity::new,JUICER.get()));
     public static final DeferredBlock<SpecimenJarBlock> SPECIMEN_JAR = BLOCKS.registerBlock("specimen_jar",SpecimenJarBlock::new,

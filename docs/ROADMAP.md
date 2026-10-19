@@ -23,6 +23,12 @@ Jars. They are now complete as **J1/J2/G5/T5**, alongside **D12** coat rugs from
 the pelt-material hook. The Juicer supplies the plan's alternative to custom
 random crafting results. See `WORKSHOP_SPECS.md`; do not re-add them as missing.
 
+G6 also completes the original **Breeding Pen** as a saved two-manger controller
+for ordinary paid courtship; S11 supplies the deferred seed-quality visual cue.
+Both are in `BREEDING_PEN_SPECS.md`. Existing Bloom already controls pup growth,
+so the old Phase 2 growth note is implemented rather than a second missing
+fertility modifier. The Nest/Nursery Cradle cover the old Nesting Box role.
+
 ## Done (do not redo)
 Genome, breeding, wild lineages, bred stats and Bloom, seeds and crops, guava ladder (8 tiers), juice and infusion, warrens and villages (levels 1-5, houses, paths, landmarks, styles by biome, meeting tree), guava wood (log, leaves, planks, stripped forms, stairs, slab, fence), Calipers, Pedigree Book and sheet windows (S1-S8), Ear Tags, drops (D1-D8: pelts, flesh, materials, Mutagen, Marrow, Tissue Sample, Starlit Dust, legends, Trophy Pedestal, worn tag), Genetics Table T1–T4, bug batch F1-F3, Nest + claiming homes (H1-H4, H3b delivered).
 U2/U3 received the user's "good, works well" gameplay feedback (individual
@@ -36,6 +42,14 @@ Delivered, not individually confirmed: **U6a** advancement, **U1** level-1 dens
 and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
+
+G6/S11 finishes the Breeding Pen and stored-quality seed colors. Real isolated
+residents receive their own paid guava tier, then use normal mating and rest;
+hoppers, one-shot pulses, saved stock, safe bounds and native protection share
+callback-safe costs. Eight seed looks read old/new seed data without rewriting
+it or changing genetics. Fresh guides reach 100 pages/eight indices/73 chapter
+links. Full build, model/assets and all 80 native scenarios pass; Pen, seed and
+guide previews are inspected. Protocol **10** requires updated client content.
 
 J1/J2/G5/D12/T5 adds the breeder workshop: a saved/automated screw press, eight
 carrier tiers with shared hand/station infusion, personal named genotypes in

@@ -8,6 +8,10 @@ J1/J2/G5/T5 now supply the deferred Juicer, tier-dependent juice, player-named
 lineages and Specimen Jars. D12 adds matching-coat rugs from the pelt-material
 hook. The Juicer fulfills the random-processing alternative to crafting previews;
 see `docs/WORKSHOP_SPECS.md` for current mechanics and evidence.
+G6 now supplies the original Breeding Pen as a real two-parent feeding station;
+S11 gives stored litter quality eight item looks, including legacy seeds. See
+`docs/BREEDING_PEN_SPECS.md`. Bloom already supplies the older gene/stat-dependent
+pup-growth proposal; its existing math remains intact.
 
 **Contents (the sections are in the order they were written; find one with `grep -n '^## ' docs/DESIGN.md`):**
 * *Core design*: Skeleton "Generations"; Phase 1, 2, 3 decisions (genome, breeding, lineages); "Seed & Guava loop" (the long design of seeds, crops, guava tiers, stat drift); Phase 4a-4e and 4g decisions; Session 6 tier qualities; Rejected / parked skeletons.

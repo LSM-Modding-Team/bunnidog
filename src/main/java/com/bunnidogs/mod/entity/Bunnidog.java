@@ -380,6 +380,17 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
 
     // ------------------------------------------------------------------ breeding (Phase 2)
 
+    boolean readyForPen() {
+        return this.isAlive() && this.acceptsCare() && this.getAge() == 0 && !this.isInLove() && !this.guavaMemory.active()
+                && this.getHealth() >= this.getMaxHealth() && !this.beingTransported() && !this.isVehicle()
+                && this.getTarget() == null && !this.seekingRefuge() && !this.isInWater() && !this.isInLava() && !this.isOnFire();
+    }
+    /** Caller has reserved two actual guavas and rechecked the pair before any root-commit notifications. */
+    public void beginPenCourtship(int tier) {
+        this.guavaMemory.remember(tier);
+        this.setInLove(null);
+    }
+
     /**
      * Bunnidogs breed on guavas (Phase 4b; carrots no longer work). Which items count is the item tag
      * {@code bunnidogs:bunnidog_food}. Vanilla's love mode, breed goal, cooldown, baby ageing and food-feeds-pups do the rest.

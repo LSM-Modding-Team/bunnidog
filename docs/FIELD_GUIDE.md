@@ -1,6 +1,13 @@
 # P1 — Bunnidogs Field Guide
 
-**P8 workshop expansion:** fresh guides now have **98 pages, eight indices and
+**G6/S11:** current fresh guides have **100 pages, eight indices and 73 chapter
+links**. Workshop index 98 adds Pen page 99, which points to seed-quality colors
+at 100. Both return to the workshop. Earlier numbers remain; the native item
+codec retains all hundred pages. Pen/seed/guide previews and the full build/all
+80 native cases pass. Craft a fresh guide for appended content. Native client
+fonts/item models and Pen playtesting remain separate. See `BREEDING_PEN_SPECS.md`.
+
+**Prior P8 workshop expansion:** fresh guides had **98 pages, eight indices and
 72 chapter links**. New chapters 93–97 explain the Juicer, richer juice, keeper
 lineage names, pelt rugs and Specimen Jars. Index 98 groups them with the existing
 Table, Registry and juice pages; More chapters and Lineage traits link to it.

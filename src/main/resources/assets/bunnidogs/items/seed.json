@@ -1,6 +1,68 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "bunnidogs:item/seed"
+    "type": "minecraft:range_dispatch",
+    "property": "bunnidogs:seed_quality",
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "bunnidogs:item/seed"
+    },
+    "entries": [
+      {
+        "threshold": 0,
+        "model": {
+          "type": "minecraft:model",
+          "model": "bunnidogs:item/seed"
+        }
+      },
+      {
+        "threshold": 1,
+        "model": {
+          "type": "minecraft:model",
+          "model": "bunnidogs:item/seed_quality_1"
+        }
+      },
+      {
+        "threshold": 2,
+        "model": {
+          "type": "minecraft:model",
+          "model": "bunnidogs:item/seed_quality_2"
+        }
+      },
+      {
+        "threshold": 4,
+        "model": {
+          "type": "minecraft:model",
+          "model": "bunnidogs:item/seed_quality_3"
+        }
+      },
+      {
+        "threshold": 7,
+        "model": {
+          "type": "minecraft:model",
+          "model": "bunnidogs:item/seed_quality_4"
+        }
+      },
+      {
+        "threshold": 12,
+        "model": {
+          "type": "minecraft:model",
+          "model": "bunnidogs:item/seed_quality_5"
+        }
+      },
+      {
+        "threshold": 20,
+        "model": {
+          "type": "minecraft:model",
+          "model": "bunnidogs:item/seed_quality_6"
+        }
+      },
+      {
+        "threshold": 33,
+        "model": {
+          "type": "minecraft:model",
+          "model": "bunnidogs:item/seed_quality_7"
+        }
+      }
+    ]
   }
 }

@@ -22,8 +22,11 @@ are obsolete. The user's current request determines scope.
   while budget permits; reserve time for final validation and delivery.
 - Reported usage is a work target: when the user says "100% left", aim to use
   that available allowance in one sustained response, with a small delivery
-  reserve. Apply the same preference to other reported percentages. Keep
-  advancing useful coherent work across checkpoints and context compaction;
+  reserve. Apply the same preference to other reported percentages. Calibrate
+  from the user's reported before/after usage. Feature and file
+  counts are not quota measurements; more features alone do not establish a
+  larger batch. Never claim exact consumption without a current tool reading.
+  Keep advancing useful coherent work across checkpoints and context compaction;
   do not end at an arbitrary feature count or treat the first green build as
   completion. Use the live usage tool when exposed; without it, be candid that
   exact consumption cannot be metered and use the available turn budget as

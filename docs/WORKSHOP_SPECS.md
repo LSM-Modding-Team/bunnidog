@@ -1,5 +1,10 @@
 # Breeder workshop — J1/J2/G5/D12/T5
 
+**Current follow-up:** G6 adds the planned Breeding Pen; S11 adds stored-quality
+seed colors. Current guides have 100 pages and the channel is **protocol 10**.
+See `BREEDING_PEN_SPECS.md`. The J1/G5 checkpoint below used protocol 9 and
+98 pages; original item and packet formats remain intact.
+
 This batch completes older `DESIGN.md` ideas for a Juicer, richer juice, named
 lineages and Specimen Jars, and develops the pelt-rug hook in `DROPS_PLAN.md`.
 The keeper's workshop connects existing fruit, litter seeds, sample collections
@@ -99,7 +104,8 @@ genomes in the current book are read. Pedigree text, animal snapshots, UUIDs,
 parents, stats and registry qualification stay unchanged. Re-logging preserves
 names. Copies/trades preserve the item component. Old books simply have no names.
 
-This introduces two packets: update client and server together, **protocol 9**.
+G5 introduced two packets at **protocol 9**. Current G6/S11 content requires
+**protocol 10** on both sides; these edit/result packet shapes are unchanged.
 No genome/animal or existing item format is replaced.
 
 ## D12 — Coat pelt rugs

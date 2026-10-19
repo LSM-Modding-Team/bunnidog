@@ -4,13 +4,16 @@
 Run from the project root:  python3 art/gen_seed.py     (needs Pillow)
 
 A plump cream seed lying diagonally, with a groove down its length and a tiny green sprout at the tip (so it reads as
-"plant me"). Also writes art/seed_preview.png (12x scale) for a quick look. One palette entry per look, like the guava:
-quality tiers of the seed are not planned, so there is only one.
+"plant me"). Also writes art/seed_preview.png with all eight stored-quality bands.
+The ordinary seed stays unchanged; richer palettes follow the guava ladder.
 """
 import math
+import json
 import os
 
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
+from gen_syringe import RES, write
+from gen_guava import TIERS
 
 OUT = "src/main/resources/assets/bunnidogs/textures/item"
 PREVIEW = "art/seed_preview.png"
@@ -80,10 +83,38 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     img = draw()
     img.save(os.path.join(OUT, "seed.png"))
-    sheet = Image.new("RGBA", (16 * 12 + 16, 16 * 12 + 16), (52, 52, 60, 255))
-    sheet.alpha_composite(img.resize((16 * 12, 16 * 12), Image.NEAREST), (8, 8))
+    sheet = Image.new("RGBA", (1120,330), (52,52,60,255)); d = ImageDraw.Draw(sheet)
+    font = ImageFont.truetype('DejaVuSans.ttf',15)
+    d.text((18,15),'Litter seed quality bands — existing seed data; exact fractions remain in the tooltip',font=font,fill=(239,225,197))
+    quality = [0,1,2,4,7,12,20,33]; entries = []
+    for index,(tier,palette) in enumerate(TIERS.items()):
+        look = img.copy()
+        if index:
+            pixels = look.load()
+            for y in range(16):
+                for x in range(16):
+                    color = pixels[x,y]
+                    if color[3] and color[:3] not in SPROUT:
+                        # Keep the original seed silhouette, groove and lighting in the matching fruit palette.
+                        lightness = sum(color[:3])/3
+                        rank = 0 if lightness > 235 else 1 if lightness > 200 else 2 if lightness > 165 else 3 if lightness > 110 else 4
+                        pixels[x,y] = tuple(palette['skin'][rank])+(255,)
+            # A small paper notch remains distinct from both the sprout and the dark End palette.
+            for mark in range(index): look.putpixel((1+mark%4,13+mark//4),(243,223,172,255))
+        name = 'seed' if index == 0 else 'seed_quality_'+str(index)
+        look.save(os.path.join(OUT,name+'.png'))
+        write('assets/bunnidogs/models/item/'+name+'.json',{'parent':'minecraft:item/generated','textures':{'layer0':'bunnidogs:item/'+name}})
+        entries.append({'threshold':quality[index],'model':{'type':'minecraft:model','model':'bunnidogs:item/'+name}})
+        large = look.resize((112,112),Image.Resampling.NEAREST); sheet.alpha_composite(large,(14+index*138,66))
+        d.text((17+index*138,198),str(quality[index])+'+',font=font,fill=(239,225,197))
+        d.text((17+index*138,226),tier.replace('_guava','').replace('guava','plain').replace('_',' '),font=font,fill=(210,213,192))
+    write('assets/bunnidogs/items/seed.json',{'model':{'type':'minecraft:range_dispatch','property':'bunnidogs:seed_quality',
+        'fallback':{'type':'minecraft:model','model':'bunnidogs:item/seed'},'entries':entries}})
+    path = RES/'assets/bunnidogs/lang/en_us.json'; language = json.loads(path.read_text())
+    language['tooltip.bunnidogs.seed.quality_band'] = 'Color band: %s. Stored quality; Fortune is added at harvest.'
+    path.write_text(json.dumps(language,indent=2)+'\n')
     sheet.save(PREVIEW)
-    print("wrote seed texture")
+    print("wrote eight seed quality bands and the native range-dispatch item model")
 
 
 if __name__ == "__main__":

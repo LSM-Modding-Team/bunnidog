@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FHF",
+    "PWP",
+    "CCC"
+  ],
+  "key": {
+    "F": "#minecraft:wooden_fences",
+    "H": "minecraft:hay_block",
+    "P": "#minecraft:planks",
+    "W": "bunnidogs:whisker",
+    "C": "minecraft:copper_ingot"
+  },
+  "result": {
+    "id": "bunnidogs:breeding_pen"
+  }
+}

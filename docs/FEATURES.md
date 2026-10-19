@@ -1,12 +1,27 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 98 pages from first warren to Apex. Eight linked contents pages offer 72
+open 100 pages from first warren to Apex. Eight linked contents pages offer 73
 chapter links, including the breeder workshop. Habitat and Lineage traits
 collect regional gardens and inherited abilities.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 Craft a fresh guide for the appended chapters in an existing world.
+
+**Breeding Pen (G6):** craft `FHF / PWP / CCC` with wooden fences, hay, planks,
+a Whisker and copper. Place inside a dry pen with two healthy, ready adult
+residents and their Nests. Keep other adults twelve blocks away; bring the pair
+within four blocks of the manger and less than three apart. Front-left A and
+front-right B hold separate guavas. Empty-hand use or one redstone pulse spends
+one each; ordinary courtship produces the seed with their averaged tiers.
+Calipers inspects, sneak-empty recovers stock. Hoppers above feed A; horizontal
+hoppers feed B. Put collection hoppers on the surrounding floor. Held power
+does not feed repeatedly; hazards, leads, rests and automatic protection refuse.
+
+**Seed quality colors (S11):** eight looks follow stored quality at 0, 1, 2, 4,
+7, 12, 20 and 33, using the lower band for fractions. Hover for exact quality.
+Old seeds gain the look directly from their existing data. Fortune is added
+at harvest; colors change no genes, stats, Mutagen or hatching behavior.
 
 **Juicer (J1):** craft `PIP / PBP / CCC` with planks, iron, a bottle and copper.
 Load guava + bottle to press matching juice, or a valid litter seed + uninfused
@@ -64,8 +79,8 @@ warrens fit worn paths from each mouth around its mound to the tree patch. A
 blocked side uses the opposite route or leaves no paving; old generated/saved
 starts keep their prior layouts. Higher-level streets retain their plans.
 
-Update both client and server for this batch (network protocol 9). World/item/
-animal formats stay compatible; keeper name edits use the new packet handlers.
+Update both client and server for this batch (network protocol 10). World/item/
+animal formats stay compatible; the Pen and seed model need updated client content.
 
 **Apex preparation (P2):** empty-hand crucible use lists missing legendary
 offerings. Hold Calipers in the main hand and a Tissue Sample in the other, then

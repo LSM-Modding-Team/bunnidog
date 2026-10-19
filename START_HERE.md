@@ -22,6 +22,15 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **G6/S11, planned Breeding Pen and seed quality colors:** a two-manger Pen
+  spends one actual guava on each isolated, healthy housed parent, then leaves
+  mating/seeds/rest to the native BreedGoal. Directional hoppers, saved stock,
+  one-shot redstone, player/Calipers controls and callback-safe costs are in
+  place. Eight seed palettes read existing stored quality directly, including
+  old seeds; no save migration or hatching math changes. The guide has 100 pages,
+  eight indices and 73 chapter links. Pen/front-label, seed and guide previews
+  inspected. Update both sides: protocol **10**. See `docs/BREEDING_PEN_SPECS.md`.
+
 - **J1/J2/G5/D12/T5, breeder workshop:** the planned Juicer presses all eight
   guava tiers and performs paid random seed infusion, with directional hoppers,
   saved five-second work, output waiting and redstone pause. Rich carriers lift
@@ -483,8 +492,17 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **seventy-seven** native scenarios pass (seventy-six mod
+The Java 25 build and all **eighty** native scenarios pass (seventy-nine mod
 cases plus native sanity). Latest coverage:
+
+- **G6/S11:** real hopper-fed redstone courtship, actual native mating with the
+  correct two parental genomes, tier average and cooldown; held-power refusal;
+  exact food saves/hand controls, read-only Calipers, hazards/third adults/pups/
+  protection and unloaded boundaries; parent-change cancellation, recursive
+  feeding and commit-time controller removal conserve paid food/love. Every
+  Pen visual state and quality threshold/fraction maps to shipped assets; native
+  guide item codec retains all 100 pages. The existing animal model gate passes.
+  Native client item rendering and Pen gameplay remain manual review.
 
 - **J1/J2/G5/D12/T5:** real top/side/output hoppers, every tier's crafting and
   pressing, blocked/aborted output, saved partial work, power pause and unchanged

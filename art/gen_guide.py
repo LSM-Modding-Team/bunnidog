@@ -95,8 +95,10 @@ PAGES = {
     95: ('Name a lineage', 'Open a Pedigree Book or Registry, choose a record, then Name lineage. Limit: 40 characters; empty clears. Names label that exact genome in this book. Search line:name. Re-logging keeps names; animals stay unchanged.'),
     96: ('Pelt rugs', 'Two matching pelts and string craft one coat rug. All 12 coats keep their colors and patterns. Place on a supported floor; removing support drops the rug. Mixed pelts still craft leather without string.'),
     97: ('Specimen Jars', 'Insert a Tissue Sample to show its coat; use to read the full sheet. Sneak with both hands empty to recover it. Breaking drops jar and sample. Comparator: 0 empty; 1 plus 2 per fixed gene pair, up to 15.'),
+    99: ('Breeding Pen', 'Keep two ready adults with Nests in dry space; no other adults within 12 blocks. Parents must be within 4 of the Pen and under 3 apart. Load A/B guavas. Empty-hand or pulse feeds; Calipers inspects. Seed colors: 100.'),
+    100: ('Seed quality colors', 'Seed bands: plain 0, gold 1, diamond 2, netherite 4, star 7, beacon 12, egg 20, command 33. Fractions use the lower band. Tooltips give exact quality. Fortune adds quality at harvest. Stored genes and Mutagen stay intact.'),
 }
-PAGE_COUNT = 98
+PAGE_COUNT = 100
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {98:'Breeder workshop',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
@@ -107,7 +109,7 @@ HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:
 WORK_INDEX = {67:'Loose food meals',68:'Trough gathering',69:'Melon beds',71:'Orchard pickers',72:'Habitat meals',73:'Nest signals',75:'Work modes',76:'Restore a garden',84:'Specialist work'}
 SPECIALIST_INDEX = {77:'Nursery workers',79:'Work roll call',80:'Safe hunting',81:'Chorus gardens',82:'Basket stations',83:'Supply the troughs',85:'Pause a resident',86:'Cradle controls',87:'Guava hand care'}
 LINEAGE_INDEX = {13:'Useful coats',14:'Physical traits',29:'Terrain traits',65:'Snow-coat care',88:'Snow surface routes',90:'Phase legs',91:'Webbed paws',92:'Fertility marks',98:'Breeder workshop'}
-WORKSHOP_INDEX = {15:'Genetics Table',17:'Stable line registry',24:'Juice & infusion',93:'The Juicer',94:'Richer juice',95:'Name a lineage',96:'Pelt rugs',97:'Specimen Jars'}
+WORKSHOP_INDEX = {15:'Genetics Table',17:'Stable line registry',24:'Juice & infusion',93:'The Juicer',94:'Richer juice',95:'Name a lineage',96:'Pelt rugs',97:'Specimen Jars',99:'Pens & seed colors'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -154,7 +156,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page,oy in [(255,98,0),(495,93,0),(735,94,0),(975,95,0),(255,96,410),(495,97,410),(735,89,410),(975,24,410)]:
+    for x,page,oy in [(255,99,0),(495,100,0),(735,98,0),(975,4,0),(255,96,410),(495,97,410),(735,89,410),(975,24,410)]:
         d.rectangle((x,oy+20,x+224,oy+397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else 'Lineage traits' if page == 89 else 'Breeder workshop' if page == 98 else PAGES[page][0]
         d.text((x+14,oy+35),title,font=bold,fill=(40,39,30))

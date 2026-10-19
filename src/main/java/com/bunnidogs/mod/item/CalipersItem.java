@@ -203,6 +203,10 @@ public class CalipersItem extends Item {
             return InteractionResult.SUCCESS;
         }
         var block = level.getBlockEntity(context.getClickedPos());
+        if (block instanceof com.bunnidogs.mod.block.BreedingPenBlockEntity) {
+            com.bunnidogs.mod.block.BreedingPenBlock.inspect(level,context.getClickedPos(),player);
+            return InteractionResult.SUCCESS;
+        }
         if (player.isShiftKeyDown() && block instanceof com.bunnidogs.mod.block.FeedingTroughBlockEntity) {
             if (level instanceof ServerLevel server) com.bunnidogs.mod.entity.WorkCensus.show(server,context.getClickedPos(),player);
             return InteractionResult.SUCCESS;

@@ -1,5 +1,6 @@
 import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.GuavaTier;
+import com.bunnidogs.mod.genetics.SeedQuality;
 import com.google.gson.*;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -35,10 +36,14 @@ public final class WorkshopAssetsCheck {
         }
     }
     public static void main(String[] args) throws Exception {
-        for (String block : new String[]{"juicer","specimen_jar"}) {
+        for (String block : new String[]{"juicer","specimen_jar","breeding_pen"}) {
             refs(json("assets/bunnidogs/blockstates/"+block+".json"),"");
             refs(json("assets/bunnidogs/items/"+block+".json"),"");
         }
+        var pen = json("assets/bunnidogs/blockstates/breeding_pen.json").getAsJsonObject("variants");
+        require(pen.size() == 16,"All four independently occupied mangers need all four pen orientations");
+        for (String facing : new String[]{"north","east","south","west"}) for (int fill = 0; fill < 4; fill++)
+            require(pen.has("facing="+facing+",fill="+fill),"Missing pen state");
         var press = json("assets/bunnidogs/blockstates/juicer.json").getAsJsonObject("variants");
         require(press.size() == 8,"Both working states need all four press orientations");
         for (String facing : new String[]{"north","east","south","west"}) for (boolean working : new boolean[]{false,true})
@@ -61,6 +66,15 @@ public final class WorkshopAssetsCheck {
             }
         }
         for (var tier : GuavaTier.values()) refs(json("assets/bunnidogs/items/"+tier.id()+"_juice.json"),"");
+        var seed = json("assets/bunnidogs/items/seed.json").getAsJsonObject("model"); refs(seed,"");
+        require(seed.get("type").getAsString().equals("minecraft:range_dispatch") && seed.get("property").getAsString().equals("bunnidogs:seed_quality"),"Seeds must dispatch from their actual stored quality property");
+        var bands = seed.getAsJsonArray("entries"); require(bands.size() == GuavaTier.values().length,"Every quality band needs a seed look");
+        for (var tier : GuavaTier.values()) {
+            require(bands.get(tier.level()).getAsJsonObject().get("threshold").getAsDouble() == tier.quality(),"Seed artwork thresholds follow the actual quality ladder");
+            require(SeedQuality.band(tier.quality()) == tier,"An exact quality threshold selects its own band");
+            if (tier.previous() != null) require(SeedQuality.band(Math.nextDown(tier.quality())) == tier.previous(),"Fractions below a threshold must not round up");
+        }
+        require(SeedQuality.band(1.5) == GuavaTier.GOLDEN && SeedQuality.band(32.99) == GuavaTier.DRAGON_EGG,"Intermediate seed qualities retain their lower look");
         System.out.println("Workshop assets OK: press variants, saved coat-id jars, all rug/carrier models and texture references.");
     }
 }

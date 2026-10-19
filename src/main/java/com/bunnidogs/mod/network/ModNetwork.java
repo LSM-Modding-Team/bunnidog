@@ -20,8 +20,8 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 public final class ModNetwork {
     private ModNetwork() {}
 
-    /** Bump for payload shape or saved allele semantics that an older client cannot read. */
-    public static final String VERSION = "9";
+    /** Bump for payload shape or required client content/allele semantics. */
+    public static final String VERSION = "10";
 
     public static void register(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar(VERSION);

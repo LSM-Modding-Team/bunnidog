@@ -172,6 +172,8 @@ public class SeedItem extends Item {
         for (String line : seed.get().summary()) {
             lines.accept(Component.literal(line).withStyle(ChatFormatting.GRAY));
         }
+        lines.accept(Component.translatable("tooltip.bunnidogs.seed.quality_band",com.bunnidogs.mod.genetics.SeedQuality.band(seed.get().quality()).displayName())
+                .withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.seed.dispenser").withStyle(ChatFormatting.DARK_GRAY));
         if (flag.isAdvanced()) {
             lines.accept(Component.literal("Mother " + seed.get().mother() + " / " + seed.get().motherStats())

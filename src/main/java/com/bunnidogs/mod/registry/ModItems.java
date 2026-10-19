@@ -30,6 +30,9 @@ import com.bunnidogs.mod.item.WornEarTagItem;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.Identifier;
@@ -177,6 +180,8 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> FEEDING_TROUGH = ITEMS.registerSimpleBlockItem(ModBlocks.FEEDING_TROUGH);
     public static final DeferredItem<BlockItem> NURSERY_CRADLE = ITEMS.registerSimpleBlockItem(ModBlocks.NURSERY_CRADLE);
     public static final DeferredItem<BlockItem> JUICER = ITEMS.registerSimpleBlockItem(ModBlocks.JUICER);
+    public static final DeferredItem<BlockItem> BREEDING_PEN = ITEMS.registerSimpleBlockItem(ModBlocks.BREEDING_PEN,
+            props -> props.component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.pen.ports")))));
     public static final DeferredItem<BlockItem> SPECIMEN_JAR = ITEMS.registerSimpleBlockItem(ModBlocks.SPECIMEN_JAR);
     public static final DeferredItem<com.bunnidogs.mod.item.ShowRibbonItem> BRONZE_RIBBON = ITEMS.registerItem("bronze_show_ribbon",
             props -> new com.bunnidogs.mod.item.ShowRibbonItem(props, com.bunnidogs.mod.genetics.Show.Tier.BRONZE), props -> props.stacksTo(1).rarity(Rarity.UNCOMMON));
@@ -373,6 +378,7 @@ public final class ModItems {
             event.accept(FEEDING_TROUGH.get());
             event.accept(NURSERY_CRADLE.get());
             event.accept(JUICER.get());
+            event.accept(BREEDING_PEN.get());
             event.accept(BRONZE_RIBBON.get());
             event.accept(SILVER_RIBBON.get());
             event.accept(GOLD_RIBBON.get());

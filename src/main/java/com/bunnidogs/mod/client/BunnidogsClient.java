@@ -16,11 +16,15 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterRangeSelectItemModelPropertyEvent;
 
 /** Client-only registration (models + renderers). Never loaded on a dedicated server. */
 @EventBusSubscriber(modid = BunnidogsMod.MODID, value = Dist.CLIENT)
 public final class BunnidogsClient {
     private BunnidogsClient() {}
+    @SubscribeEvent public static void itemProperties(RegisterRangeSelectItemModelPropertyEvent event) {
+        event.register(Identifier.fromNamespaceAndPath("bunnidogs","seed_quality"),SeedQualityProperty.CODEC);
+    }
     public static final ModelLayerLocation GUAVA_BOAT_LAYER = new ModelLayerLocation(
             Identifier.fromNamespaceAndPath(BunnidogsMod.MODID, "boat/guava"), "main");
     public static final ModelLayerLocation GUAVA_CHEST_BOAT_LAYER = new ModelLayerLocation(
