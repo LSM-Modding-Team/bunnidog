@@ -1,4 +1,4 @@
-# Settlement life L1–L23
+# Settlement life L1–L24
 
 Implemented 2026-10-16 under standing continuation authorization. Careful,
 home-bounded routines make resident animals useful and settlements feel occupied.
@@ -686,3 +686,28 @@ The first run caught an empty-hand fallback issue: rejected item interactions
 must delegate to the native block method to reach inspect/withdraw. That is
 fixed and the combined run passes. Generated textures/model-box preview were
 inspected; client appearance and prolonged multiplayer routines need a playtest.
+
+## L24: gather ordinary loose food
+
+Healthy adults with bred Senses +10 can collect one compatible ordinary loose
+food into a hoe-enabled trough within three blocks, by day and inside their
+claimed home area. They need the same loaded dry standing space, safe complete
+route and sight/reach as other work. Native pickup delay/owner reservations and
+a ten-second item-age grace apply; upgraded guavas are always left intact.
+The exact food components must match stock/filter, with capacity and redstone
+pause rechecked. Animal Diet still decides which items it can handle.
+
+Collection follows garden crop work, before bell visits, and shares the saved
+one-minute GardenWait. No carried item, extra inventory, forced chunk load or
+new persistent animal field. Before committing, native mob-griefing callbacks
+run and the food, power, worker and route recheck. A native transaction journals
+both the ground stack and trough: an abort/full destination restores the whole
+source and stock. Committed stock notifications may remove the trough; normal
+removal drops the paid item once, without restoring a second ground copy.
+
+Java 25 build/all 52 native cases pass. The new collection case checks real
+claimed-home paths, Senses +9/+10, exact named filters/components, native abort
+and full-destination rollback, callback-added power, one-item transfer/signals,
+shared garden recovery and actual stock-notification removal conserving food.
+Calipers names the Senses gathering bonus. Guide/navigation preview inspected;
+client worker behavior remains gameplay review.

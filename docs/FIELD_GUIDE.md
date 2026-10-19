@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current fifty native server cases pass,
-including loading the book/recipe/loot resources. The expanded 65-page
-snow/living-care/dispenser/Habitat preview is inspected with a substitute font; all
+The actual Java 25 build and current fifty-two native server cases pass,
+including loading the book/recipe/loot resources. The expanded 68-page
+meal/gathering/Habitat/Working preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -200,3 +200,19 @@ C10 appends **Snow-coat care**, page 65, covering live cold climates, expressed
 snow/Bloom +10, combined products/shared rest and separate native shearing.
 Habitat has nine entries; the guide has thirty-seven chapter links over 65
 pages. The new text and older living-care/dispenser/Habitat preview is inspected.
+
+## P6 — Working residents
+
+Page 66 is a fifth contents page, **Working residents**, linked from Habitat.
+Main's eight chapters/three footers remain. Habitat retains nine chapters and
+its Main footer, adding the Working link within the same fourteen-line budget.
+Working links back to Main and Habitat. Older page IDs and chapter returns stay
+stable; new work pages return to 66.
+
+D7 adds **Loose food meals**, page 67, explaining grace/reservations, ordinary
+food, Diet, healing/recovery and safe routes. L24 adds **Trough gathering**,
+page 68, for Senses +10, explicit hoe opt-in, exact filters/power and shared
+work rest. There are thirty-nine chapter links over 68 pages/five indices.
+The meal/gathering/Habitat/Working preview is inspected with a substitute font;
+Java 25 build and all 52 native cases pass. Native client book use remains
+separate gameplay review.

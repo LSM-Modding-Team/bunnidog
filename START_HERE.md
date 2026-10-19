@@ -22,6 +22,16 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **D7/L24/P6, loose-food use:** injured adults take one old ordinary loose
+  food as a normal daytime meal. Healthy Senses +10 adults collect it beside
+  an enabled trough with shared garden rest. Ten-second grace, native pickup
+  delays/reservations, Diet, exact components, power and safe loaded paths
+  apply; upgraded guavas stay. Native journals conserve source/destination
+  through abort and reentrant removal. The guide adds a fifth Working index.
+  Java 25 build/all 52 native cases pass; text/navigation preview inspected.
+  See `docs/FORAGING_SPECS.md` D7, `docs/SETTLEMENT_LIFE.md` L24
+  and `docs/FIELD_GUIDE.md` P6.
+
 - **C10, cold-climate care:** healthy expressed snow coats at Bloom +10
   yield one snowball when brushed in a climate cold enough for native snow.
   Live climate, hand/dispenser care and Calipers share the same yield rules;
@@ -253,8 +263,8 @@ storm shelter, fishing, terrain traits, local supplies, living dust and fitted
 farms are also complete. Their rules/evidence remain in the specifications
 listed below; do not redo them.
 
-The native Field Guide has 65 translated pages and thirty-seven chapter links
-across four linked contents pages.
+The native Field Guide has 68 translated pages and thirty-nine chapter links
+across five linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
@@ -270,9 +280,9 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
 | Care | Live samples, fleece palettes, whiskers/dust/moss/cold-climate frost, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C10 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow, terrain movement and snow footing. `docs/CARE_SPECS.md` A1–A5 |
-| Outdoor food | Home-bounded crop/grass/hay meals, ripe guavas and diet-matching berries, safe loaded paths and callback-safe commits. `docs/FORAGING_SPECS.md` D6 |
+| Outdoor food | Home-bounded crop/grass/hay meals, ripe guavas/berries and old ordinary loose food, safe loaded paths, reservations and callback-safe commits. `docs/FORAGING_SPECS.md` D6–D7 |
 | Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, led-adult reassignment, Travel Baskets and persistent compass place markers, including resident homes. `docs/HOME_SPECS.md` H1–H8 |
-| Settlement life | Saved trough stock/automation/filters/redstone pause, diet healing/short night meals, bell visits, regional farms/fitted furniture including developed cave/Nether farms, harvest/cultivation/surplus composting, guava compost data, local stores, refuge, storm shelter, opt-in feral Nest guards, read-only bell roll call, serious-injury rest, cactus pruning and sustainable mushroom beds. `docs/SETTLEMENT_LIFE.md` L1–L23 |
+| Settlement life | Saved trough stock/automation/filters/redstone pause, diet healing/short night meals, bell visits, regional farms/fitted furniture including developed cave/Nether farms, harvest/cultivation/surplus composting, loose-food gathering, guava compost data, local stores, refuge, storm shelter, opt-in feral Nest guards, read-only bell roll call, serious-injury rest, cactus pruning and sustainable mushroom beds. `docs/SETTLEMENT_LIFE.md` L1–L24 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Exploration | Native cartographer Warren Maps, bred bat-ear compass surveys with optional mineral-family focus at Senses +20, native working-line milestones and a loaded tagged-resident finder. `docs/EXPLORATION_SPECS.md` E1–E5 |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
@@ -328,7 +338,7 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **fifty** native scenarios pass (forty-nine mod
+The Java 25 build and all **fifty-two** native scenarios pass (fifty-one mod
 cases plus native sanity). Latest coverage:
 
 - **N1:** real redstone pulses, malformed/blocked/wrong-soil/occupied planting,

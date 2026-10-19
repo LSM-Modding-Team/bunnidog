@@ -48,3 +48,27 @@ neither is overwritten. Unripe/full-health/no-home/night/griefing refusal,
 no loose duplicates and unchanged griefing-off hay/crop regrowth also pass.
 The guide adds page 61 and a fifth Habitat link. Software text preview is
 inspected; natural resident feeding and client appearance remain gameplay review.
+
+## D7: ordinary loose-food meals
+
+Injured ordinary adults may eat one compatible loose food near their claimed
+Nest by day, sharing the existing two-HP meal and saved thirty-second food
+recovery. This follows field grazing in the normal goal order. The item must
+be at least ten seconds old, have no native pickup delay or owner reservation,
+lie in loaded dry home terrain and be reachable by a complete safe route.
+Upgraded guavas are excluded, preserving breeding supplies. Native Diet and
+trough-safe food rules also exclude container/remainder items. There is no love
+mode, automatic pup growth, food spawning or inventory raiding.
+
+A native mob-griefing callback precedes commitment. New reservations, missing/
+changed items, changed eligibility and unsafe paths cancel without costs.
+One item is extracted through a native journal; remaining names/components
+stay intact and only an empty source entity is discarded. Pickup animation
+and thrown-item criteria use the committed one-item snapshot. Native player
+pickup events are player-only; this uses the ordinary mob-griefing hook.
+
+Java 25 build/all 52 native cases pass. The new meal case checks age boundary,
+pickup delay, owner reservation, upgraded-guava/night/griefing/Diet refusals,
+callback-added reservation, exact named-stack remainder, two-HP/shared rest,
+stale disappearance and final-item removal. The guide chapter and new index
+are previewed; natural feeding/client appearance remain gameplay review.

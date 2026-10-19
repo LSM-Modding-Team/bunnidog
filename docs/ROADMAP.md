@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+D7/L24 adds safe old loose-food meals and Senses +10 collection beside enabled
+troughs. Reserved/upgraded items stay; native transactions preserve exact
+components and conserve food through abort/reentrant removal. P6 adds Working
+residents as a fifth guide index. Java 25 build/all 52 native cases pass;
+previews inspected. See `FORAGING_SPECS.md`, `SETTLEMENT_LIFE.md`, `FIELD_GUIDE.md`.
+
 C10 gives healthy expressed snow coats a cold-habitat brushing product at
 Bloom +10, sharing native temperature rules and existing grooming recovery.
 Hand/dispenser/Calipers agree; ordinary native shearing stays independent.

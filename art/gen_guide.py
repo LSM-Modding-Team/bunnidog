@@ -66,8 +66,10 @@ PAGES = {
     63: ('Underground farms', 'New five-tree cave and Nether warrens may fit a regional farm: glow berries under a trellis, or wart on soul sand. Plots need no water. A clear corner may fit an empty enabled trough. Existing settlements keep their plans.'),
     64: ('Safe seedbeds', 'Plant litter seeds on farmland. If soil changes to dirt, grass, podzol or mycelium, the crop keeps its whole litter and continues growing. Lost support returns the saved seed. Changing soil never hatches it or resets its parents.'),
     65: ('Snow-coat care', 'Brush healthy adult snow coats at Bloom +10 in a climate cold enough for snow to gather one snowball. Hidden snow gives none. Whiskers and Starlit Dust can combine. Hand and dispenser brushes share ten-minute rest. Shears gather wool separately.'),
+    67: ('Loose food meals', 'Injured adults eat ordinary loose food near home by day after ten seconds. Diet, pickup delays and owner reservations apply. Upgraded guavas stay. One item heals 2 HP; food rest is thirty seconds. Keep a dry clear route.'),
+    68: ('Trough gathering', 'Healthy adults at Senses +10 move one old loose matching food into a nearby hoe-enabled trough by day. Diet, filters, power and safe routes apply. Collection shares the one-minute garden rest. Loose meals: page 67.'),
 }
-PAGE_COUNT = 65
+PAGE_COUNT = 68
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
@@ -75,6 +77,7 @@ MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Livi
 NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work',51:'Find a tagged animal',52:'Bell roll call',53:'Recovery rest',54:'Plan a litter'}
 
 HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds',61:'Fruit meals',62:'Sapling stations',63:'Underground farms',64:'Safe seedbeds',65:'Snow-coat care'}
+WORK_INDEX = {67:'Loose food meals',68:'Trough gathering'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -103,8 +106,8 @@ def main():
         value = json.loads(path.read_text()); value.update({'item.bunnidogs.field_guide':'Bunnidogs Field Guide',
           'guide.bunnidogs.title':'Bunnidogs Guide','guide.bunnidogs.contents':'Contents',
           'guide.bunnidogs.more_contents':'More chapters','guide.bunnidogs.main_contents':'Main contents',
-          'guide.bunnidogs.new_contents':'New chapters','guide.bunnidogs.habitat_contents':'Habitat chapters'})
-        for page,label in (MAIN_INDEX | MORE_INDEX | NEW_INDEX | HABITAT_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
+          'guide.bunnidogs.new_contents':'New chapters','guide.bunnidogs.habitat_contents':'Habitat chapters','guide.bunnidogs.work_contents':'Working residents'})
+        for page,label in (MAIN_INDEX | MORE_INDEX | NEW_INDEX | HABITAT_INDEX | WORK_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
         for page,(title,body) in PAGES.items():
             value[f'guide.bunnidogs.page.{page}.title'] = title
             value[f'guide.bunnidogs.page.{page}.body'] = body
@@ -121,14 +124,15 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,65),(495,28),(735,36),(975,56)]:
+    for x,page in [(255,67),(495,68),(735,56),(975,66)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
-        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else PAGES[page][0]
+        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))
         if page == 1: body = '\n'.join(MAIN_INDEX.values()) + '\n\nMore chapters\nNew chapters\nHabitat chapters'
         elif page == 40: body = '\n'.join(MORE_INDEX.values()) + '\n\nMain contents'
         elif page == 50: body = '\n'.join(NEW_INDEX.values()) + '\n\nMain contents'
-        elif page == 56: body = '\n'.join(HABITAT_INDEX.values()) + '\n\nMain contents'
+        elif page == 56: body = '\n'.join(HABITAT_INDEX.values()) + '\n\nMain contents\nWorking residents'
+        elif page == 66: body = '\n'.join(WORK_INDEX.values()) + '\n\nMain contents\nHabitat chapters'
         else: body = '\n'.join(textwrap.wrap(PAGES[page][1],25)) + '\n\nContents'
         d.multiline_text((x+14,75),body,font=font,spacing=6,fill=(40,59,36))
         d.text((x+14,365),f'Page {page} / {PAGE_COUNT}',font=font,fill=(85,77,56))

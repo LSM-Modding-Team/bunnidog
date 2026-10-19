@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.pathfinder.Path;
 
 /** Small shared navigation checks; never request terrain or change home tickets. */
@@ -23,7 +24,7 @@ final class HomeRoutes {
                 && level.getFluidState(pos).isEmpty() && level.getFluidState(pos.above()).isEmpty()
                 && level.getBlockState(pos.below()).isFaceSturdy(level,pos.below(),Direction.UP);
     }
-    static boolean visible(Bunnidog dog, Mob mob) {
+    static boolean visible(Bunnidog dog, Entity mob) {
         BlockPos from = dog.blockPosition(), to = mob.blockPosition();
         var low = new BlockPos(Math.min(from.getX(),to.getX()),Math.min(from.getY(),to.getY()),Math.min(from.getZ(),to.getZ()));
         var high = new BlockPos(Math.max(from.getX(),to.getX()),Math.max(from.getY(),to.getY()),Math.max(from.getZ(),to.getZ()));

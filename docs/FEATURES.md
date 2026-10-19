@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 65 pages from first warren to Apex. Four linked contents pages offer thirty-seven
+open 68 pages from first warren to Apex. Five linked contents pages offer thirty-nine
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -543,3 +543,11 @@ a climate cold enough for native snow to gather one Snowball. Hidden snow and
 warm climates give none. Qualified whiskers/Starlit Dust combine under one
 tool wear and ten-minute grooming rest. Native dispenser brushes work too;
 ordinary woolly shearing uses its separate fleece recovery.
+
+**Loose food (D7/L24):** injured adult residents eat ordinary loose matching
+food after ten seconds, healing two HP with the normal thirty-second meal rest.
+Healthy Senses +10 adults collect it beside hoe-enabled troughs instead,
+sharing one-minute garden rest. Diet, pickup delays, owner reservations, exact
+filters, power and safe loaded paths apply. Upgraded guavas stay. Transfers
+preserve whole components and conserve food through native transaction aborts
+and trough-removal notifications. Calipers explains the gathering bonus.

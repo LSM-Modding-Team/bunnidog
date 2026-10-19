@@ -529,5 +529,15 @@
   "guide.bunnidogs.page.64.body": "Plant litter seeds on farmland. If soil changes to dirt, grass, podzol or mycelium, the crop keeps its whole litter and continues growing. Lost support returns the saved seed. Changing soil never hatches it or resets its parents.",
   "guide.bunnidogs.index.65": "Snow-coat care",
   "guide.bunnidogs.page.65.title": "Snow-coat care",
-  "guide.bunnidogs.page.65.body": "Brush healthy adult snow coats at Bloom +10 in a climate cold enough for snow to gather one snowball. Hidden snow gives none. Whiskers and Starlit Dust can combine. Hand and dispenser brushes share ten-minute rest. Shears gather wool separately."
+  "guide.bunnidogs.page.65.body": "Brush healthy adult snow coats at Bloom +10 in a climate cold enough for snow to gather one snowball. Hidden snow gives none. Whiskers and Starlit Dust can combine. Hand and dispenser brushes share ten-minute rest. Shears gather wool separately.",
+  "message.bunnidogs.care.gathering": "Gathering: %s",
+  "message.bunnidogs.care.gathering_bonus": "Senses +%s: gathers old loose matching food beside enabled troughs.",
+  "message.bunnidogs.care.gathering_requirement": "Needs Senses +%s to gather loose food into enabled troughs.",
+  "guide.bunnidogs.work_contents": "Working residents",
+  "guide.bunnidogs.index.67": "Loose food meals",
+  "guide.bunnidogs.index.68": "Trough gathering",
+  "guide.bunnidogs.page.67.title": "Loose food meals",
+  "guide.bunnidogs.page.67.body": "Injured adults eat ordinary loose food near home by day after ten seconds. Diet, pickup delays and owner reservations apply. Upgraded guavas stay. One item heals 2 HP; food rest is thirty seconds. Keep a dry clear route.",
+  "guide.bunnidogs.page.68.title": "Trough gathering",
+  "guide.bunnidogs.page.68.body": "Healthy adults at Senses +10 move one old loose matching food into a nearby hoe-enabled trough by day. Diet, filters, power and safe routes apply. Collection shares the one-minute garden rest. Loose meals: page 67."
 }
