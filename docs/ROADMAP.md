@@ -16,6 +16,14 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+O6/O7 completes guava stations with dispenser shears and plain-guava canopy
+repair, retaining old shears/food fallbacks. D8 adds sustainable regional plant
+meals through shared garden/meal growing-stock rules. H9 exposes Nest POI claims
+to native comparators; L27 adds modest optional meadow melon seeds and local
+slices. Java 25 build/all 56 native cases pass; the 74-page guide preview is
+inspected. See `ORCHARD_SPECS.md`, `FORAGING_SPECS.md`, `HOME_SPECS.md`,
+`SETTLEMENT_LIFE.md` and `FIELD_GUIDE.md`.
+
 L25/L26 adds renewable melon harvesting beside living attached stems and
 Bloom +10 one-stage cultivation. Decorative melons/mature bare stems stay;
 native growth produces future fruit. Forager slices heal/grow without breeding.

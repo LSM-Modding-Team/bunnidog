@@ -6,9 +6,12 @@ import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.entity.NestHome;
 import com.bunnidogs.mod.item.PlaceMarkers;
 import com.bunnidogs.mod.registry.ModPoi;
+import com.bunnidogs.mod.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -19,6 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -26,7 +30,40 @@ import net.minecraft.world.phys.BlockHitResult;
 /** Native home tickets, led reassignment and persistent compass place markers. */
 public final class NestBlock extends Block {
     private static final double LEAD_RANGE = 8.0;
+    private static final int SIGNAL_REFRESH = 100;
     public NestBlock(Properties properties) { super(properties); }
+
+    public static boolean claimed(ServerLevel level, BlockPos pos) {
+        return level.hasChunkAt(pos) && level.getPoiManager().getCountInRange(holder -> holder.is(ModPoi.NEST.getKey()),
+                pos,0,PoiManager.Occupancy.IS_OCCUPIED) > 0;
+    }
+    /** Remote ticket release must not load terrain just to notify a comparator. */
+    public static void ticketChanged(ServerLevel level, BlockPos pos) {
+        if (!level.hasChunkAt(pos) || !level.getBlockState(pos).is(ModBlocks.NEST.get())) return;
+        // Match native analog notifications, guarding the second step through a conductor too.
+        for (var direction : new Direction[]{Direction.WEST,Direction.EAST,Direction.NORTH,Direction.SOUTH,Direction.DOWN,Direction.UP}) {
+            var next = pos.relative(direction);
+            if (!level.hasChunkAt(next)) continue;
+            var state = level.getBlockState(next); state.onNeighborChange(level,next,pos);
+            if (state.isRedstoneConductor(level,next)) {
+                next = next.relative(direction);
+                if (!level.hasChunkAt(next)) continue;
+                state = level.getBlockState(next);
+                if (state.getWeakChanges(level,next) && (direction.getAxis().isHorizontal() || !state.is(Blocks.COMPARATOR)))
+                    level.neighborChanged(state,next,ModBlocks.NEST.get(),null,false);
+            }
+        }
+    }
+    @Override protected boolean hasAnalogOutputSignal(BlockState state) { return true; }
+    @Override protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
+        if (!(level instanceof ServerLevel server) || !server.hasChunkAt(pos)) return 0;
+        // Native scheduled ticks survive unload. Only circuits that read this Nest keep refreshing.
+        server.scheduleTick(pos,this,SIGNAL_REFRESH);
+        return claimed(server,pos) ? 15 : 0;
+    }
+    @Override protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        ticketChanged(level,pos);
+    }
 
     @Override
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
@@ -51,7 +88,7 @@ public final class NestBlock extends Block {
     }
     private InteractionResult inspect(Level level, BlockPos pos, Player player) {
         if (level instanceof ServerLevel server) {
-            boolean claimed = server.getPoiManager().getCountInRange(holder -> holder.is(ModPoi.NEST.getKey()),pos,0,PoiManager.Occupancy.IS_OCCUPIED) > 0;
+            boolean claimed = claimed(server,pos);
             var resident = claimed ? level.getEntitiesOfClass(Bunnidog.class,new AABB(pos).inflate(24),
                     dog -> dog.isAlive() && dog.acceptsCare() && pos.equals(dog.homeNest())).stream()
                     .min(Comparator.comparing(Bunnidog::getUUID)) : Optional.<Bunnidog>empty();

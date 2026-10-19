@@ -72,3 +72,31 @@ pickup delay, owner reservation, upgraded-guava/night/griefing/Diet refusals,
 callback-added reservation, exact named-stack remainder, two-HP/shared rest,
 stale disappearance and final-item removal. The guide chapter and new index
 are previewed; natural feeding/client appearance remain gameplay review.
+
+## D8: sustainable habitat meals
+
+Injured adults gain four more Diet-matching daytime meals inside their claimed
+home area, without a trough. Desert browsers can trim a spare top from a two/
+three-block cactus; the base, lower segments and any attached cactus flower
+remain. Mushroom eaters may consume one extra red/brown mushroom only while
+another living same-color mushroom remains within three blocks in loaded home
+terrain. Nether foragers eat fully ripe wart, resetting it to age zero on its
+soul sand. Foragers/omnivores eat a melon only if a living attached melon stem
+points at it; native neighbor updates restore that stem at age seven. Decorative
+melons and young plants stay. Data-pack Diet extensions use the normal food tags.
+
+All four share D6's two-HP healing, saved 600-tick food rest, health/home/daytime/
+danger/transport rules, complete safe routes, sight/reach, mob-griefing and
+native destroy protection. A tall cactus uses the same bounded three-block
+reach and near-face sight point as healthy gardening; workers never need to
+stand on the cactus. No loose food is also paid. Growing-stock rules are now
+shared by direct meals and trough gardening in ResidentPlants, retaining prior
+harvest behavior. Stock, Diet, support and route recheck after protection hooks.
+
+Java 25 build/all 56 native cases pass. A new native case checks a real home/
+path, solitary/three-high/flowered cactus, callback-added flower, griefing,
+separate red/brown seed stocks, lost/restored same-color companion, exact
+meal healing/recovery, unripe/Diet wart refusals and age-zero reset, decorative/
+detached melon refusal and native age-seven stem reset. No loose food is created.
+Existing cactus/mushroom/melon gardening and D6/D7 meals remain passing. Guide
+preview inspected; natural ecology and client routines need gameplay review.

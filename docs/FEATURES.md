@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 70 pages from first warren to Apex. Five linked contents pages offer forty
+open 74 pages from first warren to Apex. Five linked contents pages offer forty-three
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -559,3 +559,28 @@ points to the fruit. Decorative melon blocks stay. The stem resets naturally
 and grows its next fruit normally. Bloom +10 advances young melon stems by
 one age, creating no food. Mature stems await native growth. Exact filters,
 power, safe routes, protection and the shared one-minute gardening rest apply.
+
+**Orchard stations (O6/O7):** dispenser shears pick a ripe hanging guava into
+one ordinary drop, resetting fruit to green for one tool use. Unripe fruit
+keeps the shears; ordinary animals and beehives keep their previous shearing.
+A dispenser with plain guavas can repair dry empty canopy gaps beneath leaves
+for one item. Other targets keep ordinary food ejection, so use a single pulse
+for repair; upgraded guavas never plant fruit. Native bone meal grows it and
+hoppers collect ripe harvests.
+
+**Habitat meals (D8):** injured adults near home can eat their Diet's spare
+cactus top, extra same-color mushroom, ripe Nether wart or stem-linked melon.
+A last cactus base/mushroom, attached flower, unripe wart and decorative melon
+stay intact. No trough is needed. These meals heal two HP and share thirty-second
+food rest, safe routes and native protection. Growing stock is conserved under
+the same rules as healthy trough work.
+
+**Nest signals (H9):** a comparator reads 15 for a claimed Nest and zero for a
+free Nest. It follows the saved home claim rather than where the resident is
+standing. Rehoming switches both signals; Travel Basket packing and death free
+the old one. An unloaded resident retains its claim.
+
+**Meadow supplies (L27):** unopened meadow den/market food stores can provide
+melon slices in their ordinary local-food rolls and have an independent 35%
+chance of one or two melon seeds. Other lineages keep their foods; emptied or
+player-filled containers are never refilled.

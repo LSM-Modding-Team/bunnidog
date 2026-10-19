@@ -750,3 +750,22 @@ forager adult healing and pup growth with exactly one real slice per success,
 while slices remain outside breeding food. The 70-page guide preview is
 inspected; natural melon cycles and client worker behavior need gameplay review.
 No animal save, network, allele or settlement-plan format changes.
+
+## L27: meadow melon supplies
+
+Meadow pantry local-food rolls include modest ordinary melon slices alongside
+existing crops/fruit. A separate independent 35% pool supplies one/two melon
+seeds, letting explorers establish L25/L26 beds. Guavas, one-to-three local-food
+rolls and the independent Field Guide chance remain separate. Seeds are supplies,
+not resident food. Other lineage tables and the old generic pantry remain
+unchanged; unopened meadow den/feed-store/market barrels use the updated native
+table, while previously filled/emptied/player containers retain their stock.
+No generation-plan or container save migration/refill is introduced.
+
+Java 25 build/all 56 native cases pass. The existing native pantry scenario
+validates modest seed bounds only for meadow, lineage Diet food compatibility,
+native deferred saves, owner-column placement and repeated-generation stock
+preservation. Sixteen deterministic native chest seeds cover both optional
+supply outcomes while preserving the guaranteed guava and local-food pools.
+Guide stem-growing page names meadow seed supplies. Natural exploration remains
+client/gameplay review.

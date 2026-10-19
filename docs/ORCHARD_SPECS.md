@@ -1,4 +1,4 @@
-# Guava orchards O1–O5
+# Guava orchards O1–O7
 
 Implemented 2026-10-18 under standing design latitude. Natural trees already
 provide repeatable hanging fruit, but a lost fruit could only be replaced by
@@ -91,3 +91,41 @@ podzol, mycelium, rooted dirt and farmland support pass; an obstructed trunk
 preserves its chest/sapling, then clearing it grows the actual tree. Guide
 page 62 and its Habitat link/preview are inspected. Natural growth/client
 automation remain gameplay review.
+
+## O6: dispenser guava picking
+
+A dispenser with ordinary shears targets the block directly ahead. Supported
+ripe Guava Fruit resets to age zero and pays one plain guava as the same native
+drop used by hand picking; one successful pulse wears the tool once. An unripe,
+unsupported, stale or unloaded fruit cannot pay or wear it. The shared server
+picker resets the actual plant before paying, so a repeated stale request
+cannot duplicate food. Ordinary hoppers can collect the drops. Native block-drop
+rules remain shared with hand picking; no new inventory or saved state.
+
+The original shears dispenser behavior remains the fallback away from Guava
+Fruit, including animals, bunnidog fleece, beehives and native tool wear. The
+wrapper is registered after native behaviors and delegates the original rather
+than reconstructing it. This avoids relying on the 26.2 CommonHooks shear-block
+helper, which queries the dispenser source state rather than this target.
+
+## O7: dispenser canopy repair
+
+A dispenser with plain guavas plants one fruit into a dry, loaded air gap
+beneath valid leaves, using the same support/world-border/height checks as hand
+propagation. A successful pulse spends exactly one item and keeps the rest of
+its components. When planting is impossible, it delegates the previous ordinary
+food-ejection behavior, preserving food stations and protecting containers.
+Pulse once to fill a gap; continuous invalid pulses still dispense food.
+Higher guava tiers retain their ordinary behavior and never plant fruit.
+Together with native bone meal and O6 this completes plant/grow/pick orchard
+stations without another block, item, slot, payload or persistent field.
+
+O6/O7 evidence (2026-10-19): Java 25 build/all 56 native cases pass. The new
+orchard-picking case uses actual redstone pulses and hopper collection, checks
+exact one-fruit/one-wear output and shared stale/unripe/unsupported/unloaded
+refusal, and exercises native beehive honeycomb output/wear through the fallback.
+The extended case plants one named real guava, preserves its remainder, ejects
+one ordinary food at a blocked chest without replacing it, and leaves upgraded
+guavas as food rather than planting them. Existing hand propagation/picking,
+care dispenser/shearing and bone-meal cases remain passing. New guide pages
+and navigation are previewed; client automation appearance remains gameplay review.

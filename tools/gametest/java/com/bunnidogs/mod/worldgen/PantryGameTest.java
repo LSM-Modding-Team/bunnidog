@@ -59,18 +59,22 @@ public final class PantryGameTest {
             var loaded = (RandomizableContainerBlockEntity)BlockEntity.loadStatic(pos,barrel.getBlockState(),saved,level.registryAccess());
             h.assertTrue(loaded != null && WarrenPantries.table(style).equals(loaded.getLootTable())
                     && loaded.getLootTableSeed() == barrel.getLootTableSeed(),"Unopened native saves must retain lineage and seed");
-            int guavas = 0, local = 0, guides = 0;
+            int guavas = 0, local = 0, guides = 0, seeds = 0;
             for (int slot = 0; slot < barrel.getContainerSize(); slot++) {
                 var stack = barrel.getItem(slot); // Native deferred loot fills the real container.
                 if (stack.isEmpty()) continue;
                 if (stack.is(ModItems.GUAVA.get())) guavas += stack.getCount();
                 else if (stack.is(ModItems.FIELD_GUIDE.get())) guides += stack.getCount();
+                else if (stack.is(Items.MELON_SEEDS)) {
+                    h.assertTrue(style == Lineage.MEADOW,"Only meadow pantries may have separate melon seed supplies");
+                    seeds += stack.getCount();
+                }
                 else {
                     h.assertTrue(ModDietTags.accepts(diet(style),stack),"Local pantry food must suit its lineage: " + style + " / " + stack);
                     local += stack.getCount();
                 }
             }
-            h.assertTrue(guavas >= 1 && guavas <= 2 && local >= 1 && local <= 9 && guides <= 1,
+            h.assertTrue(guavas >= 1 && guavas <= 2 && local >= 1 && local <= 9 && guides <= 1 && seeds <= 2,
                     "Each parsed lineage table must provide modest guavas/local food and at most one guide");
             barrel.clearContent();
             WarrenTunnels.place(level,pos,cells,owner,style);
@@ -94,7 +98,30 @@ public final class PantryGameTest {
         WarrenTunnels.place(level,pos,cells,null,Lineage.NETHER);
         h.assertTrue(existing.getLootTable() == null && ItemStack.isSameItemSameComponents(keepsake,existing.getItem(0)),
                 "Player stock and its native components must be preserved");
+        seedSupplies(h);
         surface(h);
+    }
+    private static void seedSupplies(GameTestHelper h) {
+        var level = h.getLevel(); var pos = h.absolutePos(new BlockPos(6,1,2));
+        level.setBlock(pos,Blocks.BARREL.defaultBlockState(),2);
+        var barrel = (RandomizableContainerBlockEntity)level.getBlockEntity(pos);
+        int supplied = 0, omitted = 0;
+        for (int roll = 1; roll <= 16; roll++) {
+            barrel.clearContent(); barrel.setLootTable(WarrenPantries.table(Lineage.MEADOW)); barrel.setLootTableSeed(roll); barrel.unpackLootTable(null);
+            int seeds = 0, guavas = 0, food = 0;
+            for (int slot = 0; slot < barrel.getContainerSize(); slot++) {
+                var stack = barrel.getItem(slot);
+                if (stack.is(Items.MELON_SEEDS)) seeds += stack.getCount();
+                else if (stack.is(ModItems.GUAVA.get())) guavas += stack.getCount();
+                else if (!stack.isEmpty() && !stack.is(ModItems.FIELD_GUIDE.get())) {
+                    h.assertTrue(ModDietTags.accepts(Diet.OMNIVORE,stack),"Native meadow food rolls must suit their residents"); food += stack.getCount();
+                }
+            }
+            h.assertTrue(seeds <= 2 && guavas >= 1 && guavas <= 2 && food >= 1 && food <= 9,
+                    "Optional seeds must preserve modest guaranteed guava/local-food pools");
+            if (seeds == 0) omitted++; else supplied++;
+        }
+        h.assertTrue(supplied > 0 && omitted > 0,"Native seeded chest rolls must exercise both optional supply outcomes");
     }
     private static void maps(GameTestHelper h) {
         var level = h.getLevel();

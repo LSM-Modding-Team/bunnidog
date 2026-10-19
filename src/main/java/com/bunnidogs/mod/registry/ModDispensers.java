@@ -3,6 +3,7 @@ package com.bunnidogs.mod.registry;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.entity.BunnidogCare;
 import com.bunnidogs.mod.block.SeedCropBlock;
+import com.bunnidogs.mod.block.GuavaFruitBlock;
 import com.bunnidogs.mod.block.NurseryCradleBlockEntity;
 import com.bunnidogs.mod.item.MutagenItem;
 import java.util.Comparator;
@@ -34,7 +35,41 @@ public final class ModDispensers {
             DispenserBlock.registerBehavior(ModItems.STARLIT_DUST.get(),new NurseryBehavior(NurseryAction.RIPEN));
             DispenserBlock.registerBehavior(ModItems.MUTAGEN.get(),new NurseryBehavior(NurseryAction.TREAT));
             DispenserBlock.registerBehavior(ModItems.GUAVA_SAPLING.get(),new SaplingBehavior());
+            var previousGuava = DispenserBlock.DISPENSER_REGISTRY.get(ModItems.GUAVA.get());
+            var droppingGuava = previousGuava == null ? new DefaultDispenseItemBehavior() : previousGuava;
+            var plantingFruit = new FruitPlantingBehavior();
+            DispenserBlock.registerBehavior(ModItems.GUAVA.get(),(source,stack) -> {
+                var front = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
+                return GuavaFruitBlock.canPlant(source.level(),front) ? plantingFruit.dispense(source,stack) : droppingGuava.dispense(source,stack);
+            });
+            var previousShears = DispenserBlock.DISPENSER_REGISTRY.get(Items.SHEARS);
+            var picking = new FruitPickingBehavior();
+            DispenserBlock.registerBehavior(Items.SHEARS,(source,tool) -> {
+                var front = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
+                return source.level().hasChunkAt(front) && source.level().getBlockState(front).is(ModBlocks.GUAVA_FRUIT.get()) || previousShears == null
+                        ? picking.dispense(source,tool) : previousShears.dispense(source,tool);
+            });
         });
+    }
+    /** A valid canopy gap uses one plain guava; other targets keep the original food-ejection behavior. */
+    private static final class FruitPlantingBehavior extends OptionalDispenseItemBehavior {
+        @Override protected ItemStack execute(BlockSource source, ItemStack stack) {
+            var front = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
+            boolean planted = GuavaFruitBlock.plant(source.level(),front);
+            if (planted) stack.shrink(1);
+            this.setSuccess(planted);
+            return stack;
+        }
+    }
+    /** Ordinary shears still delegate to their original behavior away from guava fruit. */
+    private static final class FruitPickingBehavior extends OptionalDispenseItemBehavior {
+        @Override protected ItemStack execute(BlockSource source, ItemStack tool) {
+            var front = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
+            boolean picked = GuavaFruitBlock.pick(source.level(),front);
+            if (picked) tool.hurtAndBreak(1,source.level(),null,item -> {});
+            this.setSuccess(picked);
+            return tool;
+        }
     }
     private enum NurseryAction { PLANT, RIPEN, TREAT }
     /** Native block-item placement consumes exactly one; invalid targets retain stock without ejection. */

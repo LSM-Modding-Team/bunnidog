@@ -22,6 +22,20 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **O6/O7/D8/H9/L27, orchard and habitat routines:** shears dispensers pick
+  ripe guavas with one wear while retaining native animal/beehive shearing.
+  Plain guavas plant canopy gaps; invalid planting keeps ordinary food
+  ejection, with higher tiers untouched. Injured matching residents eat spare
+  cactus tops/same-color mushrooms, ripe wart and linked melons, preserving
+  growing stock through shared work/meal rules and protection rechecks.
+  Nests expose claimed/free comparator signals through normal POI tickets;
+  rehoming, travel and death notify without loading remote terrain. Meadow
+  stores add melon food and an independent 35% chance of one/two seeds.
+  The guide reaches 74 pages/five indices/forty-three chapter links. Java 25
+  build/all 56 native cases pass; guide preview inspected. See
+  `docs/ORCHARD_SPECS.md` O6–O7, `docs/FORAGING_SPECS.md` D8,
+  `docs/HOME_SPECS.md` H9 and `docs/SETTLEMENT_LIFE.md` L27.
+
 - **L25/L26, renewable melon beds:** foragers/omnivores harvest one slice
   only beside a living attached melon stem, leaving decorative melons intact.
   Native neighbor updates restore the mature stem. Bloom +10 advances young
@@ -347,8 +361,18 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **fifty-three** native scenarios pass (fifty-two mod
+The Java 25 build and all **fifty-six** native scenarios pass (fifty-five mod
 cases plus native sanity). Latest coverage:
+
+- **O6/O7:** real picking/planting pulses, exact wear/stock/components, stale/
+  unripe/unsupported/unloaded refusal, hopper collection, ordinary beehive
+  fallback, blocked-container food ejection and upgraded-guava exclusion.
+- **D8:** actual safe paths, three-high cactus top/flower preservation,
+  same-color mushroom seed stock, callback invalidation, ripe wart reset,
+  native melon-stem reset, exact healing/shared rest and no loose duplicates.
+- **H9/L27:** real comparator claim/failed-move/save/travel/rehome/death
+  transitions, scheduled stale-signal recovery and non-loading remote notifications; native seeded
+  chest rolls cover optional seeds with preserved food/guide pools.
 
 - **L25/L26:** living/wrong-facing/decorative melon cases, Diet/filter refusals,
   protection-callback stem loss, exact slice/native stem reset, no loose copy,

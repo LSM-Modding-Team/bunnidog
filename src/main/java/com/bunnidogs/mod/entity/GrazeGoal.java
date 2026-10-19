@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CaveVines;
 import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.NetherWartBlock;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gamerules.GameRules;
@@ -62,6 +63,14 @@ final class GrazeGoal extends Goal {
                     : state.is(Blocks.SHORT_GRASS) ? Blocks.AIR.defaultBlockState() : state);
         }
         if (!griefing) return null;
+        if (state.is(Blocks.CACTUS) && this.dog.canEat(new ItemStack(Items.CACTUS)) && ResidentPlants.spareCactus(this.dog,pos))
+            return new Meal(state,Blocks.AIR.defaultBlockState());
+        if (ResidentPlants.mushroom(state) && this.dog.canEat(new ItemStack(state.getBlock())) && ResidentPlants.spareMushroom(this.dog,pos))
+            return new Meal(state,Blocks.AIR.defaultBlockState());
+        if (state.is(Blocks.MELON) && this.dog.canEat(new ItemStack(Items.MELON_SLICE)) && ResidentPlants.linkedMelon(this.dog,pos))
+            return new Meal(state,Blocks.AIR.defaultBlockState());
+        if (state.is(Blocks.NETHER_WART) && state.getValue(NetherWartBlock.AGE) == NetherWartBlock.MAX_AGE && this.dog.canEat(new ItemStack(Items.NETHER_WART)))
+            return new Meal(state,state.setValue(NetherWartBlock.AGE,0));
         if (state.is(ModBlocks.GUAVA_FRUIT.get()) && GuavaFruitBlock.isRipe(state) && this.dog.canEat(new ItemStack(ModItems.GUAVA.get())))
             return new Meal(state,state.setValue(GuavaFruitBlock.AGE,0));
         if (state.is(Blocks.SWEET_BERRY_BUSH) && state.getValue(SweetBerryBushBlock.AGE) >= 2 && this.dog.canEat(new ItemStack(Items.SWEET_BERRIES)))
@@ -74,9 +83,10 @@ final class GrazeGoal extends Goal {
     private List<BlockPos> standingSpots(BlockPos pos) {
         var spots = new ArrayList<BlockPos>();
         spots.add(pos.above());
-        for (var direction : Direction.Plane.HORIZONTAL) for (int down = 0; down <= 1; down++) spots.add(pos.relative(direction).below(down));
+        boolean cactus = this.dog.level().getBlockState(pos).is(Blocks.CACTUS);
+        for (var direction : Direction.Plane.HORIZONTAL) for (int down = 0; down <= (cactus ? 2 : 1); down++) spots.add(pos.relative(direction).below(down));
         return spots.stream().filter(p -> HomeRoutes.standing(this.dog,p)
-                && Vec3.atBottomCenterOf(p).distanceToSqr(Vec3.atCenterOf(pos)) <= 4).toList();
+                && Vec3.atBottomCenterOf(p).distanceToSqr(Vec3.atCenterOf(pos)) <= (cactus ? 9 : 4)).toList();
     }
 
     @Override public boolean canUse() {
@@ -115,7 +125,7 @@ final class GrazeGoal extends Goal {
         if (!this.canContinueToUse()) return;
         this.ticks++;
         this.dog.getLookControl().setLookAt(this.food.getX()+0.5, this.food.getY()+0.5, this.food.getZ()+0.5);
-        if (this.dog.distanceToSqr(Vec3.atCenterOf(this.food)) > 4.0D) {
+        if (this.dog.distanceToSqr(Vec3.atCenterOf(this.food)) > (this.planned.before().is(Blocks.CACTUS) ? 9 : 4)) {
             this.eating = 0;
             if (this.ticks % 20 == 0) {
                 this.path = this.dog.getNavigation().createPath(this.stand,0);
@@ -125,7 +135,7 @@ final class GrazeGoal extends Goal {
             return;
         }
         this.dog.getNavigation().stop();
-        var sight = this.dog.level().clip(new ClipContext(this.dog.getEyePosition(),Vec3.atCenterOf(this.food),
+        var sight = this.dog.level().clip(new ClipContext(this.dog.getEyePosition(),ResidentPlants.sightPoint(this.dog,this.food),
                 ClipContext.Block.COLLIDER,ClipContext.Fluid.NONE,this.dog));
         if (sight.getType() != HitResult.Type.MISS && !sight.getBlockPos().equals(this.food)) { this.eating = 0; return; }
         if (++this.eating < Foraging.GRAZE_TICKS) return;

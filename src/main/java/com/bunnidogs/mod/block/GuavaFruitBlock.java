@@ -63,6 +63,16 @@ public class GuavaFruitBlock extends Block implements BonemealableBlock {
         return canPlant(level,pos) && level.setBlock(pos,ModBlocks.GUAVA_FRUIT.get().defaultBlockState(),3);
     }
 
+    /** Reset before paying the fruit; hand and dispenser harvesting share support and stale-state checks. */
+    public static boolean pick(ServerLevel level, BlockPos pos) {
+        if (!level.hasChunkAt(pos) || !level.hasChunkAt(pos.above()) || !level.getWorldBorder().isWithinBounds(pos)) return false;
+        var state = level.getBlockState(pos);
+        if (!state.is(ModBlocks.GUAVA_FRUIT.get()) || !isRipe(state) || !state.canSurvive(level,pos)
+                || !level.setBlock(pos,state.setValue(AGE,0),2)) return false;
+        Block.popResource(level,pos,new ItemStack(ModItems.GUAVA.get()));
+        return true;
+    }
+
     @Override
     public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
         return state.is(this) && !isRipe(state) && state.equals(level.getBlockState(pos)) && canSurvive(state,level,pos);
@@ -135,8 +145,7 @@ public class GuavaFruitBlock extends Block implements BonemealableBlock {
             return InteractionResult.PASS;
         }
         if (!level.isClientSide()) {
-            Block.popResource(level, pos, new ItemStack(ModItems.GUAVA.get()));
-            level.setBlock(pos, state.setValue(AGE, 0), 2);
+            pick((ServerLevel)level,pos);
         }
         return InteractionResult.SUCCESS;
     }

@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.bunnidogs.mod.BunnidogsMod;
+import com.bunnidogs.mod.block.NestBlock;
 import com.bunnidogs.mod.genetics.Home;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModPoi;
@@ -57,7 +58,7 @@ public final class NestHome {
                 (holder, pos) -> pos.equals(destination), destination, 1);
         if (taken.isEmpty()) return MoveResult.OCCUPIED;
         BlockPos previous = this.nest;
-        this.claim(taken.get());
+        this.claim(level,taken.get());
         this.rejected.clear();
         // POI storage can release a remote ticket without requesting its terrain chunk.
         if (previous != null && level.getPoiManager().exists(previous, holder -> holder.is(ModPoi.NEST.getKey()))) {
@@ -104,7 +105,7 @@ public final class NestHome {
             this.rejected.add(pos.asLong());
             return;
         }
-        this.claim(pos);
+        this.claim(level,pos);
     }
 
     /** R4: the path finder can bring the dog next to the nest (the block above it is the target; the nest itself is solid). */
@@ -114,9 +115,10 @@ public final class NestHome {
     }
 
     /** R5: remember the nest; {@link GoHomeGoal} brings the dog back whenever it is more than {@link Home#HOME_RADIUS} away. */
-    private void claim(BlockPos pos) {
+    private void claim(ServerLevel level, BlockPos pos) {
         this.nest = pos;
         this.timer = Home.CHECK_INTERVAL;
+        NestBlock.ticketChanged(level,pos);
     }
 
     /** R6: the nest block is still there, or the home is forgotten (the block took its ticket with it). */
@@ -149,7 +151,9 @@ public final class NestHome {
             level.getPoiManager().release(pos);
         } catch (RuntimeException e) {
             BunnidogsMod.LOGGER.warn("Bunnidog could not give back the ticket of the nest at {}", pos, e);
+            return;
         }
+        NestBlock.ticketChanged(level,pos);
     }
 
     // ------------------------------------------------------------------ saving

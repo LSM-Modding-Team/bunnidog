@@ -58,8 +58,8 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Seventy pages use the ordinary written-book screen. Five linked contents pages
-offer forty clickable chapter links. Each chapter links back to its index. Local page changes
+Seventy-four pages use the ordinary written-book screen. Five linked contents pages
+offer forty-three clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
 
@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current fifty-three native server cases pass,
-including loading the book/recipe/loot resources. The expanded 70-page
-melon/stem/gathering/Working preview is inspected with a substitute font; all
+The actual Java 25 build and current fifty-six native server cases pass,
+including loading the book/recipe/loot resources. The expanded 74-page
+orchard/repair/Nest-signal/Working preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -224,3 +224,12 @@ chapter links. Living attached stems, preserved decorative blocks, Diet feeding,
 one-stage/no-food growth, native fruit regrowth and shared rest are explicit.
 The melon/stem/gathering/Working preview is inspected with a substitute font.
 Java 25 build/all 53 native cases pass; earlier destinations remain stable.
+
+O6/O7 adds **Orchard pickers** (71) and **Repair a canopy** (74); D8 adds
+**Habitat meals** (72), and H9 adds **Nest signals** (73). Working has six
+chapter links, including 71–73; 71 points to repair page 74. The guide has
+74 pages, five indices and forty-three chapter links, preserving earlier page
+IDs/returns. L27 updates stem page 70 with meadow seed supplies. New content
+and the six-link Working index are previewed with a substitute font; Java 25
+build/all 56 native cases pass. Native client fonts/navigation remain gameplay
+review; written-book defaults and protocol 7 stay shared.

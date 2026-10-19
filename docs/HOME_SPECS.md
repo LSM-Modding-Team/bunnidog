@@ -227,3 +227,33 @@ Adventure and loaded-missing refusals, and an unloaded recorded home staying
 unloaded. Existing marker stack/creative/save/overflow cases remain passing.
 Home/roll-call/index guide preview inspected; client compass travel remains
 playtest review.
+
+## H9: Nest occupancy comparator
+
+Nests provide native analog output: 15 while their one POI ticket is claimed,
+zero while free. This is the saved home reservation, not a scan for a resident
+standing on the block. An away or unloaded resident retains its signal. The
+same loaded-only query serves empty-hand Nest inspection and comparator reads.
+No block entity, extra ticket, animal timer, network payload or custom saved field is introduced.
+
+A successful natural/manual claim and actual ticket release notify neighboring
+comparators. Rehoming acquires the new ticket first, then updates both blocks;
+an occupied/unreachable destination keeps the original home. Death and Travel
+Basket release clear the old output. Temporary rejected path claims are returned
+normally. Remote release/notification never requests terrain merely for redstone. Analog
+notifications guard both the adjacent block and the second step through a
+conductor, preserving native weak-change hooks without requesting missing chunks.
+A comparator read schedules a native five-second block refresh; connected
+circuits renew it, and disconnected Nests stop after the pending tick. Native
+scheduled ticks persist across unload, so an unnotified remote release is
+corrected within five loaded seconds on return. Claims and
+transport/unload semantics remain those of H2/H5/H6.
+
+Java 25 build/all 56 native cases pass. The new case places real comparators,
+claims two reachable Nests, verifies 15/0 while residents are away, rejects an
+occupied move, reloads the animal without taking another ticket, and exercises
+travel release, successful relocation, later reclaim and actual native death.
+Both signal ends update. A deliberately unnotified native ticket release is
+corrected by the real scheduled refresh. A remote unloaded notification/query leaves terrain
+unloaded. Existing home/basket/marker cases remain passing. Guide preview
+inspected; client redstone displays and natural unload cycles need gameplay review.
