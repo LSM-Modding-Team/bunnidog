@@ -10,6 +10,9 @@ public final class Foraging {
     public static final int GRAZE_TICKS = 40;
     public static final int SEARCH_RADIUS = 8;
     public static final int HUNT_TICKS = 400;
+    public static final int HUNT_REPATH_INTERVAL = 10;
+    public static final int HUNT_BITE_INTERVAL = 20;
+    public static final int HUNT_PATH_ATTEMPTS = 8;
     public static final int NIGHT_MEAL_RADIUS = 4;
 
     public enum Meal { NONE, HAY, GRASS, WHEAT, PRODUCE }

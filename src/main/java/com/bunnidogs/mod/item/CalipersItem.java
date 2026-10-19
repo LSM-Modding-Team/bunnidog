@@ -194,6 +194,10 @@ public class CalipersItem extends Item {
             return InteractionResult.SUCCESS;
         }
         var block = level.getBlockEntity(context.getClickedPos());
+        if (player.isShiftKeyDown() && block instanceof com.bunnidogs.mod.block.FeedingTroughBlockEntity) {
+            if (level instanceof ServerLevel server) com.bunnidogs.mod.entity.WorkCensus.show(server,context.getClickedPos(),player);
+            return InteractionResult.SUCCESS;
+        }
         Optional<Seed> planted;
         if (block instanceof SeedCropBlockEntity crop) planted = crop.seed();
         else if (block instanceof NurseryCradleBlockEntity cradle) {

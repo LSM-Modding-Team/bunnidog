@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 78 pages from first warren to Apex. Five linked contents pages offer forty-six
+open 80 pages from first warren to Apex. Five linked contents pages offer forty-six
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -599,3 +599,15 @@ melon stems with wheat/roots, native water and empty dirt fruit spaces. A
 clear corner can fit an empty enabled trough. Plants grow and fruit normally;
 old saved settlements retain their existing crop layouts. Garden-mode workers
 can later restore valid gaps from surplus food.
+
+**Safe food hunts (D9):** wounded hunters and fishers follow complete dry home
+routes, including safe shore positions. New terrain hazards and changed homes
+interrupt pursuit. Named, leashed, riding, tamed, baby and allied animals are
+protected. One eligible chosen prey kill heals four HP with normal meal rest.
+Other resident routes also notice new native hazards under cached path nodes.
+
+**Work roll call (L32):** sneak-use Calipers on a trough for its mode, stock,
+filter and up to eight nearby resident rows. It explains health/home/recovery,
+traits, power, reserve and capacity limits. Counts include loaded residents
+within eight blocks, with eligible workers first. Ready means eligible to
+search; provide the correct target and a clear route. Reading changes nothing.

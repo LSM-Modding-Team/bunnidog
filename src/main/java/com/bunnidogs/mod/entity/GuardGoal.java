@@ -55,6 +55,7 @@ final class GuardGoal extends Goal {
     }
     @Override public boolean canContinueToUse() {
         return wanted() && this.home != null && this.home.equals(this.dog.homeNest())
+                && HomeRoutes.dryCell(this.dog,this.dog.blockPosition())
                 && this.dog.getTarget() == this.intruder && valid(this.intruder) && this.ticks < Guarding.MAX_PURSUIT;
     }
     @Override public boolean requiresUpdateEveryTick() { return true; }

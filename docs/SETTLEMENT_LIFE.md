@@ -803,3 +803,10 @@ selection. Focused layout checks cover footprint/unique supports/water, both
 corner variants, stem-to-gap adjacency and unchanged other regions. Actual
 cell/farm and guide previews are inspected. Natural terrain and long growth
 cycles remain gameplay review.
+
+## L32: trough work roll call
+
+Sneak-Calipers on a trough explains selected-mode worker eligibility without
+performing searches or changing residents/food. `RESIDENT_WORK.md` L32 gives
+its bounded loaded-only scope, reasons and native evidence. All 61 native
+cases pass, including actual hand interaction and whole-state preservation.

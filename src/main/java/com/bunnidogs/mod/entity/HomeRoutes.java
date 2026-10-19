@@ -7,6 +7,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.level.pathfinder.PathfindingContext;
+import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 
 /** Small shared navigation checks; never request terrain or change home tickets. */
 final class HomeRoutes {
@@ -22,7 +25,17 @@ final class HomeRoutes {
         return pos != null && level.hasChunkAt(pos) && dog.foodWithinHome(pos)
                 && level.getBlockState(pos).isAir() && level.getBlockState(pos.above()).isAir()
                 && level.getFluidState(pos).isEmpty() && level.getFluidState(pos.above()).isEmpty()
-                && level.getBlockState(pos.below()).isFaceSturdy(level,pos.below(),Direction.UP);
+                && level.getBlockState(pos.below()).isFaceSturdy(level,pos.below(),Direction.UP) && dryCell(dog,pos);
+    }
+    private static boolean dangerous(PathType type) {
+        return switch (type) {
+            case WATER, LAVA, FIRE, FIRE_IN_NEIGHBOR, DAMAGING, DAMAGE_CAUTIOUS, POWDER_SNOW, ON_TOP_OF_POWDER_SNOW -> true;
+            default -> false;
+        };
+    }
+    static boolean dryCell(Bunnidog dog, BlockPos pos) {
+        return dog.level().hasChunksAt(pos.offset(-1,-1,-1),pos.offset(1,1,1))
+                && !dangerous(WalkNodeEvaluator.getPathTypeStatic(dog,pos));
     }
     static boolean visible(Bunnidog dog, Entity mob) {
         BlockPos from = dog.blockPosition(), to = mob.blockPosition();
@@ -32,15 +45,16 @@ final class HomeRoutes {
     }
     static boolean safe(Bunnidog dog, Path route, Mob threat) {
         if (route == null || !route.canReach()) return false;
+        var context = new PathfindingContext(dog.level(),dog);
         double clearance = threat == null ? 0 : Math.min(4,dog.blockPosition().distSqr(threat.blockPosition()));
         for (int i = route.getNextNodeIndex(); i < route.getNodeCount(); i++) {
             var node = route.getNode(i);
             if (!dog.level().hasChunkAt(node.asBlockPos()) || !dog.foodWithinHome(node.asBlockPos())
                     || threat != null && node.asBlockPos().distSqr(threat.blockPosition()) < clearance) return false;
-            switch (node.type) {
-                case WATER, LAVA, FIRE, FIRE_IN_NEIGHBOR, DAMAGING, DAMAGE_CAUTIOUS, POWDER_SNOW, ON_TOP_OF_POWDER_SNOW -> { return false; }
-                default -> {}
-            }
+            var pos = node.asBlockPos();
+            if (dangerous(node.type) || !dog.level().hasChunksAt(pos.offset(-1,-1,-1),pos.offset(1,1,1))) return false;
+            var current = WalkNodeEvaluator.getPathTypeStatic(context,pos.mutable());
+            if (dangerous(current) || node.type == PathType.WALKABLE && current == PathType.OPEN) return false;
         }
         return true;
     }

@@ -79,3 +79,25 @@ swapped during real stock notifications, exact one-stage cost with unchanged
 whole named treated litter, and explicit ripe hatching. Existing work, care,
 automation and nursery scenarios remain passing. The guide preview uses a
 substitute font; natural worker cycles and client controls need gameplay review.
+
+## L32: read-only trough roll call
+
+Sneak-use Calipers on a trough, in either hand, to show its selected mode,
+enable/pause state, exact stock/filter and nearby residents. Count loaded live
+ordinary bunnidogs in an eight-block sphere, with up to eight rows and eligible
+workers first. Pups, unhealthy/homeless/resting/outside-home animals and trait/
+Diet failures get their ordinary reason. Gather checks Senses/capacity/ordinary
+food; Compost checks Bloom/surplus/value; Nursery checks Bloom/plain guavas;
+Garden/Mixed account for available stock space or supported spending jobs.
+Ready means eligible to search, not a guarantee of a target or route.
+
+The report creates no paths, POI claims, tags or persistent state, and never
+requests missing terrain. Power reads guard the native two-block conductor
+area; unknown boundary power is conservatively shown as paused. Native chat
+components use the current language; no screen or payload is added.
+
+Java 25 build/all 61 native cases pass. A new native case uses real off-hand
+Calipers, checks selected nursery/gather trait and pup eligibility, power and
+work pause, and compares whole stock/filter/mode saves, animal NBT, tag,
+navigation and tool before/after inspection. Remote requests leave chunks
+unloaded. Guide preview inspected; client chat display remains gameplay review.

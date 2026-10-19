@@ -18,16 +18,21 @@ final class ResidentPlanting {
         if (food.isEmpty() || !level.hasChunkAt(pos) || !level.hasChunkAt(pos.below()) || !level.hasChunkAt(pos.above())
                 || level.isOutsideBuildHeight(pos) || !level.getWorldBorder().isWithinBounds(pos)
                 || !level.getBlockState(pos).isAir() || !level.getFluidState(pos).isEmpty()) return null;
-        var plant = food.is(Items.CARROT) ? Blocks.CARROTS : food.is(Items.POTATO) ? Blocks.POTATOES
-                : food.is(Items.MELON_SLICE) ? Blocks.MELON_STEM : food.is(Items.NETHER_WART) ? Blocks.NETHER_WART
-                : food.is(Items.SWEET_BERRIES) ? Blocks.SWEET_BERRY_BUSH : food.is(Items.GLOW_BERRIES) ? Blocks.CAVE_VINES
-                : food.is(Items.RED_MUSHROOM) ? Blocks.RED_MUSHROOM : food.is(Items.BROWN_MUSHROOM) ? Blocks.BROWN_MUSHROOM
-                : food.is(Items.CRIMSON_FUNGUS) ? Blocks.CRIMSON_FUNGUS : food.is(Items.WARPED_FUNGUS) ? Blocks.WARPED_FUNGUS
-                : food.is(Items.CACTUS) ? Blocks.CACTUS : food.is(ModItems.GUAVA.get()) ? ModBlocks.GUAVA_FRUIT.get() : null;
+        var plant = plant(food);
         if (plant == null) return null;
         if (plant == Blocks.CACTUS && (level.getBlockState(pos.below()).is(Blocks.CACTUS)
                 || !level.getEntitiesOfClass(LivingEntity.class,new AABB(pos).inflate(.1),LivingEntity::isAlive).isEmpty())) return null;
         var state = plant.defaultBlockState();
         return state.canSurvive(level,pos) ? state : null;
     }
+    static boolean supports(ItemStack food) { return plant(food) != null; }
+    private static net.minecraft.world.level.block.Block plant(ItemStack food) {
+        return food.is(Items.CARROT) ? Blocks.CARROTS : food.is(Items.POTATO) ? Blocks.POTATOES
+                : food.is(Items.MELON_SLICE) ? Blocks.MELON_STEM : food.is(Items.NETHER_WART) ? Blocks.NETHER_WART
+                : food.is(Items.SWEET_BERRIES) ? Blocks.SWEET_BERRY_BUSH : food.is(Items.GLOW_BERRIES) ? Blocks.CAVE_VINES
+                : food.is(Items.RED_MUSHROOM) ? Blocks.RED_MUSHROOM : food.is(Items.BROWN_MUSHROOM) ? Blocks.BROWN_MUSHROOM
+                : food.is(Items.CRIMSON_FUNGUS) ? Blocks.CRIMSON_FUNGUS : food.is(Items.WARPED_FUNGUS) ? Blocks.WARPED_FUNGUS
+                : food.is(Items.CACTUS) ? Blocks.CACTUS : food.is(ModItems.GUAVA.get()) ? ModBlocks.GUAVA_FRUIT.get() : null;
+    }
+
 }

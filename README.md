@@ -4,7 +4,7 @@ A NeoForge mod for Minecraft 26.2: a baby-faced creature with rabbit ears and a
 dog's body, plus breeding, genetics, guavas, warrens, homes and pedigree tools.
 Requires JDK 25. Client and server must both use the updated mod (network 7). The checked-in Gradle wrapper selects the project Gradle version.
 
-Craft a vanilla book with any guava for the **78-page Field Guide**, with five
+Craft a vanilla book with any guava for the **80-page Field Guide**, with five
 linked contents pages covering its chapters. Sneak-use
 Calipers for care/work readiness, use a hoe on a Feeding Trough to enable
 resident gardening, and explore food stores for supplies suited to each lineage.
@@ -28,6 +28,8 @@ Sneak-hoe selects trough work: Mixed, Garden, Gather, Compost or Nursery.
 Garden workers at Bloom +10 replant from real surplus; Nursery workers at +20 tend a Cradle stage.
 Both spending jobs keep eight food in reserve and share work recovery.
 Fresh five-tree meadow farms include young melon stems and open dirt fruit spaces; old plans stay.
+Sneak-Calipers on a trough explains nearby worker readiness for its selected mode.
+Hunters/fishers use dry home routes and leave named, leashed or transported prey alone.
 Living glow/starborn lines yield renewable dust, while inherited terrain traits
 and resident shore fishing give more reasons to develop distinct breeds.
 Residents seek refuge from threats and shelter from thunderstorms.

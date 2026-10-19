@@ -71,15 +71,17 @@ PAGES = {
     69: ('Melon beds', 'Healthy foragers and omnivores harvest a slice beside a living attached melon stem, near an enabled trough. The stem regrows fruit; decorative melons stay. Slices heal or grow matching lines. Stems: 70. Farms: 78.'),
     70: ('Grow melon stems', 'Bloom +10 grows a young melon stem by one age at an enabled trough. No food is made. Mature stems await native fruit growth; leave nearby soil and air. Meadow stores may hold seeds. All jobs share one-minute garden rest.'),
     71: ('Orchard pickers', 'A dispenser with shears picks one ripe hanging guava and resets it to green for one tool use. Unripe fruit keeps the tool. Hoppers collect drops; shears still work on animals and beehives. Repair gaps: page 74.'),
-    72: ('Habitat meals', 'Injured matching lines eat spare cactus tops, extra same-color mushrooms, ripe wart or stem-linked melons near home by day. Growing stock stays. No trough is needed. A meal heals 2 HP and shares thirty-second food rest.'),
+    72: ('Habitat meals', 'Injured matching lines eat spare cactus tops, extra same-color mushrooms, ripe wart or stem-linked melons near home by day. Growing stock stays. No trough is needed. A meal heals 2 HP and shares thirty-second food rest. Predators: 80.'),
     73: ('Nest signals', 'Read a Nest with a comparator: 15 means claimed, 0 means free. The resident can be away or unloaded. Rehoming updates both Nests. Packing into a Travel Basket or death frees the old one.'),
     74: ('Repair a canopy', 'A dispenser plants one plain guava into an empty dry gap beneath leaves. Other targets eject the guava as food, so pulse once to repair a canopy. Upgraded guavas never plant fruit. Bone meal grows it; shears pick it.'),
-    75: ('Work modes', 'Sneak-hoe cycles Mixed, Garden, Gather, Compost and Nursery, enabling work. Normal hoe toggles it; power pauses it. Mixed harvests, grows, gathers and composts. Garden replants; Nursery tends Cradles.'),
+    75: ('Work modes', 'Sneak-hoe cycles Mixed, Garden, Gather, Compost and Nursery, enabling work. Normal hoe toggles it; power pauses it. Mixed harvests, grows, gathers and composts. Garden replants; Nursery tends Cradles. Roll call: 79.'),
     76: ('Restore a garden', 'Garden mode: Bloom +10 residents spend one suitable food above an eight-item reserve to replant a valid gap. Use the plant\'s normal soil or support. Carrots, guavas and berries are examples. Jobs share one-minute work rest.'),
     77: ('Nursery workers', 'Nursery mode: Bloom +20 adults spend one plain guava above an eight-food reserve for one Cradle stage. The whole litter stays. Jobs share garden rest. Players or redstone hatch ripe litters.'),
     78: ('Meadow melon farms', 'Fresh five-tree meadow farms mix young melon stems with ordinary crops. Empty dirt spaces allow fruit; a clear corner may fit an enabled trough. Plants grow naturally. Old settlements keep their plans. Garden repair: page 76.'),
+    79: ('Work roll call', 'Sneak-use Calipers on a trough for its mode, food, filter and nearby residents. The report explains age, health, home, traits, recovery and stock limits. Ready means eligible to search. Leave a clear route and the right work nearby.'),
+    80: ('Safe hunting', 'Wounded hunters and fishers follow dry home routes to wild prey. They stop for unsafe terrain, changed homes or protection. Named, leashed and transported animals stay. One kill heals 4 HP and shares thirty-second food rest.'),
 }
-PAGE_COUNT = 78
+PAGE_COUNT = 80
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
@@ -134,7 +136,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,69),(495,78),(735,76),(975,66)]:
+    for x,page in [(255,79),(495,80),(735,75),(975,66)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

@@ -100,3 +100,36 @@ meal healing/recovery, unripe/Diet wart refusals and age-zero reset, decorative/
 detached melon refusal and native age-seven stem reset. No loose food is created.
 Existing cactus/mushroom/melon gardening and D6/D7 meals remain passing. Guide
 preview inspected; natural ecology and client routines need gameplay review.
+
+## D9: safe hunting and shore approaches
+
+Food pursuit now uses bounded, complete, dry, home-contained native routes
+rather than handing moving prey directly to unrestricted melee navigation.
+Search up to four nearest compatible wild animals inside an eight-block
+sphere, with eight route attempts. A prey's cell or a nearby supported dry
+spot is usable; fish can be bitten from a safe shore already in native melee
+reach. Moving prey is replanned every ten ticks, with a twenty-second visit
+bound and native twenty-tick bite spacing. No teleport or forced water entry.
+
+Named, led, riding or vehicle animals join the existing baby/player/bunnidog/
+tame/ally exclusions. Players can protect untamed livestock by naming or leading
+it. Eligibility, sight, native melee reach, current home and target ownership
+recheck through pursuit; another combat target is never cleared by stopping
+this goal. Native damage/protection still decides the hit. Only a real selected
+prey kill while current Diet/care/home eligibility still matches heals four
+HP and starts the existing saved 600-tick food rest. No new animal save field.
+
+Shared HomeRoutes now evaluates current native path types as well as cached
+node types. New fire/water/magma/powder-snow hazards and lost floors invalidate
+old routes. Native neighbor path classification is only queried after its
+loaded bounds are checked; no missing terrain is requested. Existing route
+users, including gardening, refuge and guards, share this correction. Adjacent
+non-contact cactus/berry warning types remain usable for normal safe work.
+
+Java 25 build/all 61 native cases pass. The new safety case exercises actual
+paths and a real native meal kill, named/leashed/boat exclusions, magma placed
+under an already planned route, interruption on renaming and relocation, and
+preservation of a replacement combat target. The prior fishing case still
+performs its real shore kill with exact healing/rest. All earlier resident/
+care/automation scenarios remain passing. Guide preview inspected; natural
+pursuit over varied terrain and client behavior need gameplay review.

@@ -58,7 +58,7 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Seventy-eight pages use the ordinary written-book screen. Five linked contents pages
+Eighty pages use the ordinary written-book screen. Five linked contents pages
 offer forty-six clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current fifty-nine native server cases pass,
-including loading the book/recipe/loot resources. The expanded 78-page
-mode/restoration/nursery/Working preview is inspected with a substitute font; all
+The actual Java 25 build and current sixty-one native server cases pass,
+including loading the book/recipe/loot resources. The expanded 80-page
+roll-call/hunting/mode/Working preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -245,3 +245,9 @@ L31 adds **Meadow melon farms** (78), reached from melon page 69 and returning
 to Working. There are 78 pages; five indices/forty-six chapter links stay.
 The farm cells and guide text preview are inspected; Java 25 build/all 59
 native cases pass. Older guide destinations remain stable.
+
+L32 adds **Work roll call** (79), referenced by Work modes (75). D9 adds
+**Safe hunting** (80), referenced by Habitat meals (72). Both return to Working.
+There are 80 pages; five indices/forty-six chapter links stay. The new content/
+navigation preview is inspected; build/all 61 native cases pass. Native client
+fonts/chat/navigation remain gameplay review.

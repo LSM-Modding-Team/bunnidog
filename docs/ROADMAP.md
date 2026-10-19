@@ -16,6 +16,13 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+D9 replaces unrestricted food pursuit with safe dry approaches and shore
+bites, protecting named/led/transported prey and owned combat targets. Shared
+route checks re-evaluate actual hazards after terrain changes. L32 adds a
+read-only sneak-Calipers trough roll call explaining mode/trait/stock readiness.
+Java 25 build/all 61 native scenarios pass; 80-page guide preview inspected.
+See `FORAGING_SPECS.md` and `RESIDENT_WORK.md`.
+
 L31 adds two young melon stems and protected fruit gaps to fresh meadow farms.
 New starts save generation version six; version-five/older starts and other
 regional farms retain their layouts. Actual native growth, rotated fit and

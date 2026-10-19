@@ -22,6 +22,16 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **D9/L32, safe hunts and work roll call:** hunters/fishers choose bounded
+  dry approach/shore routes, interrupt on changed homes/terrain/protection
+  and leave named, led or transported prey alone. Only an eligible chosen
+  prey kill pays meal healing. Shared routes now recheck current native
+  hazard types, including a changed floor under cached nodes. Sneak-Calipers
+  on a trough reports selected-mode eligibility, food/filter, traits and
+  pause/stock limits for loaded residents without paths, tags or mutations.
+  Java 25 build/all 61 native cases pass; 80-page guide preview inspected.
+  See `docs/FORAGING_SPECS.md` D9 and `docs/RESIDENT_WORK.md` L32.
+
 - **L31, meadow melon plots:** fresh version-six meadow farms mix two young
   melon stems with crops, one native water source and two reserved dirt fruit
   gaps. Optional corner troughs and the original 3×3 reservation remain.
@@ -381,8 +391,14 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **fifty-nine** native scenarios pass (fifty-eight mod
+The Java 25 build and all **sixty-one** native scenarios pass (sixty mod
 cases plus native sanity). Latest coverage:
+
+- **D9/L32:** real wild-prey kill/heal/rest, named/leashed/boat exclusions,
+  new magma under an existing route, renamed prey, relocation and target
+  ownership, with legacy shore fishing passing. Native off-hand work reports
+  preserve whole stock/filter/mode, animal NBT/tag/navigation and tool; trait,
+  pup, power/enable and remote loaded-only boundaries pass.
 
 - **L28–L30/N9:** actual crouched off-hand mode cycling/toggle/Adventure,
   policy/native legacy saves, exact named stock/filter, real paths and Bloom/
