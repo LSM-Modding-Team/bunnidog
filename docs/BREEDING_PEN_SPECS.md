@@ -82,6 +82,8 @@ distinguish dark/bright neighbors. Bands are **0, 1, 2, 4, 7, 12, 20 and 33**;
 choose the highest threshold reached. Thus 1.5 is golden, 6.99 netherite and
 20 Dragon Egg. Tooltips still show the exact quality and explain the color band.
 The look does not claim a particular genotype, litter size or original fruit.
+The client encodes the selected band into its native float model property,
+preventing very close sub-threshold doubles from rounding up to a richer look.
 
 Native item range dispatch uses the client-only `bunnidogs:seed_quality` numeric
 property, which reads the existing valid `seed_data` directly. Old, carried,

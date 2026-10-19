@@ -73,6 +73,7 @@ public final class WorkshopAssetsCheck {
             require(bands.get(tier.level()).getAsJsonObject().get("threshold").getAsDouble() == tier.quality(),"Seed artwork thresholds follow the actual quality ladder");
             require(SeedQuality.band(tier.quality()) == tier,"An exact quality threshold selects its own band");
             if (tier.previous() != null) require(SeedQuality.band(Math.nextDown(tier.quality())) == tier.previous(),"Fractions below a threshold must not round up");
+            if (tier.previous() != null) require(SeedQuality.modelValue(Math.nextDown(tier.quality())) < (float)tier.quality(),"Float model inputs must also keep just-below-threshold doubles in the lower band");
         }
         require(SeedQuality.band(1.5) == GuavaTier.GOLDEN && SeedQuality.band(32.99) == GuavaTier.DRAGON_EGG,"Intermediate seed qualities retain their lower look");
         System.out.println("Workshop assets OK: press variants, saved coat-id jars, all rug/carrier models and texture references.");

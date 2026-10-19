@@ -9,4 +9,6 @@ public final class SeedQuality {
         for (var tier : GuavaTier.values()) if (quality >= tier.quality()) band = tier;
         return band;
     }
+    /** Native model properties are floats: encode the chosen band so near-boundary doubles cannot round upward. */
+    public static float modelValue(double quality) { return (float)band(quality).quality(); }
 }
