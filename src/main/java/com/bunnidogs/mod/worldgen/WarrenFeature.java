@@ -157,7 +157,7 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
                     ? floor
                     : groundAt(level, floor.getX() + cluster.dx(), floor.getY(), floor.getZ() + cluster.dz(), surfaceOnly);
             boolean networkDen = underground.dens().contains(clusterIndex++);
-            int here = at == null ? NO_CLUSTER : buildCluster(level, at, cluster.shape(), rng, surfaceOnly, style, settlement.level() == 1 && !open, networkDen,true);
+            int here = at == null ? NO_CLUSTER : buildCluster(level, at, cluster.shape(), rng, surfaceOnly, style, settlement.level() == 1 && !open, networkDen,true,true);
             if (here == NO_CLUSTER) {
                 if (trees == 0 && cluster.dx() == 0 && cluster.dz() == 0) {
                     BunnidogsMod.LOGGER.info("Warren gave up at {} ({} kind): no room for the trunk", floor, kind);
@@ -472,6 +472,11 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
 
     static int buildCluster(WorldGenLevel level, BlockPos floor, WarrenShape warren, Random rng, boolean surface, Lineage style,
             boolean den, boolean networkDen, boolean lifeDetails) {
+        return buildCluster(level,floor,warren,rng,surface,style,den,networkDen,lifeDetails,false);
+    }
+
+    static int buildCluster(WorldGenLevel level, BlockPos floor, WarrenShape warren, Random rng, boolean surface, Lineage style,
+            boolean den, boolean networkDen, boolean lifeDetails, boolean entranceTrails) {
         if (!GuavaTree.fits(level, floor, warren.tree())) {
             return NO_CLUSTER;
         }
@@ -487,7 +492,7 @@ public class WarrenFeature extends Feature<NoneFeatureConfiguration> {
         GuavaTree.place(level, floor, warren.tree());
         // U2 has already placed fitted higher-level networks. U1 still builds its own level-1 den here.
         // Without a fitted den, retain the old holes and surface nests.
-        boolean denBuilt = networkDen || den && surface && WarrenDen.build(level, floor, style, rng,lifeDetails);
+        boolean denBuilt = networkDen || den && surface && WarrenDen.build(level, floor, style, rng,lifeDetails,entranceTrails);
         if (!denBuilt) {
             for (WarrenShape.Spot spot : warren.burrows()) {
                 BlockPos ground = groundAt(level, floor.getX() + spot.dx(), floor.getY(), floor.getZ() + spot.dz(), surface);

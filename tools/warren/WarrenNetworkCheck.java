@@ -34,6 +34,7 @@ public final class WarrenNetworkCheck {
     }
 
     public static void main(String[] args) {
+        entranceTrails();
         for (int turns = 0; turns < 4; turns++) {
             for (var style : Lineage.values()) for (boolean garden : new boolean[]{false,true}) {
                 var regional = RegionalFarms.cells(style,turns,garden);
@@ -179,6 +180,28 @@ public final class WarrenNetworkCheck {
         }
         System.out.println("Warren network OK: " + networks + " flat layouts, " + cellarRamps
                 + " cellar ramps, " + features + "; terrain fallback, house/path clearance and chunk partitions");
+    }
+
+    private static void entranceTrails() {
+        for (var direction : DenShape.Dir.values()) for (int radial = DenShape.MIN_RADIUS; radial <= DenShape.MAX_RADIUS; radial++)
+            for (int side : new int[]{1,-1}) {
+                var route = com.bunnidogs.mod.layout.EntranceTrail.route(direction,radial,side);
+                require(new HashSet<>(route).size() == route.size(),"Entrance trails cannot double back");
+                require(route.getFirst().equals(DenShape.at(direction,radial+1,0)),"Trails start outside the outward-facing door");
+                var end = route.getLast();
+                require(Math.abs(end.dx()) == 2 && Math.abs(end.dz()) == 2,"Trails reach the tree-patch edge without entering the low canopy");
+                for (int i = 0; i < route.size(); i++) {
+                    var p = route.get(i);
+                    require(Math.max(Math.abs(p.dx()),Math.abs(p.dz())) <= com.bunnidogs.mod.layout.EntranceTrail.REACH,
+                            "Trail writes must fit the new cluster bounding box");
+                    require(!DenShape.padColumns(direction,radial).contains(p),"Trails must go around the complete mound footprint");
+                    require(Math.max(Math.abs(p.dx()),Math.abs(p.dz())) > PathShape.TRUNK_CLEARANCE,"Trails preserve the trunk clearance");
+                    if (i > 0) {
+                        var before = route.get(i-1);
+                        require(Math.abs(before.dx()-p.dx())+Math.abs(before.dz()-p.dz()) == 1,"Every trail is a connected walking route");
+                    }
+                }
+            }
     }
 
     private static void checkWayfinding(Settlement settlement, TunnelShape.Network network, Set<Wayfinding.Label> labels) {

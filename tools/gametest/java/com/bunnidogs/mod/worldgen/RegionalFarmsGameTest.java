@@ -94,8 +94,10 @@ public final class RegionalFarmsGameTest {
         var context = StructurePieceSerializationContext.fromLevel(level);
         var piece = new WarrenPiece(WarrenPiece.PROP,0,7,5,centre.getX(),centre.getZ(),centre.getY());
         var saved = piece.createTag(context);
-        h.assertTrue(saved.getIntOr("WarrenVersion",0) == 6 && new WarrenPiece(saved).createTag(context).getIntOr("WarrenVersion",0) == 6,
-                "New starts retain meadow generation version six through native saves");
+        h.assertTrue(saved.getIntOr("WarrenVersion",0) == 7 && new WarrenPiece(saved).createTag(context).getIntOr("WarrenVersion",0) == 7,
+                "New starts retain entrance-trail generation version seven through native saves");
+        saved.putInt("WarrenVersion",6);
+        h.assertTrue(new WarrenPiece(saved).createTag(context).getIntOr("WarrenVersion",0) == 6,"Version-six melon plots retain their old start version");
         saved.putInt("WarrenVersion",5);
         h.assertTrue(new WarrenPiece(saved).createTag(context).getIntOr("WarrenVersion",0) == 5,"Version-five plots must remain version five when loaded");
         saved.putInt("WarrenVersion",4);

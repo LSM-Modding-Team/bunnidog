@@ -22,6 +22,13 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **U1 completion, entrance trails:** new version-seven small surface warrens
+  fit complete worn trails from each actual mouth round its mound to the tree
+  patch. Unsafe sides fall back or stay untouched; old starts keep their plans.
+  Native new/legacy piece generation, mound/tree/Nest preservation and blocked
+  container/fluid/ore cases pass with all 72 scenarios. The actual-layout
+  preview is inspected. See `docs/WARREN_PLAN.md` 25.
+
 - **A7, planned End Phase ability:** appended LEGS `phase` gives fresh End
   founders and bred descendants a defensive blink after real nonlethal attacks.
   Damage remains; safe loaded landings, home/transport limits and native
@@ -445,7 +452,7 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **seventy-one** native scenarios pass (seventy mod
+The Java 25 build and all **seventy-two** native scenarios pass (seventy-one mod
 cases plus native sanity). Latest coverage:
 
 - **A7:** actual attacks and defensive blinks, retained damage/home, recovery

@@ -1,4 +1,4 @@
-# WARREN_PLAN: readable warrens — U1–U7 implemented
+# WARREN_PLAN: readable warrens — U1–U8 and entrance trails implemented
 
 **Current (2026-10-16): U1–U7 are implemented. U7 and pantry loot are new and await gameplay review; the previous U2/U3 and U4/U5/U6b batches received user confirmation.** The accepted design is preserved in sections 1–11; current implementation details and departures are in sections 12–19. Test command: `/bunnidogs warren <level> surface` (omit `surface` for cave floors).
 Supersedes the burrow-hole part of Phase 4g/6b (`WarrenShape.burrows`, `WarrenFeature.dig`); everything else (levels = trees, houses, paths, landmarks, styles, nests, night) stays.
@@ -129,7 +129,8 @@ When U1 is built: update FEATURES (the mouths and the den), HOME_SPECS (nests), 
 * **Changes from the plan, and why:**
   * **The slope is 3 high, not 2.** A one-block step needs the room above the lower column to jump (the self-check walks the slope with that rule); the hollow in the mound is 4 high at the back.
   * **The door faces AWAY from the tree and sits 7 blocks out** (8 or 9 on higher ground, `DenShape.canReachDen`): the slope has to drop 5 blocks at one step per block, and that run only fits if it starts that far out and ends under the den's edge. The mound is 4 long x 3 wide, so it never touches the crown (radius 2).
-  * **No trails yet.** A path from the doorstep to the patch would have to go round the mound; left for later (WARREN_PLAN 6.2).
+  * **Trails were omitted in the first U1 release.** Section 25 now completes
+    the accepted level-one mouth-to-tree paths, routing around the mound.
   * **The den's ceiling is lined** with the style's fill block (no sand or gravel can drop in); the slope's ceiling is lined only below the surface block.
   * **Nests replace the floor block** (like H3b), in the four corners; one lantern on a hay block, one more hay block for bedding.
   * **No new Minecraft names:** the hay, hanging roots and moss carpet ideas of section 7 were not used (`HANGING_ROOTS`, `MOSS_CARPET` are not needed).
@@ -452,3 +453,37 @@ also protects future fruit gaps. Other habitats/props/tunnels/fixtures stay.
 Native rotations, growth, container/repeat preservation and version saves,
 plus focused layout checks, pass with the current 59-scenario suite. See
 SETTLEMENT_LIFE.md L31 for details and remaining terrain/client review.
+
+## 25. U1 completion — fitted small-warren entrance trails
+
+The accepted level-one worn trails in sections 5–8 were never implemented in
+U1. Fresh **version-seven** surface clusters now give each actual fitted mouth
+one complete trail: out of its outward-facing door, round the mound and back
+to the corner beside the guava-tree patch. The crown, trunk, mound walls,
+frames, roofs, underground slopes and floor Nests stay intact. Higher-level
+streets and open cave/Nether/End layouts keep their existing plans.
+
+`layout/EntranceTrail` defines connected mirrored alternatives for every mouth
+direction/radius. The native writer tries one whole route, then the opposite
+side. Every column needs suitable natural ground, two clear dry body cells and
+at most a one-block height change from the previous column/door. Containers,
+fluids, ores, trunks and low foliage are never paved. No route prefix is written
+when fitting fails; if neither side fits, the den retains its valid entrance
+without a decorative trail. Soft surface plants can be cleared on a fitted route.
+Paths use the existing lineage palette.
+
+Trails are part of the existing anchor-owned level-one cluster job. New cluster
+bounds extend to ten columns, covering the outer doorstep at maximum mouth
+radius nine. Fresh feature/command clusters enable them too. Native saved starts
+at version six or older preserve their version/layout and receive no added
+trails; existing generated villages are never retrofitted. No new random draw
+changes the tree, den, animal or Nest plan.
+
+Java 25 build/all **72 native scenarios** pass. Pure layout coverage checks all
+four directions, all three radii, both sides, connected steps, unique/bounded
+columns and complete mound/trunk exclusion. The new native case runs actual
+new and version-six structure pieces, checks complete paths/tree/mouth/Nests,
+verifies alternative-side fitting without a partial rejected route, and keeps
+chest stock, fluids and ores. `TrailDump` feeds `art/preview_trails.py`; that
+actual-layout preview is inspected. Natural terrain/chunk-order/client review
+remains separate.

@@ -8,7 +8,6 @@ do not apply. Verify old completion claims against code before choosing work.
 
 | Feature | Actual status | Original plan |
 |---|---|---|
-| Small-warren entrance trails | Mounds/dens exist, but mouth-to-tree trails were omitted from U1 | `WARREN_PLAN.md` 5–8, 12 |
 | Swamp swimming/webbed paws | No inherited swimming benefit or webbed leg allele yet | `DESIGN.md`, Phase 3 environmental effects |
 | Visible fertility cue | Fertility mechanics exist; the creature still has no expressed visual cue | `DESIGN.md`, Genome/Phase 2–3 |
 | Coat camouflage | A proposal without defined triggers or gameplay tradeoffs; specify before coding | `DESIGN.md`, Phase 3 environmental effects |
@@ -32,6 +31,12 @@ Delivered, not individually confirmed: **U6a** advancement, **U1** level-1 dens
 and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
+
+U1's omitted small-warren trails are complete. Fresh version-seven surface
+clusters fit complete mouth-to-tree trails round actual mounds; blocked sides
+fall back or leave no paving. Native saved older starts keep their plans.
+Build/all 72 native scenarios and connected/excluded layout checks pass; the
+actual-layout preview is inspected. See `WARREN_PLAN.md` 25.
 
 A7 completes the End's planned Phase blink as an appended inherited leg allele,
 with End founders, stat tradeoffs and infused juice. Real attacks still hurt;

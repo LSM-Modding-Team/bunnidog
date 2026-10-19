@@ -39,7 +39,7 @@ public class WarrenPiece extends StructurePiece {
     public static final int PROP = 3;
     public static final int TUNNEL = 4;
     /** Bounding boxes reach this far around the anchor (tree + patch + the mouths of a level 1 den, U1); the path box is {@link Settlement#MAX_EXTENT}. */
-    private static final int REACH = 9;
+    private static final int REACH = com.bunnidogs.mod.layout.EntranceTrail.REACH;
     private static final int BELOW = 10;
     private static final int ABOVE = 24;
 
@@ -92,7 +92,7 @@ public class WarrenPiece extends StructurePiece {
         this.wayfinding = wayfinding.clone();
         this.lifeFixtures = lifeFixtures.clone();
         this.woodDetails = true;
-        this.generationVersion = 6;
+        this.generationVersion = 7;
     }
 
     public WarrenPiece(CompoundTag tag) {
@@ -192,7 +192,7 @@ public class WarrenPiece extends StructurePiece {
             BlockPos ground = WarrenFeature.groundAt(world, x, y, z, true);
             if (ground != null) {
                 WarrenFeature.buildCluster(world, ground, s.clusters().get(index).shape(), new Random(seed + 31L * index), true, style,
-                        level == 1 && (style != Lineage.END || generationVersion < 2), networkDen,generationVersion >= 3);
+                        level == 1 && (style != Lineage.END || generationVersion < 2), networkDen,generationVersion >= 3,generationVersion >= 7);
             }
         } else if (kind == PROP) {
             WarrenFeature.buildProp(world, x, y, z, s.props().get(index), true, style,generationVersion >= 4,generationVersion >= 5,generationVersion >= 6);

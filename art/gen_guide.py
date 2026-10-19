@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw, ImageFont
 from gen_syringe import ROOT, RES, write
 
 PAGES = {
-    2: ('Find a warren', 'Look for guava trees and entrance mounds. Follow lit tunnels to Nests. Settlements have one to five trees; cave, Nether and End lines have their own habitats. Maps: page 46. Scouts: page 47.'),
+    2: ('Find a warren', 'Look for guava trees, worn trails and entrance mounds. Lit tunnels lead to Nests. Settlements have one to five trees; cave, Nether and End lines use their own habitats. Maps: 46. Scouts: 47.'),
     3: ('Genes and stats', 'Each of seven genes has two copies. Dominance picks the visible trait; hidden copies still pass to pups. Bred stat points are separate. Use Calipers to read both.'),
     4: ('Breed a seed', 'Feed a guava normally to each of two ready adults. They drop one seed holding both parents. Its tooltip shows the planned litter, quality and stat drift. The parents then rest.'),
     5: ('Hatch the litter', 'Plant a seed on farmland; dispensers plant into air above it. Bone meal speeds growth; hand or dispenser Starlit Dust ripens it. Break the ripe crop to hatch pups. Fortune improves quality. Leave room.'),
