@@ -16,6 +16,11 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+C10 gives healthy expressed snow coats a cold-habitat brushing product at
+Bloom +10, sharing native temperature rules and existing grooming recovery.
+Hand/dispenser/Calipers agree; ordinary native shearing stays independent.
+Java 25 build/all 50 cases pass; guide preview inspected. See `CARE_SPECS.md`.
+
 O4/O5 adds native dispenser guava saplings, next-tick support recovery and
 supported/bounded growth. Grass/podzol/mycelium work under 26.2 vegetation tags;
 N8 restores the corresponding litter-crop fallback without changing farmland

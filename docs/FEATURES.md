@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 64 pages from first warren to Apex. Four linked contents pages offer thirty-six
+open 65 pages from first warren to Apex. Four linked contents pages offer thirty-seven
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -537,3 +537,9 @@ are omitted. Existing settlements retain their generated layout.
 dirt, grass, podzol or mycelium, the same litter crop keeps its whole named seed
 and continues growth. Support loss recovers the original seed once; soil
 changes do not hatch pups, reroll parents or reset crop progress.
+
+**Cold-climate care (C10):** brush a healthy adult snow coat at Bloom +10 in
+a climate cold enough for native snow to gather one Snowball. Hidden snow and
+warm climates give none. Qualified whiskers/Starlit Dust combine under one
+tool wear and ten-minute grooming rest. Native dispenser brushes work too;
+ordinary woolly shearing uses its separate fleece recovery.

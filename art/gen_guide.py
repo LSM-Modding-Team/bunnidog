@@ -65,15 +65,16 @@ PAGES = {
     62: ('Sapling stations', 'Dispensers plant guava saplings into air over valid soil. Blocked targets keep stock. Grass, podzol and mycelium work. Bone meal tries growth. Lost soil drops one sapling. Give the whole tree loaded space.'),
     63: ('Underground farms', 'New five-tree cave and Nether warrens may fit a regional farm: glow berries under a trellis, or wart on soul sand. Plots need no water. A clear corner may fit an empty enabled trough. Existing settlements keep their plans.'),
     64: ('Safe seedbeds', 'Plant litter seeds on farmland. If soil changes to dirt, grass, podzol or mycelium, the crop keeps its whole litter and continues growing. Lost support returns the saved seed. Changing soil never hatches it or resets its parents.'),
+    65: ('Snow-coat care', 'Brush healthy adult snow coats at Bloom +10 in a climate cold enough for snow to gather one snowball. Hidden snow gives none. Whiskers and Starlit Dust can combine. Hand and dispenser brushes share ten-minute rest. Shears gather wool separately.'),
 }
-PAGE_COUNT = 64
+PAGE_COUNT = 65
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
               31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
 NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'Warren maps',47:'Mineral scouts',49:'Pause trough work',51:'Find a tagged animal',52:'Bell roll call',53:'Recovery rest',54:'Plan a litter'}
 
-HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds',61:'Fruit meals',62:'Sapling stations',63:'Underground farms',64:'Safe seedbeds'}
+HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds',61:'Fruit meals',62:'Sapling stations',63:'Underground farms',64:'Safe seedbeds',65:'Snow-coat care'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -120,7 +121,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,62),(495,63),(735,64),(975,56)]:
+    for x,page in [(255,65),(495,28),(735,36),(975,56)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

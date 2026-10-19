@@ -10,6 +10,7 @@ import com.bunnidogs.mod.block.NurseryCradleBlockEntity;
 import com.bunnidogs.mod.block.NurseryCradleBlock;
 import com.bunnidogs.mod.entity.NurseryHatching;
 import com.bunnidogs.mod.entity.Bunnidog;
+import com.bunnidogs.mod.entity.BunnidogCare;
 import com.bunnidogs.mod.entity.ResidentFinding;
 import com.bunnidogs.mod.entity.ResidentCensus;
 import com.bunnidogs.mod.genetics.Gene;
@@ -98,9 +99,9 @@ public class CalipersItem extends Item {
                 : !healthy ? health : dog.fleeceWait() > 0 ? recovery(dog.fleeceWait())
                 : Component.translatable("message.bunnidogs.care.fleece_ready",ComponentUtils.formatList(dog.fleeceProducts(),
                         product -> Component.translatable("message.bunnidogs.care.fleece_product",product.getCount(),product.getHoverName()))));
-        var products = Grooming.yields(dog.genome(),dog.stats());
+        var products = BunnidogCare.groomingProducts(dog);
         careRow(player, "grooming", dog.isBaby() ? adult
-                : products.isEmpty() ? Component.translatable("message.bunnidogs.groom.traits",Grooming.MIN_SENSES,Grooming.MIN_STARLIT_BLOOM,Grooming.MIN_MOSS_BLOOM)
+                : products.isEmpty() ? Component.translatable("message.bunnidogs.groom.traits",Grooming.MIN_SENSES,Grooming.MIN_STARLIT_BLOOM,Grooming.MIN_MOSS_BLOOM,Grooming.MIN_FROST_BLOOM)
                 : !healthy ? health : dog.groomingWait() > 0 ? recovery(dog.groomingWait())
                 : Component.translatable("message.bunnidogs.care.groom_ready",
                         ComponentUtils.formatList(products,p -> Component.translatable(p.translationKey()))));

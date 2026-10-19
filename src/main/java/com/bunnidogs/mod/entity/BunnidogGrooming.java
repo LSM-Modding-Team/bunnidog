@@ -15,9 +15,9 @@ final class BunnidogGrooming {
     static InteractionResult use(Bunnidog dog, Player player, ItemStack brush, InteractionHand hand) {
         if (dog.level().isClientSide()) return InteractionResult.SUCCESS;
         if (!dog.acceptsCare() || !dog.isAlive() || dog.isBaby() || !Sampling.healthy(dog.getHealth(), dog.getMaxHealth())) return message(player, "health");
-        var products = Grooming.yields(dog.genome(),dog.stats());
+        var products = BunnidogCare.groomingProducts(dog);
         if (products.isEmpty()) {
-            player.sendOverlayMessage(Component.translatable("message.bunnidogs.groom.traits",Grooming.MIN_SENSES,Grooming.MIN_STARLIT_BLOOM,Grooming.MIN_MOSS_BLOOM));
+            player.sendOverlayMessage(Component.translatable("message.bunnidogs.groom.traits",Grooming.MIN_SENSES,Grooming.MIN_STARLIT_BLOOM,Grooming.MIN_MOSS_BLOOM,Grooming.MIN_FROST_BLOOM));
             return InteractionResult.SUCCESS;
         }
         if (dog.groomingWait() > 0) {

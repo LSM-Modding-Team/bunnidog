@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current forty-nine native server cases pass,
-including loading the book/recipe/loot resources. The expanded 64-page
-sapling/underground/seedbed/Habitat preview is inspected with a substitute font; all
+The actual Java 25 build and current fifty native server cases pass,
+including loading the book/recipe/loot resources. The expanded 65-page
+snow/living-care/dispenser/Habitat preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -195,3 +195,8 @@ support recovery/soil compatibility, developed cave/Nether plots and intact
 litter fallback are explained. Habitat now has eight entries, for thirty-six
 chapter links over 64 pages. The four-panel text/navigation preview is inspected;
 old page IDs and returns remain stable.
+
+C10 appends **Snow-coat care**, page 65, covering live cold climates, expressed
+snow/Bloom +10, combined products/shared rest and separate native shearing.
+Habitat has nine entries; the guide has thirty-seven chapter links over 65
+pages. The new text and older living-care/dispenser/Habitat preview is inspected.

@@ -20,7 +20,14 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Latest gameplay work — 2026-10-18
+## Latest gameplay work — 2026-10-19
+
+- **C10, cold-climate care:** healthy expressed snow coats at Bloom +10
+  yield one snowball when brushed in a climate cold enough for native snow.
+  Live climate, hand/dispenser care and Calipers share the same yield rules;
+  whiskers/Starlit products combine under one wear and saved grooming rest.
+  Native shearing remains independent. Java 25 build/all 50 native cases pass;
+  guide preview inspected. See `docs/CARE_SPECS.md` C10.
 
 - **O4/O5/L23/N8, habitat completion:** native dispenser sapling stations
   retain blocked stock; saplings follow 26.2 vegetation soil, recover after
@@ -246,7 +253,7 @@ storm shelter, fishing, terrain traits, local supplies, living dust and fitted
 farms are also complete. Their rules/evidence remain in the specifications
 listed below; do not redo them.
 
-The native Field Guide has 64 translated pages and thirty-six chapter links
+The native Field Guide has 65 translated pages and thirty-seven chapter links
 across four linked contents pages.
 `art/gen_guide.py` owns text/icon/preview; `art/gen_pantries.py` owns eight
 lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
@@ -261,7 +268,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Laboratory | Two sample slots, native hopper/comparator automation, actual-hand placement, vial display, planned feed/treatment/harvest forecasts, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T10 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
-| Care | Live samples, fleece palettes, whiskers/dust/moss, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C9 |
+| Care | Live samples, fleece palettes, whiskers/dust/moss/cold-climate frost, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C10 |
 | Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow, terrain movement and snow footing. `docs/CARE_SPECS.md` A1–A5 |
 | Outdoor food | Home-bounded crop/grass/hay meals, ripe guavas and diet-matching berries, safe loaded paths and callback-safe commits. `docs/FORAGING_SPECS.md` D6 |
 | Homes/travel | Claimable Nests, day tether/night return, floor Nests, native leads/rides, led-adult reassignment, Travel Baskets and persistent compass place markers, including resident homes. `docs/HOME_SPECS.md` H1–H8 |
@@ -321,7 +328,7 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **forty-nine** native scenarios pass (forty-eight mod
+The Java 25 build and all **fifty** native scenarios pass (forty-nine mod
 cases plus native sanity). Latest coverage:
 
 - **N1:** real redstone pulses, malformed/blocked/wrong-soil/occupied planting,

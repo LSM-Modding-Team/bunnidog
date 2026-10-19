@@ -217,6 +217,29 @@ glow dust; original armadillo fallback and exact sampling remain passing.
 The living-harvest guide preview is inspected. Long-term husbandry balance
 and client use remain gameplay review.
 
+## C10: cold-climate frost brushing
+
+Healthy adults expressing a snow coat and bred Bloom +10 yield one ordinary
+Snowball from brushing in a climate cold enough for native snowfall. The
+resolved biome temperature/altitude rule determines cold; it is a live habitat
+condition, never saved biology. Warm climates, hidden snow and Bloom +9 refuse
+this product. All ordinary health/adult/care gates apply.
+
+Frost combines with eligible whiskers and Starlit Dust for one Brush wear and
+the same saved ten-minute `GroomWait`. Changing climate or genes cannot reset
+that recovery. Hand tools, dispensers and Calipers share one native product
+snapshot. Woolly fleece keeps its separate regrowth and native `IShearable`
+dispenser behavior; no custom shears dispatcher replaces sheep/beehive logic.
+There is no new item, allele, network format or coat texture.
+
+C10 evidence (2026-10-19): Java 25 build/all 50 native scenarios pass. The new
+case changes actual native biomes, checks warm/low-Bloom/hidden-snow refusal,
+real off-hand brushing, exact one-product/one-wear/shared rest and no harm.
+Real dispenser pulses collect frost/whiskers/Starlit together, then shear two
+coat-colored wool while retaining independent care recoveries; repeats cost
+nothing. New guide/Habitat preview inspected; client climate/care appearance
+remains gameplay review.
+
 ## A1/A2: Expressed environmental adaptations
 
 | Expressed trait | Benefit |

@@ -26,15 +26,22 @@ public final class BunnidogCare {
         return sample;
     }
     public static boolean canGroom(Bunnidog dog) {
-        return healthy(dog) && !dog.isBaby() && dog.groomingWait() == 0 && !Grooming.yields(dog.genome(),dog.stats()).isEmpty();
+        return healthy(dog) && !dog.isBaby() && dog.groomingWait() == 0 && !groomingProducts(dog).isEmpty();
+    }
+    /** Shared live climate snapshot for hand care, dispensers and Calipers; climate is never saved as biology. */
+    public static List<Grooming.Yield> groomingProducts(Bunnidog dog) {
+        var pos = dog.blockPosition();
+        boolean cold = dog.level().getBiome(pos).value().coldEnoughToSnow(pos,dog.level().getSeaLevel());
+        return Grooming.yields(dog.genome(),dog.stats(),cold);
     }
     public static List<ItemStack> groom(Bunnidog dog) {
         if (!canGroom(dog)) return List.of();
-        var products = Grooming.yields(dog.genome(),dog.stats()).stream().map(product -> new ItemStack(switch (product) {
+        var products = groomingProducts(dog).stream().map(product -> new ItemStack(switch (product) {
             case WHISKER -> ModItems.WHISKER.get();
             case GLOWSTONE -> Items.GLOWSTONE_DUST;
             case STARLIT -> ModItems.STARLIT_DUST.get();
             case MOSS -> Items.MOSS_CARPET;
+            case SNOWBALL -> Items.SNOWBALL;
         },Grooming.COUNT)).toList();
         dog.beginGroomingRecovery();
         dog.playSound(SoundEvents.BRUSH_GENERIC,.4F,1.1F);

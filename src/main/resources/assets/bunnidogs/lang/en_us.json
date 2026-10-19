@@ -150,7 +150,7 @@
   "message.bunnidogs.groom.senses": "Loose whiskers need at least +10 bred Senses points.",
   "message.bunnidogs.groom.wait": "This bunnidog needs %s more seconds before another grooming.",
   "message.bunnidogs.groom.done": "Collected one loose whisker. This bunnidog needs ten minutes between groomings.",
-  "message.bunnidogs.groom.traits": "Needs Senses +%s, expressed glow, starborn with Bloom +%s, or moss with Bloom +%s.",
+  "message.bunnidogs.groom.traits": "Needs Senses +%s, glow, starborn with Bloom +%s, moss with Bloom +%s, or snow with Bloom +%s in a cold climate.",
   "message.bunnidogs.groom.collected": "Collected one each: %s. This bunnidog needs ten minutes between groomings.",
   "message.bunnidogs.care.groom_ready": "ready: one each of %s",
   "tooltip.bunnidogs.ribbon.blank": "No winning record on this ribbon.",
@@ -526,5 +526,8 @@
   "guide.bunnidogs.page.63.title": "Underground farms",
   "guide.bunnidogs.page.63.body": "New five-tree cave and Nether warrens may fit a regional farm: glow berries under a trellis, or wart on soul sand. Plots need no water. A clear corner may fit an empty enabled trough. Existing settlements keep their plans.",
   "guide.bunnidogs.page.64.title": "Safe seedbeds",
-  "guide.bunnidogs.page.64.body": "Plant litter seeds on farmland. If soil changes to dirt, grass, podzol or mycelium, the crop keeps its whole litter and continues growing. Lost support returns the saved seed. Changing soil never hatches it or resets its parents."
+  "guide.bunnidogs.page.64.body": "Plant litter seeds on farmland. If soil changes to dirt, grass, podzol or mycelium, the crop keeps its whole litter and continues growing. Lost support returns the saved seed. Changing soil never hatches it or resets its parents.",
+  "guide.bunnidogs.index.65": "Snow-coat care",
+  "guide.bunnidogs.page.65.title": "Snow-coat care",
+  "guide.bunnidogs.page.65.body": "Brush healthy adult snow coats at Bloom +10 in a climate cold enough for snow to gather one snowball. Hidden snow gives none. Whiskers and Starlit Dust can combine. Hand and dispenser brushes share ten-minute rest. Shears gather wool separately."
 }
