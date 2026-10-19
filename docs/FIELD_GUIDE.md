@@ -58,8 +58,8 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Fifty-seven pages use the ordinary written-book screen. Four linked contents pages
-offer twenty-nine clickable chapter links. Each chapter links back to its index. Local page changes
+Seventy pages use the ordinary written-book screen. Five linked contents pages
+offer forty clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
 
@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current fifty-two native server cases pass,
-including loading the book/recipe/loot resources. The expanded 68-page
-meal/gathering/Habitat/Working preview is inspected with a substitute font; all
+The actual Java 25 build and current fifty-three native server cases pass,
+including loading the book/recipe/loot resources. The expanded 70-page
+melon/stem/gathering/Working preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -216,3 +216,11 @@ work rest. There are thirty-nine chapter links over 68 pages/five indices.
 The meal/gathering/Habitat/Working preview is inspected with a substitute font;
 Java 25 build and all 52 native cases pass. Native client book use remains
 separate gameplay review.
+
+L25/L26 appends **Melon beds**, page 69, and **Grow melon stems**, page 70.
+Working gains its third chapter, pointing to 69 with a textual reference to 70;
+both pages return to Working. The guide has 70 pages, five indices and forty
+chapter links. Living attached stems, preserved decorative blocks, Diet feeding,
+one-stage/no-food growth, native fruit regrowth and shared rest are explicit.
+The melon/stem/gathering/Working preview is inspected with a substitute font.
+Java 25 build/all 53 native cases pass; earlier destinations remain stable.

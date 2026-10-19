@@ -6,7 +6,7 @@ import java.util.List;
 public enum Diet {
     PLAIN("plain", "Guavas only.", List.of()),
     GRAZER("grazer", "Hay, wheat and grass.", List.of("grazer")),
-    FORAGER("forager", "Carrots, potatoes, beetroot, apples and berries.", List.of("forager")),
+    FORAGER("forager", "Carrots, potatoes, beetroot, apples, melon slices and berries.", List.of("forager")),
     HUNTER("hunter", "Raw meat; wounded adults hunt small prey near their Nest.", List.of("hunter")),
     OMNIVORE("omnivore", "Grazer, forager and hunter foods; can graze and hunt.", List.of("grazer", "forager", "hunter")),
     FISHER("fisher", "Raw fish; wounded adults hunt reachable fish near their Nest.", List.of("fisher")),

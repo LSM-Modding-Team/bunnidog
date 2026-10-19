@@ -4,7 +4,7 @@ A NeoForge mod for Minecraft 26.2: a baby-faced creature with rabbit ears and a
 dog's body, plus breeding, genetics, guavas, warrens, homes and pedigree tools.
 Requires JDK 25. Client and server must both use the updated mod (network 7). The checked-in Gradle wrapper selects the project Gradle version.
 
-Craft a vanilla book with any guava for the **68-page Field Guide**, with five
+Craft a vanilla book with any guava for the **70-page Field Guide**, with five
 linked contents pages covering its chapters. Sneak-use
 Calipers for care/work readiness, use a hoe on a Feeding Trough to enable
 resident gardening, and explore food stores for supplies suited to each lineage.
@@ -20,6 +20,7 @@ Litter crops retain their whole seed when farmland changes into dirt, grass, pod
 In cold climates, brush healthy snow coats at Bloom +10 for one snowball with shared grooming rest.
 Injured residents eat ordinary loose food after ten seconds; reserved items and upgraded guavas stay.
 Healthy Senses +10 workers gather loose food beside enabled troughs, sharing garden rest.
+Foragers harvest attached melons into one slice while preserving their stems; Bloom +10 tends young stems.
 Living glow/starborn lines yield renewable dust, while inherited terrain traits
 and resident shore fishing give more reasons to develop distinct breeds.
 Residents seek refuge from threats and shelter from thunderstorms.

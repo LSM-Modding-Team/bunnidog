@@ -16,6 +16,12 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L25/L26 adds renewable melon harvesting beside living attached stems and
+Bloom +10 one-stage cultivation. Decorative melons/mature bare stems stay;
+native growth produces future fruit. Forager slices heal/grow without breeding.
+The guide has 70 pages/five indices/forty chapter links. Java 25 build/all 53
+native cases pass; preview inspected. See `SETTLEMENT_LIFE.md`, `FIELD_GUIDE.md`.
+
 D7/L24 adds safe old loose-food meals and Senses +10 collection beside enabled
 troughs. Reserved/upgraded items stay; native transactions preserve exact
 components and conserve food through abort/reentrant removal. P6 adds Working

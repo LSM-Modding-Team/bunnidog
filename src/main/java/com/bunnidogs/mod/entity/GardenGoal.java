@@ -23,7 +23,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CaveVines;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.ComposterBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.NetherWartBlock;
+import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
@@ -71,6 +73,18 @@ final class GardenGoal extends Goal {
     private static boolean smallMushroom(BlockState state) {
         return state.is(Blocks.RED_MUSHROOM) || state.is(Blocks.BROWN_MUSHROOM);
     }
+    /** A living attached stem distinguishes renewable fruit from decorative melon blocks. */
+    private boolean linkedMelon(ServerLevel level, BlockPos fruit) {
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            BlockPos pos = fruit.relative(direction);
+            if (!level.hasChunkAt(pos) || !this.dog.foodWithinHome(pos)) continue;
+            var stem = level.getBlockState(pos);
+            if (stem.is(Blocks.ATTACHED_MELON_STEM)
+                    && stem.getValue(HorizontalDirectionalBlock.FACING) == direction.getOpposite()
+                    && stem.canSurvive(level,pos)) return true;
+        }
+        return false;
+    }
     /** Keep another living mushroom of this exact color in the loaded home patch. */
     private boolean thinnableMushroom(ServerLevel level, BlockPos pos) {
         var state = level.getBlockState(pos);
@@ -84,6 +98,10 @@ final class GardenGoal extends Goal {
         return false;
     }
     private Work work(ServerLevel level, BlockPos pos, BlockState state, boolean cultivate, ItemStack stock) {
+        if (state.is(Blocks.MELON)) return linkedMelon(level,pos)
+                ? new Work(new ItemStack(Items.MELON_SLICE),Blocks.AIR.defaultBlockState(),Task.HARVEST) : null;
+        if (state.is(Blocks.MELON_STEM)) return cultivate && state.getValue(StemBlock.AGE) < StemBlock.MAX_AGE && state.canSurvive(level,pos)
+                ? new Work(new ItemStack(Items.MELON_SLICE),state.cycle(StemBlock.AGE),Task.CULTIVATE) : null;
         if (state.is(Blocks.CACTUS)) return prunableCactus(level,pos)
                 ? new Work(new ItemStack(Items.CACTUS),Blocks.AIR.defaultBlockState(),Task.HARVEST) : null;
         if (smallMushroom(state)) return thinnableMushroom(level,pos)
@@ -153,6 +171,7 @@ final class GardenGoal extends Goal {
                 && this.dog.canEat(this.produce)
                 && (this.task == Task.HARVEST || Gardening.cultivates(this.dog.stats()))
                 && this.dog.level().getBlockState(this.crop).equals(this.mature)
+                && (!this.mature.is(Blocks.MELON) || linkedMelon((ServerLevel)this.dog.level(),this.crop))
                 && (!this.mature.is(Blocks.CACTUS) || prunableCactus((ServerLevel)this.dog.level(),this.crop))
                 && (!smallMushroom(this.mature) || thinnableMushroom((ServerLevel)this.dog.level(),this.crop))
                 && stock != null && (this.task == Task.COMPOST

@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 68 pages from first warren to Apex. Five linked contents pages offer thirty-nine
+open 70 pages from first warren to Apex. Five linked contents pages offer forty
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -551,3 +551,11 @@ sharing one-minute garden rest. Diet, pickup delays, owner reservations, exact
 filters, power and safe loaded paths apply. Upgraded guavas stay. Transfers
 preserve whole components and conserve food through native transaction aborts
 and trough-removal notifications. Calipers explains the gathering bonus.
+
+**Melon beds (L25/L26):** foragers and omnivores can eat melon slices for healing
+or pup growth; slices never trigger breeding. Healthy residents harvest one
+slice into a nearby hoe-enabled trough only if a living attached melon stem
+points to the fruit. Decorative melon blocks stay. The stem resets naturally
+and grows its next fruit normally. Bloom +10 advances young melon stems by
+one age, creating no food. Mature stems await native growth. Exact filters,
+power, safe routes, protection and the shared one-minute gardening rest apply.

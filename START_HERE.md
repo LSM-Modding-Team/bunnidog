@@ -22,6 +22,15 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-19
 
+- **L25/L26, renewable melon beds:** foragers/omnivores harvest one slice
+  only beside a living attached melon stem, leaving decorative melons intact.
+  Native neighbor updates restore the mature stem. Bloom +10 advances young
+  stems by one age without food or forced fruit. Diet, exact filters, native
+  protection rechecks and shared work rest apply. Matching hand-fed slices
+  heal adults/grow pups without breeding. The guide reaches 70 pages with
+  forty chapter links. Java 25 build/all 53 native cases pass; new chapter/
+  Working-index preview inspected. See `docs/SETTLEMENT_LIFE.md` L25–L26.
+
 - **D7/L24/P6, loose-food use:** injured adults take one old ordinary loose
   food as a normal daytime meal. Healthy Senses +10 adults collect it beside
   an enabled trough with shared garden rest. Ten-second grace, native pickup
@@ -338,9 +347,17 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **fifty-two** native scenarios pass (fifty-one mod
+The Java 25 build and all **fifty-three** native scenarios pass (fifty-two mod
 cases plus native sanity). Latest coverage:
 
+- **L25/L26:** living/wrong-facing/decorative melon cases, Diet/filter refusals,
+  protection-callback stem loss, exact slice/native stem reset, no loose copy,
+  Bloom thresholds, one-stage/no-food growth, mature refusal and hand feeding.
+- **D7/L24:** grace/pickup reservations, upgraded-food refusal, safe paths,
+  callback reservation/power, exact components, shared recovery, native journal
+  abort/full-destination rollback and reentrant trough removal conserving food.
+- **C10:** actual warm/cold biomes, Bloom +9/+10, hidden snow, off-hand brush
+  cost/recovery, combined products and independent native dispenser shearing.
 - **N1:** real redstone pulses, malformed/blocked/wrong-soil/occupied planting,
   exact parental genomes/stats/quality/Mutagen and native crop saves, dust cost,
   ripe/empty/other-plant refusals, no ejection, real hand survival/creative use

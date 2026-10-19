@@ -711,3 +711,42 @@ and full-destination rollback, callback-added power, one-item transfer/signals,
 shared garden recovery and actual stock-notification removal conserving food.
 Calipers names the Senses gathering bonus. Guide/navigation preview inspected;
 client worker behavior remains gameplay review.
+
+## L25: renewable melon beds
+
+Forager and omnivore Diet tags now include ordinary melon slices for healing,
+pup growth, trough meals and loose-food handling; slices remain outside guava
+breeding food. Healthy residents can harvest a vanilla melon near a hoe-enabled
+trough only if a living attached melon stem points to that fruit. Both stem
+and fruit must be loaded and inside the claimed home bounds. Decorative melons,
+wrong-facing/detached stems and unsupported stems do not authorize a job.
+
+One protected three-second job removes the fruit into exactly one slice of
+stock, preserving the stem, soil and surrounding blocks. Native neighbor
+updates turn the attached stem back into age-seven melon stem, so native growth
+supplies the next fruit. This deliberately uses the existing modest one-item
+resident work yield rather than vanilla player-break slice rolls. There is no
+extra loose drop. Existing Diet, filter/components, capacity, redstone, daytime,
+health, griefing, native safe paths, sight/reach and one-minute GardenWait apply.
+Linkage rechecks after protection callbacks as well as during the visit.
+
+## L26: cultivate young melon stems
+
+Bloom +10 workers can advance an existing supported melon stem from ages 0–6
+by exactly one age at a compatible enabled trough. The future slice must suit
+the Diet, filter and available stock space. No item is produced, consumed or
+carried; the job shares ordinary garden recovery. Ripe harvesting remains the
+first work priority. Age-seven stems and attached stems cannot be harvested
+as plants, wrapped to zero or forced to place fruit. Native light, soil, space
+and random growth rules govern future fruit. Players plant seeds normally.
+
+L25/L26 evidence (2026-10-19): Java 25 build/all 53 native cases pass. The new
+native melon case claims a real Nest and complete safe path; it checks absent/
+wrong-facing linked stems, Diet/filter refusals, protection-callback stem loss
+without food/rest, exact one-slice harvest, real native age-seven stem reset,
+no duplicated loose produce, Bloom +9/+10, one-stage/no-food cultivation,
+shared rest and mature-stem refusal. Native hand feeding checks plain refusal,
+forager adult healing and pup growth with exactly one real slice per success,
+while slices remain outside breeding food. The 70-page guide preview is
+inspected; natural melon cycles and client worker behavior need gameplay review.
+No animal save, network, allele or settlement-plan format changes.
