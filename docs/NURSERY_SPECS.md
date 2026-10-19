@@ -225,3 +225,29 @@ refuse. Workers never hatch litters. `RESIDENT_WORK.md` L30 specifies snapshot
 rechecks, stock-callback refunds and native evidence. Java 25 build/all 59
 native cases pass; guide/Calipers documentation is updated. Client worker
 behavior and natural incubation cycles remain gameplay review.
+
+## N10: manual-only Cradle hatching
+
+Sneak-use a hoe on a Nursery Cradle to toggle manual-only hatching, in either
+hand with build/use permission and no wear. The default/legacy behavior accepts
+redstone pulses. Manual-only ignores scheduled redstone hatching, including a
+pulse queued before the switch. Normal empty-hand use still hatches a ripe
+litter after the same native pad/crowding/spawn checks. Re-enabling under steady
+power does not create a fresh pulse; remove and restore power to trigger one.
+
+The optional `ManualHatchOnly` boolean belongs to the existing block entity and
+does not change block states or the saved litter. Incubation, bone meal, dust,
+Mutagen, resident tending, hopper transfers, withdrawal and comparator strength
+keep their existing behavior. Empty-hand readiness and sneak-Calipers explain
+manual-only mode; inspection does not change it. Missing saved values mean the
+original redstone behavior. The preference is for the placed Cradle, not a seed
+trait or an inherited pup state. No new item, payload or recipe is required.
+
+Java 25 build/all 68 native scenarios pass. A new case verifies actual crouched
+creative off-hand hoe control without wear, whole named treated litter/age/wait
+preservation, native saved/legacy preference, Adventure and native block-use
+protection, read-only Calipers, continued incubation, ripe comparator 15,
+blocked ordinary/queued redstone, no new edge under steady power, deliberate
+manual hatching with default pup work preferences and restored fresh-edge
+hatching. The 86-page guide preview is inspected; client controls and natural
+nursery circuits remain gameplay review.

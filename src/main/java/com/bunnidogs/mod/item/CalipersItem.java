@@ -229,6 +229,7 @@ public class CalipersItem extends Item {
         if (!(player.level() instanceof ServerLevel server)) return;
         var facing = cradle.getBlockState().getValue(NurseryCradleBlock.FACING);
         var check = NurseryHatching.inspect(server,cradle.getBlockPos(),facing);
+        player.sendSystemMessage(Component.translatable(cradle.manualHatchOnly() ? "message.bunnidogs.cradle.manual_only" : "message.bunnidogs.cradle.redstone_enabled"));
         var item = cradle.storedSeed();
         player.sendSystemMessage(item.isEmpty() ? Component.translatable("message.bunnidogs.cradle.readout_empty")
                 : Component.translatable("message.bunnidogs.cradle.readout",item.getHoverName(),

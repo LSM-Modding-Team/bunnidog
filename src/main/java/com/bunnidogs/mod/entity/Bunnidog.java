@@ -167,6 +167,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     // Bred stat points (Phase 4a). Server side only; null means all zero (see stats()). No initializer, like the fields above.
     private Stats stats;
     private int highestShowAward;
+    private boolean workPaused;
     // Phase 5b: the genomes of the two parents (the seed's mother and father), set when a seed hatches. Null = not recorded
     // (wild founders, /summon). Saved as text like the genome. No initializer, like the fields above.
     private Genome motherGenome;
@@ -460,9 +461,11 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         return (int)Math.clamp(this.nextGardenTick-this.level().getGameTime(),0L,
                 (long)Gardening.REST_TICKS);
     }
+    public boolean workPaused() { return this.workPaused; }
     /** The same cheap snapshot serves the AI and Calipers; it does not search for crops or paths. */
     public Gardening.Status gardeningStatus() {
         if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel server)) return Gardening.Status.UNAVAILABLE;
+        if (this.workPaused) return Gardening.Status.PAUSED;
         var status = Gardening.status(!this.isBaby(),this.getHealth() >= this.getMaxHealth(),
                 this.homeNest() != null,this.homeNight(),this.beingTransported(),this.getTarget() != null || this.seekingRefuge()
                 || this.getLastHurtByMob() != null && this.tickCount-this.getLastHurtByMobTimestamp() < 200,this.gardeningWait() == 0);
@@ -526,6 +529,14 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack held = player.getItemInHand(hand);
+        if (held.is(net.minecraft.tags.ItemTags.HOES) && player.isShiftKeyDown()) {
+            if (!player.mayBuild() || !this.acceptsCare() || !this.isAlive()) return InteractionResult.PASS;
+            if (!this.level().isClientSide()) {
+                this.workPaused = !this.workPaused;
+                player.sendOverlayMessage(Component.translatable(this.workPaused ? "message.bunnidogs.work.paused" : "message.bunnidogs.work.resumed"));
+            }
+            return InteractionResult.SUCCESS;
+        }
         if (held.is(Items.COMPASS)) return player.isShiftKeyDown() ? MineralScouting.use(this,player,hand)
                 : ResidentWayfinding.markHome(this,player,hand);
         if (held.is(Items.BONE) && player.isShiftKeyDown()) {
@@ -841,6 +852,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         output.putString(TAG_STATS, this.stats().toString());
         if (this.highestShowAward > 0) output.putInt("ShowAward", this.highestShowAward);
         if (this.guardEnabled) output.putBoolean("GuardNest",true);
+        if (this.workPaused) output.putBoolean("WorkPaused",true);
         if (this.gardeningWait() > 0) output.putInt("GardenWait",this.gardeningWait());
         output.putInt("ForageWait",this.forageWait());
         if (this.samplingWait() > 0) output.putInt("SampleWait",this.samplingWait());
@@ -886,6 +898,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         if (!this.level().isClientSide()) this.applyAdaptations();
         this.highestShowAward = Math.max(0, input.getIntOr("ShowAward", 0));
         this.guardEnabled = input.getBooleanOr("GuardNest",false);
+        this.workPaused = input.getBooleanOr("WorkPaused",false);
         this.guardingTarget = null;
         this.nextGardenTick = this.level().getGameTime()+Math.clamp(input.getIntOr("GardenWait",0),0,
                 com.bunnidogs.mod.genetics.Gardening.REST_TICKS);

@@ -827,3 +827,11 @@ still spends one food/rests even when its ordinary random chance fails. The
 existing compost scenario now changes mode and Bloom from actual source-fill
 notifications, retaining eleven named food/filter and zero compost/rest. Java
 25 build/all 66 native cases pass, including all earlier work and food cases.
+
+## L35: personal work pause
+
+Sneak-hoe a resident to pause its chores without powering its feeding dish or
+keeping it leashed. Meals, breeding, home and care keep their ordinary behavior;
+the preference persists through saves and Travel Baskets. All job types share
+the same readiness gate. See `RESIDENT_WORK.md` L35 for mechanics and native
+evidence; all 68 scenarios pass.

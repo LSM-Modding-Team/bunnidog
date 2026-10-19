@@ -16,7 +16,7 @@ public final class Gardening {
     public static boolean cultivates(Stats stats) { return stats.get(Stat.BLOOM) >= MIN_CULTIVATION_BLOOM; }
     public static boolean nurses(Stats stats) { return stats.get(Stat.BLOOM) >= MIN_NURSERY_BLOOM; }
     public static boolean tendsChorus(Stats stats) { return stats.get(Stat.BLOOM) >= MIN_CHORUS_BLOOM; }
-    public enum Status { READY, UNAVAILABLE, ADULT, FULL_HEALTH, HOME, DAYTIME, TRANSPORTED, DANGER, RESTING, OUTSIDE_HOME, GRIEFING_OFF }
+    public enum Status { READY, UNAVAILABLE, ADULT, FULL_HEALTH, HOME, DAYTIME, TRANSPORTED, DANGER, RESTING, OUTSIDE_HOME, GRIEFING_OFF, PAUSED }
     public static Status status(boolean adult, boolean healthy, boolean home, boolean night,
             boolean transported, boolean danger, boolean rested) {
         if (!adult) return Status.ADULT;

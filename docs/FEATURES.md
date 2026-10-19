@@ -1,7 +1,7 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 84 pages from first warren to Apex. Six linked contents pages offer fifty-two
+open 86 pages from first warren to Apex. Six linked contents pages offer fifty-four
 chapter links; Habitat chapters collect regional gardens.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
@@ -626,3 +626,10 @@ food. Healthy Senses +20 adults move one food to a compatible non-Supply dish
 within four blocks, stopping at eight there. The destination can keep gardening
 off. Both dishes need no power, dry home routes and exact filter compatibility.
 Each transfer shares one-minute garden rest; upgraded guavas stay for breeding.
+
+**Keeper controls (L35/N10):** sneak-use a hoe on a resident to pause/resume its
+chores, including gathering and supply. Food, breeding and home routines
+continue; the saved preference travels in baskets. Sneak-hoe a Cradle to make
+hatching manual only. Its incubation, nursery tending and stock automation
+continue; ripe empty-hand hatching stays available. Re-enable redstone and send
+a fresh pulse to restore automatic hatching. Tools spend no durability.

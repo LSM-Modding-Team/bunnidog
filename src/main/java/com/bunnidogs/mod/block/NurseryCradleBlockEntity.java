@@ -24,6 +24,7 @@ public final class NurseryCradleBlockEntity extends net.minecraft.world.level.bl
     private ItemStack stored = ItemStack.EMPTY;
     private int age, growthWait = STAGE_TICKS;
     private boolean hatching;
+    private boolean manualHatchOnly;
     private boolean seedCached;
     private String cachedData;
     private Optional<Seed> cachedSeed = Optional.empty();
@@ -46,6 +47,11 @@ public final class NurseryCradleBlockEntity extends net.minecraft.world.level.bl
     }
     public int age() { return this.age; }
     public int growthWait() { return this.growthWait; }
+    public boolean manualHatchOnly() { return this.manualHatchOnly; }
+    public boolean setManualHatchOnly(boolean enabled) {
+        if (this.hatching || !(this.level instanceof ServerLevel server) || !attached(server) || this.manualHatchOnly == enabled) return false;
+        this.manualHatchOnly = enabled; changed(); return true;
+    }
     public ResourceHandler<ItemResource> automation() { return this.automation; }
     public int stockSignal() { return this.stored.isEmpty() ? 0 : 1+2*this.age; }
     private void resetGrowth() { this.age = 0; this.growthWait = STAGE_TICKS; }
@@ -112,6 +118,7 @@ public final class NurseryCradleBlockEntity extends net.minecraft.world.level.bl
         super.saveAdditional(output);
         if (!this.stored.isEmpty()) output.store("SeedItem",ItemStack.CODEC,this.stored);
         output.putInt("Age",this.age); output.putInt("GrowthWait",this.growthWait);
+        if (this.manualHatchOnly) output.putBoolean("ManualHatchOnly",true);
     }
     @Override protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
@@ -119,6 +126,7 @@ public final class NurseryCradleBlockEntity extends net.minecraft.world.level.bl
         this.age = this.stored.isEmpty() ? 0 : Math.clamp(input.getIntOr("Age",0),0,SeedCropBlock.MAX_AGE);
         this.growthWait = this.age == SeedCropBlock.MAX_AGE ? 0 : Math.clamp(input.getIntOr("GrowthWait",STAGE_TICKS),1,STAGE_TICKS);
         this.hatching = false;
+        this.manualHatchOnly = input.getBooleanOr("ManualHatchOnly",false);
     }
     @Override public void preRemoveSideEffects(BlockPos pos, BlockState state) {
         super.preRemoveSideEffects(pos,state);

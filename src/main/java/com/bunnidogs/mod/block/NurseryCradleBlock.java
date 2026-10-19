@@ -6,6 +6,7 @@ import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -59,10 +60,17 @@ public final class NurseryCradleBlock extends Block implements EntityBlock, Bone
         }
     }
     @Override protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        if (level.getBlockEntity(pos) instanceof NurseryCradleBlockEntity cradle) cradle.hatch();
+        if (level.getBlockEntity(pos) instanceof NurseryCradleBlockEntity cradle && !cradle.manualHatchOnly()) cradle.hatch();
     }
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!player.mayBuild() || !(level.getBlockEntity(pos) instanceof NurseryCradleBlockEntity cradle)) return InteractionResult.PASS;
+        if (player.isShiftKeyDown() && stack.is(ItemTags.HOES)) {
+            if (!level.isClientSide()) {
+                cradle.setManualHatchOnly(!cradle.manualHatchOnly());
+                player.sendOverlayMessage(Component.translatable(cradle.manualHatchOnly() ? "message.bunnidogs.cradle.manual_only" : "message.bunnidogs.cradle.redstone_enabled"));
+            }
+            return InteractionResult.SUCCESS;
+        }
         boolean seed = stack.is(ModItems.SEED.get()), dust = stack.is(ModItems.STARLIT_DUST.get()), meal = stack.is(Items.BONE_MEAL);
         if (!seed && !dust && !meal) return super.useItemOn(stack,state,level,pos,player,hand,hit);
         if (!level.isClientSide()) {
@@ -99,7 +107,7 @@ public final class NurseryCradleBlock extends Block implements EntityBlock, Bone
     private static Component status(NurseryCradleBlockEntity cradle) {
         return cradle.storedSeed().isEmpty() ? Component.translatable("message.bunnidogs.cradle.empty")
                 : cradle.seed().isEmpty() ? Component.translatable("message.bunnidogs.cradle.invalid")
-                : cradle.age() == SeedCropBlock.MAX_AGE ? Component.translatable("message.bunnidogs.cradle.ready")
+                : cradle.age() == SeedCropBlock.MAX_AGE ? Component.translatable(cradle.manualHatchOnly() ? "message.bunnidogs.cradle.ready_manual" : "message.bunnidogs.cradle.ready")
                 : Component.translatable("message.bunnidogs.cradle.growing",cradle.age(),(cradle.growthWait()+19)/20);
     }
 }

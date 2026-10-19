@@ -44,7 +44,7 @@ PAGES = {
     38: ('Care dispensers', 'Dispensers use Brushes or Sampling Syringes on one eligible bunnidog ahead per pulse. One tool use; hand and machine share recovery. Collect drops with hoppers. Armadillo brushing still works.'),
     39: ('Travel Basket', 'Craft six planks, leather and a lead into a basket. Pack one calm unled animal; release on clear dry ground. Identity and care rest persist; its old Nest becomes free. Calipers reads it. Stations: 82.'),
     41: ('Nursery Cradle', 'Craft wool, glass, a Nest and planks into a Nursery Cradle. Insert one seed; a loaded minute adds one stage. Bone meal helps; Starlit Dust ripens it. Sneak-empty withdraws and resets growth. Calipers reads the litter.'),
-    42: ('Hatch safely', 'Use a ripe Cradle empty-handed or pulse redstone. Clear a dry 3x3 pad in front with two blocks of air. Sneak-Calipers checks the pad and marks trouble. Hoppers move seeds; comparators read 15 when ripe. Steady power does not repeat.'),
+    42: ('Hatch safely', 'Use a ripe Cradle empty-handed or pulse redstone. Clear a dry 3x3 pad ahead with two air blocks. Sneak-Calipers checks it. Hoppers move seeds; comparators read 15 when ripe. Manual-only controls: page 86.'),
     43: ('Surplus compost', 'Bloom +10 adults compost food above an eight-item reserve at hoe-enabled troughs. Place a composter nearby with a safe route. Crop work takes priority. Each job spends one food and rests a minute. Hoppers collect bone meal.'),
     44: ('Treat a litter', 'Use or dispense one Mutagen at a planted seed or occupied Cradle. Growth, incubation, parents, quality and item details stay intact. Treated or invalid litters keep the vial. You can treat a ripe litter before hatching.'),
     45: ('Nest guards', 'Sneak-use a bone on a feral adult with a Nest to toggle guarding. No bone is spent. Free, half-healthy guards bite selected hostiles within eight blocks of home. Leads pause them. Calipers reports readiness. They can still be hurt.'),
@@ -74,7 +74,7 @@ PAGES = {
     72: ('Habitat meals', 'Injured matching lines eat spare cactus tops, extra same-color mushrooms, ripe wart or stem-linked melons near home by day. Growing stock stays. No trough is needed. A meal heals 2 HP and shares thirty-second food rest. Predators: 80.'),
     73: ('Nest signals', 'Read a Nest with a comparator: 15 means claimed, 0 means free. The resident can be away or unloaded. Rehoming updates both Nests. Packing into a Travel Basket or death frees the old one.'),
     74: ('Repair a canopy', 'A dispenser plants one plain guava into an empty dry gap beneath leaves. Other targets eject the guava as food, so pulse once to repair a canopy. Upgraded guavas never plant fruit. Bone meal grows it; shears pick it.'),
-    75: ('Work modes', 'Sneak-hoe cycles Mixed, Garden, Gather, Compost, Nursery and Supply, enabling work. Normal hoe toggles it; power pauses it. Mixed keeps old routines. Garden replants; specialists: page 84.'),
+    75: ('Work modes', 'Sneak-hoe a trough to cycle Mixed, Garden, Gather, Compost, Nursery and Supply. Normal hoe toggles work; power pauses it. Garden replants. Pause one resident: 85. Specialist jobs: 84.'),
     76: ('Restore a garden', 'Garden mode: Bloom +10 residents spend one suitable food above an eight-item reserve to replant a valid gap. Use the plant\'s normal soil or support. Carrots, guavas and berries are examples. Jobs share one-minute work rest.'),
     77: ('Nursery workers', 'Nursery mode: Bloom +20 adults spend one plain guava above an eight-food reserve for one Cradle stage. The whole litter stays. Jobs share garden rest. Players or redstone hatch ripe litters.'),
     78: ('Meadow melon farms', 'Fresh five-tree meadow farms mix young melon stems with ordinary crops. Empty dirt spaces allow fruit; a clear corner may fit an enabled trough. Plants grow naturally. Old settlements keep their plans. Garden repair: page 76.'),
@@ -83,8 +83,10 @@ PAGES = {
     81: ('Chorus gardens', 'Bloom +20 chorus eaters revive spent flowers for one fruit. Mixed/Garden troughs store it; injured adults eat it for 2 HP. Living flowers keep their branch age. Leave supported branches and dry paths.'),
     82: ('Basket stations', 'A dispenser packs one calm unled bunnidog ahead. Filled baskets release onto clear dry ground. Failed pulses keep the basket. Identity and care rest persist. Each pulse acts once; sort with hoppers.'),
     83: ('Supply the troughs', 'Supply mode: Senses +20 adults move one ordinary surplus food to a nearby non-Supply trough below eight food, keeping eight at source. Keep both unpowered with dry paths. One job shares the one-minute work rest.'),
+    85: ('Pause a resident', 'Sneak-use a hoe on a resident to pause or resume chores, with no wear. Meals, breeding and home routines continue. Pups can keep the preference. Calipers shows the pause; Travel Baskets preserve it.'),
+    86: ('Cradle controls', 'Sneak-hoe a Cradle for manual-only hatching. Incubation and nursery work continue; ripe litters still hatch by empty-hand use. Re-enable redstone, then send a fresh pulse. Calipers reports the setting.'),
 }
-PAGE_COUNT = 84
+PAGE_COUNT = 86
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {24:'Guava juice',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',29:'Terrain & fishing',
@@ -93,7 +95,7 @@ NEW_INDEX = {41:'Nursery & compost',44:'Treat a litter',45:'Nest guards',46:'War
 
 HABITAT_INDEX = {57:'Cactus gardens',58:'Regional farms',59:'Guava orchards',60:'Mushroom beds',61:'Fruit meals',62:'Sapling stations',63:'Underground farms',64:'Safe seedbeds',65:'Snow-coat care'}
 WORK_INDEX = {67:'Loose food meals',68:'Trough gathering',69:'Melon beds',71:'Orchard pickers',72:'Habitat meals',73:'Nest signals',75:'Work modes',76:'Restore a garden',84:'Specialist work'}
-SPECIALIST_INDEX = {77:'Nursery workers',79:'Work roll call',80:'Safe hunting',81:'Chorus gardens',82:'Basket stations',83:'Supply the troughs'}
+SPECIALIST_INDEX = {77:'Nursery workers',79:'Work roll call',80:'Safe hunting',81:'Chorus gardens',82:'Basket stations',83:'Supply the troughs',85:'Pause a resident',86:'Cradle controls'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -140,7 +142,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page in [(255,83),(495,84),(735,75),(975,66)]:
+    for x,page in [(255,85),(495,86),(735,84),(975,75)]:
         d.rectangle((x,20,x+224,397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else PAGES[page][0]
         d.text((x+14,35),title,font=bold,fill=(40,39,30))

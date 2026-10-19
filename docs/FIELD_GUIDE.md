@@ -58,8 +58,8 @@ containers are not refilled and player inventories are not edited. See
 
 ## Presentation and saves
 
-Eighty-four pages use the ordinary written-book screen. Six linked contents pages
-offer fifty-two clickable chapter links. Each chapter links back to its index. Local page changes
+Eighty-six pages use the ordinary written-book screen. Six linked contents pages
+offer fifty-four clickable chapter links. Each chapter links back to its index. Local page changes
 are the only click action. All text is translatable through en_us.json. The
 book stacks to one and appears beside the Calipers in Tools & Utilities.
 
@@ -76,9 +76,9 @@ resource-pack fonts may differ. The source preview uses a substitute font.
 
 ## Evidence
 
-The actual Java 25 build and current sixty-six native server cases pass,
-including loading the book/recipe/loot resources. The expanded 84-page
-Supply/Specialist/mode/Working preview is inspected with a substitute font; all
+The actual Java 25 build and current sixty-eight native server cases pass,
+including loading the book/recipe/loot resources. The expanded 86-page
+resident-pause/Cradle-control/Specialist/mode preview is inspected with a substitute font; all
 three indices were also inspected for P4. Earlier
 pages were shortened using the conservative native text-area estimate.
 Native WrittenBookItem, ServerPlayer, ClientPacketListener and BookViewScreen
@@ -267,3 +267,9 @@ work; its footer links to Working and Main. Older page numbers remain stable.
 There are 84 pages and fifty-two chapter links. Supply/Specialist/mode/Working
 previews are inspected with the substitute font; native client fonts and clicks
 remain gameplay review.
+
+L35/N10 append **Pause a resident** (85) and **Cradle controls** (86). Both join
+the Specialist work index and return there; existing page numbers remain.
+Work modes points to 85; Hatch safely points to 86. The eight-entry Specialist
+index keeps its two footer links. The guide has 86 pages/six indices/fifty-four
+chapter links; both new chapters, Specialist and modes are previewed.

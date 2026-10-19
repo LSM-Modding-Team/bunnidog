@@ -16,6 +16,14 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+L35 adds saved per-resident work pause through sneak-hoe without interrupting
+meals/breeding/home/care. N10 adds optional manual-only Cradle hatching: native
+queued pulses respect it, while incubation and deliberate manual hatching remain.
+Both defaults preserve legacy behavior; actual off-hand/creative/protection,
+save/transport, interruption/meal and real pulse cases pass with all 68 native
+scenarios. The 86-page guide preview is inspected. See `RESIDENT_WORK.md`,
+`NURSERY_SPECS.md` and `FIELD_GUIDE.md`.
+
 L34 appends opt-in Supply mode: Senses +20 residents atomically move one ordinary
 surplus food to a nearby meal trough, retaining an eight-item source reserve and
 destination ceiling. Safe paths, component filters, power and shared rest apply;

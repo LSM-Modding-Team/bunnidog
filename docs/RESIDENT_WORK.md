@@ -1,10 +1,11 @@
-# Resident work L28–L34 / N9
+# Resident work L28–L35 / N9
 
 These jobs extend the existing opted-in, healthy adult routine. Work needs a
 claimed Nest, daytime, safe loaded routes, sight/reach, no danger/transport,
 native mob griefing and a hoe-enabled, unpowered trough. Diet and exact food
 components still apply. All jobs share the saved one-minute GardenWait; no
-carried inventory, forced terrain loading or new animal field is introduced.
+carried inventory or forced terrain loading is introduced. L35 adds one optional
+keeper preference; job inputs and recovery retain their established saves.
 
 ## L28: choose a trough's work
 
@@ -150,3 +151,28 @@ ceiling. Real protection callbacks change mode/filter before transfer; real
 post-commit stock notifications remove both dishes, returning exactly eleven
 named food with no ghost stock. The guide preview is inspected; natural supply
 loops and client controls remain gameplay review.
+
+## L35: pause one resident's work
+
+Sneak-use a hoe on an ordinary living bunnidog to pause/resume its chores. Either
+hand works with build permission and no tool wear or item cost. This keeper
+preference applies to harvesting, cultivation, composting, gathering, planting,
+nursery and supply work through their shared gardening status. Existing jobs
+recheck it, including after protection and stock callbacks, before spending.
+Meals, breeding, home tickets, native care/rest, shelter and guard preference
+continue under their existing rules. This is a work preference, not a stay or
+follow command. Pups can be paused before adulthood.
+
+The optional animal `WorkPaused` boolean saves only when true; missing means
+normal work. Whole-animal Travel Baskets retain it. It is not inherited in
+seeds or included in genetic sample/record snapshots. Sneak-Calipers and trough
+work roll calls show the paused status without resuming the animal or spending
+its care/work timers. No client entity-data slot or network payload is added.
+
+Java 25 build/all 68 native scenarios pass. The new case uses actual crouched
+creative off-hand hoe control and Adventure refusal, interrupts a ready real
+harvest without stock/rest/home changes, checks paused census and supply,
+performs a real two-HP trough meal, saves/restores the preference and legacy
+default on reused entities, travels through a real basket with paused food rest,
+resumes by hoe and sets a pup's future preference without growth. The guide
+preview is inspected; natural work resumption and client controls need playtesting.
