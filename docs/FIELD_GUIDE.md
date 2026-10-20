@@ -1,6 +1,19 @@
 # P1 — Bunnidogs Field Guide
 
-**I1/I2/A12/G7:** current preset guides have **124 pages, eleven indices and
+**H12/H13/V5:** current preset guides have **141 pages, thirteen indices and
+114 chapter links**. Wild & companions (117) adds Trail partners (125), while
+Workshops & sites (112) also links Breeder requests (130). Trail links training
+(126), orders (127), safe journeys (128), calls (129), provisions (141), the
+Commission Board (131) and requests (130). The request index links all nine
+targets at 132–140. Each new index retains Main plus its parent footer within
+the existing line budget. All earlier page IDs stay intact; new chapters return
+to their appropriate Trail/request index. Native customized item serialization
+retains all 141 pages, rather than relying on omitted preset defaults. The
+generated text/navigation preview covers every appended page with a substitute
+font; native client fonts/navigation remain gameplay review. Explicitly saved
+older books can keep old page counts; craft a fresh guide when needed.
+
+**Prior I1/I2/A12/G7 checkpoint:** preset guides had **124 pages, eleven indices and
 96 chapter links**. Workshops & sites (112) adds Wild & companions (117),
 which links Island refuge (118), Coastal genes (119), Shore meals (120), Kelp
 workers (121), Restore a tide bed (122), Pale cave guide (123) and Genetic

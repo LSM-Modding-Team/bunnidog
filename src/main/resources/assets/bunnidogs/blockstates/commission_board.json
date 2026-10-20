@@ -1,0 +1,36 @@
+{
+  "variants": {
+    "facing=north,ready=false": {
+      "model": "bunnidogs:block/commission_board_0",
+      "y": 0
+    },
+    "facing=north,ready=true": {
+      "model": "bunnidogs:block/commission_board_1",
+      "y": 0
+    },
+    "facing=east,ready=false": {
+      "model": "bunnidogs:block/commission_board_0",
+      "y": 90
+    },
+    "facing=east,ready=true": {
+      "model": "bunnidogs:block/commission_board_1",
+      "y": 90
+    },
+    "facing=south,ready=false": {
+      "model": "bunnidogs:block/commission_board_0",
+      "y": 180
+    },
+    "facing=south,ready=true": {
+      "model": "bunnidogs:block/commission_board_1",
+      "y": 180
+    },
+    "facing=west,ready=false": {
+      "model": "bunnidogs:block/commission_board_0",
+      "y": 270
+    },
+    "facing=west,ready=true": {
+      "model": "bunnidogs:block/commission_board_1",
+      "y": 270
+    }
+  }
+}

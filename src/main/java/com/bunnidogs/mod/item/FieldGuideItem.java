@@ -12,7 +12,7 @@ import net.minecraft.world.item.component.WrittenBookContent;
 
 /** Native book UI/packets, translated pages and local page links; no custom screen or payload. */
 public final class FieldGuideItem extends WrittenBookItem {
-    public static final int PAGE_COUNT = 124;
+    public static final int PAGE_COUNT = 141;
     private static final int MORE_CONTENTS = 40;
     private static final int NEW_CONTENTS = 50;
     private static final int HABITAT_CONTENTS = 56;
@@ -23,6 +23,8 @@ public final class FieldGuideItem extends WrittenBookItem {
     private static final int FIELD_CONTENTS = 101;
     private static final int VENUE_CONTENTS = 112;
     private static final int EXPLORER_CONTENTS = 117;
+    private static final int TRAIL_CONTENTS = 125;
+    private static final int COMMISSION_CONTENTS = 130;
     public FieldGuideItem(Properties properties) {
         super(properties.component(DataComponents.WRITTEN_BOOK_CONTENT, content()));
     }
@@ -32,13 +34,23 @@ public final class FieldGuideItem extends WrittenBookItem {
                 "guide.bunnidogs.more_contents",MORE_CONTENTS).append("\n").append(link("guide.bunnidogs.new_contents",NEW_CONTENTS))
                 .append("\n").append(link("guide.bunnidogs.habitat_contents",HABITAT_CONTENTS))));
         for (int page = 2; page <= PAGE_COUNT; page++) {
+            if (page == TRAIL_CONTENTS) {
+                pages.add(Filterable.passThrough(contents("guide.bunnidogs.trail_contents",new int[]{126,127,128,129,141,131,COMMISSION_CONTENTS},
+                        "guide.bunnidogs.main_contents",1).append("\n").append(link("guide.bunnidogs.explorer_contents",EXPLORER_CONTENTS))));
+                continue;
+            }
+            if (page == COMMISSION_CONTENTS) {
+                pages.add(Filterable.passThrough(contents("guide.bunnidogs.commission_contents",new int[]{132,133,134,135,136,137,138,139,140},
+                        "guide.bunnidogs.main_contents",1).append("\n").append(link("guide.bunnidogs.trail_contents",TRAIL_CONTENTS))));
+                continue;
+            }
             if (page == EXPLORER_CONTENTS) {
-                pages.add(Filterable.passThrough(contents("guide.bunnidogs.explorer_contents",new int[]{118,119,120,121,122,123,124},
+                pages.add(Filterable.passThrough(contents("guide.bunnidogs.explorer_contents",new int[]{118,119,120,121,122,123,124,TRAIL_CONTENTS},
                         "guide.bunnidogs.main_contents",1).append("\n").append(link("guide.bunnidogs.venue_contents",VENUE_CONTENTS))));
                 continue;
             }
             if (page == VENUE_CONTENTS) {
-                pages.add(Filterable.passThrough(contents("guide.bunnidogs.venue_contents",new int[]{98,107,113,114,115,116,EXPLORER_CONTENTS},
+                pages.add(Filterable.passThrough(contents("guide.bunnidogs.venue_contents",new int[]{98,107,113,114,115,116,EXPLORER_CONTENTS,COMMISSION_CONTENTS},
                         "guide.bunnidogs.main_contents",1).append("\n").append(link("guide.bunnidogs.more_contents",MORE_CONTENTS))));
                 continue;
             }
@@ -86,7 +98,7 @@ public final class FieldGuideItem extends WrittenBookItem {
                     .append(Component.literal("\n\n").withStyle(style -> style.withBold(false)))
                     .append(Component.translatable("guide.bunnidogs.page." + page + ".body").withStyle(style -> style.withBold(false)))
                     .append(Component.literal("\n\n").withStyle(style -> style.withBold(false)))
-                    .append(link("guide.bunnidogs.contents",page > EXPLORER_CONTENTS ? EXPLORER_CONTENTS : page > VENUE_CONTENTS ? VENUE_CONTENTS : page > FIELD_CONTENTS ? FIELD_CONTENTS : page >= 93 || page == 24 ? WORKSHOP_CONTENTS : page == 65 || page == 88 || page > LINEAGE_CONTENTS ? LINEAGE_CONTENTS : page == 77 || page >= 79 ? SPECIALIST_CONTENTS : page > WORK_CONTENTS ? WORK_CONTENTS : page > HABITAT_CONTENTS ? HABITAT_CONTENTS
+                    .append(link("guide.bunnidogs.contents",page==131 || page==141 ? TRAIL_CONTENTS : page>COMMISSION_CONTENTS ? COMMISSION_CONTENTS : page>TRAIL_CONTENTS ? TRAIL_CONTENTS : page > EXPLORER_CONTENTS ? EXPLORER_CONTENTS : page > VENUE_CONTENTS ? VENUE_CONTENTS : page > FIELD_CONTENTS ? FIELD_CONTENTS : page >= 93 || page == 24 ? WORKSHOP_CONTENTS : page == 65 || page == 88 || page > LINEAGE_CONTENTS ? LINEAGE_CONTENTS : page == 77 || page >= 79 ? SPECIALIST_CONTENTS : page > WORK_CONTENTS ? WORK_CONTENTS : page > HABITAT_CONTENTS ? HABITAT_CONTENTS
                             : page > MORE_CONTENTS ? NEW_CONTENTS : page < 24 ? 1 : MORE_CONTENTS));
             pages.add(Filterable.passThrough(text));
         }

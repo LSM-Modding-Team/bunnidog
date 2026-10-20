@@ -1,0 +1,31 @@
+{
+  "parent": "bunnidogs:enter_warren",
+  "display": {
+    "icon": {
+      "id": "bunnidogs:trail_whistle"
+    },
+    "title": {
+      "translate": "advancements.bunnidogs.trail_partner.title"
+    },
+    "description": {
+      "translate": "advancements.bunnidogs.trail_partner.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "trained": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "trained"
+    ]
+  ],
+  "rewards": {
+    "experience": 25
+  }
+}

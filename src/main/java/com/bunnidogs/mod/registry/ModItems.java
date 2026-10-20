@@ -177,6 +177,8 @@ public final class ModItems {
     /** The Nest (H1): a bunnidog's home. */
     public static final DeferredItem<BlockItem> NEST = ITEMS.registerSimpleBlockItem(ModBlocks.NEST);
     public static final DeferredItem<BlockItem> JUDGING_STAND = ITEMS.registerSimpleBlockItem(ModBlocks.JUDGING_STAND);
+    public static final DeferredItem<BlockItem> COMMISSION_BOARD = ITEMS.registerSimpleBlockItem(ModBlocks.COMMISSION_BOARD,
+            props -> props.component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.commission.controls")))));
     public static final DeferredItem<BlockItem> FEEDING_TROUGH = ITEMS.registerSimpleBlockItem(ModBlocks.FEEDING_TROUGH);
     public static final DeferredItem<BlockItem> NURSERY_CRADLE = ITEMS.registerSimpleBlockItem(ModBlocks.NURSERY_CRADLE);
     public static final DeferredItem<BlockItem> JUICER = ITEMS.registerSimpleBlockItem(ModBlocks.JUICER);
@@ -211,6 +213,8 @@ public final class ModItems {
 
     /** The Calipers (Phase 5): read a bunnidog's or a seed's exact genes into the chat. Crafted from iron and copper (data/bunnidogs/recipe/calipers.json). */
     public static final DeferredItem<CalipersItem> CALIPERS = ITEMS.registerItem("calipers", CalipersItem::new, props -> props.stacksTo(1));
+    public static final DeferredItem<com.bunnidogs.mod.item.TrailWhistleItem> TRAIL_WHISTLE = ITEMS.registerItem("trail_whistle",
+            com.bunnidogs.mod.item.TrailWhistleItem::new,props -> props.stacksTo(1));
     public static final DeferredItem<SyringeItem> SYRINGE = ITEMS.registerItem("syringe", SyringeItem::new,
             props -> props.durability(com.bunnidogs.mod.genetics.Sampling.TOOL_USES));
     public static final DeferredItem<TravelBasketItem> TRAVEL_BASKET = ITEMS.registerItem("travel_basket",TravelBasketItem::new,props -> props.stacksTo(1));
@@ -368,6 +372,7 @@ public final class ModItems {
         }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(CALIPERS.get());
+            event.accept(TRAIL_WHISTLE.get());
             event.accept(FIELD_GUIDE.get());
             event.accept(SYRINGE.get());
             event.accept(TRAVEL_BASKET.get());
@@ -377,6 +382,7 @@ public final class ModItems {
             event.accept(PEDIGREE_BOOK.get());
             event.accept(PUREBRED_REGISTRY.get());
             event.accept(JUDGING_STAND.get());
+            event.accept(COMMISSION_BOARD.get());
             event.accept(FEEDING_TROUGH.get());
             event.accept(NURSERY_CRADLE.get());
             event.accept(JUICER.get());

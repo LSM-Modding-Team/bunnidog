@@ -18,7 +18,7 @@ final class StormShelterGoal extends Goal {
     private boolean blocked;
     StormShelterGoal(Bunnidog dog) { this.dog = dog; this.setFlags(EnumSet.of(Flag.MOVE)); }
     private boolean wanted() {
-        return this.dog.acceptsCare() && this.dog.isAlive() && this.dog.level() instanceof ServerLevel server
+        return !this.dog.trail().ordered() && this.dog.acceptsCare() && this.dog.isAlive() && this.dog.level() instanceof ServerLevel server
                 && StormShelter.eligible(!this.dog.isBaby(),this.dog.homeNest() != null,this.dog.beingTransported(),
                         this.dog.getTarget() != null || this.dog.seekingRefuge(),this.dog.foodWithinHome(this.dog.blockPosition()),server.isThundering());
     }

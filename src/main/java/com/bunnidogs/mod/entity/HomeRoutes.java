@@ -23,8 +23,11 @@ final class HomeRoutes {
         return List.copyOf(out);
     }
     static boolean standing(Bunnidog dog, BlockPos pos) {
+        return pos!=null && dog.foodWithinHome(pos) && trailStanding(dog,pos);
+    }
+    static boolean trailStanding(Bunnidog dog, BlockPos pos) {
         var level = dog.level();
-        return pos != null && level.hasChunkAt(pos) && dog.foodWithinHome(pos)
+        return pos != null && level.hasChunkAt(pos) && level.hasChunkAt(pos.above()) && level.hasChunkAt(pos.below())
                 && level.getBlockState(pos).isAir() && level.getBlockState(pos.above()).isAir()
                 && level.getFluidState(pos).isEmpty() && level.getFluidState(pos.above()).isEmpty()
                 && (level.getBlockState(pos.below()).isFaceSturdy(level,pos.below(),Direction.UP)
@@ -56,12 +59,16 @@ final class HomeRoutes {
         return dog.level().hasChunksAt(low,high) && dog.getSensing().hasLineOfSight(mob);
     }
     static boolean safe(Bunnidog dog, Path route, Mob threat) {
-        if (route == null || !route.canReach()) return false;
+        return safe(dog,route,threat,true);
+    }
+    static boolean trailSafe(Bunnidog dog,Path route) { return safe(dog,route,null,false); }
+    private static boolean safe(Bunnidog dog,Path route,Mob threat,boolean homeBound) {
+        if (route == null || homeBound && !route.canReach()) return false;
         var context = new PathfindingContext(dog.level(),dog);
         double clearance = threat == null ? 0 : Math.min(4,dog.blockPosition().distSqr(threat.blockPosition()));
         for (int i = route.getNextNodeIndex(); i < route.getNodeCount(); i++) {
             var node = route.getNode(i);
-            if (!dog.level().hasChunkAt(node.asBlockPos()) || !dog.foodWithinHome(node.asBlockPos())
+            if (!dog.level().hasChunkAt(node.asBlockPos()) || homeBound && !dog.foodWithinHome(node.asBlockPos())
                     || threat != null && node.asBlockPos().distSqr(threat.blockPosition()) < clearance) return false;
             var pos = node.asBlockPos();
             if (dangerous(dog,node.type) || !dog.level().hasChunksAt(pos.offset(-1,-1,-1),pos.offset(1,1,1))) return false;

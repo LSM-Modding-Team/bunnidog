@@ -3,8 +3,10 @@
 Implemented 2026-10-19 from the original `DESIGN.md` Build/carrying-capacity
 proposal. Ordinary adults can carry **whole native bundles** in visible leather
 panniers. This gives Build a practical use while keeping native bundle packing,
-tooltips, selected contents, colors and item codecs. Update both sides for
-**protocol 12**, which adds the synced equipped-bundle count and equipment art.
+tooltips, selected contents, colors and item codecs. H11 introduced protocol 12
+for equipped-bundle count/art; current **protocol 15** adds trail companions
+and commissions. Update both sides. H13's opt-in cargo meals are described at
+the end and in `TRAIL_SPECS.md`.
 
 ## Capacity and controls
 
@@ -94,3 +96,13 @@ capture/release retains every bundle and identity without duplicate item drops.
 
 The fitted accessory/actual-sculpt and Field Guide previews are inspected.
 Native GPU attachment, play balance and long trips remain manual gameplay review.
+## H13 extension — opted-in trail provisions
+
+Keepers may use a bowl on a trained trail partner to permit suitable ordinary
+meals from its own carried bundles during Follow/Wait. One actual item heals
+two HP with shared food recovery; upgraded guavas/unrelated cargo remain.
+Native names/colors, remaining templates/order and callback-refilled equipment
+are conserved before healing. Empty bags stay equipped. The default is off,
+and ordinary resident mode keeps its existing food behavior. Baskets preserve
+the preference/cargo/rest. See `TRAIL_SPECS.md` for full rules and native cases.
+The base H11 capacity/overload/equipment rules below remain the foundation.

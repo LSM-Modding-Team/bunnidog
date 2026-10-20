@@ -1,6 +1,10 @@
 # HOME_SPECS — bunnidogs find their own home (session 41, second turn)
 
-**CURRENT (2026-10-17): H1-H4 have prior gameplay reports. U1–U7 put Nests in fitted dens/halls; H3b keeps a Nest in each built house. H5 adds transport-aware behavior and player-directed Nest reassignment. H6 adds a Travel Basket preserving an animal's identity and native care state. Current server evidence and remaining gameplay review are in START_HERE.md.**
+**Current (2026-10-20): H12/H13 adds trained trail orders, retained home claims
+and opt-in carried meals. See `TRAIL_SPECS.md` and `START_HERE.md` for current
+rules, native evidence and remaining gameplay review.**
+
+**Prior checkpoint (2026-10-17): H1-H4 have prior gameplay reports. U1–U7 put Nests in fitted dens/halls; H3b keeps a Nest in each built house. H5 adds transport-aware behavior and player-directed Nest reassignment. H6 adds a Travel Basket preserving an animal's identity and native care state.**
 
 **Status (session 44): H1-H4 WORK (user). H3b (nests in houses) is plan only.** This REPLACES the hardcoded home of V2a (`restrictTo(treeFloor, 16)` at spawn),
 which the user rejected: "it should work like it does with villagers, some conditions that make it determine its home instead of a
@@ -295,3 +299,13 @@ cancellation returning one exact full basket, and accepted-spawn slot refill
 preserving new diamonds plus one empty basket. The existing hand/creative/pup/
 record/save cases remain passing. Guide preview inspected; client transport
 lines and natural world travel remain gameplay review.
+## H12/H13 extension
+
+Trained trail partners can temporarily follow/wait outside their retained Nest
+without claiming passing homes or competing with home chores. Whistle calls
+and bowl-enabled meals from actual carried food extend ordinary exploration;
+native transport keeps priority. Returning to resident behavior resumes these
+existing home rules. Basket packing retains its existing home-release behavior
+while preserving new training/provision care state. See `TRAIL_SPECS.md` for
+the complete rules and native evidence; earlier home sections retain their
+original checkpoint counts.

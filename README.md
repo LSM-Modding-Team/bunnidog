@@ -2,12 +2,20 @@
 
 A NeoForge mod for Minecraft 26.2: a baby-faced creature with rabbit ears and a
 dog's body, plus breeding, genetics, guavas, warrens, homes and pedigree tools.
-Requires JDK 25. Client and server must both use the updated mod (network 14). The checked-in Gradle wrapper selects the project Gradle version.
+Requires JDK 25. Client and server must both use the updated mod (network 15). The checked-in Gradle wrapper selects the project Gradle version.
 
-Craft a vanilla book with any guava for the **124-page Field Guide**, with eleven
+Craft a vanilla book with any guava for the **141-page Field Guide**, with thirteen
 linked contents pages covering its chapters. Sneak-use
 Calipers for care/work readiness, use a hoe on a Feeding Trough to enable
 resident gardening, and explore food stores for supplies suited to each lineage.
+Train a calm loyal/stoic adult with a Trail Whistle and a plain guava in the
+other hand. Partners follow or wait on safe ground while retaining their Nest;
+whistle calls use bred hearing. Use a bowl to opt into healing meals from
+ordinary carried bundle food. See [trail companions and provisions](docs/TRAIL_SPECS.md).
+Place a Breeder Commission Board near an actual Breeder and demonstrate a
+qualified living bred adult. Nine requests span every wild lineage and combined
+stable lines, paying native materials/XP once per keeper for one paper while
+you keep the animal and cargo. See [commission targets](docs/COMMISSION_SPECS.md).
 Coats blend on matching ground while healthy and calm, reducing native detection
 and walking vibrations. Breeding Pens are job sites for native Breeder villagers,
 with regional pelt contracts and workshop supplies. Explore abandoned breeding

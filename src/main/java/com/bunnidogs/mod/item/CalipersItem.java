@@ -80,6 +80,11 @@ public class CalipersItem extends Item {
             return;
         }
         var nest = dog.homeNest();
+        if (dog.trail().keeper()!=null) careRow(player,"trail",Component.translatable("message.bunnidogs.trail.inspect",
+                Component.translatable("message.bunnidogs.trail.order."+dog.trail().order().name().toLowerCase(Locale.ROOT)),
+                Component.translatable(dog.trail().belongsTo(player) ? "message.bunnidogs.trail.yours" : "message.bunnidogs.trail.other")));
+        if (dog.trail().keeper()!=null) careRow(player,"provisions",Component.translatable(dog.trail().provisions()
+                ? "message.bunnidogs.trail.provisions_enabled" : "message.bunnidogs.trail.provisions_disabled"));
         careRow(player,"home",nest == null ? Component.translatable("message.bunnidogs.care.home_none")
                 : Component.translatable("message.bunnidogs.care.home_at",nest.getX(),nest.getY(),nest.getZ(),
                         String.format(Locale.ROOT,"%.1f",Math.sqrt(dog.blockPosition().distSqr(nest)))));
@@ -212,6 +217,9 @@ public class CalipersItem extends Item {
             return InteractionResult.SUCCESS;
         }
         var block = level.getBlockEntity(context.getClickedPos());
+        if (block instanceof com.bunnidogs.mod.block.CommissionBoardBlockEntity board) {
+            board.inspect(player); return InteractionResult.SUCCESS;
+        }
         if (block instanceof com.bunnidogs.mod.block.PedigreeComparatorBlockEntity) {
             com.bunnidogs.mod.block.PedigreeComparatorBlock.inspect(level,context.getClickedPos(),player);
             return InteractionResult.SUCCESS;

@@ -188,6 +188,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private final PhaseEscape phaseEscape = new PhaseEscape(this);
     private final BunnidogPacks packs = new BunnidogPacks(this);
     private final CaveGuiding caveGuiding = new CaveGuiding(this);
+    private final TrailCompanion trailCompanion = new TrailCompanion(this);
     private long nextForageTick;
     private long nextGardenTick;
     private long nextSampleTick;
@@ -359,6 +360,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             }
             this.growthTick();
             this.guavaMemory.tick(this.getAge());      // Phase 4e: forgets the tier when love is over
+            this.trailCompanion.tick();
             if (!this.entityData.get(DATA_FLEECE_READY) && this.level().getGameTime() >= this.nextFleeceTick) {
                 this.entityData.set(DATA_FLEECE_READY,true);
             }
@@ -438,6 +440,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     }
     private Foraging.Status foragingStatus(boolean trough) {
         if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel)) return Foraging.Status.UNAVAILABLE;
+        if (this.trail().ordered()) return Foraging.Status.TRAIL;
         if (this.seekingRefuge()) return Foraging.Status.DANGER;
         boolean night = this.homeNight();
         boolean nightMeal = trough && night && this.homeNest() != null
@@ -474,9 +477,9 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     }
 
     void ateForage(float healing) {
+        this.nextForageTick = this.level().getGameTime() + Foraging.MEAL_COOLDOWN;
         this.heal(healing);
         this.playEatingSound();
-        this.nextForageTick = this.level().getGameTime() + Foraging.MEAL_COOLDOWN;
     }
 
     public int gardeningWait() {
@@ -487,6 +490,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     /** The same cheap snapshot serves the AI and Calipers; it does not search for crops or paths. */
     public Gardening.Status gardeningStatus() {
         if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel server)) return Gardening.Status.UNAVAILABLE;
+        if (this.trail().ordered()) return Gardening.Status.TRAIL;
         if (this.workPaused) return Gardening.Status.PAUSED;
         var status = Gardening.status(!this.isBaby(),this.getHealth() >= this.getMaxHealth(),
                 this.homeNest() != null,this.homeNight(),this.beingTransported(),this.getTarget() != null || this.seekingRefuge()
@@ -565,6 +569,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         if (held.is(Items.COMPASS)) return player.isShiftKeyDown() ? MineralScouting.use(this,player,hand)
                 : ResidentWayfinding.markHome(this,player,hand);
         if (held.is(Items.GLOW_BERRIES) && player.isShiftKeyDown()) return this.caveGuiding.use(player,hand);
+        if (held.is(Items.BOWL)) return this.trailCompanion.toggleProvisions(player,hand);
         if (held.is(Items.BONE) && player.isShiftKeyDown()) {
             if (!player.mayBuild()) return InteractionResult.PASS;
             if (!this.level().isClientSide()) {
@@ -783,6 +788,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
 
     /** Domestic routines and tools are inappropriate for the summoned Apex. */
     public boolean acceptsCare() { return true; }
+    public TrailCompanion trail() { return this.trailCompanion; }
+    ItemStack takeTrailProvision() { return this.packs.takeProvision(); }
 
     public int carriedBundleCount() { return this.entityData.get(DATA_BUNDLE_COUNT); }
     public int bundleCapacity() { return com.bunnidogs.mod.genetics.Carrying.capacity(this.genome()); }
@@ -928,6 +935,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     public void addAdditionalSaveData(ValueOutput output) {
         super.addAdditionalSaveData(output);
         this.packs.save(output);
+        this.trailCompanion.save(output);
         output.putString(TAG_GENOME, this.genome().toString());
         output.putString(TAG_STATS, this.stats().toString());
         if (this.highestShowAward > 0) output.putInt("ShowAward", this.highestShowAward);
@@ -977,6 +985,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         // Phase 5d: a save from before it, or an untagged bunnidog, has no tag. (The name shown above it is vanilla's own saved CustomName.)
         this.earTag = EarTag.parse(input.getStringOr(TAG_EAR_TAG, "")).orElse(null);
         super.readAdditionalSaveData(input);
+        this.trailCompanion.restore(input);
         this.packs.load(input);
         if (!this.level().isClientSide()) this.applyAdaptations();
         this.highestShowAward = Math.max(0, input.getIntOr("ShowAward", 0));
@@ -1050,6 +1059,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             }
         });
         // Breeding (Phase 2): mate with another bunnidog in love, follow a guava, pups follow an adult.
+        this.goalSelector.addGoal(4, new TrailGoal(this));
         this.goalSelector.addGoal(4, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new TemptGoal(this, 1.1D, this::canEat, false));
         this.goalSelector.addGoal(6, new FollowParentGoal(this, 1.1D));

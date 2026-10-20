@@ -3,7 +3,7 @@
 Current A11 supplies the Island's native oxygen/propulsion and A12 completes
 useful pale-coat cave vision. A10 supplies coat camouflage; H11 adds
 Build-based native bundle carriers, with cargo breaking cover. Current
-client/server protocol **14** includes the coastal allele semantics; update both
+client/server protocol **15** includes trained partners and commissions; update both
 sides. Earlier per-feature protocol/test counts are historical checkpoints.
 
 Implemented 2026-10-16 under the user's standing design latitude. These additions
@@ -431,6 +431,14 @@ farther from the attacker. A resident's landing stays within sixteen blocks
 of its recorded Nest. Homeless adults can also defend themselves. This is a
 teleport, so ordinary fences/walls are not guaranteed to contain a Phase line;
 leads or baskets retain transport control.
+
+H12 permits an ordered, temperament-qualified trained partner with a living
+same-level keeper within 64 blocks to defend along the journey outside its
+preserved old Nest boundary. Ordinary residents keep the sixteen-block limit.
+This changes no damage, recovery or native landing/protection rule. Current
+home and effective boundary are both revalidated after teleport callbacks.
+The real trail-native attack case proves the retained claim and defensive
+escape beyond the old boundary. See `TRAIL_SPECS.md`.
 
 Checks cover the loaded whole body and neighboring native path hazards,
 collision, liquid, full-block support and world border. There is no terrain

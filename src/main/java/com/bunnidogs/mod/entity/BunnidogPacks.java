@@ -1,9 +1,12 @@
 package com.bunnidogs.mod.entity;
 
 import com.bunnidogs.mod.genetics.Carrying;
+import com.bunnidogs.mod.block.FeedingTroughBlockEntity;
+import com.bunnidogs.mod.item.GuavaItem;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -11,6 +14,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BundleItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
@@ -21,6 +25,23 @@ final class BunnidogPacks {
     BunnidogPacks(Bunnidog dog) { this.dog = dog; }
     int count() { return this.bundles.size(); }
     List<ItemStack> snapshot() { return this.bundles.stream().map(ItemStack::copy).toList(); }
+    /** Reserve one owned ordinary meal before healing callbacks. Preserve remaining order and all native components. */
+    ItemStack takeProvision() {
+        for (int i=bundles.size()-1;i>=0;i--) {
+            var bundle=bundles.get(i); var contents=bundle.getOrDefault(DataComponents.BUNDLE_CONTENTS,BundleContents.EMPTY);
+            if (contents.weight().isError()) continue;
+            for (int j=0;j<contents.items().size();j++) {
+                var template=contents.items().get(j); var food=template.create();
+                if (!FeedingTroughBlockEntity.accepts(food) || GuavaItem.tierOf(food)!=0 || !dog.canEat(food)) continue;
+                var remaining=new ArrayList<>(contents.items());
+                if (food.getCount()==1) remaining.remove(j); else remaining.set(j,template.withCount(food.getCount()-1));
+                var next=bundle.copy(); next.set(DataComponents.BUNDLE_CONTENTS,new BundleContents(List.copyOf(remaining)));
+                bundles.set(i,next);
+                return food.copyWithCount(1);
+            }
+        }
+        return ItemStack.EMPTY;
+    }
     Carrying.Status status() {
         if (!this.dog.acceptsCare() || !this.dog.isAlive()) return Carrying.Status.UNAVAILABLE;
         if (this.dog.isBaby()) return Carrying.Status.ADULT;

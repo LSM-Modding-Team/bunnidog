@@ -16,7 +16,7 @@ public final class Foraging {
     public static final int NIGHT_MEAL_RADIUS = 4;
 
     public enum Meal { NONE, HAY, GRASS, WHEAT, PRODUCE }
-    public enum Status { READY, UNAVAILABLE, ADULT, HEALTHY, HOME, DAYTIME, DANGER, TRANSPORTED, OUTSIDE_HOME, RESTING, NEST_MEAL }
+    public enum Status { READY, UNAVAILABLE, ADULT, HEALTHY, HOME, DAYTIME, DANGER, TRANSPORTED, OUTSIDE_HOME, RESTING, NEST_MEAL, TRAIL }
     public static boolean handFood(boolean edible, boolean breedingFood, boolean hurt, boolean canGrow) {
         return edible && !breedingFood && (hurt || canGrow);
     }

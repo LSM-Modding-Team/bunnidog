@@ -1,0 +1,34 @@
+{
+  "parent": "bunnidogs:enter_warren",
+  "display": {
+    "icon": {
+      "id": "bunnidogs:commission_board"
+    },
+    "title": {
+      "translate": "commission.bunnidogs.crossing_branches.title"
+    },
+    "description": {
+      "translate": "commission.bunnidogs.crossing_branches.requirements"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "submitted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "submitted"
+    ]
+  ],
+  "rewards": {
+    "experience": 100,
+    "loot": [
+      "bunnidogs:commissions/crossing_branches"
+    ]
+  }
+}

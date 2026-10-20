@@ -28,6 +28,12 @@ rather than redundant mob perception; see `CARE_SPECS.md`. G7 implements Nature
 Finds a Way and the eight-origin Wild Gene Library through actual saved records;
 see `DISCOVERY_SPECS.md`. Historical proposal lists below retain their wording.
 
+H12/H13 extends this loop into trained living trail partners with heard commands,
+retained housing, existing field abilities and opted-in actual cargo meals.
+V5 adds nine practical breeding commissions spanning all eight wild lineages
+and a combined stable line, paid through real native per-player rewards. They
+use the standing design latitude; see `TRAIL_SPECS.md` and `COMMISSION_SPECS.md`.
+
 **Contents (the sections are in the order they were written; find one with `grep -n '^## ' docs/DESIGN.md`):**
 * *Core design*: Skeleton "Generations"; Phase 1, 2, 3 decisions (genome, breeding, lineages); "Seed & Guava loop" (the long design of seeds, crops, guava tiers, stat drift); Phase 4a-4e and 4g decisions; Session 6 tier qualities; Rejected / parked skeletons.
 * *Tools and the book*: Phase 5a, 5c, 5d, 5e; Command Block Guava; Phase 8 S1-S7b (the sheet, portrait, hover, Calipers window); Genetics Table decisions.

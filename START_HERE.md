@@ -22,6 +22,30 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
 ## Latest gameplay work — 2026-10-20
 
+- **H12/H13, trained trail companions and provisions:** a reusable Whistle
+  trains loyal/stoic adults with one real plain guava. Owner-only Follow/Wait,
+  heard calls and resident return retain the Nest and use safe loaded native
+  walking; transport/panic retain priority. Bowl opt-in lets injured calm
+  partners eat suitable ordinary food from their actual native bundles with
+  shared meal rest. Payment/recovery precede healing callbacks; components,
+  replaced cargo and baskets conserve state. Trained Phase partners can defend
+  beyond the old home boundary while travelling. See `docs/TRAIL_SPECS.md`.
+- **V5, practical Breeder commissions:** a crafted saved-selection Board
+  checks a real Breeder and one calm parented adult on its clear front pad.
+  Nine targets cover all eight wild lineages and a combined stable line.
+  Actual paper pays once per keeper through native reward loot/XP; animals,
+  gear and birth data stay. Native comparator readiness, read-only inspection,
+  callback/reentry/removed-board conservation and every live target pass.
+  See `docs/COMMISSION_SPECS.md`.
+- **Combined checkpoint:** Java 25 build/all **100** native cases pass. The
+  model gate also passes after Phase integration; no creature mesh/pass changed.
+  Whistle/Board and guide previews are inspected separately. The guide has
+  **141 pages, thirteen indices and 114 chapter links**, with all earlier page
+  IDs retained. Protocol **15** requires updated client/server. Natural journeys,
+  multiplayer feel, client fonts/GPU rendering and reward balance remain review.
+
+### Previous checkpoints
+
 - **I1/I2/A11, isolated Island lineage and ocean refuge:** appended seal,
   paddle and shore-forager alleles supply native oxygen/propulsion with real
   land tradeoffs, coastal food and full material/infusion/readout integration.
@@ -44,8 +68,6 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
   natural frequency, map journeys, GPU rendering and client controls remain
   gameplay review. The guide has **124 pages, eleven indices and 96 chapter
   links**. Update both client and server: protocol **14**.
-
-### Previous checkpoints
 
 - **V3/V4, planned regional kennels and Show Ring arena:** three intact kennel
   styles provide fitted two-parent yards, floor Nests and empty care workshops.
@@ -490,11 +512,11 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Care | Live samples, fleece palettes, whiskers/dust/moss/cold-climate frost, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C10 |
 | Adaptations | Expressed environmental defenses, native terrain/snow footing, End Phase, swamp/coastal swimming, oxygen retention, fertility marks, camouflage and paid pale keeper sight. `docs/CARE_SPECS.md` A1–A12 |
 | Outdoor food | Home-bounded crops/fruit and sustainable habitat/kelp meals, ordinary loose food, bounded dry hunting/shore fishing, chorus care, reservations and callback-safe commits. `docs/FORAGING_SPECS.md` D6–D13 |
-| Homes/travel | Claimable Nests and comparator signals, day tether/night return, floor Nests, native leads/rides and led-adult reassignment. Travel Baskets preserve whole animals by hand/native dispenser; compasses mark places and resident homes. `docs/HOME_SPECS.md` H1–H10 |
+| Homes/travel | Claimable Nests, native leads/rides, baskets, bundle carrying, trained Follow/Wait/heard calls and opted-in cargo meals. Existing home, work and care state persist. `docs/HOME_SPECS.md`, `docs/CARRYING_SPECS.md`, `docs/TRAIL_SPECS.md` H12/H13 |
 | Settlement life | Trough automation/filters/power, Diet healing/night meals, bell visits, regional farms, refuge/storm/rest/guards and work roll calls. Selected harvest/cultivation/compost/gather/restoration/nursery/supply and dry-bank kelp jobs share exact stock, safe routes and work rest. `docs/SETTLEMENT_LIFE.md`, `docs/RESIDENT_WORK.md` L28–L36 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Exploration | Native cartographer Warren Maps, bred bat-ear compass surveys with optional mineral-family focus at Senses +20, native working-line milestones and a loaded tagged-resident finder. `docs/EXPLORATION_SPECS.md` E1–E5 |
-| Breeder sites and Island | Native Breeder profession, abandoned barns, three regional kennels, Show Ring arena, maps and earned judging; rooted ocean refuges with one-time coastal founders, homes and supplies. `docs/BREEDER_SPECS.md`, `docs/VENUE_SPECS.md`, `docs/ISLAND_SPECS.md` |
+| Breeder sites and Island | Native Breeders/barns/kennels/arena, maps and earned judging; nine functional breeding commissions with real native one-time rewards; ocean refuges with one-time coastal founders. `docs/BREEDER_SPECS.md`, `docs/VENUE_SPECS.md`, `docs/COMMISSION_SPECS.md`, `docs/ISLAND_SPECS.md` |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
 | Orchards | Plain-guava hanging fruit propagation, native bone meal, shears/Silk Touch leaf recovery, dispenser saplings/fruit picking/canopy repair and supported/bounded tree growth. `docs/ORCHARD_SPECS.md` O1–O7 |
 | Drops and endgame | Pelts/materials, Mutagen/Marrow/Tissue/Dust, five stat legends and pedestals. Sample-defined Apex ritual, inherited combat, warned attacks/enrage, boss bar and source-line crest. `docs/DROPS_SPECS.md`, `docs/APEX_SPECS.md` |
@@ -504,7 +526,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
 - Keep gene/allele IDs append-only. Old six-pair data loads with plain/plain
   Diet; current genomes use seven pairs / 56 bits and mask the signed high sync
-  word. Current network protocol is **14**; matching client/server versions apply.
+  word. Current network protocol is **15**; matching client/server versions apply.
 - Preserve whole item components in samples, books, table slots, vehicles,
   troughs and trophies. Existing inventories and containers are never restocked.
 - Structures save fitted tunnel cells, path exclusions, labels and optional
@@ -558,8 +580,17 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The combined Java 25 build/model gate and all **95** native scenarios pass (94 mod
+The combined Java 25 build and all **100** native scenarios pass (99 mod
 cases plus native sanity). Latest coverage:
+
+- **H12/H13/V5:** real held Whistle/guava/bowl/paper interactions, owner-only
+  controls, actual walking outside retained housing, heard calls, waiting,
+  loaded route hazards/transport, native Phase damage and recovery; saved
+  baskets, exact native bundle meals, old/refilled/dropped cargo and heal reentry.
+  All nine live breeding targets earn native one-time XP/materials; real
+  advancement callbacks cannot duplicate rewards across removed/reentered
+  stations. Customized book saves retain all 141 pages. The model gate passes;
+  item/station/guide previews are inspected separately from native gameplay.
 
 - **I1/I2/A11/D13/L36:** saved coastal IDs/inheritance, native oxygen/drowning
   and propulsion, clipped/protected/replayed island generation and founder

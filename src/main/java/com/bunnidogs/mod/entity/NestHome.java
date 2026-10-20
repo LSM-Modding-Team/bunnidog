@@ -70,7 +70,7 @@ public final class NestHome {
     /** Called from the dog's server tick. Counts down, then looks (R2-R4) or checks (R6). */
     public void tick(ServerLevel level, boolean adult) {
         // Keep the old home during a journey; do not claim passing Nests or request remote home chunks.
-        if (this.dog.beingTransported()) return;
+        if (this.dog.beingTransported() || this.dog.trail().ordered()) return;
         this.timer--;
         switch (Home.step(adult, this.hasNest(), this.timer)) {
             case LOOK -> this.look(level);

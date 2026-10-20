@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    " SW",
+    " S "
+  ],
+  "key": {
+    "C": "minecraft:copper_ingot",
+    "S": "bunnidogs:sinew",
+    "W": "bunnidogs:whisker"
+  },
+  "result": {
+    "id": "bunnidogs:trail_whistle"
+  }
+}

@@ -30,12 +30,12 @@ public final class GoHomeGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        return !this.dog.beingTransported() && this.dog.homeNest() != null && Home.tooFar(this.distSq());
+        return !this.dog.trail().ordered() && !this.dog.beingTransported() && this.dog.homeNest() != null && Home.tooFar(this.distSq());
     }
 
     @Override
     public boolean canContinueToUse() {
-        return !this.dog.beingTransported() && this.dog.homeNest() != null && !Home.arrived(this.distSq()) && !this.dog.getNavigation().isDone();
+        return !this.dog.trail().ordered() && !this.dog.beingTransported() && this.dog.homeNest() != null && !Home.arrived(this.distSq()) && !this.dog.getNavigation().isDone();
     }
 
     @Override

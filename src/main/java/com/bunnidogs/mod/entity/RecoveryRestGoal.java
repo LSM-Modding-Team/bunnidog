@@ -17,7 +17,7 @@ final class RecoveryRestGoal extends Goal {
     private long nextSearch;
     private boolean blocked;
     RecoveryRestGoal(Bunnidog dog) { this.dog = dog; setFlags(EnumSet.of(Flag.MOVE)); }
-    private boolean wanted() { return this.dog.recoveryRestStatus() == RecoveryRest.Status.READY; }
+    private boolean wanted() { return !this.dog.trail().ordered() && this.dog.recoveryRestStatus() == RecoveryRest.Status.READY; }
     private boolean validHome() {
         return this.home != null && this.home.equals(this.dog.homeNest()) && this.dog.level().hasChunkAt(this.home)
                 && this.dog.level().getBlockState(this.home).is(ModBlocks.NEST.get());

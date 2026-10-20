@@ -133,6 +133,9 @@ public final class ModBlocks {
             props -> props.strength(0.8F).sound(SoundType.GRASS));
     public static final DeferredBlock<JudgingStandBlock> JUDGING_STAND = BLOCKS.registerBlock("judging_stand", JudgingStandBlock::new,
             props -> props.strength(2.0F).sound(SoundType.WOOD).noOcclusion());
+    public static final DeferredBlock<com.bunnidogs.mod.block.CommissionBoardBlock> COMMISSION_BOARD = BLOCKS.registerBlock("commission_board",
+            com.bunnidogs.mod.block.CommissionBoardBlock::new,props -> props.strength(2).sound(SoundType.WOOD).noOcclusion()
+                    .pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK));
     public static final DeferredBlock<FeedingTroughBlock> FEEDING_TROUGH = BLOCKS.registerBlock("feeding_trough",FeedingTroughBlock::new,
             props -> props.strength(2.0F).sound(SoundType.WOOD).noOcclusion());
     public static final DeferredBlock<NurseryCradleBlock> NURSERY_CRADLE = BLOCKS.registerBlock("nursery_cradle",NurseryCradleBlock::new,
@@ -210,6 +213,8 @@ public final class ModBlocks {
             props -> props.strength(2.5F).sound(SoundType.METAL).noOcclusion().pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK));
     public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<PedigreeComparatorBlockEntity>> PEDIGREE_COMPARATOR_BE =
             BLOCK_ENTITIES.register("pedigree_comparator",() -> new BlockEntityType<>(PedigreeComparatorBlockEntity::new,PEDIGREE_COMPARATOR.get()));
+    public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<com.bunnidogs.mod.block.CommissionBoardBlockEntity>> COMMISSION_BOARD_BE =
+            BLOCK_ENTITIES.register("commission_board",() -> new BlockEntityType<>(com.bunnidogs.mod.block.CommissionBoardBlockEntity::new,COMMISSION_BOARD.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<JuicerBlockEntity>> JUICER_BE =
             BLOCK_ENTITIES.register("juicer",() -> new BlockEntityType<>(JuicerBlockEntity::new,JUICER.get()));
     public static final DeferredBlock<SpecimenJarBlock> SPECIMEN_JAR = BLOCKS.registerBlock("specimen_jar",SpecimenJarBlock::new,

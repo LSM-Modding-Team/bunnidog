@@ -66,6 +66,18 @@ and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
 
+H12/H13 extends existing cargo/scouting/care into trained trail partners:
+real paid loyal/stoic training, owner-only Follow/Wait, heard Whistle calls,
+retained housing, safe loaded walking and opted-in ordinary bundle meals.
+Phase defense remains useful outside a preserved home during a journey.
+V5 gives every wild lineage a functional commission plus a combined stable-line
+challenge. A real Breeder, qualified live adult and paper earn native one-time
+rewards; exact stock, callbacks, personal progress and equipment remain safe.
+Build/all **100** native cases pass; model gate and item/station/guide previews
+pass separately. Guide **141/13/114**, protocol **15**. See `TRAIL_SPECS.md` and
+`COMMISSION_SPECS.md`. These are implemented extensions under the standing
+design latitude, with natural/client playtesting remaining.
+
 I1/I2/A11 completes the isolated Island lineage with seal oxygen retention,
 short paddle legs/stronger swimming and shore-forager food. A native fitted
 ocean island roots into sampled seabed and provides three persistent one-time

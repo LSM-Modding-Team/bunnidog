@@ -93,7 +93,7 @@ PAGES = {
     93: ('The Juicer', 'Load guava + bottle, or seed + juice. A pair takes 5 seconds; power pauses. Hoppers feed fruit/seed above and bottles/juice beside, then drain below. Empty-hand takes output; sneak-empty recovers inputs.'),
     94: ('Richer juice', 'All eight guava tiers make juice. Infusion uses the higher seed or juice quality. The seed still decides genes and inherited stat drift. Uninfused drinks only restore hunger; save rich juice for infusion.'),
     95: ('Name a lineage', 'Open a Pedigree Book or Registry, choose a record, then Name lineage. Limit: 40 characters; empty clears. Names label that exact genome in this book. Search line:name. Re-logging keeps names; animals stay unchanged.'),
-    96: ('Pelt rugs', 'Two matching pelts and string craft one coat rug. All 12 coats keep their colors and patterns. Place on a supported floor; removing support drops the rug. Mixed pelts still craft leather without string.'),
+    96: ('Pelt rugs', 'Two matching pelts and string craft one coat rug. All 13 coats keep their colors and patterns. Place on a supported floor; removing support drops the rug. Mixed pelts still craft leather without string.'),
     97: ('Specimen Jars', 'Insert a Tissue Sample to show its coat; use to read the full sheet. Sneak with both hands empty to recover it. Breaking drops jar and sample. Comparator: 0 empty; 1 plus 2 per fixed gene pair, up to 15.'),
     99: ('Breeding Pen', 'Keep two ready adults with Nests in dry space; no other adults within 12 blocks. Parents must be within 4 of the Pen and under 3 apart. Load A/B guavas. Empty-hand or pulse feeds; Calipers inspects. Seed colors: 100.'),
     100: ('Seed quality colors', 'Seed bands: plain 0, gold 1, diamond 2, netherite 4, star 7, beacon 12, egg 20, command 33. Fractions use the lower band. Tooltips give exact quality. Fortune adds quality at harvest. Stored genes and Mutagen stay intact.'),
@@ -118,8 +118,23 @@ PAGES = {
     122: ('Restore a tide bed', 'Choose Garden mode with a sneaking hoe. Bloom +10 workers spend one kelp on a bare bed under two blocks of still water, keeping eight in stock. They stay dry and leave living stems to regrow.'),
     123: ('Pale cave guide', 'In dim light, sneak-feed a calm pale adult with Senses +20 one glow berry for 60 seconds of Night Vision. Needs half health; rests 30 seconds. Existing vision keeps the berry. Saves keep recovery.'),
     124: ('Genetic discoveries', 'Log a bred animal carrying a mutation-only allele: Nature Finds a Way. Keep all eight wild origins in one book: Wild Gene Library. Hidden copies count; unlogged parents do not. Rewards pay XP once.'),
+    126: ('Train a trail partner', 'Craft a Trail Whistle with copper, two Sinew and a Whisker. Use on a calm loyal/stoic adult at half health with a plain guava in your other hand. Training spends one guava and preserves its Nest.'),
+    127: ('Trail orders', 'Use the whistle on your partner to switch Follow/Wait. Sneak on it to release training. Air calls Follow; sneak-air resumes resident/home routines. Existing care and leads still work.'),
+    128: ('Safe trail journeys', 'Trail orders pause home chores. Following walks dry paths; danger and transport take priority. Phase still escapes real attacks. Training and cargo travel in baskets; baskets clear the old home as usual.'),
+    129: ('Whistle calls', 'Calls reach at most 16 partners. Hearing follows ears and Senses, 8-32 blocks; calls rest two seconds. A follower waits ten seconds for a lost keeper, then resumes residence. Wait stays until changed.'),
+    131: ('Breeder commissions', 'Set a Board by an adult Breeder within eight blocks. Its clear front block needs one calm bred adult at half health. Empty hands: next request. Calipers: rules. Submit one paper; each pays once.'),
+    132: ('Night Guide', 'Fix pale coat and bat ears; breed Senses +20. Bring the parented adult to a staffed Board with one paper. Night Guide pays 4 emeralds, 8 glow berries and 50 XP once per keeper. Your animal stays.'),
+    133: ('Coastal Scout', 'Fix seal coat, paddle legs and shore-forager Diet; breed Senses +10 and Swiftness +10. Coastal Scout pays 6 emeralds, a lead, 8 dried kelp and 50 XP once. Board rules apply; keep the animal.'),
+    134: ('Mountain Courier', 'Fix hoofed legs and a Build that carries 3 or 4 bundles. Breed Leap +20 and Swiftness +10; equip one bundle. Mountain Courier pays 6 emeralds, a bundle and 50 XP once. Keep all cargo.'),
+    135: ('Ember Gardener', 'Fix ember coat and nether-forager Diet; breed Bloom +10. Ember Gardener pays 4 emeralds, 8 nether wart, 4 bone meal and 50 XP once at a staffed Board. Bring a calm bred adult; keep the animal.'),
+    136: ('Frost Steward', 'Fix snow coat, tiny ears and fisher Diet; breed Bloom +10 and Vitality +20. Frost Steward pays 4 emeralds, 4 snowballs, 8 cod and 50 XP once. The snow coat also supports cold-climate care.'),
+    137: ('Desert Messenger', 'Fix fennec ears, fleet legs and lean Build; breed Swiftness +20 and Senses +10. Desert Messenger pays 6 emeralds, 4 string, a lead and 50 XP once. Lean runners still trade health for speed.'),
+    138: ('Swamp Herbalist', 'Fix moss coat, webbed legs and mushroom-eater Diet; breed Bloom +10 and Senses +10. Swamp Herbalist pays 4 emeralds, 4 bone meal, 4 moss blocks and 50 XP once. Keep your living harvest line.'),
+    139: ('End Nursery', 'Fix void coat, phase legs, starborn fertility and chorus-eater Diet; breed Bloom +20. End Nursery pays 6 emeralds, 4 chorus fruit, 2 Starlit Dust and 50 XP once. Native seed/work rules remain.'),
+    140: ('Crossing Branches', 'Fix all seven gene pairs and combine at least four wild origins; breed Senses +20. Crossing Branches pays 12 emeralds, a golden guava and 100 XP once. Common alleles add no wild origin. Animal stays.'),
+    141: ('Trail provisions', 'Use a bowl on your trained partner to enable bundle meals. Injured calm adults eat one suitable ordinary food for 2 HP, then rest 30 seconds. Upgraded guavas stay. Follow/Wait only; feed by hand too.'),
 }
-PAGE_COUNT = 124
+PAGE_COUNT = 141
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {112:'Workshops & sites',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',101:'Coats & fieldcraft',
@@ -132,8 +147,10 @@ SPECIALIST_INDEX = {77:'Nursery workers',79:'Work roll call',80:'Safe hunting',8
 LINEAGE_INDEX = {13:'Useful coats',14:'Physical traits',29:'Terrain traits',65:'Snow-coat care',88:'Snow surface routes',90:'Phase legs',91:'Webbed paws',92:'Fertility marks',101:'Coats & fieldcraft'}
 WORKSHOP_INDEX = {15:'Genetics Table',17:'Stable line registry',24:'Juice & infusion',93:'The Juicer',94:'Richer juice',95:'Name a lineage',96:'Pelt rugs',97:'Specimen Jars',99:'Pens & seed colors'}
 FIELD_INDEX = {102:'Coat camouflage',103:'Matching ground',104:'The Breeder',105:'Breeder supplies',106:'Expert trades',107:'Abandoned barns',108:'Pedigree Comparator',109:'Genetic circuits',110:'Bundle carriers'}
-VENUE_INDEX = {98:'Breeder workshop',107:'Abandoned barns',113:'Regional kennels',114:'The pairing yard',115:'Show Ring arenas',116:'Venue maps',117:'Wild & companions'}
-EXPLORER_INDEX = {118:'Island refuge',119:'Coastal genes',120:'Shore meals',121:'Kelp workers',122:'Restore a tide bed',123:'Pale cave guide',124:'Genetic discoveries'}
+VENUE_INDEX = {98:'Breeder workshop',107:'Abandoned barns',113:'Regional kennels',114:'The pairing yard',115:'Show Ring arenas',116:'Venue maps',117:'Wild & companions',130:'Breeder requests'}
+EXPLORER_INDEX = {118:'Island refuge',119:'Coastal genes',120:'Shore meals',121:'Kelp workers',122:'Restore a tide bed',123:'Pale cave guide',124:'Genetic discoveries',125:'Trail partners'}
+TRAIL_INDEX = {126:'Train a partner',127:'Trail orders',128:'Safe trail journeys',129:'Whistle calls',141:'Trail provisions',131:'Commission Board',130:'Breeder requests'}
+COMMISSION_INDEX = {132:'Night Guide',133:'Coastal Scout',134:'Mountain Courier',135:'Ember Gardener',136:'Frost Steward',137:'Desert Messenger',138:'Swamp Herbalist',139:'End Nursery',140:'Crossing Branches'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -162,8 +179,8 @@ def main():
         value = json.loads(path.read_text()); value.update({'item.bunnidogs.field_guide':'Bunnidogs Field Guide',
           'guide.bunnidogs.title':'Bunnidogs Guide','guide.bunnidogs.contents':'Contents',
           'guide.bunnidogs.more_contents':'More chapters','guide.bunnidogs.main_contents':'Main contents',
-          'guide.bunnidogs.new_contents':'New chapters','guide.bunnidogs.habitat_contents':'Habitat chapters','guide.bunnidogs.work_contents':'Working residents','guide.bunnidogs.specialist_contents':'Specialist work','guide.bunnidogs.lineage_contents':'Lineage traits','guide.bunnidogs.workshop_contents':'Breeder workshop','guide.bunnidogs.field_contents':'Coats & fieldcraft','guide.bunnidogs.venue_contents':'Workshops & sites','guide.bunnidogs.explorer_contents':'Wild & companions'})
-        for page,label in (MAIN_INDEX | MORE_INDEX | NEW_INDEX | HABITAT_INDEX | WORK_INDEX | SPECIALIST_INDEX | LINEAGE_INDEX | WORKSHOP_INDEX | FIELD_INDEX | VENUE_INDEX | EXPLORER_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
+          'guide.bunnidogs.new_contents':'New chapters','guide.bunnidogs.habitat_contents':'Habitat chapters','guide.bunnidogs.work_contents':'Working residents','guide.bunnidogs.specialist_contents':'Specialist work','guide.bunnidogs.lineage_contents':'Lineage traits','guide.bunnidogs.workshop_contents':'Breeder workshop','guide.bunnidogs.field_contents':'Coats & fieldcraft','guide.bunnidogs.venue_contents':'Workshops & sites','guide.bunnidogs.explorer_contents':'Wild & companions','guide.bunnidogs.trail_contents':'Trail partners','guide.bunnidogs.commission_contents':'Breeder requests'})
+        for page,label in (MAIN_INDEX | MORE_INDEX | NEW_INDEX | HABITAT_INDEX | WORK_INDEX | SPECIALIST_INDEX | LINEAGE_INDEX | WORKSHOP_INDEX | FIELD_INDEX | VENUE_INDEX | EXPLORER_INDEX | TRAIL_INDEX | COMMISSION_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
         for page,(title,body) in PAGES.items():
             value[f'guide.bunnidogs.page.{page}.title'] = title
             value[f'guide.bunnidogs.page.{page}.body'] = body
@@ -173,18 +190,17 @@ def main():
         if not any(entry.get('name') == 'bunnidogs:field_guide' for pool in loot['pools'] for entry in pool['entries']):
             loot['pools'].append(pantry_guide_pool())
         write(str(path.relative_to(RES)),loot)
-    preview = Image.new('RGBA',(1220,1240),(43,46,39,255)); d = ImageDraw.Draw(preview)
+    preview = Image.new('RGBA',(1220,2050),(43,46,39,255)); d = ImageDraw.Draw(preview)
     preview.alpha_composite(img.resize((224,224),Image.Resampling.NEAREST),(14,85))
     try:
         font = ImageFont.truetype('DejaVuSans.ttf',13)
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page,oy in [(255,118,0),(495,119,0),(735,120,0),(975,117,0),
-            (255,121,410),(495,122,410),(735,123,410),(975,124,410),
-            (255,112,820),(495,40,820),(735,98,820),(975,101,820)]:
+    for i,page in enumerate([126,127,128,125,129,131,132,130,133,134,135,136,137,138,139,140,141,117,112,40]):
+        x=255+i%4*240; oy=i//4*410
         d.rectangle((x,oy+20,x+224,oy+397),fill=(230,216,174),outline=(117,90,48),width=2)
-        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else 'Lineage traits' if page == 89 else 'Breeder workshop' if page == 98 else 'Coats & fieldcraft' if page == 101 else 'Workshops & sites' if page == 112 else 'Wild & companions' if page == 117 else PAGES[page][0]
+        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else 'Lineage traits' if page == 89 else 'Breeder workshop' if page == 98 else 'Coats & fieldcraft' if page == 101 else 'Workshops & sites' if page == 112 else 'Wild & companions' if page == 117 else 'Trail partners' if page == 125 else 'Breeder requests' if page == 130 else PAGES[page][0]
         d.text((x+14,oy+35),title,font=bold,fill=(40,39,30))
         if page == 1: body = '\n'.join(MAIN_INDEX.values()) + '\n\nMore chapters\nNew chapters\nHabitat chapters'
         elif page == 40: body = '\n'.join(MORE_INDEX.values()) + '\n\nMain contents'
@@ -197,6 +213,8 @@ def main():
         elif page == 101: body = '\n'.join(FIELD_INDEX.values()) + '\n\nMain contents\nMore chapters'
         elif page == 112: body = '\n'.join(VENUE_INDEX.values()) + '\n\nMain contents\nMore chapters'
         elif page == 117: body = '\n'.join(EXPLORER_INDEX.values()) + '\n\nMain contents\nWorkshops & sites'
+        elif page == 125: body = '\n'.join(TRAIL_INDEX.values()) + '\n\nMain contents\nWild & companions'
+        elif page == 130: body = '\n'.join(COMMISSION_INDEX.values()) + '\n\nMain contents\nTrail partners'
         else: body = '\n'.join(textwrap.wrap(PAGES[page][1],25)) + '\n\nContents'
         d.multiline_text((x+14,oy+75),body,font=font,spacing=6,fill=(40,59,36))
         d.text((x+14,oy+365),f'Page {page} / {PAGE_COUNT}',font=font,fill=(85,77,56))

@@ -1,12 +1,38 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 124 pages from first warren to Apex. Eleven linked contents pages offer 96
+open 141 pages from first warren to Apex. Thirteen linked contents pages offer 114
 chapter links, including workshops, fieldcraft and Wild & companions. Habitat and Lineage traits
 collect regional gardens and inherited abilities.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 Craft a fresh guide for the appended chapters in an existing world.
+
+**Trail partners (H12):** craft a Trail Whistle from copper, two Sinew and a
+Whisker. Use on a calm loyal/stoic adult at least half health with a plain guava
+in the other hand. Training costs one guava. Use on your partner to switch
+Follow/Wait; sneak on it releases training. Air calls nearby partners to Follow;
+sneak-air resumes resident/home routines. Ears and Senses affect hearing, up to
+32 blocks, sixteen partners and two-second call recovery. Home stays claimed;
+travel orders pause chores. A lost follower resumes residence after ten seconds;
+Wait remains parked. Native danger/transport and defensive Phase still work.
+
+**Trail provisions (H13):** use a bowl on your trained partner to opt in/out.
+During Follow/Wait, injured calm adults on safe dry ground can eat one suitable
+ordinary food from their own equipped bundles for two HP, then share thirty
+seconds of meal recovery. Upgraded guavas and unrelated cargo stay. Carry food
+directly in the bags; nested containers stay closed. Bags, full components,
+training/preference and recovery travel in ordinary baskets. Hand feeding also
+works; sending a partner home uses its normal resident meals again.
+
+**Breeder commissions (V5):** craft `PPP /  W  / CCC` with planks, Whisker and
+copper. Place by an adult Breeder within eight blocks. Its clear front block
+needs exactly one calm bred adult with both recorded parents and at least half
+health. Empty hands cycle nine practical requests; Calipers reads exact gene,
+stat and equipment requirements. Submit one paper; each pays native materials/
+XP once per player while animal and cargo stay. A comparator reads shared
+qualification as 15/0; personal completion remains in native advancements.
+See `COMMISSION_SPECS.md` for all eight regional targets and Crossing Branches.
 
 **Island refuges (I1/I2):** explore new mild-ocean chunks or ask expert
 cartographers for Refuge Maps. Three coastal founders live by sheltered Nests,

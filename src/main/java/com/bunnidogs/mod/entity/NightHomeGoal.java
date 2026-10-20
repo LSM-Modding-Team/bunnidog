@@ -44,7 +44,7 @@ public final class NightHomeGoal extends Goal {
     }
 
     private boolean wanted() {
-        return !this.dog.beingTransported() && !this.dog.isBaby() && this.dog.homeNest() != null && this.night();
+        return !this.dog.trail().ordered() && !this.dog.beingTransported() && !this.dog.isBaby() && this.dog.homeNest() != null && this.night();
     }
 
     @Override

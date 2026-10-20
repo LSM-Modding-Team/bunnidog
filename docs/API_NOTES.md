@@ -395,3 +395,59 @@ Moved to `docs/history/API_HISTORY.md` (sections: Where each fact comes from; Ve
   written-book serialization retains 124 pages; earlier saved page numbers
   stay stable. Required content protocol is **14** for the appended coastal
   alleles, with existing genome/item/payload formats preserved.
+
+## H12/H13/V5 — trail partners, native bundle meals and commissions (26.2)
+
+- Native `ItemCooldowns.addCooldown(ItemStack,int)` / `isOnCooldown(ItemStack)`
+  uses the actual whistle's cooldown group. Air calls query loaded nearby
+  entities and their saved keeper UUID; `ServerLevel.getPlayerByUUID` resolves
+  a current same-level player without loading terrain or pulling dimensions.
+  Keep Follow/Wait state server-side in optional animal NBT. Both client item
+  hooks still return success without depending on unsynced keeper data.
+- A native MOVE/LOOK goal can keep voluntary trail orders above home work and
+  below panic/transport. Stop navigation and movement inputs for waiting;
+  allow normal native braking instead of freezing physical velocity. Retain
+  the actual Nest claim while skipping passing-Nest searches under orders.
+  Shared dry-path checks now have an explicit non-home-bound trail entry point;
+  existing domestic signatures retain their original home constraint.
+- Following can accept a safe partial native path that makes real progress
+  toward a distant keeper; checking `canReach()` alone would strand short-range
+  animals. Revalidate current path types/support and loaded neighbours during
+  travel. Existing snow footing applies; do not globally relax water/hazard
+  checks. Bounded repaths neither teleport nor request remote chunks.
+- Phase defense still uses `EntityTeleportEvent.EnderEntity`. Capture/recheck
+  both the recorded home and current effective home boundary around callbacks;
+  a qualified ordered partner with a living nearby keeper can defend during
+  an excursion without relinquishing its old claim. Ordinary residents retain
+  the previous bound. A real native attack case verifies damage/rest/landing.
+- In 26.2 `BundleContents.items()` contains immutable **ItemStackTemplate**
+  records, not mutable ItemStacks. Use `create()` for eligibility and
+  `withCount()` to preserve a remaining template's full component patch.
+  Replacing only BUNDLE_CONTENTS on a copy of the native bundle preserves its
+  color/name/other components. Check `weight().isError()` before changing an
+  unsupported bundle. Content changes reset its transient selected-item index.
+- For opt-in provisions, reserve actual owned bundle food and shared forage
+  rest before `LivingHealEvent`. A transient meal guard prevents reentry even
+  if a callback drops/replaces equipment. Saved baskets must capture the paid
+  food and recovery together. No environmental mob-griefing permission is
+  needed to eat one's own equipment food. `Leashable.dropLeash()` and
+  `removeLeash()` take no arguments in this target version.
+- Native `VillagerData.withProfession` takes a **Holder**; a vanilla profession
+  constant is a ResourceKey and must be resolved through the profession lookup.
+  The deferred custom Breeder holder can be supplied directly. Inspect the real
+  career rather than guessing it from clothing or the presence of a Pen.
+- Commission progress uses native `PlayerAdvancements.award` and impossible
+  criteria, with `minecraft:advancement_reward` loot contexts. Native progress
+  commits before advancement/reward callbacks; exact actual-hand paper is
+  reserved first. Reentry through a second board cannot repay a completed
+  criterion. Native `AdvancementEvent.AdvancementEarnEvent` exposes its holder
+  through `getAdvancement()` and player through `getEntity()`.
+- Scheduled native block ticks update shared candidate readiness/comparator
+  state. Saved selection is a stable request key; personal completion remains
+  in player advancements. Block rotation changes the actual front pad. Native
+  paper/Calipers interactions use `ServerPlayerGameMode.useItemOn` in fixtures.
+- Java 25 build/all 100 native cases pass, including actual moving companions,
+  retained Phase defense, named cargo consumption/refills, baskets and all nine
+  requests/one-time rewards. Model gate and generated previews are separate
+  evidence. Native customized book serialization retains 141 pages; protocol
+  **15** requires matching client/server content, with allele IDs unchanged.

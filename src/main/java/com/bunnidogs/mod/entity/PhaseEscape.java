@@ -6,6 +6,7 @@ import java.util.Objects;
 import com.bunnidogs.mod.genetics.Adaptations;
 import com.bunnidogs.mod.genetics.Home;
 import com.bunnidogs.mod.genetics.Phasing;
+import com.bunnidogs.mod.genetics.Trail;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -25,6 +26,9 @@ final class PhaseEscape {
     PhaseEscape(Bunnidog dog) { this.dog = dog; }
     int waitTicks() { return (int)Math.clamp(this.nextTick-this.dog.level().getGameTime(),0L,(long)Phasing.RECOVERY_TICKS); }
     void restore(int ticks) { this.nextTick = this.dog.level().getGameTime()+Math.clamp(ticks,0,Phasing.RECOVERY_TICKS); }
+    private BlockPos boundaryHome() {
+        return dog.trail().ordered() && Trail.qualified(dog.genome()) && dog.trail().keeperPlayer()!=null ? null : dog.homeNest();
+    }
 
     private boolean ready(ServerLevel level, LivingEntity attacker) {
         return this.dog.level() == level && this.dog.acceptsCare() && this.dog.isAlive() && !this.dog.isBaby()
@@ -52,7 +56,7 @@ final class PhaseEscape {
         if (this.busy || !ready(level,attacker)) return;
         this.busy = true;
         try {
-            var origin = this.dog.position(); var home = this.dog.homeNest();
+            var origin = this.dog.position(); var home = this.dog.homeNest(); var boundary = boundaryHome();
             var candidates = new ArrayList<Vec3>(48);
             for (int radius : new int[]{4,6}) for (int i = 0; i < 8; i++) {
                 double angle = i*Math.PI/4;
@@ -60,11 +64,12 @@ final class PhaseEscape {
                 for (int dy : new int[]{0,1,-1}) candidates.add(Vec3.atBottomCenterOf(this.dog.blockPosition().offset(dx,dy,dz)));
             }
             candidates.sort(Comparator.comparingDouble((Vec3 p) -> p.distanceToSqr(attacker.position())).reversed());
-            var target = candidates.stream().filter(p -> landing(level,attacker,origin,home,p)).findFirst().orElse(null);
+            var target = candidates.stream().filter(p -> landing(level,attacker,origin,boundary,p)).findFirst().orElse(null);
             if (target == null) return;
             var event = EventHooks.onEnderTeleport(this.dog,target.x,target.y,target.z);
             if (event.isCanceled() || !ready(level,attacker) || !origin.equals(this.dog.position())
-                    || !Objects.equals(home,this.dog.homeNest()) || !landing(level,attacker,origin,home,event.getTarget())) return;
+                    || !Objects.equals(home,this.dog.homeNest()) || !Objects.equals(boundary,boundaryHome())
+                    || !landing(level,attacker,origin,boundary,event.getTarget())) return;
             target = event.getTarget();
             // Reserve recovery before native movement callbacks can save or pack the animal.
             this.nextTick = level.getGameTime()+Phasing.RECOVERY_TICKS;
