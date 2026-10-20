@@ -12,8 +12,10 @@ C1/C2 deliver live animal/six-station controls, real inventory-backed care,
 consistent ordinary meals, an accessible first companion, six native milestones
 and an end-to-end first-litter route. Existing recipes, tools and advanced
 reference remain optional paths; saved animals, containers and goal progress stay.
-Next priorities are natural first-session pacing, readable world cues and
-consistent advanced workshops. Collect real client/play evidence before calling
+C3 now connects reusable Table samples to breeding plans and a live show
+scorecard to deliberate ribbon claims. Remaining priorities are natural
+first-session pacing, readable world cues and the remaining Apex/redstone
+workshop friction. Collect real client/play evidence before calling
 onboarding finished; another guide chapter or feature count is not that evidence.
 
 ## Original-plan completion audit

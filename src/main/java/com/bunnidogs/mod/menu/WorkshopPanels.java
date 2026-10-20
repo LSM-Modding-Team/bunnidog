@@ -1,0 +1,85 @@
+package com.bunnidogs.mod.menu;
+
+import java.util.ArrayList;
+import java.util.List;
+import com.bunnidogs.mod.block.GeneticsTableBlockEntity;
+import com.bunnidogs.mod.entity.ShowJudging;
+import com.bunnidogs.mod.genetics.Gene;
+import com.bunnidogs.mod.genetics.Plain;
+import com.bunnidogs.mod.genetics.Purebreds;
+import com.bunnidogs.mod.genetics.Show;
+import com.bunnidogs.mod.genetics.Stat;
+import com.bunnidogs.mod.item.TablePlanning;
+import com.bunnidogs.mod.item.TissueSampleItem;
+import com.bunnidogs.mod.network.ModNetwork;
+import com.bunnidogs.mod.registry.ModBlocks;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+
+/** Concise workshop controls; the existing sheets remain the detailed breeding forecast. */
+public final class WorkshopPanels {
+    private WorkshopPanels() {}
+    public static final int READ_TABLE=110, ADD_SAMPLE=111, TAKE_A=112, TAKE_B=113, AWARD=114;
+    private static Component t(String key,Object... args) { return Component.translatable("care.bunnidogs."+key,args); }
+    private static CareView.Control button(int id,String key,boolean enabled,boolean detail) {
+        return new CareView.Control(id,t("button."+key),enabled,detail ? CareView.Control.DETAIL : CareView.Control.PRIMARY);
+    }
+    public static ItemStack nextSample(Player player) {
+        for (int i=0;i<player.getInventory().getContainerSize();i++) {
+            var item=player.getInventory().getItem(i); if (TissueSampleItem.read(item).isPresent()) return item;
+        }
+        return ItemStack.EMPTY;
+    }
+    public static CareView table(Player player,BlockPos pos,GeneticsTableBlockEntity table) {
+        boolean edit=player.mayBuild() && player.level().mayInteract(player,pos);
+        var rows=new ArrayList<Component>(); var next=nextSample(player);
+        boolean a=TissueSampleItem.read(table.item(0)).isPresent(), b=TissueSampleItem.read(table.item(1)).isPresent();
+        boolean room=table.isEmpty(0) || table.isEmpty(1);
+        // The chosen item must precede the primary placement button, even in a short viewport.
+        if (room && !next.isEmpty()) {
+            rows.add(t("table.next_sample",next.getHoverName()));
+            rows.add(Component.literal(Plain.look(TissueSampleItem.read(next).orElseThrow().genome())));
+        }
+        for (int i=0;i<2;i++) rows.add(t("table.slot",i==0 ? "A" : "B",table.item(i).isEmpty() ? t("empty") : table.item(i).getHoverName()));
+        for (int i=0;i<2;i++) if (!table.item(i).isEmpty()) rows.add(t("table.look",i==0 ? "A" : "B",
+                TissueSampleItem.read(table.item(i)).<Component>map(sample->Component.literal(Plain.look(sample.genome()))).orElse(t("table.unreadable"))));
+        rows.add(t("table.obtain")); rows.add(t("table.cues"));
+        return new CareView(ModBlocks.GENETICS_TABLE.get().getName(),t(a && b ? "table.next.compare" : !room ? "table.next.unreadable"
+                : next.isEmpty() ? "table.next.collect" : "table.next.place"),rows,List.of(
+                button(READ_TABLE,"read_table",a || b,false),button(ADD_SAMPLE,"add_sample",edit && room && !next.isEmpty(),false),
+                button(TAKE_A,"take_a",edit && !table.isEmpty(0),true),button(TAKE_B,"take_b",edit && !table.isEmpty(1),true)));
+    }
+    public static CareView show(Player player,BlockPos pos) {
+        var reading=ShowJudging.inspect(player.level(),pos,player); var rows=new ArrayList<Component>();
+        if (reading.candidate().isPresent()) {
+            var dog=reading.candidate().orElseThrow();
+            rows.add(t("show.entrant",dog.getDisplayName()));
+            rows.add(t("show.tier",Component.translatable("show.bunnidogs.tier."+reading.tier().key())));
+            rows.add(t("show.parents",t(dog.motherGenome().isPresent() ? "show.recorded" : "show.missing")));
+            rows.add(t("show.fixed",Purebreds.fixedCount(dog.genome()),Gene.COUNT));
+            if (Purebreds.fixedCount(dog.genome())<Gene.COUNT) rows.add(t("show.mixed",net.minecraft.network.chat.ComponentUtils.formatList(
+                    java.util.Arrays.stream(Gene.values()).filter(gene->!dog.genome().isHomozygous(gene)).toList(),gene->Component.literal(Plain.geneName(gene)))));
+            Show.Tier target=reading.tier()==Show.Tier.NONE ? Show.Tier.BRONZE : reading.status()==ShowJudging.Status.ALREADY && reading.tier()!=Show.Tier.GOLD
+                    ? Show.Tier.values()[reading.tier().ordinal()+1] : reading.tier();
+            rows.add(t("show.target",Component.translatable("show.bunnidogs.tier."+target.key())));
+            for (Stat stat:Stat.values()) rows.add(t("show.stat",Plain.statName(stat),dog.stats().get(stat),target.minimum())
+                    .copy().withStyle(dog.stats().get(stat)>=target.minimum() ? ChatFormatting.GREEN : ChatFormatting.RED));
+            rows.add(t("show.once"));
+        } else { rows.add(t("show.lead")); rows.add(t("show.thresholds")); }
+        String next=reading.status()==ShowJudging.Status.ALREADY && reading.tier()==Show.Tier.GOLD ? "complete"
+                : reading.status().name().toLowerCase(java.util.Locale.ROOT);
+        return new CareView(ModBlocks.JUDGING_STAND.get().getName(),t("show.next."+next),rows,
+                List.of(button(AWARD,"award",player.mayBuild() && player.level().mayInteract(player,pos) && reading.status()==ShowJudging.Status.READY,false)));
+    }
+    public static void act(Player player,BlockPos pos,GeneticsTableBlockEntity table,int id) {
+        if (id==READ_TABLE && player instanceof ServerPlayer server) {
+            var sheet=TablePlanning.snapshot(table,player);
+            if (sheet.spreadCount()>0) { player.closeContainer(); ModNetwork.sendTable(server,sheet); }
+        } else if (id==ADD_SAMPLE) table.placeFromPlayer(player,nextSample(player),false);
+        else if (id==TAKE_A || id==TAKE_B) table.returnToPlayer(player,id==TAKE_A ? 0 : 1);
+    }
+}

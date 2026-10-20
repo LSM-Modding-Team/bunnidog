@@ -12,12 +12,20 @@ building is required for a player-crafted stand. See `VENUE_SPECS.md`.
 
 - Craft a Judging Stand: ` B /PGP/PWP` (B vanilla book, P any planks, G gold
   ingot, W any wool). Obtaining a Purebred Registry unlocks the recipe.
-- Use the stand with an empty main hand or a lead. The nearest living adult
-  led by that player within six blocks is judged; distance ties use UUID order.
+- Empty hands open a read-only live scorecard and **Claim eligible ribbon**
+  explicitly judges. A held lead retains the quick judging gesture; an empty
+  main hand defers to a real off-hand item. The nearest living adult led by that
+  player within six blocks is inspected/judged; distance ties use UUID order.
   Keep its leash, home, health, genes, breeding state and stats intact.
 - Sneak-use with **both hands empty** for a read-only action-bar scorecard:
   current stat tier, a limiting stat/point value and fixed-pair count. This
   preview can examine unfinished lines without awarding or changing anything.
+- The scorecard explains missing parents, mixed pairs (named explicitly), health,
+  all five stat targets and already-earned tiers. The native session binds the
+  shown entrant UUID and complete winning record, refusing stale clicks even if
+  a replacement also qualifies. Both gestures and controls use `ShowJudging`.
+  Adventure can inspect but cannot claim; actual awards recheck world, stand,
+  protection, reach, current eligibility and the monotonic saved award.
 - Require recorded birth parents, all seven gene pairs fixed (including Diet),
   and at least half health. The animal need not already be logged in a Registry.
 - **Bronze:** every one of the five bred stats at least +5. **Silver:** every
@@ -54,7 +62,8 @@ change is required. Approved creature geometry stays intact. Art comes from
 
 The actual Gradle build and GameTest server pass. Focused pure checks cover each
 tier boundary and a limiting stat in each of the five slots. The native show
-case exercises lead/empty-hand interactions, missing parents, mixed Diet,
+cases exercise explicit empty-hand scorecards, lead judging, stale qualifying
+entrants/stat changes, Adventure inspection and injury rechecks, plus missing parents, mixed Diet,
 injury, insufficient points, read-only preview, bronze/silver/gold awards,
 repeated claims, animal preservation, highest-tier save/load, legacy/future
 tags, native Champion Line progress and the winning snapshot on a saved Trophy

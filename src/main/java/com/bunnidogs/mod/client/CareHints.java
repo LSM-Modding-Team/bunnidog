@@ -52,6 +52,15 @@ public final class CareHints {
         var state=mc.level.getBlockState(hit.getBlockPos()); var block=state.getBlock();
         if (block instanceof SeedCropBlock) return SeedCropBlock.isRipe(state) ? "crop_ripe" : "crop_growing";
         if (held.getItem() instanceof SeedItem && state.is(Blocks.FARMLAND)) return "plant";
+        if (block instanceof GeneticsTableBlock) {
+            if (empty) return player.isShiftKeyDown() ? "table_take" : "table";
+            if (com.bunnidogs.mod.item.TissueSampleItem.read(held).isPresent()) return "sample";
+            if (mc.level.getBlockEntity(hit.getBlockPos()) instanceof GeneticsTableBlockEntity table && table.stockSignal()>0) return "table_read";
+        }
+        if (block instanceof JudgingStandBlock) {
+            if (empty) return player.isShiftKeyDown() ? "show_preview" : "show";
+            if (held.is(Items.LEAD)) return "judge";
+        }
         if (block instanceof FeedingTroughBlock || block instanceof BreedingPenBlock || block instanceof NurseryCradleBlock
                 || block instanceof JuicerBlock || block instanceof CommissionBoardBlock || block instanceof NestBlock) {
             if (empty) return player.isShiftKeyDown() ? "station_shortcut" : "station";

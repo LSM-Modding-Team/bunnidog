@@ -74,6 +74,35 @@ public class GeneticsTableBlockEntity extends BlockEntity {
         return slot == TableUse.SLOT_B ? this.sampleB : this.sampleA;
     }
 
+    private boolean editable(net.minecraft.world.entity.player.Player player) {
+        return this.level instanceof ServerLevel && player.level()==this.level && player.isAlive() && !player.isSpectator()
+                && player.mayBuild() && !this.isRemoved() && this.level.getBlockEntity(this.getBlockPos())==this
+                && this.level.mayInteract(player,this.getBlockPos())
+                && player.distanceToSqr(this.getBlockPos().getX()+.5,this.getBlockPos().getY()+.5,this.getBlockPos().getZ()+.5)<=36;
+    }
+
+    /** Place one real sample, paying before neighbour/inventory callbacks. Only direct use swaps B. */
+    public boolean placeFromPlayer(net.minecraft.world.entity.player.Player player,ItemStack actual,boolean allowSwap) {
+        if (!editable(player) || TissueSampleItem.read(actual).isEmpty()) return false;
+        int slot=this.sampleA.isEmpty() ? 0 : this.sampleB.isEmpty() ? 1 : allowSwap ? 1 : -1;
+        if (slot<0) return false;
+        var placed=actual.copyWithCount(1); var previous=item(slot);
+        if (!player.hasInfiniteMaterials()) actual.shrink(1);
+        setItem(slot,placed);
+        give(player,previous);
+        return true;
+    }
+
+    public boolean returnToPlayer(net.minecraft.world.entity.player.Player player,int slot) {
+        if (!editable(player) || slot<0 || slot>1 || isEmpty(slot)) return false;
+        var actual=takeItem(slot); // Clear saved stock before delivering the complete original stack.
+        give(player,actual);
+        return true;
+    }
+    private static void give(net.minecraft.world.entity.player.Player player,ItemStack stack) {
+        if (!stack.isEmpty() && !player.getInventory().add(stack)) player.drop(stack,false);
+    }
+
     public void setItem(int slot, ItemStack stack) {
         if (slot == TableUse.SLOT_B) {
             this.sampleB = stack;

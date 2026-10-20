@@ -5,6 +5,7 @@ import com.bunnidogs.mod.item.TissueSampleItem;
 import com.bunnidogs.mod.item.TablePlanning;
 import com.bunnidogs.mod.layout.TableSheet;
 import com.bunnidogs.mod.network.ModNetwork;
+import com.bunnidogs.mod.menu.CareMenu;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -29,10 +30,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 /**
  * The Genetics Table (T1 and T2, docs/TABLE_SPECS.md): a lab bench that keeps two Tissue Samples, A and B, and reads them. What a click does
  * is decided by the pure {@link TableUse#decide} (and {@link TableUse#slot}, which slot it works on): a readable sample in hand goes on the
- * first free slot (or swaps with the one on B when both are full), any other click reads what is on the table (the table window opens on
- * that player's screen: sample A's sheet, then sample B's, turned with Previous / Next), and sneaking with both hands empty takes the last one back.
+ * first free slot (or swaps with B when full), empty hands open status and named controls, and a held planning cue reads the existing sheet.
+ * Sneaking with both hands empty takes the last sample back.
  * Sneaking with an item in hand never reaches a block (vanilla), so a swap or a store while sneaking is not possible; that is fine.
- * Native item interactions use the actual hand; the empty-hand fallback reads or withdraws only with both hands empty.
+ * Native item interactions use the actual hand; the empty-hand panel/withdrawal path requires both hands empty.
  */
 public class GeneticsTableBlock extends Block implements EntityBlock {
     private static final VoxelShape SHAPE = Shapes.box(0.0D, 0.0D, 0.0D, 1.0D, 13.0D / 16.0D, 1.0D);
@@ -67,6 +68,9 @@ public class GeneticsTableBlock extends Block implements EntityBlock {
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         // Let a real off-hand item reach useItemOn rather than reading/taking prematurely from the empty main hand.
         if (player.getMainHandItem().isEmpty() && !player.getOffhandItem().isEmpty()) return InteractionResult.PASS;
+        if (player.getMainHandItem().isEmpty() && !player.isShiftKeyDown()) {
+            CareMenu.open(player,pos); return InteractionResult.SUCCESS;
+        }
         return interact(level,pos,player,player.getMainHandItem());
     }
 
@@ -85,14 +89,11 @@ public class GeneticsTableBlock extends Block implements EntityBlock {
         if (level.isClientSide()) {
             return InteractionResult.SUCCESS;                       // the client only needs to know the click was used
         }
+        if (action!=TableUse.Action.READ && (!player.mayBuild() || !level.mayInteract(player,pos))) return InteractionResult.PASS;
         int slot = TableUse.slot(action, aFull, bFull);
         switch (action) {
-            case STORE -> store(player, inHand, table, slot);
-            case SWAP -> {
-                giveBack(player, table.takeItem(slot));
-                store(player, inHand, table, slot);
-            }
-            case TAKE -> giveBack(player, table.takeItem(slot));
+            case STORE, SWAP -> table.placeFromPlayer(player,inHand,true);
+            case TAKE -> table.returnToPlayer(player,slot);
             case READ -> {
                 TableSheet sheet = TablePlanning.snapshot(table,player);
                 if (sheet.spreadCount() > 0 && player instanceof ServerPlayer serverPlayer) {
@@ -105,18 +106,4 @@ public class GeneticsTableBlock extends Block implements EntityBlock {
         return InteractionResult.SUCCESS;
     }
 
-    /** Stands ONE of the sample in hand on a slot of the table (creative mode keeps the stack). */
-    private static void store(Player player, ItemStack inHand, GeneticsTableBlockEntity table, int slot) {
-        table.setItem(slot, inHand.copyWithCount(1));
-        if (!player.hasInfiniteMaterials()) {
-            inHand.shrink(1);
-        }
-    }
-
-    /** Hands a stack to the player, dropped at their feet if the inventory is full. */
-    private static void giveBack(Player player, ItemStack stack) {
-        if (!player.getInventory().add(stack)) {
-            player.drop(stack, false);
-        }
-    }
 }

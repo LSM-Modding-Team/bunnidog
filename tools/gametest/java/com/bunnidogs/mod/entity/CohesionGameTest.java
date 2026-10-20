@@ -75,7 +75,7 @@ public final class CohesionGameTest {
         var goal=player.level().getServer().getAdvancements().get(Identifier.fromNamespaceAndPath("bunnidogs","journey/"+step));
         return goal!=null && player.getAdvancements().getOrStartProgress(goal).isDone();
     }
-    private static void preview(String name,CareView view) {
+    static void preview(String name,CareView view) {
         var out=new JsonObject(); out.addProperty("name",name);
         out.add("title",ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE,view.title()).getOrThrow());
         out.add("next",ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE,view.next()).getOrThrow());

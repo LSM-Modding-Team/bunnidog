@@ -44,8 +44,12 @@ what a held item will do. Detailed genetics and the Field Guide are optional.
 Calipers measure genes, parents and stats. A Pedigree Book records real animals;
 its sheets support filtering, lineage names and planning. The Table, Juicer,
 Splicer and Registry support inherited lines, seed quality, infusion and stable
-breeds. Show Rings judge balanced lines; native commissions reward specialized
-ones. Tool interactions and detailed care readouts remain available.
+breeds. Empty-hand Table controls show reusable samples, place the shown next
+sample without replacing stock, retrieve A/B and open the existing breeding
+plans. A Judging Stand first shows the led entrant's missing requirements and
+five stat targets; **Claim eligible ribbon** awards once. Ribbons display the
+winning snapshot on a Trophy Pedestal. Native commissions reward specialized
+lines. Tool gestures and detailed care readouts remain available.
 
 Wild origins and traits matter in the world: regional diets, home crop work,
 coastal swimming/air, cave sight and surveys, terrain defenses, camouflage and

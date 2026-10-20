@@ -2,7 +2,7 @@ package com.bunnidogs.mod.genetics;
 
 /**
  * What a right-click on the Genetics Table does (docs/TABLE_SPECS.md, chunks T1 and T2). Pure Java so the whole truth table is checked
- * without Minecraft; {@code GeneticsTableBlock} gathers the facts and does what this says.
+ * without Minecraft; {@code GeneticsTableBlock} opens the empty-hand control panel first, then uses these rules for direct gestures.
  *
  * <p>The table has two slots, A and B, and works like a small stack: samples go on A first, then B; when both are full a new sample
  * SWAPS with the one on B (the last one put on); taking back empties B first, then A.

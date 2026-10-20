@@ -6,6 +6,7 @@ import com.bunnidogs.mod.menu.CarePanels;
 import com.bunnidogs.mod.network.CareViewPayload;
 import com.bunnidogs.mod.network.ModNetwork;
 import com.bunnidogs.mod.network.SheetPayload;
+import com.bunnidogs.mod.network.TablePayload;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -23,9 +24,9 @@ import net.neoforged.neoforge.network.registration.NetworkPayloadSetup;
 public final class CareMenuGameTest {
     private CareMenuGameTest() {}
     public static void prepare(ServerPlayer player) {
-        var care=CareViewPayload.TYPE.id(); var sheet=SheetPayload.TYPE.id();
+        var care=CareViewPayload.TYPE.id(); var sheet=SheetPayload.TYPE.id(); var table=TablePayload.TYPE.id();
         ChannelAttributes.setPayloadSetup(player.connection.getConnection(),new NetworkPayloadSetup(Map.of(ConnectionProtocol.PLAY,
-                Map.of(care,new NetworkChannel(care,ModNetwork.VERSION),sheet,new NetworkChannel(sheet,ModNetwork.VERSION)))));
+                Map.of(care,new NetworkChannel(care,ModNetwork.VERSION),sheet,new NetworkChannel(sheet,ModNetwork.VERSION),table,new NetworkChannel(table,ModNetwork.VERSION)))));
     }
     public static CareMenu open(GameTestHelper h,ServerPlayer player,BlockPos pos) {
         prepare(player); player.setShiftKeyDown(false); stow(player);

@@ -1,8 +1,30 @@
 # TABLE_SPECS — the Genetics Table (plan, session 36)
 
-**CURRENT (2026-10-18): T9/T10 preview guava feeds, Mutagen and Fortune from held cues.
-T7 adds native hopper/comparator automation; T8 repairs actual-hand placement. T5/T6 splice plans and inherited-copy forecasts remain.
-The user confirmed the earlier d7f39a9 release broadly.**
+**CURRENT (2026-10-20): C3 adds live, read-only empty-hand status and named
+sample/plan controls. Held cues retain T9/T10 preview feeds, Mutagen and Fortune;
+T7 automation, T8 actual-hand placement and T5/T6 detailed plans remain.**
+
+## Current interaction contract
+
+Empty hands open the shared care menu even on an empty Table. It shows actual
+A/B samples and how to obtain them with a Sampling Syringe. **Place next sample**
+uses the exact inventory sample shown, fills A then B, and refuses full slots.
+**Retrieve sample A/B** returns the complete saved stack. Direct held samples
+still fill A/B or swap B; sneak-both-empty still takes B before A. Every mutation
+checks current build permission, world, reach and exact live block entity.
+Adventure can inspect/read but cannot place, swap or withdraw through either path.
+
+**Read breeding plans** closes the container and opens the existing detailed
+TableSheet. Menu inspection uses the normal plain-feed default; reading directly
+with held guavas, Mutagen or Fortune tools retains the existing cue snapshot.
+Nothing is consumed by a plan. Hoppers, comparator levels, stored components and
+legacy one-sample saves keep their existing contracts. Stale stock or a changed
+next inventory sample refreshes before an old click can move the new sample.
+
+The older no-menu rationale below is historical: the native care container and
+its packet/lifetime checks have since been implemented and compiled. No extra
+inventory slots or duplicate forecasting screen were introduced. Native workshop
+coverage joins the existing planning, save/load and actual hopper/hand tests.
 
 The user picked the Genetics Table from the open roadmap (session 35: "Genetics Table (block, uses whiskers)"). The roadmap only had one line
 for it ("the block version of the Calipers", DESIGN line 423: "a Genetics Table block can show the same `genetics/Readout` lines later"),
@@ -16,7 +38,7 @@ it and it tells you, in the book's plain words, what their pups are likely to lo
 That is a breeding-management tool (the user's taste), costs no new mechanic and uses only data the mod already has.
 
 * **Ingredients:** whiskers (Senses, drop D4) are in the recipe, as the drops spec promised ("Whisker -> Genetics Table").
-* **No menu, no slots, no inventory screen.** The project has never used a container menu and the API is unverified; the table works like the Trophy
+* **Original implementation:** before C3, the table worked like the Trophy
   Pedestal (right-click to put a sample on, right-click to read, sneak to take back) and shows its reading in the window screens the mod already has.
 
 ## 2. Chunks (historical breakdown; current workflow is in AGENTS.md)

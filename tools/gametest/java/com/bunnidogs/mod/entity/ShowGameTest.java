@@ -5,6 +5,8 @@ import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.genetics.Stats;
 import com.bunnidogs.mod.item.ShowRibbonItem;
+import com.bunnidogs.mod.menu.CareMenu;
+import com.bunnidogs.mod.menu.WorkshopPanels;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModEntities;
 import com.bunnidogs.mod.registry.ModItems;
@@ -42,9 +44,14 @@ public final class ShowGameTest {
         var state = level.getBlockState(absolute);
         var hit = new BlockHitResult(Vec3.atCenterOf(absolute), Direction.UP, absolute, false);
         var player = h.makeMockServerPlayerInLevel();
+        CareMenuGameTest.prepare(player);
         player.setPos(Vec3.atCenterOf(h.absolutePos(new BlockPos(3, 1, 2))));
         player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
-        Runnable judge = () -> state.useWithoutItem(level, player, hit);
+        Runnable judge = () -> {
+            player.closeContainer();
+            state.useWithoutItem(level,player,hit);
+            if (player.containerMenu instanceof CareMenu menu) menu.clickMenuButton(player,menu.buttonId(WorkshopPanels.AWARD));
+        };
         var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(), 3, 1, 4);
         dog.setAge(0); dog.setGenome(Genome.DEFAULT); dog.setStats(Stats.of(5,5,5,5,5));
         dog.setHealth(dog.getMaxHealth());

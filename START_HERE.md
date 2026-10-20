@@ -20,7 +20,7 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Current focus — C1/C2 gameplay cohesion (2026-10-20)
+## Current focus — C1/C2/C3 gameplay cohesion (2026-10-20)
 
 The user wants the existing game to hang together before more standalone
 content. Continue from `docs/COHESION_PLAN.md`: prioritize the first-session
@@ -28,7 +28,7 @@ loop, useful roles, readable world cues and advanced workshop consistency.
 A long manual must not be necessary. Do not treat another guide chapter as
 onboarding or mark unfamiliar-player understanding verified by headless tests.
 
-- **Live controls:** empty-hand animal and Nest/Trough/Pen/Cradle/Juicer/Board
+- **Live controls:** empty-hand animal and Nest/Trough/Pen/Cradle/Juicer/Board/Table/Stand
   use opens a native menu with a short next step, actual state and named controls.
   Primary actions precede the full readout; requests have a separate chooser.
   Native hints use the real key bindings and leave chat/action-bar feedback alone.
@@ -47,9 +47,16 @@ onboarding or mark unfamiliar-player understanding verified by headless tests.
   alternatives retain Sinew/Whisker compatibility. Book + guava makes the Pedigree
   Book; adding paper makes the optional Field Guide. Its **141/13/114** contents
   stay stable, with revised first steps and controls rather than added chapters.
-- **Validation:** Java 25 build/model/all **103** native cases at the cohesion
+- **Workshop handoffs:** Table panels show reusable A/B samples, the exact next
+  inventory sample, named placement/retrieval and the existing breeding reader.
+  Occupied slots are never replaced by a menu action. Judging Stand scorecards
+  show the actual led entrant, eligibility and all five stat targets; claiming
+  a ribbon is explicit. Shown sample/entrant changes invalidate old clicks.
+  Direct gestures remain, with Adventure Table mutations now refused as well.
+  C3 remains open for actual Apex/redstone friction and natural/client playtest.
+- **Validation:** Java 25 build/all **104** native cases at the workshop
   checkpoint. Native container lifetime, real packets, complete saved stock,
-  permissions and stale content/selection checks are covered. Six actual server
+  permissions and stale content/selection checks are covered. Eight actual server
   view snapshots feed substitute-font layout previews; client/GPU rendering,
   keyboard comfort, natural-world first-session pacing and balance remain review.
   Protocol **16** requires matching client/server; save/allele formats remain.

@@ -87,6 +87,7 @@ public final class TableAutomationGameTest {
                     h.runAfterDelay(3,() -> {
                         h.assertTrue(comparator.getOutputSignal() == 0,"Empty automation clears the actual comparator");
                         var player = h.makeMockServerPlayerInLevel(); player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
+                        player.snapTo(Vec3.atCenterOf(pos).add(1,0,0));
                         var held = b.copyWithCount(3); player.setItemInHand(InteractionHand.OFF_HAND,held);
                         var hit = new BlockHitResult(Vec3.atCenterOf(pos),Direction.UP,pos,false);
                         h.assertTrue(!table.getBlockState().useWithoutItem(level,player,hit).consumesAction(),

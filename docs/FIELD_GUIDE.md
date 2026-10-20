@@ -14,9 +14,9 @@ remain; opened containers are never refilled.
 
 ## Current contents and compatibility
 
-The preset still has **141 pages, thirteen indices and 114 chapter links**. C1/C2
-adds no pages. Its opening says Start playing and points to live controls; the
-Cradle, Pen, partner and Board chapters now describe visible menu actions. Normal
+The preset still has **141 pages, thirteen indices and 114 chapter links**. C1–C3
+add no pages. Its opening says Start playing and points to live controls; the
+Cradle, Pen, partner, Board, Table and Show Ring chapters now describe visible menu actions. Normal
 held-item and crouched shortcuts remain useful optional paths.
 
 | Reference | Index page |

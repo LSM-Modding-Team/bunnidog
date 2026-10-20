@@ -62,7 +62,7 @@ public final class CarePanels {
         return dog.getTarget()!=null || dog.seekingRefuge() || dog.isOnFire()
                 || dog.getLastHurtByMob()!=null && dog.tickCount-dog.getLastHurtByMobTimestamp()<100;
     }
-    public static boolean readOnly(int id) { return id==GENETICS || id==CARGO || id==BACK; }
+    public static boolean readOnly(int id) { return id==GENETICS || id==CARGO || id==BACK || id==WorkshopPanels.READ_TABLE; }
     public static CareView animal(Player player,Bunnidog dog) {
         var rows=new ArrayList<Component>(); var controls=new ArrayList<CareView.Control>();
         rows.add(t("animal.health",Math.round(dog.getHealth()),Math.round(dog.getMaxHealth())));
@@ -135,6 +135,8 @@ public final class CarePanels {
         if (be instanceof NurseryCradleBlockEntity cradle) return cradle(player,pos,cradle);
         if (be instanceof JuicerBlockEntity juicer) return juicer(player,pos,juicer);
         if (be instanceof CommissionBoardBlockEntity board) return board(player,pos,board);
+        if (be instanceof GeneticsTableBlockEntity table) return WorkshopPanels.table(player,pos,table);
+        if (player.level().getBlockState(pos).getBlock() instanceof JudgingStandBlock) return WorkshopPanels.show(player,pos);
         return nest(player,pos);
     }
     private static CareView trough(Player player,BlockPos pos,FeedingTroughBlockEntity trough) {
@@ -271,7 +273,10 @@ public final class CarePanels {
         } else if (be instanceof CommissionBoardBlockEntity board) {
             if (id==SUBMIT) board.submitFromInventory(player);
             else if (id>=REQUEST && id<REQUEST+Commissions.Request.values().length) board.select(Commissions.Request.values()[id-REQUEST]);
-        } else if (id==REHOME && player.level().getBlockState(pos).getBlock() instanceof NestBlock nest) nest.assignLed(player.level(),pos,player);
+        } else if (be instanceof GeneticsTableBlockEntity table) WorkshopPanels.act(player,pos,table,id);
+        else if (id==WorkshopPanels.AWARD && player.level().getBlockState(pos).getBlock() instanceof JudgingStandBlock)
+            com.bunnidogs.mod.entity.ShowJudging.award(player.level(),pos,player);
+        else if (id==REHOME && player.level().getBlockState(pos).getBlock() instanceof NestBlock nest) nest.assignLed(player.level(),pos,player);
     }
     private static void give(Player player,ItemStack stack) { if (!stack.isEmpty() && !player.getInventory().add(stack)) player.drop(stack,false); }
 }

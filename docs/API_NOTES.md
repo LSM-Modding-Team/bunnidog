@@ -2,7 +2,7 @@
 
 *(Section names cited in the "Where verified" column, like "Assumed in Phase 4b" or "Session 4, part 7", live in `docs/history/API_HISTORY.md`.)*
 
-C1/C2 menus, HUD, empty-hand dispatch, native button bounds and inventory tools:
+C1/C2 menus, C3 workshop handoffs, HUD, empty-hand dispatch, native button bounds and inventory tools:
 [verified current facts](#c1c2-native-care-and-first-session).
 
 ## QUICK INDEX — read this BEFORE you research anything (update it in the same session whenever you look something up)
@@ -31,6 +31,7 @@ Status words: **COMPILED** = the user's compile accepted it (names and types are
 ### Lookup table (need -> what works in this project -> status -> exact place)
 | Need | What works | Status | Where it was verified |
 |---|---|---|---|
+| C3 workshop controls | Reuse the native care container and generic bounded view for Table/Stand. Bind complete A/B/next-inventory stacks and the actual entrant Pedigree.Entry/highest award; fresh readiness still runs before clicks. Close the native container before sending the existing TablePayload. Sample costs precede block updates; saved stock clears before inventory delivery. Native off-hand fixtures must stand within actual six-block reach. | Java 25 build/native workshop, automation and all-tier show cases | WorkshopPanels, ShowJudging, GeneticsTableBlockEntity, WorkshopControlsGameTest, CareMenuGameTest |
 | Breeding Pen G6 | Native Animal.setInLove(null) sets 600 ticks and broadcasts hearts without a player cause. Remember the matching GuavaMemory tier first; leave BreedGoal, seed creation and cooldown to existing Bunnidog mating. Reserve both food resources, then set both love states before root-commit observers; recheck live pair/resources after canEntityGrief callbacks. LivingEntity.hasLineOfSight reads current collision rather than a Sensing cache. | Compiler/all 80 cases; actual hopper/pulse/BreedGoal seed, tier average, protection/movement and recursive/removal conservation | PenBreeding, BreedingPenBlock/Entity, BreedingPenGameTest |
 | Seed quality item models S11 | Implement RangeSelectItemModelProperty.get(ItemStack, ClientLevel, ItemOwner, int) and type(); a MapCodec.unit record registers through the client mod-bus RegisterRangeSelectItemModelPropertyEvent. Native range_dispatch uses property, threshold/model entries and fallback. Read existing seed_data directly; no CustomModelData needed. | Resolved numeric property/event/RangeSelectItemModel sources, compiler, shipped threshold/assets and fraction checks; actual client rendering still manual | SeedQualityProperty, BunnidogsClient, gen_seed.py, WorkshopAssetsCheck; protocol 10 |
 | Keeper name editor G5 | `Minecraft.gui.screen()` returns the active screen; `ClientPacketDistributor.sendToServer` is client-only (server `PacketDistributor` has no sendToServer). Register bounded `ByteBufCodecs.stringUtf8(limit)` composite edit/result payloads with `playToServer/playToClient`; registrar defaults to the main thread. Compare actual held components before optional component writes. | Resolved Gui/ClientPacketDistributor sources, compiler, native payload codec and edit validation; client UI still manual | ClientScreens, LineageNameScreen, LineageEditing, LineageEditingGameTest; protocol 9 |

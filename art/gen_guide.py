@@ -18,10 +18,10 @@ PAGES = {
     12: ('Wool and whiskers', 'Shear a healthy woolly adult for two wool in coat colors. Brush adults at Senses +10 for one whisker. Each needs ten minutes of recovery. Tools wear once; pups yield neither.'),
     13: ('Useful coats', 'Expressed ember resists fire and lava; moss prevents Poison; sand prevents cactus damage; void prevents Levitation. Hidden copies give no protection. Other dangers still matter.'),
     14: ('Physical traits', 'Hoofed legs halve fall damage. Slate adds 4 armor. Stocky/chonker resist knockback by 15%/30%. Snow walks on powder snow; snow/woolly resist freezing. Glow is self-lit. Hidden traits give no benefit.'),
-    15: ('Laboratory', 'Put two Tissue Samples on a Genetics Table: sheets, pup forecasts, copy odds and splice plans. Hoppers fill A then B and drain A first; power them to hold samples. Comparators: 0 / 8 / 15. Workshop: page 98.'),
+    15: ('Laboratory', 'Open a Genetics Table empty-handed for sample controls, then Read breeding plans. Two reusable Tissue Samples reveal pup forecasts, inherited copies and splice plans. Use held samples to choose directly. Workshop: page 98.'),
     16: ('Gene Splicer', 'Sneak-use to select a gene. Hold a donor sample in the other hand and carry Mutagen. Use on a healthy adult: one donor copy enters that gene. Costs one sample, Mutagen and tool use.'),
     17: ('Stable lines', 'Register stable bred adults with matching copies in all seven genes and recorded parents. Use the Registry on an animal, or sneak-use with its filled basket in the other hand. Keeps 24 distinct lines.'),
-    18: ('Show Ring', 'Lead a stable bred adult to a Judging Stand. Use empty-handed or with a lead. Every stat needs +5 for bronze, +20 for silver, +50 for gold. Sneak-empty use previews; each tier pays only once.'),
+    18: ('Show Ring', 'Lead an adult to a Judging Stand and open it empty-handed for a scorecard. Fix mixed gene pairs and breed toward all five stat targets. Claim eligible ribbon awards once per tier. A held lead remains a judging shortcut.'),
     19: ('Material drops', 'Death drops follow genes and bred points. Player kills unlock signatures and legends; pups give less. Pelts craft leather, sinew makes string, whiskers make Brushes and marrow makes Mutagen.'),
     20: ('The five legends', 'At stat +100, adult player kills can drop a legend. Vitality: Titan Haunch; speed: Gilded Foot; Leap: Moon Sinew; Senses: Listening Shell; Bloom: Everbloom. More points improve the chance.'),
     21: ('Apex ritual', 'Craft an Apex Crucible from seven obsidian, a Mutant Marrow and a diamond. Put all five distinct legends on Trophy Pedestals in its ring. Offer a Tissue Sample to choose the boss line.'),
@@ -197,7 +197,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for i,page in enumerate([1,2,4,5,8,31,34,41,42,86,99,110,114,125,126,127,130,131,141,40]):
+    for i,page in enumerate([1,2,4,5,8,15,18,41,42,86,99,110,114,125,126,127,130,131,141,40]):
         x=255+i%4*240; oy=i//4*410
         d.rectangle((x,oy+20,x+224,oy+397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else 'Lineage traits' if page == 89 else 'Breeder workshop' if page == 98 else 'Coats & fieldcraft' if page == 101 else 'Workshops & sites' if page == 112 else 'Wild & companions' if page == 117 else 'Trail partners' if page == 125 else 'Breeder requests' if page == 130 else PAGES[page][0]

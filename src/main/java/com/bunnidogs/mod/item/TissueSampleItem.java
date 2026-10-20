@@ -49,12 +49,13 @@ public class TissueSampleItem extends Item {
         super.appendHoverText(stack, context, display, lines, flag);
         Optional<Tissue> tissue = read(stack);
         if (tissue.isPresent()) {
+            lines.accept(Component.translatable("tooltip.bunnidogs.tissue.table").withStyle(ChatFormatting.GRAY));
             lines.accept(Component.literal(Plain.look(tissue.get().genome())).withStyle(ChatFormatting.GRAY));
-            lines.accept(Component.literal("Code " + tissue.get().genome()).withStyle(ChatFormatting.DARK_GRAY));
+            if (flag.isAdvanced()) lines.accept(Component.literal("Code " + tissue.get().genome()).withStyle(ChatFormatting.DARK_GRAY));
         } else {
             lines.accept(Component.literal("Holds no genes").withStyle(ChatFormatting.GRAY));
         }
         lines.accept(Component.literal("Hold the Calipers in the other hand to read it").withStyle(ChatFormatting.DARK_GRAY));
-        lines.accept(Component.translatable("tooltip.bunnidogs.tissue.apex_preview").withStyle(ChatFormatting.DARK_GRAY));
+        if (flag.isAdvanced()) lines.accept(Component.translatable("tooltip.bunnidogs.tissue.apex_preview").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

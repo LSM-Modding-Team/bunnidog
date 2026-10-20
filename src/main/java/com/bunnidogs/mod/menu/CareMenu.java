@@ -80,7 +80,8 @@ public final class CareMenu extends AbstractContainerMenu {
     private CareView snapshot() { return dog!=null ? cargo ? CarePanels.cargo(owner,dog) : CarePanels.animal(owner,dog) : CarePanels.station(owner,pos,station); }
     private static boolean supported(Block block) {
         return block instanceof NestBlock || block instanceof FeedingTroughBlock || block instanceof BreedingPenBlock
-                || block instanceof NurseryCradleBlock || block instanceof JuicerBlock || block instanceof CommissionBoardBlock;
+                || block instanceof NurseryCradleBlock || block instanceof JuicerBlock || block instanceof CommissionBoardBlock
+                || block instanceof GeneticsTableBlock || block instanceof JudgingStandBlock;
     }
     /** Bind an action to the actual shared stock/selection the player saw, not to a timer tick. */
     private Context context() {
@@ -100,6 +101,13 @@ public final class CareMenu extends AbstractContainerMenu {
             else if (station instanceof JuicerBlockEntity juicer) for (int i=0;i<3;i++) stock.add(juicer.item(i));
             else if (station instanceof CommissionBoardBlockEntity board) {
                 facts.add(board.request()); facts.add(Optional.ofNullable(board.read().candidate()).map(Bunnidog::getUUID));
+            } else if (station instanceof GeneticsTableBlockEntity table) {
+                stock.add(table.item(0)); stock.add(table.item(1));
+                if (table.isEmpty(0) || table.isEmpty(1)) stock.add(WorkshopPanels.nextSample(owner));
+            } else if (block instanceof JudgingStandBlock) {
+                var reading=com.bunnidogs.mod.entity.ShowJudging.inspect(level,pos,owner);
+                facts.add(reading.entry());
+                facts.add(reading.candidate().map(Bunnidog::highestShowAward));
             }
         }
         return new Context(facts,stock);

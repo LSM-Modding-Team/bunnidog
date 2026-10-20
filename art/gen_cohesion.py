@@ -202,6 +202,49 @@ TEXT = {
     'hint.bunnidogs.crop_growing': 'Litter growing · Bone meal speeds it up · Wait until ripe',
     'tooltip.bunnidogs.guide.optional': 'Optional reference for genetics and advanced systems.',
     'tooltip.bunnidogs.guide.controls': 'Empty hands on animals and care stations: needs and controls.',
+    'care.bunnidogs.button.read_table': 'Read breeding plans',
+    'care.bunnidogs.button.add_sample': 'Place next sample',
+    'care.bunnidogs.button.take_a': 'Retrieve sample A',
+    'care.bunnidogs.button.take_b': 'Retrieve sample B',
+    'care.bunnidogs.button.award': 'Claim eligible ribbon',
+    'care.bunnidogs.table.slot': '%s: %s',
+    'care.bunnidogs.table.look': '%s traits: %s',
+    'care.bunnidogs.table.unreadable': 'unreadable saved sample; retrieve it intact',
+    'care.bunnidogs.table.next_sample': 'Next inventory sample: %s',
+    'care.bunnidogs.table.obtain': 'Use a Sampling Syringe on a healthy adult to collect a reusable sample. Use a held sample here to choose it directly.',
+    'care.bunnidogs.table.cues': 'Plans use plain guavas by default. Use this Table with guavas, Mutagen or a Fortune tool in hand to preview those choices without spending them.',
+    'care.bunnidogs.table.next.collect': 'Collect a sample from each parent. One sample shows its genes; two reveal litter forecasts and inheritance odds.',
+    'care.bunnidogs.table.next.place': 'Place next sample fills A, then B. The exact next inventory sample is shown below; occupied slots are kept.',
+    'care.bunnidogs.table.next.compare': 'Compare these parents before breeding. The plans show pup traits, bred stats, inherited copies and optional splices; samples stay reusable.',
+    'care.bunnidogs.table.next.unreadable': 'A saved sample cannot be read. Retrieve it intact to free a slot; readable samples can still be inspected.',
+    'care.bunnidogs.show.entrant': 'Entrant: %s',
+    'care.bunnidogs.show.tier': 'Current stat tier: %s',
+    'care.bunnidogs.show.parents': 'Birth parents: %s',
+    'care.bunnidogs.show.recorded': 'recorded',
+    'care.bunnidogs.show.missing': 'not recorded; breed a representative',
+    'care.bunnidogs.show.fixed': 'Matching gene pairs: %s / %s (including Diet)',
+    'care.bunnidogs.show.mixed': 'Mixed pairs: %s',
+    'care.bunnidogs.show.stat': '%s: +%s / +%s',
+    'care.bunnidogs.show.target': 'Stat target below: %s',
+    'care.bunnidogs.show.once': 'Each animal earns a tier once. Ribbons keep its winning record; display one on a Trophy Pedestal.',
+    'care.bunnidogs.show.lead': 'Lead one adult within six blocks of this Stand. The closest adult on your lead is inspected.',
+    'care.bunnidogs.show.thresholds': 'Every bred stat needs +5 for bronze, +20 for silver or +50 for gold. Stable genes, recorded birth parents and at least half health are also required.',
+    'care.bunnidogs.show.next.lead': 'Bring a led adult to see its scorecard. Inspection never issues an award.',
+    'care.bunnidogs.show.next.parents': 'This animal needs recorded birth parents. Breed a representative of the line, then return with that adult.',
+    'care.bunnidogs.show.next.mixed': 'Fix both copies of every gene, including Diet. The Genetics Table compares parents and shows inherited-copy odds.',
+    'care.bunnidogs.show.next.health': 'Let this entrant recover to at least half health. Feed suitable food or stock its Trough.',
+    'care.bunnidogs.show.next.stats': 'Breed toward +5 in all five stats for bronze. The Table forecasts points; a single strong specialty does not qualify.',
+    'care.bunnidogs.show.next.already': 'This entrant already earned its current tier. A stronger bred representative can work toward the next ribbon.',
+    'care.bunnidogs.show.next.complete': 'Gold target met; this animal has no higher ribbon to claim. Display its winning ribbon on a Trophy Pedestal, or try a specialized commission.',
+    'care.bunnidogs.show.next.ready': 'This entrant qualifies. Claim its highest eligible ribbon below; the animal and lead stay intact.',
+    'hint.bunnidogs.table': '%1$s: Samples & breeding plans',
+    'hint.bunnidogs.table_take': '%1$s: Retrieve last sample · Release %2$s for controls',
+    'hint.bunnidogs.sample': '%1$s: Place sample (swaps B when full) · Empty hands: Plans & retrieval',
+    'hint.bunnidogs.table_read': '%1$s: Read plans using held cues · Nothing is spent',
+    'hint.bunnidogs.show': '%1$s: Entrant scorecard & ribbon controls',
+    'hint.bunnidogs.show_preview': '%1$s: Quick scorecard · Release %2$s for controls',
+    'hint.bunnidogs.judge': '%1$s: Judge led adult · Empty hands: Preview first',
+    'tooltip.bunnidogs.tissue.table': 'Place on a Genetics Table to compare parents. Samples are reusable.',
     'message.bunnidogs.cradle.ready_manual': 'Ripe litter: open the Cradle and choose Hatch litter. Redstone hatching is disabled.',
 }
 
@@ -248,7 +291,8 @@ def preview_from_log(log_path):
     for line in Path(log_path).read_text().splitlines():
         if 'CARE_PREVIEW ' in line:
             value=json.loads(line.split('CARE_PREVIEW ',1)[1]); views[value['name']]=value
-    if len(views)!=6: raise ValueError(f'Expected six native menu snapshots, got {len(views)}')
+    workshop={name:views.pop(name) for name in ('Genetics Table','Judging Stand')}
+    if len(views)!=6: raise ValueError(f'Expected six core menu snapshots, got {len(views)}')
     lang=json.loads((RES/'assets/bunnidogs/lang/en_us.json').read_text())
     def text(value):
         if isinstance(value,list): return ''.join(text(v) for v in value)
@@ -313,7 +357,12 @@ def preview_from_log(log_path):
         d.text((x,y),name,font=bold,fill=(235,225,194)); canvas.paste(panel(view),(x,y+17))
     canvas.resize((2640,1640),Image.Resampling.NEAREST).save(ROOT/'art/cohesion_preview.png')
     panel(views['Commission progress'],True).resize((840,720),Image.Resampling.NEAREST).save(ROOT/'art/commission_choices_preview.png')
-    print('Rendered six actual native care snapshots and the request selector layout (substitute font).')
+    work=Image.new('RGB',(884,429),(39,44,39)); wd=ImageDraw.Draw(work)
+    wd.text((12,9),'Workshop controls | native server snapshots | substitute font',font=bold,fill=(235,225,194))
+    for i,(name,view) in enumerate(workshop.items()):
+        x=12+i*440; wd.text((x,35),name,font=bold,fill=(235,225,194)); work.paste(panel(view),(x,52))
+    work.resize((1768,858),Image.Resampling.NEAREST).save(ROOT/'art/workshop_controls_preview.png')
+    print('Rendered eight native care/workshop snapshots and the request selector layout (substitute font).')
 
 if __name__=='__main__':
     import argparse

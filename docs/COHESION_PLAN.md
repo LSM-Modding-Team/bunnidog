@@ -63,6 +63,34 @@ Sinew/Whisker, making a suitable founder useful before developed-line materials.
 Book + guava unambiguously crafts the Pedigree Book; the optional Field Guide
 adds paper. No new pages were appended and no goal gates ordinary care.
 
+## C3 — Workshop handoffs (Tables and judging implemented)
+
+- Empty hands on a Genetics Table show A/B stock, the exact next inventory
+  sample, how to collect samples and named placement/retrieval controls.
+  Placement fills free slots only. Use a held sample for deliberate selection
+  or the existing B swap; no menu silently replaces an occupied sample.
+- Read breeding plans opens the existing detailed reader: forecasts, inherited
+  copies and optional splice planning. Samples remain reusable. Held guavas,
+  Mutagen and Fortune tools retain their existing direct preview path.
+- Empty hands on a Judging Stand inspect the actual nearest led entrant without
+  issuing an award. Eligibility identifies missing parents, mixed gene pairs,
+  injury or insufficient stats. All five point targets are visible. Claim
+  eligible ribbon deliberately uses the same rules as the held-lead shortcut.
+- Sample contents, the shown next inventory sample and the entrant's complete
+  winning record bind native menu clicks. Another player, hopper or changed
+  entrant cannot turn an old click into an unseen action. Adventure may inspect
+  Tables and scorecards; direct Table placement/withdrawal now respects that
+  same mutation restriction. Complete saved samples remain recoverable.
+- Tissue tooltips lead with their reusable Table purpose; raw codes and Apex
+  reference move to advanced tooltips. Two existing guide pages describe the
+  visible actions. No pages, currency, breeding gates or save fields are added.
+
+This completes the Table-to-planning and entrant-to-ribbon handoffs, not the
+whole workshop pass. Apex preparation, the Pedigree Comparator and Specimen
+Jars still use their prior interactions; audit their actual friction before
+extending controls. Natural first-session pacing and unfamiliar-player/client
+understanding still need real play evidence.
+
 ## Follow-up priorities before more standalone content
 
 1. **Natural-world first-session playtest.** With a new survival character, raise
@@ -72,8 +100,9 @@ adds paper. No new pages were appended and no goal gates ordinary care.
    offspring provide a useful, visible benefit before optimized stat breeding.
    Tune time/material requirements from play evidence, not new feature count.
 3. **Workshop consistency.** Extend the same concise interaction pattern to the
-   advanced genetics, judging, Apex and redstone stations where it helps. Keep
-   detailed forecasts in the existing sheets rather than duplicating them.
+   remaining Apex and redstone stations where it helps; Tables and judging now
+   share the concise controls. Keep detailed forecasts in the existing sheets
+   rather than duplicating them.
 4. **Readable world cues.** Review entrances, safe walking, station orientation,
    empty/stocked states and animal intent in a real client. Prioritize cues that
    communicate a decision; avoid mandatory tutorial popups or global checklists.
@@ -97,11 +126,15 @@ it does not establish that an unfamiliar player understands it.
 - Headless tests establish mechanics and packet/layout contracts, not how a new
   player understands the client. Record the natural/client playtest separately.
 
-The Java 25 combined build, model gate and all **103** native cases pass at the
-integration checkpoint. Three new scenarios exercise real menu packets/lifetime,
-station inventory/legacy stock/stale selections, and genuine two-parent courtship
+The Java 25 combined build, model gate and all **104** native cases pass at the
+integration checkpoint. The first three cohesion scenarios exercise real menu
+packets/lifetime, station inventory/legacy stock/stale selections and two-parent courtship
 through seed pickup, native recipes, farmland, bone meal and committed hatching.
-Existing cases cover the updated explicit Pen/Cradle controls and all nine targets.
+The workshop case exercises native empty-hand opening, button packets, exact
+sample returns, changed inventory/stock/entrants, Adventure restrictions and
+explicit ribbon claims. Existing cases retain direct off-hand sample transfers,
+all ribbon tiers/save/load and all nine commission targets.
 `art/cohesion_preview.png` and `art/commission_choices_preview.png` render actual
-server view snapshots with a substitute font. They are layout review, not client
+server view snapshots with a substitute font. `art/workshop_controls_preview.png`
+adds the two actual workshop views. They are layout review, not client
 screenshots. Protocol **16** requires matching client/server; save formats stay.

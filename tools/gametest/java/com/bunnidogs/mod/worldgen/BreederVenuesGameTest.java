@@ -6,6 +6,8 @@ import com.bunnidogs.mod.block.TrophyPedestalBlockEntity;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.entity.NestHome;
 import com.bunnidogs.mod.entity.PenBreeding;
+import com.bunnidogs.mod.entity.CareMenuGameTest;
+import com.bunnidogs.mod.menu.WorkshopPanels;
 import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.genetics.Pen;
 import com.bunnidogs.mod.genetics.Stats;
@@ -185,7 +187,11 @@ public final class BreederVenuesGameTest {
         champion.setLeashedTo(player,false); player.setPos(Vec3.atCenterOf(at(origin,rotation,15,1,8)));
         player.getInventory().clearContent(); player.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY);
         var hit = new BlockHitResult(Vec3.atCenterOf(stand),Direction.UP,stand,false);
-        state.useWithoutItem(level,player,hit); state.useWithoutItem(level,player,hit);
+        var scorecard=CareMenuGameTest.open(h,player,stand);
+        h.assertTrue(champion.highestShowAward()==0,"A public arena scorecard must inspect without issuing a ribbon");
+        h.assertTrue(scorecard.clickMenuButton(player,scorecard.buttonId(WorkshopPanels.AWARD))
+                && !scorecard.clickMenuButton(player,scorecard.buttonId(WorkshopPanels.AWARD)),"A public arena award requires one explicit claim");
+        player.closeContainer();
         ItemStack ribbon = ItemStack.EMPTY; int count = 0;
         for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
             var item = player.getInventory().getItem(slot);
