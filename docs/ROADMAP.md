@@ -12,11 +12,13 @@ C1/C2 deliver live animal/six-station controls, real inventory-backed care,
 consistent ordinary meals, an accessible first companion, six native milestones
 and an end-to-end first-litter route. Existing recipes, tools and advanced
 reference remain optional paths; saved animals, containers and goal progress stay.
-C3 now connects reusable Table samples to breeding plans and a live show
-scorecard to deliberate ribbon claims. Remaining priorities are natural
-first-session pacing, readable world cues and the remaining Apex/redstone
-workshop friction. Collect real client/play evidence before calling
-onboarding finished; another guide chapter or feature count is not that evidence.
+C3 now covers Table, Stand, Jar, detector, display and Apex preparation with
+consistent inspection and explicit actions. C4 adds saved Table goals using the
+real commission predicate and native hatching probabilities. C5 exposes ordinary
+roles, zero-point usefulness and actual working-pad/ring markers. The remaining
+priority is the full first-family → useful role → planned offspring → actual
+commission loop, with natural-world/client evidence and fixes to observed gaps.
+Another guide chapter or feature count cannot establish that understanding.
 
 ## Original-plan completion audit
 

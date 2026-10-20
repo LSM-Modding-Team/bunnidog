@@ -14,9 +14,9 @@ remain; opened containers are never refilled.
 
 ## Current contents and compatibility
 
-The preset still has **141 pages, thirteen indices and 114 chapter links**. C1–C3
+The preset still has **141 pages, thirteen indices and 114 chapter links**. C1–C5
 add no pages. Its opening says Start playing and points to live controls; the
-Cradle, Pen, partner, Board, Table and Show Ring chapters now describe visible menu actions. Normal
+care, pad, preserved-sample, Table goal, signal and Apex chapters now describe visible menu actions. Normal
 held-item and crouched shortcuts remain useful optional paths.
 
 | Reference | Index page |
@@ -32,8 +32,8 @@ Earlier destinations remain stable. Native WrittenBookItem, WRITTEN_BOOK_CONTENT
 book packets, local page links and filtering stay in use. The default content
 updates with the mod; deliberately overridden saved contents keep their own pages.
 There is no book migration and no new book-specific payload or screen.
-The item tooltip explicitly calls it optional reference. Current protocol **16**
-belongs to the care menus; the book retains its existing native save format.
+The item tooltip explicitly calls it optional reference. Current protocol **17**
+also carries Table goals; the book retains its existing native save format.
 
 Art/text source: `art/gen_guide.py`. `art/guide_preview.png` uses a substitute
 font and covers the revised introduction and affected chapters. Native customized

@@ -63,7 +63,7 @@ Sinew/Whisker, making a suitable founder useful before developed-line materials.
 Book + guava unambiguously crafts the Pedigree Book; the optional Field Guide
 adds paper. No new pages were appended and no goal gates ordinary care.
 
-## C3 — Workshop handoffs (Tables and judging implemented)
+## C3 — Consistent workshop interactions (implemented)
 
 - Empty hands on a Genetics Table show A/B stock, the exact next inventory
   sample, how to collect samples and named placement/retrieval controls.
@@ -83,13 +83,68 @@ adds paper. No new pages were appended and no goal gates ordinary care.
   same mutation restriction. Complete saved samples remain recoverable.
 - Tissue tooltips lead with their reusable Table purpose; raw codes and Apex
   reference move to advanced tooltips. Two existing guide pages describe the
-  visible actions. No pages, currency, breeding gates or save fields are added.
+  visible actions. No guide pages, currency or breeding gates are added.
 
-This completes the Table-to-planning and entrant-to-ribbon handoffs, not the
-whole workshop pass. Apex preparation, the Pedigree Comparator and Specimen
-Jars still use their prior interactions; audit their actual friction before
-extending controls. Natural first-session pacing and unfamiliar-player/client
-understanding still need real play evidence.
+The rest of the workshop now uses the same pattern:
+
+- **Pedigree Comparator:** opening no longer changes mode. Named exact/analog,
+  free sample-copy, read-reference and clear controls expose the live signal,
+  hidden-copy matches and actual front pad. Routine power polling does not
+  invalidate an unrelated mode choice; changed references still invalidate clicks.
+- **Specimen Jar:** preserve the shown sample, read it or retrieve the complete
+  original. Empty-hand opening is read-only, real off-hand insertion works, and
+  direct/menu mutations share build permission, reach and live-target checks.
+- **Trophy Pedestal:** actual-hand placement fills an empty display; empty hands
+  inspect, named retrieval returns its complete item, and genetic records use the
+  existing readers. Crouched-empty retrieval remains a shortcut.
+- **Apex Crucible:** an actual chosen sample, combat forecast and five-offering
+  checklist precede Review summon and a separate Summon Apex action. Material
+  changes disarm confirmation. Requested ring markers show possible Pedestal
+  positions. Native spawn cancellation, stock/source replacement and recursive
+  rituals conserve actual items and discard an unpaid Apex. Payment extracts one
+  of each legend together, retaining excess legacy stack counts and components.
+
+This is inspection and control consistency, not a second inventory economy.
+No animal, crop, material threshold, encounter rule or body mesh is replaced.
+
+## C4 — Give a forecast a purpose (implemented)
+
+A Genetics Table can keep one of the nine commission goals. With two samples,
+Read breeding plans opens a sixth analysis spread: joint required-gene and point
+odds per pup and at least one in an uncrowded litter, actual targets, expected
+points and a useful next step. Impossible genes suggest another sample/splice;
+insufficient points suggest better parents or a different quality plan. A viable
+pair leads back to the Board's adult, Breeder, pad, paper and optional cargo work.
+
+The real commission predicate supplies target metadata and evaluates possible
+inheritance; no parallel set of target rules is invented. Points use the native
+parent average, quality-dependent drift, stochastic rounding and signed limits.
+Mutation is separate. Planned Fortune explicitly says crop-only. Samples and held
+cues stay reusable; a forecast never approves an actual commission candidate.
+
+The optional `BreedingGoal` key is saved on the Table. Legacy no-goal tables keep
+five spreads and old A|B/plan payloads still parse. Unknown future saved keys stay
+until deliberately replaced/cleared; unknown wire goals refuse interpretation.
+Protocol **17** carries the optional goal, requiring matching client/server builds.
+
+## C5 — Make ordinary animals useful and work spaces visible (implemented parts)
+
+Hanging guavas now name picking, ripening and bone-meal actions at the crosshair,
+including the native crouching/held-item bypass. This closes a first-food cue gap
+without changing fruit growth, costs or harvest mechanics.
+
+Useful roles & work shows actual pack capacity, temperament, cheap native harvest
+readiness, expressed-trait benefits and canonical specialty thresholds. Basic
+ripe-crop harvesting and carrying need no bred points. The native walking scenario
+now starts with zero points and still completes its loaded trail journey. Work
+pause/resume lives beside the readiness, retaining the direct hoe shortcut.
+
+Show hatch area / Show front pad closes inspection and briefly marks the exact
+Cradle, Board or gene-detector footprint in the world. Cradles reuse the actual
+nine hatching positions and identify the first obstruction. These are requested
+cues, not repeated chat or tutorial popups; they never hatch, move items or load
+remote chunks. Actual marker visibility, GUI scales and natural-world first-family
+pacing remain client playtests, rather than claims established by headless code.
 
 ## Follow-up priorities before more standalone content
 
@@ -99,10 +154,10 @@ understanding still need real play evidence.
 2. **Meaningful first companion.** Check whether ordinary founders and the first
    offspring provide a useful, visible benefit before optimized stat breeding.
    Tune time/material requirements from play evidence, not new feature count.
-3. **Workshop consistency.** Extend the same concise interaction pattern to the
-   remaining Apex and redstone stations where it helps; Tables and judging now
-   share the concise controls. Keep detailed forecasts in the existing sheets
-   rather than duplicating them.
+3. **Follow the complete purpose loop.** Try one Table goal, hatch a litter,
+   choose a suitable offspring, raise it and submit the real adult at its Board.
+   Record whether goals, point quality, required supplies and pad cues explain
+   the next decision. Address observed handoff gaps before adding another system.
 4. **Readable world cues.** Review entrances, safe walking, station orientation,
    empty/stocked states and animal intent in a real client. Prioritize cues that
    communicate a decision; avoid mandatory tutorial popups or global checklists.
@@ -126,15 +181,21 @@ it does not establish that an unfamiliar player understands it.
 - Headless tests establish mechanics and packet/layout contracts, not how a new
   player understands the client. Record the natural/client playtest separately.
 
-The Java 25 combined build, model gate and all **104** native cases pass at the
+The Java 25 combined build, model gate and all **106** native cases pass at the
 integration checkpoint. The first three cohesion scenarios exercise real menu
 packets/lifetime, station inventory/legacy stock/stale selections and two-parent courtship
 through seed pickup, native recipes, farmland, bone meal and committed hatching.
-The workshop case exercises native empty-hand opening, button packets, exact
-sample returns, changed inventory/stock/entrants, Adventure restrictions and
-explicit ribbon claims. Existing cases retain direct off-hand sample transfers,
-all ribbon tiers/save/load and all nine commission targets.
-`art/cohesion_preview.png` and `art/commission_choices_preview.png` render actual
-server view snapshots with a substitute font. `art/workshop_controls_preview.png`
-adds the two actual workshop views. They are layout review, not client
-screenshots. Protocol **16** requires matching client/server; save formats stay.
+Workshop coverage exercises native empty-hand opening/button packets, exact
+sample/display recovery, free imprinting, signal polling, goal saves/legacy/future
+keys, stale selections, Adventure inspection and explicit all-tier judging.
+Apex coverage includes actual cancellation, recursive calls, replaced stock and
+inventory sources, exact legacy stack costs, blocked spawns and creative keeps.
+Focused breeding-lab checks cover combined recessive targets, stochastic point
+boundaries, planned quality, cargo separation, all nine goal payloads and page
+clearance. The ordinary partner walks at zero points in its existing native case.
+
+Fourteen actual server view snapshots feed `art/cohesion_preview.png`,
+`art/commission_choices_preview.png`, `art/workshop_controls_preview.png` and
+`art/family_goals_preview.png`. `art/breeding_goal_preview.png` renders the actual
+exported goal spread. These use substitute fonts; they are layout reviews, not
+client screenshots. Protocol **17** requires matching client/server; existing animal/item data stay compatible; only the Table goal is an optional new key.

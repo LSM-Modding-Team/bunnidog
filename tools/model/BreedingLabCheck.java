@@ -105,6 +105,7 @@ public final class BreedingLabCheck {
         recordFilters();
         namedLines();
         plannedCrosses();
+        goalForecasts();
         require(!Social.gatheringTime(5999) && Social.gatheringTime(6000) && Social.gatheringTime(8999)
                 && !Social.gatheringTime(9000) && Social.gatheringTime(30000), "Gathering window must wrap with the native day");
         require(Show.rank(Stats.ZERO) == Show.Tier.NONE, "Unbred stats must not earn a ribbon");
@@ -136,6 +137,7 @@ public final class BreedingLabCheck {
         near(allele(recessive, Gene.COAT, glow).fixed(), .25);
         near(recessive.looks(Gene.COAT).stream().filter(o -> o.allele().id() == glow).findFirst().orElseThrow().chance(), .25);
         near(new Cross(tissue(Genome.DEFAULT), tissue(Genome.DEFAULT)).atLeastOneInLitter(.25), .4375);
+        near(new Cross(tissue(Genome.DEFAULT),tissue(Genome.DEFAULT)).atLeastOneInLitter(1e-20)/1e-20,2);
         int prolific = Gene.FERTILITY.alleleNamed("prolific").id();
         Cross fractional = new Cross(tissue(Genome.DEFAULT), tissue(pair(Gene.FERTILITY, prolific, prolific)));
         near(fractional.litter(), 2.5);
@@ -183,6 +185,48 @@ public final class BreedingLabCheck {
         page(index.left()); page(index.right());
         require(index.left().links().size() + index.right().links().size() == Pedigree.MAX_ENTRIES, "Full index must link every line");
         System.out.println("Breeding lab OK: recessive/carrier/fixed odds, integer/fractional litters, splice pages and stable-line registry.");
+    }
+
+    private static Genome fixed(Genome genome,Gene gene,String allele) {
+        int id=gene.alleleNamed(allele).id(); return genome.with(gene,0,id).with(gene,1,id);
+    }
+    private static void goalForecasts() {
+        int pale=Gene.COAT.alleleNamed("pale").id(), bat=Gene.EARS.alleleNamed("bat").id();
+        var carrier=pair(Gene.COAT,0,pale).with(Gene.EARS,0,0).with(Gene.EARS,1,bat);
+        var strong=Stats.of(1000,1000,1000,1000,1000);
+        var cross=new Cross(new Tissue(carrier,strong),new Tissue(carrier,strong));
+        var target=new GoalForecast(cross,Commissions.Request.NIGHT_GUIDE);
+        near(target.genes(),1.0/16); near(target.points(),1); near(target.perPup(),1.0/16); near(target.inLitter(),.12109375);
+        var complete=fixed(fixed(Genome.DEFAULT,Gene.COAT,"pale"),Gene.EARS,"bat");
+        double drift=new Cross(tissue(complete),tissue(complete)).drift()[Stat.SENSES.ordinal()];
+        int start=(int)(19-drift);
+        var borderline=new Cross(new Tissue(complete,Stats.ZERO.with(Stat.SENSES,start)),new Tissue(complete,Stats.ZERO.with(Stat.SENSES,start+1)));
+        near(borderline.expectedPoints(Stat.SENSES),19.5);
+        var half=new GoalForecast(borderline,Commissions.Request.NIGHT_GUIDE);
+        near(half.genes(),1); near(half.points(),.5); near(half.perPup(),.5); near(half.inLitter(),.75);
+        require(new GoalForecast(new Cross(borderline.a(),borderline.b(),new BreedingPlan(4,4,false)),Commissions.Request.NIGHT_GUIDE).points()>half.points(),
+                "Planned quality changes the actual stochastic point target, never the Mendelian requirement");
+        near(new GoalForecast(new Cross(new Tissue(complete,Stats.ZERO.with(Stat.SENSES,-1000)),new Tissue(complete,Stats.ZERO.with(Stat.SENSES,-1000))),Commissions.Request.NIGHT_GUIDE).points(),0);
+        var mountain=fixed(fixed(Genome.DEFAULT,Gene.LEGS,"hoofed"),Gene.BUILD,"stocky");
+        var courier=new GoalForecast(new Cross(new Tissue(mountain,strong),new Tissue(mountain,strong)),Commissions.Request.MOUNTAIN_COURIER);
+        near(courier.perPup(),1); require(Commissions.Request.MOUNTAIN_COURIER.match(mountain,strong,0)==Commissions.Status.CARGO,
+                "Target-pup odds exclude the bundle an actual adult must later equip");
+        var origins=fixed(fixed(fixed(fixed(Genome.DEFAULT,Gene.COAT,"moss"),Gene.EARS,"bat"),Gene.LEGS,"hoofed"),Gene.DIET,"nether_forager");
+        require(Commissions.Request.CROSSING_BRANCHES.match(origins,strong,0)==Commissions.Status.READY,"The reference four-origin stable line qualifies");
+        near(new GoalForecast(new Cross(new Tissue(origins,strong),new Tissue(origins,strong)),Commissions.Request.CROSSING_BRANCHES).genes(),1);
+        var mixed=origins.with(Gene.DIET,0,0); double exact=0;
+        for (int a=0;a<2;a++) for (int b=0;b<2;b++) {
+            var pup=origins.with(Gene.DIET,0,mixed.alleleId(Gene.DIET,a)).with(Gene.DIET,1,mixed.alleleId(Gene.DIET,b));
+            if (Commissions.Request.CROSSING_BRANCHES.match(pup,strong,0)==Commissions.Status.READY) exact+=.25;
+        }
+        near(new GoalForecast(new Cross(new Tissue(mixed,strong),new Tissue(mixed,strong)),Commissions.Request.CROSSING_BRANCHES).genes(),exact);
+        for (var goal:Commissions.Request.values()) {
+            var sheet=new TableSheet(Optional.of(cross.a()),Optional.of(cross.b()),new BreedingPlan(1,2,true,3),Optional.of(goal));
+            require(TableSheet.parse(sheet.toString()).orElseThrow().equals(sheet) && sheet.spreadCount()==6 && sheet.isGoal(5),"Every goal and plan must round-trip and have a distinct analysis page");
+            var spread=sheet.spread(TableSheet.GOAL,Metrics.ESTIMATE); page(spread.left()); page(spread.right());
+        }
+        require(TableSheet.parse(cross.a()+"|"+cross.b()+"|0,0,0|unknown_future_goal").isEmpty(),"A wire reader cannot silently reinterpret an unknown goal");
+        require(TableSheet.parse(cross.a()+"|"+cross.b()+"|0,0,0|night_guide|extra").isEmpty(),"Goal payloads remain bounded");
     }
 
     private static void namedLines() {

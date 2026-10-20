@@ -41,6 +41,7 @@ public final class CareHints {
             if (held.is(ModItems.TRAIL_WHISTLE.get())) return "whistle";
             if (held.is(Items.BRUSH)) return "brush";
             if (held.is(ModItems.CALIPERS.get())) return "calipers";
+            if (held.getItem() instanceof com.bunnidogs.mod.item.SyringeItem) return "syringe";
             if (held.is(ModItems.PEDIGREE_BOOK.get())) return "book";
             if (held.is(Items.BOWL)) return "bowl";
             if (held.is(Items.COMPASS)) return "compass";
@@ -50,6 +51,10 @@ public final class CareHints {
         }
         if (!(mc.hitResult instanceof BlockHitResult hit)) return null;
         var state=mc.level.getBlockState(hit.getBlockPos()); var block=state.getBlock();
+        if (block instanceof GuavaFruitBlock) {
+            if (GuavaFruitBlock.isRipe(state)) return player.isShiftKeyDown() && !empty ? "fruit_release" : "fruit_ripe";
+            return held.is(Items.BONE_MEAL) ? "fruit_bonemeal" : "fruit_growing";
+        }
         if (block instanceof SeedCropBlock) return SeedCropBlock.isRipe(state) ? "crop_ripe" : "crop_growing";
         if (held.getItem() instanceof SeedItem && state.is(Blocks.FARMLAND)) return "plant";
         if (block instanceof GeneticsTableBlock) {
@@ -61,6 +66,16 @@ public final class CareHints {
             if (empty) return player.isShiftKeyDown() ? "show_preview" : "show";
             if (held.is(Items.LEAD)) return "judge";
         }
+        if (block instanceof SpecimenJarBlock) {
+            if (empty) return player.isShiftKeyDown() ? "jar_take" : "jar";
+            if (com.bunnidogs.mod.item.TissueSampleItem.read(held).isPresent()) return "jar_sample";
+        }
+        if (block instanceof PedigreeComparatorBlock) {
+            if (empty) return player.isShiftKeyDown() ? "detector_clear" : "detector";
+            if (com.bunnidogs.mod.item.TissueSampleItem.read(held).isPresent()) return "detector_copy";
+        }
+        if (block instanceof TrophyPedestalBlock) return empty ? player.isShiftKeyDown() ? "trophy_take" : "trophy" : "trophy_place";
+        if (block instanceof ApexCrucibleBlock && (empty || held.is(ModItems.TISSUE_SAMPLE.get()) || held.is(ModItems.CALIPERS.get()))) return "apex";
         if (block instanceof FeedingTroughBlock || block instanceof BreedingPenBlock || block instanceof NurseryCradleBlock
                 || block instanceof JuicerBlock || block instanceof CommissionBoardBlock || block instanceof NestBlock) {
             if (empty) return player.isShiftKeyDown() ? "station_shortcut" : "station";

@@ -26,10 +26,15 @@ public final class SpecimenJarBlockEntity extends BlockEntity {
     public SpecimenJarBlockEntity(BlockPos pos, BlockState state) { super(ModBlocks.SPECIMEN_JAR_BE.get(),pos,state); }
     public ItemStack sample() { return this.sample.copy(); }
     public boolean insertFromHand(Player player, ItemStack actual) {
-        if (!this.sample.isEmpty() || TissueSampleItem.read(actual).isEmpty() || !live()) return false;
-        this.sample = actual.copyWithCount(1);
+        if (!this.sample.isEmpty() || TissueSampleItem.read(actual).isEmpty() || !live() || !StationUse.editable(player,this) || !StationUse.owns(player,actual)) return false;
+        var stored=actual.copyWithCount(1);
         actual.consume(1,player);
+        this.sample=stored;
         changed(); return true;
+    }
+    public boolean returnToPlayer(Player player) {
+        if (!StationUse.editable(player,this) || this.sample.isEmpty()) return false;
+        StationUse.give(player,take()); return true;
     }
     public ItemStack take() {
         if (!live()) return ItemStack.EMPTY;

@@ -11,6 +11,10 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStackResourceHandler;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,6 +32,22 @@ public class TrophyPedestalBlockEntity extends BlockEntity {
     private static final String TAG_ITEM = "Item";
 
     private ItemStack held = ItemStack.EMPTY;
+    /** Ritual-only journal; no new hopper capability or secondary saved inventory. */
+    private final ResourceHandler<ItemResource> ritualStock=new ItemStackResourceHandler() {
+        @Override protected ItemStack getStack() { return held; }
+        @Override protected void setStack(ItemStack stack) { held=stack; }
+        @Override protected int getCapacity(ItemResource resource) { return 1; }
+        @Override protected void onRootCommit(ItemStack previous) { changed(); }
+    };
+    public ResourceHandler<ItemResource> ritualStock() { return ritualStock; }
+    public boolean placeFromPlayer(Player player,ItemStack actual) {
+        if (!StationUse.editable(player,this) || !StationUse.owns(player,actual) || !held.isEmpty()) return false;
+        var stored=actual.copyWithCount(1); actual.consume(1,player); setItem(stored); return true;
+    }
+    public boolean returnToPlayer(Player player) {
+        if (!StationUse.editable(player,this) || held.isEmpty()) return false;
+        StationUse.give(player,takeItem()); return true;
+    }
 
     public TrophyPedestalBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.TROPHY_PEDESTAL_BE.get(), pos, state);

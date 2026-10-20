@@ -2,6 +2,11 @@ package com.bunnidogs.mod.entity;
 
 import com.bunnidogs.mod.block.GeneticsTableBlockEntity;
 import com.bunnidogs.mod.genetics.Gene;
+import com.bunnidogs.mod.genetics.Commissions;
+import com.bunnidogs.mod.menu.CareMenu;
+import com.bunnidogs.mod.menu.WorkshopPanels;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.protocol.game.ServerboundContainerButtonClickPacket;
 import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.genetics.Stats;
 import com.bunnidogs.mod.genetics.BreedingPlan;
@@ -97,5 +102,59 @@ public final class TablePlanningGameTest {
         player.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY); player.setItemInHand(InteractionHand.OFF_HAND,ItemStack.EMPTY);
         h.assertTrue(TablePlanning.snapshot(table,player).plan().equals(BreedingPlan.PLAIN)
                 && planned.plan().equals(new BreedingPlan(1,2,false)),"Clearing held cues restores defaults without rewriting an already captured snapshot");
+        goals(h,absolute,table);
     }
+    private static void press(GameTestHelper h,ServerPlayer player,CareMenu menu,int action) {
+        int button=menu.buttonId(action); h.assertTrue(menu.view().permits(button),"The goal control must be visible and enabled: "+action);
+        player.connection.handleContainerButtonClick(new ServerboundContainerButtonClickPacket(menu.containerId,button));
+    }
+    private static void goals(GameTestHelper h,BlockPos pos,GeneticsTableBlockEntity table) {
+        var level=h.getLevel(); var player=h.makeMockServerPlayerInLevel(); player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
+        var a=table.item(0).copy(); var b=table.item(1).copy(); var before=table.saveWithFullMetadata(level.registryAccess());
+        var menu=CareMenuGameTest.open(h,player,pos); press(h,player,menu,WorkshopPanels.GOALS);
+        h.assertTrue(before.equals(table.saveWithFullMetadata(level.registryAccess())) && menu.view().controls().size()==11,
+                "Goal browsing is read-only and fits all nine choices, clearing and return controls");
+        press(h,player,menu,WorkshopPanels.GOAL+Commissions.Request.NIGHT_GUIDE.ordinal());
+        h.assertTrue(table.goal().orElseThrow()==Commissions.Request.NIGHT_GUIDE && ItemStack.matches(a,table.item(0)) && ItemStack.matches(b,table.item(1)),
+                "A named breeding goal changes only the Table plan, never either complete sample");
+        var planned=TablePlanning.snapshot(table,player);
+        h.assertTrue(planned.isGoal(TableSheet.GOAL) && planned.spreadCount()==6,"Two samples plus a chosen goal expose the actual purpose-specific analysis");
+        CohesionGameTest.preview("Chosen breeding goal",menu.view()); exportGoal(planned);
+        var bytes=Unpooled.buffer();
+        try { TablePayload.STREAM_CODEC.encode(bytes,new TablePayload(planned.toString()));
+            h.assertTrue(TableSheet.parse(TablePayload.STREAM_CODEC.decode(bytes).table()).orElseThrow().equals(planned),"The native TablePayload carries the complete goal and both exact samples");
+        } finally { bytes.release(); }
+        press(h,player,menu,WorkshopPanels.GOALS); int stale=menu.buttonId(WorkshopPanels.GOAL+Commissions.Request.COASTAL_SCOUT.ordinal());
+        table.setGoalFromPlayer(player,Commissions.Request.MOUNTAIN_COURIER);
+        h.assertTrue(!menu.clickMenuButton(player,stale) && table.goal().orElseThrow()==Commissions.Request.MOUNTAIN_COURIER,
+                "Another goal selection refreshes before an old plan-choice click can overwrite it");
+        press(h,player,menu,WorkshopPanels.BACK_TABLE); press(h,player,menu,WorkshopPanels.READ_TABLE);
+        h.assertTrue(player.containerMenu!=menu && ItemStack.matches(a,table.item(0)) && ItemStack.matches(b,table.item(1)),"Opening the existing reader retains the planned samples");
+        var saved=table.saveWithFullMetadata(level.registryAccess()); saved.putString("BreedingGoal","future_goal_kept");
+        var loaded=(GeneticsTableBlockEntity)BlockEntity.loadStatic(pos,table.getBlockState(),saved,level.registryAccess()); level.setBlockEntity(loaded);
+        before=loaded.saveWithFullMetadata(level.registryAccess()); menu=CareMenuGameTest.open(h,player,pos);
+        h.assertTrue(loaded.goal().isEmpty() && loaded.goalKey().equals("future_goal_kept") && before.equals(loaded.saveWithFullMetadata(level.registryAccess())),
+                "Unknown future saved goals remain intact during inspection rather than being silently reinterpreted");
+        player.gameMode.changeGameModeForPlayer(GameType.ADVENTURE); press(h,player,menu,WorkshopPanels.GOALS);
+        h.assertTrue(!menu.clickMenuButton(player,menu.buttonId(WorkshopPanels.CLEAR_GOAL)) && !menu.clickMenuButton(player,menu.buttonId(WorkshopPanels.GOAL))
+                && loaded.goalKey().equals("future_goal_kept"),"Adventure may browse but cannot edit a saved plan");
+        player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL); menu=CareMenuGameTest.open(h,player,pos);
+        press(h,player,menu,WorkshopPanels.GOALS); press(h,player,menu,WorkshopPanels.CLEAR_GOAL);
+        h.assertTrue(loaded.goalKey().isEmpty() && !loaded.saveWithFullMetadata(level.registryAccess()).contains("BreedingGoal")
+                && TablePlanning.snapshot(loaded,player).spreadCount()==5,"Deliberate clearing restores the five-spread legacy plan without changing its samples"); player.closeContainer();
+    }
+    private static void exportGoal(TableSheet sheet) {
+        var spread=sheet.spread(TableSheet.GOAL,com.bunnidogs.mod.layout.Metrics.ESTIMATE);
+        var output=new com.google.gson.JsonObject(); output.addProperty("goal",sheet.goal().orElseThrow().key());
+        for (var name:java.util.List.of("left","right")) {
+            var rows=new com.google.gson.JsonArray(); var page=name.equals("left") ? spread.left() : spread.right();
+            for (var text:page.texts()) {
+                var row=new com.google.gson.JsonObject(); row.addProperty("x",text.x()); row.addProperty("y",text.y()); row.addProperty("text",text.text());
+                row.addProperty("right",text.right()); row.addProperty("tone",text.tone().name()); rows.add(row);
+            }
+            output.add(name,rows);
+        }
+        com.bunnidogs.mod.BunnidogsMod.LOGGER.info("GOAL_PREVIEW {}",output);
+    }
+
 }

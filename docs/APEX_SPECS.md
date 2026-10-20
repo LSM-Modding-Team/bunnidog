@@ -12,32 +12,46 @@ Place five Trophy Pedestals at the same height around it. Valid ring slots are
 three blocks north/east/south/west and two blocks along both axes diagonally.
 Any five of the eight slots work. Display one of each: Titan Haunch, Gilded Foot,
 Moon Sinew, Listening Shell and Everbloom. Extra duplicate displays are left alone.
-Use a valid Tissue Sample on the crucible to summon its line's Apex above it.
-Empty-hand use explains the ring. The five selected legends and one sample are
-spent only after successful spawning; creative preserves them. Pedestals remain.
+Open the Crucible empty-handed or use a valid Tissue Sample to choose that
+actual source. Read its forecast and offerings, choose **Review summon**, then
+**Summon Apex** to start the hostile encounter. Opening and reviewing spend
+nothing. One of each selected legend and one sample are paid only after the
+native world accepts the boss; creative preserves them. Pedestals remain, and
+excess counts in old stacked displays retain their complete components.
 
 Require building permission, non-Peaceful difficulty, a loaded ring/spawn area,
 dry collision-free space above the crucible and no living Apex within 48 blocks.
 Refusal consumes nothing. No entity, terrain or container is cleared to make room.
 The ritual has no ticking block entity, global search or automatic spawning.
 
-## P2: preparation and forecasts
+## C3: preparation, forecast and committed cost
 
-Empty-hand use reports the number of distinct loaded offerings and names every
-missing legend, alongside setup instructions. Summoning refusals name the first
-missing legend and how many others remain. These use the same eight-slot scan
-as actual summoning, so duplicates cannot inflate readiness. No chunks are loaded.
+The live panel shows the chosen sample, bounded health, ordinary/enraged melee,
+armor, knockback resistance, awareness, pursuit and pounce forecast. A five-item
+checklist uses the same loaded eight-position scan as summoning. A held sample
+chooses that exact inventory object; empty hands use the shown inventory source.
+Calipers remain an inspection route. Repeated chat instructions are replaced by
+this read-only view. Adventure can inspect; it cannot prepare a paid encounter.
 
-Use **Calipers in the main hand**, with a valid **Tissue Sample in the off hand**,
-on a crucible to forecast that source's boss. Chat shows appearance, health,
-ordinary/enraged melee damage, natural armor/knockback resistance, awareness,
-enraged pursuit increase and approximate pounce height. The combat rules and
-defense bases are shared with the actual boss. External effects/equipment on a
-later living boss are not part of a source forecast.
+**Show ring positions** returns to the world and briefly marks all eight loaded
+Pedestal locations. Material changes disarm confirmation; old packets cannot
+summon from replacement samples or offerings. No recipe or combat balance changes.
 
-Reading neither creates an entity nor spends samples/offerings, and needs no
-building permission. A missing sample explains the hand arrangement. No GUI,
-new packet or saved field is needed; the Field Guide includes a preparation page.
+`ApexRitual` reserves the Crucible and selected displays against recursive calls.
+After native spawn callbacks, it rechecks the actual sample ownership/components,
+exact Pedestals/stocks, permissions, live target, collision, loading, difficulty
+and competing boss. A cancelled or changed unpaid spawn is discarded. Selected
+Pedestal journals extract one legend each in one root transaction, and sample
+payment precedes commit notifications. Externally changed stock is preserved as
+it is; the ritual never takes replacement items or refunds over another change.
+The runtime guards are released on every exit and add no saved lock or inventory.
+
+Native preparation cases cover read-only opening, separate confirmation,
+Adventure, blocked space, changed qualifying displays/samples, spawn cancellation,
+recursive entry, replaced stock/ownership, one-item costs from stacked displays,
+exact source stats and creative keeps. The existing real survival encounter case
+retains combat, capabilities, crest and save/load coverage. Actual client feel
+and natural encounter difficulty remain playtests; protocol **17** is current.
 
 ## Encounter
 

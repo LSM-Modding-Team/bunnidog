@@ -84,9 +84,10 @@ public record Cross(Tissue a, Tissue b, BreedingPlan plan) {
 
     /** At least one success in an uncrowded litter, mixing the actual two possible litter sizes. */
     public double atLeastOneInLitter(double perPup) {
-        double low = 1.0D - Math.pow(1.0D - perPup, litterLow());
+        // Preserve rare positive goals instead of rounding 1 - tiny to exactly 1 first.
+        double low = -Math.expm1(litterLow()*Math.log1p(-perPup));
         if (litterLow() == litterHigh()) return low;
-        double high = 1.0D - Math.pow(1.0D - perPup, litterHigh());
+        double high = -Math.expm1(litterHigh()*Math.log1p(-perPup));
         double extra = litter() - Math.floor(litter());
         return low * (1.0D - extra) + high * extra;
     }

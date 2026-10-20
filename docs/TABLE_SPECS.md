@@ -21,6 +21,27 @@ Nothing is consumed by a plan. Hoppers, comparator levels, stored components and
 legacy one-sample saves keep their existing contracts. Stale stock or a changed
 next inventory sample refreshes before an old click can move the new sample.
 
+## C4: commission goals
+
+**Breeding goal** opens nine named choices, clearing and return controls. Goal
+browsing is read-only; a build-permitted selection saves only the optional
+`BreedingGoal` string. Two samples add a sixth TableSheet spread and open it
+first, while the ordinary forecast, inherited-copy and splice pages remain.
+
+`GoalForecast` evaluates the real commission predicate over Mendelian parental
+combinations and the native point-rounding distribution. It reports joint genes,
+points, target pups and at least one in an uncrowded litter, before mutation.
+Targets show actual parent copies, expected points and required thresholds.
+The next step distinguishes missing genes, unreachable points and a viable pair.
+Paper, Breeder, adulthood, health and equipped cargo still concern the actual
+Board candidate; a forecast does not submit or approve an animal. Planned Fortune
+is explicitly crop-only; samples and held cues are never spent by reading.
+
+Old A|B and A|B|plan payloads keep their meaning. Optional |goal_key needs current
+protocol **17**. Unknown saved future goals remain intact during reading until
+cleared/replaced deliberately; unknown wire keys refuse parsing. Care buttons
+also bind to the Table goal so an old selection cannot overwrite another player.
+
 The older no-menu rationale below is historical: the native care container and
 its packet/lifetime checks have since been implemented and compiled. No extra
 inventory slots or duplicate forecasting screen were introduced. Native workshop

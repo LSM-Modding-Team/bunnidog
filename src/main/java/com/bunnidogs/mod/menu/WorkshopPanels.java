@@ -2,7 +2,10 @@ package com.bunnidogs.mod.menu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import com.bunnidogs.mod.block.GeneticsTableBlockEntity;
+import com.bunnidogs.mod.block.StationUse;
+import com.bunnidogs.mod.genetics.Commissions;
 import com.bunnidogs.mod.entity.ShowJudging;
 import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Plain;
@@ -24,6 +27,7 @@ import net.minecraft.world.item.ItemStack;
 public final class WorkshopPanels {
     private WorkshopPanels() {}
     public static final int READ_TABLE=110, ADD_SAMPLE=111, TAKE_A=112, TAKE_B=113, AWARD=114;
+    public static final int GOALS=150, BACK_TABLE=151, GOAL=160, CLEAR_GOAL=169;
     private static Component t(String key,Object... args) { return Component.translatable("care.bunnidogs."+key,args); }
     private static CareView.Control button(int id,String key,boolean enabled,boolean detail) {
         return new CareView.Control(id,t("button."+key),enabled,detail ? CareView.Control.DETAIL : CareView.Control.PRIMARY);
@@ -47,11 +51,22 @@ public final class WorkshopPanels {
         for (int i=0;i<2;i++) rows.add(t("table.slot",i==0 ? "A" : "B",table.item(i).isEmpty() ? t("empty") : table.item(i).getHoverName()));
         for (int i=0;i<2;i++) if (!table.item(i).isEmpty()) rows.add(t("table.look",i==0 ? "A" : "B",
                 TissueSampleItem.read(table.item(i)).<Component>map(sample->Component.literal(Plain.look(sample.genome()))).orElse(t("table.unreadable"))));
+        if (!table.goalKey().isEmpty()) rows.add(table.goal().map(goal->t("table.goal",Component.translatable("commission.bunnidogs."+goal.key()+".title")))
+                .orElseGet(()->t("table.goal_unknown")));
         rows.add(t("table.obtain")); rows.add(t("table.cues"));
-        return new CareView(ModBlocks.GENETICS_TABLE.get().getName(),t(a && b ? "table.next.compare" : !room ? "table.next.unreadable"
+        return new CareView(ModBlocks.GENETICS_TABLE.get().getName(),a && b && table.goal().isPresent() ? t("table.next.goal",Component.translatable("commission.bunnidogs."+table.goal().orElseThrow().key()+".title"))
+                : t(a && b ? "table.next.compare" : !room ? "table.next.unreadable"
                 : next.isEmpty() ? "table.next.collect" : "table.next.place"),rows,List.of(
                 button(READ_TABLE,"read_table",a || b,false),button(ADD_SAMPLE,"add_sample",edit && room && !next.isEmpty(),false),
+                button(GOALS,"goals",true,false),
                 button(TAKE_A,"take_a",edit && !table.isEmpty(0),true),button(TAKE_B,"take_b",edit && !table.isEmpty(1),true)));
+    }
+    public static CareView goals(Player player,BlockPos pos,GeneticsTableBlockEntity table) {
+        var controls=new ArrayList<CareView.Control>(); boolean edit=StationUse.editable(player,table);
+        for (var goal:Commissions.Request.values()) controls.add(new CareView.Control(GOAL+goal.ordinal(),
+                Component.translatable("commission.bunnidogs."+goal.key()+".title"),edit && !table.goal().filter(goal::equals).isPresent()));
+        controls.add(button(CLEAR_GOAL,"clear_goal",edit && !table.goalKey().isEmpty(),false)); controls.add(button(BACK_TABLE,"back_table",true,false));
+        return new CareView(t("table.goals.title"),t("table.goals.next"),List.of(t("table.goals.use")),controls);
     }
     public static CareView show(Player player,BlockPos pos) {
         var reading=ShowJudging.inspect(player.level(),pos,player); var rows=new ArrayList<Component>();
@@ -66,7 +81,7 @@ public final class WorkshopPanels {
             Show.Tier target=reading.tier()==Show.Tier.NONE ? Show.Tier.BRONZE : reading.status()==ShowJudging.Status.ALREADY && reading.tier()!=Show.Tier.GOLD
                     ? Show.Tier.values()[reading.tier().ordinal()+1] : reading.tier();
             rows.add(t("show.target",Component.translatable("show.bunnidogs.tier."+target.key())));
-            for (Stat stat:Stat.values()) rows.add(t("show.stat",Plain.statName(stat),dog.stats().get(stat),target.minimum())
+            for (Stat stat:Stat.values()) rows.add(t("show.stat",Plain.statName(stat),String.format(Locale.ROOT,"%+d",dog.stats().get(stat)),target.minimum())
                     .copy().withStyle(dog.stats().get(stat)>=target.minimum() ? ChatFormatting.GREEN : ChatFormatting.RED));
             rows.add(t("show.once"));
         } else { rows.add(t("show.lead")); rows.add(t("show.thresholds")); }
@@ -81,5 +96,7 @@ public final class WorkshopPanels {
             if (sheet.spreadCount()>0) { player.closeContainer(); ModNetwork.sendTable(server,sheet); }
         } else if (id==ADD_SAMPLE) table.placeFromPlayer(player,nextSample(player),false);
         else if (id==TAKE_A || id==TAKE_B) table.returnToPlayer(player,id==TAKE_A ? 0 : 1);
+        else if (id==CLEAR_GOAL) table.setGoalFromPlayer(player,null);
+        else if (id>=GOAL && id<GOAL+Commissions.Request.values().length) table.setGoalFromPlayer(player,Commissions.Request.values()[id-GOAL]);
     }
 }

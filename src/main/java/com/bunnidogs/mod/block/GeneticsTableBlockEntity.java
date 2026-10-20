@@ -1,6 +1,7 @@
 package com.bunnidogs.mod.block;
 
 import com.bunnidogs.mod.genetics.TableUse;
+import com.bunnidogs.mod.genetics.Commissions;
 import com.bunnidogs.mod.item.TissueSampleItem;
 import com.bunnidogs.mod.registry.ModBlocks;
 
@@ -38,6 +39,16 @@ public class GeneticsTableBlockEntity extends BlockEntity {
 
     private ItemStack sampleA = ItemStack.EMPTY;
     private ItemStack sampleB = ItemStack.EMPTY;
+    private String goalKey="";
+    /** Unknown future keys stay saved until a player deliberately replaces or clears the goal. */
+    public String goalKey() { return goalKey; }
+    public java.util.Optional<Commissions.Request> goal() {
+        return java.util.Arrays.stream(Commissions.Request.values()).filter(goal->goal.key().equals(goalKey)).findFirst();
+    }
+    public boolean setGoalFromPlayer(net.minecraft.world.entity.player.Player player,Commissions.Request goal) {
+        if (!StationUse.editable(player,this)) return false;
+        goalKey=goal==null ? "" : goal.key(); changed(); return true;
+    }
     /** Shared by every side; journals wrap the saved slots rather than keeping a second inventory. */
     private final ResourceHandler<ItemResource> automation = new CombinedResourceHandler<>(
             sampleSlot(TableUse.SLOT_A),sampleSlot(TableUse.SLOT_B));
@@ -150,6 +161,7 @@ public class GeneticsTableBlockEntity extends BlockEntity {
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
+        if (!goalKey.isEmpty()) output.putString("BreedingGoal",goalKey);
         if (!this.sampleA.isEmpty()) {          // the codec refuses an empty stack
             output.store(TAG_A, ItemStack.CODEC, this.sampleA);
         }
@@ -161,6 +173,7 @@ public class GeneticsTableBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
+        this.goalKey=input.getStringOr("BreedingGoal","");
         this.sampleA = input.read(TAG_A, ItemStack.CODEC).or(() -> input.read(TAG_T1, ItemStack.CODEC)).orElse(ItemStack.EMPTY);
         this.sampleB = input.read(TAG_B, ItemStack.CODEC).orElse(ItemStack.EMPTY);
     }

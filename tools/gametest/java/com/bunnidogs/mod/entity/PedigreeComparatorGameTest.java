@@ -1,6 +1,7 @@
 package com.bunnidogs.mod.entity;
 
 import com.bunnidogs.mod.block.PedigreeComparatorBlock;
+import com.bunnidogs.mod.menu.SignalPanels;
 import com.bunnidogs.mod.block.PedigreeComparatorBlockEntity;
 import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Genome;
@@ -50,6 +51,7 @@ public final class PedigreeComparatorGameTest {
         var sample = TissueSampleItem.create(wanted,Stats.of(10,20,30,40,50));
         sample.set(DataComponents.CUSTOM_NAME,Component.literal("Sort this carrier")); var original = sample.copy();
         var player = h.makeMockServerPlayerInLevel(); player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
+        player.snapTo(Vec3.atCenterOf(pos).add(0,0,2));
         player.setItemInHand(InteractionHand.OFF_HAND,sample);
         var hit = new BlockHitResult(Vec3.atCenterOf(pos),Direction.UP,pos,false);
         h.runAtTickTime(3,() -> {
@@ -58,9 +60,9 @@ public final class PedigreeComparatorGameTest {
                     && detector.getBlockState().getValue(PedigreeComparatorBlock.POWER) == 0,
                     "Off-hand imprint copies all reference data without consuming/altering the named sample; a hidden-copy mismatch gives exact output zero");
             player.setItemInHand(InteractionHand.OFF_HAND,ItemStack.EMPTY);
-            detector.getBlockState().useWithoutItem(level,player,hit);
+            CareMenuGameTest.click(h,player,pos,SignalPanels.ANALOG);
             h.assertTrue(detector.getBlockState().getValue(PedigreeComparatorBlock.ANALOG)
-                    && detector.getBlockState().getValue(PedigreeComparatorBlock.POWER) == 13,"An actual empty-hand mode switch exposes six matched pairs as analog 13");
+                    && detector.getBlockState().getValue(PedigreeComparatorBlock.POWER) == 13,"An explicit native mode switch exposes six matched pairs as analog 13");
         });
         h.runAtTickTime(8,() -> {
             h.assertTrue(((ComparatorBlockEntity)level.getBlockEntity(comparatorPos)).getOutputSignal() == 13
@@ -79,7 +81,7 @@ public final class PedigreeComparatorGameTest {
             h.assertTrue(before.equals(detector.saveWithFullMetadata(level.registryAccess())) && tool.getDamageValue() == 0,
                     "Calipers must inspect without changing the reference, mode, power or tool");
             player.setItemInHand(InteractionHand.OFF_HAND,ItemStack.EMPTY); player.setShiftKeyDown(false);
-            detector.getBlockState().useWithoutItem(level,player,hit);
+            CareMenuGameTest.click(h,player,pos,SignalPanels.EXACT);
             animal.setGenome(Genome.DEFAULT);
         });
         h.runAtTickTime(33,() -> {

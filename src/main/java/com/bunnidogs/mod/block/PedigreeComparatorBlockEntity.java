@@ -7,6 +7,9 @@ import com.bunnidogs.mod.registry.ModBlocks;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import com.bunnidogs.mod.item.TissueSampleItem;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -24,6 +27,16 @@ public final class PedigreeComparatorBlockEntity extends BlockEntity {
     public boolean setReference(Tissue sample) {
         if (!live()) return false;
         this.reference = sample; setChanged(); refresh(); return true;
+    }
+    public boolean copyFromPlayer(Player player,ItemStack actual) {
+        return StationUse.editable(player,this) && StationUse.owns(player,actual)
+                && TissueSampleItem.read(actual).map(this::setReference).orElse(false);
+    }
+    public boolean clearFromPlayer(Player player) { return StationUse.editable(player,this) && setReference(null); }
+    public boolean modeFromPlayer(Player player,boolean analog) {
+        if (!StationUse.editable(player,this)) return false;
+        this.level.setBlock(this.worldPosition,getBlockState().setValue(PedigreeComparatorBlock.ANALOG,analog),2);
+        refresh(); return true;
     }
     private boolean live() {
         return this.level instanceof ServerLevel && this.level.getBlockEntity(this.worldPosition) == this

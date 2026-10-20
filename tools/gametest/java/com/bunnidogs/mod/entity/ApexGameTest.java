@@ -3,6 +3,7 @@ package com.bunnidogs.mod.entity;
 import java.util.ArrayList;
 import io.netty.channel.embedded.EmbeddedChannel;
 import com.bunnidogs.mod.block.ApexCrucibleBlock;
+import com.bunnidogs.mod.menu.ApexPanel;
 import com.bunnidogs.mod.block.TrophyPedestalBlockEntity;
 import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.genetics.Genome;
@@ -39,6 +40,11 @@ import net.minecraft.world.phys.Vec3;
 /** One native end-to-end encounter; no client payload or world-generation dependency. */
 public final class ApexGameTest {
     private ApexGameTest() {}
+    private static void ritual(GameTestHelper h,ServerPlayer player,BlockPos pos) {
+        var menu=CareMenuGameTest.open(h,player,pos);
+        h.assertTrue(menu.clickMenuButton(player,menu.buttonId(ApexPanel.PREPARE)),"A complete ring permits deliberate preparation");
+        h.assertTrue(menu.clickMenuButton(player,menu.buttonId(ApexPanel.SUMMON)),"The explicit summon action reaches native spawning");
+    }
     public static void run(GameTestHelper h) {
         var level = h.getLevel();
         var difficulty = level.getDifficulty();
@@ -56,6 +62,7 @@ public final class ApexGameTest {
                     CommonListenerCookie.createInitial(player.getGameProfile(), false));
             player.connection.markClientLoaded();
             GameType.SURVIVAL.updatePlayerAbilities(player.getAbilities());
+            CareMenuGameTest.prepare(player);
             player.setPos(Vec3.atCenterOf(h.absolutePos(new BlockPos(0,1,0))));
             var genome = Genome.DEFAULT.with(Gene.COAT,0,4).with(Gene.COAT,1,4).with(Gene.DIET,1,11);
             var source = new Tissue(genome, Stats.of(1000000,1000000,1000000,1000000,1000000));
@@ -87,11 +94,11 @@ public final class ApexGameTest {
             player.setItemInHand(InteractionHand.MAIN_HAND,sample);
             player.setItemInHand(InteractionHand.OFF_HAND,ItemStack.EMPTY);
             h.setBlock(center.above(2),Blocks.STONE);
-            h.useBlock(center,player);
+            ritual(h,player,absolute);
             h.assertTrue(sample.getCount() == 2 && pedestals.stream().noneMatch(TrophyPedestalBlockEntity::isEmpty),
                     "Blocked spawning must spend no offerings or sample");
             h.setBlock(center.above(2),Blocks.AIR);
-            h.useBlock(center,player);
+            ritual(h,player,absolute);
             var bosses = level.getEntitiesOfClass(Apex.class,new AABB(absolute).inflate(5));
             h.assertTrue(bosses.size() == 1 && sample.getCount() == 1
                     && pedestals.stream().allMatch(TrophyPedestalBlockEntity::isEmpty),

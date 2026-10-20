@@ -32,6 +32,7 @@ public final class SpecimenJarGameTest {
         var jar = (SpecimenJarBlockEntity)level.getBlockEntity(pos);
         var comparator = (ComparatorBlockEntity)level.getBlockEntity(pos.east());
         var player = h.makeMockServerPlayerInLevel(); player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
+        player.snapTo(Vec3.atCenterOf(pos).add(0,0,2));
         var hit = new BlockHitResult(Vec3.atCenterOf(pos),Direction.UP,pos,false);
         for (var coat : Gene.COAT.alleles()) {
             var genome = Genome.DEFAULT.with(Gene.COAT,0,coat.id()).with(Gene.COAT,1,coat.id());

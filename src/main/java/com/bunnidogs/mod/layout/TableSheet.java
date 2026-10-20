@@ -5,18 +5,21 @@ import java.util.Optional;
 import com.bunnidogs.mod.genetics.Pedigree;
 import com.bunnidogs.mod.genetics.BreedingPlan;
 import com.bunnidogs.mod.genetics.Cross;
+import com.bunnidogs.mod.genetics.Commissions;
+import com.bunnidogs.mod.genetics.GoalForecast;
 import com.bunnidogs.mod.genetics.Tissue;
 
 /**
  * What the Genetics Table window shows (T2 and T3, docs/TABLE_SPECS.md): the samples on slot A and slot B. One spread per sample that is there,
  * in the order A, B: the sheet of the animal it came from, headed {@code Table: sample A} / {@code Table: sample B}. With both slots full
- * there are three analysis spreads: pup looks/stats, inherited copies and both-direction splice plans.
+ * there are three analysis spreads: pup looks/stats, inherited copies and both-direction splice plans. A chosen commission adds its goal forecast.
  * Pure Java, like {@link SeedSheet}: the screen only draws what this lays out, and the text form below is what the server sends.
  *
- * <p>Wire text: {@code A|B} or {@code A|B|tierA,tierB,treated[,fortune]}, each side the {@link Tissue} text ({@code genome/stats}) or nothing for an empty slot, for example
+ * <p>Wire text: {@code A|B}, {@code A|B|tierA,tierB,treated[,fortune]}, or that plan plus {@code |goal_key}; each sample is {@link Tissue} text ({@code genome/stats}) or empty, for example
  * {@code 33-33-33-33-33-33/0,0,0,0,0|} (only A) or {@code |22-32-00-10-00-01/3,-1,0,2,12} (only B).
  */
-public record TableSheet(Optional<Tissue> a, Optional<Tissue> b, BreedingPlan plan) {
+public record TableSheet(Optional<Tissue> a, Optional<Tissue> b, BreedingPlan plan,Optional<Commissions.Request> goal) {
+    public TableSheet(Optional<Tissue> a,Optional<Tissue> b,BreedingPlan plan) { this(a,b,plan,Optional.empty()); }
     public TableSheet(Optional<Tissue> a, Optional<Tissue> b) { this(a,b,BreedingPlan.PLAIN); }
     public static final String SEPARATOR = "|";
 
@@ -24,7 +27,7 @@ public record TableSheet(Optional<Tissue> a, Optional<Tissue> b, BreedingPlan pl
     @Override
     public String toString() {
         return this.a.map(Tissue::toString).orElse("") + SEPARATOR + this.b.map(Tissue::toString).orElse("")
-                + (this.plan.equals(BreedingPlan.PLAIN) ? "" : SEPARATOR+this.plan);
+                + (this.goal.isPresent() ? SEPARATOR+this.plan+SEPARATOR+this.goal.orElseThrow().key() : this.plan.equals(BreedingPlan.PLAIN) ? "" : SEPARATOR+this.plan);
     }
 
     /** Parses the text form; empty if it has no separator or if neither slot holds a readable sample (nothing to show). */
@@ -33,10 +36,12 @@ public record TableSheet(Optional<Tissue> a, Optional<Tissue> b, BreedingPlan pl
             return Optional.empty();
         }
         String[] fields = text.split("\\|",-1);
-        if (fields.length < 2 || fields.length > 3) return Optional.empty();
+        if (fields.length < 2 || fields.length > 4) return Optional.empty();
         var plan = fields.length == 2 ? Optional.of(BreedingPlan.PLAIN) : BreedingPlan.parse(fields[2]);
         if (plan.isEmpty()) return Optional.empty();
-        TableSheet sheet = new TableSheet(slot(fields[0]),slot(fields[1]),plan.get());
+        Optional<Commissions.Request> goal=fields.length<4 ? Optional.empty() : java.util.Arrays.stream(Commissions.Request.values()).filter(r->r.key().equals(fields[3])).findFirst();
+        if (fields.length==4 && goal.isEmpty()) return Optional.empty();
+        TableSheet sheet = new TableSheet(slot(fields[0]),slot(fields[1]),plan.get(),goal);
         return sheet.spreadCount() == 0 ? Optional.empty() : Optional.of(sheet);
     }
 
@@ -47,12 +52,14 @@ public record TableSheet(Optional<Tissue> a, Optional<Tissue> b, BreedingPlan pl
     public static final int FORECAST = 2;
     public static final int INHERITANCE = 3;
     public static final int SPLICING = 4;
+    public static final int GOAL = 5;
 
-    /** One spread per sample, plus look/inheritance/splice plans when both are there: 0, 1 or 5. */
+    /** One spread per sample, plus three analyses and an optional goal: 0, 1, 5 or 6. */
     public int spreadCount() {
         int samples = (this.a.isPresent() ? 1 : 0) + (this.b.isPresent() ? 1 : 0);
-        return samples == 2 ? 5 : samples;
+        return samples == 2 ? goal.isPresent() ? 6 : 5 : samples;
     }
+    public boolean isGoal(int n) { return a.isPresent() && b.isPresent() && goal.isPresent() && n==GOAL; }
 
     /** True for the look/stat forecast, spread 2, with two samples. */
     public boolean isForecast(int n) {
@@ -85,6 +92,7 @@ public record TableSheet(Optional<Tissue> a, Optional<Tissue> b, BreedingPlan pl
     /** Spread {@code n}: A, B, look/stat forecast, inherited alleles, splice plans. */
     public Page.Spread spread(int n, Metrics m) {
         n = Math.max(0, Math.min(n, spreadCount() - 1));
+        if (isGoal(n)) return GoalSheet.spread(new GoalForecast(new Cross(a.orElseThrow(),b.orElseThrow(),plan),goal.orElseThrow()),m);
         if (isAnalysis(n) && n == SPLICING) return SpliceSheet.spread(this.a.orElseThrow(), this.b.orElseThrow(), m);
         if (isAnalysis(n) && n == INHERITANCE) return InheritanceSheet.spread(this.a.orElseThrow(), this.b.orElseThrow(), m);
         if (isForecast(n)) {

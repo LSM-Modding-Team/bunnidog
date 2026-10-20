@@ -113,9 +113,14 @@ public final class CohesionGameTest {
         press(h,player,menu,CarePanels.CARE);
         h.assertTrue(dog.getHealth()==dog.getMaxHealth() && count(player,ModItems.GUAVA.get())==4,"A second paid care meal restores full health");
         h.assertTrue(!menu.clickMenuButton(player,menu.buttonId(CarePanels.CARE)) && count(player,ModItems.GUAVA.get())==4,"Healthy adults keep unneeded care food");
+        press(h,player,menu,CarePanels.ROLES);
+        preview("Useful first roles",menu.view());
+        press(h,player,menu,CarePanels.WORK); h.assertTrue(dog.workPaused(),"Work controls live beside the actual role readiness");
+        press(h,player,menu,CarePanels.WORK);
         player.gameMode.changeGameModeForPlayer(GameType.ADVENTURE);
-        h.assertTrue(!menu.clickMenuButton(player,menu.buttonId(CarePanels.WORK)) && !dog.workPaused(),"Adventure inspection cannot change work or spend supplies");
+        h.assertTrue(menu.buttonId(CarePanels.WORK)>=0 && !menu.clickMenuButton(player,menu.buttonId(CarePanels.WORK)) && !dog.workPaused(),"Adventure inspection cannot change work or spend supplies");
         player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
+        press(h,player,menu,CarePanels.BACK);
         press(h,player,menu,CarePanels.TRAIN);
         h.assertTrue(dog.trail().belongsTo(player) && dog.trail().order()==Trail.Order.FOLLOW && count(player,ModItems.GUAVA.get())==3
                 && player.getInventory().getItem(11)==whistle,"Menu training pays one real plain guava and retains the required reusable Whistle");
@@ -123,7 +128,7 @@ public final class CohesionGameTest {
         var stranger=player(h); var strangerMenu=animal(h,stranger,dog);
         h.assertTrue(!strangerMenu.clickMenuButton(stranger,strangerMenu.buttonId(CarePanels.WAIT)) && dog.trail().order()==Trail.Order.FOLLOW,
                 "Another keeper's panel cannot command or enable meals for this partner");
-        h.assertTrue(!menu.clickMenuButton(stranger,menu.buttonId(CarePanels.WORK)),"A container session belongs to its actual player");
+        h.assertTrue(!menu.clickMenuButton(stranger,menu.buttonId(CarePanels.ROLES)),"A container session belongs to its actual player");
         press(h,player,menu,CarePanels.WAIT); press(h,player,menu,CarePanels.PROVISIONS); press(h,player,menu,CarePanels.RESIDENT);
         h.assertTrue(dog.trail().order()==Trail.Order.RESIDENT && dog.trail().provisions() && count(player,ModItems.GUAVA.get())==3,
                 "Named local orders and meal preference use the existing bond without another food cost");
@@ -147,12 +152,12 @@ public final class CohesionGameTest {
         h.assertTrue(dog.carriedBundleCount()==0 && java.util.stream.IntStream.range(0,player.getInventory().getContainerSize())
                 .anyMatch(slot->ItemStack.matches(player.getInventory().getItem(slot),expectedBundle)) && count(player,ModItems.WHISKER.get())==1,"The cargo view returns the complete named native bundle exactly once while retaining earlier care products");
         press(h,player,menu,CarePanels.GENETICS);
-        h.assertTrue(player.containerMenu!=menu && player.getInventory().getItem(10)==calipers && !menu.clickMenuButton(player,menu.buttonId(CarePanels.WORK)),
+        h.assertTrue(player.containerMenu!=menu && player.getInventory().getItem(10)==calipers && !menu.clickMenuButton(player,menu.buttonId(CarePanels.ROLES)),
                 "Calipers open the existing genetics sheet and a closed care session cannot mutate the animal");
         var distant=animal(h,player,dog); player.snapTo(dog.position().add(20,0,0));
-        h.assertTrue(!distant.stillValid(player) && !distant.clickMenuButton(player,distant.buttonId(CarePanels.WORK)),"Leaving reach invalidates live care");
+        h.assertTrue(!distant.stillValid(player) && !distant.clickMenuButton(player,distant.buttonId(CarePanels.ROLES)),"Leaving reach invalidates live care");
         var removed=animal(h,player,dog); dog.discard();
-        h.assertTrue(!removed.stillValid(player) && !removed.clickMenuButton(player,removed.buttonId(CarePanels.WORK)),"Removed animals invalidate their exact menu target");
+        h.assertTrue(!removed.stillValid(player) && !removed.clickMenuButton(player,removed.buttonId(CarePanels.ROLES)),"Removed animals invalidate their exact menu target");
     }
     public static void stations(GameTestHelper h) {
         int y=354; floor(h,y); var level=h.getLevel(); var player=player(h);
@@ -206,7 +211,12 @@ public final class CohesionGameTest {
         level.setBlock(cradlePos.north(2),Blocks.STONE.defaultBlockState(),3);
         h.assertTrue(!nursery.clickMenuButton(player,nursery.buttonId(CarePanels.HATCH)) && ItemStack.matches(cradle.storedSeed(),expected),
                 "A newly obstructed landing pad refuses the hatch button and keeps the whole litter");
-        preview("Blocked nursery",nursery.view()); level.removeBlock(cradlePos.north(2),false);
+        preview("Blocked nursery",nursery.view());
+        var markedBefore=cradle.saveWithFullMetadata(level.registryAccess());
+        press(h,player,nursery,StationMarkers.SHOW_PAD);
+        h.assertTrue(player.containerMenu!=nursery && markedBefore.equals(cradle.saveWithFullMetadata(level.registryAccess())),
+                "Showing the real hatch area closes inspection without hatching, changing stock or spending materials");
+        nursery=CareMenuGameTest.open(h,player,cradlePos); level.removeBlock(cradlePos.north(2),false);
         int oldHatch=nursery.buttonId(CarePanels.HATCH); var oldSeed=cradle.takeSeed();
         var other=SeedItem.create(new Seed(Genome.DEFAULT,Stats.of(1,2,3,4,5),Genome.DEFAULT,Stats.ZERO,2)); cradle.insert(other); cradle.grow(true);
         h.assertTrue(!nursery.clickMenuButton(player,oldHatch) && ItemStack.matches(cradle.storedSeed(),other) && ItemStack.matches(oldSeed,expected),

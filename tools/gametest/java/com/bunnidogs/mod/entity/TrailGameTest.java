@@ -94,7 +94,7 @@ public final class TrailGameTest {
     }
     public static void walking(GameTestHelper h) {
         var level=h.getLevel(); int y=244; floor(h,y,31);
-        var dog=h.spawn(ModEntities.BUNNIDOG.get(),2,y+1,1); dog.setGenome(Genome.DEFAULT); dog.setStats(Stats.of(0,10,0,0,0));
+        var dog=h.spawn(ModEntities.BUNNIDOG.get(),2,y+1,1); dog.setGenome(Genome.DEFAULT); dog.setStats(Stats.ZERO);
         dog.setAge(0); dog.setHealth(dog.getMaxHealth()); dog.setOnGround(true);
         var keeper=h.makeMockServerPlayerInLevel(); keeper.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
         keeper.setPos(dog.position().add(1,0,0)); keeper.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(ModItems.TRAIL_WHISTLE.get()));

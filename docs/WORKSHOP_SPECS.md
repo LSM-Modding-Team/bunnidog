@@ -1,9 +1,10 @@
 # Breeder workshop — J1/J2/G5/D12/T5
 
-**Current follow-up:** G6 adds the planned Breeding Pen; S11 adds stored-quality
-seed colors. Current guides have 100 pages and the channel is **protocol 10**.
-See `BREEDING_PEN_SPECS.md`. The J1/G5 checkpoint below used protocol 9 and
-98 pages; original item and packet formats remain intact.
+**Current (C3–C5):** shared live controls cover the Juicer, Table, Jar,
+Pedestal, Pedigree Comparator and Apex preparation. Protocol **17**; optional
+Field Guide **141 pages**. Table goals connect samples to real commission targets;
+requested pad/ring markers expose the working spaces. Historical J1/G5 counts
+below describe older checkpoints, not current compatibility.
 
 This batch completes older `DESIGN.md` ideas for a Juicer, richer juice, named
 lineages and Specimen Jars, and develops the pelt-rug hook in `DROPS_PLAN.md`.
@@ -122,7 +123,21 @@ coat's palette/pattern distinguish the set. `pelt_rugs` block/item tags and nati
 carpet tags describe them. There are no inherited animal defenses or light
 emission from a hide. The rug is decorative and consumes real matching materials.
 
-## T5 — Specimen Jars
+## C3 — Current preserved-sample and display controls
+
+Empty hands inspect Jars and Pedestals without withdrawing anything. Jar controls
+preserve the shown inventory sample, open the existing reader and retrieve the
+complete original; direct actual-hand insertion remains. Displays accept one
+held item when empty and expose read/retrieve controls. Crouched-empty retrieval
+remains for both. Permission, reach and exact live-target checks apply to direct
+and menu transfers. Complete components, legacy counts and saved samples stay.
+
+Pedigree Comparators likewise inspect without switching mode. Free copy/read,
+explicit exact/analog modes and clearing expose the same real gene-match signal;
+ordinary power polls do not invalidate a mode click. Show front pad marks the
+actual one-animal block. See `COHESION_PLAN.md` for current evidence and scope.
+
+## T5 — Specimen Jars (original mechanics; current controls above)
 
 Craft ` P / G G /  G ` from one wooden slab and three glass for **two jars**.
 Insert one readable Tissue Sample with either hand; creative keeps its real

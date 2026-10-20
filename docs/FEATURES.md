@@ -29,6 +29,10 @@ what a held item will do. Detailed genetics and the Field Guide are optional.
   a guava in the other hand. Copper, two string and a feather craft the tool;
   Sinew/Whisker alternatives still work. The keeper chooses Follow, Wait or
   resident life, and can opt into ordinary meals from actual carried bundles.
+- **Useful roles & work** in care shows pack capacity, temperament, actual harvest
+  readiness and inherited benefits. Ordinary adults harvest suitable ripe crops
+  without bred points. Specialty thresholds show what improved offspring add;
+  pause/resume home work in this view or with the existing crouched hoe gesture.
 - Trough panels choose Mixed, Garden, Gather, Compost, Nursery or Supply.
   Work and readiness depend on the actual animal and stock. Nursery tends
   Cradle stages with Bloom +20; Supply moves surplus with Senses +20.
@@ -46,9 +50,20 @@ its sheets support filtering, lineage names and planning. The Table, Juicer,
 Splicer and Registry support inherited lines, seed quality, infusion and stable
 breeds. Empty-hand Table controls show reusable samples, place the shown next
 sample without replacing stock, retrieve A/B and open the existing breeding
-plans. A Judging Stand first shows the led entrant's missing requirements and
+plans. Choose a commission goal at the Table to see combined target-gene and
+point odds, required traits and the next useful step. Goals keep no animal or
+sample costs; the Board still judges the actual adult. A Judging Stand first shows the led entrant's missing requirements and
 five stat targets; **Claim eligible ribbon** awards once. Ribbons display the
-winning snapshot on a Trophy Pedestal. Native commissions reward specialized
+winning snapshot on a Trophy Pedestal. Jars, displays and gene detectors now
+inspect before mutation, with named sample/signal/retrieval controls. Cradles,
+Boards and detectors can mark their actual working area in the world.
+
+The optional Apex encounter previews a chosen sample and all five offerings;
+Review summon followed by Summon Apex deliberately starts it. Opening never
+spends materials. Ring markers show the possible Pedestal positions. Native
+spawn cancellation or changed inputs retain the actual remaining stock.
+
+Native commissions reward specialized
 lines. Tool gestures and detailed care readouts remain available.
 
 Wild origins and traits matter in the world: regional diets, home crop work,
@@ -72,7 +87,7 @@ These systems extend the family loop; they are not required to hatch a litter.
 | Care and living traits | [Care](CARE_SPECS.md), [Island lineage](ISLAND_SPECS.md) |
 | Optional book reference | [Field Guide](FIELD_GUIDE.md) |
 
-Current content protocol: **16**. Keep client/server versions matched. Save
+Current content protocol: **17**. Keep client/server versions matched. Save
 formats and allele order are preserved. Compilation and native tests establish
 mechanics; natural-world pacing and client rendering/controls still need play.
 The old session-by-session feature ledger is retained in

@@ -20,46 +20,47 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Current focus — C1/C2/C3 gameplay cohesion (2026-10-20)
+## Current focus — cohesive family and workshop play (2026-10-20)
 
-The user wants the existing game to hang together before more standalone
-content. Continue from `docs/COHESION_PLAN.md`: prioritize the first-session
-loop, useful roles, readable world cues and advanced workshop consistency.
-A long manual must not be necessary. Do not treat another guide chapter as
-onboarding or mark unfamiliar-player understanding verified by headless tests.
+The user wants existing gameplay to hang together before standalone expansion.
+Continue from `docs/COHESION_PLAN.md`. C1–C4 and the implemented C5 parts now join
+care, a useful ordinary family, breeding targets and workshop feedback. A manual
+is optional; unfamiliar-player understanding and natural/client pacing need play.
 
-- **Live controls:** empty-hand animal and Nest/Trough/Pen/Cradle/Juicer/Board/Table/Stand
-  use opens a native menu with a short next step, actual state and named controls.
-  Primary actions precede the full readout; requests have a separate chooser.
-  Native hints use the real key bindings and leave chat/action-bar feedback alone.
-  Tool gestures remain available; leads retain their normal release priority.
-- **Real supplies and shared care:** buttons spend actual inventory guavas,
-  seeds, bone meal, paper and required tools. Grooming wears the actual inventory
-  Brush. Orders/provisions remain keeper-only; ordinary care stays shared.
-  Cargo inspection/retrieval keeps complete bags. Troughs now accept ordinary
-  meals: upgraded saved guavas remain recoverable and cannot be eaten.
-- **First family and purpose:** six native milestones connect discovery,
-  housing, courtship, the real seed, incubation and real pups. A complete native
-  path uses paid menu/hand feeding, the actual BreedGoal, seed pickup, farmland,
-  ordinary bone meal and committed crop harvesting. Housing links to trail
-  partners; a litter links to the existing specialized commissions. No care gate.
-- **Starter friction removed:** any planks make Nests; string/feather Whistle
-  alternatives retain Sinew/Whisker compatibility. Book + guava makes the Pedigree
-  Book; adding paper makes the optional Field Guide. Its **141/13/114** contents
-  stay stable, with revised first steps and controls rather than added chapters.
-- **Workshop handoffs:** Table panels show reusable A/B samples, the exact next
-  inventory sample, named placement/retrieval and the existing breeding reader.
-  Occupied slots are never replaced by a menu action. Judging Stand scorecards
-  show the actual led entrant, eligibility and all five stat targets; claiming
-  a ribbon is explicit. Shown sample/entrant changes invalidate old clicks.
-  Direct gestures remain, with Adventure Table mutations now refused as well.
-  C3 remains open for actual Apex/redstone friction and natural/client playtest.
-- **Validation:** Java 25 build/all **104** native cases at the workshop
-  checkpoint. Native container lifetime, real packets, complete saved stock,
-  permissions and stale content/selection checks are covered. Eight actual server
-  view snapshots feed substitute-font layout previews; client/GPU rendering,
-  keyboard comfort, natural-world first-session pacing and balance remain review.
-  Protocol **16** requires matching client/server; save/allele formats remain.
+- **Care and first family:** real inventory-backed feeding, grooming, training,
+  orders, cargo and six native milestones. Basic farmland remains a complete
+  first-litter route. Nests accept ordinary planks; string/feather Whistles work
+  before developed-line materials. The optional guide retains **141/13/114**.
+- **Ordinary usefulness:** Useful roles & work exposes packs, temperament,
+  native harvest readiness, inherited benefits and specialty thresholds. Basic
+  harvesting/carrying need no bred points; the native partner walks at zero.
+  Work pause/resume moves into this view; direct hoe use remains available.
+- **Consistent workshops:** empty-hand inspection at Table, Stand, Jar, detector,
+  display, Crucible and care stations. Explicit controls never auto-spend stock,
+  change a circuit or claim a trophy just by opening. Direct tools/shortcuts stay;
+  actual-hand transfers and mutations share native permission/range checks.
+- **Purposeful breeding:** Tables save a commission goal and add a sixth reader
+  spread with combined gene/point/litter odds, actual requirements and next steps.
+  Actual commission checks and hatching maths supply the forecast. Mutation stays
+  separate; Fortune says crop-only. Samples/cues remain reusable. Legacy Tables
+  keep five spreads; unknown future saved goals are retained, not reinterpreted.
+- **Apex preparation:** chosen sample, bounded combat forecast and missing
+  offerings precede Review summon → Summon Apex. Material changes disarm it.
+  Reentrant/cancelled native spawns and replaced inputs conserve actual stock;
+  a root transaction pays one legend each, preserving excess legacy counts.
+- **World cues:** requested Cradle/Board/detector working-pad and Apex ring
+  markers show the actual positions, without loading remote chunks or performing
+  the job. Cradles mark their first obstruction. Client visibility still needs play.
+- **Evidence:** Java 25 build/model/all **106** native cases at the final
+  integration checkpoint; focused target-maths, signed rounding, save/payload and
+  page checks. Fourteen native view snapshots and an exported goal spread feed
+  substitute-font previews. Client/GPU, keyboard comfort and natural-world
+  first-session balance remain unverified. Protocol **17** requires matching
+  client/server; existing animals, inventory components and allele order stay.
+
+Next work should follow the complete first-family → useful role → breeding goal
+→ real offspring → commission loop in the active plan and address actual gaps.
+A new standalone feature or another guide chapter is not a substitute for that.
 
 ### Prior H12/H13/V5 checkpoint
 

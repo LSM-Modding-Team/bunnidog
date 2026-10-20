@@ -2,7 +2,7 @@
 
 A NeoForge mod for Minecraft 26.2: baby-faced creatures, living warrens and
 inherited traits that shape companions, gardens and breeding lines. Client and
-server both need the current mod (network **16**).
+server both need the current mod (network **17**).
 
 Start with **empty hands on an animal or care station**. A short live panel shows
 its needs, the next useful step and buttons that use your real supplies. The
@@ -21,6 +21,11 @@ Six native milestones connect the first session. They do not lock any care
 interaction. Basic play needs no manual; the **Field Guide is optional reference**
 for deeper genetics and systems. Book + guava makes the Pedigree Book; add paper
 for the Field Guide. Saved books, animals and inventories remain compatible.
+
+Useful roles & work shows what an ordinary animal can do now. Later, a Genetics
+Table breeding goal compares two reusable samples toward a chosen commission.
+Workshops inspect before acting; named controls and requested area markers make
+stock, signals, judging and optional Apex preparation visible where they happen.
 
 See [the short feature overview](docs/FEATURES.md) for optional depth and
 [the cohesion plan](docs/COHESION_PLAN.md) for the current development priorities.

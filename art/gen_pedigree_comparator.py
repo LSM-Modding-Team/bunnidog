@@ -46,7 +46,7 @@ def main():
         'result':{'id':'bunnidogs:pedigree_comparator'}})
     unlock('pedigree_comparator','bunnidogs:whisker'); tag('data/minecraft/tags/block/mineable/pickaxe.json',['bunnidogs:pedigree_comparator'])
     text={'block.bunnidogs.pedigree_comparator':'Pedigree Comparator',
-        'tooltip.bunnidogs.detector.controls':'Use a sample to copy genes. Empty-hand switches exact/analog; sneak-empty clears.',
+        'tooltip.bunnidogs.detector.controls':'Empty hands: reference, signal controls and Show front pad. Held samples copy for free; sneak-empty clears.',
         'message.bunnidogs.detector.status':'%s: %s. Output %s.',
         'message.bunnidogs.detector.exact':'Exact mode', 'message.bunnidogs.detector.analog':'Analog mode',
         'message.bunnidogs.detector.empty':'copy a Tissue Sample first',

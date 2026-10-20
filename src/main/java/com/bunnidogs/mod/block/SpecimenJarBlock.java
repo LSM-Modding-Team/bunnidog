@@ -3,6 +3,7 @@ package com.bunnidogs.mod.block;
 import com.bunnidogs.mod.genetics.Gene;
 import com.bunnidogs.mod.item.TissueSampleItem;
 import com.bunnidogs.mod.network.ModNetwork;
+import com.bunnidogs.mod.menu.CareMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -37,9 +38,10 @@ public final class SpecimenJarBlock extends Block implements EntityBlock {
         return level.getBlockEntity(pos) instanceof SpecimenJarBlockEntity jar ? jar.fixedSignal() : 0;
     }
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (stack.isEmpty()) return super.useItemOn(stack,state,level,pos,player,hand,hit);
         if (!(level.getBlockEntity(pos) instanceof SpecimenJarBlockEntity jar)) return InteractionResult.PASS;
         if (!level.isClientSide()) {
-            if (player.mayBuild() && TissueSampleItem.read(stack).isPresent() && jar.sample().isEmpty())
+            if (StationUse.editable(player,jar) && TissueSampleItem.read(stack).isPresent() && jar.sample().isEmpty())
                 jar.insertFromHand(player,player.getItemInHand(hand));
             else read(jar,player);
         }
@@ -49,9 +51,8 @@ public final class SpecimenJarBlock extends Block implements EntityBlock {
         if (!player.getMainHandItem().isEmpty() || !player.getOffhandItem().isEmpty()) return InteractionResult.PASS;
         if (!(level.getBlockEntity(pos) instanceof SpecimenJarBlockEntity jar)) return InteractionResult.PASS;
         if (!level.isClientSide()) {
-            if (player.mayBuild() && player.isShiftKeyDown()) {
-                var taken = jar.take(); if (!taken.isEmpty() && !player.getInventory().add(taken)) player.drop(taken,false);
-            } else read(jar,player);
+            if (player.isShiftKeyDown()) jar.returnToPlayer(player);
+            else CareMenu.open(player,pos);
         }
         return InteractionResult.SUCCESS;
     }

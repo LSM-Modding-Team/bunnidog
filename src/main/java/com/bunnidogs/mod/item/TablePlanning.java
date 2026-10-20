@@ -23,6 +23,6 @@ public final class TablePlanning {
         int fortune = player.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).get(Enchantments.FORTUNE)
                 .map(enchantment -> Math.clamp(Math.max(main.getEnchantmentLevel(enchantment),off.getEnchantmentLevel(enchantment)),0,255)).orElse(0);
         return new TableSheet(TissueSampleItem.read(table.item(0)),TissueSampleItem.read(table.item(1)),
-                held(main,off,fortune));
+                held(main,off,fortune),table.goal());
     }
 }

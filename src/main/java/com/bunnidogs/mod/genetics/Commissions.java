@@ -9,7 +9,10 @@ public final class Commissions {
     private Commissions() {}
     public static final int BREEDER_RANGE=8, POLL_TICKS=20;
     public enum Status { READY, UNAVAILABLE, BLOCKED, ABSENT, CROWDED, BREEDER, ADULT, PARENTS, HEALTH, TRANSPORTED, DANGER, GENES, STATS, CARGO, BUSY, ALREADY }
-    public record Check(String key,String detail,int current,int required,Status failure) {
+    public record Check(String key,String detail,int current,int required,Status failure,java.util.Optional<Gene> gene,java.util.Optional<Stat> stat) {
+        public Check(String key,String detail,int current,int required,Status failure) {
+            this(key,detail,current,required,failure,java.util.Optional.empty(),java.util.Optional.empty());
+        }
         public boolean met() { return current>=required; }
     }
     public enum Request {
@@ -36,7 +39,7 @@ public final class Commissions {
                 case COASTAL_SCOUT -> { gene(out,genome,Gene.COAT,"seal"); gene(out,genome,Gene.LEGS,"paddle"); gene(out,genome,Gene.DIET,"shore_forager"); }
                 case MOUNTAIN_COURIER -> {
                     gene(out,genome,Gene.LEGS,"hoofed");
-                    out.add(new Check("build","",genome.isHomozygous(Gene.BUILD) ? Carrying.capacity(genome) : 0,3,Status.GENES));
+                    out.add(new Check("build","",genome.isHomozygous(Gene.BUILD) ? Carrying.capacity(genome) : 0,3,Status.GENES,java.util.Optional.of(Gene.BUILD),java.util.Optional.empty()));
                 }
                 case EMBER_GARDENER -> { gene(out,genome,Gene.COAT,"ember"); gene(out,genome,Gene.DIET,"nether_forager"); }
                 case FROST_STEWARD -> { gene(out,genome,Gene.COAT,"snow"); gene(out,genome,Gene.EARS,"tiny"); gene(out,genome,Gene.DIET,"fisher"); }
@@ -64,10 +67,10 @@ public final class Commissions {
     }
     private static void gene(List<Check> out,Genome genome,Gene gene,String name) {
         int copies=(genome.allele(gene,0).name().equals(name) ? 1 : 0)+(genome.allele(gene,1).name().equals(name) ? 1 : 0);
-        out.add(new Check("gene."+gene.name().toLowerCase(java.util.Locale.ROOT),name,copies,2,Status.GENES));
+        out.add(new Check("gene."+gene.name().toLowerCase(java.util.Locale.ROOT),name,copies,2,Status.GENES,java.util.Optional.of(gene),java.util.Optional.empty()));
     }
     private static void stat(List<Check> out,Stats stats,Stat stat,int target) {
-        out.add(new Check("stat",stat.displayName(),stats.get(stat),target,Status.STATS));
+        out.add(new Check("stat",stat.displayName(),stats.get(stat),target,Status.STATS,java.util.Optional.empty(),java.util.Optional.of(stat)));
     }
     public static int wildOrigins(Genome genome) {
         var origins=EnumSet.noneOf(Lineage.class);

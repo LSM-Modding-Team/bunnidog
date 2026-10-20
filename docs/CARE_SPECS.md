@@ -3,7 +3,7 @@
 Current A11 supplies the Island's native oxygen/propulsion and A12 completes
 useful pale-coat cave vision. A10 supplies coat camouflage; H11 adds
 Build-based native bundle carriers, with cargo breaking cover. Current
-client/server protocol **16** adds live inventory-backed care to partners and commissions; update both
+client/server protocol **17** adds live inventory-backed care to partners and commissions; update both
 sides. Earlier per-feature protocol/test counts are historical checkpoints.
 
 C1/C2 puts the existing operations in a compact empty-hand panel: real plain-guava
@@ -11,7 +11,13 @@ care/courtship, developed-line Brush products, ownership-checked trail controls,
 live cargo and the existing Calipers sheet. Inventory tool wear uses the actual
 Brush with native durability hooks, without substituting equipped hands. Ordinary
 meal policy protects upgraded guavas across hands, Troughs and carried provisions;
-older Trough stock stays recoverable. Details and evidence: `COHESION_PLAN.md`.
+older Trough stock stays recoverable.
+
+Useful roles & work shows current pack capacity, temperament, native cheap
+harvest readiness, expressed-trait benefits and canonical specialty thresholds.
+Ordinary carrying/harvest need no bred points. Work pause/resume is here; the
+crouched hoe shortcut remains. The bounded cargo and twelve-control animal views
+stay intact. The native partner's walking case now starts at zero bred points. Details and evidence: `COHESION_PLAN.md`.
 
 Implemented 2026-10-16 under the user's standing design latitude. These additions
 make a valuable breeding animal useful while alive, and give several wild traits

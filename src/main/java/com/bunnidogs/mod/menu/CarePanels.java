@@ -30,6 +30,7 @@ public final class CarePanels {
     public static final int TENDING=10, TAKE_FOOD=11, CLEAR_FILTER=12, MODE=20;
     public static final int ADD_FOOD=13, TRAIN=14, RELEASE=15, GROOM=16;
     public static final int CARGO=17, BACK=18;
+    public static final int ROLES=19;
     public static final int PAIR=30, TAKE_LEFT=31, TAKE_RIGHT=32, ADD_LEFT=33, ADD_RIGHT=34;
     public static final int HATCH=40, TAKE_SEED=41, AUTO_HATCH=42, ADD_SEED=43, GROW=44;
     public static final int TAKE_JUICE=50, TAKE_FRUIT=51, TAKE_CARRIER=52, ADD_FRUIT=53, ADD_BOTTLE=54;
@@ -62,7 +63,9 @@ public final class CarePanels {
         return dog.getTarget()!=null || dog.seekingRefuge() || dog.isOnFire()
                 || dog.getLastHurtByMob()!=null && dog.tickCount-dog.getLastHurtByMobTimestamp()<100;
     }
-    public static boolean readOnly(int id) { return id==GENETICS || id==CARGO || id==BACK || id==WorkshopPanels.READ_TABLE; }
+    public static boolean readOnly(int id) { return id==GENETICS || id==CARGO || id==BACK || id==ROLES || id==WorkshopPanels.READ_TABLE || SignalPanels.readOnly(id)
+            || id==ApexPanel.PREPARE || id==ApexPanel.CANCEL || id==ApexPanel.SHOW_RING || id==WorkshopPanels.GOALS || id==WorkshopPanels.BACK_TABLE
+            || id==com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD; }
     public static CareView animal(Player player,Bunnidog dog) {
         var rows=new ArrayList<Component>(); var controls=new ArrayList<CareView.Control>();
         rows.add(t("animal.health",Math.round(dog.getHealth()),Math.round(dog.getMaxHealth())));
@@ -99,7 +102,7 @@ public final class CarePanels {
             controls.add(control(TRAIN,"train",edit && has(player,ModItems.GUAVA.get()) && dog.trail().canTrainFromStock(player)));
         }
         controls.add(control(GENETICS,"genetics",has(player,ModItems.CALIPERS.get())));
-        controls.add(control(WORK,dog.workPaused() ? "work_on" : "work_off",edit));
+        controls.add(control(ROLES,"roles",true));
         if (dog.carriedBundleCount()>0) {
             controls.add(control(TAKE_BUNDLE,"take_bundle",edit));
             controls.add(control(CARGO,"cargo",true));
@@ -136,6 +139,9 @@ public final class CarePanels {
         if (be instanceof JuicerBlockEntity juicer) return juicer(player,pos,juicer);
         if (be instanceof CommissionBoardBlockEntity board) return board(player,pos,board);
         if (be instanceof GeneticsTableBlockEntity table) return WorkshopPanels.table(player,pos,table);
+        if (be instanceof SpecimenJarBlockEntity jar) return SignalPanels.jar(player,pos,jar);
+        if (be instanceof PedigreeComparatorBlockEntity detector) return SignalPanels.detector(player,pos,detector);
+        if (be instanceof TrophyPedestalBlockEntity pedestal) return SignalPanels.trophy(player,pos,pedestal);
         if (player.level().getBlockState(pos).getBlock() instanceof JudgingStandBlock) return WorkshopPanels.show(player,pos);
         return nest(player,pos);
     }
@@ -182,7 +188,8 @@ public final class CarePanels {
                         control(TAKE_SEED,"take_seed",edit && !cradle.storedSeed().isEmpty()),
                         control(AUTO_HATCH,cradle.manualHatchOnly() ? "auto_on" : "auto_off",edit),
                         control(ADD_SEED,"add_seed",edit && cradle.storedSeed().isEmpty() && !find(player,stack->com.bunnidogs.mod.item.SeedItem.read(stack).isPresent()).isEmpty()),
-                        control(GROW,"grow",edit && cradle.seed().isPresent() && !ripe && has(player,Items.BONE_MEAL))));
+                        control(GROW,"grow",edit && cradle.seed().isPresent() && !ripe && has(player,Items.BONE_MEAL)),
+                        control(com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD,"show_hatch_pad",true)));
     }
     private static CareView juicer(Player player,BlockPos pos,JuicerBlockEntity juicer) {
         boolean edit=editable(player,pos), powered=player.level().hasNeighborSignal(pos);
@@ -211,6 +218,7 @@ public final class CarePanels {
         for (var choice:Commissions.Request.values()) controls.add(new CareView.Control(REQUEST+choice.ordinal(),
                 t(board.completed(player,choice) ? "board.done" : "board.choice",Component.translatable("commission.bunnidogs."+choice.key()+".title")),edit && choice!=request,CareView.Control.CHOICE));
         controls.add(control(SUBMIT,"submit",edit && !done && has(player,Items.PAPER) && reading.status()==Commissions.Status.READY));
+        controls.add(control(com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD,"show_front_pad",true));
         return new CareView(ModBlocks.COMMISSION_BOARD.get().getName(),done ? t("board.next.done") : reading.status()==Commissions.Status.READY
                 ? t(has(player,Items.PAPER) ? "board.next.submit" : "board.next.paper")
                 : message("commission."+reading.status().name().toLowerCase(Locale.ROOT)),rows,controls);
@@ -274,6 +282,7 @@ public final class CarePanels {
             if (id==SUBMIT) board.submitFromInventory(player);
             else if (id>=REQUEST && id<REQUEST+Commissions.Request.values().length) board.select(Commissions.Request.values()[id-REQUEST]);
         } else if (be instanceof GeneticsTableBlockEntity table) WorkshopPanels.act(player,pos,table,id);
+        else if (be instanceof SpecimenJarBlockEntity || be instanceof PedigreeComparatorBlockEntity || be instanceof TrophyPedestalBlockEntity) SignalPanels.act(player,be,id);
         else if (id==WorkshopPanels.AWARD && player.level().getBlockState(pos).getBlock() instanceof JudgingStandBlock)
             com.bunnidogs.mod.entity.ShowJudging.award(player.level(),pos,player);
         else if (id==REHOME && player.level().getBlockState(pos).getBlock() instanceof NestBlock nest) nest.assignLed(player.level(),pos,player);

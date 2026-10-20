@@ -200,6 +200,10 @@ TEXT = {
     'hint.bunnidogs.plant': '%1$s: Plant litter seed',
     'hint.bunnidogs.crop_ripe': '%3$s: Hatch the ripe litter',
     'hint.bunnidogs.crop_growing': 'Litter growing · Bone meal speeds it up · Wait until ripe',
+    'hint.bunnidogs.fruit_ripe': '%1$s: Pick a ripe guava · The hanging fruit regrows',
+    'hint.bunnidogs.fruit_growing': 'Guava ripening · Wait or use bone meal · Pick when ripe',
+    'hint.bunnidogs.fruit_bonemeal': '%1$s: Help this guava ripen',
+    'hint.bunnidogs.fruit_release': 'Release %2$s, then %1$s: Pick this ripe guava',
     'tooltip.bunnidogs.guide.optional': 'Optional reference for genetics and advanced systems.',
     'tooltip.bunnidogs.guide.controls': 'Empty hands on animals and care stations: needs and controls.',
     'care.bunnidogs.button.read_table': 'Read breeding plans',
@@ -224,7 +228,7 @@ TEXT = {
     'care.bunnidogs.show.missing': 'not recorded; breed a representative',
     'care.bunnidogs.show.fixed': 'Matching gene pairs: %s / %s (including Diet)',
     'care.bunnidogs.show.mixed': 'Mixed pairs: %s',
-    'care.bunnidogs.show.stat': '%s: +%s / +%s',
+    'care.bunnidogs.show.stat': '%s: %s / +%s',
     'care.bunnidogs.show.target': 'Stat target below: %s',
     'care.bunnidogs.show.once': 'Each animal earns a tier once. Ribbons keep its winning record; display one on a Trophy Pedestal.',
     'care.bunnidogs.show.lead': 'Lead one adult within six blocks of this Stand. The closest adult on your lead is inspected.',
@@ -291,8 +295,9 @@ def preview_from_log(log_path):
     for line in Path(log_path).read_text().splitlines():
         if 'CARE_PREVIEW ' in line:
             value=json.loads(line.split('CARE_PREVIEW ',1)[1]); views[value['name']]=value
-    workshop={name:views.pop(name) for name in ('Genetics Table','Judging Stand')}
-    if len(views)!=6: raise ValueError(f'Expected six core menu snapshots, got {len(views)}')
+    core_names=('Injured companion','Trained partner','Food and garden work','Juicer inputs','Blocked nursery','Commission progress')
+    core={name:views.pop(name) for name in core_names}
+    workshop=views; views=core
     lang=json.loads((RES/'assets/bunnidogs/lang/en_us.json').read_text())
     def text(value):
         if isinstance(value,list): return ''.join(text(v) for v in value)
@@ -357,12 +362,21 @@ def preview_from_log(log_path):
         d.text((x,y),name,font=bold,fill=(235,225,194)); canvas.paste(panel(view),(x,y+17))
     canvas.resize((2640,1640),Image.Resampling.NEAREST).save(ROOT/'art/cohesion_preview.png')
     panel(views['Commission progress'],True).resize((840,720),Image.Resampling.NEAREST).save(ROOT/'art/commission_choices_preview.png')
-    work=Image.new('RGB',(884,429),(39,44,39)); wd=ImageDraw.Draw(work)
+    family_names=('Useful first roles','Chosen breeding goal')
+    family={name:workshop.pop(name) for name in family_names}
+    family_canvas=Image.new('RGB',(884,430),(39,44,39)); fd=ImageDraw.Draw(family_canvas)
+    fd.text((12,9),'Useful family roles and breeding goals | native snapshots | substitute font',font=bold,fill=(235,225,194))
+    for i,(name,view) in enumerate(family.items()):
+        x=12+i*440; fd.text((x,35),name,font=bold,fill=(235,225,194)); family_canvas.paste(panel(view),(x,52))
+    family_canvas.resize((1768,860),Image.Resampling.NEAREST).save(ROOT/'art/family_goals_preview.png')
+    work_rows=(len(workshop)+1)//2
+    work=Image.new('RGB',(884,40+390*work_rows),(39,44,39)); wd=ImageDraw.Draw(work)
     wd.text((12,9),'Workshop controls | native server snapshots | substitute font',font=bold,fill=(235,225,194))
     for i,(name,view) in enumerate(workshop.items()):
-        x=12+i*440; wd.text((x,35),name,font=bold,fill=(235,225,194)); work.paste(panel(view),(x,52))
-    work.resize((1768,858),Image.Resampling.NEAREST).save(ROOT/'art/workshop_controls_preview.png')
-    print('Rendered eight native care/workshop snapshots and the request selector layout (substitute font).')
+        x=12+(i%2)*440; y=35+(i//2)*390
+        wd.text((x,y),name,font=bold,fill=(235,225,194)); work.paste(panel(view),(x,y+17))
+    work.resize((1768,work.height*2),Image.Resampling.NEAREST).save(ROOT/'art/workshop_controls_preview.png')
+    print(f'Rendered {6+len(workshop)+len(family)} native care/workshop snapshots and the request selector layout (substitute font).')
 
 if __name__=='__main__':
     import argparse

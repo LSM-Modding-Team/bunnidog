@@ -2,6 +2,7 @@ package com.bunnidogs.mod.block;
 
 import com.bunnidogs.mod.genetics.PedigreeSignal;
 import com.bunnidogs.mod.item.TissueSampleItem;
+import com.bunnidogs.mod.menu.CareMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -65,7 +66,7 @@ public final class PedigreeComparatorBlock extends Block implements EntityBlock 
         var sample = TissueSampleItem.read(player.getItemInHand(hand));
         if (sample.isEmpty()) return super.useItemOn(stack,state,level,pos,player,hand,hit);
         if (!level.isClientSide()) {
-            if (player.mayBuild()) detector.setReference(sample.get());
+            detector.copyFromPlayer(player,player.getItemInHand(hand));
             inspect(level,pos,player);
         }
         return InteractionResult.SUCCESS;
@@ -74,13 +75,8 @@ public final class PedigreeComparatorBlock extends Block implements EntityBlock 
         if (!player.getMainHandItem().isEmpty() || !player.getOffhandItem().isEmpty()
                 || !(level.getBlockEntity(pos) instanceof PedigreeComparatorBlockEntity detector)) return InteractionResult.PASS;
         if (!level.isClientSide()) {
-            if (player.mayBuild()) {
-                if (player.isShiftKeyDown()) detector.setReference(null);
-                else {
-                    level.setBlock(pos,state.cycle(ANALOG),2); detector.refresh();
-                }
-            }
-            inspect(level,pos,player);
+            if (player.isShiftKeyDown()) { detector.clearFromPlayer(player); inspect(level,pos,player); }
+            else CareMenu.open(player,pos);
         }
         return InteractionResult.SUCCESS;
     }

@@ -34,7 +34,11 @@ public final class CareMenu extends AbstractContainerMenu {
     private Context published;
     private long changedUntil;
     private boolean acting;
-    private boolean cargo;
+    private enum Mode { MAIN, CARGO, ROLES, GOALS, CONFIRM_RITUAL }
+    private Mode mode=Mode.MAIN;
+    private final ItemStack preferredSample;
+    private Component actionNotice;
+    private long noticeUntil;
     private record Context(List<Object> facts,List<ItemStack> stock) {
         Context { facts=List.copyOf(facts); stock=stock.stream().map(ItemStack::copy).toList(); }
         boolean same(Context other) {
@@ -47,7 +51,11 @@ public final class CareMenu extends AbstractContainerMenu {
     /** Native client factory. Target resolution exists only on the server. */
     public CareMenu(int id,Inventory inventory) { this(id,inventory,null,null); }
     private CareMenu(int id,Inventory inventory,Bunnidog dog,BlockPos pos) {
+        this(id,inventory,dog,pos,null);
+    }
+    private CareMenu(int id,Inventory inventory,Bunnidog dog,BlockPos pos,ItemStack preferredSample) {
         super(ModMenus.CARE.get(),id); this.owner=inventory.player; this.level=owner.level();
+        this.preferredSample=preferredSample;
         this.dog=dog; this.pos=pos==null ? null : pos.immutable();
         this.block=pos==null ? null : level.getBlockState(pos).getBlock();
         this.station=pos==null ? null : level.getBlockEntity(pos);
@@ -59,10 +67,13 @@ public final class CareMenu extends AbstractContainerMenu {
         }
     }
     public static void open(Player player,BlockPos pos) {
+        open(player,pos,null);
+    }
+    public static void open(Player player,BlockPos pos,ItemStack preferredSample) {
         if (player instanceof ServerPlayer server && !player.isSpectator() && server.level().hasChunkAt(pos) && supported(server.level().getBlockState(pos).getBlock())
                 && player.distanceToSqr(pos.getX()+.5,pos.getY()+.5,pos.getZ()+.5)<=36) {
             com.bunnidogs.mod.item.JourneyProgress.met(player);
-            server.openMenu(new SimpleMenuProvider((id,inv,p)->new CareMenu(id,inv,null,pos),Component.translatable("screen.bunnidogs.care.title")));
+            server.openMenu(new SimpleMenuProvider((id,inv,p)->new CareMenu(id,inv,null,pos,preferredSample),Component.translatable("screen.bunnidogs.care.title")));
         }
     }
     public CareView view() { return view; }
@@ -77,11 +88,21 @@ public final class CareMenu extends AbstractContainerMenu {
         return pos!=null && level.hasChunkAt(pos) && level.getBlockState(pos).is(block) && level.getBlockEntity(pos)==station
                 && player.distanceToSqr(pos.getX()+.5,pos.getY()+.5,pos.getZ()+.5)<=36;
     }
-    private CareView snapshot() { return dog!=null ? cargo ? CarePanels.cargo(owner,dog) : CarePanels.animal(owner,dog) : CarePanels.station(owner,pos,station); }
+    private CareView snapshot() {
+        if (dog!=null) return switch (mode) {
+            case CARGO -> CarePanels.cargo(owner,dog);
+            case ROLES -> RolePanel.view(owner,dog);
+            default -> CarePanels.animal(owner,dog);
+        };
+        if (block instanceof ApexCrucibleBlock) return ApexPanel.view(owner,pos,ApexPanel.sample(owner,preferredSample),mode==Mode.CONFIRM_RITUAL);
+        if (station instanceof GeneticsTableBlockEntity table && mode==Mode.GOALS) return WorkshopPanels.goals(owner,pos,table);
+        return CarePanels.station(owner,pos,station);
+    }
     private static boolean supported(Block block) {
         return block instanceof NestBlock || block instanceof FeedingTroughBlock || block instanceof BreedingPenBlock
                 || block instanceof NurseryCradleBlock || block instanceof JuicerBlock || block instanceof CommissionBoardBlock
-                || block instanceof GeneticsTableBlock || block instanceof JudgingStandBlock;
+                || block instanceof GeneticsTableBlock || block instanceof JudgingStandBlock || block instanceof SpecimenJarBlock
+                || block instanceof PedigreeComparatorBlock || block instanceof TrophyPedestalBlock || block instanceof ApexCrucibleBlock;
     }
     /** Bind an action to the actual shared stock/selection the player saw, not to a timer tick. */
     private Context context() {
@@ -91,7 +112,8 @@ public final class CareMenu extends AbstractContainerMenu {
             facts.add(Optional.ofNullable(dog.homeNest()));
             stock.addAll(dog.carriedBundles());
         } else {
-            facts.add(level.getBlockState(pos));
+            var state=level.getBlockState(pos);
+            facts.add(block instanceof PedigreeComparatorBlock ? state.setValue(PedigreeComparatorBlock.POWER,0) : state);
             if (station instanceof FeedingTroughBlockEntity trough) { facts.add(trough.workMode()); stock.add(trough.food()); stock.add(trough.filter()); }
             else if (station instanceof BreedingPenBlockEntity pen) {
                 stock.add(pen.food(0)); stock.add(pen.food(1));
@@ -102,12 +124,24 @@ public final class CareMenu extends AbstractContainerMenu {
             else if (station instanceof CommissionBoardBlockEntity board) {
                 facts.add(board.request()); facts.add(Optional.ofNullable(board.read().candidate()).map(Bunnidog::getUUID));
             } else if (station instanceof GeneticsTableBlockEntity table) {
+                facts.add(table.goalKey());
                 stock.add(table.item(0)); stock.add(table.item(1));
                 if (table.isEmpty(0) || table.isEmpty(1)) stock.add(WorkshopPanels.nextSample(owner));
             } else if (block instanceof JudgingStandBlock) {
                 var reading=com.bunnidogs.mod.entity.ShowJudging.inspect(level,pos,owner);
                 facts.add(reading.entry());
                 facts.add(reading.candidate().map(Bunnidog::highestShowAward));
+            } else if (station instanceof SpecimenJarBlockEntity jar) {
+                stock.add(jar.sample()); if (jar.sample().isEmpty()) stock.add(WorkshopPanels.nextSample(owner));
+            } else if (station instanceof PedigreeComparatorBlockEntity detector) {
+                facts.add(detector.reference()); stock.add(WorkshopPanels.nextSample(owner));
+            } else if (station instanceof TrophyPedestalBlockEntity pedestal) {
+                stock.add(pedestal.item());
+            } else if (block instanceof ApexCrucibleBlock) {
+                var source=ApexPanel.sample(owner,preferredSample); stock.add(source);
+                var reading=com.bunnidogs.mod.entity.ApexRitual.inspect(owner,pos,source);
+                facts.add(level.getDifficulty()); facts.add(reading.status());
+                for (var slot:reading.slots()) { facts.add(slot.pos()); facts.add(Optional.ofNullable(slot.pedestal())); stock.add(slot.stock()); }
             }
         }
         return new Context(facts,stock);
@@ -115,9 +149,13 @@ public final class CareMenu extends AbstractContainerMenu {
     private void publish(boolean force) {
         if (!(owner instanceof ServerPlayer server) || !stillValid(owner)) return;
         var currentContext=context();
-        if (!currentContext.same(published)) { generation=generation==0x7FFFFF ? 1 : generation+1; published=currentContext; }
+        if (!currentContext.same(published)) {
+            generation=generation==0x7FFFFF ? 1 : generation+1; published=currentContext;
+            if (mode==Mode.CONFIRM_RITUAL) mode=Mode.MAIN;
+        }
         var base=snapshot();
-        var current=new CareView(base.title(),level.getGameTime()<changedUntil ? Component.translatable("care.bunnidogs.feedback.changed") : base.next(),
+        var current=new CareView(base.title(),level.getGameTime()<changedUntil ? Component.translatable("care.bunnidogs.feedback.changed")
+                : actionNotice!=null && level.getGameTime()<noticeUntil ? actionNotice : base.next(),
                 base.rows(),base.controls().stream().map(c->new CareView.Control((generation<<8)|c.id(),c.label(),c.enabled(),c.section())).toList());
         if (force || !current.equals(view)) { view=current; PacketDistributor.sendToPlayer(server,new CareViewPayload(containerId,current)); }
     }
@@ -135,10 +173,32 @@ public final class CareMenu extends AbstractContainerMenu {
         }
         if (!snapshot().permits(id)) { publish(true); return false; }
         acting=true;
+        actionNotice=null;
         try {
-            if (id==CarePanels.CARGO) cargo=true;
-            else if (id==CarePanels.BACK) cargo=false;
-            else CarePanels.act(player,dog,pos,station,id);
+            if (id==CarePanels.CARGO) mode=Mode.CARGO;
+            else if (id==CarePanels.ROLES) mode=Mode.ROLES;
+            else if (id==CarePanels.BACK) mode=Mode.MAIN;
+            else if (id==WorkshopPanels.GOALS && station instanceof GeneticsTableBlockEntity) mode=Mode.GOALS;
+            else if (id==WorkshopPanels.BACK_TABLE && station instanceof GeneticsTableBlockEntity) mode=Mode.MAIN;
+            else if (id==com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD) { player.closeContainer(); com.bunnidogs.mod.entity.StationMarkers.show(player,pos); }
+            else if (block instanceof ApexCrucibleBlock) {
+                if (id==ApexPanel.PREPARE) mode=Mode.CONFIRM_RITUAL;
+                else if (id==ApexPanel.CANCEL) mode=Mode.MAIN;
+                else if (id==ApexPanel.SHOW_RING) {
+                    player.closeContainer();
+                    ((ApexCrucibleBlock)block).showRing(player,pos);
+                } else if (id==ApexPanel.SUMMON && mode==Mode.CONFIRM_RITUAL) {
+                    mode=Mode.MAIN;
+                    var result=com.bunnidogs.mod.entity.ApexRitual.summon(player,pos,ApexPanel.sample(owner,preferredSample));
+                    if (result==com.bunnidogs.mod.entity.ApexRitual.Status.SUMMONED) {
+                        player.closeContainer(); player.sendOverlayMessage(Component.translatable("message.bunnidogs.apex.summoned"));
+                    } else { actionNotice=Component.translatable("care.bunnidogs.apex.next."+result.name().toLowerCase(java.util.Locale.ROOT)); noticeUntil=level.getGameTime()+60; }
+                }
+            }
+            else {
+                CarePanels.act(player,dog,pos,station,id);
+                if (station instanceof GeneticsTableBlockEntity && (id==WorkshopPanels.CLEAR_GOAL || id>=WorkshopPanels.GOAL && id<WorkshopPanels.GOAL+com.bunnidogs.mod.genetics.Commissions.Request.values().length)) mode=Mode.MAIN;
+            }
         }
         finally { acting=false; refresh=0; changedUntil=0; }
         if (player.containerMenu==this) publish(true);

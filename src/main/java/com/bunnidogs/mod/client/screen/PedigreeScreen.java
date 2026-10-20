@@ -178,6 +178,7 @@ public final class PedigreeScreen extends Screen {
         this.table = table;
         this.registry = false;
         if (splicing && table.isAnalysis(TableSheet.SPLICING)) this.spread = TableSheet.SPLICING;
+        else if (table.isGoal(TableSheet.GOAL)) this.spread=TableSheet.GOAL;
         else if (!table.plan().equals(com.bunnidogs.mod.genetics.BreedingPlan.PLAIN) && table.isForecast(TableSheet.FORECAST)) this.spread = TableSheet.FORECAST;
     }
 
@@ -186,7 +187,7 @@ public final class PedigreeScreen extends Screen {
         return this.single != null || this.sample != null;
     }
 
-    /** Book contents/sheets, three seed spreads, one/five table spreads, or one standalone sheet. */
+    /** Book contents/sheets, three seed spreads, one/five/six table spreads, or one standalone sheet. */
     private int spreadCount() {
         if (oneSheet()) {
             return 1;
