@@ -5,12 +5,17 @@ specifications and source relevant to the request. Historical documents preserve
 past decisions; their Claude sandbox, chunk-size, upload and approval routines
 are obsolete. The user's current request determines scope.
 
-- Complete the requested change through implementation and appropriate validation.
-  Current continuation priority is gameplay cohesion: follow `docs/COHESION_PLAN.md`
-  before more standalone content. Players should discover the core loop through
+- Complete the requested change through implementation and appropriate validation,
+  respecting planning-only requests. The current user direction is gene-driven
+  combat companions: `docs/COMBAT_COMPANION_PLAN.md` and its player scenarios in
+  `docs/COMBAT_SCENARIOS.md`. The 2026-10-20 combat batch is documentation only;
+  those recommendations are not shipped behavior. A subsequent implementation
+  continuation should start with B1's useful ordinary partner, dependable recall
+  and rescue, rather than collecting isolated attack abilities.
+  Preserve `docs/COHESION_PLAN.md`: players should discover the core loop through
   animals, stations and useful feedback; the long guide is optional reference.
-  Finish the accepted cohesion steps and address observed first-session friction
-  before inventing another separate mechanic. User steering can change this focus.
+  Address observed first-session friction rather than adding unrelated systems.
+  User steering can change this focus.
   For continuations, prioritize unfinished accepted features in the plans over
   further quality-of-life additions. Audit implementation claims against code;
   distinguish missing implementation from features awaiting manual playtesting.

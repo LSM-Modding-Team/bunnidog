@@ -4,10 +4,31 @@ The user requests substantial continuations, prioritizing unfinished planned
 features over more quality-of-life controls. Historical per-turn chunk limits
 do not apply. Verify old completion claims against code before choosing work.
 
-## Current priority — cohesion before expansion
+## Current priority — gene-driven combat companions (proposal)
 
-The user's current request is to connect the existing gameplay and remove the
-need to study a manual. `COHESION_PLAN.md` is the active continuation plan.
+The 2026-10-20 user request is **planning only**: combat assistance shaped by
+genes, designed around enjoyable player choices. No combat behavior is added
+by this batch. [COMBAT_COMPANION_PLAN.md](COMBAT_COMPANION_PLAN.md) contains the
+source audit, recommendations, tradeoffs and B1–B5 sequence;
+[COMBAT_SCENARIOS.md](COMBAT_SCENARIOS.md) works through ten actual adventures.
+
+Recommended next implementation slice: **B1 — one dependable partner**. A common
+bonded adult helps in a real fight, accepts emergency recall during combat and
+can be rescued after an ordinary defeat. Include a basic genetic bite profile
+and ally/owner-loss/save rules before shipping, rather than adding damage and
+leaving survival for later.
+Then expand inherited temperament/profile differences, a small selected party,
+breeding/recovery feedback and a few distinctive physical moves. Existing genes
+and bred points should suffice initially; exact numbers remain prototypes.
+
+Future implementation continuations have the standing design latitude; this
+planning document introduces no additional approval step. Current gameplay
+remains the cohesive-family checkpoint below, not an implemented combat system.
+
+## Foundation — cohesion and ordinary usefulness
+
+The established requirement is to connect gameplay and remove the need to study
+a manual. `COHESION_PLAN.md` records that foundation for the combat direction.
 C1/C2 deliver live animal/six-station controls, real inventory-backed care,
 consistent ordinary meals, an accessible first companion, six native milestones
 and an end-to-end first-litter route. Existing recipes, tools and advanced
@@ -18,7 +39,7 @@ real commission predicate and native hatching probabilities. C5 exposes ordinary
 roles, zero-point usefulness and actual working-pad/ring markers. C6 joins actual
 seed comparisons, measured living offspring, growth and real commissions, and
 removes the developed-Senses material prerequisite from starter workshops.
-The remaining priority is natural-world/client evidence for that complete loop
+Remaining cohesion work is natural-world/client evidence for that complete loop
 and fixes to observed pacing, supply and learning gaps. See `FAMILY_LOOP_SPECS.md`.
 Another guide chapter or feature count cannot establish that understanding.
 

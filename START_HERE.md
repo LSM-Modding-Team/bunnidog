@@ -20,12 +20,41 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Current focus — cohesive family and workshop play (2026-10-20)
+## Current focus — gene-driven combat companions (planning, 2026-10-20)
 
-The user wants existing gameplay to hang together before standalone expansion.
-Continue from `docs/COHESION_PLAN.md`. C1–C4, the implemented C5 parts and C6 join
-care, a useful ordinary family, breeding targets and workshop feedback. A manual
-is optional; unfamiliar-player understanding and natural/client pacing need play.
+The user's new request is a **planning-only batch** for bunnidogs helping in
+combat, with inherited damage, loyalty and other meaningful differences. Read
+[the combat proposal](docs/COMBAT_COMPANION_PLAN.md) and
+[ten player scenarios](docs/COMBAT_SCENARIOS.md). No combat code, resources,
+saved fields, protocol or art changed; this batch needs no game build.
+
+The proposed direction uses the existing seven genes/five stats: learned keeper
+bonds plus inherited loyal, stoic, feral and skittish habits; useful zero-point
+adults; a small deliberately selected party; dependable emergency recall;
+native combat and regional adaptations; recoverable defeat, rescue and actual
+care. New damage curves, three party slots, withdrawal thresholds and recovery
+durations are starting hypotheses, not validated balance or adopted save rules.
+
+A later implementation continuation should start with **B1**, one common
+loyal/stoic partner in a real fight, including control, disengagement, downed
+rescue, a basic genetic bite profile, ally/owner-loss handling and saved-state
+conservation. Build the complete experience before extra signatures or a large
+ability list. Wider temperament bonding, fuller profiles/readouts, a three-member
+party and special movement follow.
+No extra approval gate is implied; follow the user's scope at that time.
+
+The cohesion work below is the foundation, not a replacement for this new
+direction. Natural Survival/client pacing still needs evidence. The latest
+implemented gameplay checkpoint remains C6 / `b34e90d` with the results below;
+none of that evidence validates the proposed combat system.
+
+## Implemented foundation — cohesive family and workshop play (2026-10-20)
+
+The user wants gameplay to hang together without studying a manual.
+`docs/COHESION_PLAN.md` records this foundation. C1–C4, the implemented C5 parts
+and C6 join care, a useful ordinary family, breeding targets and workshop
+feedback. A manual is optional; unfamiliar-player understanding and natural/client
+pacing need play.
 
 - **Care and first family:** real inventory-backed feeding, grooming, training,
   orders, cargo and six native milestones. Basic farmland remains a complete
@@ -65,9 +94,10 @@ is optional; unfamiliar-player understanding and natural/client pacing need play
   client/server; existing animals, inventory components and allele order stay.
 
 The native purpose loop now reaches an actual raised offspring's Board reward
-(the long growth wait is fast-forwarded). Next review this route in natural
-Survival/client play and address observed pacing, supply, housing or UI gaps.
-A new standalone feature or another guide chapter is not a substitute for that.
+(the long growth wait is fast-forwarded). Natural Survival/client review should
+still address observed pacing, supply, housing or UI gaps. Combat should extend
+this existing care/breeding journey; another guide chapter cannot establish
+that players understand it.
 
 ### Prior H12/H13/V5 checkpoint
 
