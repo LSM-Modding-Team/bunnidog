@@ -2,7 +2,7 @@ package com.bunnidogs.mod.block;
 
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Commissions;
-import com.bunnidogs.mod.genetics.Sampling;
+import com.bunnidogs.mod.entity.CommissionCandidate;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModVillagers;
 import java.util.Locale;
@@ -60,14 +60,8 @@ public final class CommissionBoardBlockEntity extends BlockEntity {
         if (candidates.isEmpty()) return new Reading(Commissions.Status.ABSENT,null);
         if (candidates.size()!=1) return new Reading(Commissions.Status.CROWDED,null);
         var dog=candidates.getFirst();
-        if (!dog.acceptsCare()) return new Reading(Commissions.Status.UNAVAILABLE,dog);
-        if (dog.isBaby()) return new Reading(Commissions.Status.ADULT,dog);
-        if (dog.motherGenome().isEmpty() || dog.fatherGenome().isEmpty()) return new Reading(Commissions.Status.PARENTS,dog);
-        if (!Sampling.healthy(dog.getHealth(),dog.getMaxHealth())) return new Reading(Commissions.Status.HEALTH,dog);
-        if (dog.isPassenger() || dog.isVehicle()) return new Reading(Commissions.Status.TRANSPORTED,dog);
-        if (dog.getTarget()!=null || dog.seekingRefuge() || dog.isInLove()
-                || dog.getLastHurtByMob()!=null && dog.tickCount-dog.getLastHurtByMobTimestamp()<100)
-            return new Reading(Commissions.Status.DANGER,dog);
+        var condition=CommissionCandidate.condition(dog);
+        if (condition!=Commissions.Status.READY) return new Reading(condition,dog);
         boolean breeder=level.getEntitiesOfClass(Villager.class,new AABB(worldPosition).inflate(Commissions.BREEDER_RANGE),v->v.isAlive() && !v.isBaby()
                 && v.getVillagerData().profession().is(ModVillagers.BREEDER.getKey())
                 && v.distanceToSqr(worldPosition.getX()+.5,worldPosition.getY()+.5,worldPosition.getZ()+.5)<=Commissions.BREEDER_RANGE*Commissions.BREEDER_RANGE).size()>0;

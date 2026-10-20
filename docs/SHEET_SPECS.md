@@ -4,6 +4,15 @@ Current work includes S9 carried-animal records and S10 local record filters.
 The historical Phase 8 decisions below remain useful background; old chunk-size
 and approval routines are superseded by `AGENTS.md` and current user instructions.
 
+## C6: actual litter forecasts
+
+The seed folio retains overview/mother/father spreads 0–2 and adds actual
+forecast 3 and inherited copies 4. Its overview links directly to the forecast.
+Saved quality/treatment supply the same `Cross` maths as real hatching, with no
+repeated starborn bonus or silent held-feed/crop-Fortune change. Only spreads 1
+and 2 build a portrait. Cradle and Table controls open the existing SeedPayload;
+no packet or saved component shape changes. See `FAMILY_LOOP_SPECS.md`.
+
 ## S10: find breeding records
 
 Pedigree Books and Purebred Registries have a native text filter between their

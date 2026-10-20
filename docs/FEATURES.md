@@ -11,6 +11,8 @@ what a held item will do. Detailed genetics and the Field Guide are optional.
   guava. Direct feeding still works; sneak-plain-guava means care.
 - Feed two adults and keep them close. Mating drops a **litter seed**. Plant it
   on farmland; wait or use bone meal, then break the ripe crop to hatch pups.
+- Care shows the pup's remaining loaded growth time. Golden dandelions pause
+  or resume it; Bloom respects that choice. Feeding cannot add bred points.
 - Nests use wheat and any planks. Each adult gets one. Lead an adult to a Nest
   and choose **Assign led adult**, or use a lead on the Nest. Nearby adults
   can claim a free Nest naturally. Empty-hand use on a led animal releases
@@ -42,6 +44,11 @@ what a held item will do. Detailed genetics and the Field Guide are optional.
   adult onto its clear front block, then submit one paper. Rewards pay once;
   the animal and cargo stay. Fixed genes mean two matching copies; stats come
   from breeding, not exercise.
+- At a **Genetics Table**, choose a goal and compare two reusable samples, then
+  compare your actual seed at its saved quality. Calipers reveal nearby offspring
+  and measure a living pup against the goal before you raise it. The actual-seed
+  view finds its own offspring even when samples describe another pair.
+  Tables, Boards and Pens accept ordinary feathers as well as Whiskers.
 
 ## Optional depth
 

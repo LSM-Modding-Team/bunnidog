@@ -7,7 +7,11 @@ abilities. They never consume the animal or issue an unearned show award.
 
 ## Station and submission
 
-Craft `PPP /  W  / CCC` with three planks, one Whisker and three copper ingots.
+Craft `PPP /  W  / CCC` with three planks, one feather or Whisker and three copper ingots.
+Ordinary feathers now substitute for Whiskers in Board/Table/Pen recipes, so
+planning and staffing a specialty do not require another developed Senses line.
+Calipers compare real pups and adults before submission; the Table can follow
+its samples' or actual seed's living family. See `FAMILY_LOOP_SPECS.md`.
 Place the board by an existing Breeder's Pen. Its facing marks the one-block
 front pad; keep that block and its headroom empty above solid support. Exactly
 one ordinary adult's feet must be inside the pad. Leads are allowed; rides or

@@ -78,7 +78,7 @@ public final class PedigreeScreen extends Screen {
     private final Pedigree.Entry single;
     /** Phase 8 S8: the Tissue Sample of a sample window (one sheet, like {@link #single}), or null. */
     private final Tissue sample;
-    /** Phase 8 S8: the seed of a seed window (three spreads: the seed, the mother, the father), or null. */
+    /** Seed folio: overview, mother, father, actual forecast and inherited copies, or null. */
     private final Seed seed;
     /** Genetics Table: A/B samples followed by the breeding and splicing analysis, or null. */
     private final TableSheet table;
@@ -153,7 +153,7 @@ public final class PedigreeScreen extends Screen {
         this.registry = false;
     }
 
-    /** The seed window (Phase 8 S8): the seed, then the mother's and the father's sheets, turned with Previous / Next. */
+    /** The seed folio retains its overview/parents, followed by actual-seed analyses. */
     public PedigreeScreen(Seed seed) {
         super(Component.literal("Bunnidog Seed"));
         this.book = new Pedigree();
@@ -187,7 +187,7 @@ public final class PedigreeScreen extends Screen {
         return this.single != null || this.sample != null;
     }
 
-    /** Book contents/sheets, three seed spreads, one/five/six table spreads, or one standalone sheet. */
+    /** Book contents/sheets, five seed spreads, one/five/six table spreads, or one standalone sheet. */
     private int spreadCount() {
         if (oneSheet()) {
             return 1;
@@ -334,7 +334,7 @@ public final class PedigreeScreen extends Screen {
         }
         if (this.seed != null) {
             this.current = SeedSheet.spread(this.seed, this.spread, text -> this.font.width(text));
-            this.animal = this.spread >= 1 ? buildPortrait(SeedSheet.parentEntry(this.seed, this.spread == 1)) : null;
+            this.animal = this.spread >= 1 && this.spread <= 2 ? buildPortrait(SeedSheet.parentEntry(this.seed, this.spread == 1)) : null;
             return;
         }
         this.current = this.registry ? RegistryContents.spread(this.book, this.spread, text -> this.font.width(text),this.query)

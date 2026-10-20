@@ -35,9 +35,9 @@ def main():
         for fill in range(4) for facing,rotation in [('north',0),('east',90),('south',180),('west',270)]}})
     block_item('breeding_pen','breeding_pen_0'); drop('breeding_pen')
     write('data/bunnidogs/recipe/breeding_pen.json',{'type':'minecraft:crafting_shaped','pattern':['FHF','PWP','CCC'],
-        'key':{'F':'#minecraft:wooden_fences','H':'minecraft:hay_block','P':'#minecraft:planks','W':'bunnidogs:whisker','C':'minecraft:copper_ingot'},
+        'key':{'F':'#minecraft:wooden_fences','H':'minecraft:hay_block','P':'#minecraft:planks','W':'#bunnidogs:workshop_quills','C':'minecraft:copper_ingot'},
         'result':{'id':'bunnidogs:breeding_pen'}})
-    unlock('breeding_pen','bunnidogs:whisker'); tag('data/minecraft/tags/block/mineable/axe.json',['bunnidogs:breeding_pen'])
+    unlock('breeding_pen','#bunnidogs:workshop_quills'); tag('data/minecraft/tags/block/mineable/axe.json',['bunnidogs:breeding_pen'])
     text = {'block.bunnidogs.breeding_pen':'Breeding Pen',
         'tooltip.bunnidogs.pen.ports':'Hoppers: top feeds A; sides feed B. Collect litter seeds on the floor.',
         'message.bunnidogs.pen.ready':'Ready. Open the Pen and choose Feed both parents, or pulse redstone.',

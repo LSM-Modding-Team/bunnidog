@@ -215,7 +215,7 @@ TEXT = {
     'care.bunnidogs.table.look': '%s traits: %s',
     'care.bunnidogs.table.unreadable': 'unreadable saved sample; retrieve it intact',
     'care.bunnidogs.table.next_sample': 'Next inventory sample: %s',
-    'care.bunnidogs.table.obtain': 'Use a Sampling Syringe on a healthy adult to collect a reusable sample. Use a held sample here to choose it directly.',
+    'care.bunnidogs.table.obtain': 'Use a Sampling Syringe on a healthy bunnidog to collect a reusable sample; pups work too. Use a held sample here to choose it directly.',
     'care.bunnidogs.table.cues': 'Plans use plain guavas by default. Use this Table with guavas, Mutagen or a Fortune tool in hand to preview those choices without spending them.',
     'care.bunnidogs.table.next.collect': 'Collect a sample from each parent. One sample shows its genes; two reveal litter forecasts and inheritance odds.',
     'care.bunnidogs.table.next.place': 'Place next sample fills A, then B. The exact next inventory sample is shown below; occupied slots are kept.',
@@ -259,7 +259,7 @@ STEPS = {
     'courtship': ('A Guava for Two', 'Feed a guava normally to each of two adults. Keep them close; their courtship makes a litter seed.', 'bunnidogs:guava','root', []),
     'seed': ('A Litter in Your Hand', 'Collect the pair’s seed. Plant it on farmland; advanced nursery stations are optional.', 'bunnidogs:seed','courtship', ['nursery_cradle']),
     'plant': ('Growing a Family', 'Plant a litter seed on farmland or insert it in a Cradle. Wait or use bone meal; hatch when ripe.', 'minecraft:wheat_seeds','seed', []),
-    'litter': ('The First Litter', 'Hatch real pups from a ripe crop or Cradle. Give them time, food and room to grow.', 'bunnidogs:seed','plant', ['breeding_pen','commission_board']),
+    'litter': ('The First Litter', 'Hatch real pups from a ripe crop or Cradle. Give them time, food and room to grow.', 'bunnidogs:seed','plant', ['breeding_pen','commission_board','syringe','genetics_table','ear_tag']),
 }
 
 def main():
@@ -369,6 +369,13 @@ def preview_from_log(log_path):
     for i,(name,view) in enumerate(family.items()):
         x=12+i*440; fd.text((x,35),name,font=bold,fill=(235,225,194)); family_canvas.paste(panel(view),(x,52))
     family_canvas.resize((1768,860),Image.Resampling.NEAREST).save(ROOT/'art/family_goals_preview.png')
+    progression_names=('Actual litter against goal','Living sampled family','Promising measured pup')
+    progression={name:workshop.pop(name) for name in progression_names}
+    progress=Image.new('RGB',(1320,430),(39,44,39)); pd=ImageDraw.Draw(progress)
+    pd.text((12,9),'Plan, actual seed and living offspring | native snapshots | substitute font',font=bold,fill=(235,225,194))
+    for i,(name,view) in enumerate(progression.items()):
+        x=12+i*436; pd.text((x,35),name,font=bold,fill=(235,225,194)); progress.paste(panel(view),(x,52))
+    progress.resize((2640,860),Image.Resampling.NEAREST).save(ROOT/'art/family_progression_preview.png')
     work_rows=(len(workshop)+1)//2
     work=Image.new('RGB',(884,40+390*work_rows),(39,44,39)); wd=ImageDraw.Draw(work)
     wd.text((12,9),'Workshop controls | native server snapshots | substitute font',font=bold,fill=(235,225,194))
@@ -376,7 +383,7 @@ def preview_from_log(log_path):
         x=12+(i%2)*440; y=35+(i//2)*390
         wd.text((x,y),name,font=bold,fill=(235,225,194)); work.paste(panel(view),(x,y+17))
     work.resize((1768,work.height*2),Image.Resampling.NEAREST).save(ROOT/'art/workshop_controls_preview.png')
-    print(f'Rendered {6+len(workshop)+len(family)} native care/workshop snapshots and the request selector layout (substitute font).')
+    print(f'Rendered {6+len(workshop)+len(family)+len(progression)} native care/workshop snapshots and the request selector layout (substitute font).')
 
 if __name__=='__main__':
     import argparse

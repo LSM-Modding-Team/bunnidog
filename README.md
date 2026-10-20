@@ -24,6 +24,9 @@ for the Field Guide. Saved books, animals and inventories remain compatible.
 
 Useful roles & work shows what an ordinary animal can do now. Later, a Genetics
 Table breeding goal compares two reusable samples toward a chosen commission.
+Compare a real seed at its saved quality, find matching living offspring and use
+Calipers to check a pup before raising it. Food helps growth; it adds no bred
+points. Tables, Boards and Breeder's Pens accept feathers or Whiskers.
 Workshops inspect before acting; named controls and requested area markers make
 stock, signals, judging and optional Apex preparation visible where they happen.
 

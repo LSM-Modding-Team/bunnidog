@@ -37,7 +37,7 @@ public final class CareHints {
         if (mc.hitResult instanceof EntityHitResult hit && hit.getEntity() instanceof Bunnidog dog && dog.acceptsCare() && dog.isAlive()) {
             if (empty) return dog.isLeashed() && dog.getLeashHolder()==player ? "unleash"
                     : player.isShiftKeyDown() && dog.carriedBundleCount()>0 ? "bundle" : "animal";
-            if (held.getItem() instanceof GuavaItem) return dog.isBaby() ? "grow" : player.isShiftKeyDown() ? "heal" : "breed";
+            if (held.getItem() instanceof GuavaItem) return dog.isBaby() ? dog.isAgeLocked() ? "growth_locked" : "grow" : player.isShiftKeyDown() ? "heal" : "breed";
             if (held.is(ModItems.TRAIL_WHISTLE.get())) return "whistle";
             if (held.is(Items.BRUSH)) return "brush";
             if (held.is(ModItems.CALIPERS.get())) return "calipers";

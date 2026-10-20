@@ -30,6 +30,7 @@ public final class RolePanel {
         var controls=new ArrayList<CareView.Control>();
         controls.add(new CareView.Control(CarePanels.BACK,t("button.back"),true));
         controls.add(new CareView.Control(CarePanels.WORK,t(dog.workPaused() ? "button.work_on" : "button.work_off"),player.mayBuild()));
+        controls.add(new CareView.Control(FamilyPanels.COMPARE,t("button.compare_goal"),FamilyPanels.hasCalipers(player)));
         if (dog.carriedBundleCount()>0) controls.add(new CareView.Control(CarePanels.CARGO,t("button.cargo"),true));
         return new CareView(t("roles.title",dog.getDisplayName()),t(dog.isBaby() ? "roles.next.pup" : dog.getHealth()<dog.getMaxHealth() ? "roles.next.heal" : "roles.next.adult"),rows,controls);
     }

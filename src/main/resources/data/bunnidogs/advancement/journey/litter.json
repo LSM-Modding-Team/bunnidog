@@ -28,7 +28,10 @@
   "rewards": {
     "recipes": [
       "bunnidogs:breeding_pen",
-      "bunnidogs:commission_board"
+      "bunnidogs:commission_board",
+      "bunnidogs:syringe",
+      "bunnidogs:genetics_table",
+      "bunnidogs:ear_tag"
     ]
   }
 }

@@ -47,18 +47,20 @@ public final class ForecastSheet {
     private static Page left(Cross cross, Metrics m) {
         Page page = new Page();
         page.text(0, 0, "FORECAST", Page.Tone.HEAD);
-        page.textRight(Page.WIDTH, 0, "sample A x B", Page.Tone.MUTED);
+        page.textRight(Page.WIDTH, 0, cross.actualSeed().isPresent() ? "actual seed" : "sample A x B", Page.Tone.MUTED);
 
         String range = cross.litterLow() == cross.litterHigh() ? "exactly " + cross.litterLow() + " pups" : cross.litterLow() + " or " + cross.litterHigh() + " pups";
         row(page, LITTER_Y, "Litter", String.format(Locale.ROOT, "about %.1f pups", cross.litter()), Page.Tone.INK, range,
                 SeedSheet.litterHover(), m);
         row(page, MUTATION_Y, "Mutation", String.format(Locale.ROOT, "%.1f%% per pup", cross.mutationChance() * 100.0), Page.Tone.INK,
-                cross.plan().mutagen() ? "Mutagen preview" : "set by fertility",
+                cross.seed().mutagen() ? cross.actualSeed().isPresent() ? "treated seed" : "Mutagen preview" : "set by fertility",
                 SeedSheet.mutationHover(cross.seed()), m);
         double quality = cross.effectiveQuality();
         row(page, QUALITY_Y, "Quality", String.format(Locale.ROOT, "%.2f", quality), quality > 0.0D ? Page.Tone.GOOD : Page.Tone.MUTED,
-                cross.plan().fortune() > 0 ? "includes Fortune "+cross.plan().fortune() : cross.plan().guavaQuality() > 0 ? "planned feed" : quality > 0.0D ? "starborn bonus only" : "on plain guavas",
-                String.format(Locale.ROOT,"Planned feed: %s. Guavas add %.2f quality; the parents' starborn bonus adds %.2f. Seed quality %.2f. "
+                cross.actualSeed().isPresent() ? "saved; no extra Fortune" : cross.plan().fortune() > 0 ? "includes Fortune "+cross.plan().fortune() : cross.plan().guavaQuality() > 0 ? "planned feed" : quality > 0.0D ? "starborn bonus only" : "on plain guavas",
+                cross.actualSeed().isPresent() ? "This actual seed keeps its saved quality and Mutagen treatment. Its original guavas and starborn bonus are already included; held feed cannot change them. "
+                        +"These points use no additional crop Fortune. A Cradle hatches at this saved quality; Fortune only helps when cutting a ripe planted crop. "+SeedSheet.qualityHover()
+                : String.format(Locale.ROOT,"Planned feed: %s. Guavas add %.2f quality; the parents' starborn bonus adds %.2f. Seed quality %.2f. "
                         + "Planned Fortune %d adds %.2f at crop harvest: hatching quality %.2f. Cradles get no Fortune bonus. "
                         + "Held items are preview cues, never spent. Samples are snapshots. ",cross.plan().guavas(),cross.plan().guavaQuality(),
                         cross.quality()-cross.plan().guavaQuality(),cross.quality(),cross.plan().fortune(),cross.plan().fortuneBonus(),quality)+SeedSheet.qualityHover(), m);
@@ -125,7 +127,7 @@ public final class ForecastSheet {
             y += Page.LINE * shown + BLOCK_GAP;
         }
 
-        List<String> foot = Page.wrap("Odds before any mutation. Hover a row for the genes.", Page.WIDTH, m);
+        List<String> foot = List.of("Before mutation.","Hover for genes.");
         for (int i = 0; i < Math.min(2, foot.size()); i++) {
             page.text(0, FOOT_Y + Page.LINE * i, foot.get(i), Page.Tone.MUTED);
         }
@@ -136,9 +138,10 @@ public final class ForecastSheet {
     static String hover(Cross cross, Gene gene, List<String> outcomes) {
         Genome ga = cross.a().genome();
         Genome gb = cross.b().genome();
-        return String.format(Locale.ROOT, "%s. Sample A has %s + %s, sample B has %s + %s. Each pup takes one of each parent's two genes at random and the stronger one shows: %s. "
+        return String.format(Locale.ROOT, "%s. %s has %s + %s, %s has %s + %s. Each pup takes one of each parent's two genes at random and the stronger one shows: %s. "
                         + "Odds are before mutation (%.1f%% of pups mutate one random gene).",
-                Plain.geneName(gene), Plain.label(ga.allele(gene, 0)), Plain.label(ga.allele(gene, 1)), Plain.label(gb.allele(gene, 0)), Plain.label(gb.allele(gene, 1)),
+                Plain.geneName(gene),cross.actualSeed().isPresent() ? "Mother" : "Sample A", Plain.label(ga.allele(gene, 0)), Plain.label(ga.allele(gene, 1)),
+                cross.actualSeed().isPresent() ? "father" : "sample B", Plain.label(gb.allele(gene, 0)), Plain.label(gb.allele(gene, 1)),
                 String.join(", ", outcomes), cross.mutationChance() * 100.0);
     }
 

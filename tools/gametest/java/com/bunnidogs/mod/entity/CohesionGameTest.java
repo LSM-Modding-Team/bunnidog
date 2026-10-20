@@ -268,6 +268,18 @@ public final class CohesionGameTest {
                 new ItemStack(Items.STRING),new ItemStack(Items.FEATHER),new ItemStack(Items.STRING),ItemStack.EMPTY));
         h.assertTrue(recipes.getRecipesFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING,whistleInput,level).anyMatch(r->r.value().assemble(whistleInput).is(ModItems.TRAIL_WHISTLE.get())),
                 "Copper, ordinary string and a feather craft the reusable starter Whistle without developed-line materials");
+        for (var quill:List.of(Items.FEATHER,ModItems.WHISKER.get())) {
+            var tableInput=net.minecraft.world.item.crafting.CraftingInput.of(3,3,List.of(new ItemStack(quill),new ItemStack(Items.COPPER_INGOT),new ItemStack(quill),
+                    new ItemStack(Items.OAK_PLANKS),new ItemStack(Items.OAK_PLANKS),new ItemStack(Items.OAK_PLANKS),new ItemStack(Items.OAK_PLANKS),ItemStack.EMPTY,new ItemStack(Items.OAK_PLANKS)));
+            var boardInput=net.minecraft.world.item.crafting.CraftingInput.of(3,3,List.of(new ItemStack(Items.OAK_PLANKS),new ItemStack(Items.OAK_PLANKS),new ItemStack(Items.OAK_PLANKS),
+                    ItemStack.EMPTY,new ItemStack(quill),ItemStack.EMPTY,new ItemStack(Items.COPPER_INGOT),new ItemStack(Items.COPPER_INGOT),new ItemStack(Items.COPPER_INGOT)));
+            var penInput=net.minecraft.world.item.crafting.CraftingInput.of(3,3,List.of(new ItemStack(Items.OAK_FENCE),new ItemStack(Items.HAY_BLOCK),new ItemStack(Items.OAK_FENCE),
+                    new ItemStack(Items.OAK_PLANKS),new ItemStack(quill),new ItemStack(Items.OAK_PLANKS),new ItemStack(Items.COPPER_INGOT),new ItemStack(Items.COPPER_INGOT),new ItemStack(Items.COPPER_INGOT)));
+            for (var entry:List.of(java.util.Map.entry(tableInput,ModBlocks.GENETICS_TABLE.asItem()),java.util.Map.entry(boardInput,ModBlocks.COMMISSION_BOARD.asItem()),
+                    java.util.Map.entry(penInput,ModBlocks.BREEDING_PEN.asItem())))
+                h.assertTrue(recipes.getRecipesFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING,entry.getKey(),level)
+                        .anyMatch(r->r.value().assemble(entry.getKey()).is(entry.getValue())),"The actual workshop recipe accepts ordinary feathers and retains legacy Whiskers: "+entry.getValue());
+        }
         var a=h.spawn(ModEntities.BUNNIDOG.get(),4.5F,y+1,4.5F); var b=h.spawn(ModEntities.BUNNIDOG.get(),6.5F,y+1,4.5F);
         a.setGenome(Genome.DEFAULT); b.setGenome(fixed(Genome.DEFAULT,Gene.COAT,"cream"));
         for (var dog:List.of(a,b)) { dog.setAge(0); dog.setNoAi(true); dog.setOnGround(true); dog.setHealth(dog.getMaxHealth()); }

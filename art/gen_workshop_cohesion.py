@@ -98,7 +98,7 @@ TEXT = {
     'hint.bunnidogs.trophy_take': '%1$s: Retrieve displayed item · Release %2$s to inspect',
     'hint.bunnidogs.trophy_place': '%1$s: Display one item when empty · Empty hands: Inspect',
     'hint.bunnidogs.apex': '%1$s: Apex preparation & combat forecast',
-    'hint.bunnidogs.syringe': '%1$s: Collect a reusable Tissue Sample from a healthy adult',
+    'hint.bunnidogs.syringe': '%1$s: Collect a reusable Tissue Sample · Healthy pups work too',
 }
 
 def main():
@@ -106,28 +106,30 @@ def main():
         lang=json.loads(path.read_text()); lang.update(TEXT); path.write_text(json.dumps(lang,indent=2)+'\n')
     print('Generated preserved-sample, redstone, display and Apex preparation text.')
 
-def goal_preview(log_path):
+def goal_preview(log_path,marker='GOAL_PREVIEW ',filename='breeding_goal_preview.png',title='Breeding goal'):
     from pathlib import Path
     from PIL import Image, ImageDraw, ImageFont
     from gen_syringe import ROOT
-    exported=[json.loads(line.split('GOAL_PREVIEW ',1)[1]) for line in Path(log_path).read_text().splitlines() if 'GOAL_PREVIEW ' in line]
+    exported=[json.loads(line.split(marker,1)[1]) for line in Path(log_path).read_text().splitlines() if marker in line]
     if not exported: raise ValueError('No production goal layout in the native log')
     data=exported[-1]
     canvas=Image.new('RGB',(336,242),(43,46,39)); d=ImageDraw.Draw(canvas)
     font=ImageFont.truetype('DejaVuSans.ttf',9)
     label=ImageFont.truetype('DejaVuSans.ttf',9)
-    d.text((8,5),'Breeding goal | production layout | substitute font',font=label,fill=(235,225,194))
+    d.text((8,5),title+' | production layout | substitute font',font=label,fill=(235,225,194))
     colors={'HEAD':(80,55,27),'INK':(47,44,29),'MUTED':(110,106,78),'GOOD':(45,100,53),'BAD':(150,48,35)}
     for side,x,frame in [('left',30,12),('right',176,168)]:
         d.rectangle((frame,26,frame+155,226),fill=(230,216,174),outline=(117,90,48))
         for row in data[side]:
             xx=x+row['x']-(font.getlength(row['text']) if row['right'] else 0)
             d.text((xx,48+row['y']),row['text'],font=font,fill=colors[row['tone']])
-    canvas.resize((1344,968),Image.Resampling.NEAREST).save(ROOT/'art/breeding_goal_preview.png')
+    canvas.resize((1344,968),Image.Resampling.NEAREST).save(ROOT/'art'/filename)
     print('Rendered the actual native goal spread, with a substitute font.')
 
 if __name__=='__main__':
     import argparse
     parser=argparse.ArgumentParser(); parser.add_argument('--preview-from'); args=parser.parse_args()
     main()
-    if args.preview_from: goal_preview(args.preview_from)
+    if args.preview_from:
+        goal_preview(args.preview_from)
+        goal_preview(args.preview_from,'SEED_FORECAST_PREVIEW ','actual_seed_forecast_preview.png','Actual seed forecast')

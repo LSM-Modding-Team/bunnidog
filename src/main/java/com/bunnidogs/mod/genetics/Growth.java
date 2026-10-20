@@ -28,4 +28,10 @@ public final class Growth {
     public static double minutesToAdult(double multiplier) {
         return BABY_TICKS / multiplier / 1200.0;
     }
+
+    /** Approximate loaded-world time at the current Bloom, before feeding or other age changes. */
+    public static int secondsRemaining(int age,double multiplier) {
+        if (!Double.isFinite(multiplier) || multiplier<=0) throw new IllegalArgumentException("Invalid growth multiplier");
+        return (int)Math.min(Integer.MAX_VALUE,Math.ceil(Math.max(0,-(long)age)/(20*multiplier)));
+    }
 }

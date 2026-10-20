@@ -65,13 +65,13 @@ public final class CarePanels {
     }
     public static boolean readOnly(int id) { return id==GENETICS || id==CARGO || id==BACK || id==ROLES || id==WorkshopPanels.READ_TABLE || SignalPanels.readOnly(id)
             || id==ApexPanel.PREPARE || id==ApexPanel.CANCEL || id==ApexPanel.SHOW_RING || id==WorkshopPanels.GOALS || id==WorkshopPanels.BACK_TABLE
-            || id==com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD; }
+            || id==com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD || FamilyPanels.readOnly(id) || id==LitterPanel.LITTER || id==LitterPanel.READ_SEED; }
     public static CareView animal(Player player,Bunnidog dog) {
         var rows=new ArrayList<Component>(); var controls=new ArrayList<CareView.Control>();
         rows.add(t("animal.health",Math.round(dog.getHealth()),Math.round(dog.getMaxHealth())));
         rows.add(t("animal.food",food(dog)));
         rows.add(home(dog));
-        rows.add(t("animal.breeding",dog.isBaby() ? t("animal.young") : dog.isInLove() ? t("animal.courting")
+        rows.add(t("animal.breeding",dog.isBaby() ? FamilyPanels.growth(dog) : dog.isInLove() ? t("animal.courting")
                 : dog.getAge()>0 ? t("animal.rest",(dog.getAge()+19)/20) : t("animal.ready")));
         rows.add(t("animal.work",t(dog.workPaused() ? "off" : "on")));
         rows.add(t("animal.traits",dog.genome().expressed(Gene.TEMPERAMENT).name(),dog.genome().expressed(Gene.BUILD).name()));
@@ -108,7 +108,7 @@ public final class CarePanels {
             controls.add(control(CARGO,"cargo",true));
         }
         Component next=danger(dog) ? t("animal.next.safety") : dog.getHealth()<dog.getMaxHealth() ? t("animal.next.heal")
-                : dog.isBaby() ? t("animal.next.grow") : dog.isInLove() ? t("animal.next.courting") : dog.trail().ordered() ? t("animal.next.trail")
+                : dog.isBaby() ? t(dog.isAgeLocked() ? "family.next.age_locked" : "animal.next.grow") : dog.isInLove() ? t("animal.next.courting") : dog.trail().ordered() ? t("animal.next.trail")
                 : dog.homeNest()==null ? t("animal.next.home") : dog.beingTransported() || dog.isVehicle() ? t("animal.next.transport")
                 : dog.getAge()>0 ? t("animal.next.rest") : t("animal.next.breed");
         return new CareView(dog.getDisplayName(),next,rows,controls);
@@ -189,6 +189,7 @@ public final class CarePanels {
                         control(AUTO_HATCH,cradle.manualHatchOnly() ? "auto_on" : "auto_off",edit),
                         control(ADD_SEED,"add_seed",edit && cradle.storedSeed().isEmpty() && !find(player,stack->com.bunnidogs.mod.item.SeedItem.read(stack).isPresent()).isEmpty()),
                         control(GROW,"grow",edit && cradle.seed().isPresent() && !ripe && has(player,Items.BONE_MEAL)),
+                        control(LitterPanel.READ_SEED,"read_seed",cradle.seed().isPresent()),
                         control(com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD,"show_hatch_pad",true)));
     }
     private static CareView juicer(Player player,BlockPos pos,JuicerBlockEntity juicer) {

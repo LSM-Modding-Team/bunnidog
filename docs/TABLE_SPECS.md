@@ -21,6 +21,15 @@ Nothing is consumed by a plan. Hoppers, comparator levels, stored components and
 legacy one-sample saves keep their existing contracts. Stale stock or a changed
 next inventory sample refreshes before an old click can move the new sample.
 
+## C6: produced seeds and living offspring
+
+Compare next real seed uses its saved quality/treatment and actual parent points,
+independently of held preview cues. Calipers follow living families from either
+the two samples or that seed, and compare the real offspring against the Table
+goal. Private animal comparisons change no station selection. The Table recipe
+accepts ordinary feathers or Whiskers. See `FAMILY_LOOP_SPECS.md` for source,
+range, pagination, stale-selection and native evidence contracts.
+
 ## C4: commission goals
 
 **Breeding goal** opens nine named choices, clearing and return controls. Goal

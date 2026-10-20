@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * The forecast of a litter (Genetics Table T3, docs/TABLE_SPECS.md): what the pups of two Tissue Samples are likely to be like, worked
@@ -20,10 +21,22 @@ import java.util.Map;
  *
  * The default forecast uses plain guavas. An explicit {@link BreedingPlan} previews selected guavas and Mutagen using the same seed maths;
  * the parents' starborn bonus is added once by {@link Seed#of}. Planned Fortune affects hatching drift, never the saved seed.
+ * An actual-seed forecast instead retains the complete saved seed, with no reconstructed feed or added harvest bonus.
  * The two samples are symmetric: nothing here depends on which is called mother and which father.
  */
-public record Cross(Tissue a, Tissue b, BreedingPlan plan) {
+public record Cross(Tissue a, Tissue b, BreedingPlan plan,Optional<Seed> actualSeed) {
+    public Cross {
+        java.util.Objects.requireNonNull(a); java.util.Objects.requireNonNull(b); java.util.Objects.requireNonNull(plan); java.util.Objects.requireNonNull(actualSeed);
+        if (actualSeed.isPresent()) {
+            var seed=actualSeed.orElseThrow();
+            if (!plan.equals(BreedingPlan.PLAIN) || !a.equals(new Tissue(seed.mother(),seed.motherStats())) || !b.equals(new Tissue(seed.father(),seed.fatherStats())))
+                throw new IllegalArgumentException("An actual seed keeps its own parents, quality and treatment");
+        }
+    }
+    public Cross(Tissue a,Tissue b,BreedingPlan plan) { this(a,b,plan,Optional.empty()); }
     public Cross(Tissue a, Tissue b) { this(a,b,BreedingPlan.PLAIN); }
+    /** A produced seed's saved quality already includes feed and starborn; never reconstruct or add them twice. */
+    public Cross(Seed seed) { this(new Tissue(seed.mother(),seed.motherStats()),new Tissue(seed.father(),seed.fatherStats()),BreedingPlan.PLAIN,Optional.of(seed)); }
     /** One thing the pups can show for a gene, and the chance that a pup shows it. */
     public record Outcome(Allele allele, double chance) {}
 
@@ -34,7 +47,7 @@ public record Cross(Tissue a, Tissue b, BreedingPlan plan) {
 
     /** The seed these two would make under the selected plan; no rolls or mutation are performed. */
     public Seed seed() {
-        return this.plan.seed(this.a,this.b);
+        return actualSeed.orElseGet(()->this.plan.seed(this.a,this.b));
     }
 
     /**

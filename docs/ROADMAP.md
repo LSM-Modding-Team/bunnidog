@@ -15,9 +15,11 @@ reference remain optional paths; saved animals, containers and goal progress sta
 C3 now covers Table, Stand, Jar, detector, display and Apex preparation with
 consistent inspection and explicit actions. C4 adds saved Table goals using the
 real commission predicate and native hatching probabilities. C5 exposes ordinary
-roles, zero-point usefulness and actual working-pad/ring markers. The remaining
-priority is the full first-family → useful role → planned offspring → actual
-commission loop, with natural-world/client evidence and fixes to observed gaps.
+roles, zero-point usefulness and actual working-pad/ring markers. C6 joins actual
+seed comparisons, measured living offspring, growth and real commissions, and
+removes the developed-Senses material prerequisite from starter workshops.
+The remaining priority is natural-world/client evidence for that complete loop
+and fixes to observed pacing, supply and learning gaps. See `FAMILY_LOOP_SPECS.md`.
 Another guide chapter or feature count cannot establish that understanding.
 
 ## Original-plan completion audit

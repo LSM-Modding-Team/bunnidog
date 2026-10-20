@@ -377,7 +377,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
      */
     private void growthTick() {
         int age = this.getAge();
-        if (age >= 0) {
+        if (age >= 0 || this.isAgeLocked()) {
             this.growthCarry = 0.0D;
             return;
         }

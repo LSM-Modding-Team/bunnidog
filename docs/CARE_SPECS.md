@@ -19,6 +19,12 @@ Ordinary carrying/harvest need no bred points. Work pause/resume is here; the
 crouched hoe shortcut remains. The bounded cargo and twelve-control animal views
 stay intact. The native partner's walking case now starts at zero bred points. Details and evidence: `COHESION_PLAN.md`.
 
+C6 also measures real pups against commissions through Useful roles & work,
+using actual Calipers and the Board's shared living conditions. Care shows loaded
+growth time; native golden-dandelion pauses now also stop Bloom's extra aging.
+The new family route reaches native Board rewards after actual feeding and a
+fast-forwarded growth wait. See `FAMILY_LOOP_SPECS.md` and `COHESION_PLAN.md`.
+
 Implemented 2026-10-16 under the user's standing design latitude. These additions
 make a valuable breeding animal useful while alive, and give several wild traits
 clear environmental benefits. Compiler/server evidence is separate from manual

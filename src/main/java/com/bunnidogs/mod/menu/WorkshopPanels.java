@@ -41,6 +41,7 @@ public final class WorkshopPanels {
     public static CareView table(Player player,BlockPos pos,GeneticsTableBlockEntity table) {
         boolean edit=player.mayBuild() && player.level().mayInteract(player,pos);
         var rows=new ArrayList<Component>(); var next=nextSample(player);
+        var litter=LitterPanel.nextSeed(player);
         boolean a=TissueSampleItem.read(table.item(0)).isPresent(), b=TissueSampleItem.read(table.item(1)).isPresent();
         boolean room=table.isEmpty(0) || table.isEmpty(1);
         // The chosen item must precede the primary placement button, even in a short viewport.
@@ -48,6 +49,7 @@ public final class WorkshopPanels {
             rows.add(t("table.next_sample",next.getHoverName()));
             rows.add(Component.literal(Plain.look(TissueSampleItem.read(next).orElseThrow().genome())));
         }
+        if (!litter.isEmpty()) rows.add(t("litter.source",litter.getHoverName()));
         for (int i=0;i<2;i++) rows.add(t("table.slot",i==0 ? "A" : "B",table.item(i).isEmpty() ? t("empty") : table.item(i).getHoverName()));
         for (int i=0;i<2;i++) if (!table.item(i).isEmpty()) rows.add(t("table.look",i==0 ? "A" : "B",
                 TissueSampleItem.read(table.item(i)).<Component>map(sample->Component.literal(Plain.look(sample.genome()))).orElse(t("table.unreadable"))));
@@ -59,6 +61,8 @@ public final class WorkshopPanels {
                 : next.isEmpty() ? "table.next.collect" : "table.next.place"),rows,List.of(
                 button(READ_TABLE,"read_table",a || b,false),button(ADD_SAMPLE,"add_sample",edit && room && !next.isEmpty(),false),
                 button(GOALS,"goals",true,false),
+                button(FamilyPanels.FAMILY,"family",a && b && table.goal().isPresent() && FamilyPanels.hasCalipers(player),false),
+                button(LitterPanel.LITTER,"litter",!litter.isEmpty(),false),
                 button(TAKE_A,"take_a",edit && !table.isEmpty(0),true),button(TAKE_B,"take_b",edit && !table.isEmpty(1),true)));
     }
     public static CareView goals(Player player,BlockPos pos,GeneticsTableBlockEntity table) {

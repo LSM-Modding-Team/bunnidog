@@ -7,7 +7,7 @@ import com.bunnidogs.mod.genetics.*;
 public final class GoalSheet {
     private GoalSheet() {}
     public static Page.Spread spread(GoalForecast forecast,Metrics m) { return new Page.Spread(left(forecast,m),right(forecast,m)); }
-    private static String percent(double chance) {
+    public static String percent(double chance) {
         if (chance>0 && chance<.0001) return "<0.01%";
         if (chance<1 && chance>.9999) return ">99.99%";
         return String.format(Locale.ROOT,"%.2f%%",chance*100);

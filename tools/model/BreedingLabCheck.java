@@ -102,6 +102,11 @@ public final class BreedingLabCheck {
                 "Visible hover working must name the exact feed pair and planned mutation rate");
     }
     public static void main(String[] args) {
+        require(Growth.secondsRemaining(-24000,1)==1200 && Growth.secondsRemaining(-24000,2)==600
+                && Growth.secondsRemaining(-24000,Stats.GROWTH_FLOOR)==3000
+                && Growth.secondsRemaining(-1,1)==1 && Growth.secondsRemaining(6000,1)==0,
+                "Remaining loaded growth must follow actual age and Bloom without negative or prematurely zero time");
+        actualSeeds();
         recordFilters();
         namedLines();
         plannedCrosses();
@@ -185,6 +190,22 @@ public final class BreedingLabCheck {
         page(index.left()); page(index.right());
         require(index.left().links().size() + index.right().links().size() == Pedigree.MAX_ENTRIES, "Full index must link every line");
         System.out.println("Breeding lab OK: recessive/carrier/fixed odds, integer/fractional litters, splice pages and stable-line registry.");
+    }
+
+    private static void actualSeeds() {
+        var a=pair(Gene.FERTILITY,Gene.FERTILITY.alleleNamed("starborn").id(),Gene.FERTILITY.alleleNamed("starborn").id());
+        var seed=Seed.of(a,Stats.of(12,-7,4,19,100),Genome.DEFAULT,Stats.of(2,3,6,22,40),2.75).withMutagen();
+        var cross=new Cross(seed); near(cross.quality(),seed.quality()); near(cross.effectiveQuality(),seed.quality());
+        near(cross.mutationChance(),Seed.MUTAGEN_MUTATION_FLOOR);
+        for (var stat:Stat.values()) near(cross.expectedPoints(stat),(seed.motherStats().get(stat)+seed.fatherStats().get(stat))/2.0+seed.drift(0)[stat.ordinal()]);
+        require(cross.seed().equals(seed) && cross.actualSeed().isPresent(),"Actual seed forecasting must preserve exact saved quality, parents and treatment without repeating a starborn bonus");
+        var ordinary=new Cross(cross.a(),cross.b()); require(Math.abs(ordinary.quality()-cross.quality())>2,"A real seed cannot silently become a plain-guava reconstruction");
+        for (int n=0;n<SeedSheet.spreadCount();n++) { var spread=SeedSheet.spread(seed,n,Metrics.ESTIMATE); page(spread.left()); page(spread.right()); }
+        var forecast=SeedSheet.spread(seed,SeedSheet.FORECAST,Metrics.ESTIMATE);
+        require(forecast.left().hotspots().stream().anyMatch(h->h.text().contains("actual seed") && h.text().contains("already included")),
+                "The produced-seed forecast must explain saved quality instead of offering prospective feed cues");
+        require(SeedSheet.spread(seed,0,Metrics.ESTIMATE).right().links().stream().anyMatch(l->l.spread()==SeedSheet.FORECAST),
+                "The seed overview must link directly to the actual pup forecast");
     }
 
     private static Genome fixed(Genome genome,Gene gene,String allele) {

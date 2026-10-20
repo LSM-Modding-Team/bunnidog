@@ -46,10 +46,10 @@ def main():
     write('assets/bunnidogs/blockstates/commission_board.json',{'variants':{
         f'facing={facing},ready={str(ready).lower()}':{'model':f'bunnidogs:block/commission_board_{int(ready)}','y':rotation}
         for facing,rotation in [('north',0),('east',90),('south',180),('west',270)] for ready in (False,True)}})
-    block_item('commission_board','commission_board_0'); drop('commission_board'); unlock('commission_board','bunnidogs:whisker')
+    block_item('commission_board','commission_board_0'); drop('commission_board'); unlock('commission_board','#bunnidogs:workshop_quills')
     tag('data/minecraft/tags/block/mineable/axe.json',['bunnidogs:commission_board'])
     write('data/bunnidogs/recipe/commission_board.json',{'type':'minecraft:crafting_shaped','pattern':['PPP',' W ','CCC'],
-        'key':{'P':'#minecraft:planks','W':'bunnidogs:whisker','C':'minecraft:copper_ingot'},'result':{'id':'bunnidogs:commission_board'}})
+        'key':{'P':'#minecraft:planks','W':'#bunnidogs:workshop_quills','C':'minecraft:copper_ingot'},'result':{'id':'bunnidogs:commission_board'}})
     language={'block.bunnidogs.commission_board':'Breeder Commission Board',
         'tooltip.bunnidogs.commission.controls':'Empty hands: choose a request, see progress and submit. Paper also submits by hand.',
         'message.bunnidogs.commission.status':'%s: %s',

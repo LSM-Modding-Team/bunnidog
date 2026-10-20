@@ -146,6 +146,35 @@ cues, not repeated chat or tutorial popups; they never hatch, move items or load
 remote chunks. Actual marker visibility, GUI scales and natural-world first-family
 pacing remain client playtests, rather than claims established by headless code.
 
+## C6 — From a plan to its actual family (implemented)
+
+The Table can compare the shown actual inventory seed with its goal, using saved
+parents, points, quality and Mutagen treatment. Held preview cues cannot change
+that seed. Existing seed readers retain their original overview/parent indices
+and add actual pup forecast/copy spreads; Cradles expose the reader directly.
+
+With Calipers, the Table lists nearby living offspring of the sampled genomes.
+An actual seed has its own family entry, so stale/different Table samples cannot
+silently supply another cross's offspring. Four named, positioned animals per
+page show inherited gene/point targets before their controls. Native birth data
+identify parent genomes rather than individuals, which the view states. Exact
+row selections, samples, seed and goal bind stale clicks; glints identify actual
+animals without moving or ordering them.
+
+A selected animal opens its actual care session with that goal. Useful roles
+also compares any animal against the nine requests. Real predicates and shared
+Board living-condition checks separate inherited misses from actionable growth,
+health, calm and cargo. A fitting wild pup immediately identifies absent birth
+records. Comparisons are private/read-only, including Adventure. Losing Calipers
+hides exact results. Care gives loaded growth time and explains native
+golden-dandelion pauses; Bloom's extra aging now respects that pause.
+
+The recipe audit found a circular dependency: Table, Board and Breeder's Pen
+needed Whiskers before a Senses line existed. Ordinary feathers now substitute,
+while old Whisker recipes remain valid. First-litter recipe reveals include the
+Table, Syringe and Ear Tag. Seven guide entries changed; no chapters were added.
+See `FAMILY_LOOP_SPECS.md` for contracts, evidence and compatibility.
+
 ## Follow-up priorities before more standalone content
 
 1. **Natural-world first-session playtest.** With a new survival character, raise
@@ -154,10 +183,11 @@ pacing remain client playtests, rather than claims established by headless code.
 2. **Meaningful first companion.** Check whether ordinary founders and the first
    offspring provide a useful, visible benefit before optimized stat breeding.
    Tune time/material requirements from play evidence, not new feature count.
-3. **Follow the complete purpose loop.** Try one Table goal, hatch a litter,
-   choose a suitable offspring, raise it and submit the real adult at its Board.
-   Record whether goals, point quality, required supplies and pad cues explain
-   the next decision. Address observed handoff gaps before adding another system.
+3. **Review the implemented purpose loop in Survival.** Table goal → actual seed
+   → living offspring → growth → actual Board reward now has native coverage.
+   It fast-forwards the long growth wait. Try that complete path in a natural
+   client and record whether goals, quality, supplies, space and timing explain
+   the next decision. Fix observed handoff gaps before another system.
 4. **Readable world cues.** Review entrances, safe walking, station orientation,
    empty/stocked states and animal intent in a real client. Prioritize cues that
    communicate a decision; avoid mandatory tutorial popups or global checklists.
@@ -181,21 +211,27 @@ it does not establish that an unfamiliar player understands it.
 - Headless tests establish mechanics and packet/layout contracts, not how a new
   player understands the client. Record the natural/client playtest separately.
 
-The Java 25 combined build, model gate and all **106** native cases pass at the
+The Java 25 combined build, model gate and all **107** native cases pass at the
 integration checkpoint. The first three cohesion scenarios exercise real menu
 packets/lifetime, station inventory/legacy stock/stale selections and two-parent courtship
 through seed pickup, native recipes, farmland, bone meal and committed hatching.
 Workshop coverage exercises native empty-hand opening/button packets, exact
 sample/display recovery, free imprinting, signal polling, goal saves/legacy/future
 keys, stale selections, Adventure inspection and explicit all-tier judging.
+The added family case follows real seed offspring through measured selection,
+native golden-dandelion pauses, paid feeding and a real Board payout. It checks
+sampled versus actual-seed families, private goals, missing birth records and
+lost tools. All nine actual-seed views fit; native payload/readers conserve
+saved inputs. Real recipe checks cover feather and Whisker variants.
 Apex coverage includes actual cancellation, recursive calls, replaced stock and
 inventory sources, exact legacy stack costs, blocked spawns and creative keeps.
 Focused breeding-lab checks cover combined recessive targets, stochastic point
 boundaries, planned quality, cargo separation, all nine goal payloads and page
 clearance. The ordinary partner walks at zero points in its existing native case.
 
-Fourteen actual server view snapshots feed `art/cohesion_preview.png`,
+Seventeen actual server view snapshots feed `art/cohesion_preview.png`,
 `art/commission_choices_preview.png`, `art/workshop_controls_preview.png` and
-`art/family_goals_preview.png`. `art/breeding_goal_preview.png` renders the actual
-exported goal spread. These use substitute fonts; they are layout reviews, not
+`art/family_goals_preview.png` and `art/family_progression_preview.png`.
+`art/breeding_goal_preview.png` and `art/actual_seed_forecast_preview.png` render
+the exported goal/seed spreads. These use substitute fonts; they are layout reviews, not
 client screenshots. Protocol **17** requires matching client/server; existing animal/item data stay compatible; only the Table goal is an optional new key.

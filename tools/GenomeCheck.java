@@ -4260,9 +4260,9 @@ public class GenomeCheck {
         Seed seed = new Seed(mom, Stats.of(3, -1, 0, 2, 12), dad, Stats.ZERO, 3.5);
 
         // the folio: the seed, the mother, the father; out-of-range numbers are clamped
-        check(com.bunnidogs.mod.layout.SeedSheet.spreadCount() == 3, "a seed window has three spreads");
-        check(dump.apply(com.bunnidogs.mod.layout.SeedSheet.spread(seed, 99, m).left()).equals(dump.apply(com.bunnidogs.mod.layout.SeedSheet.spread(seed, 2, m).left()))
-                && dump.apply(com.bunnidogs.mod.layout.SeedSheet.spread(seed, -4, m).left()).equals(dump.apply(com.bunnidogs.mod.layout.SeedSheet.spread(seed, 0, m).left())), "spread numbers are clamped into 0..2");
+        check(com.bunnidogs.mod.layout.SeedSheet.spreadCount() == 5, "a seed window retains its overview/parents and adds actual forecasts and copies");
+        check(dump.apply(com.bunnidogs.mod.layout.SeedSheet.spread(seed, 99, m).left()).equals(dump.apply(com.bunnidogs.mod.layout.SeedSheet.spread(seed, 4, m).left()))
+                && dump.apply(com.bunnidogs.mod.layout.SeedSheet.spread(seed, -4, m).left()).equals(dump.apply(com.bunnidogs.mod.layout.SeedSheet.spread(seed, 0, m).left())), "spread numbers are clamped into 0..4");
 
         // spread 0, left page: the numbers are the seed's own
         com.bunnidogs.mod.layout.Page.Spread ov = com.bunnidogs.mod.layout.SeedSheet.spread(seed, 0, m);
@@ -4295,8 +4295,8 @@ public class GenomeCheck {
         // spread 0, right page: both parents, each a link to its sheet
         check(right.contains("0|PARENTS") && right.contains("14|MOTHER") && right.contains("77|FATHER") && right.contains("59|22-32-00-10-00-01-00") && right.contains("122|11-00-00-11-00-00-00")
                 && right.stream().anyMatch(t -> t.startsWith("50|Carries")) && right.stream().anyMatch(t -> t.startsWith("113|Carries")), "the parents page: names, codes, carried genes: " + right);
-        check(ov.left().links().isEmpty() && ov.right().links().equals(java.util.List.of(new com.bunnidogs.mod.layout.Page.Link(0, 14, 130, 54, 1), new com.bunnidogs.mod.layout.Page.Link(0, 77, 130, 54, 2))),
-                "the two parent blocks link to spreads 1 and 2, nothing else does");
+        check(ov.left().links().isEmpty() && ov.right().links().equals(java.util.List.of(new com.bunnidogs.mod.layout.Page.Link(0, 14, 130, 54, 1), new com.bunnidogs.mod.layout.Page.Link(0, 77, 130, 54, 2),
+                new com.bunnidogs.mod.layout.Page.Link(0,138,130,9,3))),"The original parent links stay stable and a visible link opens the actual pup forecast");
 
         // spreads 1 and 2: a parent's sheet without a number, a generation or parents of its own
         for (int n = 1; n <= 2; n++) {

@@ -23,7 +23,7 @@ checkpoints/compaction and reserve only the capacity needed to deliver safely.
 ## Current focus — cohesive family and workshop play (2026-10-20)
 
 The user wants existing gameplay to hang together before standalone expansion.
-Continue from `docs/COHESION_PLAN.md`. C1–C4 and the implemented C5 parts now join
+Continue from `docs/COHESION_PLAN.md`. C1–C4, the implemented C5 parts and C6 join
 care, a useful ordinary family, breeding targets and workshop feedback. A manual
 is optional; unfamiliar-player understanding and natural/client pacing need play.
 
@@ -44,6 +44,12 @@ is optional; unfamiliar-player understanding and natural/client pacing need play
   Actual commission checks and hatching maths supply the forecast. Mutation stays
   separate; Fortune says crop-only. Samples/cues remain reusable. Legacy Tables
   keep five spreads; unknown future saved goals are retained, not reinterpreted.
+- **Plan to real family:** compare an actual inventory seed at its saved quality,
+  follow sampled-parent or actual-seed offspring, then measure real pups against
+  the Table goal with Calipers. Private comparisons change no shared selection.
+  Seed readers retain overview/parent indices and add actual forecast/copy spreads.
+  Growth time and native golden-dandelion pauses are visible; Bloom respects pause.
+  Table/Board/Pen recipes accept feathers or Whiskers before a developed line.
 - **Apex preparation:** chosen sample, bounded combat forecast and missing
   offerings precede Review summon → Summon Apex. Material changes disarm it.
   Reentrant/cancelled native spawns and replaced inputs conserve actual stock;
@@ -51,15 +57,16 @@ is optional; unfamiliar-player understanding and natural/client pacing need play
 - **World cues:** requested Cradle/Board/detector working-pad and Apex ring
   markers show the actual positions, without loading remote chunks or performing
   the job. Cradles mark their first obstruction. Client visibility still needs play.
-- **Evidence:** Java 25 build/model/all **106** native cases at the final
+- **Evidence:** Java 25 build/model/all **107** native cases at the final
   integration checkpoint; focused target-maths, signed rounding, save/payload and
-  page checks. Fourteen native view snapshots and an exported goal spread feed
+  page checks. Seventeen native view snapshots and exported goal/seed spreads feed
   substitute-font previews. Client/GPU, keyboard comfort and natural-world
   first-session balance remain unverified. Protocol **17** requires matching
   client/server; existing animals, inventory components and allele order stay.
 
-Next work should follow the complete first-family → useful role → breeding goal
-→ real offspring → commission loop in the active plan and address actual gaps.
+The native purpose loop now reaches an actual raised offspring's Board reward
+(the long growth wait is fast-forwarded). Next review this route in natural
+Survival/client play and address observed pacing, supply, housing or UI gaps.
 A new standalone feature or another guide chapter is not a substitute for that.
 
 ### Prior H12/H13/V5 checkpoint

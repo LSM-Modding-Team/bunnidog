@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "key": {
-    "W": "bunnidogs:whisker",
+    "W": "#bunnidogs:workshop_quills",
     "C": "minecraft:copper_ingot",
     "P": "#minecraft:planks"
   },

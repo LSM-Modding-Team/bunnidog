@@ -10,19 +10,22 @@ import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.genetics.Pedigree;
 import com.bunnidogs.mod.genetics.Plain;
 import com.bunnidogs.mod.genetics.Seed;
+import com.bunnidogs.mod.genetics.Cross;
+import com.bunnidogs.mod.genetics.Tissue;
 
 /**
- * The seed window (Phase 8 S8): a seed as a three-spread folio. Spread 0 is the seed itself (left page: quality, litter, mutation
+ * The seed window: a five-spread folio. Spread 0 is the seed itself (left page: quality, litter, mutation
  * chance, where the pups' stats will drift; right page: the two parents, each a link to its own sheet), spread 1 is the mother's
- * sheet and spread 2 the father's ({@link SheetLayout#seedParent}). Pure Java, like the book: the screen only draws the lists.
+ * sheet and spread 2 the father's ({@link SheetLayout#seedParent}); 3 forecasts the actual seed and 4 shows inherited copies.
+ * Pure Java, like the book: the screen only draws the lists.
  * Every number comes from the seed and the constants of {@link Drift} and {@link Breeding}, so the hover texts cannot disagree
  * with the game.
  */
 public final class SeedSheet {
     private SeedSheet() {}
 
-    /** The overview and one sheet per parent. */
-    public static final int SPREADS = 3;
+    /** Existing overview/parent indices stay stable; two analysis spreads follow them. */
+    public static final int FORECAST=3, INHERITANCE=4, SPREADS=5;
 
     // left page, y in px
     static final int QUALITY_Y = 14;
@@ -47,10 +50,15 @@ public final class SeedSheet {
                 Optional.of(mother ? seed.motherStats() : seed.fatherStats()), false);
     }
 
-    /** Spread {@code n} of the seed window (0 = the seed, 1 = the mother, 2 = the father); {@code n} is clamped into range. */
+    /** Overview, mother, father, actual forecast, inherited copies; {@code n} is clamped into range. */
     public static Page.Spread spread(Seed seed, int n, Metrics m) {
         int clamped = Math.max(0, Math.min(n, SPREADS - 1));
-        return clamped == 0 ? overview(seed, m) : SheetLayout.seedParent(seed, clamped == 1, m);
+        return switch (clamped) {
+            case FORECAST -> ForecastSheet.spread(new Cross(seed),m);
+            case INHERITANCE -> InheritanceSheet.spread(new Tissue(seed.mother(),seed.motherStats()),new Tissue(seed.father(),seed.fatherStats()),m);
+            case 0 -> overview(seed,m);
+            default -> SheetLayout.seedParent(seed,clamped==1,m);
+        };
     }
 
     // ------------------------------------------------------------------ hover texts (numbers from the game's own constants)
@@ -63,7 +71,7 @@ public final class SeedSheet {
     }
 
     static String litterHover() {
-        return String.format(Locale.ROOT, "Pups born when the ripe crop is cut: %.0f x the parents' average fertility, between 1 and %d. "
+        return String.format(Locale.ROOT, "Pups born when a ripe crop or Cradle hatches: %.0f x the parents' average fertility, between 1 and %d. "
                 + "Fewer if %d or more bunnidogs already live within %.0f blocks.",
                 Breeding.PUPS_PER_FERTILITY, Breeding.MAX_LITTER, Breeding.CROWD_LIMIT, Breeding.CROWD_RADIUS);
     }
@@ -94,7 +102,7 @@ public final class SeedSheet {
         row(left, QUALITY_Y, "Quality", String.format(Locale.ROOT, "%.2f", seed.quality()),
                 seed.quality() > 0.0D ? Page.Tone.GOOD : Page.Tone.MUTED, "guavas and starborn", qualityHover(), m);
         row(left, LITTER_Y, "Litter", String.format(Locale.ROOT, "about %.1f pups", seed.expectedLitter()), Page.Tone.INK,
-                "born when it is cut", litterHover(), m);
+                "born when it hatches", litterHover(), m);
         row(left, MUTATION_Y, "Mutation", String.format(Locale.ROOT, "%.1f%% per pup", seed.mutationChance() * 100.0), seed.mutagen() ? Page.Tone.GOOD : Page.Tone.INK,
                 seed.mutagen() ? "treated with Mutagen" : "set by fertility", mutationHover(seed), m);
 
@@ -109,7 +117,7 @@ public final class SeedSheet {
         }
         left.hotspot(0, DRIFT_Y, Page.WIDTH, Page.LINE * (DRIFT_LINES + 1), driftHover(seed), -1);
 
-        List<String> note = Page.wrap("Fortune on the tool adds quality when you cut the crop.", Page.WIDTH, m);
+        List<String> note = List.of("Cradle: saved quality.","Crop: Fortune can help.");
         for (int i = 0; i < Math.min(2, note.size()); i++) {
             left.text(0, NOTE_Y + Page.LINE * i, note.get(i), Page.Tone.MUTED);
         }
@@ -118,6 +126,8 @@ public final class SeedSheet {
         right.textRight(Page.WIDTH, 0, "click for the sheet", Page.Tone.MUTED);
         parent(right, MOTHER_Y, "MOTHER", seed.mother(), 1, "Her", m);
         parent(right, FATHER_Y, "FATHER", seed.father(), 2, "His", m);
+        right.text(0,138,"See pup forecast >",Page.Tone.GOOD);
+        right.link(0,138,Page.WIDTH,Page.LINE,FORECAST);
         return new Page.Spread(left, right);
     }
 
