@@ -156,7 +156,7 @@ public final class ResidentWorkGameTest {
         day(h,c,() -> {
             h.assertTrue(!new GardenGoal(dog).canUse(),"Nursery work requires Bloom +20"); dog.setStats(Stats.of(0,0,0,0,20));
             c.stock().setWorkMode(TroughWork.MIXED); h.assertTrue(!new GardenGoal(dog).canUse(),"Nursery spending must require its selected mode"); c.stock().setWorkMode(TroughWork.NURSERY);
-            c.stock().takeAll(); c.stock().insert(new ItemStack(ModItems.GOLDEN_GUAVA.get(),9)); h.assertTrue(!new GardenGoal(dog).canUse(),"Nurses must preserve upgraded breeding food"); c.stock().takeAll();
+            c.stock().takeAll(); h.assertTrue(c.stock().insert(new ItemStack(ModItems.GOLDEN_GUAVA.get(),9))==0 && !new GardenGoal(dog).canUse(),"Troughs and nurses must preserve upgraded breeding food"); c.stock().takeAll();
             c.stock().insert(new ItemStack(ModItems.GUAVA.get(),8)); h.assertTrue(!new GardenGoal(dog).canUse(),"Nursery work must retain its eight-guava food reserve"); c.stock().insert(new ItemStack(ModItems.GUAVA.get(),3));
             var replacement = SeedItem.create(new Seed(Genome.DEFAULT,Stats.ZERO,Genome.DEFAULT,Stats.ZERO,7));
             Consumer<NeighborNotifyEvent> swap = event -> { if (event.getLevel() == level && event.getPos().equals(c.trough) && c.stock().food().getCount() == 10) { cradle.takeSeed(); cradle.insert(replacement); } };

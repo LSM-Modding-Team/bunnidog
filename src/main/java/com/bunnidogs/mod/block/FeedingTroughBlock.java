@@ -39,7 +39,12 @@ public final class FeedingTroughBlock extends Block implements EntityBlock {
     }
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hit) {
+        if (stack.isEmpty()) return super.useItemOn(stack,state,level,pos,player,hand,hit);
         if (!player.mayBuild()) return InteractionResult.PASS;
+        if (stack.getItem() instanceof com.bunnidogs.mod.item.GuavaItem && com.bunnidogs.mod.item.GuavaItem.tierOf(stack)>0) {
+            if (!level.isClientSide()) player.sendOverlayMessage(Component.translatable("care.bunnidogs.trough.rich"));
+            return InteractionResult.SUCCESS;
+        }
         if (stack.is(ItemTags.HOES)) {
             if (!level.isClientSide()) {
                 if (player.isShiftKeyDown() && level.getBlockEntity(pos) instanceof FeedingTroughBlockEntity trough) {
@@ -63,14 +68,16 @@ public final class FeedingTroughBlock extends Block implements EntityBlock {
                         : Component.translatable("message.bunnidogs.trough.filter_conflict"));
                 return InteractionResult.SUCCESS;
             }
-            int added = trough.insert(stack);
-            if (!player.hasInfiniteMaterials()) stack.shrink(added);
+            int added = trough.insertFromPlayer(player,stack,stack.getCount());
             player.sendOverlayMessage(withFilter(trough,Component.translatable("message.bunnidogs.trough.added",added,trough.food().getCount())));
         }
         return InteractionResult.SUCCESS;
     }
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (!player.getMainHandItem().isEmpty()) return InteractionResult.PASS;
+        if (!player.getMainHandItem().isEmpty() || !player.getOffhandItem().isEmpty()) return InteractionResult.PASS;
+        if (!player.isShiftKeyDown() && player.getOffhandItem().isEmpty()) {
+            com.bunnidogs.mod.menu.CareMenu.open(player,pos); return InteractionResult.SUCCESS;
+        }
         if (!level.isClientSide() && level.getBlockEntity(pos) instanceof FeedingTroughBlockEntity trough) {
             if (player.isShiftKeyDown() && player.getOffhandItem().isEmpty() && player.mayBuild()) {
                 if (trough.food().isEmpty() && !trough.filter().isEmpty()) {

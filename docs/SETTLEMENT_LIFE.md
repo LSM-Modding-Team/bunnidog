@@ -259,7 +259,7 @@ sneak-use with both hands empty withdraws the stock. Breaking returns the stock
 and the block. Four visual fill levels represent its contents. Whole item
 components persist; changed data-pack food rules do not delete existing stock.
 
-Accept guavas or any inherited diet's tagged food, excluding food with a use
+Accept plain guavas or any inherited diet's tagged food, excluding food with a use
 remainder (bottles/bowls). Injured adult residents seek a reachable loaded trough
 within eight blocks and their existing 16-block home boundary, by day. They eat
 only food matching their own expressed diet, or guavas; each meal consumes one
@@ -835,3 +835,15 @@ keeping it leashed. Meals, breeding, home and care keep their ordinary behavior;
 the preference persists through saves and Travel Baskets. All job types share
 the same readiness gate. See `RESIDENT_WORK.md` L35 for mechanics and native
 evidence; all 68 scenarios pass.
+
+## C1/C2 live care and ordinary meal policy
+
+Empty hands open Trough status and named stock/work controls. Inputs use real
+inventory and share committed native storage with direct food and hoppers.
+Advanced guavas are breeding stock: new hand/hopper inputs refuse them, and
+saved older stock remains whole and manually withdrawable without being eaten.
+This agrees with deliberate hand care, loose-food protection and trail meals.
+The menu explains saved rich stock and keeps readonly inspection separate from
+withdrawal/work changes. Pen and Cradle jobs require explicit buttons; opening
+alone never starts mating or hatching. Existing loaded-only paths, reserve costs,
+protection and work recovery remain. See `COHESION_PLAN.md` for evidence.

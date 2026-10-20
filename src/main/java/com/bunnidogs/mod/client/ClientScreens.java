@@ -23,6 +23,12 @@ import com.bunnidogs.mod.client.screen.LineageNameScreen;
 public final class ClientScreens {
     private ClientScreens() {}
 
+    public static void careView(com.bunnidogs.mod.network.CareViewPayload payload) {
+        var player=Minecraft.getInstance().player;
+        if (player!=null && player.containerMenu instanceof com.bunnidogs.mod.menu.CareMenu menu && menu.containerId==payload.containerId())
+            menu.receive(payload.view());
+    }
+
     /** Opens the Pedigree Book window on this log (a snapshot of it). */
     public static void openBook(Pedigree book, InteractionHand hand, ItemStack stack) {
         Minecraft.getInstance().gui.setScreen(editable(new PedigreeScreen(book),hand,stack));

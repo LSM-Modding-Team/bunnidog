@@ -76,9 +76,9 @@ public final class CradleControlsGameTest {
                     h.assertTrue(cradle.manualHatchOnly() && ItemStack.matches(cradle.storedSeed(),seed)
                             && level.getEntitiesOfClass(Bunnidog.class,area,Bunnidog::isBaby).isEmpty(),"Switching to manual-only must cancel an already queued redstone hatch");
                     level.removeBlock(pos.west(),false); player.setShiftKeyDown(false); player.setItemInHand(InteractionHand.OFF_HAND,ItemStack.EMPTY);
-                    player.gameMode.useItemOn(player,level,ItemStack.EMPTY,InteractionHand.MAIN_HAND,hit);
+                    CareMenuGameTest.click(h,player,pos,com.bunnidogs.mod.menu.CarePanels.HATCH);
                     var babies = level.getEntitiesOfClass(Bunnidog.class,area,Bunnidog::isBaby);
-                    h.assertTrue(cradle.storedSeed().isEmpty() && cradle.manualHatchOnly() && !babies.isEmpty() && babies.stream().noneMatch(Bunnidog::workPaused),"Deliberate empty-hand use still hatches safely; keeper preferences are not inherited");
+                    h.assertTrue(cradle.storedSeed().isEmpty() && cradle.manualHatchOnly() && !babies.isEmpty() && babies.stream().noneMatch(Bunnidog::workPaused),"Deliberate menu use still hatches safely; keeper preferences are not inherited");
                     babies.forEach(Bunnidog::discard); cradle.insert(seed); cradle.grow(true); player.setShiftKeyDown(true); player.setItemInHand(InteractionHand.OFF_HAND,hoe);
                     player.gameMode.useItemOn(player,level,hoe,InteractionHand.OFF_HAND,hit); level.setBlock(pos.west(),Blocks.REDSTONE_BLOCK.defaultBlockState(),3);
                     h.runAfterDelay(3,() -> {

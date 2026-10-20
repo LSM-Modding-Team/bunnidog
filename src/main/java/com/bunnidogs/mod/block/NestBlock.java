@@ -73,6 +73,9 @@ public final class NestBlock extends Block {
     }
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        if (!player.isShiftKeyDown() && player.getMainHandItem().isEmpty() && player.getOffhandItem().isEmpty()) {
+            com.bunnidogs.mod.menu.CareMenu.open(player,pos); return InteractionResult.SUCCESS;
+        }
         return player.getMainHandItem().isEmpty() && player.getOffhandItem().isEmpty()
                 ? this.rehome(level, pos, player) : InteractionResult.PASS;
     }
@@ -99,6 +102,12 @@ public final class NestBlock extends Block {
         }
         return InteractionResult.SUCCESS;
     }
+    public static boolean hasLedAdult(Level level,BlockPos pos,Player player) {
+        return !level.getEntitiesOfClass(Bunnidog.class,new AABB(pos).inflate(LEAD_RANGE),dog->dog.isAlive() && !dog.isBaby()
+                && dog.acceptsCare() && dog.isLeashed() && dog.getLeashHolder()==player && !dog.isPassenger()
+                && dog.distanceToSqr(pos.getX()+.5,pos.getY()+1,pos.getZ()+.5)<=LEAD_RANGE*LEAD_RANGE).isEmpty();
+    }
+    public InteractionResult assignLed(Level level,BlockPos pos,Player player) { return rehome(level,pos,player); }
     private InteractionResult rehome(Level level, BlockPos pos, Player player) {
         var dogs = level.getEntitiesOfClass(Bunnidog.class, new AABB(pos).inflate(LEAD_RANGE),
                 dog -> dog.isAlive() && dog.isLeashed() && dog.getLeashHolder() == player && !dog.isPassenger()
@@ -122,6 +131,8 @@ public final class NestBlock extends Block {
                 case INVALID -> "adult_required";
             };
             player.sendOverlayMessage(Component.translatable("message.bunnidogs.nest." + message));
+            if (result==NestHome.MoveResult.MOVED || result==NestHome.MoveResult.ALREADY_HOME)
+                com.bunnidogs.mod.item.JourneyProgress.housed(player);
             if (result == NestHome.MoveResult.MOVED) {
                 level.playSound(null, pos, SoundEvents.WOODEN_BUTTON_CLICK_ON, SoundSource.BLOCKS, .3F, 1.2F);
             }

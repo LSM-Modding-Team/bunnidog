@@ -86,13 +86,21 @@ public final class JuicerBlockEntity extends BlockEntity {
     }
     /** Native hand input pays before root-commit observers can change the hand or remove the station. */
     public int insertFromHand(Player player, ItemStack actual) {
+        return insertFromHand(player,actual,actual.getCount());
+    }
+    public int insertFromHand(Player player,ItemStack actual,int maximum) {
         int slot = accepts(0,actual) ? 0 : accepts(1,actual) ? 1 : -1;
         if (slot < 0 || !live()) return 0;
         try (var tx = Transaction.openRoot()) {
-            int count = this.inventory.insert(slot,ItemResource.of(actual),actual.getCount(),tx);
+            int count = this.inventory.insert(slot,ItemResource.of(actual),Math.min(maximum,actual.getCount()),tx);
             if (count > 0) { actual.consume(count,player); tx.commit(); }
             return count;
         }
+    }
+    public boolean canInsert(ItemStack stack) {
+        int slot=accepts(0,stack) ? 0 : accepts(1,stack) ? 1 : -1;
+        return live() && slot>=0 && (stock[slot].isEmpty() || ItemStack.isSameItemSameComponents(stock[slot],stack))
+                && stock[slot].getCount()<inventory.getCapacityAsLong(slot,ItemResource.of(stack));
     }
     public ItemStack take(int slot) {
         if (!live() || this.stock[slot].isEmpty()) return ItemStack.EMPTY;

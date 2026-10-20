@@ -24,6 +24,12 @@ import net.neoforged.neoforge.client.event.RegisterRangeSelectItemModelPropertyE
 @EventBusSubscriber(modid = BunnidogsMod.MODID, value = Dist.CLIENT)
 public final class BunnidogsClient {
     private BunnidogsClient() {}
+    @SubscribeEvent public static void menus(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) {
+        event.register(com.bunnidogs.mod.registry.ModMenus.CARE.get(),com.bunnidogs.mod.client.screen.CareScreen::new);
+    }
+    @SubscribeEvent public static void careHints(net.neoforged.neoforge.client.event.RegisterGuiLayersEvent event) {
+        event.registerAboveAll(Identifier.fromNamespaceAndPath("bunnidogs","care_hints"),CareHints::render);
+    }
     @SubscribeEvent public static void itemProperties(RegisterRangeSelectItemModelPropertyEvent event) {
         event.register(Identifier.fromNamespaceAndPath("bunnidogs","seed_quality"),SeedQualityProperty.CODEC);
     }

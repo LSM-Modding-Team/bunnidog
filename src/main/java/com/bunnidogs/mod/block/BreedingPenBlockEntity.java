@@ -65,12 +65,19 @@ public final class BreedingPenBlockEntity extends BlockEntity {
         };
     }
     public int insertFromHand(Player player, ItemStack actual, int slot) {
+        return insertFromHand(player,actual,slot,actual.getCount());
+    }
+    public int insertFromHand(Player player,ItemStack actual,int slot,int maximum) {
         if (!live() || !accepts(actual)) return 0;
         try (var tx = Transaction.openRoot()) {
-            int count = this.inventory.insert(slot,ItemResource.of(actual),actual.getCount(),tx);
+            int count = this.inventory.insert(slot,ItemResource.of(actual),Math.min(maximum,actual.getCount()),tx);
             if (count > 0) { actual.consume(count,player); tx.commit(); }
             return count;
         }
+    }
+    public boolean canInsert(ItemStack actual,int slot) {
+        return live() && accepts(actual) && this.food[slot].getCount()<Math.min(16,actual.getMaxStackSize())
+                && (this.food[slot].isEmpty() || ItemStack.isSameItemSameComponents(this.food[slot],actual));
     }
     public ItemStack take(int slot) {
         if (!live() || this.food[slot].isEmpty()) return ItemStack.EMPTY;
@@ -84,6 +91,14 @@ public final class BreedingPenBlockEntity extends BlockEntity {
         return PenBreeding.inspect(server,this.worldPosition,this.getBlockState().getValue(BreedingPenBlock.FACING)).status();
     }
     public Pen.Status activate(boolean automated) {
+        return activate(automated,null);
+    }
+    public Pen.Status activate(Player keeper) {
+        var result=activate(false,keeper);
+        if (result==Pen.Status.FED) com.bunnidogs.mod.item.JourneyProgress.courtship(keeper);
+        return result;
+    }
+    private Pen.Status activate(boolean automated,Player keeper) {
         if (this.feeding) return Pen.Status.BUSY;
         if (!(this.level instanceof ServerLevel server) || !live()) return Pen.Status.CHANGED;
         if (!accepts(this.food[0]) || !accepts(this.food[1])) return Pen.Status.EMPTY;
@@ -105,8 +120,8 @@ public final class BreedingPenBlockEntity extends BlockEntity {
             try (var tx = Transaction.openRoot()) {
                 if (this.inventory.extract(0,a,1,tx) != 1 || this.inventory.extract(1,b,1,tx) != 1) return Pen.Status.CHANGED;
                 // Native setInLove has no server-side event callbacks. Both costs and love states precede commit observers.
-                pair.parents().get(0).beginPenCourtship(first.tier().level());
-                pair.parents().get(1).beginPenCourtship(second.tier().level());
+                pair.parents().get(0).beginPenCourtship(first.tier().level(),keeper);
+                pair.parents().get(1).beginPenCourtship(second.tier().level(),keeper);
                 tx.commit();
             }
             if (live()) server.playSound(null,this.worldPosition,SoundEvents.FOX_EAT,SoundSource.BLOCKS,.4F,1.1F);

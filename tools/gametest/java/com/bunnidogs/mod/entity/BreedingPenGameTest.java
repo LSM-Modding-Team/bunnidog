@@ -152,7 +152,7 @@ public final class BreedingPenGameTest {
             h.assertTrue(!c.a.isInLove() && c.pen.food(0).getCount() == 3 && c.pen.food(1).getCount() == 2,"Sneak-Calipers inspection reads the pair without food or love mutations");
             player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL); player.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY);
             NeoForge.EVENT_BUS.addListener(refuse);
-            try { c.pen.getBlockState().useWithoutItem(c.level,player,handA); }
+            try { CareMenuGameTest.click(h,player,c.pos,com.bunnidogs.mod.menu.CarePanels.PAIR); }
             finally { NeoForge.EVENT_BUS.unregister(refuse); }
             h.assertTrue(c.a.isInLove() && c.b.isInLove() && c.pen.food(0).getCount() == 2 && c.pen.food(1).getCount() == 1,
                     "A deliberate player action pays from the pen and can breed when automatic mob-griefing permission refuses");

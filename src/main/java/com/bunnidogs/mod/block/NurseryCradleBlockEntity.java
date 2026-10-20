@@ -59,6 +59,13 @@ public final class NurseryCradleBlockEntity extends net.minecraft.world.level.bl
         if (this.hatching || !this.stored.isEmpty() || SeedItem.read(stack).isEmpty()) return false;
         this.stored = stack.copyWithCount(1); resetGrowth(); changed(); return true;
     }
+    public boolean insertFromPlayer(net.minecraft.world.entity.player.Player player,ItemStack actual) {
+        if (!(level instanceof ServerLevel server) || !attached(server)) return false;
+        try (var tx=net.neoforged.neoforge.transfer.transaction.Transaction.openRoot()) {
+            if (automation.insert(0,ItemResource.of(actual),1,tx)!=1) return false;
+            actual.consume(1,player); tx.commit(); com.bunnidogs.mod.item.JourneyProgress.incubating(player); return true;
+        }
+    }
     public ItemStack takeSeed() {
         if (this.hatching) return ItemStack.EMPTY;
         var out = this.stored; this.stored = ItemStack.EMPTY; resetGrowth(); changed(); return out;
@@ -68,6 +75,11 @@ public final class NurseryCradleBlockEntity extends net.minecraft.world.level.bl
         this.age = instant ? SeedCropBlock.MAX_AGE : Math.min(SeedCropBlock.MAX_AGE,this.age+SeedCropBlock.boneMealAges(server.getRandom()));
         this.growthWait = this.age == SeedCropBlock.MAX_AGE ? 0 : STAGE_TICKS;
         changed(); return true;
+    }
+    public boolean growFromPlayer(net.minecraft.world.entity.player.Player player,ItemStack actual) {
+        if (!(level instanceof ServerLevel server) || !attached(server) || hatching || seed().isEmpty() || age>=SeedCropBlock.MAX_AGE
+                || !actual.is(net.minecraft.world.item.Items.BONE_MEAL)) return false;
+        actual.consume(1,player); return grow(false);
     }
     /** A resident pays for one exact stage, never rerolling or replacing the saved litter. */
     public boolean nurture(ItemStack expected, int expectedAge) {

@@ -20,7 +20,41 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Latest gameplay work — 2026-10-20
+## Current focus — C1/C2 gameplay cohesion (2026-10-20)
+
+The user wants the existing game to hang together before more standalone
+content. Continue from `docs/COHESION_PLAN.md`: prioritize the first-session
+loop, useful roles, readable world cues and advanced workshop consistency.
+A long manual must not be necessary. Do not treat another guide chapter as
+onboarding or mark unfamiliar-player understanding verified by headless tests.
+
+- **Live controls:** empty-hand animal and Nest/Trough/Pen/Cradle/Juicer/Board
+  use opens a native menu with a short next step, actual state and named controls.
+  Primary actions precede the full readout; requests have a separate chooser.
+  Native hints use the real key bindings and leave chat/action-bar feedback alone.
+  Tool gestures remain available; leads retain their normal release priority.
+- **Real supplies and shared care:** buttons spend actual inventory guavas,
+  seeds, bone meal, paper and required tools. Grooming wears the actual inventory
+  Brush. Orders/provisions remain keeper-only; ordinary care stays shared.
+  Cargo inspection/retrieval keeps complete bags. Troughs now accept ordinary
+  meals: upgraded saved guavas remain recoverable and cannot be eaten.
+- **First family and purpose:** six native milestones connect discovery,
+  housing, courtship, the real seed, incubation and real pups. A complete native
+  path uses paid menu/hand feeding, the actual BreedGoal, seed pickup, farmland,
+  ordinary bone meal and committed crop harvesting. Housing links to trail
+  partners; a litter links to the existing specialized commissions. No care gate.
+- **Starter friction removed:** any planks make Nests; string/feather Whistle
+  alternatives retain Sinew/Whisker compatibility. Book + guava makes the Pedigree
+  Book; adding paper makes the optional Field Guide. Its **141/13/114** contents
+  stay stable, with revised first steps and controls rather than added chapters.
+- **Validation:** Java 25 build/model/all **103** native cases at the cohesion
+  checkpoint. Native container lifetime, real packets, complete saved stock,
+  permissions and stale content/selection checks are covered. Six actual server
+  view snapshots feed substitute-font layout previews; client/GPU rendering,
+  keyboard comfort, natural-world first-session pacing and balance remain review.
+  Protocol **16** requires matching client/server; save/allele formats remain.
+
+### Prior H12/H13/V5 checkpoint
 
 - **H12/H13, trained trail companions and provisions:** a reusable Whistle
   trains loyal/stoic adults with one real plain guava. Owner-only Follow/Wait,
@@ -503,6 +537,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
 | Area | Current behavior and specification |
 |---|---|
+| Cohesion | C1/C2 live controls, actual inventory, ordinary meals, six native milestones and a complete starter loop. `docs/COHESION_PLAN.md` |
 | Genetics and breeding | Seven genes, inherited pairs, bred stats/Bloom, eight guava tiers, litter seeds/crops, infused juice. `docs/FEATURES.md`, `docs/FIXES_PLAN.md` 6 |
 | Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets, forecasts, carried-animal records, local record filters and actual saved genetic-discovery rewards. `docs/SHEET_SPECS.md` S1–S10, `docs/DISCOVERY_SPECS.md` G7 |
 | Nursery | Whole saved seeds, protected crop harvest/recovery, dirt/grass soil fallback, in-place Mutagen, dispenser stations and a Cradle with incubation, native automation, checked hatching/pad planning and fitted grand-tree nurseries plus exact paid resident tending. `docs/NURSERY_SPECS.md` N1–N10 |
@@ -526,7 +561,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
 - Keep gene/allele IDs append-only. Old six-pair data loads with plain/plain
   Diet; current genomes use seven pairs / 56 bits and mask the signed high sync
-  word. Current network protocol is **15**; matching client/server versions apply.
+  word. Current network protocol is **16**; matching client/server versions apply.
 - Preserve whole item components in samples, books, table slots, vehicles,
   troughs and trophies. Existing inventories and containers are never restocked.
 - Structures save fitted tunnel cells, path exclusions, labels and optional
@@ -580,8 +615,15 @@ Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions run
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The combined Java 25 build and all **100** native scenarios pass (99 mod
+The cohesion Java 25 build and all **103** native scenarios pass (102 mod
 cases plus native sanity). Latest coverage:
+
+- **C1/C2:** native live care/six-station menus, inventory-backed meals, tools
+  and inputs, readonly Adventure inspection, target removal/reach, packet codec,
+  shared-content and request replacement, recovered legacy upgraded food and
+  first-family recipe ambiguity. Genuine courtship through paid feeding, actual
+  seed pickup, farmland/Cradle incubation and real pup hatching completes the
+  native journey. Client usability is a separate review goal.
 
 - **H12/H13/V5:** real held Whistle/guava/bowl/paper interactions, owner-only
   controls, actual walking outside retained housing, heard calls, waiting,

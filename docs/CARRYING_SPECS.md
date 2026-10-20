@@ -4,8 +4,8 @@ Implemented 2026-10-19 from the original `DESIGN.md` Build/carrying-capacity
 proposal. Ordinary adults can carry **whole native bundles** in visible leather
 panniers. This gives Build a practical use while keeping native bundle packing,
 tooltips, selected contents, colors and item codecs. H11 introduced protocol 12
-for equipped-bundle count/art; current **protocol 15** adds trail companions
-and commissions. Update both sides. H13's opt-in cargo meals are described at
+for equipped-bundle count/art; current **protocol 16** adds live care/cargo controls
+to trail companions and commissions. Update both sides. H13's opt-in cargo meals are described at
 the end and in `TRAIL_SPECS.md`.
 
 ## Capacity and controls
@@ -23,8 +23,10 @@ Newborns inherit capacity through their genome; they inherit no physical cargo.
 - Use a vanilla bundle, empty or filled, from either hand on a calm ordinary
   adult to equip it. Native dyed bundle variants work. Survival spends the
   actual whole bundle; creative preserves the hand and equips one copy.
-- Both hands empty, normal use: show count/capacity and chat entries with native
-  item hovers. Sneak with **both hands empty**: retrieve the last bundle, keeping
+- Both hands empty, normal use: open care with count/capacity, Inspect cargo
+  and Retrieve last bundle. Cargo inspection shows actual names and bounded
+  item summaries without changing anything; retrieval returns the full native
+  bundle for its complete tooltip/contents. Sneak with **both hands empty**: retrieve the last bundle, keeping
   the rest. Take a bundle back to edit it with the native inventory controls.
 - Calipers includes a read-only cargo row. Adventure users can inspect; equipping
   and withdrawal require normal build permission. Pups refuse new equipment but

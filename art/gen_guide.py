@@ -5,13 +5,13 @@ from PIL import Image, ImageDraw, ImageFont
 from gen_syringe import ROOT, RES, write
 
 PAGES = {
-    2: ('Find a warren', 'Look for guava trees, worn trails and entrance mounds. Lit tunnels lead to Nests. Settlements have one to five trees; cave, Nether and End lines use their own habitats. Maps: 46. Scouts: 47.'),
+    2: ('Start playing', 'Empty hands open animal and station controls. Feed two adults guavas. Plant their seed on farmland; break the ripe crop to hatch pups. This book is optional reference. Warrens: 46.'),
     3: ('Genes and stats', 'Each of seven genes has two copies. Dominance picks the visible trait; hidden copies still pass to pups. Bred stat points are separate. Use Calipers to read both.'),
-    4: ('Breed a seed', 'Feed a guava normally to each of two ready adults. They drop one seed holding both parents. Its tooltip shows the planned litter, quality and stat drift. The parents then rest.'),
+    4: ('Breed a seed', 'Feed each of two ready adults a guava, or choose Courtship in their panels. They drop one litter seed and then rest. Its tooltip shows litter size and quality; Calipers forecasts inheritance.'),
     5: ('Hatch the litter', 'Plant a seed on farmland; dispensers plant into air above it. Bone meal speeds growth; hand or dispenser Starlit Dust ripens it. Break the ripe crop to hatch pups. Fortune improves quality. Leave room.'),
     6: ('Guava quality', 'Better guavas improve inherited stat gains. Feed both parents: their qualities are averaged. Golden: 1, Diamond: 2, Netherite: 4, Star: 7, Beacon: 12, Dragon Egg: 20.'),
     7: ('Keep a pedigree', 'Log animals with a Pedigree Book; Ear Tags label them. Sneak-use with a filled basket to log its animal. Normal use opens records. Filter by traits, tags or senses>=20. Name recorded lines: page 95.'),
-    8: ('Nests and travel', 'Adults claim reachable Nests and return at night. Lead one to a free Nest and use it to rehome. Empty-hand Nest use inspects it. Use a compass on a Nest or resident to mark home; the place stays marked if removed.'),
+    8: ('Nests and travel', 'Adults claim reachable Nests and return at night. Lead one to a free Nest, open it and choose Assign led adult. Each adult needs one Nest. A compass on a Nest or resident marks the way home.'),
     9: ('Food and troughs', 'Guavas suit every line; other foods follow Diet. Troughs heal injured residents, including safe night meals within four blocks of home. Sneak-empty withdraws stock. Direct guava care: 87.'),
     10: ('Life at home', 'Healthy adults visit nearby bells at noon. Ring one to call a daytime visit. Keep it within 12 blocks of home, with walking space. Injury, threats, leads, rides and night interrupt.'),
     11: ('Gentle sampling', 'Use a Sampling Syringe on an animal at half health or better. It yields one Tissue Sample without harm; recovery takes five minutes. Sneak-use Calipers for care readiness and timers.'),
@@ -44,7 +44,7 @@ PAGES = {
     38: ('Care dispensers', 'Dispensers use Brushes or Sampling Syringes on one eligible bunnidog ahead per pulse. One tool use; hand and machine share recovery. Collect drops with hoppers. Armadillo brushing still works.'),
     39: ('Travel Basket', 'Craft six planks, leather and a lead into a basket. Pack one calm unled animal; release on clear dry ground. Identity and care rest persist; its old Nest becomes free. Calipers reads it. Stations: 82.'),
     41: ('Nursery Cradle', 'Craft wool, glass, a Nest and planks into a Nursery Cradle. Insert one seed; a loaded minute adds one stage. Bone meal helps; Starlit Dust ripens it. Sneak-empty withdraws and resets growth. Calipers reads the litter.'),
-    42: ('Hatch safely', 'Use a ripe Cradle empty-handed or pulse redstone. Clear a dry 3x3 pad ahead with two air blocks. Sneak-Calipers checks it. Hoppers move seeds; comparators read 15 when ripe. Manual-only controls: page 86.'),
+    42: ('Hatch safely', 'Open a Cradle empty-handed and choose Hatch litter, or pulse redstone. The panel shows blocked pad coordinates. Clear a dry 3x3 pad ahead with two air blocks. Manual-only controls are in the panel too.'),
     43: ('Surplus compost', 'Bloom +10 adults compost food above an eight-item reserve at hoe-enabled troughs. Place a composter nearby with a safe route. Crop work takes priority. Each job spends one food and rests a minute. Hoppers collect bone meal.'),
     44: ('Treat a litter', 'Use or dispense one Mutagen at a planted seed or occupied Cradle. Growth, incubation, parents, quality and item details stay intact. Treated or invalid litters keep the vial. You can treat a ripe litter before hatching.'),
     45: ('Nest guards', 'Sneak-use a bone on a feral adult with a Nest to toggle guarding. No bone is spent. Free, half-healthy guards bite selected hostiles within eight blocks of home. Leads pause them. Calipers reports readiness. They can still be hurt.'),
@@ -84,7 +84,7 @@ PAGES = {
     82: ('Basket stations', 'A dispenser packs one calm unled bunnidog ahead. Filled baskets release onto clear dry ground. Failed pulses keep the basket. Identity and care rest persist. Each pulse acts once; sort with hoppers.'),
     83: ('Supply the troughs', 'Supply mode: Senses +20 adults move one ordinary surplus food to a nearby non-Supply trough below eight food, keeping eight at source. Keep both unpowered with dry paths. One job shares the one-minute work rest.'),
     85: ('Pause a resident', 'Sneak-use a hoe on a resident to pause or resume chores, with no wear. Meals, breeding and home routines continue. Pups can keep the preference. Calipers shows the pause; Travel Baskets preserve it.'),
-    86: ('Cradle controls', 'Sneak-hoe a Cradle for manual-only hatching. Incubation and nursery work continue; ripe litters still hatch by empty-hand use. Re-enable redstone, then send a fresh pulse. Calipers reports the setting.'),
+    86: ('Cradle controls', 'Open a Cradle for Hatch litter and manual-only controls. Sneak-hoe also toggles redstone hatching. Growth and nursery work continue. Re-enable redstone before sending a fresh hatch pulse.'),
     87: ('Guava hand care', 'Sneak-feed a plain guava to heal 2 HP and help pups grow without starting breeding. Healthy adults keep it; upgraded guavas stay for breeding. Existing love quality and rests stay. Normal feeding breeds.'),
     88: ('Snow surface routes', 'Snow-footed residents cross powder-snow surfaces on home routes. Woolly or hidden snow gives no footing. Deep powder and other hazards stay blocked. Lost footing or floors interrupt jobs. Keep dry room above.'),
     90: ('Phase legs', 'End founders may express Phase legs. After a nonlethal attack, grounded adults blink 3-6 blocks to safe dry ground, farther from danger. Recovery: 20 seconds. Leads, rides and passengers prevent it. Damage still lands.'),
@@ -95,7 +95,7 @@ PAGES = {
     95: ('Name a lineage', 'Open a Pedigree Book or Registry, choose a record, then Name lineage. Limit: 40 characters; empty clears. Names label that exact genome in this book. Search line:name. Re-logging keeps names; animals stay unchanged.'),
     96: ('Pelt rugs', 'Two matching pelts and string craft one coat rug. All 13 coats keep their colors and patterns. Place on a supported floor; removing support drops the rug. Mixed pelts still craft leather without string.'),
     97: ('Specimen Jars', 'Insert a Tissue Sample to show its coat; use to read the full sheet. Sneak with both hands empty to recover it. Breaking drops jar and sample. Comparator: 0 empty; 1 plus 2 per fixed gene pair, up to 15.'),
-    99: ('Breeding Pen', 'Keep two ready adults with Nests in dry space; no other adults within 12 blocks. Parents must be within 4 of the Pen and under 3 apart. Load A/B guavas. Empty-hand or pulse feeds; Calipers inspects. Seed colors: 100.'),
+    99: ('Breeding Pen', 'Open empty-handed for stock, parent status and Feed both parents. Load guavas by using each side. Parents need full health, separate Nests and a safe close pairing area. The panel explains refusals. Redstone also feeds.'),
     100: ('Seed quality colors', 'Seed bands: plain 0, gold 1, diamond 2, netherite 4, star 7, beacon 12, egg 20, command 33. Fractions use the lower band. Tooltips give exact quality. Fortune adds quality at harvest. Stored genes and Mutagen stay intact.'),
     102: ('Coat camouflage', 'Healthy calm grounded coats blend: half visual range, no walking vibrations. Injury, danger, love, Glowing, water, cargo and transport break cover. Other vibrations still reach sculk.'),
     103: ('Matching ground', 'Tan/cream/sand: sand. Brown/spotted: earth. Moss: green cover. Snow: snow. Pale/slate: light/dark stone. Ember: netherrack. Void: obsidian or purpur. Glow cannot blend. Calipers shows cover.'),
@@ -108,7 +108,7 @@ PAGES = {
     110: ('Bundle carriers', 'Adults carry bundles: slim/lean 1, average 2, stocky/woolly 3, chonker 4. Use a bundle to equip it. Sneak with both hands empty to retrieve the last. Empty-hand inspects. Cargo safety: 111.'),
     111: ('Cargo safety', 'Saves and baskets retain whole bundles. Smaller builds keep excess: each extra slows movement 25%, up to 75%. Retrieve to recover speed. Cargo breaks camouflage and drops as equipment on death.'),
     113: ('Regional kennels', 'Meadow, desert and snowy kennels have an intact yard, two floor Nests, a bed, care tools and supplies. Bring your own animals. The empty Pen can become a villager job site.'),
-    114: ('The pairing yard', 'Lead two adults home to the sheltered Nests. Stock both Pen mangers with guavas. Other adults within 12 blocks stop feeding. Empty-hand or pulse feeds; normal courtship makes the seed.'),
+    114: ('The pairing yard', 'Lead two adults home to the sheltered Nests. Stock both Pen mangers with guavas. Open the Pen and choose Feed both parents, or pulse it. Other adults within 12 blocks stop pairing. Courtship makes the seed.'),
     115: ('Show Ring arenas', 'Rare clearings hold a public stand, two holding bays and three empty trophy pedestals. Lead your entrant to the gold floor mark near the stand. Normal judging rules apply. Ribbons stay earned.'),
     116: ('Venue maps', 'Cartographers may sell Kennel Explorer Maps at journeyman for 12 emeralds + compass, Showground Maps at expert for 16 + compass. Look in new dry clearings. Native prices vary; repair around obstacles.'),
     118: ('Island refuge', 'Mild-ocean refuges hold three coastal founders, sheltered Nests, guavas and supplies. Expert cartographers may sell maps for 20 emeralds + compass. Explore new chunks; bring a basket or lead.'),
@@ -118,11 +118,11 @@ PAGES = {
     122: ('Restore a tide bed', 'Choose Garden mode with a sneaking hoe. Bloom +10 workers spend one kelp on a bare bed under two blocks of still water, keeping eight in stock. They stay dry and leave living stems to regrow.'),
     123: ('Pale cave guide', 'In dim light, sneak-feed a calm pale adult with Senses +20 one glow berry for 60 seconds of Night Vision. Needs half health; rests 30 seconds. Existing vision keeps the berry. Saves keep recovery.'),
     124: ('Genetic discoveries', 'Log a bred animal carrying a mutation-only allele: Nature Finds a Way. Keep all eight wild origins in one book: Wild Gene Library. Hidden copies count; unlogged parents do not. Rewards pay XP once.'),
-    126: ('Train a trail partner', 'Craft a Trail Whistle with copper, two Sinew and a Whisker. Use on a calm loyal/stoic adult at half health with a plain guava in your other hand. Training spends one guava and preserves its Nest.'),
-    127: ('Trail orders', 'Use the whistle on your partner to switch Follow/Wait. Sneak on it to release training. Air calls Follow; sneak-air resumes resident/home routines. Existing care and leads still work.'),
+    126: ('Train a trail partner', 'Craft a Whistle with copper, two string or Sinew, and a feather or Whisker. Open a calm loyal/stoic adult and choose Train with the tool and one plain guava in your inventory. Direct whistle use still works.'),
+    127: ('Trail orders', 'Open your partner empty-handed for Follow, Wait and Return home. A whistle still switches Follow/Wait; air calls Follow, sneak-air returns home. Sneak-whistle on the animal releases training.'),
     128: ('Safe trail journeys', 'Trail orders pause home chores. Following walks dry paths; danger and transport take priority. Phase still escapes real attacks. Training and cargo travel in baskets; baskets clear the old home as usual.'),
     129: ('Whistle calls', 'Calls reach at most 16 partners. Hearing follows ears and Senses, 8-32 blocks; calls rest two seconds. A follower waits ten seconds for a lost keeper, then resumes residence. Wait stays until changed.'),
-    131: ('Breeder commissions', 'Set a Board by an adult Breeder within eight blocks. Its clear front block needs one calm bred adult at half health. Empty hands: next request. Calipers: rules. Submit one paper; each pays once.'),
+    131: ('Breeder commissions', 'Open the Board empty-handed to choose a request and see each candidate requirement. Bring a real Breeder and one calm bred adult to the clear front pad. Submit one paper from the panel or by hand; rewards pay once.'),
     132: ('Night Guide', 'Fix pale coat and bat ears; breed Senses +20. Bring the parented adult to a staffed Board with one paper. Night Guide pays 4 emeralds, 8 glow berries and 50 XP once per keeper. Your animal stays.'),
     133: ('Coastal Scout', 'Fix seal coat, paddle legs and shore-forager Diet; breed Senses +10 and Swiftness +10. Coastal Scout pays 6 emeralds, a lead, 8 dried kelp and 50 XP once. Board rules apply; keep the animal.'),
     134: ('Mountain Courier', 'Fix hoofed legs and a Build that carries 3 or 4 bundles. Breed Leap +20 and Swiftness +10; equip one bundle. Mountain Courier pays 6 emeralds, a bundle and 50 XP once. Keep all cargo.'),
@@ -132,10 +132,10 @@ PAGES = {
     138: ('Swamp Herbalist', 'Fix moss coat, webbed legs and mushroom-eater Diet; breed Bloom +10 and Senses +10. Swamp Herbalist pays 4 emeralds, 4 bone meal, 4 moss blocks and 50 XP once. Keep your living harvest line.'),
     139: ('End Nursery', 'Fix void coat, phase legs, starborn fertility and chorus-eater Diet; breed Bloom +20. End Nursery pays 6 emeralds, 4 chorus fruit, 2 Starlit Dust and 50 XP once. Native seed/work rules remain.'),
     140: ('Crossing Branches', 'Fix all seven gene pairs and combine at least four wild origins; breed Senses +20. Crossing Branches pays 12 emeralds, a golden guava and 100 XP once. Common alleles add no wild origin. Animal stays.'),
-    141: ('Trail provisions', 'Use a bowl on your trained partner to enable bundle meals. Injured calm adults eat one suitable ordinary food for 2 HP, then rest 30 seconds. Upgraded guavas stay. Follow/Wait only; feed by hand too.'),
+    141: ('Trail provisions', 'Allow bundle meals in your partner\'s care panel, or use a bowl. Injured calm adults eat one suitable ordinary food for 2 HP, then rest 30 seconds. Upgraded guavas stay. Follow/Wait only; hand care still works.'),
 }
 PAGE_COUNT = 141
-MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
+MAIN_INDEX = {2:'Start playing',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {112:'Workshops & sites',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',101:'Coats & fieldcraft',
               31:'Resident needs',32:'Refuge & storms',34:'Troughs & bell calls',36:'Fleece & dispensers',39:'Travel Basket'}
@@ -170,7 +170,7 @@ def main():
     write('assets/bunnidogs/models/item/field_guide.json', {'parent':'minecraft:item/generated','textures':{'layer0':'bunnidogs:item/field_guide'}})
     write('assets/bunnidogs/items/field_guide.json', {'model':{'type':'minecraft:model','model':'bunnidogs:item/field_guide'}})
     write('data/bunnidogs/recipe/field_guide.json', {'type':'minecraft:crafting_shapeless',
-          'ingredients':['minecraft:book','#bunnidogs:bunnidog_food'],'result':{'id':'bunnidogs:field_guide'}})
+          'ingredients':['minecraft:book','minecraft:paper','#bunnidogs:bunnidog_food'],'result':{'id':'bunnidogs:field_guide'}})
     write('data/bunnidogs/advancement/recipes/tools/field_guide.json', {'parent':'minecraft:recipes/root',
           'criteria':{'has_guava':{'trigger':'minecraft:inventory_changed','conditions':{'items':[{'items':'#bunnidogs:bunnidog_food'}]}},
                       'has_recipe':{'trigger':'minecraft:recipe_unlocked','conditions':{'recipe':'bunnidogs:field_guide'}}},
@@ -197,7 +197,7 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for i,page in enumerate([126,127,128,125,129,131,132,130,133,134,135,136,137,138,139,140,141,117,112,40]):
+    for i,page in enumerate([1,2,4,5,8,31,34,41,42,86,99,110,114,125,126,127,130,131,141,40]):
         x=255+i%4*240; oy=i//4*410
         d.rectangle((x,oy+20,x+224,oy+397),fill=(230,216,174),outline=(117,90,48),width=2)
         title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else 'Lineage traits' if page == 89 else 'Breeder workshop' if page == 98 else 'Coats & fieldcraft' if page == 101 else 'Workshops & sites' if page == 112 else 'Wild & companions' if page == 117 else 'Trail partners' if page == 125 else 'Breeder requests' if page == 130 else PAGES[page][0]

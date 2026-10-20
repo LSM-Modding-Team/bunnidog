@@ -44,7 +44,7 @@ public final class SeedCropHarvest {
         if (born.isEmpty()) {
             SeedCropBlock.dropSeed(level,pos,reserved);
             if (player != null) player.sendOverlayMessage(Component.translatable("message.bunnidogs.crop.refunded"));
-        }
+        } else com.bunnidogs.mod.item.JourneyProgress.hatched(player);
         return true;
     }
 }

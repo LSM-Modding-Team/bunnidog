@@ -44,7 +44,7 @@ public final class FeedingTroughBlockEntity extends BlockEntity {
     };
     public FeedingTroughBlockEntity(BlockPos pos, BlockState state) { super(ModBlocks.FEEDING_TROUGH_BE.get(),pos,state); }
     public static boolean accepts(ItemStack stack) {
-        return !stack.isEmpty() && !stack.has(DataComponents.USE_REMAINDER)
+        return !stack.isEmpty() && !stack.has(DataComponents.USE_REMAINDER) && com.bunnidogs.mod.item.GuavaItem.tierOf(stack)==0
                 && (stack.is(ModItems.BUNNIDOG_FOOD) || Arrays.stream(Diet.values()).anyMatch(d -> ModDietTags.accepts(d,stack)));
     }
     public ItemStack food() { return this.food; }
@@ -84,6 +84,15 @@ public final class FeedingTroughBlockEntity extends BlockEntity {
             changed();
         }
         return amount;
+    }
+    /** Reserve actual player stock before committed inventory observers run. */
+    public int insertFromPlayer(net.minecraft.world.entity.player.Player player,ItemStack actual,int maximum) {
+        if (!(level instanceof net.minecraft.server.level.ServerLevel server) || server.getBlockEntity(worldPosition)!=this) return 0;
+        try (var tx=net.neoforged.neoforge.transfer.transaction.Transaction.openRoot()) {
+            int count=automation.insert(0,ItemResource.of(actual),Math.min(maximum,actual.getCount()),tx);
+            if (count>0) { actual.consume(count,player); tx.commit(); }
+            return count;
+        }
     }
     public ItemStack takeAll() { ItemStack out = this.food; this.food = ItemStack.EMPTY; changed(); return out; }
     /** World power pauses resident work; manual and native inventory transfers remain independent. */

@@ -69,13 +69,17 @@ final class BunnidogPacks {
     }
     InteractionResult emptyHands(Player player) {
         if (!(this.dog.level() instanceof ServerLevel)) return InteractionResult.SUCCESS;
-        if (player.isShiftKeyDown() && player.mayBuild() && this.dog.acceptsCare() && this.dog.isAlive()) {
+        if (player.isShiftKeyDown()) retrieve(player);
+        show(player,true); return InteractionResult.SUCCESS;
+    }
+    void retrieve(Player player) {
+        if (this.dog.level() instanceof ServerLevel && player.mayBuild() && this.dog.acceptsCare() && this.dog.isAlive()
+                && player.level()==dog.level() && player.distanceToSqr(dog)<=36 && !this.bundles.isEmpty()) {
             var reserved = this.bundles.removeLast(); changed();
             if (!player.getInventory().add(reserved)) player.drop(reserved,false);
             this.dog.gameEvent(net.minecraft.world.level.gameevent.GameEvent.EQUIP);
             this.dog.playSound(SoundEvents.BUNDLE_REMOVE_ONE,.7F,1);
         }
-        show(player,true); return InteractionResult.SUCCESS;
     }
     void show(Player player, boolean contents) {
         player.sendOverlayMessage(Component.translatable(this.dog.carryingSlowdown() > 0 ? "message.bunnidogs.packs.overloaded" : "message.bunnidogs.packs.stock",

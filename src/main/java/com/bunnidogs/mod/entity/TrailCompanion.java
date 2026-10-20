@@ -16,6 +16,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
@@ -82,8 +83,44 @@ public final class TrailCompanion {
         order=next; missingTicks=0;
         if (calm()) dog.getNavigation().stop();
     }
+    /** The trained keeper can give the same local orders through the care panel. */
+    public boolean command(Player player,Trail.Order next) {
+        if (dog.level().isClientSide() || !belongsTo(player) || readiness(player)!=Trail.Status.READY) return false;
+        setOrder(next); return true;
+    }
+    public boolean setProvisions(Player player,boolean enabled) {
+        if (dog.level().isClientSide() || !player.mayBuild() || !belongsTo(player) || !dog.acceptsCare() || !dog.isAlive()
+                || dog.level()!=player.level() || dog.distanceToSqr(player)>36) return false;
+        provisions=enabled; nextMealSearch=0; return true;
+    }
+    public boolean release(Player player) {
+        if (dog.level().isClientSide() || !player.mayBuild() || !belongsTo(player) || training || !dog.isAlive()
+                || !dog.acceptsCare() || player.level()!=dog.level() || dog.distanceToSqr(player)>36) return false;
+        keeper=null; provisions=false; setOrder(Trail.Order.RESIDENT); say(player,"released"); return true;
+    }
     private Trail.Status readiness(Player player) {
         return readiness(player,true);
+    }
+    public boolean canTrainFromStock(Player player) {
+        if (keeper!=null || dog.level().isClientSide() || readiness(player)!=Trail.Status.READY) return false;
+        for (int i=0;i<player.getInventory().getContainerSize();i++) if (player.getInventory().getItem(i).is(ModItems.TRAIL_WHISTLE.get())) return true;
+        return false;
+    }
+    public boolean trainFromStock(Player player,ItemStack food) {
+        return canTrainFromStock(player) && train(player,food);
+    }
+    private boolean train(Player player,ItemStack food) {
+        if (keeper!=null || !food.is(ModItems.GUAVA.get()) || readiness(player)!=Trail.Status.READY) return false;
+        training=true;
+        try {
+            food.consume(1,player);
+            keeper=player.getUUID(); setOrder(Trail.Order.FOLLOW); dog.setPersistenceRequired(); say(player,"trained");
+            if (player instanceof ServerPlayer server) {
+                var advancement=server.level().getServer().getAdvancements().get(Identifier.fromNamespaceAndPath("bunnidogs","trail_partner"));
+                if (advancement!=null) server.getAdvancements().award(advancement,"trained");
+            }
+            return true;
+        } finally { training=false; }
     }
     private Trail.Status readiness(Player player,boolean local) {
         if (!player.mayBuild() || !dog.acceptsCare() || !dog.isAlive() || dog.level()!=player.level()
@@ -102,22 +139,14 @@ public final class TrailCompanion {
         if (dog.level().isClientSide()) return InteractionResult.SUCCESS;
         if (!player.getItemInHand(hand).is(ModItems.TRAIL_WHISTLE.get())) return InteractionResult.PASS;
         if (belongsTo(player) && player.isShiftKeyDown() && !training) {
-            keeper=null; provisions=false; setOrder(Trail.Order.RESIDENT); say(player,"released"); return InteractionResult.SUCCESS;
+            release(player); return InteractionResult.SUCCESS;
         }
         var status=readiness(player);
         if (status!=Trail.Status.READY) { say(player,status.name().toLowerCase(Locale.ROOT)); return InteractionResult.SUCCESS; }
         if (keeper==null) {
             var food=player.getItemInHand(hand==InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
             if (!food.is(ModItems.GUAVA.get())) { say(player,"food"); return InteractionResult.SUCCESS; }
-            training=true;
-            try {
-                if (!player.hasInfiniteMaterials()) food.shrink(1);
-                keeper=player.getUUID(); setOrder(Trail.Order.FOLLOW); dog.setPersistenceRequired(); say(player,"trained");
-                if (player instanceof ServerPlayer server) {
-                    var advancement=server.level().getServer().getAdvancements().get(Identifier.fromNamespaceAndPath("bunnidogs","trail_partner"));
-                    if (advancement!=null) server.getAdvancements().award(advancement,"trained");
-                }
-            } finally { training=false; }
+            train(player,food);
         } else {
             setOrder(order==Trail.Order.FOLLOW ? Trail.Order.WAIT : Trail.Order.FOLLOW);
             say(player,order.name().toLowerCase(Locale.ROOT));

@@ -28,6 +28,12 @@ public final class FieldGuideItem extends WrittenBookItem {
     public FieldGuideItem(Properties properties) {
         super(properties.component(DataComponents.WRITTEN_BOOK_CONTENT, content()));
     }
+    @Override public void appendHoverText(net.minecraft.world.item.ItemStack stack,net.minecraft.world.item.Item.TooltipContext context,
+            net.minecraft.world.item.component.TooltipDisplay display,java.util.function.Consumer<Component> lines,net.minecraft.world.item.TooltipFlag flag) {
+        super.appendHoverText(stack,context,display,lines,flag);
+        lines.accept(Component.translatable("tooltip.bunnidogs.guide.optional").withStyle(ChatFormatting.GRAY));
+        lines.accept(Component.translatable("tooltip.bunnidogs.guide.controls").withStyle(ChatFormatting.DARK_GRAY));
+    }
     private static WrittenBookContent content() {
         var pages = new ArrayList<Filterable<Component>>(PAGE_COUNT);
         pages.add(Filterable.passThrough(contents("guide.bunnidogs.title",new int[]{2,4,8,11,15,17,19,20},

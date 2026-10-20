@@ -1,0 +1,34 @@
+{
+  "display": {
+    "icon": {
+      "id": "bunnidogs:seed"
+    },
+    "title": {
+      "translate": "journey.bunnidogs.litter.title"
+    },
+    "description": {
+      "translate": "journey.bunnidogs.litter.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "bunnidogs:journey/plant",
+  "rewards": {
+    "recipes": [
+      "bunnidogs:breeding_pen",
+      "bunnidogs:commission_board"
+    ]
+  }
+}

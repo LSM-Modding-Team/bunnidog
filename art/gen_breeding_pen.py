@@ -40,7 +40,7 @@ def main():
     unlock('breeding_pen','bunnidogs:whisker'); tag('data/minecraft/tags/block/mineable/axe.json',['bunnidogs:breeding_pen'])
     text = {'block.bunnidogs.breeding_pen':'Breeding Pen',
         'tooltip.bunnidogs.pen.ports':'Hoppers: top feeds A; sides feed B. Collect litter seeds on the floor.',
-        'message.bunnidogs.pen.ready':'Ready. Empty-hand use or a redstone pulse feeds the pair.',
+        'message.bunnidogs.pen.ready':'Ready. Open the Pen and choose Feed both parents, or pulse redstone.',
         'message.bunnidogs.pen.pair':'A: %s, %s x%s. B: %s, %s x%s.',
         'message.bunnidogs.pen.too_far':'Bring both adults within four blocks, and less than three blocks apart.',
         'message.bunnidogs.pen.unavailable':'Both adults need full health, no love/rest, no danger, leads or rides.',

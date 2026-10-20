@@ -103,6 +103,7 @@ public final class BundlePacksGameTest {
         player.gameMode.changeGameModeForPlayer(GameType.ADVENTURE); dog.mobInteract(player,InteractionHand.MAIN_HAND);
         h.assertTrue(dog.carriedBundleCount() == 4,"Adventure empty-hand inspection cannot withdraw equipment");
         player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL); player.getInventory().clearContent();
+        player.snapTo(dog.position().add(2,0,0));
         for (int i = 3; i >= 0; i--) {
             player.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY); dog.mobInteract(player,InteractionHand.MAIN_HAND);
             int selected = i;

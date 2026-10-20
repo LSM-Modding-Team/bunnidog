@@ -18,12 +18,15 @@ def main():
     write('assets/bunnidogs/models/item/trail_whistle.json',{'parent':'minecraft:item/generated','textures':{'layer0':'bunnidogs:item/trail_whistle'}})
     write('assets/bunnidogs/items/trail_whistle.json',{'model':{'type':'minecraft:model','model':'bunnidogs:item/trail_whistle'}})
     write('data/bunnidogs/recipe/trail_whistle.json',{'type':'minecraft:crafting_shaped','pattern':[' C ',' SW',' S '],
-        'key':{'C':'minecraft:copper_ingot','S':'bunnidogs:sinew','W':'bunnidogs:whisker'},'result':{'id':'bunnidogs:trail_whistle'}})
+        'key':{'C':'minecraft:copper_ingot','S':'#bunnidogs:whistle_cords','W':'#bunnidogs:whistle_tips'},'result':{'id':'bunnidogs:trail_whistle'}})
+    write('data/bunnidogs/tags/item/whistle_cords.json',{'replace':False,'values':['minecraft:string','bunnidogs:sinew']})
+    write('data/bunnidogs/tags/item/whistle_tips.json',{'replace':False,'values':['minecraft:feather','bunnidogs:whisker']})
     write('data/bunnidogs/advancement/recipes/tools/trail_whistle.json',{'parent':'minecraft:recipes/root','criteria':{
         'has_whisker':{'trigger':'minecraft:inventory_changed','conditions':{'items':[{'items':'bunnidogs:whisker'}]}},
+        'has_feather':{'trigger':'minecraft:inventory_changed','conditions':{'items':[{'items':'minecraft:feather'}]}},
         'has_recipe':{'trigger':'minecraft:recipe_unlocked','conditions':{'recipe':'bunnidogs:trail_whistle'}}},
-        'requirements':[['has_whisker','has_recipe']],'rewards':{'recipes':['bunnidogs:trail_whistle']}})
-    write('data/bunnidogs/advancement/trail_partner.json',{'parent':'bunnidogs:enter_warren','display':{
+        'requirements':[['has_whisker','has_feather','has_recipe']],'rewards':{'recipes':['bunnidogs:trail_whistle']}})
+    write('data/bunnidogs/advancement/trail_partner.json',{'parent':'bunnidogs:journey/home','display':{
         'icon':{'id':'bunnidogs:trail_whistle'},'title':{'translate':'advancements.bunnidogs.trail_partner.title'},
         'description':{'translate':'advancements.bunnidogs.trail_partner.description'},'frame':'goal','show_toast':True,'announce_to_chat':False,'hidden':False},
         'criteria':{'trained':{'trigger':'minecraft:impossible'}},'requirements':[['trained']],'rewards':{'experience':25}})
@@ -67,13 +70,13 @@ def main():
     preview.paste(img.resize((288,288),Image.Resampling.NEAREST),(24,75),img.resize((288,288),Image.Resampling.NEAREST))
     font=ImageFont.truetype('DejaVuSans.ttf',18); title=ImageFont.truetype('DejaVuSans-Bold.ttf',22)
     draw.text((24,20),'Trail Whistle — a trained partner, with its own genes and hazards',font=title,fill=(229,216,179))
-    lines=['Copper + two Sinew + one Whisker; reusable.',
+    lines=['Copper + 2 string/Sinew + feather/Whisker; reusable.',
         'Train a calm loyal/stoic adult; one plain guava in the other hand.',
-        'Animal: Follow / Wait. Sneak on animal: release training.',
+        'Empty-hand care: train, order, or release the partnership.',
         'Air: call nearby partners. Sneak-air: resume resident routines.',
         'Bred ears and Senses affect hearing; no teleport or remote loading.',
         'Safe dry walking; panic and native transport retain priority.',
-        'Bowl: opt in to ordinary carried-food meals while injured.',
+        'Care panel or bowl: opt in to ordinary carried-food meals.',
         'Cargo, care and training survive ordinary saves / baskets.']
     for i,line in enumerate(lines): draw.text((335,76+42*i),line,font=font,fill=(219,220,191))
     draw.text((24,446),'Procedural item/control preview; native rendering and ordinary journeys need gameplay review.',font=font,fill=(177,193,176))

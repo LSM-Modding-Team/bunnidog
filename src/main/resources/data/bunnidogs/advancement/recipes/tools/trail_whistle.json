@@ -11,6 +11,16 @@
         ]
       }
     },
+    "has_feather": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:feather"
+          }
+        ]
+      }
+    },
     "has_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
@@ -21,6 +31,7 @@
   "requirements": [
     [
       "has_whisker",
+      "has_feather",
       "has_recipe"
     ]
   ],

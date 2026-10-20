@@ -69,11 +69,11 @@ public final class CradleHatchingGameTest {
                     "Read-only pad inspection and actual hatching must share native crowd refusal");
         } finally { crowd.forEach(Bunnidog::discard); }
         player.setShiftKeyDown(false); player.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY);
-        player.gameMode.useItemOn(player,level,ItemStack.EMPTY,InteractionHand.MAIN_HAND,new BlockHitResult(Vec3.atCenterOf(pos),Direction.UP,pos,false));
+        CareMenuGameTest.click(h,player,pos,com.bunnidogs.mod.menu.CarePanels.HATCH);
         var babies = level.getEntitiesOfClass(Bunnidog.class,new AABB(center).inflate(2),Bunnidog::isBaby);
         h.assertTrue(cradle.storedSeed().isEmpty() && babies.size() >= 1 && babies.size() <= 6
                 && babies.stream().allMatch(pup -> pup.motherGenome().orElseThrow().equals(seed.mother()) && pup.fatherGenome().orElseThrow().equals(seed.father())
-                        && NurseryHatching.pad(pos,Direction.NORTH).contains(pup.blockPosition())),"Actual empty-hand hatching must consume one seed and make safely placed pups with original parents");
+                        && NurseryHatching.pad(pos,Direction.NORTH).contains(pup.blockPosition())),"Explicit native-menu hatching must consume one seed and make safely placed pups with original parents");
         babies.forEach(Bunnidog::discard); cradle.insert(source);
         level.setBlock(pos.west(),Blocks.REDSTONE_BLOCK.defaultBlockState(),3);
         h.runAfterDelay(3,() -> {

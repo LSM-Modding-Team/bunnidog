@@ -1,8 +1,10 @@
 # HOME_SPECS — bunnidogs find their own home (session 41, second turn)
 
-**Current (2026-10-20): H12/H13 adds trained trail orders, retained home claims
-and opt-in carried meals. See `TRAIL_SPECS.md` and `START_HERE.md` for current
-rules, native evidence and remaining gameplay review.**
+**Current (2026-10-20): C1/C2 adds empty-hand live Nest/animal controls, any-plank
+starter Nests and real first-family milestones. Empty Nest opening is read-only;
+Assign led adult performs the existing native reassignment. Lead use still
+assigns immediately. H12/H13 retained claims, trail orders and carried meals
+remain. See `COHESION_PLAN.md`, `TRAIL_SPECS.md` and `START_HERE.md`.**
 
 **Prior checkpoint (2026-10-17): H1-H4 have prior gameplay reports. U1–U7 put Nests in fitted dens/halls; H3b keeps a Nest in each built house. H5 adds transport-aware behavior and player-directed Nest reassignment. H6 adds a Travel Basket preserving an animal's identity and native care state.**
 
@@ -33,7 +35,7 @@ one looks for a free nest.
 | R7 | When a dog DIES, it gives its ticket back, so the nest is free for the next dog. Unloading a chunk does NOT give it back (the dog still owns it). | `releasePoi` on death |
 | R8 | (H4) At dusk an adult with a home walks to it and stays within 2 blocks until dawn; nothing else changes. Rain does not count. | the bedtime schedule |
 | R9 | (H5) Leads, pending saved leads and vehicle rides suspend home/food goals and Nest scans/checks, retaining the home. Normal behavior resumes after release. Unloaded home chunks are skipped during block validation. | player-directed travel |
-| R10 | (H5) A player right-clicking a Nest with an empty hand or a lead can rehome the nearest adult directly leashed to them, within 8 blocks of the Nest. The destination must be reachable and free. Secure its POI ticket before releasing the previous one; failure preserves the old home. | explicit reassignment |
+| R10 | (H5) A player can open a Nest empty-handed and choose Assign led adult, or use a lead directly, to rehome the nearest adult directly leashed to them, within 8 blocks of the Nest. The destination must be reachable and free. Secure its POI ticket before releasing the previous one; failure preserves the old home. | explicit reassignment |
 
 Known limit, same as vanilla beds: a dog removed by a command that is not a kill (`/data`, `discard`) leaves a stale ticket, and its
 nest stays "taken". Breaking and re-placing the nest fixes it. Not worth code now.

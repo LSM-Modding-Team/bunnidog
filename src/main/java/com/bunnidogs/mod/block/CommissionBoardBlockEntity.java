@@ -35,8 +35,19 @@ public final class CommissionBoardBlockEntity extends BlockEntity {
         return level instanceof ServerLevel && level.getBlockEntity(worldPosition)==this && getBlockState().is(ModBlocks.COMMISSION_BOARD.get());
     }
     public void cycle() {
-        if (!live() || submitting) return;
-        request=request.next(); setChanged(); refresh();
+        select(request.next());
+    }
+    public boolean select(Commissions.Request selected) {
+        if (!live() || submitting || selected==request) return false;
+        request=selected; setChanged(); refresh(); return true;
+    }
+    public boolean completed(Player player,Commissions.Request selected) {
+        if (!(player instanceof ServerPlayer server)) return false;
+        var advancement=server.level().getServer().getAdvancements().get(Identifier.fromNamespaceAndPath("bunnidogs","commissions/"+selected.key()));
+        return advancement!=null && server.getAdvancements().getOrStartProgress(advancement).isDone();
+    }
+    public int completedCount(Player player) {
+        int total=0; for (var choice:Commissions.Request.values()) if (completed(player,choice)) total++; return total;
     }
     public Reading read() {
         if (!live()) return new Reading(Commissions.Status.UNAVAILABLE,null);
@@ -71,10 +82,19 @@ public final class CommissionBoardBlockEntity extends BlockEntity {
         }
     }
     public boolean submit(Player player,InteractionHand hand) {
+        return submit(player,player.getItemInHand(hand),hand);
+    }
+    public boolean submitFromInventory(Player player) {
+        for (int i=0;i<player.getInventory().getContainerSize();i++) {
+            var stack=player.getInventory().getItem(i);
+            if (stack.is(Items.PAPER)) return submit(player,stack,null);
+        }
+        return false;
+    }
+    private boolean submit(Player player,ItemStack paper,InteractionHand hand) {
         if (!(player instanceof ServerPlayer server) || !player.mayBuild() || !live() || player.level()!=level
                 || player.distanceToSqr(worldPosition.getX()+.5,worldPosition.getY()+.5,worldPosition.getZ()+.5)>36) return false;
         if (submitting) { message(player,Commissions.Status.BUSY); return false; }
-        var paper=player.getItemInHand(hand);
         if (!paper.is(Items.PAPER)) return false;
         var selected=request;
         var advancement=server.level().getServer().getAdvancements().get(Identifier.fromNamespaceAndPath("bunnidogs","commissions/"+selected.key()));
@@ -93,8 +113,8 @@ public final class CommissionBoardBlockEntity extends BlockEntity {
         } finally {
             try {
                 if (!awarded && paid) {
-                    var actual=player.getItemInHand(hand);
-                    if (actual==paper && (actual.isEmpty() || ItemStack.isSameItemSameComponents(actual,receipt))) {
+                    var actual=hand==null ? ItemStack.EMPTY : player.getItemInHand(hand);
+                    if (hand!=null && actual==paper && (actual.isEmpty() || ItemStack.isSameItemSameComponents(actual,receipt))) {
                         if (actual.isEmpty()) player.setItemInHand(hand,receipt); else actual.grow(1);
                     } else if (!player.getInventory().add(receipt)) player.drop(receipt,false);
                 }

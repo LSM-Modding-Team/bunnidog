@@ -4,6 +4,18 @@ The user requests substantial continuations, prioritizing unfinished planned
 features over more quality-of-life controls. Historical per-turn chunk limits
 do not apply. Verify old completion claims against code before choosing work.
 
+## Current priority — cohesion before expansion
+
+The user's current request is to connect the existing gameplay and remove the
+need to study a manual. `COHESION_PLAN.md` is the active continuation plan.
+C1/C2 deliver live animal/six-station controls, real inventory-backed care,
+consistent ordinary meals, an accessible first companion, six native milestones
+and an end-to-end first-litter route. Existing recipes, tools and advanced
+reference remain optional paths; saved animals, containers and goal progress stay.
+Next priorities are natural first-session pacing, readable world cues and
+consistent advanced workshops. Collect real client/play evidence before calling
+onboarding finished; another guide chapter or feature count is not that evidence.
+
 ## Original-plan completion audit
 
 | Feature | Actual status | Original plan |

@@ -16,8 +16,10 @@ least half health and calm, without current danger, love or a recent attacker.
 Keep a living adult with the actual native Breeder profession within eight
 blocks. The board does not replace the Pen as a job site or create a villager.
 
-Empty hands cycle the saved selection; sneak-empty and Calipers inspect without
-changing it. One actual paper in either hand submits the selected request with
+Empty hands open a read-only live view. Choose request opens a compact selector;
+each candidate requirement shows actual copies/stat points/cargo, from the same
+pure checks that qualify it. The menu can submit one real inventory paper;
+sneak-empty and Calipers remain inspections. One paper in either hand also submits with
 normal build/reach permission. Creative keeps the required paper. A refusal
 keeps paper. The live animal, parents, genes, stats, equipment and home remain.
 No Tissue Sample, invented pedigree or copied saved book can stand in for it.
@@ -82,5 +84,17 @@ and removes the paying board: one actual form and one payout remain committed.
 
 The shipped-model/texture and 141-page guide previews are inspected. Client UI,
 native rendering and long-running progression balance remain gameplay review.
-Update both sides for content protocol **15**; existing saved animals, genomes,
+Update both sides for content protocol **16**; existing saved animals, genomes,
 samples, books, reward progress and world structures retain their formats.
+
+## C1/C2 cohesion
+
+Existing goal IDs, payouts and completed progress remain; their display parent
+now follows the first-litter milestone. Candidate copies, bred points and cargo
+come from the actual predicate, including hidden copies. Native container button
+messages bind to the shown shared request, candidate and contents. A stale click
+refreshes before payment, even when the replacement request would also qualify.
+Opening never cycles or submits. Adventure can inspect without selection/payment.
+The new station case exercises inventory submission, actual partial requirements,
+saved upgraded-food recovery and a two-target candidate's stale selection. All
+103 native cases pass at the integration checkpoint; client usability remains review.

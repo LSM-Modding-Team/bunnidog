@@ -51,7 +51,7 @@ def main():
     write('data/bunnidogs/recipe/commission_board.json',{'type':'minecraft:crafting_shaped','pattern':['PPP',' W ','CCC'],
         'key':{'P':'#minecraft:planks','W':'bunnidogs:whisker','C':'minecraft:copper_ingot'},'result':{'id':'bunnidogs:commission_board'}})
     language={'block.bunnidogs.commission_board':'Breeder Commission Board',
-        'tooltip.bunnidogs.commission.controls':'Empty hands: next request. Paper: submit. Calipers: requirements.',
+        'tooltip.bunnidogs.commission.controls':'Empty hands: choose a request, see progress and submit. Paper also submits by hand.',
         'message.bunnidogs.commission.status':'%s: %s',
         'message.bunnidogs.commission.completed':'Commission completed: %s. Animal and cargo stay with you.',
         'message.bunnidogs.commission.ready':'ready; submit one paper',
@@ -74,7 +74,7 @@ def main():
         pools=[{'rolls':1,'entries':[{'type':'minecraft:item','name':item,'functions':[{'function':'minecraft:set_count','count':count}]}]}
             for item,count in rewards]
         write(f'data/bunnidogs/loot_table/commissions/{key}.json',{'type':'minecraft:advancement_reward','pools':pools})
-        write(f'data/bunnidogs/advancement/commissions/{key}.json',{'parent':'bunnidogs:enter_warren','display':{
+        write(f'data/bunnidogs/advancement/commissions/{key}.json',{'parent':'bunnidogs:journey/litter','display':{
             'icon':{'id':'bunnidogs:commission_board'},'title':{'translate':f'commission.bunnidogs.{key}.title'},
             'description':{'translate':f'commission.bunnidogs.{key}.requirements'},'frame':'challenge' if key=='crossing_branches' else 'goal',
             'show_toast':True,'announce_to_chat':False,'hidden':False},
@@ -91,7 +91,7 @@ def main():
     draw_model(preview,'commission_board_0',(225,240),front=True); draw_model(preview,'commission_board_1',(630,240),front=True)
     d.text((115,347),'Waiting / not qualified',font=font,fill=(219,218,188));d.text((526,347),'Ready; comparator 15',font=font,fill=(191,218,177))
     notes=['One calm parented adult on the clear front block.', 'Keep an actual Breeder villager within eight blocks.',
-        'Paper submits; animal, genes and cargo stay.', 'Empty hands cycle; Calipers reports exact requirements.',
+        'Paper submits; animal, genes and cargo stay.', 'Empty hands open targets, live progress and named controls.',
         'Each request pays native material / XP rewards once per player.']
     for i,line in enumerate(notes): d.text((790,120+40*i),line,font=font,fill=(213,219,191))
     for i,(key,title,requirements,xp,rewards) in enumerate(REQUESTS):

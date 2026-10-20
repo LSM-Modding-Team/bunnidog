@@ -55,6 +55,7 @@ public final class BreedingPenBlock extends Block implements EntityBlock {
         if (level.getBlockEntity(pos) instanceof BreedingPenBlockEntity pen) pen.activate(true);
     }
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (stack.isEmpty()) return super.useItemOn(stack,state,level,pos,player,hand,hit);
         if (!(level.getBlockEntity(pos) instanceof BreedingPenBlockEntity pen)) return InteractionResult.PASS;
         if (!level.isClientSide()) {
             if (player.mayBuild() && stack.getItem() instanceof GuavaItem) {
@@ -68,6 +69,7 @@ public final class BreedingPenBlock extends Block implements EntityBlock {
     }
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (!player.getMainHandItem().isEmpty() || !player.getOffhandItem().isEmpty() || !(level.getBlockEntity(pos) instanceof BreedingPenBlockEntity pen)) return InteractionResult.PASS;
+        if (!player.isShiftKeyDown()) { com.bunnidogs.mod.menu.CareMenu.open(player,pos); return InteractionResult.SUCCESS; }
         if (!level.isClientSide()) {
             if (player.mayBuild() && player.isShiftKeyDown()) { give(player,pen.take(0)); give(player,pen.take(1)); }
             else if (player.mayBuild()) player.sendOverlayMessage(status(pen.activate(false)));

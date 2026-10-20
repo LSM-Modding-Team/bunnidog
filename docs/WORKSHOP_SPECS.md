@@ -32,7 +32,8 @@ needs no fuel. There are two recipes:
   Invalid pairings also wait. There is no rerolling a completed bottle.
 - Right-click inserts as much of the actual used hand as fits. Survival pays
   before commit notifications; creative keeps the actual stack. Empty-hand use
-  collects output and reports counts/progress. Sneak with **both hands empty**
+  opens live counts/progress and explicit inventory-input/Collect juice controls.
+  Opening never withdraws or spends ingredients. Sneak with **both hands empty**
   recovers both input stacks. Adventure use cannot move stock.
 - Hoppers above insert fruit/seeds; horizontal hoppers insert bottles/carriers;
   lower hoppers extract only output. Inputs cannot be extracted by automation,

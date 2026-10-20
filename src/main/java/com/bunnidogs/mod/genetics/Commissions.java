@@ -1,12 +1,17 @@
 package com.bunnidogs.mod.genetics;
 
 import java.util.EnumSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Concrete functional breeding targets, distinct from balanced-stat Show Ring judging. */
 public final class Commissions {
     private Commissions() {}
     public static final int BREEDER_RANGE=8, POLL_TICKS=20;
     public enum Status { READY, UNAVAILABLE, BLOCKED, ABSENT, CROWDED, BREEDER, ADULT, PARENTS, HEALTH, TRANSPORTED, DANGER, GENES, STATS, CARGO, BUSY, ALREADY }
+    public record Check(String key,String detail,int current,int required,Status failure) {
+        public boolean met() { return current>=required; }
+    }
     public enum Request {
         NIGHT_GUIDE("night_guide"), COASTAL_SCOUT("coastal_scout"), MOUNTAIN_COURIER("mountain_courier"),
         EMBER_GARDENER("ember_gardener"), FROST_STEWARD("frost_steward"), DESERT_MESSENGER("desert_messenger"),
@@ -20,34 +25,49 @@ public final class Commissions {
             return NIGHT_GUIDE;
         }
         public Status match(Genome genome,Stats stats,int bundles) {
-            boolean genes=switch(this) {
-                case NIGHT_GUIDE -> fixed(genome,Gene.COAT,"pale") && fixed(genome,Gene.EARS,"bat");
-                case COASTAL_SCOUT -> fixed(genome,Gene.COAT,"seal") && fixed(genome,Gene.LEGS,"paddle") && fixed(genome,Gene.DIET,"shore_forager");
-                case MOUNTAIN_COURIER -> fixed(genome,Gene.LEGS,"hoofed") && genome.isHomozygous(Gene.BUILD) && Carrying.capacity(genome)>=3;
-                case EMBER_GARDENER -> fixed(genome,Gene.COAT,"ember") && fixed(genome,Gene.DIET,"nether_forager");
-                case FROST_STEWARD -> fixed(genome,Gene.COAT,"snow") && fixed(genome,Gene.EARS,"tiny") && fixed(genome,Gene.DIET,"fisher");
-                case DESERT_MESSENGER -> fixed(genome,Gene.EARS,"fennec") && fixed(genome,Gene.LEGS,"fleet") && fixed(genome,Gene.BUILD,"lean");
-                case SWAMP_HERBALIST -> fixed(genome,Gene.COAT,"moss") && fixed(genome,Gene.LEGS,"webbed") && fixed(genome,Gene.DIET,"mushroom_eater");
-                case END_NURSERY -> fixed(genome,Gene.COAT,"void") && fixed(genome,Gene.LEGS,"phase") && fixed(genome,Gene.FERTILITY,"starborn") && fixed(genome,Gene.DIET,"chorus_eater");
-                case CROSSING_BRANCHES -> Purebreds.fixedCount(genome)==Gene.COUNT && wildOrigins(genome)>=4;
-            };
-            if (!genes) return Status.GENES;
-            boolean trained=switch(this) {
-                case NIGHT_GUIDE, CROSSING_BRANCHES -> stats.get(Stat.SENSES)>=20;
-                case COASTAL_SCOUT -> stats.get(Stat.SENSES)>=10 && stats.get(Stat.SWIFTNESS)>=10;
-                case MOUNTAIN_COURIER -> stats.get(Stat.LEAP)>=20 && stats.get(Stat.SWIFTNESS)>=10;
-                case EMBER_GARDENER -> stats.get(Stat.BLOOM)>=10;
-                case FROST_STEWARD -> stats.get(Stat.BLOOM)>=10 && stats.get(Stat.VITALITY)>=20;
-                case DESERT_MESSENGER -> stats.get(Stat.SWIFTNESS)>=20 && stats.get(Stat.SENSES)>=10;
-                case SWAMP_HERBALIST -> stats.get(Stat.BLOOM)>=10 && stats.get(Stat.SENSES)>=10;
-                case END_NURSERY -> stats.get(Stat.BLOOM)>=20;
-            };
-            if (!trained) return Status.STATS;
-            return this==MOUNTAIN_COURIER && bundles<1 ? Status.CARGO : Status.READY;
+            for (var check:checks(genome,stats,bundles)) if (!check.met()) return check.failure();
+            return Status.READY;
+        }
+        /** The actual predicate also supplies the player's checklist; the two cannot drift apart. */
+        public List<Check> checks(Genome genome,Stats stats,int bundles) {
+            var out=new ArrayList<Check>();
+            switch (this) {
+                case NIGHT_GUIDE -> { gene(out,genome,Gene.COAT,"pale"); gene(out,genome,Gene.EARS,"bat"); }
+                case COASTAL_SCOUT -> { gene(out,genome,Gene.COAT,"seal"); gene(out,genome,Gene.LEGS,"paddle"); gene(out,genome,Gene.DIET,"shore_forager"); }
+                case MOUNTAIN_COURIER -> {
+                    gene(out,genome,Gene.LEGS,"hoofed");
+                    out.add(new Check("build","",genome.isHomozygous(Gene.BUILD) ? Carrying.capacity(genome) : 0,3,Status.GENES));
+                }
+                case EMBER_GARDENER -> { gene(out,genome,Gene.COAT,"ember"); gene(out,genome,Gene.DIET,"nether_forager"); }
+                case FROST_STEWARD -> { gene(out,genome,Gene.COAT,"snow"); gene(out,genome,Gene.EARS,"tiny"); gene(out,genome,Gene.DIET,"fisher"); }
+                case DESERT_MESSENGER -> { gene(out,genome,Gene.EARS,"fennec"); gene(out,genome,Gene.LEGS,"fleet"); gene(out,genome,Gene.BUILD,"lean"); }
+                case SWAMP_HERBALIST -> { gene(out,genome,Gene.COAT,"moss"); gene(out,genome,Gene.LEGS,"webbed"); gene(out,genome,Gene.DIET,"mushroom_eater"); }
+                case END_NURSERY -> { gene(out,genome,Gene.COAT,"void"); gene(out,genome,Gene.LEGS,"phase"); gene(out,genome,Gene.FERTILITY,"starborn"); gene(out,genome,Gene.DIET,"chorus_eater"); }
+                case CROSSING_BRANCHES -> {
+                    out.add(new Check("fixed","",Purebreds.fixedCount(genome),Gene.COUNT,Status.GENES));
+                    out.add(new Check("origins","",wildOrigins(genome),4,Status.GENES));
+                }
+            }
+            switch (this) {
+                case NIGHT_GUIDE, CROSSING_BRANCHES -> stat(out,stats,Stat.SENSES,20);
+                case COASTAL_SCOUT -> { stat(out,stats,Stat.SENSES,10); stat(out,stats,Stat.SWIFTNESS,10); }
+                case MOUNTAIN_COURIER -> { stat(out,stats,Stat.LEAP,20); stat(out,stats,Stat.SWIFTNESS,10); }
+                case EMBER_GARDENER -> stat(out,stats,Stat.BLOOM,10);
+                case FROST_STEWARD -> { stat(out,stats,Stat.BLOOM,10); stat(out,stats,Stat.VITALITY,20); }
+                case DESERT_MESSENGER -> { stat(out,stats,Stat.SWIFTNESS,20); stat(out,stats,Stat.SENSES,10); }
+                case SWAMP_HERBALIST -> { stat(out,stats,Stat.BLOOM,10); stat(out,stats,Stat.SENSES,10); }
+                case END_NURSERY -> stat(out,stats,Stat.BLOOM,20);
+            }
+            if (this==MOUNTAIN_COURIER) out.add(new Check("cargo","",bundles,1,Status.CARGO));
+            return List.copyOf(out);
         }
     }
-    private static boolean fixed(Genome genome,Gene gene,String name) {
-        return genome.isHomozygous(gene) && genome.expressed(gene).name().equals(name);
+    private static void gene(List<Check> out,Genome genome,Gene gene,String name) {
+        int copies=(genome.allele(gene,0).name().equals(name) ? 1 : 0)+(genome.allele(gene,1).name().equals(name) ? 1 : 0);
+        out.add(new Check("gene."+gene.name().toLowerCase(java.util.Locale.ROOT),name,copies,2,Status.GENES));
+    }
+    private static void stat(List<Check> out,Stats stats,Stat stat,int target) {
+        out.add(new Check("stat",stat.displayName(),stats.get(stat),target,Status.STATS));
     }
     public static int wildOrigins(Genome genome) {
         var origins=EnumSet.noneOf(Lineage.class);

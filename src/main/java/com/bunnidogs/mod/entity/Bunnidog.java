@@ -397,8 +397,47 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     }
     /** Caller has reserved two actual guavas and rechecked the pair before any root-commit notifications. */
     public void beginPenCourtship(int tier) {
+        beginPenCourtship(tier,null);
+    }
+    public void beginPenCourtship(int tier,Player keeper) {
         this.guavaMemory.remember(tier);
-        this.setInLove(null);
+        this.setInLove(keeper);
+    }
+    /** Inventory-backed care buttons share the same meal/growth operation as deliberate hand care. */
+    public boolean careFromStock(Player player,ItemStack actual) {
+        if (!(level() instanceof ServerLevel) || !player.mayBuild() || player.level()!=level() || distanceToSqr(player)>36
+                || !acceptsCare() || !isAlive() || !actual.is(ModItems.GUAVA.get()) || !canEat(actual)
+                || !Foraging.handFood(true,false,getHealth()<getMaxHealth(),canAgeUp())) return false;
+        applyHandCare(player,actual); return true;
+    }
+    private void applyHandCare(Player player,ItemStack actual) {
+        actual.consume(1,player);
+        this.heal(Foraging.HEAL);
+        if (this.canAgeUp()) this.ageUp(getSpeedUpSecondsWhenFeeding(-this.getAge()),true);
+        this.playEatingSound();
+    }
+    public boolean readyForCareCourtship() {
+        return readyForPen() && (getLastHurtByMob()==null || tickCount-getLastHurtByMobTimestamp()>=100);
+    }
+    public boolean courtshipFromStock(Player player,ItemStack actual) {
+        if (!(level() instanceof ServerLevel) || !player.mayBuild() || player.level()!=level() || distanceToSqr(player)>36
+                || !actual.is(ModItems.GUAVA.get()) || !isBunnidogFood(actual) || !readyForCareCourtship()) return false;
+        actual.consume(1,player); beginPenCourtship(0,player); courtshipFeedback(player,0); return true;
+    }
+    public boolean groomFromStock(Player player,ItemStack brush) {
+        if (!(level() instanceof ServerLevel server) || !(player instanceof ServerPlayer keeper) || !player.mayBuild()
+                || player.level()!=level() || distanceToSqr(player)>36 || !brush.is(Items.BRUSH) || !BunnidogCare.canGroom(this)) return false;
+        var rewards=BunnidogCare.groom(this);
+        if (rewards.isEmpty()) return false;
+        // Recovery and actual inventory-tool wear precede delivery callbacks. No equipped hand is substituted.
+        brush.hurtAndBreak(1,server,keeper,item->this.playSound(SoundEvents.ITEM_BREAK.value(),1,1));
+        for (var reward:rewards) if (!player.getInventory().add(reward)) player.drop(reward,false);
+        return true;
+    }
+    private void courtshipFeedback(Player player,int tier) {
+        this.guavaMemory.remember(tier);
+        com.bunnidogs.mod.item.JourneyProgress.courtship(player);
+        player.sendOverlayMessage(Component.translatable("care.bunnidogs.feedback.courtship"));
     }
 
     /**
@@ -487,6 +526,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
                 (long)Gardening.REST_TICKS);
     }
     public boolean workPaused() { return this.workPaused; }
+    public void setWorkPaused(boolean paused) { this.workPaused=paused; }
     /** The same cheap snapshot serves the AI and Calipers; it does not search for crops or paths. */
     public Gardening.Status gardeningStatus() {
         if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel server)) return Gardening.Status.UNAVAILABLE;
@@ -556,8 +596,11 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack held = player.getItemInHand(hand);
         if (held.getItem() instanceof net.minecraft.world.item.BundleItem) return this.packs.equip(player,held);
-        if (held.isEmpty() && player.getMainHandItem().isEmpty() && player.getOffhandItem().isEmpty()
-                && this.carriedBundleCount() > 0) return this.packs.emptyHands(player);
+        if (held.isEmpty() && player.getMainHandItem().isEmpty() && player.getOffhandItem().isEmpty() && this.acceptsCare() && this.isAlive()) {
+            if (player.isShiftKeyDown() && this.carriedBundleCount()>0) return this.packs.emptyHands(player);
+            com.bunnidogs.mod.menu.CareMenu.open(player,this);
+            return InteractionResult.SUCCESS;
+        }
         if (held.is(net.minecraft.tags.ItemTags.HOES) && player.isShiftKeyDown()) {
             if (!player.mayBuild() || !this.acceptsCare() || !this.isAlive()) return InteractionResult.PASS;
             if (!this.level().isClientSide()) {
@@ -621,24 +664,26 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         }
         if (guavaCare || !isBunnidogFood(held) && this.canEat(held)) {
             if (!Foraging.handFood(true, false, this.getHealth() < this.getMaxHealth(), this.canAgeUp())) {
-                if (guavaCare && !this.level().isClientSide()) player.sendOverlayMessage(Component.translatable("message.bunnidogs.feeding.no_care"));
-                return guavaCare ? InteractionResult.SUCCESS : InteractionResult.PASS;
+                if (!this.level().isClientSide()) player.sendOverlayMessage(Component.translatable("message.bunnidogs.feeding.no_care"));
+                return InteractionResult.SUCCESS;
             }
             if (!this.level().isClientSide()) {
                 // Reserve the real hand's food before native healing hooks can replace that hand.
-                held.consume(1, player);
-                this.heal(Foraging.HEAL);
-                if (this.canAgeUp()) this.ageUp(getSpeedUpSecondsWhenFeeding(-this.getAge()), true);
-                this.playEatingSound();
+                applyHandCare(player,held);
             }
             return InteractionResult.SUCCESS;
         }
         boolean readyForLove = !this.level().isClientSide() && isBunnidogFood(held) && !this.isBaby() && this.getAge() == 0
                 && !this.guavaMemory.active();
+        if (isBunnidogFood(held) && !this.isBaby() && (this.getAge()>0 || this.isInLove())) {
+            if (!this.level().isClientSide()) player.sendOverlayMessage(Component.translatable(this.isInLove()
+                    ? "care.bunnidogs.feedback.courting" : "care.bunnidogs.feedback.rest",(this.getAge()+19)/20));
+            return InteractionResult.SUCCESS;
+        }
         int tier = GuavaItem.tierOf(held);
         InteractionResult result = super.mobInteract(player, hand);
         if (readyForLove && result.consumesAction()) {
-            this.guavaMemory.remember(tier);
+            courtshipFeedback(player,tier);
         }
         return result;
     }
@@ -664,7 +709,12 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         // Phase 4e: the guava part of the quality is the average of the tiers the two parents were fed.
         double guavaQuality = GuavaTier.average(this.guavaMemory.tier(), other.guavaMemory.tier());
         Seed seed = Seed.of(this.genome(), this.stats(), other.genome(), other.stats(), guavaQuality);
-        this.spawnAtLocation(level, SeedItem.create(seed), 0.5F);
+        var dropped=this.spawnAtLocation(level, SeedItem.create(seed), 0.5F);
+        if (dropped!=null) {
+            var first=this.getLoveCause(); var second=other.getLoveCause();
+            if (com.bunnidogs.mod.item.JourneyProgress.award(first,"seed")) first.sendOverlayMessage(Component.translatable("care.bunnidogs.feedback.seed"));
+            if (second!=first && com.bunnidogs.mod.item.JourneyProgress.award(second,"seed")) second.sendOverlayMessage(Component.translatable("care.bunnidogs.feedback.seed"));
+        }
         BunnidogsMod.LOGGER.info("Seed dropped: {} (guava tiers {} and {})", seed, this.guavaMemory.tier(), other.guavaMemory.tier());
         level.sendParticles(ParticleTypes.HEART, this.getX(), this.getY() + 0.6D, this.getZ(), 7, 0.5D, 0.5D, 0.5D, 0.02D);
         level.addFreshEntity(new ExperienceOrb(level, this.position(), Vec3.ZERO, this.getRandom().nextInt(7) + 1));
@@ -794,6 +844,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     public int carriedBundleCount() { return this.entityData.get(DATA_BUNDLE_COUNT); }
     public int bundleCapacity() { return com.bunnidogs.mod.genetics.Carrying.capacity(this.genome()); }
     public List<ItemStack> carriedBundles() { return this.packs.snapshot(); }
+    public void retrieveBundle(Player player) { this.packs.retrieve(player); }
     public com.bunnidogs.mod.genetics.Carrying.Status carryingStatus() { return this.packs.status(); }
     public int carryingSlowdown() { return com.bunnidogs.mod.genetics.Carrying.slowdown(this.carriedBundleCount(),this.bundleCapacity()); }
     void syncBundleCount(int count) { this.entityData.set(DATA_BUNDLE_COUNT,count); this.applyCargoLoad(); }

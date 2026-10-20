@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "id": "bunnidogs:seed"
+    },
+    "title": {
+      "translate": "journey.bunnidogs.seed.title"
+    },
+    "description": {
+      "translate": "journey.bunnidogs.seed.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "bunnidogs:journey/courtship",
+  "rewards": {
+    "recipes": [
+      "bunnidogs:nursery_cradle"
+    ]
+  }
+}

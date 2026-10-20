@@ -63,6 +63,7 @@ public final class NurseryCradleBlock extends Block implements EntityBlock, Bone
         if (level.getBlockEntity(pos) instanceof NurseryCradleBlockEntity cradle && !cradle.manualHatchOnly()) cradle.hatch();
     }
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (stack.isEmpty()) return super.useItemOn(stack,state,level,pos,player,hand,hit);
         if (!player.mayBuild() || !(level.getBlockEntity(pos) instanceof NurseryCradleBlockEntity cradle)) return InteractionResult.PASS;
         if (player.isShiftKeyDown() && stack.is(ItemTags.HOES)) {
             if (!level.isClientSide()) {
@@ -75,9 +76,9 @@ public final class NurseryCradleBlock extends Block implements EntityBlock, Bone
         if (!seed && !dust && !meal) return super.useItemOn(stack,state,level,pos,player,hand,hit);
         if (!level.isClientSide()) {
             var actual = player.getItemInHand(hand);
-            boolean changed = seed ? cradle.insert(actual) : cradle.grow(dust);
+            boolean changed = seed ? cradle.insertFromPlayer(player,actual) : cradle.grow(dust);
             if (changed) {
-                actual.consume(1,player);
+                if (!seed) actual.consume(1,player);
                 if (!seed) level.levelEvent(2005,pos.above(),15);
             }
             player.sendOverlayMessage(status(cradle));
@@ -92,7 +93,10 @@ public final class NurseryCradleBlock extends Block implements EntityBlock, Bone
         if (level.getBlockEntity(pos) instanceof NurseryCradleBlockEntity cradle) cradle.grow(false);
     }
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (!player.getMainHandItem().isEmpty() || !(level.getBlockEntity(pos) instanceof NurseryCradleBlockEntity cradle)) return InteractionResult.PASS;
+        if (!player.getMainHandItem().isEmpty() || !player.getOffhandItem().isEmpty() || !(level.getBlockEntity(pos) instanceof NurseryCradleBlockEntity cradle)) return InteractionResult.PASS;
+        if (!player.isShiftKeyDown() && player.getOffhandItem().isEmpty()) {
+            com.bunnidogs.mod.menu.CareMenu.open(player,pos); return InteractionResult.SUCCESS;
+        }
         if (!level.isClientSide()) {
             if (player.mayBuild() && player.isShiftKeyDown() && player.getOffhandItem().isEmpty()) {
                 var taken = cradle.takeSeed(); if (!player.getInventory().add(taken)) player.drop(taken,false);

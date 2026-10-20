@@ -1,0 +1,47 @@
+{
+  "display": {
+    "icon": {
+      "id": "bunnidogs:guava"
+    },
+    "title": {
+      "translate": "journey.bunnidogs.root.title"
+    },
+    "description": {
+      "translate": "journey.bunnidogs.root.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:block/hay_block_side"
+  },
+  "criteria": {
+    "met": {
+      "trigger": "minecraft:impossible"
+    },
+    "food": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#bunnidogs:bunnidog_food"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "met",
+      "food"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:nest",
+      "bunnidogs:feeding_trough",
+      "bunnidogs:calipers",
+      "bunnidogs:pedigree_book"
+    ]
+  }
+}

@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "W": "minecraft:wheat",
-    "P": "bunnidogs:guava_planks"
+    "P": "#minecraft:planks"
   },
   "pattern": [
     "WWW",

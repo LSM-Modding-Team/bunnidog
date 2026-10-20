@@ -1,5 +1,5 @@
 {
-  "parent": "bunnidogs:enter_warren",
+  "parent": "bunnidogs:journey/home",
   "display": {
     "icon": {
       "id": "bunnidogs:trail_whistle"

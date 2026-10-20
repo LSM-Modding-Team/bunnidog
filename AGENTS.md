@@ -6,6 +6,11 @@ past decisions; their Claude sandbox, chunk-size, upload and approval routines
 are obsolete. The user's current request determines scope.
 
 - Complete the requested change through implementation and appropriate validation.
+  Current continuation priority is gameplay cohesion: follow `docs/COHESION_PLAN.md`
+  before more standalone content. Players should discover the core loop through
+  animals, stations and useful feedback; the long guide is optional reference.
+  Finish the accepted cohesion steps and address observed first-session friction
+  before inventing another separate mechanic. User steering can change this focus.
   For continuations, prioritize unfinished accepted features in the plans over
   further quality-of-life additions. Audit implementation claims against code;
   distinguish missing implementation from features awaiting manual playtesting.

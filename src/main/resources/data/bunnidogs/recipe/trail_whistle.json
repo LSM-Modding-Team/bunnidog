@@ -7,8 +7,8 @@
   ],
   "key": {
     "C": "minecraft:copper_ingot",
-    "S": "bunnidogs:sinew",
-    "W": "bunnidogs:whisker"
+    "S": "#bunnidogs:whistle_cords",
+    "W": "#bunnidogs:whistle_tips"
   },
   "result": {
     "id": "bunnidogs:trail_whistle"

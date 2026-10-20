@@ -68,6 +68,7 @@ public final class CommissionBoardBlock extends Block implements EntityBlock {
     @Override protected InteractionResult useWithoutItem(BlockState state,Level level,BlockPos pos,Player player,BlockHitResult hit) {
         if (!player.getMainHandItem().isEmpty() || !player.getOffhandItem().isEmpty()
                 || !(level.getBlockEntity(pos) instanceof CommissionBoardBlockEntity board)) return InteractionResult.PASS;
+        if (!player.isShiftKeyDown()) { com.bunnidogs.mod.menu.CareMenu.open(player,pos); return InteractionResult.SUCCESS; }
         if (!level.isClientSide()) {
             if (player.mayBuild() && !player.isShiftKeyDown()) board.cycle();
             board.inspect(player);

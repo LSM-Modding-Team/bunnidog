@@ -2,6 +2,9 @@
 
 *(Section names cited in the "Where verified" column, like "Assumed in Phase 4b" or "Session 4, part 7", live in `docs/history/API_HISTORY.md`.)*
 
+C1/C2 menus, HUD, empty-hand dispatch, native button bounds and inventory tools:
+[verified current facts](#c1c2-native-care-and-first-session).
+
 ## QUICK INDEX — read this BEFORE you research anything (update it in the same session whenever you look something up)
 Past sessions re-verified the same handful of names more than once (`mobInteract`, `putInt`, `registerItem`, `rarity`, the recipe format...). This index exists so that does not happen again.
 **Rule:** if you had to look an API or a file format up, add a row to the table below (what, status, exact place) before you finish the session. Older per-session sections (now in docs/history/API_HISTORY.md) are the
@@ -451,3 +454,59 @@ Moved to `docs/history/API_HISTORY.md` (sections: Where each fact comes from; Ve
   requests/one-time rewards. Model gate and generated previews are separate
   evidence. Native customized book serialization retains 141 pages; protocol
   **15** requires matching client/server content, with allele IDs unchanged.
+
+
+## C1/C2 native care and first session
+
+- Register `MenuType<CareMenu>` through a deferred MENU register and the ordinary
+  `(containerId, Inventory)` factory with `FeatureFlags.VANILLA_SET`. Server-only
+  constructors capture the actual entity or block-entity identity and Level.
+  `SimpleMenuProvider`/`ServerPlayer.openMenu` send the native opening packet
+  before initial `broadcastChanges`. No client-supplied target/resource is needed.
+- Native `ServerboundContainerButtonClickPacket` uses **VAR_INT** for the button,
+  not a byte. Native handling checks the active container ID and target validity;
+  CareMenu additionally checks the owner, world, range, permission, live predicate
+  and shown shared-content context. The low eight bits name the stable action;
+  remaining positive bits bind a server-controlled generation. Replacing stock,
+  a parent/candidate, home or request refreshes before payment. No revision per
+  timer tick and no unbounded per-player session map are needed.
+- One clientbound `CareViewPayload` carries registry-aware Components and at most
+  twelve rows/controls. Controls identify primary/detail/request-choice sections.
+  Native menu lifetime closes invalid targets; the client applies snapshots only
+  to the matching active CareMenu. Cargo is a transient readonly subview with
+  bounded summaries and full native bundle retrieval. Protocol **16** is required.
+- Register the screen with `RegisterMenuScreensEvent`. In 26.2 container-screen
+  `imageWidth`/`imageHeight` are final; responsive panel dimensions are separate.
+  `ScrollableLayout`, `LinearLayout` and `MultiLineTextWidget` provide native
+  clipping, wrapping, scrollbar and focus behavior. Retain shown button tokens
+  until the widgets adopt an acknowledged view, not merely the latest packet.
+- A `RegisterGuiLayersEvent` layer can draw a local hint. The hidden-HUD flag is
+  **`Minecraft.gui.hud.isHidden()`**, not `Options.hideGui`. Respect active screens,
+  spectator mode and actual key translations; do not overwrite the action bar.
+- Blocks' `useItemOn` is reached with an **empty ItemStack**. Delegate it to
+  `super.useItemOn` so native empty-hand dispatch reaches `useWithoutItem`.
+  Unconditional SUCCESS swallowed normal Pen/Juicer clicks. Only both-empty-hand
+  inspection should consume that fallback; real off-hand ingredients must pass
+  through. Mob leash release can run before `mobInteract`; preserve it and give
+  the correct hint instead of promising care on that click.
+- Inventory inputs use the existing transactional ResourceHandlers: reserve the
+  actual stack before root-commit observers. Ordinary Trough meals exclude rich
+  Guava tiers; native NBT still loads and recovers old exact stock. No migrations
+  or genotype rewrites are involved. Required reusable tools remain real items.
+- For an **unequipped** inventory Brush, use native `ItemStack.hurtAndBreak` with
+  ServerLevel, ServerPlayer and an item break callback. Do not substitute a hand.
+  Reserve the animal's existing grooming recovery before wear/delivery hooks.
+  `SoundEvents.ITEM_BREAK` is a Holder and needs `.value()` for Entity.playSound.
+- Native recipe checks use `CraftingInput.of`,
+  `RecipeManager.recipeMap().getRecipesFor` and **`Recipe.assemble(input)`**.
+  Tests confirm nonoverlapping book/guava versus book/paper/guava, ordinary-plank
+  Nests and string/feather Whistles. Existing goal IDs/criteria/rewards survive
+  changing their display parents to the new native first-family journey.
+- GameTest mock players start with an embedded **vanilla** connection. Explicitly
+  advertise the mod's `NetworkPayloadSetup`/`NetworkChannel` for packet/menu
+  fixtures. Never mask a required payload rejection in production to make mocks
+  pass. Codec checks use RegistryFriendlyByteBuf with the actual server lookup.
+- The combined build/model/all **103** native cases pass at the cohesion
+  checkpoint, including genuine courtship through paid feeding, pickup, planting,
+  bone meal and actual pup harvest. Snapshot previews use a substitute font;
+  they do not verify a real client, GPU, GUI scale or unfamiliar-player pacing.

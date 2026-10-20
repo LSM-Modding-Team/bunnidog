@@ -74,11 +74,12 @@ public class GuavaItem extends Item {
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display,
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack, context, display, lines, flag);
+        lines.accept(Component.translatable("care.bunnidogs.guava.use").withStyle(ChatFormatting.YELLOW));
         lines.accept(Component.literal("Seed quality " + tier.qualityText()).withStyle(ChatFormatting.GRAY));
         lines.accept(Component.literal("Averaged over the guavas of both parents").withStyle(ChatFormatting.DARK_GRAY));
-        lines.accept(Component.translatable("tooltip.bunnidogs.guava.table").withStyle(ChatFormatting.DARK_GRAY));
+        if (flag.isAdvanced()) lines.accept(Component.translatable("tooltip.bunnidogs.guava.table").withStyle(ChatFormatting.DARK_GRAY));
         if (tier == GuavaTier.PLAIN) {
-            lines.accept(Component.translatable("tooltip.bunnidogs.guava.plant").withStyle(ChatFormatting.DARK_GRAY));
+            if (flag.isAdvanced()) lines.accept(Component.translatable("tooltip.bunnidogs.guava.plant").withStyle(ChatFormatting.DARK_GRAY));
             lines.accept(Component.translatable("tooltip.bunnidogs.guava.care").withStyle(ChatFormatting.DARK_GRAY));
         }
     }

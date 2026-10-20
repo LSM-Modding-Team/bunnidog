@@ -6,9 +6,21 @@ existing cargo, ore scouting and cave guidance to ordinary exploration with a
 living bred animal. It adds deliberate training, rather than changing wild
 spawns, native leads or the existing home/care systems.
 
+## C1/C2 interaction update
+
+Empty-hand care offers inventory-backed training and named Follow, Wait,
+Return home (or Resume roaming without a Nest), provision and release controls.
+Training requires the real reusable Whistle plus one actual plain guava; direct
+whistle/other-hand guava training remains available. Local orders need no held
+Whistle after training. A bowl still toggles provisions. The early recipe now
+accepts string/feather alternatives; old Sinew/Whisker recipes stay valid.
+Housing connects to the existing partner advancement without resetting progress.
+The native care view does not change a saved home, genome or cargo on inspection.
+See `COHESION_PLAN.md` for current evidence and client review priorities.
+
 ## Rules
 
-- Craft a Trail Whistle from copper, Sinew and a Whisker. It is reusable and
+- Craft a Trail Whistle from copper, two string/Sinew and a feather/Whisker. It is reusable and
   uses normal interaction permissions. Train a calm, at-least-half-health
   ordinary adult expressing loyal or stoic temperament with the whistle and
   one plain guava in the other hand. Creative keeps the required guava.
@@ -94,7 +106,7 @@ panic and transport can relocate it. None of these actions claims passing Nests.
 Sneak-Calipers reports keeper relation, order and provision preference, with
 home food/work paused under active orders. The separate work-pause preference
 is retained. **A Partner for the Path** awards native once-per-player 25 XP
-after successful paid training. Native client/server content protocol **15**
+after successful paid training. Native client/server content protocol **16**
 requires updated versions on both sides.
 
 ## Evidence

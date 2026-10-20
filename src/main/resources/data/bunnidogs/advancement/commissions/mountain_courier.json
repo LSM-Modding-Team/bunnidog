@@ -1,5 +1,5 @@
 {
-  "parent": "bunnidogs:enter_warren",
+  "parent": "bunnidogs:journey/litter",
   "display": {
     "icon": {
       "id": "bunnidogs:commission_board"
