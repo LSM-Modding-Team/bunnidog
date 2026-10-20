@@ -15,7 +15,8 @@ public enum Diet {
     CAVE_FORAGER("cave_forager", "Glow berries.", List.of("cave")),
     MOUNTAIN_GRAZER("mountain_grazer", "Grazer foods plus moss and azalea leaves.", List.of("grazer", "mountain")),
     NETHER_FORAGER("nether_forager", "Nether wart and crimson or warped fungi.", List.of("nether")),
-    CHORUS_EATER("chorus_eater", "Chorus fruit.", List.of("end"));
+    CHORUS_EATER("chorus_eater", "Chorus fruit.", List.of("end")),
+    SHORE_FORAGER("shore_forager", "Kelp, dried kelp and seagrass; trims spare upper kelp from dry banks.", List.of("shore"));
 
     private final String key;
     private final String foods;

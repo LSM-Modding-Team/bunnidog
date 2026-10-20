@@ -68,6 +68,10 @@ public final class Founders {
                 sig(Gene.LEGS, "phase", 0.75),
                 sig(Gene.TEMPERAMENT, "skittish", 0.40),
                 sig(Gene.FERTILITY, "starborn", 0.40), sig(Gene.DIET, "chorus_eater", 0.85))); // seed quality: see Drift
+        RECIPES.put(Lineage.ISLAND, List.of(
+                sig(Gene.COAT, "seal", 0.90),
+                sig(Gene.LEGS, "paddle", 0.85),
+                sig(Gene.TEMPERAMENT, "loyal", 0.60), sig(Gene.DIET, "shore_forager", 0.85)));
     }
 
     /** The recipe of a lineage (empty for MEADOW). */

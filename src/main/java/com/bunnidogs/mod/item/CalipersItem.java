@@ -131,6 +131,11 @@ public class CalipersItem extends Item {
         var scouting = dog.scoutingStatus();
         careRow(player,"scouting",scouting == com.bunnidogs.mod.genetics.Scouting.Status.RESTING ? recovery(dog.scoutingWait())
                 : Component.translatable("message.bunnidogs.scouting."+scouting.name().toLowerCase(Locale.ROOT)));
+        if (dog.genome().expressed(com.bunnidogs.mod.genetics.Gene.COAT).name().equals("pale")) {
+            var sight=dog.caveSightStatus(player);
+            careRow(player,"cave_sight",sight==com.bunnidogs.mod.genetics.CaveSight.Status.RESTING ? recovery(dog.caveSightWait())
+                    : Component.translatable("message.bunnidogs.cave_sight."+sight.name().toLowerCase(Locale.ROOT)));
+        }
         careRow(player,"recovery_rest",Component.translatable("message.bunnidogs.recovery_rest."+dog.recoveryRestStatus().name().toLowerCase(Locale.ROOT)));
         if (com.bunnidogs.mod.genetics.Adaptations.phasing(dog.genome())) careRow(player,"phasing",dog.isBaby() ? adult
                 : dog.beingTransported() || dog.isVehicle() ? Component.translatable("message.bunnidogs.phasing.transported")

@@ -2,9 +2,9 @@
 
 A NeoForge mod for Minecraft 26.2: a baby-faced creature with rabbit ears and a
 dog's body, plus breeding, genetics, guavas, warrens, homes and pedigree tools.
-Requires JDK 25. Client and server must both use the updated mod (network 13). The checked-in Gradle wrapper selects the project Gradle version.
+Requires JDK 25. Client and server must both use the updated mod (network 14). The checked-in Gradle wrapper selects the project Gradle version.
 
-Craft a vanilla book with any guava for the **116-page Field Guide**, with ten
+Craft a vanilla book with any guava for the **124-page Field Guide**, with eleven
 linked contents pages covering its chapters. Sneak-use
 Calipers for care/work readiness, use a hoe on a Feeding Trough to enable
 resident gardening, and explore food stores for supplies suited to each lineage.
@@ -15,6 +15,15 @@ barns in new dry clearings; cartographers may sell Barn Explorer Maps.
 Establish a line at meadow, desert or snowy kennels, or bring an entrant to a
 public Show Ring arena. Their native explorer maps, housing and empty trophy
 space support ordinary paid breeding and earned judging. See [venue specifications](docs/VENUE_SPECS.md).
+Seek isolated ocean refuges for seal coats, paddle feet and shore-forager genes.
+Their founders, sheltered homes and tide garden add breeding material; expert
+cartographers may sell Refuge Maps. Housed coastal lines trim spare kelp from
+dry banks and can restore bare beds with real surplus in Garden mode. See
+[Island and shore specifications](docs/ISLAND_SPECS.md).
+In dim light, sneak-feed a calm pale adult with Senses +20 one glow berry for
+60 seconds of Night Vision, followed by 30 seconds of recovery. Existing vision
+keeps the berry. Record bred rare alleles and all eight wild origins in a
+Pedigree Book to earn the [genetic discovery goals](docs/DISCOVERY_SPECS.md).
 Copy a sample onto a Pedigree Comparator to sort live gene pairs with redstone.
 Adults carry one to four native bundles according to Build. Sneak with both hands
 empty to retrieve cargo; gear and contents survive native saves and Travel Baskets.

@@ -1,0 +1,31 @@
+{
+  "parent": "bunnidogs:enter_warren",
+  "display": {
+    "icon": {
+      "id": "bunnidogs:mutagen"
+    },
+    "title": {
+      "translate": "advancements.bunnidogs.nature_finds_a_way.title"
+    },
+    "description": {
+      "translate": "advancements.bunnidogs.nature_finds_a_way.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "observed": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "observed"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  }
+}

@@ -1,6 +1,17 @@
 # P1 — Bunnidogs Field Guide
 
-**V3/V4:** current preset guides have **116 pages, ten indices and 88 chapter
+**I1/I2/A12/G7:** current preset guides have **124 pages, eleven indices and
+96 chapter links**. Workshops & sites (112) adds Wild & companions (117),
+which links Island refuge (118), Coastal genes (119), Shore meals (120), Kelp
+workers (121), Restore a tide bed (122), Pale cave guide (123) and Genetic
+discoveries (124). These chapters return to 117; it links Main and 112.
+Earlier destinations stay intact and both new indices fit the line budget.
+The native customized item-codec round trip retains all 124 pages. The generated
+preview is inspected with a substitute font; native fonts/navigation remain
+gameplay review. Preset items use the new defaults; explicitly saved older book
+content can retain old page counts, so craft a fresh guide when needed.
+
+**Prior V3/V4 checkpoint:** preset guides had **116 pages, ten indices and 88 chapter
 links**. More chapters now links Workshops & sites at **112**. That index keeps
 workshop **98** and barn **107** reachable, and adds regional kennels **113**,
 pairing yard **114**, Show Ring arenas **115** and native maps **116**. The new

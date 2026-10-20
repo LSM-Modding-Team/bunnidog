@@ -160,6 +160,7 @@ public final class Plain {
         note(Gene.COAT, "ember", "A glowing-red Nether coat.");
         note(Gene.COAT, "void", "A dark End coat.");
         note(Gene.COAT, "glow", "Glow: a shining swamp coat that is easy to carry and hard to show.");
+        note(Gene.COAT, "seal", "Seal: slate-gray coastal fur with dark patches.");
 
         note(Gene.LEGS, "standard", "The common default.");
         note(Gene.LEGS, "long", "");
@@ -169,6 +170,7 @@ public final class Plain {
         note(Gene.LEGS, "hoofed", "Hoofed legs: goat legs, made for jumping.");
         note(Gene.LEGS, "phase", "Phase legs: an End lineage's defensive blink.");
         note(Gene.LEGS, "webbed", "Webbed paws: the swamp lineage's swimming feet.");
+        note(Gene.LEGS, "paddle", "Paddle paws: short, strongly swimming island legs with visible toe webbing.");
 
         note(Gene.BUILD, "average", "The common default.");
         note(Gene.BUILD, "stocky", "Stocky: broad and tough.");

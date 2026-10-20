@@ -68,6 +68,8 @@ final class GrazeGoal extends Goal {
             return new Meal(state,state.setValue(ChorusFlowerBlock.AGE,0));
         if (state.is(Blocks.CACTUS) && this.dog.canEat(new ItemStack(Items.CACTUS)) && ResidentPlants.spareCactus(this.dog,pos))
             return new Meal(state,Blocks.AIR.defaultBlockState());
+        if (state.is(Blocks.KELP) && this.dog.canEat(new ItemStack(Items.KELP)) && ResidentPlants.spareKelp(this.dog,pos))
+            return new Meal(state,Blocks.WATER.defaultBlockState());
         if (ResidentPlants.mushroom(state) && this.dog.canEat(new ItemStack(state.getBlock())) && ResidentPlants.spareMushroom(this.dog,pos))
             return new Meal(state,Blocks.AIR.defaultBlockState());
         if (state.is(Blocks.MELON) && this.dog.canEat(new ItemStack(Items.MELON_SLICE)) && ResidentPlants.linkedMelon(this.dog,pos))
@@ -84,6 +86,7 @@ final class GrazeGoal extends Goal {
     }
 
     private List<BlockPos> standingSpots(BlockPos pos) {
+        if (this.dog.level().getBlockState(pos).is(Blocks.KELP)) return ResidentPlants.shoreSpots(this.dog,pos);
         var spots = new ArrayList<BlockPos>();
         spots.add(pos.above());
         boolean cactus = this.dog.level().getBlockState(pos).is(Blocks.CACTUS);
@@ -128,7 +131,7 @@ final class GrazeGoal extends Goal {
         if (!this.canContinueToUse()) return;
         this.ticks++;
         this.dog.getLookControl().setLookAt(this.food.getX()+0.5, this.food.getY()+0.5, this.food.getZ()+0.5);
-        if (this.dog.distanceToSqr(Vec3.atCenterOf(this.food)) > (this.planned.before().is(Blocks.CACTUS) ? 9 : 4)) {
+        if (this.dog.distanceToSqr(Vec3.atCenterOf(this.food)) > (this.planned.before().is(Blocks.CACTUS) || this.planned.before().is(Blocks.KELP) ? 9 : 4)) {
             this.eating = 0;
             if (this.ticks % 20 == 0) {
                 this.path = this.dog.getNavigation().createPath(this.stand,0);

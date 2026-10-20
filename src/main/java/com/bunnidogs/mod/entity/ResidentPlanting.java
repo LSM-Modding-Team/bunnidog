@@ -16,8 +16,15 @@ final class ResidentPlanting {
     private ResidentPlanting() {}
     static BlockState plan(ServerLevel level, BlockPos pos, ItemStack food) {
         if (food.isEmpty() || !level.hasChunkAt(pos) || !level.hasChunkAt(pos.below()) || !level.hasChunkAt(pos.above())
-                || level.isOutsideBuildHeight(pos) || !level.getWorldBorder().isWithinBounds(pos)
-                || !level.getBlockState(pos).isAir() || !level.getFluidState(pos).isEmpty()) return null;
+                || level.isOutsideBuildHeight(pos) || !level.getWorldBorder().isWithinBounds(pos)) return null;
+        if (food.is(Items.KELP)) {
+            var below=level.getBlockState(pos.below());
+            if (!level.getBlockState(pos).is(Blocks.WATER) || !level.getFluidState(pos).isSource()
+                    || !level.getBlockState(pos.above()).is(Blocks.WATER) || !level.getFluidState(pos.above()).isSource()
+                    || below.is(Blocks.KELP) || below.is(Blocks.KELP_PLANT)) return null;
+            var kelp=Blocks.KELP.defaultBlockState(); return kelp.canSurvive(level,pos) ? kelp : null;
+        }
+        if (!level.getBlockState(pos).isAir() || !level.getFluidState(pos).isEmpty()) return null;
         var plant = plant(food);
         if (plant == null) return null;
         if (plant == Blocks.CACTUS && (level.getBlockState(pos.below()).is(Blocks.CACTUS)
@@ -32,7 +39,8 @@ final class ResidentPlanting {
                 : food.is(Items.SWEET_BERRIES) ? Blocks.SWEET_BERRY_BUSH : food.is(Items.GLOW_BERRIES) ? Blocks.CAVE_VINES
                 : food.is(Items.RED_MUSHROOM) ? Blocks.RED_MUSHROOM : food.is(Items.BROWN_MUSHROOM) ? Blocks.BROWN_MUSHROOM
                 : food.is(Items.CRIMSON_FUNGUS) ? Blocks.CRIMSON_FUNGUS : food.is(Items.WARPED_FUNGUS) ? Blocks.WARPED_FUNGUS
-                : food.is(Items.CACTUS) ? Blocks.CACTUS : food.is(ModItems.GUAVA.get()) ? ModBlocks.GUAVA_FRUIT.get() : null;
+                : food.is(Items.CACTUS) ? Blocks.CACTUS : food.is(Items.KELP) ? Blocks.KELP
+                : food.is(ModItems.GUAVA.get()) ? ModBlocks.GUAVA_FRUIT.get() : null;
     }
 
 }

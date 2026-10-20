@@ -38,6 +38,9 @@
     },
     "specimen=12": {
       "model": "bunnidogs:block/specimen_jar_12"
+    },
+    "specimen=13": {
+      "model": "bunnidogs:block/specimen_jar_13"
     }
   }
 }

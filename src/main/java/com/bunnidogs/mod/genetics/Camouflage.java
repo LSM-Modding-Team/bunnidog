@@ -21,7 +21,7 @@ public final class Camouflage {
             case "brown", "spotted" -> Cover.EARTH;
             case "moss" -> Cover.GREEN;
             case "snow" -> Cover.SNOW;
-            case "pale" -> Cover.STONE;
+            case "pale", "seal" -> Cover.STONE;
             case "slate" -> Cover.DARK_STONE;
             case "ember" -> Cover.NETHER;
             case "void" -> Cover.OBSIDIAN;

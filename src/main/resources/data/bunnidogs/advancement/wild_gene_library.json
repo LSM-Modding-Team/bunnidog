@@ -1,0 +1,31 @@
+{
+  "parent": "bunnidogs:enter_warren",
+  "display": {
+    "icon": {
+      "id": "bunnidogs:pedigree_book"
+    },
+    "title": {
+      "translate": "advancements.bunnidogs.wild_gene_library.title"
+    },
+    "description": {
+      "translate": "advancements.bunnidogs.wild_gene_library.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "catalogued": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "catalogued"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  }
+}

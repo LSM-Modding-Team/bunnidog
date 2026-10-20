@@ -132,6 +132,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private static final Identifier TRAIT_STEP = Identifier.fromNamespaceAndPath("bunnidogs","inherited_step_height");
     private static final Identifier TRAIT_TERRAIN = Identifier.fromNamespaceAndPath("bunnidogs","inherited_movement_efficiency");
     private static final Identifier TRAIT_SWIM = Identifier.fromNamespaceAndPath("bunnidogs","inherited_swim_speed");
+    private static final Identifier TRAIT_OXYGEN = Identifier.fromNamespaceAndPath("bunnidogs","inherited_oxygen_bonus");
     private static final Identifier CARGO_LOAD = Identifier.fromNamespaceAndPath("bunnidogs","overloaded_bundle_packs");
     // Base stats of an "average" bunnidog; the genes scale these (see Traits multipliers).
     public static final double BASE_HEALTH = 8.0D;
@@ -186,6 +187,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private final NestHome nestHome = new NestHome(this);
     private final PhaseEscape phaseEscape = new PhaseEscape(this);
     private final BunnidogPacks packs = new BunnidogPacks(this);
+    private final CaveGuiding caveGuiding = new CaveGuiding(this);
     private long nextForageTick;
     private long nextGardenTick;
     private long nextSampleTick;
@@ -329,6 +331,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.inheritedBonus(Attributes.STEP_HEIGHT,TRAIT_STEP,Adaptations.stepBonus(this.genome()));
         this.inheritedBonus(Attributes.MOVEMENT_EFFICIENCY,TRAIT_TERRAIN,Adaptations.movementEfficiency(this.genome()));
         this.inheritedBonus(net.neoforged.neoforge.common.NeoForgeMod.SWIM_SPEED,TRAIT_SWIM,Adaptations.swimBonus(this.genome()));
+        this.inheritedBonus(Attributes.OXYGEN_BONUS,TRAIT_OXYGEN,Adaptations.oxygenBonus(this.genome()));
         this.applyCargoLoad();
     }
     private void inheritedBonus(Holder<Attribute> attribute, Identifier id, double amount) {
@@ -561,6 +564,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         }
         if (held.is(Items.COMPASS)) return player.isShiftKeyDown() ? MineralScouting.use(this,player,hand)
                 : ResidentWayfinding.markHome(this,player,hand);
+        if (held.is(Items.GLOW_BERRIES) && player.isShiftKeyDown()) return this.caveGuiding.use(player,hand);
         if (held.is(Items.BONE) && player.isShiftKeyDown()) {
             if (!player.mayBuild()) return InteractionResult.PASS;
             if (!this.level().isClientSide()) {
@@ -859,6 +863,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
                 (long)Sampling.RECOVERY_TICKS);
     }
     public int phaseWait() { return this.phaseEscape.waitTicks(); }
+    public int caveSightWait() { return this.caveGuiding.waitTicks(); }
+    public com.bunnidogs.mod.genetics.CaveSight.Status caveSightStatus(Player player) { return this.caveGuiding.status(player); }
 
     @Override
     public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
@@ -931,6 +937,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         output.putInt("ForageWait",this.forageWait());
         if (this.samplingWait() > 0) output.putInt("SampleWait",this.samplingWait());
         if (this.scoutingWait() > 0) output.putInt("ScoutWait",this.scoutingWait());
+        if (this.caveSightWait() > 0) output.putInt("CaveSightWait",this.caveSightWait());
         if (this.groomingWait() > 0) output.putInt("GroomWait",this.groomingWait());
         if (this.fleeceWait() > 0) output.putInt("FleeceWait",this.fleeceWait());
         if (this.splicingWait() > 0) output.putInt("SpliceWait",this.splicingWait());
@@ -980,6 +987,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
                 com.bunnidogs.mod.genetics.Gardening.REST_TICKS);
         this.nextGroomTick = this.level().getGameTime()+Math.clamp(input.getIntOr("GroomWait",0),0,Grooming.RECOVERY_TICKS);
         this.nextScoutTick = this.level().getGameTime()+Math.clamp(input.getIntOr("ScoutWait",0),0,Scouting.RECOVERY_TICKS);
+        this.caveGuiding.restore(input.getIntOr("CaveSightWait",0));
         this.nextForageTick = this.level().getGameTime() + Math.clamp(input.getIntOr("ForageWait", 0), 0, Foraging.MEAL_COOLDOWN);
         this.nextSampleTick = this.level().getGameTime()+Math.clamp(input.getIntOr("SampleWait",0),0,
                 Sampling.RECOVERY_TICKS);

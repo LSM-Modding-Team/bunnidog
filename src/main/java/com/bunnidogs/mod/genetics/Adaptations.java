@@ -24,7 +24,10 @@ public final class Adaptations {
     public static boolean luminous(Genome genome) { return genome.expressed(Gene.COAT).name().equals("glow"); }
     public static boolean phasing(Genome genome) { return genome.expressed(Gene.LEGS).name().equals("phase"); }
     public static boolean webbed(Genome genome) { return genome.expressed(Gene.LEGS).name().equals("webbed"); }
-    public static double swimBonus(Genome genome) { return webbed(genome) ? .5 : 0; }
+    public static boolean paddleFeet(Genome genome) { return genome.expressed(Gene.LEGS).name().equals("paddle"); }
+    public static boolean swimmingFeet(Genome genome) { return webbed(genome) || paddleFeet(genome); }
+    public static double swimBonus(Genome genome) { return paddleFeet(genome) ? 1 : webbed(genome) ? .5 : 0; }
+    public static double oxygenBonus(Genome genome) { return genome.expressed(Gene.COAT).name().equals("seal") ? 1 : 0; }
     public static int blockLight(Genome genome, int environmental) { return luminous(genome) ? 15 : environmental; }
     public static String explanation(Gene gene, Allele allele) {
         String adaptation = environmentalExplanation(gene,allele);
@@ -34,9 +37,12 @@ public final class Adaptations {
     private static String environmentalExplanation(Gene gene, Allele allele) {
         if (gene == Gene.FERTILITY) return FertilityMark.of(allele).description()+" shows this expressed fertility allele, not current breeding readiness.";
         if (gene == Gene.LEGS && allele.name().equals("webbed")) return "Adds 0.5 Swim Speed, normally 50% stronger water propulsion. Webbing shows between the toes. Still needs air; domestic routes still avoid deep water and lava.";
+        if (gene == Gene.LEGS && allele.name().equals("paddle")) return "Adds 1 Swim Speed, normally doubling water propulsion. Shorter legs trade land speed and jump height for swimming; visible toe webbing paddles in water. Still needs air; domestic routes avoid deep water.";
         if (gene == Gene.LEGS && allele.name().equals("phase")) return "Grounded adults blink three to six blocks away after a nonlethal attack, then recover for twenty seconds. Needs safe loaded dry ground inside the current home boundary. Leads, rides and passengers prevent blinking; damage still lands.";
         if (gene == Gene.EARS && allele.name().equals("bat")) return "Healthy adults with Senses +10 can mark nearby ore: sneak-use a compass. At +20, a mineral in the other hand selects its ore family. Six-block range, thirty-second shared recovery.";
         if (gene == Gene.COAT && allele.name().equals("ember")) return "Immune to fire and lava.";
+        if (gene == Gene.COAT && allele.name().equals("seal")) return "+1 native Oxygen Bonus: air normally lasts twice as long on average. Does not refill air or prevent drowning. Water Breathing and other oxygen bonuses still work normally.";
+        if (gene == Gene.COAT && allele.name().equals("pale")) return "At Senses +20, a calm healthy adult can guide a nearby keeper's sight in dim light: sneak-feed one glow berry for sixty seconds of Night Vision. Thirty-second recovery persists through saves and baskets. Existing Night Vision keeps the berry.";
         if (gene == Gene.BUILD && allele.name().equals("woolly"))
             return "Does not freeze in powder snow. Healthy adults yield two wool in their expressed coat's palette with shears every ten minutes.";
         if (gene == Gene.COAT && allele.name().equals("snow"))

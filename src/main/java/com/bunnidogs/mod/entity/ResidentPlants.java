@@ -1,6 +1,8 @@
 package com.bunnidogs.mod.entity;
 
 import com.bunnidogs.mod.genetics.Gardening;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
@@ -12,6 +14,20 @@ import net.minecraft.world.phys.Vec3;
 /** Shared seed-stock and renewable-plant rules for direct meals and opted-in trough work. */
 final class ResidentPlants {
     private ResidentPlants() {}
+    static boolean spareKelp(Bunnidog dog,BlockPos pos) {
+        var level=dog.level();
+        return level.hasChunkAt(pos) && level.hasChunkAt(pos.below()) && level.getBlockState(pos).is(Blocks.KELP)
+                && level.getBlockState(pos.below()).is(Blocks.KELP_PLANT) && level.getBlockState(pos).canSurvive(level,pos);
+    }
+    /** Reach shallow plants from loaded dry banks; never request an underwater domestic route. */
+    static List<BlockPos> shoreSpots(Bunnidog dog,BlockPos crop) {
+        var out=new ArrayList<BlockPos>();
+        for (int distance=1;distance<=2;distance++) for (var direction:Direction.Plane.HORIZONTAL) for (int up:new int[]{1,2,0}) {
+            var pos=crop.relative(direction,distance).above(up);
+            if (HomeRoutes.standing(dog,pos) && Vec3.atBottomCenterOf(pos).distanceToSqr(Vec3.atCenterOf(crop))<=9) out.add(pos);
+        }
+        return List.copyOf(out);
+    }
     static boolean spareCactus(Bunnidog dog, BlockPos pos) {
         var level = dog.level();
         if (!level.hasChunkAt(pos) || !level.hasChunkAt(pos.below()) || !level.hasChunkAt(pos.above())) return false;
@@ -56,6 +72,9 @@ final class ResidentPlants {
     }
     static Vec3 sightPoint(Bunnidog dog, BlockPos pos) {
         var state = dog.level().getBlockState(pos);
+        if ((state.is(Blocks.WATER) || state.is(Blocks.KELP)) && dog.level().hasChunkAt(pos.above())
+                && dog.level().getBlockState(pos.above()).is(Blocks.WATER))
+            return Vec3.atCenterOf(pos.above()); // The visible water above a shallow planting cell; all actual cells still revalidate.
         if (!state.is(Blocks.CACTUS)) return Vec3.atCenterOf(pos);
         // The base can hide a tall top's centre while its near vertical face remains visible.
         var eye = dog.getEyePosition(); var bounds = state.getCollisionShape(dog.level(),pos).bounds();

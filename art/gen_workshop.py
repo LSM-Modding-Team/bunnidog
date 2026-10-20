@@ -230,7 +230,7 @@ def main():
     icons = carriers(); press(); hides = rugs(); jars()
     for path in (RES/'assets/bunnidogs/lang').glob('*.json'):
         values = json.loads(path.read_text()); values.update(TEXT); path.write_text(json.dumps(values,indent=2)+'\n')
-    preview = Image.new('RGB',(1120,1020),(43,42,40)); d = ImageDraw.Draw(preview)
+    preview = Image.new('RGB',(1120,max(1020,620+((len(hides)+5)//6)*186)),(43,42,40)); d = ImageDraw.Draw(preview)
     font = ImageFont.truetype('DejaVuSans.ttf',16)
     d.text((20,15),'Tiered guava juice — richer carriers preserve the seed’s inherited traits',font=font,fill=(238,226,198))
     for i,icon in enumerate(icons):
@@ -241,7 +241,7 @@ def main():
     draw_model(preview,'juicer_1',(130,440)); draw_model(preview,'specimen_jar_0',(410,440)); draw_model(preview,'specimen_jar_7',(690,440)); draw_model(preview,'specimen_jar_12',(970,440))
     d.text((32,518),'Screw press',font=font,fill=(232,222,194)); d.text((322,518),'Empty jar',font=font,fill=(232,222,194))
     d.text((598,518),'Moss sample',font=font,fill=(232,222,194)); d.text((882,518),'Glow sample',font=font,fill=(232,222,194))
-    d.text((20,575),'Twelve coat rugs — two matching pelts and string',font=font,fill=(238,226,198))
+    d.text((20,575),f'{len(hides)} coat rugs — two matching pelts and string',font=font,fill=(238,226,198))
     for i,(coat,image) in enumerate(hides):
         x = 28+i%6*182; y = 620+i//6*186; large = image.resize((144,144),Image.Resampling.NEAREST)
         preview.paste(large,(x,y),large); d.text((x+4,y+147),coat,font=font,fill=(230,219,198))

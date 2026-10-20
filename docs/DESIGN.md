@@ -20,7 +20,13 @@ sketches with native careers/loot and live unphased gene-pair redstone. See
 proposal with native bundle panniers and a retained-cargo overload tradeoff;
 see `CARRYING_SPECS.md`. V3/V4 now complete regional kennels and the physical
 Show Ring arena with native venues, maps and useful player-establishment sites;
-see `VENUE_SPECS.md`. The isolated island lineage remains a proposal.
+see `VENUE_SPECS.md`. I1/I2 now finish the isolated island with three appended
+coastal alleles and a rooted ocean refuge; see `ISLAND_SPECS.md`. A11 supplies
+native oxygen/propulsion and D13/L36 sustainable dry-bank kelp care. A12 defines
+the old cave-vision idea as paid keeper Night Vision from trained pale adults,
+rather than redundant mob perception; see `CARE_SPECS.md`. G7 implements Nature
+Finds a Way and the eight-origin Wild Gene Library through actual saved records;
+see `DISCOVERY_SPECS.md`. Historical proposal lists below retain their wording.
 
 **Contents (the sections are in the order they were written; find one with `grep -n '^## ' docs/DESIGN.md`):**
 * *Core design*: Skeleton "Generations"; Phase 1, 2, 3 decisions (genome, breeding, lineages); "Seed & Guava loop" (the long design of seeds, crops, guava tiers, stat drift); Phase 4a-4e and 4g decisions; Session 6 tier qualities; Rejected / parked skeletons.

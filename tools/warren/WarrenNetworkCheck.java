@@ -43,7 +43,7 @@ public final class WarrenNetworkCheck {
                 require(regional.stream().map(c -> new Pos(c.dx(),c.dy(),c.dz())).distinct().count() == regional.size(),"Regional cells cannot overlap");
                 require(regional.stream().filter(c -> c.dy() == -1).count() == 9,"Every regional ground column needs support");
                 require(regional.stream().filter(c -> c.mat() == PropShape.Mat.TROUGH).count() == (garden ? 1 : 0),"Garden opt-in controls the only trough");
-                if (style == Lineage.MEADOW || style == Lineage.TUNDRA || style == Lineage.MOUNTAIN)
+                if (style == Lineage.MEADOW || style == Lineage.TUNDRA || style == Lineage.MOUNTAIN || style == Lineage.ISLAND)
                     require(regional.equals(PropShape.cells(PropShape.Kind.FARM,turns,garden)),"Ordinary agricultural layouts retain their geometry");
                 else require(regional.stream().noneMatch(c -> c.mat() == PropShape.Mat.WATER),"Regional beds need no unsupported water source");
                 var current = RegionalFarms.cells(style,turns,garden,true);

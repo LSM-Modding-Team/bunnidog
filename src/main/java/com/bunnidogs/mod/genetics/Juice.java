@@ -113,6 +113,7 @@ public final class Juice {
         DEFS.put("coat:ember", List.of(self("fire_resistance", "Fire Resistance", 120, 900, 0, null),
                 self("strength", "Strength", 45, 300, 3, null)));
         DEFS.put("coat:void", List.of(self("levitation", "Levitation", 3, 6, 0, null)));      // a blink, not a flight
+        DEFS.put("coat:seal", List.of(self("water_breathing", "Water Breathing", 120, 600, 0, null)));
         // legs: speed and jump
         DEFS.put("legs:long", List.of(self("speed", "Speed", 45, 300, 3, Stat.SWIFTNESS)));
         DEFS.put("legs:springy", List.of(self("jump_boost", "Jump Boost", 60, 300, 3, Stat.LEAP)));
@@ -120,6 +121,7 @@ public final class Juice {
         DEFS.put("legs:hoofed", List.of(self("jump_boost", "Jump Boost", 75, 360, 3, Stat.LEAP)));
         DEFS.put("legs:phase", List.of(self("slow_falling", "Slow Falling", 45, 300, 0, Stat.LEAP)));
         DEFS.put("legs:webbed", List.of(self("dolphins_grace", "Dolphin's Grace", 90, 600, 0, Stat.SWIFTNESS)));
+        DEFS.put("legs:paddle", List.of(self("dolphins_grace", "Dolphin's Grace", 120, 600, 0, Stat.SWIFTNESS)));
         // build: toughness, or speed for the light ones; the chonker pays for it with Slowness (never scales)
         DEFS.put("build:stocky", List.of(self("resistance", "Resistance", 45, 300, 2, Stat.VITALITY)));
         DEFS.put("build:slim", List.of(self("speed", "Speed", 30, 300, 3, Stat.SWIFTNESS)));

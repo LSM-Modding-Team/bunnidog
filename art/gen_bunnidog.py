@@ -43,6 +43,8 @@ COATS = {
                     patches=(246, 152, 42, 255)),
     "void":    dict(base=(46, 32, 68, 255), dark=(30, 20, 48, 255), light=(72, 52, 102, 255),                   # end
                     patches=(202, 84, 224, 255)),
+    "seal":    dict(base=(113, 123, 124, 255), dark=(62, 76, 80, 255), light=(185, 192, 181, 255),             # isolated ocean refuge
+                    patches=(64, 77, 81, 255)),
 }
 
 # Exports share the hand-shaped surfaces in sculpt_bunnidog.py.
@@ -307,7 +309,7 @@ def main():
     java_path = os.path.join(ROOT, 'src/main/java/com/bunnidogs/mod/client/model/BunnidogModelLayer.java')
     with open(java_path, 'w') as f:
         f.write(build_java())
-    sheet = Image.new('RGBA', (256 * 4, 256 * 3), (34, 35, 38, 255))
+    sheet = Image.new('RGBA', (256 * 4, 256 * ((len(imgs)+3)//4)), (34, 35, 38, 255))
     for i, img in enumerate(imgs.values()):
         sheet.paste(img.resize((256, 256), Image.Resampling.LANCZOS), ((i % 4) * 256, (i // 4) * 256))
     sheet.save(os.path.join(ROOT, 'art/bunnidog_texture_preview.png'))

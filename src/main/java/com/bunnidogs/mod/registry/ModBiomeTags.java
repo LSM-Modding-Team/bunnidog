@@ -35,7 +35,7 @@ public final class ModBiomeTags {
 
     /** If a biome is (wrongly) in two lineage tags, the first of these wins. MEADOW is the fallback, not listed. */
     private static final Lineage[] PRIORITY = {
-            Lineage.NETHER, Lineage.END, Lineage.CAVE, Lineage.SWAMP, Lineage.DESERT, Lineage.TUNDRA, Lineage.MOUNTAIN};
+            Lineage.NETHER, Lineage.END, Lineage.CAVE, Lineage.SWAMP, Lineage.DESERT, Lineage.TUNDRA, Lineage.MOUNTAIN, Lineage.ISLAND};
 
     public static TagKey<Biome> lineage(Lineage lineage) {
         return LINEAGE_TAGS.get(lineage);

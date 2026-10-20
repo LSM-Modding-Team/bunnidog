@@ -20,7 +20,9 @@ public enum Lineage {
     CAVE("cave"),
     MOUNTAIN("mountain"),
     NETHER("nether"),
-    END("end");
+    END("end"),
+    /** Ocean-refuge founders are explicitly assigned; an ordinary ocean spawn is not an island discovery. */
+    ISLAND("island");
 
     private final String key;
 

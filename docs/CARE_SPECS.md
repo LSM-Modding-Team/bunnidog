@@ -1,8 +1,9 @@
 # Animal care and inherited adaptations
 
-Current A10 completes the original coat-camouflage proposal below. H11 adds
+Current A11 supplies the Island's native oxygen/propulsion and A12 completes
+useful pale-coat cave vision. A10 supplies coat camouflage; H11 adds
 Build-based native bundle carriers, with cargo breaking cover. Current
-client/server protocol **12** includes the equipment count and art; update both
+client/server protocol **14** includes the coastal allele semantics; update both
 sides. Earlier per-feature protocol/test counts are historical checkpoints.
 
 Implemented 2026-10-16 under the user's standing design latitude. These additions
@@ -138,7 +139,7 @@ a practical use. The native wool palette approximates the existing fur colors:
 | moss | 2 green wool |
 | glow | 2 cyan wool |
 | pale | 2 light gray wool |
-| slate | 2 gray wool |
+| slate, seal | 2 gray wool |
 | ember | 2 red wool |
 | void | 2 purple wool |
 
@@ -560,7 +561,7 @@ Already acquired targets, damage, collisions and Warden sniffing remain native.
 | brown, spotted | Exposed dirt, coarse/rooted dirt, podzol, path/farmland, mud/roots |
 | moss | Grass block, moss/pale moss and carpets, leaves |
 | snow | Snow layers, snow blocks, powder snow with actual standing footing |
-| pale | Stone, diorite/polished diorite, calcite, tuff |
+| pale, seal | Stone, diorite/polished diorite, calcite, tuff |
 | slate | Deepslate forms, blackstone forms, basalt forms |
 | ember | Netherrack, nether/red nether bricks, nether-wart block, crimson nylium |
 | void | Obsidian/crying obsidian and purpur block/pillar |
@@ -593,3 +594,62 @@ Actual movement and a real sculk sensor demonstrate silent blended STEP dispatch
 retained eating frequency eight and restored exposed STEP frequency one. This
 passes with the full 85-case implementation checkpoint. Natural Warden encounters
 and client gameplay remain manual review.
+
+## A11: inherited Island oxygen and swimming
+
+The isolated Island lineage appends COAT `seal` (ID 12), LEGS `paddle` (ID 8)
+and DIET `shore_forager` (ID 12), preserving every existing saved ID. Expressed
+seal adds a named native +1 Oxygen Bonus: ordinarily twice the air duration on
+average, with normal 300 maximum air and retained drowning. Native Water
+Breathing and external bonuses compose; expression/loading never refills air.
+Paddle adds +1 Swim Speed, expressed webbing/paddling and shorter 0.85-scale
+land legs. Its land speed/jump are 0.91×/0.82× before bred stats. Swamp webbed
+keeps its existing independent allele and +0.5 Swim Speed.
+
+Hidden copies stay hidden. Seal uses gray wool for woolly fleece, matching
+pelt/rug/Jar art and stone camouflage. Its juice grants Water Breathing;
+paddle juice grants Dolphin's Grace. Both use existing infusion quality rules.
+Native movement, actual air depletion/drowning, effects and attribute
+save/gene changes pass alongside the model gate. The approved sculpt and face
+are preserved; coastal adult/pup previews are inspected. See `ISLAND_SPECS.md`
+for full genetics, source, siting, supplies and dry-bank kelp care.
+
+## A12: pale-coated cave guidance
+
+In dim light, sneak-use **one glow berry** on an ordinary calm adult expressing
+COAT `pale` with **Senses +20**. The keeper receives native **Night Vision for
+60 seconds** and the animal rests for **30 seconds / 600 ticks**. This turns
+the original cave-night-vision idea into a useful breeding goal: native mobs
+already perceive targets in darkness, while their keeper benefits from sight.
+Any keeper may ask; there is no home, ownership or cave-biome lock.
+
+The animal must be alive, at least half health, in the same level and within
+six blocks. Threat/target/refuge, love and the first five seconds of recent
+attacker memory refuse. The player's native local brightness must be at most
+seven. Daytime/sky checks are not substituted for actual light. Existing Night
+Vision of any strength/duration refuses without shortening it or charging.
+Leads and transport do not themselves forbid this stationary care interaction.
+Ordinary interaction/build permission still applies; the Apex is excluded.
+
+The cost comes from the actual interaction hand before native effect callbacks.
+An in-progress guard prevents reentry while cost/effect/refund is unresolved.
+Creative retains food. Only a successful native application starts recovery,
+plays eating feedback and awards **By Pale Lantern**, with native once-only
+25 XP. A denied effect returns the exact berry/components to the same suitable
+hand, otherwise inventory/normal drop, without overwriting callback-replaced
+items or starting recovery. There is no ambient aura or free repeated buff.
+
+Optional `CaveSightWait` saves remaining recovery clamped to 600 ticks; missing
+legacy data means ready. Whole-animal Travel Baskets retain it through existing
+NBT storage. The timer is care state rather than an inherited seed/sample
+field. Sneak-Calipers reports pale animals' readiness/recovery without spending
+food or applying an effect. No new client entity-data slot or effect type is
+needed. Current protocol **14** also requires the Island allele meanings.
+
+The native case exercises a real enclosed dark room and local light engine,
+Senses 19 refusal, retained existing stronger vision, actual payment before
+reentrant native denial, hand replacement/exact refund, successful duration,
+recovery/native save, Creative stock and bright refusal. Build/model/all **95**
+native cases pass at the combined checkpoint. Guide previews are inspected;
+native client controls/effect appearance and ordinary cave journeys remain
+gameplay review.

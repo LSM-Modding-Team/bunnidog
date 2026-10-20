@@ -18,7 +18,7 @@ public final class Fleece {
             case "moss" -> "green";
             case "glow" -> "cyan";
             case "pale" -> "light_gray";
-            case "slate" -> "gray";
+            case "slate", "seal" -> "gray";
             case "ember" -> "red";
             case "void" -> "purple";
             default -> "white"; // cream, snow and a safe fallback for future coats

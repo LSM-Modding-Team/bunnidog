@@ -176,3 +176,19 @@ performs a real two-HP trough meal, saves/restores the preference and legacy
 default on reused entities, travels through a real basket with paused food rest,
 resumes by hoe and sets a pup's future preference without growth. The guide
 preview is inspected; natural work resumption and client controls need playtesting.
+
+## L36: shore gardens
+
+Healthy housed shore-forager residents trim spare upper kelp into enabled
+nearby troughs, retaining the last growing root and restoring native water.
+Garden-mode Bloom +10 workers can also spend one actual kelp to plant a bare
+valid bed beneath two blocks of still water, keeping eight in reserve. Mixed
+permits harvesting; paid planting remains an explicit Garden-mode choice.
+
+The shared search extends two blocks below a trough to reach shallow beds.
+Workers approach from loaded dry banks, preserving ordinary home/hazard paths,
+filters, pauses, mode, real protection callbacks, exact cancellation refunds
+and garden recovery. No aquatic domestic route is added. Native harvested
+roots, real paid planting, reserve/refusal/rollback and wounded direct meals
+pass in the combined 95-case checkpoint. See `ISLAND_SPECS.md` for the complete
+D13/L36 contract and generated tide-garden source.

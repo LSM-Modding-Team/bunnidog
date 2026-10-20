@@ -38,7 +38,8 @@ public enum Gene {
             wild("slate",   14, 0f, Lineage.MOUNTAIN),
             wild("ember",   15, 0f, Lineage.NETHER),
             wild("void",    16, 0f, Lineage.END),
-            wild("glow",     0, 0f, Lineage.SWAMP)),     // RECESSIVE: swamp bunnidogs mostly just carry it
+            wild("glow",     0, 0f, Lineage.SWAMP),      // RECESSIVE: swamp bunnidogs mostly just carry it
+            wild("seal",    17, 0f, Lineage.ISLAND)),    // long-breath coastal coat; appended saved id 12
     LEGS("legs",                                          // value = leg scale (speed + jump + visible length)
             spec("standard", 3, 1.00f, 6),
             spec("long",     2, 1.20f, 3),
@@ -47,7 +48,8 @@ public enum Gene {
             wild("fleet",   10, 1.35f, Lineage.DESERT),  // fast
             wild("hoofed",  11, 1.30f, Lineage.MOUNTAIN), // goat legs: long jumps
             wild("phase",   12, 1.00f, Lineage.END),      // short defensive blinks, not longer physical legs
-            wild("webbed",  13, 0.95f, Lineage.SWAMP)),   // water propulsion, with a small land-movement tradeoff
+            wild("webbed",  13, 0.95f, Lineage.SWAMP),    // water propulsion, with a small land-movement tradeoff
+            wild("paddle",  14, 0.85f, Lineage.ISLAND)),  // stronger water propulsion, shorter legs on land
     BUILD("build",                                        // value = chonk (health + visible width)
             spec("average",  3, 1.00f, 6),
             spec("stocky",   2, 1.25f, 3),
@@ -78,7 +80,8 @@ public enum Gene {
             wild("cave_forager",   13, 0f, Lineage.CAVE),
             wild("mountain_grazer",14, 0f, Lineage.MOUNTAIN),
             wild("nether_forager", 15, 0f, Lineage.NETHER),
-            wild("chorus_eater",   16, 0f, Lineage.END));
+            wild("chorus_eater",   16, 0f, Lineage.END),
+            wild("shore_forager",  17, 0f, Lineage.ISLAND));
 
     /** Number of gene slots. */
     public static final int COUNT = values().length;

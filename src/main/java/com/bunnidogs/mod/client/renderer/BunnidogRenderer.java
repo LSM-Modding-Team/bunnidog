@@ -55,7 +55,7 @@ public class BunnidogRenderer extends MobRenderer<Bunnidog, BunnidogRenderState,
         state.legScale = traits.legScale();
         state.buildScale = traits.buildScale();
         state.temperament = traits.temperament();
-        state.webbed = Adaptations.webbed(entity.genome());
+        state.webbed = Adaptations.swimmingFeet(entity.genome());
         state.paddling = state.webbed && entity.isInWater();
         state.bundleCount = entity.acceptsCare() ? entity.carriedBundleCount() : 0;
         state.fertilityMark = com.bunnidogs.mod.genetics.FertilityMark.of(entity.genome());

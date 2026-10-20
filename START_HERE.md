@@ -20,7 +20,32 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Latest gameplay work — 2026-10-19
+## Latest gameplay work — 2026-10-20
+
+- **I1/I2/A11, isolated Island lineage and ocean refuge:** appended seal,
+  paddle and shore-forager alleles supply native oxygen/propulsion with real
+  land tradeoffs, coastal food and full material/infusion/readout integration.
+  A rooted ocean island supplies three one-time founders, sheltered Nests,
+  guavas, a tide garden, supplies, native maps and discovery. Saved chunk/spawn
+  masks preserve player changes; oceans do not become global founder biomes.
+  **D13/L36** adds sustainable dry-bank kelp meals/work and paid Garden-mode
+  restoration with actual stock/protection. See `docs/ISLAND_SPECS.md`.
+- **A12/G7, useful cave vision and genetic discoveries:** calm trained pale
+  adults trade one glow berry for 60 seconds of keeper Night Vision in dim
+  light, with saved 30-second recovery and exact cancellation refunds. Saved
+  Pedigree observations award Nature Finds a Way and Wild Gene Library,
+  including hidden genes and the new eighth wild origin; native XP pays once.
+  See `docs/CARE_SPECS.md` A12 and `docs/DISCOVERY_SPECS.md`.
+- **Combined checkpoint:** Java 25 build/model gate and all **95** native
+  cases pass. This includes a real default-Overworld noise/placement site,
+  clipped island generation/replay, native housing and paddle stair navigation,
+  air/drowning/propulsion, kelp costs/protection, actual sight effects and saved
+  book rewards. Actual-layout/trait/material/guide previews are inspected;
+  natural frequency, map journeys, GPU rendering and client controls remain
+  gameplay review. The guide has **124 pages, eleven indices and 96 chapter
+  links**. Update both client and server: protocol **14**.
+
+### Previous checkpoints
 
 - **V3/V4, planned regional kennels and Show Ring arena:** three intact kennel
   styles provide fitted two-parent yards, floor Nests and empty care workshops.
@@ -457,18 +482,19 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 | Area | Current behavior and specification |
 |---|---|
 | Genetics and breeding | Seven genes, inherited pairs, bred stats/Bloom, eight guava tiers, litter seeds/crops, infused juice. `docs/FEATURES.md`, `docs/FIXES_PLAN.md` 6 |
-| Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets, forecasts, carried-animal records and local tag/trait/stat record filters. `docs/SHEET_SPECS.md` S1–S10 |
+| Sheets and records | Calipers, Pedigree Book, Ear Tags, seed/sample sheets, forecasts, carried-animal records, local record filters and actual saved genetic-discovery rewards. `docs/SHEET_SPECS.md` S1–S10, `docs/DISCOVERY_SPECS.md` G7 |
 | Nursery | Whole saved seeds, protected crop harvest/recovery, dirt/grass soil fallback, in-place Mutagen, dispenser stations and a Cradle with incubation, native automation, checked hatching/pad planning and fitted grand-tree nurseries plus exact paid resident tending. `docs/NURSERY_SPECS.md` N1–N10 |
 | Laboratory | Two sample slots, native hopper/comparator automation, actual-hand placement, vial display, planned feed/treatment/harvest forecasts, pup/copy odds and both-direction splice plans. `docs/TABLE_SPECS.md` T1–T10 |
 | Gene Splicer | One donor expressed copy, chosen gene, sample/Mutagen/tool cost, recipient recovery; breeding fixes pairs. `docs/SPLICER_SPECS.md` |
 | Registry and shows | Distinct stable bred lines, linked snapshots, balanced-stat bronze/silver/gold judging, per-animal awards, ribbons and Champion Line. `docs/REGISTRY_SPECS.md`, `docs/SHOW_SPECS.md` |
 | Care | Live samples, fleece palettes, whiskers/dust/moss/cold-climate frost, dispenser care, saved recoveries and sneak-Calipers home/food/care/work status. `docs/CARE_SPECS.md` C1–C10 |
-| Adaptations | Expressed fire/cold/fall/Poison/cactus/Levitation benefits, slate armor, heavy-build knockback resistance, self-lit glow, terrain movement and snow footing, End Phase, swamp swimming and visible fertility marks. `docs/CARE_SPECS.md` A1–A9 |
-| Outdoor food | Home-bounded crop/grass/hay/fruit and sustainable habitat meals, old ordinary loose food, bounded dry hunting/shore fishing, spent-chorus care, reservations and callback-safe commits. `docs/FORAGING_SPECS.md` D6–D11 |
+| Adaptations | Expressed environmental defenses, native terrain/snow footing, End Phase, swamp/coastal swimming, oxygen retention, fertility marks, camouflage and paid pale keeper sight. `docs/CARE_SPECS.md` A1–A12 |
+| Outdoor food | Home-bounded crops/fruit and sustainable habitat/kelp meals, ordinary loose food, bounded dry hunting/shore fishing, chorus care, reservations and callback-safe commits. `docs/FORAGING_SPECS.md` D6–D13 |
 | Homes/travel | Claimable Nests and comparator signals, day tether/night return, floor Nests, native leads/rides and led-adult reassignment. Travel Baskets preserve whole animals by hand/native dispenser; compasses mark places and resident homes. `docs/HOME_SPECS.md` H1–H10 |
-| Settlement life | Trough stock/automation/filters/power, Diet healing and short night meals; bell visits, regional and meadow-melon farms, local supplies, refuge/storm/rest/guards and read-only roll calls. Selected harvest/cultivation/compost/gather/garden-restoration/nursery/supply jobs share exact stock, safe routes and saved work rest. `docs/SETTLEMENT_LIFE.md` L1–L35, `docs/RESIDENT_WORK.md` |
+| Settlement life | Trough automation/filters/power, Diet healing/night meals, bell visits, regional farms, refuge/storm/rest/guards and work roll calls. Selected harvest/cultivation/compost/gather/restoration/nursery/supply and dry-bank kelp jobs share exact stock, safe routes and work rest. `docs/SETTLEMENT_LIFE.md`, `docs/RESIDENT_WORK.md` L28–L36 |
 | Warrens | Fitted dens/mouths/tunnels/cellars, landmark rooms, grand-tree hall/loop/lower commons, cave/Nether/End entrances and saved labels. `docs/WARREN_PLAN.md` U1–U8 |
 | Exploration | Native cartographer Warren Maps, bred bat-ear compass surveys with optional mineral-family focus at Senses +20, native working-line milestones and a loaded tagged-resident finder. `docs/EXPLORATION_SPECS.md` E1–E5 |
+| Breeder sites and Island | Native Breeder profession, abandoned barns, three regional kennels, Show Ring arena, maps and earned judging; rooted ocean refuges with one-time coastal founders, homes and supplies. `docs/BREEDER_SPECS.md`, `docs/VENUE_SPECS.md`, `docs/ISLAND_SPECS.md` |
 | Wood and travel | Guava building/redstone set, doors/shutters/lamps, four sign forms, native boats/chest boats with custom assets and drops. `docs/FIXES_PLAN.md` 4–5 |
 | Orchards | Plain-guava hanging fruit propagation, native bone meal, shears/Silk Touch leaf recovery, dispenser saplings/fruit picking/canopy repair and supported/bounded tree growth. `docs/ORCHARD_SPECS.md` O1–O7 |
 | Drops and endgame | Pelts/materials, Mutagen/Marrow/Tissue/Dust, five stat legends and pedestals. Sample-defined Apex ritual, inherited combat, warned attacks/enrage, boss bar and source-line crest. `docs/DROPS_SPECS.md`, `docs/APEX_SPECS.md` |
@@ -478,7 +504,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
 - Keep gene/allele IDs append-only. Old six-pair data loads with plain/plain
   Diet; current genomes use seven pairs / 56 bits and mask the signed high sync
-  word. Current network protocol is **12**; matching client/server versions apply.
+  word. Current network protocol is **14**; matching client/server versions apply.
 - Preserve whole item components in samples, books, table slots, vehicles,
   troughs and trophies. Existing inventories and containers are never restocked.
 - Structures save fitted tunnel cells, path exclusions, labels and optional
@@ -493,7 +519,7 @@ lineage food tables and shares the guide pool. See `docs/FIELD_GUIDE.md`.
 
 ## Approved visuals
 
-The sole base model is approved **Low**, 2,172 quads / 8,688 vertices with twelve
+The sole base model is approved **Low**, 2,172 quads / 8,688 vertices with thirteen
 512px coat atlases. Expressed webbed legs add 72 optional membrane faces / 288
 vertices, leaving all approved base coordinates/normals exact. The four mutually exclusive fertility marks add 0/40/18/120/38 faces.
 The stored mesh has 2,460 faces / 9,840 vertices; an unmarked ordinary animal
@@ -526,14 +552,25 @@ source /workspace/.bunnidog-setup/activate.sh
 ./gradlew build runGameTestServer --no-daemon
 ```
 
-`build` includes focused diet, breeding-lab, workshop/wood/boat asset and warren checks.
+`build` includes focused diet/Island, breeding-lab, workshop/wood/boat asset and warren checks.
 Add `checkBunnidogModel` for mesh/renderer/animation changes. GitHub Actions runs
 `build checkBunnidogModel runGameTestServer` before uploading its commit artifact.
 Avoid the large GenomeCheck suite unless substantial pure genetics/layout work
 requires it; do not repeat passing checks without a relevant change or concern.
 
-The Java 25 build and all **eighty-seven** native scenarios pass (eighty-six mod
+The combined Java 25 build/model gate and all **95** native scenarios pass (94 mod
 cases plus native sanity). Latest coverage:
+
+- **I1/I2/A11/D13/L36:** saved coastal IDs/inheritance, native oxygen/drowning
+  and propulsion, clipped/protected/replayed island generation and founder
+  housing, actual paddle stair navigation, real default-Overworld noise and
+  monument exclusion, sustainable kelp meals, stock/reserve/native protection
+  and paid Garden restoration. Actual-layout/trait/material previews inspected.
+- **A12/G7:** actual local light, held-berry costs/native Night Vision,
+  reentrant denial/refund/hand replacement, Creative and saved recovery;
+  actual held-book observations, eight wild signatures, parented rare records,
+  native one-time XP and saved off-hand reading. Customized guides retain
+  all 124 pages. Earlier case counts below are historical checkpoints.
 
 - **H11:** native colored bundles/full item components, actual hand controls,
   all expressed capacities/hidden copies, smaller-build cargo retention and
@@ -692,7 +729,8 @@ batches through build and delivery. Keep missing work distinct from manual playt
 evidence: a pending gameplay check does not make an implemented system a stub.
 For terrain review use `/bunnidogs warren 1 surface`, `3 surface`, `5 surface`,
 cave/Nether `1`, End `5 surface`, and natural structure lookup:
-`/locate structure bunnidogs:warren_village` or `bunnidogs:warren_end_village`.
+`/locate structure bunnidogs:warren_village`, `bunnidogs:warren_end_village`
+or `bunnidogs:island_refuge` in new ocean terrain.
 
 API lookups: `docs/API_NOTES.md`. Player reference: `docs/FEATURES.md`.
 Conventions/art/environment: `docs/REFERENCE.md`. Original decisions and old

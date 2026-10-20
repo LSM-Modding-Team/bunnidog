@@ -193,3 +193,18 @@ footing. Meals/work still reject powder interiors, lost footing/support and
 all other hazards, including the native neighbor check omitted by vanilla's
 surface classifier. See `CARE_SPECS.md` A6 for route evidence; all 70 native
 scenarios pass.
+
+## D13: sustainable shore meals
+
+The new Island DIET `shore_forager` accepts kelp, dried kelp and seagrass.
+Injured housed adults can trim spare upper kelp directly from a reachable dry
+bank during their normal calm daytime meal search. A valid top has a living
+kelp-plant stem below; the final root is never eaten. Native water returns and
+updates the remaining stem into a growing head.
+
+One actual protected meal heals two HP and shares the ordinary 600-tick food
+recovery; it produces no extra item. Native mob-griefing, home/diet/terrain
+rechecks, destruction protection and safe routes still apply. Healthy opted-in
+workers use the same sustainable root rule for trough harvesting. Native direct
+meal, repeat/root refusal and mob-griefing cases pass with the 95-case combined
+checkpoint. See `ISLAND_SPECS.md` for the full coastal source/work contract.

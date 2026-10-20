@@ -52,6 +52,7 @@ public class PedigreeBookItem extends Item {
         if (result == Pedigree.Added.ADDED || result == Pedigree.Added.UPDATED) {
             book.set(ModItems.PEDIGREE_DATA.get(), log.toString());
         }
+        DiscoveryProgress.observe(player,log);
         player.sendSystemMessage(Component.literal(message).withStyle(result == Pedigree.Added.ADDED || result == Pedigree.Added.UPDATED ? ChatFormatting.GOLD : ChatFormatting.GRAY));
     }
 
@@ -63,6 +64,7 @@ public class PedigreeBookItem extends Item {
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (recordCarried(player,hand)) return InteractionResult.SUCCESS;
         Pedigree log = read(player.getItemInHand(hand));
+        DiscoveryProgress.observe(player,log);
         if (log.size() == 0) {
             if (!level.isClientSide()) {
                 player.sendSystemMessage(Component.literal("The book is empty. Right-click a bunnidog to log it.").withStyle(ChatFormatting.GRAY));
@@ -84,7 +86,10 @@ public class PedigreeBookItem extends Item {
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display,
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack, context, display, lines, flag);
-        lines.accept(Component.literal(read(stack).size() + " of " + Pedigree.MAX_ENTRIES + " animals logged").withStyle(ChatFormatting.GRAY));
+        var log=read(stack);
+        lines.accept(Component.literal(log.size() + " of " + Pedigree.MAX_ENTRIES + " animals logged").withStyle(ChatFormatting.GRAY));
+        lines.accept(Component.translatable("tooltip.bunnidogs.records.wild",com.bunnidogs.mod.genetics.GeneticDiscoveries.wildLineages(log).size(),
+                com.bunnidogs.mod.genetics.GeneticDiscoveries.wildLineageCount()).withStyle(ChatFormatting.DARK_GREEN));
         lines.accept(Component.literal("Right-click a bunnidog to log it, the air to open").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.records.carried").withStyle(ChatFormatting.DARK_GRAY));
     }

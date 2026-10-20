@@ -3,6 +3,7 @@ package com.bunnidogs.mod.entity;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.EnumSet;
+import java.util.List;
 import com.bunnidogs.mod.block.FeedingTroughBlock;
 import com.bunnidogs.mod.block.FeedingTroughBlockEntity;
 import com.bunnidogs.mod.block.GuavaFruitBlock;
@@ -78,7 +79,8 @@ final class GardenGoal extends Goal {
         return harvest || cultivate ? new Work(new ItemStack(item),state.setValue(age,harvest ? reset : current+1),harvest ? Task.HARVEST : Task.CULTIVATE) : null;
     }
     private Work work(ServerLevel level, BlockPos pos, BlockState state, boolean cultivate, ItemStack stock, TroughWork mode) {
-        if (state.isAir() && mode.allows(TroughWork.Job.PLANT) && cultivate && stock.getCount() > Gardening.COMPOST_RESERVE) {
+        if ((state.isAir() || state.is(Blocks.WATER) && stock.is(Items.KELP))
+                && mode.allows(TroughWork.Job.PLANT) && cultivate && stock.getCount() > Gardening.COMPOST_RESERVE) {
             var planted = ResidentPlanting.plan(level,pos,stock);
             return planted == null ? null : new Work(stock.copyWithCount(1),planted,Task.PLANT);
         }
@@ -94,6 +96,8 @@ final class GardenGoal extends Goal {
                 ? new Work(new ItemStack(Items.MELON_SLICE),state.cycle(StemBlock.AGE),Task.CULTIVATE) : null;
         if (state.is(Blocks.CACTUS)) return ResidentPlants.spareCactus(this.dog,pos)
                 ? new Work(new ItemStack(Items.CACTUS),Blocks.AIR.defaultBlockState(),Task.HARVEST) : null;
+        if (state.is(Blocks.KELP)) return ResidentPlants.spareKelp(this.dog,pos)
+                ? new Work(new ItemStack(Items.KELP),Blocks.WATER.defaultBlockState(),Task.HARVEST) : null;
         if (ResidentPlants.mushroom(state)) return ResidentPlants.spareMushroom(this.dog,pos)
                 ? new Work(new ItemStack(state.is(Blocks.RED_MUSHROOM) ? Items.RED_MUSHROOM : Items.BROWN_MUSHROOM),
                     Blocks.AIR.defaultBlockState(),Task.HARVEST) : null;
@@ -128,7 +132,7 @@ final class GardenGoal extends Goal {
         for (BlockPos target : troughs) {
             var stock = trough(target);
             int radius = Gardening.CROP_RADIUS;
-            for (BlockPos p : BlockPos.betweenClosed(target.offset(-radius,-1,-radius),target.offset(radius,2,radius))) {
+            for (BlockPos p : BlockPos.betweenClosed(target.offset(-radius,-2,-radius),target.offset(radius,2,radius))) {
                 if (!level.hasChunkAt(p) || !this.dog.foodWithinHome(p)) continue;
                 var food = work(level,p,level.getBlockState(p),Gardening.cultivates(this.dog.stats()),stock.food(),stock.workMode());
                 if (food != null && stock.allowsWork(food.task().job) && this.dog.canEat(food.produce())
@@ -141,8 +145,7 @@ final class GardenGoal extends Goal {
         int attempts = 0;
         for (Candidate candidate : candidates.stream().limit(8).toList()) {
             BlockPos p = candidate.crop(), target = candidate.trough();
-            for (Direction d : Direction.Plane.HORIZONTAL) for (int down = 0; down <= 2; down++) {
-                BlockPos spot = p.relative(d).below(down);
+            for (BlockPos spot : standingSpots(p,candidate.work().produce().is(Items.KELP))) {
                 if (!HomeRoutes.standing(this.dog,spot) || Vec3.atBottomCenterOf(spot).distanceToSqr(Vec3.atCenterOf(target)) > 9) continue;
                 if (++attempts > 8) return false;
                 Path route = this.dog.getNavigation().createPath(spot,0);
@@ -159,6 +162,12 @@ final class GardenGoal extends Goal {
         }
         return false;
     }
+    private List<BlockPos> standingSpots(BlockPos crop,boolean aquatic) {
+        if (aquatic) return ResidentPlants.shoreSpots(this.dog,crop);
+        var out=new ArrayList<BlockPos>();
+        for (var direction:Direction.Plane.HORIZONTAL) for (int down=0;down<=2;down++) out.add(crop.relative(direction).below(down));
+        return out;
+    }
     @Override public boolean canContinueToUse() { return continuing(false); }
     private boolean continuing(boolean reserved) {
         var stock = trough(this.trough);
@@ -168,6 +177,7 @@ final class GardenGoal extends Goal {
                 && this.dog.level().getBlockState(this.crop).equals(this.mature)
                 && (!this.mature.is(Blocks.MELON) || ResidentPlants.linkedMelon(this.dog,this.crop))
                 && (!this.mature.is(Blocks.CACTUS) || ResidentPlants.spareCactus(this.dog,this.crop))
+                && (!this.mature.is(Blocks.KELP) || ResidentPlants.spareKelp(this.dog,this.crop))
                 && (!ResidentPlants.mushroom(this.mature) || ResidentPlants.spareMushroom(this.dog,this.crop))
                 && (!this.mature.is(Blocks.CHORUS_FLOWER) || ResidentPlants.spentChorus(this.dog,this.crop))
                 && (this.task != Task.PLANT || this.reset.equals(ResidentPlanting.plan((ServerLevel)this.dog.level(),this.crop,this.produce)))
@@ -191,7 +201,7 @@ final class GardenGoal extends Goal {
         if (!canContinueToUse()) return;
         this.ticks++;
         this.dog.getLookControl().setLookAt(Vec3.atCenterOf(this.crop));
-        double reach = this.mature.is(Blocks.CACTUS) ? 9 : 4;
+        double reach = this.mature.is(Blocks.CACTUS) || this.produce.is(Items.KELP) ? 9 : 4;
         if (this.dog.distanceToSqr(Vec3.atCenterOf(this.crop)) > reach || this.dog.distanceToSqr(Vec3.atCenterOf(this.trough)) > 9) {
             this.working = 0;
             if (this.ticks % 20 == 0) {

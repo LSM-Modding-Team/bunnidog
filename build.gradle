@@ -262,6 +262,23 @@ tasks.register('checkDiets', JavaExec) {
     javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
 }
 tasks.named('check').configure { dependsOn tasks.named('checkDiets') }
+tasks.register('checkIsland', JavaExec) {
+    group = 'verification'
+    description = 'Check appended island genes, founder isolation, ocean fitting and stable native layout.'
+    dependsOn tasks.named('modelCheckClasses')
+    classpath = sourceSets.modelCheck.runtimeClasspath
+    mainClass = 'IslandCheck'
+    javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
+}
+tasks.named('check').configure { dependsOn tasks.named('checkIsland') }
+tasks.register('exportIslandLayout', JavaExec) {
+    group = 'development'
+    dependsOn tasks.named('modelCheckClasses')
+    classpath = sourceSets.modelCheck.runtimeClasspath
+    mainClass = 'IslandCheck'
+    args layout.projectDirectory.file('art/island_layout.json').asFile.absolutePath
+    javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
+}
 tasks.register('checkBreedingLab', JavaExec) {
     group = 'verification'
     description = 'Check allele forecasts, splice plans, registry rules and page clearance.'

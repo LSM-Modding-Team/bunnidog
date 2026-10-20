@@ -48,6 +48,8 @@ public final class WarrenPalette {
         put(Lineage.MOUNTAIN, Blocks.STONE_BRICKS,  Blocks.COBBLESTONE,   Blocks.COBBLESTONE,   Blocks.COBBLESTONE,   Blocks.COBBLESTONE,   Blocks.STONE_BRICKS, Blocks.HAY_BLOCK, Blocks.FARMLAND, Blocks.WHEAT, Blocks.CARROTS, Blocks.POTATOES);
         put(Lineage.NETHER,   Blocks.NETHER_BRICKS, Blocks.BLACKSTONE,    Blocks.NETHER_BRICKS, Blocks.BLACKSTONE,    Blocks.NETHER_BRICKS, Blocks.BLACKSTONE, Blocks.NETHER_WART_BLOCK, Blocks.SOUL_SOIL, Blocks.NETHER_WART, Blocks.NETHER_WART, Blocks.NETHER_WART);
         put(Lineage.END,      Blocks.END_STONE_BRICKS, Blocks.PURPUR_BLOCK, Blocks.END_STONE_BRICKS, Blocks.END_STONE_BRICKS, Blocks.END_STONE_BRICKS, Blocks.PURPUR_BLOCK, Blocks.PURPUR_PILLAR, Blocks.MYCELIUM, Blocks.RED_MUSHROOM, Blocks.BROWN_MUSHROOM, Blocks.RED_MUSHROOM);
+        put(Lineage.ISLAND,   Blocks.SANDSTONE, Blocks.MOSSY_COBBLESTONE, Blocks.DIRT, Blocks.GRAVEL, Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE,
+                Blocks.HAY_BLOCK, Blocks.FARMLAND, Blocks.WHEAT, Blocks.CARROTS, Blocks.POTATOES);
     }
 
     private static void put(Lineage lineage, Block wall, Block roof, Block fill, Block path, Block ringA, Block ringB, Block hay,
@@ -79,7 +81,7 @@ public final class WarrenPalette {
     /** Earth mounds in the meadow, the tundra, the swamp and the caves; flat-roofed towers with windows in the desert, the mountains, the Nether and the End. */
     public static HouseShape.Form houseForm(Lineage lineage) {
         return switch (lineage) {
-            case MEADOW, TUNDRA, SWAMP, CAVE -> HouseShape.Form.MOUND;
+            case MEADOW, TUNDRA, SWAMP, CAVE, ISLAND -> HouseShape.Form.MOUND;
             case DESERT, MOUNTAIN, NETHER, END -> HouseShape.Form.TOWER;
         };
     }

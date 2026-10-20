@@ -30,7 +30,7 @@ public final class DietCheck {
             require(Juice.effects(g,Stats.ZERO,0).equals(Juice.effects(legacy,Stats.ZERO,0)),"Diet must not change juice recipes");
         }
         require(diet(legacy,"chorus_eater").syncHigh() < 0,"Exercise a real negative sync high word");
-        require(Genome.parse(old+"-cc").isEmpty() && Genome.parse(old+"-0").isEmpty(),"Malformed diets must be rejected");
+        require(Genome.parse(old+"-dd").isEmpty() && Genome.parse(old+"-0").isEmpty(),"Malformed diets must be rejected");
         require((new Genome(-1L).packed() >>> 56) == 0,"Sanitization must clear unused bits");
 
         Seed seed = Seed.parse(old+"/1,2,3,4,5|"+old+"/5,4,3,2,1|4.5|mutagen").orElseThrow();

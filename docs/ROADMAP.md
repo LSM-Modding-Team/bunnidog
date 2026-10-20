@@ -4,11 +4,19 @@ The user requests substantial continuations, prioritizing unfinished planned
 features over more quality-of-life controls. Historical per-turn chunk limits
 do not apply. Verify old completion claims against code before choosing work.
 
-## Unfinished work from the original plans
+## Original-plan completion audit
 
 | Feature | Actual status | Original plan |
 |---|---|---|
-| Isolated island lineage | A sketch without distinctive alleles or a fitted location yet | `DESIGN.md`, wild lineages |
+| Isolated island lineage | I1/I2: three exclusive inherited alleles, rooted ocean refuge, one-time founders, maps and supplies | `ISLAND_SPECS.md` |
+| Useful cave night vision | A12: paid keeper vision from trained pale adults, native effects and saved recovery | `CARE_SPECS.md` |
+| Nature Finds a Way | G7: actual parented rare-allele observation; eight-origin Wild Gene Library also connects exploration | `DISCOVERY_SPECS.md` |
+
+These remaining concrete original proposals are now implemented. Further work
+should audit actual gaps and playtest feedback or define a useful fitting
+extension before coding. Old sketch names without adopted mechanics do not
+automatically create missing features. Client/natural-world review is evidence
+still to collect, rather than an unfinished implementation to redo.
 
 **V3/V4** now complete the regional-kennel and Show Ring arena sketches with
 three regional layouts, fitted two-parent housing and a public contest site.
@@ -26,8 +34,8 @@ bundle carriers, retained excess cargo, an overload tradeoff and fitted separate
 equipment. See `CARRYING_SPECS.md`.
 
 The original lineage paragraph also proposed cave night vision. Ore sense
-is already implemented through bat-ear surveys; native animals already perceive
-targets in darkness, so a separate vision benefit still needs a useful definition.
+is implemented through bat-ear surveys; A12 now gives the nearby keeper a
+deliberate Night Vision benefit through pale fur, Senses +20 and a real berry.
 The End Phase ability, swamp swimming and fertility visibility are now
 A7–A9 below. Older `DESIGN.md` “not done” statements
 are historical snapshots, including systems since completed; do not redo them.
@@ -57,6 +65,19 @@ Delivered, not individually confirmed: **U6a** advancement, **U1** level-1 dens
 and mouths, **H3b** house floor Nests. V1a, V1b, H3 and H4 WORK.
 
 ## Latest implemented work (gameplay pending)
+
+I1/I2/A11 completes the isolated Island lineage with seal oxygen retention,
+short paddle legs/stronger swimming and shore-forager food. A native fitted
+ocean island roots into sampled seabed and provides three persistent one-time
+founders, sheltered homes, guavas, a tide garden, loot, maps and discovery.
+D13/L36 adds sustainable kelp meals/work and actual paid restoration from dry
+banks. A12 gives trained pale adults useful keeper vision with native effect
+protection/refunds. G7 pays native one-time XP for actual saved mutation-origin
+observations and all eight wild gene signatures. Build/model/all **95** native
+cases pass, including a fixed real Overworld site and actual paddle stair path.
+Layout/trait/material and **124/11/96** guide previews are inspected. Protocol
+**14** requires both sides. See `ISLAND_SPECS.md`, `CARE_SPECS.md` A12 and
+`DISCOVERY_SPECS.md`; gameplay frequency/GPU/map journeys remain review.
 
 V3/V4 finishes three intact regional kennels and the public Show Ring arena,
 with shared, warren-aware placement, saved native templates, empty care stations,

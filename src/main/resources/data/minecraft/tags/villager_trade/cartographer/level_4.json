@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "bunnidogs:cartographer/show_ring_map"
+    "bunnidogs:cartographer/show_ring_map",
+    "bunnidogs:cartographer/island_map"
   ]
 }

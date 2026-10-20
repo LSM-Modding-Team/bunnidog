@@ -111,8 +111,15 @@ PAGES = {
     114: ('The pairing yard', 'Lead two adults home to the sheltered Nests. Stock both Pen mangers with guavas. Other adults within 12 blocks stop feeding. Empty-hand or pulse feeds; normal courtship makes the seed.'),
     115: ('Show Ring arenas', 'Rare clearings hold a public stand, two holding bays and three empty trophy pedestals. Lead your entrant to the gold floor mark near the stand. Normal judging rules apply. Ribbons stay earned.'),
     116: ('Venue maps', 'Cartographers may sell Kennel Explorer Maps at journeyman for 12 emeralds + compass, Showground Maps at expert for 16 + compass. Look in new dry clearings. Native prices vary; repair around obstacles.'),
+    118: ('Island refuge', 'Mild-ocean refuges hold three coastal founders, sheltered Nests, guavas and supplies. Expert cartographers may sell maps for 20 emeralds + compass. Explore new chunks; bring a basket or lead.'),
+    119: ('Coastal genes', 'Seal fur normally doubles air on average. Paddle feet normally double water propulsion, with shorter legs on land. Both breed into other lines. Still needs air; hidden copies give no benefit.'),
+    120: ('Shore meals', 'Shore foragers eat kelp, dried kelp and seagrass. Injured adults trim upper kelp from dry home banks by day. Roots stay and water returns. Healing shares normal meal rest; mob-griefing applies.'),
+    121: ('Kelp workers', 'Healthy housed shore residents trim upper kelp into a nearby enabled trough. Opt in with a hoe. Keep a two-block stalk and reachable dry bank. Roots stay; natural growth supplies the next top.'),
+    122: ('Restore a tide bed', 'Choose Garden mode with a sneaking hoe. Bloom +10 workers spend one kelp on a bare bed under two blocks of still water, keeping eight in stock. They stay dry and leave living stems to regrow.'),
+    123: ('Pale cave guide', 'In dim light, sneak-feed a calm pale adult with Senses +20 one glow berry for 60 seconds of Night Vision. Needs half health; rests 30 seconds. Existing vision keeps the berry. Saves keep recovery.'),
+    124: ('Genetic discoveries', 'Log a bred animal carrying a mutation-only allele: Nature Finds a Way. Keep all eight wild origins in one book: Wild Gene Library. Hidden copies count; unlogged parents do not. Rewards pay XP once.'),
 }
-PAGE_COUNT = 116
+PAGE_COUNT = 124
 MAIN_INDEX = {2:'Warrens & scouts',4:'Breeding & seeds',8:'Homes & food',11:'Care & traits',15:'Lab & splicing',
               17:'Registry & shows',19:'Material drops',20:'Apex of the Line'}
 MORE_INDEX = {112:'Workshops & sites',25:'Gardens & stores',27:'Boss forecast',28:'Living harvests',101:'Coats & fieldcraft',
@@ -125,7 +132,8 @@ SPECIALIST_INDEX = {77:'Nursery workers',79:'Work roll call',80:'Safe hunting',8
 LINEAGE_INDEX = {13:'Useful coats',14:'Physical traits',29:'Terrain traits',65:'Snow-coat care',88:'Snow surface routes',90:'Phase legs',91:'Webbed paws',92:'Fertility marks',101:'Coats & fieldcraft'}
 WORKSHOP_INDEX = {15:'Genetics Table',17:'Stable line registry',24:'Juice & infusion',93:'The Juicer',94:'Richer juice',95:'Name a lineage',96:'Pelt rugs',97:'Specimen Jars',99:'Pens & seed colors'}
 FIELD_INDEX = {102:'Coat camouflage',103:'Matching ground',104:'The Breeder',105:'Breeder supplies',106:'Expert trades',107:'Abandoned barns',108:'Pedigree Comparator',109:'Genetic circuits',110:'Bundle carriers'}
-VENUE_INDEX = {98:'Breeder workshop',107:'Abandoned barns',113:'Regional kennels',114:'The pairing yard',115:'Show Ring arenas',116:'Venue maps'}
+VENUE_INDEX = {98:'Breeder workshop',107:'Abandoned barns',113:'Regional kennels',114:'The pairing yard',115:'Show Ring arenas',116:'Venue maps',117:'Wild & companions'}
+EXPLORER_INDEX = {118:'Island refuge',119:'Coastal genes',120:'Shore meals',121:'Kelp workers',122:'Restore a tide bed',123:'Pale cave guide',124:'Genetic discoveries'}
 
 def pantry_guide_pool():
     return {'rolls':1,'conditions':[{'condition':'minecraft:random_chance','chance':.35}],
@@ -154,8 +162,8 @@ def main():
         value = json.loads(path.read_text()); value.update({'item.bunnidogs.field_guide':'Bunnidogs Field Guide',
           'guide.bunnidogs.title':'Bunnidogs Guide','guide.bunnidogs.contents':'Contents',
           'guide.bunnidogs.more_contents':'More chapters','guide.bunnidogs.main_contents':'Main contents',
-          'guide.bunnidogs.new_contents':'New chapters','guide.bunnidogs.habitat_contents':'Habitat chapters','guide.bunnidogs.work_contents':'Working residents','guide.bunnidogs.specialist_contents':'Specialist work','guide.bunnidogs.lineage_contents':'Lineage traits','guide.bunnidogs.workshop_contents':'Breeder workshop','guide.bunnidogs.field_contents':'Coats & fieldcraft','guide.bunnidogs.venue_contents':'Workshops & sites'})
-        for page,label in (MAIN_INDEX | MORE_INDEX | NEW_INDEX | HABITAT_INDEX | WORK_INDEX | SPECIALIST_INDEX | LINEAGE_INDEX | WORKSHOP_INDEX | FIELD_INDEX | VENUE_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
+          'guide.bunnidogs.new_contents':'New chapters','guide.bunnidogs.habitat_contents':'Habitat chapters','guide.bunnidogs.work_contents':'Working residents','guide.bunnidogs.specialist_contents':'Specialist work','guide.bunnidogs.lineage_contents':'Lineage traits','guide.bunnidogs.workshop_contents':'Breeder workshop','guide.bunnidogs.field_contents':'Coats & fieldcraft','guide.bunnidogs.venue_contents':'Workshops & sites','guide.bunnidogs.explorer_contents':'Wild & companions'})
+        for page,label in (MAIN_INDEX | MORE_INDEX | NEW_INDEX | HABITAT_INDEX | WORK_INDEX | SPECIALIST_INDEX | LINEAGE_INDEX | WORKSHOP_INDEX | FIELD_INDEX | VENUE_INDEX | EXPLORER_INDEX).items(): value[f'guide.bunnidogs.index.{page}'] = label
         for page,(title,body) in PAGES.items():
             value[f'guide.bunnidogs.page.{page}.title'] = title
             value[f'guide.bunnidogs.page.{page}.body'] = body
@@ -172,11 +180,11 @@ def main():
         bold = ImageFont.truetype('DejaVuSans-Bold.ttf',13)
     except OSError:
         font = bold = ImageFont.load_default()
-    for x,page,oy in [(255,113,0),(495,114,0),(735,115,0),(975,116,0),
-            (255,112,410),(495,40,410),(735,107,410),(975,98,410),
-            (255,108,820),(495,109,820),(735,110,820),(975,111,820)]:
+    for x,page,oy in [(255,118,0),(495,119,0),(735,120,0),(975,117,0),
+            (255,121,410),(495,122,410),(735,123,410),(975,124,410),
+            (255,112,820),(495,40,820),(735,98,820),(975,101,820)]:
         d.rectangle((x,oy+20,x+224,oy+397),fill=(230,216,174),outline=(117,90,48),width=2)
-        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else 'Lineage traits' if page == 89 else 'Breeder workshop' if page == 98 else 'Coats & fieldcraft' if page == 101 else 'Workshops & sites' if page == 112 else PAGES[page][0]
+        title = 'Bunnidogs Guide' if page == 1 else 'More chapters' if page == 40 else 'New chapters' if page == 50 else 'Habitat chapters' if page == 56 else 'Working residents' if page == 66 else 'Specialist work' if page == 84 else 'Lineage traits' if page == 89 else 'Breeder workshop' if page == 98 else 'Coats & fieldcraft' if page == 101 else 'Workshops & sites' if page == 112 else 'Wild & companions' if page == 117 else PAGES[page][0]
         d.text((x+14,oy+35),title,font=bold,fill=(40,39,30))
         if page == 1: body = '\n'.join(MAIN_INDEX.values()) + '\n\nMore chapters\nNew chapters\nHabitat chapters'
         elif page == 40: body = '\n'.join(MORE_INDEX.values()) + '\n\nMain contents'
@@ -188,6 +196,7 @@ def main():
         elif page == 98: body = '\n'.join(WORKSHOP_INDEX.values()) + '\n\nMain contents\nMore chapters'
         elif page == 101: body = '\n'.join(FIELD_INDEX.values()) + '\n\nMain contents\nMore chapters'
         elif page == 112: body = '\n'.join(VENUE_INDEX.values()) + '\n\nMain contents\nMore chapters'
+        elif page == 117: body = '\n'.join(EXPLORER_INDEX.values()) + '\n\nMain contents\nWorkshops & sites'
         else: body = '\n'.join(textwrap.wrap(PAGES[page][1],25)) + '\n\nContents'
         d.multiline_text((x+14,oy+75),body,font=font,spacing=6,fill=(40,59,36))
         d.text((x+14,oy+365),f'Page {page} / {PAGE_COUNT}',font=font,fill=(85,77,56))

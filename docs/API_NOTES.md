@@ -344,3 +344,54 @@ Moved to `docs/history/API_HISTORY.md` (sections: Where each fact comes from; Ve
   `#`. Add map trade entries to native career-level tags without replacing the
   existing Warren/Barn offers. Native written-book saves retain the customized
   116-page guide. Current required content protocol is **13**.
+
+## I1/I2/A11/A12/G7 — ocean refuge, native care and observations (26.2)
+
+- Use native `Attributes.OXYGEN_BONUS` with a named transient additive modifier
+  for inherited air retention. `LivingEntity`'s native air decrement and
+  NeoForge `CommonHooks.onLivingBreathe` preserve probabilistic consumption,
+  Water Breathing and real drowning. Do not override `getMaxAirSupply` to read
+  synchronized genome data: native construction can call it before entity data
+  exists. Preserve external base/modifiers and current air on load/expression.
+- `RandomState.create(registries, NoiseGeneratorSettings.OVERWORLD, seed)` plus
+  `WorldPresets.getNormalOverworld(registries).generator()` gives a genuine
+  native noise/biome fixture. Create structure state for actual placement/
+  monument exclusions. A fixed known seed-zero candidate [-88, -16] checks the
+  real refuge fitter without scanning or loading distant chunks. A positive
+  candidate does not establish world-wide frequency.
+- A simple-codec custom Structure and registered StructurePiece can author
+  rooted terrain rather than relying on jigsaw height projection. Native
+  `ChunkPos` uses record accessors `x()`/`z()`. Clip every placement/founder to
+  the supplied chunk bounds, inspect existing block entities/non-natural
+  columns before writing, and preserve actual ore cells. Save completed chunks
+  only after placement; reserve in-progress chunks and attempted founders
+  before reentrant callbacks. Atomic masks handle independently finishing
+  neighbour chunks without serializing unfinished work as complete.
+- Native kelp `AGE` is a growth limit, not crop maturity. Sustainable jobs
+  require a KELP head above KELP_PLANT, replace only the head with WATER and
+  let native updates turn the remaining stem into a new head. Plant on actual
+  source WATER beneath another source, with `canSurvive`, real stock and no
+  existing stem below. Approach from dry home routes; native water propagation
+  does not authorize a swimming domestic path.
+- NeoForge `MobEffectEvent.Applicable.Result.DO_NOT_APPLY` refuses native
+  effects; this is not the old general event result enum. Reserve the real
+  berry before `Player.addEffect`, guard reentry and refund exact components
+  on denial/hand replacement. Existing Night Vision is a preflight refusal.
+  Keep remaining recovery in optional native animal NBT. Ordinary
+  `Player.interactOn` takes entity, hand and `Vec3` hit location.
+- Native `ServerPlayer.getAdvancements().award` pays configured XP once per
+  player. Evaluate actual saved Pedigree entries after successful observation
+  or book reading. Genome origin says which wild branch supplied an allele;
+  birth-parent genomes establish a bred observation, not proof of a new
+  mutation in that generation. No invented birthplace/mutation flag is needed.
+- Far-away native fixtures can leave their temporary chunk tickets during
+  asynchronous sequences. Accessing the world again may load blocks while old
+  entity references remain removed. Keep such isolated probes synchronous or
+  explicitly retain their chunks. For local lighting, wait for a bounded
+  observed light/status condition rather than assuming a fixed tiny delay
+  after large worldgen fixtures. Fresh founder housing probes must settle
+  grounding before immediate navigation/home claims.
+- Combined Java 25 build/model and all 95 native cases pass. Native custom
+  written-book serialization retains 124 pages; earlier saved page numbers
+  stay stable. Required content protocol is **14** for the appended coastal
+  alleles, with existing genome/item/payload formats preserved.

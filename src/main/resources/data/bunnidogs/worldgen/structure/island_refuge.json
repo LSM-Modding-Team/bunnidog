@@ -1,0 +1,7 @@
+{
+  "type": "bunnidogs:island_refuge",
+  "biomes": "#bunnidogs:has_structure/island_refuge",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

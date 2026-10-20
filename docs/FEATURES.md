@@ -1,12 +1,45 @@
 # Bunnidogs: how to use each feature in game
 
 **Field Guide (P1):** combine a vanilla book with any guava. Use the book to
-open 111 pages from first warren to Apex. Nine linked contents pages offer 82
-chapter links, including breeder workshop and fieldcraft. Habitat and Lineage traits
+open 124 pages from first warren to Apex. Eleven linked contents pages offer 96
+chapter links, including workshops, fieldcraft and Wild & companions. Habitat and Lineage traits
 collect regional gardens and inherited abilities.
 It can also appear in unopened warren pantry barrels (35% chance). Native book
 pages, rather than a separate custom screen, explain the progression in-game.
 Craft a fresh guide for the appended chapters in an existing world.
+
+**Island refuges (I1/I2):** explore new mild-ocean chunks or ask expert
+cartographers for Refuge Maps. Three coastal founders live by sheltered Nests,
+a guava tree, supplies and a tide garden. Seal coats normally double air on
+average; paddle feet give stronger swimming with shorter land legs. They still
+need air. Shore foragers eat kelp, dried kelp and seagrass. Breed each gene
+independently into your own line; ordinary ocean spawns do not gain them.
+Use `/locate structure bunnidogs:island_refuge` for a natural candidate.
+
+**Shore care (D13/L36):** injured housed shore foragers trim upper kelp from
+dry banks for normal healing/rest. Healthy opted-in residents put it into a
+nearby enabled trough. Keep at least two stalk blocks: roots stay and water
+returns. Garden-mode Bloom +10 workers can spend one surplus kelp to restore
+a bare bed beneath two blocks of still water, leaving eight in stock. They
+stay dry; filters, power, protection and ordinary work recovery apply.
+
+**Pale cave guides (A12):** in dim light, sneak-feed one glow berry to a calm
+pale adult with Senses +20 and at least half health. Gain 60 seconds of Night
+Vision; the guide rests 30 seconds, preserved by saves/baskets. Existing vision
+keeps the berry. Sneak-Calipers reports readiness. By Pale Lantern pays 25 XP once.
+
+**Genetic discoveries (G7):** log a bred animal carrying a mutation-only allele
+for Nature Finds a Way (50 XP). Keep genes from all eight wild origins in one
+Pedigree Book for Wild Gene Library (100 XP). Hidden copies count; unlogged
+parents do not. The tooltip shows collected signatures. Reading a saved/gifted
+book can recognize its knowledge; repeated reads never repeat your reward.
+
+**Kennels and arenas (V3/V4):** meadow, desert and snowy kennels offer an intact
+pairing yard, two Nests and empty workshop tools. Bring your own parents and
+guavas. Public Show Ring arenas have holding bays and trophy space; judge at
+the gold floor mark under ordinary rules. Cartographers may sell Kennel Maps
+at journeyman for 12 emeralds + compass and Showground Maps at expert for 16 +
+compass before native discounts. Explore new clearings; prizes remain earned.
 
 **Bundle carriers (H11):** use a bundle on a calm adult to equip it. Slim/lean
 carry one, average two, stocky/woolly three, chonker four. Both hands empty:
@@ -18,7 +51,7 @@ panniers are separate from the approved animal sculpt. See `CARRYING_SPECS.md`.
 
 **Coat camouflage (A10):** full-health calm animals blend on matching support:
 sand for tan/cream/sand, exposed earth for brown/spotted, green cover for moss,
-snow for snow, pale/dark stone for pale/slate, netherrack for ember and obsidian/
+snow for snow, stone for pale/seal, dark stone for slate, netherrack for ember and obsidian/
 purpur for void. Glow cannot blend. Native detection range halves and walking
 vibrations stop; injury, danger, love, Glowing, water, jumping and transport break
 cover. Eating/attacks/landings still reach sculk. Sneak-Calipers explains status.
@@ -80,7 +113,7 @@ searches. Re-logging preserves names. Acknowledged saves prevent a changed held
 book from receiving an old edit. Animals, Ear Tags, parents and stats stay intact.
 
 **Pelt rugs (D12):** two matching pelts and a string craft one coat rug. All
-twelve coats have their own colors/patterns. Place on a supported floor, choosing
+thirteen coats have their own colors/patterns. Place on a supported floor, choosing
 its orientation; removing support returns the rug. Mixed pelts still make leather
 without string. Find rugs under Functional Blocks in creative.
 

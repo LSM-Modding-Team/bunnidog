@@ -37,6 +37,7 @@ public final class PantryGameTest {
             case MOUNTAIN -> Diet.MOUNTAIN_GRAZER;
             case NETHER -> Diet.NETHER_FORAGER;
             case END -> Diet.CHORUS_EATER;
+            case ISLAND -> Diet.SHORE_FORAGER;
         };
     }
     public static void run(GameTestHelper h) {

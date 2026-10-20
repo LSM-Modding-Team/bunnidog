@@ -11,6 +11,7 @@ FOODS = {
     'mountain': [('wheat',6),('moss_block',4),('azalea_leaves',2),('hay_block',1)],
     'nether': [('nether_wart',6),('crimson_fungus',3),('warped_fungus',3)],
     'end': [('chorus_fruit',6)],
+    'island': [('kelp',6),('dried_kelp',4),('seagrass',3)],
 }
 
 
@@ -34,7 +35,7 @@ def main():
                           'entries':[item('minecraft:melon_seeds',1,1,2)]})
         write(f'data/bunnidogs/loot_table/{key}.json',{'type':'minecraft:chest','random_sequence':f'bunnidogs:{key}',
               'pools':pools})
-    print('Generated eight lineage pantries: guavas, local foods, guides and optional meadow melon seeds.')
+    print(f'Generated {len(FOODS)} lineage pantries: guavas, local foods, guides and optional meadow melon seeds.')
 
 
 if __name__ == '__main__': main()
