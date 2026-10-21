@@ -2,11 +2,13 @@
 
 A NeoForge mod for Minecraft 26.2: baby-faced creatures, living warrens and
 inherited traits that shape companions, gardens and breeding lines. Client and
-server both need the current mod (network **19**).
+server both need the current mod (network **20**).
 
-Start with **empty hands on an animal or care station**. A short live panel shows
-its needs, the next useful step and buttons that use your real supplies. The
-crosshair hint names the action; normal tools and direct item interactions work too.
+Interact with a bunnidog to choose **Care, Orders or Work** beside the visible
+animal. Ordinary held items work too; food and tools retain their direct uses.
+Cargo appears when it carries bundles. Calipers offer **Measure** for detailed
+information. There are no automatic crosshair instructions. Care stations keep
+their empty-hand controls; every action uses real supplies.
 
 1. Find guavas and a bunnidog. Care heals with a plain guava; healthy adults need
    no meals. Each adult can claim its own Nest, made from wheat and any planks.
@@ -26,7 +28,7 @@ Minecraft's language setting also selects the mod language. All Spanish options
 share one neutral translation based on Español (Perú). The optional guide keeps
 short pages; hover its chapter text for the full details.
 
-**Skills and roles → Lessons** teaches real harvest, garden, nursery and nearby
+**Work → Lessons** teaches real harvest, garden, nursery and nearby
 trough transfers. Four inherited mind genes set learning potential; practice is
 personal. Some minds need guidance; others learn to work alone. Existing adults
 keep familiar chores. Calipers and the Genetics Table have a separate **Mind**

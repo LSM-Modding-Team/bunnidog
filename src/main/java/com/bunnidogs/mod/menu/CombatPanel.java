@@ -1,7 +1,6 @@
 package com.bunnidogs.mod.menu;
 
 import com.bunnidogs.mod.entity.Bunnidog;
-import com.bunnidogs.mod.genetics.Combat;
 import com.bunnidogs.mod.genetics.Trail;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -17,12 +16,7 @@ public final class CombatPanel {
     public static CareView view(Player player,Bunnidog dog) {
         var rows=new ArrayList<Component>(); var buttons=new ArrayList<CareView.Control>();
         rows.add(t("state",t("intent."+dog.combat().intent())));
-        rows.add(t("health",Math.round(dog.getHealth()),Math.round(dog.getMaxHealth())));
-        rows.add(t("style."+dog.temperament().name().toLowerCase(Locale.ROOT)));
-        var profile=Combat.profile(dog.genome(),dog.stats());
-        rows.add(t("bite",String.format(Locale.ROOT,"%.1f",profile.bite()),String.format(Locale.ROOT,"%.1f",profile.interval()/20.0)));
         if (dog.combat().recovering()) rows.add(t("recovery",(dog.combat().recoveryLeft()+19)/20));
-        rows.add(t("whistle"));
         rows.add(Component.translatable("care.bunnidogs.party.count",dog.combat().partyCount()));
         if (dog.combat().selected()) rows.add(t(dog.combat().commanded() ? "commanded" : "other_command"));
         boolean own=player.mayBuild() && dog.trail().belongsTo(player), calm=!dog.combat().danger() && !dog.combat().downed();
@@ -43,7 +37,7 @@ public final class CombatPanel {
         buttons.add(button(COMMAND,t("command"),own && dog.combat().selected() && !dog.combat().commanded()));
         buttons.add(button(PartyPanel.OPEN,Component.translatable("care.bunnidogs.party.title"),true));
         buttons.add(button(CarePanels.BACK,Component.translatable("care.bunnidogs.button.back"),true));
-        return new CareView(t("title",dog.getDisplayName()),t(dog.combat().downed() ? "next.aid" : dog.combat().recovering() ? "next.recovery" : "next"),rows,buttons);
+        return new CareView(t("title",dog.getDisplayName()),AnimalPanels.condition(dog),rows,buttons);
     }
     public static void act(Player player,Bunnidog dog,int id) {
         if (id==ASSIST) dog.combat().assist(player);

@@ -80,6 +80,8 @@ public class CalipersItem extends Item {
             player.sendSystemMessage(Component.translatable("message.bunnidogs.care.unavailable").withStyle(ChatFormatting.GRAY));
             return;
         }
+        var combat=com.bunnidogs.mod.genetics.Combat.profile(dog.genome(),dog.stats());
+        player.sendSystemMessage(Component.translatable("care.bunnidogs.combat.bite",String.format(Locale.ROOT,"%.1f",combat.bite()),String.format(Locale.ROOT,"%.1f",combat.interval()/20.0)).withStyle(ChatFormatting.GRAY));
         var nest = dog.homeNest();
         careRow(player,"combat",Component.translatable("care.bunnidogs.combat.intent."+dog.combat().intent()));
         if (dog.trail().keeper()!=null) careRow(player,"trail",Component.translatable("message.bunnidogs.trail.inspect",

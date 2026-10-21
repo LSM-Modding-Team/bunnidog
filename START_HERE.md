@@ -20,13 +20,50 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Stability fix — exploration crash (2026-10-21)
+## Current focus — first client interaction review (2026-10-21)
+
+The user rejected the persistent crosshair instructions, animal-panel information
+dump and measurements that made information tools redundant. This human review
+overrides earlier claims of completed discovery; prioritize usability corrections
+over new intelligence features. [COHESION_PLAN.md](docs/COHESION_PLAN.md) records
+the revised design and the old MCA 1.12 interaction reference.
+
+- The automatic crosshair hint layer is removed, including its obsolete strings.
+  No replacement tutorial popup or one-time cue has been identified as necessary.
+- Bunnidog interaction opens short Care / Orders / Work groups beside the visible
+  animal/world, with no full-screen blur or initial scrolling readout. Ordinary
+  held items work; actual food, off-hand tools, shears, leads, name tags, bundles
+  and purpose-built mod items retain their direct interactions.
+- Cargo appears for actual carried bundles. Calipers add a deliberate Measure
+  action; losing them rejects stale measurement clicks. Ordinary menus expose
+  no inherited copies/points, exact health, combat calculations or thresholds.
+- Unavailable actions explain their own immediate constraint on hover. Work and
+  lessons show personal practice and live activity, without a theory/setup wall.
+  Exact body/mind forecasts remain with the existing tools and stations.
+- Protocol **20** carries the visual subject ID and local action reasons. Only
+  the server resolves action targets. Saves, breeding, materials and ability
+  rules are unchanged. English and neutral Peruvian Spanish have **2,133 authored
+  keys** and **2,261 packaged entries per locale** after guide previews.
+
+The headless suite now has **124 scenarios**, including first-contact simplicity,
+ordinary held items, off-hand food/Calipers priority, real stock, hidden-point
+independence and stale/lost-tool denial. Shearing retains native item dispatch.
+The existing walking test now declares a 36-block template: native tests only
+keep chunks inside their declared structure entity-ticking, and its old 8-block
+bounds could strand the walker exactly at a chunk edge. Its gameplay is unchanged.
+Java 25 `build` and all 124 native scenarios pass; verify the exact pushed GitHub
+artifact as the final delivery gate.
+`art/interaction_preview.png` is an English/Spanish native-snapshot layout preview
+with a substitute font and the existing sculpt, not an in-client capture. Real
+GUI scale, natural discovery and play pacing remain human review work.
+
+## Previous fix — exploration crash (2026-10-21)
 
 The user's first recent client exploration exposed a real chunk-decoration crash
 in `WarrenSigns.place`: native `SignBlockEntity.setText` sends a live block update,
 but signs created in a `WorldGenRegion`/`ProtoChunk` have no attached `Level`.
 The report identifies Overworld seed `3314416676720181443`, chunk `(-1, -24)` and
-the `bunnidogs:warren_underground` feature. This takes priority over new features.
+the `bunnidogs:warren_underground` feature. This was fixed before new features.
 
 Generated signs now initialize both faces through the native saved-text codec;
 only placement directly in a live `ServerLevel` sends an explicit client update.

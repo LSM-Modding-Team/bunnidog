@@ -63,6 +63,17 @@ public final class CohesionGameTest {
         return (CareMenu)player.containerMenu;
     }
     private static void press(GameTestHelper h,ServerPlayer player,CareMenu menu,int action) {
+        if (menu.buttonId(action)<0 && java.util.Set.of(CarePanels.CARE,CarePanels.COURTSHIP,CarePanels.GROOM,
+                CarePanels.TRAIN,CarePanels.FOLLOW,CarePanels.WAIT,CarePanels.RESIDENT,CarePanels.PROVISIONS,
+                CarePanels.TAKE_BUNDLE,CarePanels.ROLES,CarePanels.GENETICS).contains(action)) {
+            if (menu.buttonId(com.bunnidogs.mod.menu.AnimalPanels.CARE_MENU)<0)
+                h.assertTrue(menu.clickMenuButton(player,menu.buttonId(CarePanels.BACK)),"Return to the animal's action menu");
+            int group=java.util.Set.of(CarePanels.CARE,CarePanels.COURTSHIP,CarePanels.GROOM).contains(action)
+                    ? com.bunnidogs.mod.menu.AnimalPanels.CARE_MENU : action==CarePanels.TAKE_BUNDLE ? CarePanels.CARGO
+                    : java.util.Set.of(CarePanels.TRAIN,CarePanels.FOLLOW,CarePanels.WAIT,CarePanels.RESIDENT,CarePanels.PROVISIONS).contains(action)
+                    ? com.bunnidogs.mod.menu.AnimalPanels.ORDERS : -1;
+            if (group>=0) h.assertTrue(menu.clickMenuButton(player,menu.buttonId(group)),"Open the named action group");
+        }
         h.assertTrue(menu.clickMenuButton(player,menu.buttonId(action)),"Live care action should succeed: "+action);
     }
     private static int count(ServerPlayer player,Item item) {
@@ -76,12 +87,13 @@ public final class CohesionGameTest {
         return goal!=null && player.getAdvancements().getOrStartProgress(goal).isDone();
     }
     static void preview(String name,CareView view) {
-        var out=new JsonObject(); out.addProperty("name",name);
+        var out=new JsonObject(); out.addProperty("name",name); out.addProperty("subjectId",view.subjectId());
         out.add("title",ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE,view.title()).getOrThrow());
         out.add("next",ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE,view.next()).getOrThrow());
         var rows=new JsonArray(); for (var row:view.rows()) rows.add(ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE,row).getOrThrow()); out.add("rows",rows);
         var controls=new JsonArray(); for (var control:view.controls()) {
             var button=new JsonObject(); button.add("label",ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE,control.label()).getOrThrow());
+            button.add("hint",ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE,control.hint()).getOrThrow());
             button.addProperty("enabled",control.enabled()); button.addProperty("section",control.section()); controls.add(button);
         }
         out.add("controls",controls); BunnidogsMod.LOGGER.info("CARE_PREVIEW {}",out);
@@ -101,6 +113,8 @@ public final class CohesionGameTest {
         h.assertTrue(before.buildResult().equals(after.buildResult()) && count(player,ModItems.GUAVA.get())==6 && done(player,"root"),
                 "Opening care records discovery but leaves the complete animal and actual supplies unchanged");
         preview("Injured companion",menu.view());
+        press(h,player,menu,com.bunnidogs.mod.menu.AnimalPanels.CARE_MENU);
+        preview("Animal care",menu.view());
         var wire=new RegistryFriendlyByteBuf(Unpooled.buffer(),level.registryAccess());
         try {
             var snapshot=new CareViewPayload(menu.containerId,menu.view()); CareViewPayload.STREAM_CODEC.encode(wire,snapshot);
@@ -126,6 +140,7 @@ public final class CohesionGameTest {
                 && player.getInventory().getItem(11)==whistle,"Menu training pays one real plain guava and retains the required reusable Whistle");
         preview("Trained partner",menu.view());
         var stranger=player(h); var strangerMenu=animal(h,stranger,dog);
+        press(h,stranger,strangerMenu,com.bunnidogs.mod.menu.AnimalPanels.ORDERS);
         h.assertTrue(!strangerMenu.clickMenuButton(stranger,strangerMenu.buttonId(CarePanels.WAIT)) && dog.trail().order()==Trail.Order.FOLLOW,
                 "Another keeper's panel cannot command or enable meals for this partner");
         h.assertTrue(!menu.clickMenuButton(stranger,menu.buttonId(CarePanels.ROLES)),"A container session belongs to its actual player");

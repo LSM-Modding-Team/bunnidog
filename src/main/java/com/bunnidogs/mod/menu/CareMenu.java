@@ -35,7 +35,7 @@ public final class CareMenu extends AbstractContainerMenu {
     private Context published;
     private long changedUntil;
     private boolean acting;
-    private enum Mode { MAIN, CARGO, ROLES, LEARNING, GOALS, CONFIRM_RITUAL, FAMILY, SEED_FAMILY, FIT, FIT_CHOICES, LITTER, COMBAT, PARTY }
+    private enum Mode { MAIN, CARE, ORDERS, CARGO, ROLES, LEARNING, GOALS, CONFIRM_RITUAL, FAMILY, SEED_FAMILY, FIT, FIT_CHOICES, LITTER, COMBAT, PARTY }
     private Mode mode=Mode.MAIN;
     private Commissions.Request fitGoal;
     private int familyPage;
@@ -112,6 +112,8 @@ public final class CareMenu extends AbstractContainerMenu {
     private CareView snapshot() {
         if (mode==Mode.PARTY) return PartyPanel.view(owner);
         if (dog!=null) return switch (mode) {
+            case CARE -> AnimalPanels.care(owner,dog);
+            case ORDERS -> AnimalPanels.orders(owner,dog);
             case CARGO -> CarePanels.cargo(owner,dog);
             case ROLES -> RolePanel.view(owner,dog);
             case LEARNING -> LearningPanel.view(owner,dog);
@@ -143,6 +145,7 @@ public final class CareMenu extends AbstractContainerMenu {
             facts.add(Optional.ofNullable(dog.homeNest()));
             facts.add(dog.genome()); facts.add(dog.stats()); facts.add(dog.learning().knowledge());
             facts.add(Optional.ofNullable(dog.learning().lesson())); facts.add(Optional.ofNullable(dog.learning().teacher()));
+            facts.add(FamilyPanels.hasCalipers(owner));
             stock.addAll(dog.carriedBundles());
             if (mode==Mode.FIT || mode==Mode.FIT_CHOICES || mode==Mode.ROLES) facts.add(FamilyPanels.hasCalipers(owner));
         } else {
@@ -196,7 +199,7 @@ public final class CareMenu extends AbstractContainerMenu {
         var base=snapshot();
         var current=new CareView(base.title(),level.getGameTime()<changedUntil ? Component.translatable("care.bunnidogs.feedback.changed")
                 : actionNotice!=null && level.getGameTime()<noticeUntil ? actionNotice : base.next(),
-                base.rows(),base.controls().stream().map(c->new CareView.Control((generation<<8)|c.id(),c.label(),c.enabled(),c.section())).toList());
+                base.rows(),base.controls().stream().map(c->new CareView.Control((generation<<8)|c.id(),c.label(),c.enabled(),c.section(),c.hint())).toList(),dog==null ? -1 : dog.getId());
         if (force || !current.equals(view)) { view=current; PacketDistributor.sendToPlayer(server,new CareViewPayload(containerId,current)); }
     }
     @Override public void broadcastChanges() {
@@ -215,7 +218,9 @@ public final class CareMenu extends AbstractContainerMenu {
         acting=true;
         actionNotice=null;
         try {
-            if (id==CarePanels.CARGO) mode=Mode.CARGO;
+            if (id==AnimalPanels.CARE_MENU && dog!=null) mode=Mode.CARE;
+            else if (id==AnimalPanels.ORDERS && dog!=null) mode=Mode.ORDERS;
+            else if (id==CarePanels.CARGO) mode=Mode.CARGO;
             else if (id==CarePanels.ROLES) mode=Mode.ROLES;
             else if (id==LearningPanel.OPEN && dog!=null) mode=Mode.LEARNING;
             else if (id>=LearningPanel.TEACH && id<LearningPanel.TEACH+com.bunnidogs.mod.genetics.Learning.Routine.values().length && dog!=null) {
@@ -225,7 +230,7 @@ public final class CareMenu extends AbstractContainerMenu {
             else if (id==CombatPanel.OPEN) mode=Mode.COMBAT;
             else if (id==PartyPanel.OPEN) { openParty(player); }
             else if (mode==Mode.PARTY) PartyPanel.act(player,id);
-            else if (id==CarePanels.BACK) mode=Mode.MAIN;
+            else if (id==CarePanels.BACK) mode=mode==Mode.LEARNING ? Mode.ROLES : mode==Mode.COMBAT ? Mode.ORDERS : Mode.MAIN;
             else if (id==FamilyPanels.COMPARE && dog!=null) mode=fitGoal==null ? Mode.FIT_CHOICES : Mode.FIT;
             else if (id==FamilyPanels.CHOOSE_GOAL && dog!=null) mode=Mode.FIT_CHOICES;
             else if (id==FamilyPanels.BACK_FIT && dog!=null) mode=fitGoal==null ? Mode.ROLES : Mode.FIT;

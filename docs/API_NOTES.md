@@ -182,6 +182,26 @@ Status words: **COMPILED** = the user's compile accepted it (names and types are
 | Is the player sneaking (Genetics Table T1, session 36) | `player.isShiftKeyDown()` (`Entity`; also `isSecondaryUseActive()`, vanilla's own "suppress block use" test). Vanilla skips a block's use while sneaking WITH something in a hand, so "sneak + both hands empty" is the way to give a block a sneak action | SOURCE (session 36; not compiled) | `tests/.../debug/entity/player/PlayerEventTests.java:130` and `tests/.../oldtest/client/rendering/CustomParticleTypeTest.java:72` (`isShiftKeyDown()`), `tests/.../oldtest/AttachmentSyncTest.java:129,139` and `patches/net/minecraft/server/level/ServerPlayerGameMode.java.patch:130` (`isSecondaryUseActive`, the suppress rule) |
 | Blocks, block entities, Fortune, commands, renderers, biome modifiers, spawn placement | see the sections named after the phase that used them | COMPILED | "Session 4, part 8" (4d), "Verified from NeoForge 26.2.x sources in session 2" (1), "Session 4" (3) |
 
+### Interaction snapshots and native test bounds (2026-10-21)
+
+Protocol 20 adds a visual-only `subjectId` to `CareView` (default -1 for stations)
+and a translatable `hint` to each bounded control. The server still owns the
+actual animal/station and validates permission, reach, live contents and action
+generation. Calipers possession participates in every animal menu's context;
+losing the tool both hides measurement and rejects its previous button packet.
+Ordinary animal interaction falls back to the menu only after native food use;
+item-owned interactions (including vanilla shears/name tags and mod tools) and
+actual off-hand uses must retain PASS dispatch. Client `CareScreen.extractBackground`
+omits the normal modal background for animal views, keeping the world visible.
+
+`TestInstanceBlockEntity.forceLoadChunks()` only forces the declared structure's
+intersecting chunks. `GameTestInfo` checks those bounds for entity ticking; merely
+writing a longer floor with `h.setBlock` does not force its extra chunks to tick.
+The 31-block walking excursion now uses the generated 36-block `trail_corridor`
+template rather than `empty`'s 8-block bounds. Regenerate it with
+`python tools/gametest/generate_fixtures.py`. This fixes a native fixture boundary,
+not a production pathfinding or chunk-loading policy.
+
 ### Generation-stage sign initialization (2026-10-21)
 
 The client crash report for Overworld seed `3314416676720181443`, chunk `(-1,-24)`

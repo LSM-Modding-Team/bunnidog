@@ -56,68 +56,14 @@ public final class CarePanels {
         return ItemStack.EMPTY;
     }
     private static boolean editable(Player player,BlockPos pos) { return player.mayBuild() && (pos==null || player.level().mayInteract(player,pos)); }
-    private static Component food(Bunnidog dog) { return message(dog.diet()==Diet.PLAIN ? "care.food_guavas" : "care.food_other",TextComponents.diet(dog.diet())); }
     private static Component home(Bunnidog dog) {
         var pos=dog.homeNest(); return pos==null ? t("animal.no_home") : t("animal.home",pos.getX(),pos.getY(),pos.getZ());
     }
-    private static boolean danger(Bunnidog dog) {
-        return dog.getTarget()!=null || dog.seekingRefuge() || dog.isOnFire()
-                || dog.getLastHurtByMob()!=null && dog.tickCount-dog.getLastHurtByMobTimestamp()<100;
-    }
-    public static boolean readOnly(int id) { return id==GENETICS || id==CARGO || id==BACK || id==ROLES || id==LearningPanel.OPEN || id==CombatPanel.OPEN || id==PartyPanel.OPEN || id==WorkshopPanels.READ_TABLE || SignalPanels.readOnly(id)
+    public static boolean readOnly(int id) { return id==AnimalPanels.CARE_MENU || id==AnimalPanels.ORDERS || id==GENETICS || id==CARGO || id==BACK || id==ROLES || id==LearningPanel.OPEN || id==CombatPanel.OPEN || id==PartyPanel.OPEN || id==WorkshopPanels.READ_TABLE || SignalPanels.readOnly(id)
             || id==ApexPanel.PREPARE || id==ApexPanel.CANCEL || id==ApexPanel.SHOW_RING || id==WorkshopPanels.GOALS || id==WorkshopPanels.BACK_TABLE
             || id==com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD || FamilyPanels.readOnly(id) || id==LitterPanel.LITTER || id==LitterPanel.READ_SEED; }
     public static CareView animal(Player player,Bunnidog dog) {
-        var rows=new ArrayList<Component>(); var controls=new ArrayList<CareView.Control>();
-        rows.add(t("animal.health",Math.round(dog.getHealth()),Math.round(dog.getMaxHealth())));
-        rows.add(t("animal.food",food(dog)));
-        rows.add(home(dog));
-        rows.add(t("animal.breeding",dog.combat().recovering() ? t("animal.recovering") : dog.isBaby() ? FamilyPanels.growth(dog) : dog.isInLove() ? t("animal.courting")
-                : dog.getAge()>0 ? t("animal.rest",(dog.getAge()+19)/20) : t("animal.ready")));
-        rows.add(t("animal.work",t(dog.combat().recovering() || dog.trail().ordered() ? "animal.work_paused" : dog.workPaused() ? "off" : "on")));
-        rows.add(t("animal.traits",TextComponents.allele(dog.genome().expressed(Gene.TEMPERAMENT)),TextComponents.allele(dog.genome().expressed(Gene.BUILD))));
-        rows.add(t("animal.cargo",dog.carriedBundleCount(),dog.bundleCapacity()));
-        boolean edit=editable(player,null), trained=dog.trail().belongsTo(player), calm=!danger(dog) && !dog.isInLove() && !dog.isBaby();
-        var guava=find(player,ModItems.GUAVA.get());
-        controls.add(control(CARE,dog.combat().downed() ? "first_aid" : "care",edit && !guava.isEmpty() && dog.canEat(guava)
-                && (dog.combat().downed() ? dog.combat().canFirstAid(player) : dog.handCareReady() && (dog.getHealth()<dog.getMaxHealth() || dog.canAgeUp()))));
-        controls.add(control(COURTSHIP,"courtship",edit && guava.is(ModItems.BUNNIDOG_FOOD) && dog.readyForCareCourtship()));
-        var products=com.bunnidogs.mod.entity.BunnidogCare.groomingProducts(dog);
-        if (!products.isEmpty()) {
-            rows.add(t("animal.grooming",net.minecraft.network.chat.ComponentUtils.formatList(products,p->Component.translatable(p.translationKey())),(dog.groomingWait()+19)/20));
-            controls.add(control(GROOM,"groom",edit && has(player,Items.BRUSH) && com.bunnidogs.mod.entity.BunnidogCare.canGroom(dog)));
-        }
-        if (dog.trail().keeper()!=null) {
-            rows.add(t("animal.trail",message("trail.order."+dog.trail().order().name().toLowerCase(Locale.ROOT)),
-                    message(trained ? "trail.yours" : "trail.other")));
-            rows.add(t("animal.provisions",t(dog.trail().provisions() ? "on" : "off")));
-            boolean qualified=Trail.qualified(dog.genome());
-            if (!qualified) rows.add(t("animal.trail_changed"));
-            controls.add(control(FOLLOW,"follow",edit && trained && calm && qualified));
-            controls.add(control(WAIT,"wait",edit && trained && calm && qualified));
-            controls.add(control(RESIDENT,dog.homeNest()==null ? "resident_roam" : "resident",edit && trained && calm && qualified));
-            controls.add(control(PROVISIONS,dog.trail().provisions() ? "provisions_off" : "provisions_on",edit && trained));
-            rows.add(Component.translatable("care.bunnidogs.combat.state",Component.translatable("care.bunnidogs.combat.intent."+dog.combat().intent())));
-            if (dog.forageWait()>0) rows.add(Component.translatable("care.bunnidogs.combat.meal_rest",(dog.forageWait()+19)/20));
-            controls.add(new CareView.Control(CombatPanel.OPEN,t("button.combat"),true));
-        }
-        else if (Trail.qualified(dog.genome())) {
-            rows.add(t("animal.training"));
-            controls.add(control(TRAIN,"train",edit && has(player,ModItems.GUAVA.get()) && dog.trail().canTrainFromStock(player)));
-        }
-        controls.add(control(GENETICS,"genetics",has(player,ModItems.CALIPERS.get())));
-        controls.add(control(ROLES,"roles",true));
-        if (dog.carriedBundleCount()>0) {
-            controls.add(control(TAKE_BUNDLE,"take_bundle",edit));
-            controls.add(control(CARGO,"cargo",true));
-        }
-        Component next=dog.combat().downed() ? Component.translatable("care.bunnidogs.combat.next.aid")
-                : dog.combat().recovering() ? Component.translatable("care.bunnidogs.combat.next.recovery")
-                : danger(dog) ? t("animal.next.safety") : dog.getHealth()<dog.getMaxHealth() ? t("animal.next.heal")
-                : dog.isBaby() ? t(dog.isAgeLocked() ? "family.next.age_locked" : "animal.next.grow") : dog.isInLove() ? t("animal.next.courting") : dog.trail().ordered() ? t("animal.next.trail")
-                : dog.homeNest()==null ? t("animal.next.home") : dog.beingTransported() || dog.isVehicle() ? t("animal.next.transport")
-                : dog.getAge()>0 ? t("animal.next.rest") : t("animal.next.breed");
-        return new CareView(dog.getDisplayName(),next,rows,controls);
+        return AnimalPanels.home(player,dog);
     }
     public static CareView cargo(Player player,Bunnidog dog) {
         var bags=dog.carriedBundles(); var rows=new ArrayList<Component>();
@@ -135,7 +81,7 @@ public final class CarePanels {
         }
         if (bags.size()>4) rows.add(t("cargo.more_bags",bags.size()-4));
         // Two rows per shown bag keep the snapshot bounded even for legacy or command-added cargo.
-        return new CareView(t("cargo.title",dog.getDisplayName()),t("cargo.next"),rows,
+        return new CareView(t("cargo.title",dog.getDisplayName()),Component.empty(),rows,
                 List.of(control(BACK,"back",true),control(TAKE_BUNDLE,"take_bundle",editable(player,null) && !bags.isEmpty())));
     }
     public static CareView station(Player player,BlockPos pos,BlockEntity be) {

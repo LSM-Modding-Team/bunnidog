@@ -140,7 +140,7 @@ public final class FamilyGoalsGameTest {
         player.interactOn(pup,InteractionHand.MAIN_HAND,Vec3.ZERO);
         h.assertTrue(!pup.isAgeLocked() && player.getMainHandItem().isEmpty(),"A second native golden dandelion resumes ordinary growth");
         player.getInventory().setItem(11,new ItemStack(ModItems.GUAVA.get(),2));
-        menu=animal(h,player,pup); int age=pup.getAge(); press(h,player,menu,CarePanels.CARE);
+        menu=animal(h,player,pup); int age=pup.getAge(); press(h,player,menu,com.bunnidogs.mod.menu.AnimalPanels.CARE_MENU); press(h,player,menu,CarePanels.CARE);
         h.assertTrue(pup.getAge()>age && count(player,ModItems.GUAVA.get())==1 && pup.genome().equals(genome) && pup.stats().equals(inherited),
                 "Real paid feeding helps the chosen offspring grow without inventing genetic or point progress");
         // Fast-forward the wait; the last age step is still native AgeableMob rather than a fabricated adult record.

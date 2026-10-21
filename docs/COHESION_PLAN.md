@@ -4,6 +4,37 @@ The player should be able to raise a useful companion without reading a manual.
 The Field Guide is an optional reference for exact genetics and advanced systems.
 Adding another chapter does not count as making an interaction discoverable.
 
+## First client review corrections (2026-10-21)
+
+The user found that persistent crosshair instructions and verbose animal panels
+had moved the manual into the UI. That is failed discovery, even when a headless
+test proves the controls work. This review overrides earlier claims of completed
+first-session cohesion.
+
+- Remove the automatic crosshair tutorial layer completely. No replacement
+  popup or repeating instruction; no essential one-time hint has been identified.
+- Use the old [MCA 1.12 interaction pattern](https://github.com/WildBamaBoy/minecraft-comes-alive/blob/1.12.2-6.0.1/src/main/java/mca/client/gui/GuiInteract.java):
+  short named action groups beside the actual visible animal/world, without a
+  full-screen blur or a scrolling first-contact readout. This is an interaction
+  reference, not imported MCA code or a new social/relationship system.
+- Ordinary held items may open interaction. Preserve direct food, both hands,
+  leads, shears, name tags, bundles and the mod's purpose-built tools.
+- First contact offers Care, Orders and Work; Cargo appears for actual bundles.
+  Calipers add a deliberate Measure action. No initial instructions, inferred
+  genes, bred points, exact health, combat calculations or specialty thresholds.
+- Care and Orders contain actual verbs; unavailable actions have short local
+  hover reasons. Work reports personally practiced routines. Lessons retain
+  choices and live status, without a theory/threshold/setup wall of text.
+- Exact body/mind measurements and forecasts remain in the existing tools and
+  stations. Combat calculations move to the explicit Calipers care reading.
+
+Native tests cover ordinary-item opening, off-hand priorities, data-free first
+contact, hidden-point changes, real inventory use and stale/lost-tool denial.
+The existing complete-family, cargo, shearing and companion cases remain gates.
+`art/interaction_preview.png` illustrates English/Spanish native snapshots with a
+substitute font and the existing sculpt; it is not a Minecraft client capture.
+Natural discovery, GUI scale, accessibility and pacing still need client review.
+
 The user-directed [combat plan](COMBAT_COMPANION_PLAN.md) and
 [player scenarios](COMBAT_SCENARIOS.md) now have an implemented B1/B2 and initial
 B3 party in [COMBAT_SPECS.md](COMBAT_SPECS.md), following the 2026-10-20 planning
@@ -16,7 +47,7 @@ or separate gear prerequisite replaces the existing care/breeding loop.
 
 | Player's goal | Discover it through play | Success condition |
 |---|---|---|
-| Meet an animal | A short contextual interaction hint; empty-hand care panel | See its food, health and next useful action without tools |
+| Meet an animal | Try ordinary interaction; short action groups beside the animal | Choose care or orders without a manual or unsolicited measurements |
 | Set up a home | Nest panel, actual resident and lead controls | Understand one Nest per adult and assign a led resident deliberately |
 | Care for residents | Animal and Trough panels | Distinguish healing food, guava courtship and optional crop work |
 | Raise the first litter | Guava feedback, seed tooltip, crop/Cradle status | Know a mating drops a seed; plant it, wait and hatch with room |
@@ -25,14 +56,14 @@ or separate gear prerequisite replaces the existing care/breeding loop.
 
 ## C1 — Controls where the work happens (implemented)
 
-- A native, live care/station menu: short next step, compact state and named
-  buttons. Empty-hand opening is read-only; opening a station never spends food,
+- Native, live animal action groups and station controls. Animal opening is
+  read-only; opening a station never spends food,
   starts mating, changes a request or hatches a litter.
 - Preserve direct item interactions and deliberate crouching shortcuts. Put the
   same operations behind visible buttons rather than inventing a second economy.
 - Actual inventory stock, native paths, protection and loaded-world limits remain
   authoritative. Close menus when their exact target is removed or out of reach.
-- Show nearby-context hints without filling chat or interrupting normal feedback.
+- Explain unavailable actions locally, without automatic crosshair instructions.
 - Show commission targets and actual per-requirement progress at the Board.
 
 The common actions use real inventory: plain-guava care/courtship, required
@@ -137,9 +168,9 @@ Protocol **17** carries the optional goal, requiring matching client/server buil
 
 ## C5 — Make ordinary animals useful and work spaces visible (implemented parts)
 
-Hanging guavas now name picking, ripening and bone-meal actions at the crosshair,
-including the native crouching/held-item bypass. This closes a first-food cue gap
-without changing fruit growth, costs or harvest mechanics.
+Hanging guavas retain native picking, ripening and bone-meal behavior, including
+the crouching/held-item bypass. The automatic crosshair instructions were removed
+after the first client review; ordinary use does not need a tutorial overlay.
 
 Useful roles & work shows actual pack capacity, temperament, cheap native harvest
 readiness, expressed-trait benefits and canonical specialty thresholds. Basic

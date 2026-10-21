@@ -62,6 +62,7 @@ public final class TrailGameTest {
         h.assertTrue(dog.moveHomeTo(level,nest)==NestHome.MoveResult.MOVED,"The trained resident begins with a real claimed Nest");
         com.bunnidogs.mod.menu.CareMenu.open(keeper,dog);
         var menu=(com.bunnidogs.mod.menu.CareMenu)keeper.containerMenu;
+        h.assertTrue(menu.clickMenuButton(keeper,menu.buttonId(com.bunnidogs.mod.menu.AnimalPanels.ORDERS)),"Open orders before choosing a bond");
         h.assertTrue(menu.clickMenuButton(keeper,menu.buttonId(com.bunnidogs.mod.menu.CarePanels.TRAIN)),"Native care provides deliberate inventory-backed training");
         h.assertTrue(dog.trail().belongsTo(keeper)&&dog.trail().order()==Trail.Order.FOLLOW&&guavas.getCount()==2
                 &&dog.homeNest().equals(nest)&&dog.gardeningStatus()==Gardening.Status.TRAIL&&!dog.combat().selected(),"Training spends one guava, retains home and leaves combat off");
@@ -96,6 +97,7 @@ public final class TrailGameTest {
         restored.discard();
     }
     public static void walking(GameTestHelper h) {
+        // The dedicated 36-block template keeps the complete excursion entity-ticking.
         var level=h.getLevel(); int y=244; floor(h,y,31);
         var dog=h.spawn(ModEntities.BUNNIDOG.get(),2,y+1,1); dog.setGenome(Genome.DEFAULT); dog.setStats(Stats.ZERO);
         dog.setAge(0); dog.setHealth(dog.getMaxHealth()); dog.setOnGround(true);

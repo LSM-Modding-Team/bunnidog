@@ -729,7 +729,27 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         if (readyForLove && result.consumesAction()) {
             courtshipFeedback(player,tier);
         }
+        if (!result.consumesAction() && this.acceptsCare() && this.isAlive() && !directCareItem(held)
+                && (hand==InteractionHand.OFF_HAND || !directCareItem(player.getOffhandItem()))) {
+            com.bunnidogs.mod.menu.CareMenu.open(player,this);
+            return InteractionResult.SUCCESS;
+        }
         return result;
+    }
+
+    /** Leave item-owned interactions and the other hand's food/tools to their native dispatch. */
+    private boolean directCareItem(ItemStack stack) {
+        if (stack.isEmpty()) return false;
+        var item=stack.getItem();
+        return this.canEat(stack) || isBunnidogFood(stack) || item instanceof net.minecraft.world.item.BundleItem
+                || item instanceof net.minecraft.world.item.ShearsItem || item instanceof net.minecraft.world.item.DyeItem
+                || item instanceof net.minecraft.world.item.SpawnEggItem || stack.is(Items.LEAD) || stack.is(Items.NAME_TAG)
+                || item instanceof CalipersItem || item instanceof EarTagItem || item instanceof PedigreeBookItem
+                || item instanceof com.bunnidogs.mod.item.TravelBasketItem || item instanceof com.bunnidogs.mod.item.SyringeItem
+                || item instanceof com.bunnidogs.mod.item.GeneSplicerItem || item instanceof com.bunnidogs.mod.item.PurebredRegistryItem
+                || stack.is(ModItems.TRAIL_WHISTLE.get()) || stack.is(Items.BRUSH) || stack.is(Items.COMPASS)
+                || stack.is(Items.BOWL) || stack.is(Items.BONE) || stack.is(Items.GLOW_BERRIES)
+                || stack.is(net.minecraft.tags.ItemTags.HOES);
     }
 
     /**

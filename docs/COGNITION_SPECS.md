@@ -8,8 +8,8 @@ remain in [INTELLIGENCE_PLAN.md](INTELLIGENCE_PLAN.md),
 
 ## Playing the first learning loop
 
-Open an animal with empty hands, then **Skills and roles → Lessons**. Choose a
-routine and follow its short setup advice. An instructor stays within eight
+Interact with an animal, then choose **Work → Lessons**. Choose a routine;
+unavailable choices have local hover feedback. An instructor stays within eight
 blocks, with sight of the animal and both work targets. Successful real work
 adds personal practice; opening a panel, waiting, failed work or unavailable
 stock grants none. Existing work rest still applies, including during practice.
@@ -21,8 +21,10 @@ stock grants none. Existing work rest still applies, including during practice.
 | Garden | Existing cultivation, replanting and composting actions; Bloom +10, compatible stock and selected work policy. Food-spending work preserves eight food. |
 | Nursery | Advance an unfinished real Cradle; Bloom +20, Nursery mode and a real plain guava above the eight-food reserve. |
 
-The panel distinguishes **needs a lesson**, partial practice, **learned**,
-**learned; needs guidance**, and **too complex**. Genetic potential does not
+Ordinary work menus show personally practiced routines; untried lessons say
+**unfamiliar**, without predicting genetic potential or listing bred thresholds.
+After practice, status distinguishes **learning**, **learned** and
+**learned; needs guidance**. Calipers expose exact inherited capacity. Genetic potential does not
 claim a learned job. A compatible mind can learn independent work; a supported
 mind can know the routine and still need an active nearby guide each time.
 Limited animals retain companionship, care, home, cargo and trusted recall.
@@ -103,7 +105,7 @@ Canonical genotype text is `g2.<seven body pairs>.<four mind pairs>`, for exampl
 existing Seed/Tissue/Infusion/Pedigree/LineageNames delimiters. Full equality
 includes both words; `.packed()` deliberately remains only the body word.
 Entities sync three integers and invalidate capacity caches on either word.
-Required client/server protocol is **19**.
+Required client/server protocol is **20** after the interaction-menu update.
 
 Valid old six/seven-pair genomes resolve to the same fixed, heritable helper
 mind `11-11-11-11`: capacities 2.25/2.00/1.75/2.00. Six-pair forms also retain

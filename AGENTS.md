@@ -5,8 +5,19 @@ specifications and source relevant to the request. Historical documents preserve
 past decisions; their Claude sandbox, chunk-size, upload and approval routines
 are obsolete. The user's current request determines scope.
 
+The first actual client review (2026-10-21) rejected persistent tutorial hints,
+instruction-heavy animal panels and measurements without tools. Preserve the
+corrections in `docs/COHESION_PLAN.md`: no automatic crosshair tutorial layer;
+short MCA-style action groups beside the visible world; ordinary held-item
+opening while real food/tools retain priority; exact measurements require their
+tools and an explicit request. Do not restore unsolicited stat/threshold/theory
+readouts as a substitute for discoverable actions. If an indispensable tutorial
+cue is later justified by actual play, make it a durable one-time cue rather than
+an always-on layer. Prioritize observed usability issues over new intelligence
+features while the human review is ongoing.
+
 - Complete the requested change through implementation and appropriate validation,
-  respecting planning-only requests. The current user direction is the substantial
+  respecting planning-only requests. The accepted longer-term direction is the substantial
   gene-driven intelligence/civilization update in `docs/INTELLIGENCE_PLAN.md`,
   `docs/INTELLIGENCE_ENGINEERING.md` and `docs/INTELLIGENCE_SCENARIOS.md`. The
   2026-10-21 planning request was followed by explicit implementation approval.
