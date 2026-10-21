@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.entity;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
@@ -33,7 +34,7 @@ public final class ResidentCensus {
         for (var dog : residents.subList(0,Math.min(MAX_ROWS,residents.size()))) {
             var home = dog.homeNest();
             player.sendSystemMessage(Component.translatable("message.bunnidogs.census.row",dog.getDisplayName(),dog.earTag().orElse("—"),
-                    String.format(Locale.ROOT,"%.1f / %.1f",dog.getHealth(),dog.getMaxHealth()),dog.diet().foods(),
+                    String.format(Locale.ROOT,"%.1f / %.1f",dog.getHealth(),dog.getMaxHealth()),TextComponents.diet(dog.diet()),
                     home.getX(),home.getY(),home.getZ()).withStyle(dog.getHealth() < dog.getMaxHealth() ? ChatFormatting.YELLOW : ChatFormatting.GRAY));
         }
         if (residents.size() > MAX_ROWS) player.sendSystemMessage(Component.translatable("message.bunnidogs.census.more",residents.size()-MAX_ROWS)

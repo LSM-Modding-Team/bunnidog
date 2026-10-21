@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.item;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.function.Consumer;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Gene;
@@ -29,7 +30,7 @@ public final class GeneSplicerItem extends Item {
         if (!player.level().isClientSide()) {
             Gene gene = Gene.values()[(selected(stack).ordinal()+1)%Gene.COUNT];
             stack.set(ModItems.SPLICE_GENE.get(),gene.ordinal());
-            player.sendOverlayMessage(Component.translatable("message.bunnidogs.splice.selected",Plain.geneName(gene)));
+            player.sendOverlayMessage(Component.translatable("message.bunnidogs.splice.selected",TextComponents.gene(gene)));
         }
         return InteractionResult.SUCCESS;
     }
@@ -71,7 +72,7 @@ public final class GeneSplicerItem extends Item {
         if (mutagen >= 0) player.getInventory().getItem(mutagen).consume(1,player);
         stack.hurtAndBreak(1,player,hand);
         dog.playSound(SoundEvents.BOTTLE_EMPTY,.35F,1.2F);
-        player.sendOverlayMessage(Component.translatable("message.bunnidogs.splice.done",Plain.geneName(gene),change.get().donor().name().replace('_',' ')));
+        player.sendOverlayMessage(Component.translatable("message.bunnidogs.splice.done",TextComponents.gene(gene),TextComponents.allele(change.get().donor())));
         return InteractionResult.SUCCESS;
     }
     private static InteractionResult refuse(Player player, String reason) {
@@ -82,7 +83,7 @@ public final class GeneSplicerItem extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display,
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack,context,display,lines,flag);
-        lines.accept(Component.translatable("message.bunnidogs.splice.selected",Plain.geneName(selected(stack))).withStyle(ChatFormatting.GOLD));
+        lines.accept(Component.translatable("message.bunnidogs.splice.selected",TextComponents.gene(selected(stack))).withStyle(ChatFormatting.GOLD));
         for (String key : new String[]{"select","donor","cost","slot","copy","preview"})
             lines.accept(Component.translatable("tooltip.bunnidogs.gene_splicer." + key).withStyle(ChatFormatting.GRAY));
     }

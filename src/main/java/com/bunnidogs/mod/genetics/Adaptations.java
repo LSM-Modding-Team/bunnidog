@@ -35,28 +35,28 @@ public final class Adaptations {
         return gene == Gene.BUILD ? (adaptation.isEmpty() ? "" : adaptation+" ")+Carrying.explanation(allele) : adaptation;
     }
     private static String environmentalExplanation(Gene gene, Allele allele) {
-        if (gene == Gene.FERTILITY) return FertilityMark.of(allele).description()+" shows this expressed fertility allele, not current breeding readiness.";
-        if (gene == Gene.LEGS && allele.name().equals("webbed")) return "Adds 0.5 Swim Speed, normally 50% stronger water propulsion. Webbing shows between the toes. Still needs air; domestic routes still avoid deep water and lava.";
-        if (gene == Gene.LEGS && allele.name().equals("paddle")) return "Adds 1 Swim Speed, normally doubling water propulsion. Shorter legs trade land speed and jump height for swimming; visible toe webbing paddles in water. Still needs air; domestic routes avoid deep water.";
-        if (gene == Gene.LEGS && allele.name().equals("phase")) return "Grounded adults blink three to six blocks away after a nonlethal attack, then recover for twenty seconds. Needs safe loaded dry ground. Residents keep their home boundary; trained trail partners with a nearby keeper can escape along the journey. Leads, rides and passengers prevent blinking; damage still lands.";
-        if (gene == Gene.EARS && allele.name().equals("bat")) return "Healthy adults with Senses +10 can mark nearby ore: sneak-use a compass. At +20, a mineral in the other hand selects its ore family. Six-block range, thirty-second shared recovery.";
-        if (gene == Gene.COAT && allele.name().equals("ember")) return "Immune to fire and lava.";
-        if (gene == Gene.COAT && allele.name().equals("seal")) return "+1 native Oxygen Bonus: air normally lasts twice as long on average. Does not refill air or prevent drowning. Water Breathing and other oxygen bonuses still work normally.";
-        if (gene == Gene.COAT && allele.name().equals("pale")) return "At Senses +20, a calm healthy adult can guide a nearby keeper's sight in dim light: sneak-feed one glow berry for sixty seconds of Night Vision. Thirty-second recovery persists through saves and baskets. Existing Night Vision keeps the berry.";
+        if (gene == Gene.FERTILITY) return FertilityMark.of(allele).description()+Texts.t(" shows this expressed fertility allele, not current breeding readiness.");
+        if (gene == Gene.LEGS && allele.name().equals("webbed")) return Texts.t("Adds 0.5 Swim Speed, normally 50% stronger water propulsion. Webbing shows between the toes. Still needs air; domestic routes still avoid deep water and lava.");
+        if (gene == Gene.LEGS && allele.name().equals("paddle")) return Texts.t("Adds 1 Swim Speed, normally doubling water propulsion. Shorter legs trade land speed and jump height for swimming; visible toe webbing paddles in water. Still needs air; domestic routes avoid deep water.");
+        if (gene == Gene.LEGS && allele.name().equals("phase")) return Texts.t("Grounded adults blink three to six blocks away after a nonlethal attack, then recover for twenty seconds. Needs safe loaded dry ground. Residents keep their home boundary; trained trail partners with a nearby keeper can escape along the journey. Leads, rides and passengers prevent blinking; damage still lands.");
+        if (gene == Gene.EARS && allele.name().equals("bat")) return Texts.t("Healthy adults with Senses +10 can mark nearby ore: sneak-use a compass. At +20, a mineral in the other hand selects its ore family. Six-block range, thirty-second shared recovery.");
+        if (gene == Gene.COAT && allele.name().equals("ember")) return Texts.t("Immune to fire and lava.");
+        if (gene == Gene.COAT && allele.name().equals("seal")) return Texts.t("+1 native Oxygen Bonus: air normally lasts twice as long on average. Does not refill air or prevent drowning. Water Breathing and other oxygen bonuses still work normally.");
+        if (gene == Gene.COAT && allele.name().equals("pale")) return Texts.t("At Senses +20, a calm healthy adult can guide a nearby keeper's sight in dim light: sneak-feed one glow berry for sixty seconds of Night Vision. Thirty-second recovery persists through saves and baskets. Existing Night Vision keeps the berry.");
         if (gene == Gene.BUILD && allele.name().equals("woolly"))
-            return "Does not freeze in powder snow. Healthy adults yield two wool in their expressed coat's palette with shears every ten minutes.";
+            return Texts.t("Does not freeze in powder snow. Healthy adults yield two wool in their expressed coat's palette with shears every ten minutes.");
         if (gene == Gene.COAT && allele.name().equals("snow"))
-            return "Does not freeze in powder snow; walks on its surface and can climb out. Home routines use supported powder surfaces, avoiding interiors and other hazards. Falls still hurt. Brush healthy Bloom +10 adults in cold climates for one snowball, sharing ten-minute grooming rest.";
-        if (gene == Gene.COAT && allele.name().equals("moss")) return "Immune to poison, but not wither or other magic.";
-        if (gene == Gene.COAT && allele.name().equals("sand")) return "Immune to cactus damage; other thorns still hurt.";
-        if (gene == Gene.COAT && allele.name().equals("void")) return "Immune to levitation; shulker impacts and falls still hurt.";
-        if (gene == Gene.LEGS && allele.name().equals("hoofed")) return "Takes half the usual fall damage. Adds 0.4 step height, letting ordinary adults walk up one-block ledges.";
-        if (gene == Gene.LEGS && allele.name().equals("fleet")) return "Reduces slowing from soul sand and honey by 25%; combines with lean build.";
-        if (gene == Gene.BUILD && allele.name().equals("lean")) return "Halves slowing from soul sand and honey; combines with fleet legs. Does not prevent cobwebs or Slowness.";
-        if (gene == Gene.COAT && allele.name().equals("slate")) return "+4 natural armor against ordinary attacks; armor-bypassing damage still hurts.";
-        if (gene == Gene.COAT && allele.name().equals("glow")) return "Self-lit coat in darkness; does not light nearby blocks. Brush healthy adults for one glowstone dust every ten minutes.";
-        if (gene == Gene.BUILD && allele.name().equals("stocky")) return "+15% knockback resistance.";
-        if (gene == Gene.BUILD && allele.name().equals("chonker")) return "+30% knockback resistance.";
+            return Texts.t("Does not freeze in powder snow; walks on its surface and can climb out. Home routines use supported powder surfaces, avoiding interiors and other hazards. Falls still hurt. Brush healthy Bloom +10 adults in cold climates for one snowball, sharing ten-minute grooming rest.");
+        if (gene == Gene.COAT && allele.name().equals("moss")) return Texts.t("Immune to poison, but not wither or other magic.");
+        if (gene == Gene.COAT && allele.name().equals("sand")) return Texts.t("Immune to cactus damage; other thorns still hurt.");
+        if (gene == Gene.COAT && allele.name().equals("void")) return Texts.t("Immune to levitation; shulker impacts and falls still hurt.");
+        if (gene == Gene.LEGS && allele.name().equals("hoofed")) return Texts.t("Takes half the usual fall damage. Adds 0.4 step height, letting ordinary adults walk up one-block ledges.");
+        if (gene == Gene.LEGS && allele.name().equals("fleet")) return Texts.t("Reduces slowing from soul sand and honey by 25%; combines with lean build.");
+        if (gene == Gene.BUILD && allele.name().equals("lean")) return Texts.t("Halves slowing from soul sand and honey; combines with fleet legs. Does not prevent cobwebs or Slowness.");
+        if (gene == Gene.COAT && allele.name().equals("slate")) return Texts.t("+4 natural armor against ordinary attacks; armor-bypassing damage still hurts.");
+        if (gene == Gene.COAT && allele.name().equals("glow")) return Texts.t("Self-lit coat in darkness; does not light nearby blocks. Brush healthy adults for one glowstone dust every ten minutes.");
+        if (gene == Gene.BUILD && allele.name().equals("stocky")) return Texts.t("+15% knockback resistance.");
+        if (gene == Gene.BUILD && allele.name().equals("chonker")) return Texts.t("+30% knockback resistance.");
         return "";
     }
 }

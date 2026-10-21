@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.item;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Consumer;
@@ -133,7 +134,7 @@ public class SeedItem extends Item {
             ItemStack mutagenStack, Seed seed) {
         if (!level.isClientSide()) {
             if (seed.mutagen()) {
-                player.sendSystemMessage(Component.literal("This seed already carries a Mutagen.").withStyle(ChatFormatting.GRAY));
+                player.sendSystemMessage(TextComponents.t("This seed already carries a Mutagen.").withStyle(ChatFormatting.GRAY));
                 return InteractionResult.SUCCESS;
             }
             ItemStack treated = seedStack.copyWithCount(1);
@@ -167,21 +168,21 @@ public class SeedItem extends Item {
         super.appendHoverText(stack, context, display, lines, flag);
         Optional<Seed> seed = read(stack);
         if (seed.isEmpty()) {
-            lines.accept(Component.literal("Empty: holds no genes").withStyle(ChatFormatting.GRAY));
+            lines.accept(TextComponents.t("Empty: holds no genes").withStyle(ChatFormatting.GRAY));
             return;
         }
         lines.accept(Component.translatable("care.bunnidogs.seed.use").withStyle(ChatFormatting.YELLOW));
-        var summary=seed.get().summary();
+        var summary=TextComponents.localized(() -> seed.get().summary());
         for (int i=0;i<(flag.isAdvanced() ? summary.size() : 2);i++) lines.accept(Component.literal(summary.get(i)).withStyle(ChatFormatting.GRAY));
         if (!flag.isAdvanced() && seed.get().mutagen()) lines.accept(Component.translatable("care.bunnidogs.seed.treated").withStyle(ChatFormatting.LIGHT_PURPLE));
-        lines.accept(Component.translatable("tooltip.bunnidogs.seed.quality_band",com.bunnidogs.mod.genetics.SeedQuality.band(seed.get().quality()).displayName())
+        lines.accept(Component.translatable("tooltip.bunnidogs.seed.quality_band",TextComponents.t(com.bunnidogs.mod.genetics.SeedQuality.band(seed.get().quality()).displayName()))
                 .withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.translatable("care.bunnidogs.seed.details").withStyle(ChatFormatting.DARK_GRAY));
         if (flag.isAdvanced()) {
             lines.accept(Component.translatable("tooltip.bunnidogs.seed.dispenser").withStyle(ChatFormatting.DARK_GRAY));
-            lines.accept(Component.literal("Mother " + seed.get().mother() + " / " + seed.get().motherStats())
+            lines.accept(TextComponents.t("Mother %s / %s", seed.get().mother().toString(), seed.get().motherStats().toString())
                     .withStyle(ChatFormatting.DARK_GRAY));
-            lines.accept(Component.literal("Father " + seed.get().father() + " / " + seed.get().fatherStats())
+            lines.accept(TextComponents.t("Father %s / %s", seed.get().father().toString(), seed.get().fatherStats().toString())
                     .withStyle(ChatFormatting.DARK_GRAY));
         }
     }

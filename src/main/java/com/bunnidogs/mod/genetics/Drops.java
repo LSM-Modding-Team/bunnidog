@@ -533,24 +533,24 @@ public final class Drops {
     /** One expectation as text: {@code "flesh 1.0"}, {@code "rabbit's foot 0.10 (10% for one)"}, a signature as {@code "gold nugget 13%"}. */
     public static String describe(Expectation e) {
         if (e.chanceOnly()) {
-            return String.format(Locale.ROOT, "%s %d%%", e.label(), Math.round(e.chanceAtLeastOne() * 100.0));
+            return String.format(Locale.ROOT, "%s %d%%", Texts.t(e.label()), Math.round(e.chanceAtLeastOne() * 100.0));
         }
         if (e.mean() >= 1.0) {
-            return String.format(Locale.ROOT, "%s %.1f", e.label(), e.mean());
+            return String.format(Locale.ROOT, "%s %.1f", Texts.t(e.label()), e.mean());
         }
-        return String.format(Locale.ROOT, "%s %.2f (%d%% for one)", e.label(), e.mean(), Math.round(e.chanceAtLeastOne() * 100.0));
+        return String.format(Locale.ROOT, Texts.t("%s %.2f (%d%% for one)"), Texts.t(e.label()), e.mean(), Math.round(e.chanceAtLeastOne() * 100.0));
     }
 
     /** The Calipers line: {@code "Drops (adult kill, no Looting): pelt: tan, flesh 1.0, rabbit's foot 0.10 (10% for one), bone meal 0.50 (50% for one)"}. A pup has no pelt. */
     public static String describe(Genome genome, Stats stats, boolean baby) {
         Context ctx = Context.PLAIN_ADULT.withBaby(baby);
-        StringBuilder sb = new StringBuilder("Drops (").append(baby ? "pup" : "adult").append(" kill, no Looting): ");
+        StringBuilder sb = new StringBuilder(Texts.t("Drops (%s kill, no Looting): ",baby ? Texts.t("pup") : Texts.t("adult")));
         boolean first = true;
         for (Expectation e : expected(genome, stats, ctx)) {
             if (!first) {
                 sb.append(", ");
             }
-            sb.append(e.itemId().equals(peltId(genome)) ? "pelt: " + coatName(genome) : describe(e));   // the hide is certain: no numbers
+            sb.append(e.itemId().equals(peltId(genome)) ? Texts.t("pelt: ") + Texts.t(coatName(genome)) : describe(e));   // the hide is certain: no numbers
             first = false;
         }
         return sb.toString();

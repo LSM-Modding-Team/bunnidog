@@ -60,12 +60,12 @@ public record Infusion(Genome genome, Stats stats, double quality) {
         List<String> lines = new ArrayList<>();
         List<Juice.Spec> effects = Juice.effects(genome, stats, quality);
         if (effects.isEmpty()) {
-            lines.add("A bland juice: no effects");
+            lines.add(Texts.t("A bland juice: no effects"));
         }
         for (Juice.Spec s : effects) {
             lines.add(s.describe());
         }
-        lines.add(String.format(Locale.ROOT, "Infusion quality %.2f", quality));
+        lines.add(String.format(Locale.ROOT, Texts.t("Infusion quality %.2f"), quality));
         return lines;
     }
 

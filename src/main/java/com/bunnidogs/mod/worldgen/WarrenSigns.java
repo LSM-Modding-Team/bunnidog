@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.worldgen;
 
+import com.bunnidogs.mod.network.TextComponents;
 import com.bunnidogs.mod.layout.Wayfinding;
 import com.bunnidogs.mod.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
@@ -29,8 +30,8 @@ final class WarrenSigns {
             if (!world.setBlock(pos,ModBlocks.GUAVA_WALL_SIGN.get().defaultBlockState().setValue(WallSignBlock.FACING,facing),2)) continue;
             if (world.getBlockEntity(pos) instanceof SignBlockEntity sign) {
                 var label = marker.label();
-                var text = new SignText().setMessage(0,Component.literal(label.title()))
-                        .setMessage(2,Component.literal(label.detail())).setColor(DyeColor.GREEN).setHasGlowingText(true);
+                var text = new SignText().setMessage(0,TextComponents.t(label.title()))
+                        .setMessage(2,TextComponents.t(label.detail())).setColor(DyeColor.GREEN).setHasGlowingText(true);
                 sign.setText(text,true);
                 sign.setText(text,false);
                 sign.setChanged();

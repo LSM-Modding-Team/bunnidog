@@ -61,6 +61,14 @@ are obsolete. The user's current request determines scope.
   approval gates. Preserve saves, established design goals and the current task
   scope; an explicit pause on development still applies. Do not add features
   merely to consume budget or divert a focused fix into unrelated development.
+- Localization: keep every player-facing addition translatable. Maintain English
+  and one neutral Peruvian Spanish source at `assets/bunnidogs/lang/es_pe.json`;
+  the build generates identical Spanish locale aliases. Do not fork regional
+  translations or add a separate language toggle. Server feedback must send
+  Components for the recipient's language; pure layouts use the scoped `Texts`
+  adapter before measuring text. Keep user names, command/filter IDs and all saved
+  formats intact. See `docs/LOCALIZATION.md`; run the maintained localization
+  gate with the ordinary build when these strings/layouts change.
 - Work directly on `main`. Do not create additional branches unless the user
   explicitly requests one.
 - Preserve existing uncommitted work and player saves. Use Git diffs to review

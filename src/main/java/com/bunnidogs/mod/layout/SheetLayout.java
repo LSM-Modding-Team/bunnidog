@@ -1,5 +1,7 @@
 package com.bunnidogs.mod.layout;
 
+import com.bunnidogs.mod.genetics.Texts;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -41,8 +43,7 @@ public final class SheetLayout {
     static final int LABEL_W = 40;          // width of the gene-name column ("Temper." is about 38 px)
 
     /** The hover box of a Tissue Sample's portrait (Phase 8 S8). */
-    static final String SAMPLE_HOVER = "A Tissue Sample holds the genes and the bred stats of the animal it was taken from. "
-            + "The picture shows that animal as an adult.";
+    static final String SAMPLE_HOVER = "A Tissue Sample holds the genes and the bred stats of the animal it was taken from. The picture shows that animal as an adult.";
 
     // right page, y in px
     static final int STATS_Y = 9;
@@ -155,32 +156,32 @@ public final class SheetLayout {
         Page page = new Page();
         String header = switch (kind) {
             case BOOK -> "#" + (index + 1) + book.lineageName(g).map(name -> "  "+name).orElseGet(() -> e.tag().map(t -> "  " + t).orElse(""));
-            case SINGLE -> e.tag().orElse("Bunnidog");
-            case SAMPLE -> "Tissue sample";
-            case TABLE_A -> "Table: sample A";
-            case TABLE_B -> "Table: sample B";
-            case MOTHER -> "Seed: mother";
-            case FATHER -> "Seed: father";
+            case SINGLE -> e.tag().orElse(Texts.t("Bunnidog"));
+            case SAMPLE -> Texts.t("Tissue sample");
+            case TABLE_A -> Texts.t("Table: sample A");
+            case TABLE_B -> Texts.t("Table: sample B");
+            case MOTHER -> Texts.t("Seed: mother");
+            case FATHER -> Texts.t("Seed: father");
         };
-        int headerWidth = Page.WIDTH-(e.stats().isPresent() && !isSample(kind) ? m.width(e.pup() ? "pup" : "adult")+4 : 0);
+        int headerWidth = Page.WIDTH-(e.stats().isPresent() && !isSample(kind) ? m.width(e.pup() ? Texts.t("pup") : Texts.t("adult"))+4 : 0);
         page.text(0, 0, Page.fit(header,headerWidth,m), Page.Tone.HEAD);
-        if (book != null) page.hotspot(0,0,headerWidth,Page.LINE,header+e.tag().map(t -> ". Ear tag: "+t).orElse("")+". Keeper names label this exact recorded genome; they do not change inherited traits.",-1);
+        if (book != null) page.hotspot(0,0,headerWidth,Page.LINE,header+e.tag().map(t -> Texts.t(". Ear tag: ")+t).orElse("")+Texts.t(". Keeper names label this exact recorded genome; they do not change inherited traits."),-1);
         if (e.stats().isPresent() && !isSample(kind)) {
-            page.textRight(Page.WIDTH, 0, e.pup() ? "pup" : "adult", Page.Tone.MUTED);
+            page.textRight(Page.WIDTH, 0, e.pup() ? Texts.t("pup") : Texts.t("adult"), Page.Tone.MUTED);
         }
 
-        page.portrait(0, PORTRAIT_Y, Page.WIDTH, PORTRAIT_H, Plain.word(g.expressed(Gene.COAT)));
+        page.portrait(0, PORTRAIT_Y, Page.WIDTH, PORTRAIT_H, g.expressed(Gene.COAT).name());
         // hover the animal: what it drops when killed (the Calipers line); an old entry has no stats to work it out from;
         // a sample is not an animal that can be killed, so it explains itself instead
         page.hotspot(0, PORTRAIT_Y, Page.WIDTH, PORTRAIT_H,
-                isSample(kind) ? SAMPLE_HOVER
+                isSample(kind) ? Texts.t(SAMPLE_HOVER)
                         : e.stats().isPresent() ? Drops.describe(g, e.stats().get(), e.pup())
-                                : "Drops cannot be worked out: stats not recorded. Right-click this animal with the book again.", -1);
+                                : Texts.t("Drops cannot be worked out: stats not recorded. Right-click this animal with the book again."), -1);
 
-        page.text(0, GENOME_LABEL_Y, "GENOME", Page.Tone.HEAD);
+        page.text(0, GENOME_LABEL_Y, Texts.t("GENOME"), Page.Tone.HEAD);
         page.hotspot(0, GENOME_LABEL_Y, Page.WIDTH, Page.LINE, Purebreds.describe(g), -1);
         if (book != null) {
-            page.textRight(Page.WIDTH, GENOME_LABEL_Y, "generation " + book.generationOf(index), Page.Tone.MUTED);
+            page.textRight(Page.WIDTH, GENOME_LABEL_Y, Texts.t("generation ") + book.generationOf(index), Page.Tone.MUTED);
         }
         String[] pairs = g.toString().split("-");
         int x = 0;
@@ -193,7 +194,7 @@ public final class SheetLayout {
             page.pair(x, CODE_Y, m.width(pairs[i]));
             x += m.width(pairs[i]);
         }
-        page.hotspot(0, CODE_Y, x, Page.LINE, Plain.HOW_TO_READ, -1);
+        page.hotspot(0, CODE_Y, x, Page.LINE, Texts.t(Plain.HOW_TO_READ), -1);
 
         int y = ROWS_Y;
         int geneIndex = 0;
@@ -211,7 +212,7 @@ public final class SheetLayout {
             }
             y += Page.LINE;
         }
-        page.text(0, LEGEND_Y, "/x = carried gene", Page.Tone.MUTED);
+        page.text(0, LEGEND_Y, Texts.t("/x = carried gene"), Page.Tone.MUTED);
         return page;
     }
 
@@ -220,21 +221,21 @@ public final class SheetLayout {
     private static Page right(Pedigree book, int index, Pedigree.Entry e, Kind kind, Metrics m) {
         Genome g = e.genome();
         Page page = new Page();
-        page.text(0, 0, "STATS", Page.Tone.HEAD);
-        page.textRight(Page.WIDTH, 0, "pts = real value", Page.Tone.MUTED);
+        page.text(0, 0, Texts.t("STATS"), Page.Tone.HEAD);
+        page.textRight(Page.WIDTH, 0, Texts.t("pts = real value"), Page.Tone.MUTED);
 
         if (e.stats().isPresent()) {
             stats(page, g, e, m);
         } else {
             int y = STATS_Y;
-            for (String line : Page.wrap("Stats not recorded: right-click this animal with the book again.", Page.WIDTH, m)) {
+            for (String line : Page.wrap(Texts.t("Stats not recorded: right-click this animal with the book again."), Page.WIDTH, m)) {
                 page.text(0, y, line, Page.Tone.MUTED);
                 y += Page.LINE;
             }
         }
 
         // where the line drifts
-        page.text(0, NEXT_Y, "NEXT LITTER", Page.Tone.HEAD);
+        page.text(0, NEXT_Y, Texts.t("NEXT LITTER"), Page.Tone.HEAD);
         double bonus = e.stats().isPresent() ? Drift.qualityBonus(g, e.stats().get()) : 0.0D;
         int driftLines = bonus > 0.0D ? 1 : 2;
         List<String> drift = Page.wrap(Readout.pushText(g), Page.WIDTH, m);
@@ -246,21 +247,21 @@ public final class SheetLayout {
             page.text(0, NEXT_Y + Page.LINE * (i + 1), s, Page.Tone.INK);
         }
         if (bonus > 0.0D) {
-            page.text(0, NEXT_Y + Page.LINE * 2, Page.fit(String.format(Locale.ROOT, "Starborn: +%.2f quality", bonus), Page.WIDTH, m), Page.Tone.GOOD);
+            page.text(0, NEXT_Y + Page.LINE * 2, Page.fit(String.format(Locale.ROOT, Texts.t("Starborn: +%.2f quality"), bonus), Page.WIDTH, m), Page.Tone.GOOD);
         }
 
         page.hotspot(0, NEXT_Y, Page.WIDTH, Page.LINE * 3, Readout.pushText(g), -1);
 
         // a sample and a seed's parent say what they do not know instead of "no recorded parents"
         if (isSample(kind)) {
-            page.text(0, PARENTS_Y, Page.fit("A sample holds only", Page.WIDTH, m), Page.Tone.MUTED);
-            page.text(0, PARENTS_Y + Page.LINE, Page.fit("this animal's own genes", Page.WIDTH, m), Page.Tone.MUTED);
+            page.text(0, PARENTS_Y, Page.fit(Texts.t("A sample holds only"), Page.WIDTH, m), Page.Tone.MUTED);
+            page.text(0, PARENTS_Y + Page.LINE, Page.fit(Texts.t("this animal's own genes"), Page.WIDTH, m), Page.Tone.MUTED);
             return page;
         }
         if (kind == Kind.MOTHER || kind == Kind.FATHER) {
             boolean mother = kind == Kind.MOTHER;
-            page.text(0, PARENTS_Y, Page.fit(mother ? "Mother of the seed" : "Father of the seed", Page.WIDTH, m), Page.Tone.MUTED);
-            page.text(0, PARENTS_Y + Page.LINE, Page.fit(mother ? "Her parents: not kept" : "His parents: not kept", Page.WIDTH, m), Page.Tone.MUTED);
+            page.text(0, PARENTS_Y, Page.fit(mother ? Texts.t("Mother of the seed") : Texts.t("Father of the seed"), Page.WIDTH, m), Page.Tone.MUTED);
+            page.text(0, PARENTS_Y + Page.LINE, Page.fit(mother ? Texts.t("Her parents: not kept") : Texts.t("His parents: not kept"), Page.WIDTH, m), Page.Tone.MUTED);
             return page;
         }
 
@@ -268,8 +269,8 @@ public final class SheetLayout {
         if (e.mother().isPresent() && e.father().isPresent()) {
             int momIndex = book == null ? -1 : book.parentIndex(index, true);
             int dadIndex = book == null ? -1 : book.parentIndex(index, false);
-            String mom = parent("Mom", momIndex, e.mother().get());
-            String dad = parent("Dad", dadIndex, e.father().get());
+            String mom = parent(Texts.t("Mom"), momIndex, e.mother().get());
+            String dad = parent(Texts.t("Dad"), dadIndex, e.father().get());
             page.text(0, PARENTS_Y, Page.fit(mom, Page.WIDTH, m), Page.Tone.INK);
             page.text(0, PARENTS_Y + Page.LINE, Page.fit(dad, Page.WIDTH, m), Page.Tone.INK);
             page.hotspot(0, PARENTS_Y, Page.WIDTH, Page.LINE, mom, -1);
@@ -281,8 +282,8 @@ public final class SheetLayout {
                 page.link(0, PARENTS_Y + Page.LINE, Page.WIDTH, Page.LINE, dadIndex + 1);
             }
         } else {
-            page.text(0, PARENTS_Y, "No recorded parents", Page.Tone.MUTED);
-            page.text(0, PARENTS_Y + Page.LINE, "(wild or summoned)", Page.Tone.MUTED);
+            page.text(0, PARENTS_Y, Texts.t("No recorded parents"), Page.Tone.MUTED);
+            page.text(0, PARENTS_Y + Page.LINE, Texts.t("(wild or summoned)"), Page.Tone.MUTED);
         }
         return page;
     }
@@ -322,10 +323,10 @@ public final class SheetLayout {
                 page.text(0, line, Page.fit(value, Page.WIDTH, m), Page.Tone.INK);
             }
             y = line + Page.LINE;
-            String care = r.stat() == Stat.SENSES ? " Healthy adults bred to Senses +10 yield one loose whisker with a Brush every ten minutes." : "";
+            String care = r.stat() == Stat.SENSES ? Texts.t(" Healthy adults bred to Senses +10 yield one loose whisker with a Brush every ten minutes.") : "";
             var profile=Combat.profile(g,e.stats().get());
-            String combat=r.stat()==Stat.VITALITY ? String.format(Locale.ROOT," Adult base bite %.1f HP, every %.1f s before defenses.",profile.bite(),profile.interval()/20.0)
-                    : r.stat()==Stat.BLOOM ? String.format(Locale.ROOT," Combat injury: %.1f minutes of safe loaded recovery, with at least half health.",Combat.recoveryTicks(e.stats().get())/1200.0) : "";
+            String combat=r.stat()==Stat.VITALITY ? String.format(Locale.ROOT,Texts.t(" Adult base bite %.1f HP, every %.1f s before defenses."),profile.bite(),profile.interval()/20.0)
+                    : r.stat()==Stat.BLOOM ? String.format(Locale.ROOT,Texts.t(" Combat injury: %.1f minutes of safe loaded recovery, with at least half health."),Combat.recoveryTicks(e.stats().get())/1200.0) : "";
             page.hotspot(0, top, Page.WIDTH, y - top, Units.working(r.stat(), g, e.stats().get()) + care + combat, -1);
         }
     }

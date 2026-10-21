@@ -13,7 +13,7 @@ public final class Carrying {
     public static int slowdown(int count, int capacity) { return 25*Math.clamp(count-capacity,0,3); }
     public static String explanation(Allele build) {
         int count = capacity(build.name());
-        return "Calm adults can carry "+count+" native bundle"+(count == 1 ? "" : "s")
-                +". Equip a bundle; sneak with both hands empty to retrieve the last. Existing cargo survives a smaller build and Travel Baskets; each excess bundle slows movement by 25%, up to 75%.";
+        return Texts.t(count == 1 ? "Calm adults can carry %s native bundle" : "Calm adults can carry %s native bundles",count)
+                +Texts.t(". Equip a bundle; sneak with both hands empty to retrieve the last. Existing cargo survives a smaller build and Travel Baskets; each excess bundle slows movement by 25%, up to 75%.");
     }
 }

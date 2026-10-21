@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.menu;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -48,7 +49,7 @@ public final class LitterPanel {
                 for (var check:checks) {
                     if (check.stat().isPresent()) {
                         var stat=check.stat().orElseThrow(); double expected=cross.expectedPoints(stat);
-                        rows.add(t("litter.points",Plain.statName(stat),String.format(Locale.ROOT,"%+.1f",expected),check.required())
+                        rows.add(t("litter.points",TextComponents.stat(stat),String.format(Locale.ROOT,"%+.1f",expected),check.required())
                                 .copy().withStyle(expected>=check.required() ? ChatFormatting.GREEN : ChatFormatting.RED));
                     } else if (check.failure()==Commissions.Status.GENES) {
                         rows.add(t("litter.genes",t("check."+check.key(),check.detail().replace('_',' ')),check.required()));

@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.menu;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -57,7 +58,7 @@ public final class FamilyPanels {
         rows.add(t(dog.isBaby() ? dog.isAgeLocked() ? "family.pup_locked" : "family.pup" : "family.adult",dog.isBaby() ? growth(dog) : Component.empty()));
         rows.add(t("animal.health",Math.round(dog.getHealth()),Math.round(dog.getMaxHealth())));
         rows.add(t("family.parents",t(dog.motherGenome().isPresent() && dog.fatherGenome().isPresent() ? "show.recorded" : "show.missing")));
-        for (var check:checks) rows.add(t("board.check",t("check."+check.key(),check.detail().replace('_',' ')),check.current(),check.required())
+        for (var check:checks) rows.add(t("board.check",t("check."+check.key(),TextComponents.t(check.detail().replace('_',' '))),check.current(),check.required())
                 .copy().withStyle(check.met() ? ChatFormatting.GREEN : ChatFormatting.RED));
         rows.add(t("family.inherited")); rows.add(t("family.at_board"));
         var failure=checks.stream().filter(c->!c.met()).map(Commissions.Check::failure).findFirst().orElse(Commissions.Status.READY);

@@ -30,8 +30,8 @@ public final class Camouflage {
     }
     public static String explanation(Allele coat) {
         Cover cover = cover(coat.name());
-        return cover == Cover.NONE ? "Its light prevents camouflage."
-                : "When healthy and calm on " + cover.ground()
-                + ", halves native visual detection range and leaves no walking vibrations. Injury, combat, love, Glowing, water, transport and carried bundles break cover; attacks and landings still make vibrations.";
+        return cover == Cover.NONE ? Texts.t("Its light prevents camouflage.")
+                : Texts.t("When healthy and calm on ") + Texts.t(cover.ground())
+                + Texts.t(", halves native visual detection range and leaves no walking vibrations. Injury, combat, love, Glowing, water, transport and carried bundles break cover; attacks and landings still make vibrations.");
     }
 }

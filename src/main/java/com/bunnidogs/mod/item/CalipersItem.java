@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.item;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.List;
 import java.util.Optional;
 import java.util.Locale;
@@ -90,9 +91,9 @@ public class CalipersItem extends Item {
                 : Component.translatable("message.bunnidogs.care.home_at",nest.getX(),nest.getY(),nest.getZ(),
                         String.format(Locale.ROOT,"%.1f",Math.sqrt(dog.blockPosition().distSqr(nest)))));
         careRow(player,"food",dog.diet() == Diet.PLAIN ? Component.translatable("message.bunnidogs.care.food_guavas")
-                : Component.translatable("message.bunnidogs.care.food_other",dog.diet().foods()));
+                : Component.translatable("message.bunnidogs.care.food_other",TextComponents.diet(dog.diet())));
         careRow(player,"camouflage",Component.translatable("message.bunnidogs.camouflage."+dog.camouflageStatus().name().toLowerCase(Locale.ROOT),
-                com.bunnidogs.mod.genetics.Camouflage.cover(dog.genome()).ground()));
+                TextComponents.t(com.bunnidogs.mod.genetics.Camouflage.cover(dog.genome()).ground())));
         careRow(player,"packs",Component.translatable(dog.carryingSlowdown() > 0 ? "message.bunnidogs.packs.overloaded" : "message.bunnidogs.packs.stock",
                 dog.carriedBundleCount(),dog.bundleCapacity(),dog.carryingSlowdown()));
         var meals = dog.troughFeedingStatus();
@@ -248,7 +249,7 @@ public class CalipersItem extends Item {
             if (seed.isPresent()) {
                 showSeed(player, seed.get());
             } else {
-                player.sendSystemMessage(Component.literal("This crop holds no genes.").withStyle(ChatFormatting.GRAY));
+                player.sendSystemMessage(TextComponents.t("This crop holds no genes.").withStyle(ChatFormatting.GRAY));
             }
         }
         return InteractionResult.SUCCESS;
@@ -280,13 +281,13 @@ public class CalipersItem extends Item {
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display,
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack, context, display, lines, flag);
-        lines.accept(Component.literal("Right-click a bunnidog: its sheet opens").withStyle(ChatFormatting.GRAY));
+        lines.accept(TextComponents.t("Right-click a bunnidog: its sheet opens").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.calipers.care").withStyle(ChatFormatting.GRAY));
-        lines.accept(Component.literal("Right-click a planted seed or Nursery Cradle: litter forecast").withStyle(ChatFormatting.GRAY));
+        lines.accept(TextComponents.t("Right-click a planted seed or Nursery Cradle: litter forecast").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.calipers.cradle").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.calipers.finder").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.calipers.census").withStyle(ChatFormatting.DARK_GRAY));
-        lines.accept(Component.literal("Or hold a seed, sample or occupied Travel Basket in the other hand").withStyle(ChatFormatting.DARK_GRAY));
-        lines.accept(Component.literal("Off hand when you kill: a Tissue Sample").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(TextComponents.t("Or hold a seed, sample or occupied Travel Basket in the other hand").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(TextComponents.t("Off hand when you kill: a Tissue Sample").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

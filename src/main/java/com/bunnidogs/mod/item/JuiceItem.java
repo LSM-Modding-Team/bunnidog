@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.item;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -145,18 +146,18 @@ public class JuiceItem extends Item {
         super.appendHoverText(stack, context, display, lines, flag);
         Optional<Infusion> infusion = read(stack);
         if (infusion.isEmpty()) {
-            lines.accept(Component.literal("Restores a little hunger").withStyle(ChatFormatting.GRAY));
+            lines.accept(TextComponents.t("Restores a little hunger").withStyle(ChatFormatting.GRAY));
             carrier(stack).ifPresent(t -> {
                 lines.accept(Component.translatable("tooltip.bunnidogs.juice.carrier",t.qualityText()).withStyle(ChatFormatting.GRAY));
                 lines.accept(Component.translatable("tooltip.bunnidogs.juice.infuse").withStyle(ChatFormatting.DARK_GRAY));
             });
             return;
         }
-        for (String line : infusion.get().summary()) {
+        for (String line : TextComponents.localized(() -> infusion.get().summary())) {
             lines.accept(Component.literal(line).withStyle(ChatFormatting.GRAY));
         }
         if (flag.isAdvanced()) {
-            lines.accept(Component.literal("Liquid pup " + infusion.get()).withStyle(ChatFormatting.DARK_GRAY));
+            lines.accept(TextComponents.t("Liquid pup %s", infusion.get().toString()).withStyle(ChatFormatting.DARK_GRAY));
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.client.screen;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.List;
 
 import com.bunnidogs.mod.BunnidogsMod;
@@ -104,7 +105,7 @@ public final class PedigreeScreen extends Screen {
     }
 
     public PedigreeScreen(Pedigree book, boolean registry) {
-        super(Component.literal(registry ? "Purebred Registry" : "Pedigree Book"));
+        super(TextComponents.t(registry ? "Purebred Registry" : "Pedigree Book"));
         this.book = book;
         this.single = null;
         this.sample = null;
@@ -125,7 +126,7 @@ public final class PedigreeScreen extends Screen {
 
     /** The Calipers window (Phase 8 S6): the sheet of one animal that is in no book. */
     public PedigreeScreen(Pedigree.Entry animal) {
-        this(animal, Component.literal("Calipers"));
+        this(animal, TextComponents.t("Calipers"));
     }
 
     public PedigreeScreen(Pedigree.Entry animal, Component title) {
@@ -140,7 +141,7 @@ public final class PedigreeScreen extends Screen {
 
     /** The Tissue Sample window (Phase 8 S8): one sheet of the animal the sample was taken from. */
     public PedigreeScreen(Tissue sample) {
-        this(sample, Component.literal("Tissue Sample"));
+        this(sample, TextComponents.t("Tissue Sample"));
     }
 
     public PedigreeScreen(Tissue sample, Component title) {
@@ -155,7 +156,7 @@ public final class PedigreeScreen extends Screen {
 
     /** The seed folio retains its overview/parents, followed by actual-seed analyses. */
     public PedigreeScreen(Seed seed) {
-        super(Component.literal("Bunnidog Seed"));
+        super(TextComponents.t("Bunnidog Seed"));
         this.book = new Pedigree();
         this.single = null;
         this.sample = null;
@@ -170,7 +171,7 @@ public final class PedigreeScreen extends Screen {
     }
 
     public PedigreeScreen(TableSheet table, boolean splicing) {
-        super(Component.literal("Genetics Table"));
+        super(TextComponents.t("Genetics Table"));
         this.book = new Pedigree();
         this.single = null;
         this.sample = null;
@@ -205,9 +206,9 @@ public final class PedigreeScreen extends Screen {
             return;
         }
         int y = bookTop() + Page.BOOK_H + 4;
-        this.previous = Button.builder(Component.literal("< Previous"), button -> turn(-1))
+        this.previous = Button.builder(TextComponents.t("< Previous"), button -> turn(-1))
                 .bounds(bookLeft(), y, 80, 20).build();
-        this.next = Button.builder(Component.literal("Next >"), button -> turn(1))
+        this.next = Button.builder(TextComponents.t("Next >"), button -> turn(1))
                 .bounds(bookLeft() + Page.BOOK_W - 80, y, 80, 20).build();
         addRenderableWidget(this.previous);
         addRenderableWidget(this.next);
@@ -304,6 +305,9 @@ public final class PedigreeScreen extends Screen {
 
     /** Lays the current spread out with the real font's widths and greys out the buttons at the ends. */
     private void refresh() {
+        TextComponents.localized(()->{ refreshLocalized(); return null; });
+    }
+    private void refreshLocalized() {
         if (this.single != null) {
             this.current = SheetLayout.single(this.single, text -> this.font.width(text));
             this.animal = buildPortrait(this.single);
@@ -324,7 +328,7 @@ public final class PedigreeScreen extends Screen {
             this.rename.visible = this.spread > 0;
             if (this.rename.visible) {
                 var name = this.book.lineageName(this.book.entries().get(this.spread-1).genome());
-                this.rename.setTooltip(Tooltip.create(Component.literal(name.orElse("Name this exact recorded genotype"))));
+                this.rename.setTooltip(Tooltip.create(name.<Component>map(Component::literal).orElseGet(() -> TextComponents.t("Name this exact recorded genotype"))));
             }
         }
         if (this.table != null) {

@@ -1,5 +1,7 @@
 package com.bunnidogs.mod.layout;
 
+import com.bunnidogs.mod.genetics.Texts;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -46,28 +48,25 @@ public final class ForecastSheet {
 
     private static Page left(Cross cross, Metrics m) {
         Page page = new Page();
-        page.text(0, 0, "FORECAST", Page.Tone.HEAD);
-        page.textRight(Page.WIDTH, 0, cross.actualSeed().isPresent() ? "actual seed" : "sample A x B", Page.Tone.MUTED);
+        page.text(0, 0, Texts.t("FORECAST"), Page.Tone.HEAD);
+        page.textRight(Page.WIDTH, 0, cross.actualSeed().isPresent() ? Texts.t("actual seed") : Texts.t("sample A x B"), Page.Tone.MUTED);
 
-        String range = cross.litterLow() == cross.litterHigh() ? "exactly " + cross.litterLow() + " pups" : cross.litterLow() + " or " + cross.litterHigh() + " pups";
-        row(page, LITTER_Y, "Litter", String.format(Locale.ROOT, "about %.1f pups", cross.litter()), Page.Tone.INK, range,
+        String range = cross.litterLow() == cross.litterHigh() ? Texts.t("exactly ") + cross.litterLow() + Texts.t(" pups") : cross.litterLow() + Texts.t(" or ") + cross.litterHigh() + Texts.t(" pups");
+        row(page, LITTER_Y, Texts.t("Litter"), String.format(Locale.ROOT, Texts.t("about %.1f pups"), cross.litter()), Page.Tone.INK, range,
                 SeedSheet.litterHover(), m);
-        row(page, MUTATION_Y, "Mutation", String.format(Locale.ROOT, "%.1f%% per pup", cross.mutationChance() * 100.0), Page.Tone.INK,
-                cross.seed().mutagen() ? cross.actualSeed().isPresent() ? "treated seed" : "Mutagen preview" : "set by fertility",
+        row(page, MUTATION_Y, Texts.t("Mutation"), String.format(Locale.ROOT, Texts.t("%.1f%% per pup"), cross.mutationChance() * 100.0), Page.Tone.INK,
+                cross.seed().mutagen() ? cross.actualSeed().isPresent() ? Texts.t("treated seed") : Texts.t("Mutagen preview") : Texts.t("set by fertility"),
                 SeedSheet.mutationHover(cross.seed()), m);
         double quality = cross.effectiveQuality();
-        row(page, QUALITY_Y, "Quality", String.format(Locale.ROOT, "%.2f", quality), quality > 0.0D ? Page.Tone.GOOD : Page.Tone.MUTED,
-                cross.actualSeed().isPresent() ? "saved; no extra Fortune" : cross.plan().fortune() > 0 ? "includes Fortune "+cross.plan().fortune() : cross.plan().guavaQuality() > 0 ? "planned feed" : quality > 0.0D ? "starborn bonus only" : "on plain guavas",
-                cross.actualSeed().isPresent() ? "This actual seed keeps its saved quality and Mutagen treatment. Its original guavas and starborn bonus are already included; held feed cannot change them. "
-                        +"These points use no additional crop Fortune. A Cradle hatches at this saved quality; Fortune only helps when cutting a ripe planted crop. "+SeedSheet.qualityHover()
-                : String.format(Locale.ROOT,"Planned feed: %s. Guavas add %.2f quality; the parents' starborn bonus adds %.2f. Seed quality %.2f. "
-                        + "Planned Fortune %d adds %.2f at crop harvest: hatching quality %.2f. Cradles get no Fortune bonus. "
-                        + "Held items are preview cues, never spent. Samples are snapshots. ",cross.plan().guavas(),cross.plan().guavaQuality(),
+        row(page, QUALITY_Y, Texts.t("Quality"), String.format(Locale.ROOT, "%.2f", quality), quality > 0.0D ? Page.Tone.GOOD : Page.Tone.MUTED,
+                cross.actualSeed().isPresent() ? Texts.t("saved; no extra Fortune") : cross.plan().fortune() > 0 ? Texts.t("includes Fortune ")+cross.plan().fortune() : cross.plan().guavaQuality() > 0 ? Texts.t("planned feed") : quality > 0.0D ? Texts.t("starborn bonus only") : Texts.t("on plain guavas"),
+                cross.actualSeed().isPresent() ? Texts.t("This actual seed keeps its saved quality and Mutagen treatment. Its original guavas and starborn bonus are already included; held feed cannot change them. These points use no additional crop Fortune. A Cradle hatches at this saved quality; Fortune only helps when cutting a ripe planted crop. ")+SeedSheet.qualityHover()
+                : String.format(Locale.ROOT,Texts.t("Planned feed: %s. Guavas add %.2f quality; the parents' starborn bonus adds %.2f. Seed quality %.2f. Planned Fortune %d adds %.2f at crop harvest: hatching quality %.2f. Cradles get no Fortune bonus. Held items are preview cues, never spent. Samples are snapshots. "),cross.plan().guavas(),cross.plan().guavaQuality(),
                         cross.quality()-cross.plan().guavaQuality(),cross.quality(),cross.plan().fortune(),cross.plan().fortuneBonus(),quality)+SeedSheet.qualityHover(), m);
 
-        page.text(0, STATS_HEAD_Y, "STATS", Page.Tone.HEAD);
-        page.text(STAT_LABEL_W, STATS_HEAD_Y, "A / B", Page.Tone.MUTED);
-        page.textRight(Page.WIDTH, STATS_HEAD_Y, "pup", Page.Tone.MUTED);
+        page.text(0, STATS_HEAD_Y, Texts.t("STATS"), Page.Tone.HEAD);
+        page.text(STAT_LABEL_W, STATS_HEAD_Y, Texts.t("A / B"), Page.Tone.MUTED);
+        page.textRight(Page.WIDTH, STATS_HEAD_Y, Texts.t("pup"), Page.Tone.MUTED);
         double[] drift = cross.drift();
         for (Stat stat : Stat.values()) {
             int y = STATS_Y + Page.LINE * stat.ordinal();
@@ -78,12 +77,11 @@ public final class ForecastSheet {
             page.text(STAT_LABEL_W, y, Page.fit(signed(pa) + " / " + signed(pb), Page.WIDTH - STAT_LABEL_W - 30, m), Page.Tone.MUTED);
             page.textRight(Page.WIDTH, y, signed(expected), tone(expected));
             page.hotspot(0, y, Page.WIDTH, Page.LINE, String.format(Locale.ROOT,
-                    "%s: A has %s points, B has %s, so a pup starts at %s. The pair's drift adds %s (hatching quality %.2f), so about %s points. "
-                            + "Each pup is rounded to whole points at random, so siblings differ by a point.",
+                    Texts.t("%s: A has %s points, B has %s, so a pup starts at %s. The pair's drift adds %s (hatching quality %.2f), so about %s points. Each pup is rounded to whole points at random, so siblings differ by a point."),
                     Plain.statName(stat), signed(pa), signed(pb), signed(cross.startPoints(stat)), signed(drift[stat.ordinal()]), cross.effectiveQuality(), signed(expected)), -1);
         }
 
-        List<String> note = Page.wrap("A pup: the parents' average plus the drift.", Page.WIDTH, m);
+        List<String> note = Page.wrap(Texts.t("A pup: the parents' average plus the drift."), Page.WIDTH, m);
         for (int i = 0; i < Math.min(2, note.size()); i++) {
             page.text(0, NOTE_Y + Page.LINE * i, note.get(i), Page.Tone.MUTED);
         }
@@ -102,8 +100,8 @@ public final class ForecastSheet {
 
     private static Page right(Cross cross, Metrics m) {
         Page page = new Page();
-        page.text(0, 0, "PUP LOOKS", Page.Tone.HEAD);
-        page.textRight(Page.WIDTH, 0, "odds per pup", Page.Tone.MUTED);
+        page.text(0, 0, Texts.t("PUP LOOKS"), Page.Tone.HEAD);
+        page.textRight(Page.WIDTH, 0, Texts.t("odds per pup"), Page.Tone.MUTED);
 
         int y = LOOKS_Y;
         for (Gene gene : Gene.values()) {
@@ -127,7 +125,7 @@ public final class ForecastSheet {
             y += Page.LINE * shown + BLOCK_GAP;
         }
 
-        List<String> foot = List.of("Before mutation.","Hover for genes.");
+        List<String> foot = List.of(Texts.t("Before mutation."),Texts.t("Hover for genes."));
         for (int i = 0; i < Math.min(2, foot.size()); i++) {
             page.text(0, FOOT_Y + Page.LINE * i, foot.get(i), Page.Tone.MUTED);
         }
@@ -138,10 +136,9 @@ public final class ForecastSheet {
     static String hover(Cross cross, Gene gene, List<String> outcomes) {
         Genome ga = cross.a().genome();
         Genome gb = cross.b().genome();
-        return String.format(Locale.ROOT, "%s. %s has %s + %s, %s has %s + %s. Each pup takes one of each parent's two genes at random and the stronger one shows: %s. "
-                        + "Odds are before mutation (%.1f%% of pups mutate one random gene).",
-                Plain.geneName(gene),cross.actualSeed().isPresent() ? "Mother" : "Sample A", Plain.label(ga.allele(gene, 0)), Plain.label(ga.allele(gene, 1)),
-                cross.actualSeed().isPresent() ? "father" : "sample B", Plain.label(gb.allele(gene, 0)), Plain.label(gb.allele(gene, 1)),
+        return String.format(Locale.ROOT, Texts.t("%s. %s has %s + %s, %s has %s + %s. Each pup takes one of each parent's two genes at random and the stronger one shows: %s. Odds are before mutation (%.1f%% of pups mutate one random gene)."),
+                Plain.geneName(gene),cross.actualSeed().isPresent() ? Texts.t("Mother") : Texts.t("Sample A"), Plain.label(ga.allele(gene, 0)), Plain.label(ga.allele(gene, 1)),
+                cross.actualSeed().isPresent() ? Texts.t("father") : Texts.t("sample B"), Plain.label(gb.allele(gene, 0)), Plain.label(gb.allele(gene, 1)),
                 String.join(", ", outcomes), cross.mutationChance() * 100.0);
     }
 

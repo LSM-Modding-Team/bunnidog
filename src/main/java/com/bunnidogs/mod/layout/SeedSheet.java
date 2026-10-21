@@ -1,5 +1,7 @@
 package com.bunnidogs.mod.layout;
 
+import com.bunnidogs.mod.genetics.Texts;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -64,28 +66,26 @@ public final class SeedSheet {
     // ------------------------------------------------------------------ hover texts (numbers from the game's own constants)
 
     static String qualityHover() {
-        return String.format(Locale.ROOT, "Each point of quality makes a stat's good drift %d%% bigger and its bad drift %d%% smaller "
-                + "(the bad drift is gone at quality %d). Fortune on the tool that cuts the crop adds %.1f quality per level.",
+        return String.format(Locale.ROOT, Texts.t("Each point of quality makes a stat's good drift %d%% bigger and its bad drift %d%% smaller (the bad drift is gone at quality %d). Fortune on the tool that cuts the crop adds %.1f quality per level."),
                 Math.round(Drift.GAIN_PER_QUALITY * 100.0), Math.round(Drift.COST_RELIEF_PER_QUALITY * 100.0),
                 Math.round(1.0 / Drift.COST_RELIEF_PER_QUALITY), Seed.FORTUNE_QUALITY_PER_LEVEL);
     }
 
     static String litterHover() {
-        return String.format(Locale.ROOT, "Pups born when a ripe crop or Cradle hatches: %.0f x the parents' average fertility, between 1 and %d. "
-                + "Fewer if %d or more bunnidogs already live within %.0f blocks.",
+        return String.format(Locale.ROOT, Texts.t("Pups born when a ripe crop or Cradle hatches: %.0f x the parents' average fertility, between 1 and %d. Fewer if %d or more bunnidogs already live within %.0f blocks."),
                 Breeding.PUPS_PER_FERTILITY, Breeding.MAX_LITTER, Breeding.CROWD_LIMIT, Breeding.CROWD_RADIUS);
     }
 
     static String mutationHover(Seed seed) {
         long floor = Math.round(Seed.MUTAGEN_MUTATION_FLOOR * 100.0);
         return seed.mutagen()
-                ? "The chance that a pup gets a new mutation. The seed is treated with a Mutagen, so it is at least " + floor + "%."
-                : "The chance that a pup gets a new mutation. It follows the parents' fertility. A Mutagen raises it to at least " + floor + "%.";
+                ? Texts.t("The chance that a pup gets a new mutation. The seed is treated with a Mutagen, so it is at least ") + floor + "%."
+                : Texts.t("The chance that a pup gets a new mutation. It follows the parents' fertility. A Mutagen raises it to at least ") + floor + "%.";
     }
 
     static String driftHover(Seed seed) {
-        return "How far the pups' stats move from the parents' average, at this seed's quality: " + Seed.driftText(seed.drift(0.0D))
-                + ". Fortune when the crop is cut moves them further.";
+        return Texts.t("How far the pups' stats move from the parents' average, at this seed's quality: ") + Seed.driftText(seed.drift(0.0D))
+                + Texts.t(". Fortune when the crop is cut moves them further.");
     }
 
     // ------------------------------------------------------------------ spread 0: the seed
@@ -94,19 +94,19 @@ public final class SeedSheet {
         Page left = new Page();
         Page right = new Page();
 
-        left.text(0, 0, "BUNNIDOG SEED", Page.Tone.HEAD);
+        left.text(0, 0, Texts.t("BUNNIDOG SEED"), Page.Tone.HEAD);
         if (seed.mutagen()) {
-            left.textRight(Page.WIDTH, 0, "mutagen", Page.Tone.GOOD);
+            left.textRight(Page.WIDTH, 0, Texts.t("mutagen"), Page.Tone.GOOD);
         }
 
-        row(left, QUALITY_Y, "Quality", String.format(Locale.ROOT, "%.2f", seed.quality()),
-                seed.quality() > 0.0D ? Page.Tone.GOOD : Page.Tone.MUTED, "guavas and starborn", qualityHover(), m);
-        row(left, LITTER_Y, "Litter", String.format(Locale.ROOT, "about %.1f pups", seed.expectedLitter()), Page.Tone.INK,
-                "born when it hatches", litterHover(), m);
-        row(left, MUTATION_Y, "Mutation", String.format(Locale.ROOT, "%.1f%% per pup", seed.mutationChance() * 100.0), seed.mutagen() ? Page.Tone.GOOD : Page.Tone.INK,
-                seed.mutagen() ? "treated with Mutagen" : "set by fertility", mutationHover(seed), m);
+        row(left, QUALITY_Y, Texts.t("Quality"), String.format(Locale.ROOT, "%.2f", seed.quality()),
+                seed.quality() > 0.0D ? Page.Tone.GOOD : Page.Tone.MUTED, Texts.t("guavas and starborn"), qualityHover(), m);
+        row(left, LITTER_Y, Texts.t("Litter"), String.format(Locale.ROOT, Texts.t("about %.1f pups"), seed.expectedLitter()), Page.Tone.INK,
+                Texts.t("born when it hatches"), litterHover(), m);
+        row(left, MUTATION_Y, Texts.t("Mutation"), String.format(Locale.ROOT, Texts.t("%.1f%% per pup"), seed.mutationChance() * 100.0), seed.mutagen() ? Page.Tone.GOOD : Page.Tone.INK,
+                seed.mutagen() ? Texts.t("treated with Mutagen") : Texts.t("set by fertility"), mutationHover(seed), m);
 
-        left.text(0, DRIFT_Y, "NEXT LITTER", Page.Tone.HEAD);
+        left.text(0, DRIFT_Y, Texts.t("NEXT LITTER"), Page.Tone.HEAD);
         List<String> drift = Page.wrap(Seed.driftText(seed.drift(0.0D)), Page.WIDTH, m);
         for (int i = 0; i < Math.min(DRIFT_LINES, drift.size()); i++) {
             String s = drift.get(i);
@@ -117,16 +117,16 @@ public final class SeedSheet {
         }
         left.hotspot(0, DRIFT_Y, Page.WIDTH, Page.LINE * (DRIFT_LINES + 1), driftHover(seed), -1);
 
-        List<String> note = List.of("Cradle: saved quality.","Crop: Fortune can help.");
+        List<String> note = List.of(Texts.t("Cradle: saved quality."),Texts.t("Crop: Fortune can help."));
         for (int i = 0; i < Math.min(2, note.size()); i++) {
             left.text(0, NOTE_Y + Page.LINE * i, note.get(i), Page.Tone.MUTED);
         }
 
-        right.text(0, 0, "PARENTS", Page.Tone.HEAD);
-        right.textRight(Page.WIDTH, 0, "click for the sheet", Page.Tone.MUTED);
-        parent(right, MOTHER_Y, "MOTHER", seed.mother(), 1, "Her", m);
-        parent(right, FATHER_Y, "FATHER", seed.father(), 2, "His", m);
-        right.text(0,138,"See pup forecast >",Page.Tone.GOOD);
+        right.text(0, 0, Texts.t("PARENTS"), Page.Tone.HEAD);
+        right.textRight(Page.WIDTH, 0, Texts.t("click for the sheet"), Page.Tone.MUTED);
+        parent(right, MOTHER_Y, Texts.t("MOTHER"), seed.mother(), 1, Texts.t("Her"), m);
+        parent(right, FATHER_Y, Texts.t("FATHER"), seed.father(), 2, Texts.t("His"), m);
+        right.text(0,138,Texts.t("See pup forecast >"),Page.Tone.GOOD);
         right.link(0,138,Page.WIDTH,Page.LINE,FORECAST);
         return new Page.Spread(left, right);
     }
@@ -153,8 +153,8 @@ public final class SeedSheet {
         }
         page.text(0, y + Page.LINE * 4, Page.fit(Plain.carriesText(genome), Page.WIDTH, m), Page.Tone.MUTED);
         page.text(0, y + Page.LINE * 5, genome.toString(), Page.Tone.MUTED);
-        page.hotspot(0, y, Page.WIDTH, BLOCK_H, role.charAt(0) + role.substring(1).toLowerCase(Locale.ROOT) + ": " + look + ". " + Plain.carriesText(genome) + ". Click to open "
-                + pronoun.toLowerCase(Locale.ROOT) + " sheet.", -1);
+        page.hotspot(0, y, Page.WIDTH, BLOCK_H, role.charAt(0) + role.substring(1).toLowerCase(Locale.ROOT) + ": " + look + ". " + Plain.carriesText(genome) + Texts.t(". Click to open ")
+                + pronoun.toLowerCase(Locale.ROOT) + Texts.t(" sheet."), -1);
         page.link(0, y, Page.WIDTH, BLOCK_H, spread);
     }
 }

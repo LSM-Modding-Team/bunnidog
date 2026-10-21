@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.network.Filterable;
@@ -33,6 +34,15 @@ public final class FieldGuideItem extends WrittenBookItem {
         super.appendHoverText(stack,context,display,lines,flag);
         lines.accept(Component.translatable("tooltip.bunnidogs.guide.optional").withStyle(ChatFormatting.GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.guide.controls").withStyle(ChatFormatting.DARK_GRAY));
+    }
+    @Override public net.minecraft.world.InteractionResult use(net.minecraft.world.level.Level level,
+            net.minecraft.world.entity.player.Player player,net.minecraft.world.InteractionHand hand) {
+        // Refresh authored guide pages on both sides so existing guides gain translated previews too.
+        var stack = player.getItemInHand(hand);
+        var saved = stack.get(DataComponents.WRITTEN_BOOK_CONTENT);
+        if (saved != null && saved.author().equals("Warren Keepers") && saved.title().raw().equals("Bunnidogs Guide"))
+            stack.set(DataComponents.WRITTEN_BOOK_CONTENT,content());
+        return super.use(level,player,hand);
     }
     private static WrittenBookContent content() {
         var pages = new ArrayList<Filterable<Component>>(PAGE_COUNT);
@@ -100,9 +110,14 @@ public final class FieldGuideItem extends WrittenBookItem {
                         "guide.bunnidogs.main_contents",1)));
                 continue;
             }
-            var text = Component.translatable("guide.bunnidogs.page." + page + ".title").withStyle(ChatFormatting.BOLD)
+            var fullText = new HoverEvent.ShowText(Component.translatable("guide.bunnidogs.page." + page + ".body"));
+            var text = Component.translatable("guide.bunnidogs.page." + page + ".title")
+                    .withStyle(style -> style.withBold(true).withHoverEvent(fullText))
                     .append(Component.literal("\n\n").withStyle(style -> style.withBold(false)))
-                    .append(Component.translatable("guide.bunnidogs.page." + page + ".body").withStyle(style -> style.withBold(false)))
+                    .append(Component.translatable("guide.bunnidogs.page." + page + ".preview")
+                            .withStyle(style -> style.withBold(false).withHoverEvent(fullText)))
+                    .append("\n")
+                    .append(Component.translatable("guide.bunnidogs.details").withStyle(style -> style.withBold(false).withColor(ChatFormatting.DARK_GREEN).withHoverEvent(fullText)))
                     .append(Component.literal("\n\n").withStyle(style -> style.withBold(false)))
                     .append(link("guide.bunnidogs.contents",page==131 || page==141 ? TRAIL_CONTENTS : page>COMMISSION_CONTENTS ? COMMISSION_CONTENTS : page>TRAIL_CONTENTS ? TRAIL_CONTENTS : page > EXPLORER_CONTENTS ? EXPLORER_CONTENTS : page > VENUE_CONTENTS ? VENUE_CONTENTS : page > FIELD_CONTENTS ? FIELD_CONTENTS : page >= 93 || page == 24 ? WORKSHOP_CONTENTS : page == 65 || page == 88 || page > LINEAGE_CONTENTS ? LINEAGE_CONTENTS : page == 77 || page >= 79 ? SPECIALIST_CONTENTS : page > WORK_CONTENTS ? WORK_CONTENTS : page > HABITAT_CONTENTS ? HABITAT_CONTENTS
                             : page > MORE_CONTENTS ? NEW_CONTENTS : page < 24 ? 1 : MORE_CONTENTS));

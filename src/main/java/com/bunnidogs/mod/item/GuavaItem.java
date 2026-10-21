@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.item;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.function.Consumer;
 
 import com.bunnidogs.mod.genetics.GuavaTier;
@@ -75,8 +76,8 @@ public class GuavaItem extends Item {
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack, context, display, lines, flag);
         lines.accept(Component.translatable("care.bunnidogs.guava.use").withStyle(ChatFormatting.YELLOW));
-        lines.accept(Component.literal("Seed quality " + tier.qualityText()).withStyle(ChatFormatting.GRAY));
-        lines.accept(Component.literal("Averaged over the guavas of both parents").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(TextComponents.t("Seed quality %s", tier.qualityText()).withStyle(ChatFormatting.GRAY));
+        lines.accept(TextComponents.t("Averaged over the guavas of both parents").withStyle(ChatFormatting.DARK_GRAY));
         if (flag.isAdvanced()) lines.accept(Component.translatable("tooltip.bunnidogs.guava.table").withStyle(ChatFormatting.DARK_GRAY));
         if (tier == GuavaTier.PLAIN) {
             if (flag.isAdvanced()) lines.accept(Component.translatable("tooltip.bunnidogs.guava.plant").withStyle(ChatFormatting.DARK_GRAY));

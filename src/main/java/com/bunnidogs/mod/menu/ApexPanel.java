@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.menu;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -29,7 +30,7 @@ public final class ApexPanel {
     public static CareView view(Player player,BlockPos pos,ItemStack sample,boolean armed) {
         var reading=ApexRitual.inspect(player,pos,sample); var rows=new ArrayList<Component>();
         TissueSampleItem.read(sample).ifPresent(source->{
-            rows.add(t("apex.source",sample.getHoverName())); rows.add(Component.literal(Plain.look(source.genome())));
+            rows.add(t("apex.source",sample.getHoverName())); rows.add(TextComponents.look(source.genome()));
             var plan=ApexRules.forecast(source);
             rows.add(Component.translatable("message.bunnidogs.apex.forecast_combat",number(plan.normal().health()),number(plan.normal().damage()),number(plan.enraged().damage())));
             rows.add(Component.translatable("message.bunnidogs.apex.forecast_defense",number(plan.armor()),Math.round(plan.knockbackResistance()*100),number(plan.normal().awareness())));

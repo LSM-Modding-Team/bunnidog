@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.menu;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -55,7 +56,7 @@ public final class CarePanels {
         return ItemStack.EMPTY;
     }
     private static boolean editable(Player player,BlockPos pos) { return player.mayBuild() && (pos==null || player.level().mayInteract(player,pos)); }
-    private static Component food(Bunnidog dog) { return message(dog.diet()==Diet.PLAIN ? "care.food_guavas" : "care.food_other",dog.diet().foods()); }
+    private static Component food(Bunnidog dog) { return message(dog.diet()==Diet.PLAIN ? "care.food_guavas" : "care.food_other",TextComponents.diet(dog.diet())); }
     private static Component home(Bunnidog dog) {
         var pos=dog.homeNest(); return pos==null ? t("animal.no_home") : t("animal.home",pos.getX(),pos.getY(),pos.getZ());
     }
@@ -74,7 +75,7 @@ public final class CarePanels {
         rows.add(t("animal.breeding",dog.combat().recovering() ? t("animal.recovering") : dog.isBaby() ? FamilyPanels.growth(dog) : dog.isInLove() ? t("animal.courting")
                 : dog.getAge()>0 ? t("animal.rest",(dog.getAge()+19)/20) : t("animal.ready")));
         rows.add(t("animal.work",t(dog.combat().recovering() || dog.trail().ordered() ? "animal.work_paused" : dog.workPaused() ? "off" : "on")));
-        rows.add(t("animal.traits",dog.genome().expressed(Gene.TEMPERAMENT).name(),dog.genome().expressed(Gene.BUILD).name()));
+        rows.add(t("animal.traits",TextComponents.allele(dog.genome().expressed(Gene.TEMPERAMENT)),TextComponents.allele(dog.genome().expressed(Gene.BUILD))));
         rows.add(t("animal.cargo",dog.carriedBundleCount(),dog.bundleCapacity()));
         boolean edit=editable(player,null), trained=dog.trail().belongsTo(player), calm=!danger(dog) && !dog.isInLove() && !dog.isBaby();
         var guava=find(player,ModItems.GUAVA.get());
@@ -216,7 +217,7 @@ public final class CarePanels {
         if (reading.candidate()!=null) {
             var dog=reading.candidate(); rows.add(t("board.candidate",dog.getDisplayName()));
             for (var check:request.checks(dog.genome(),dog.stats(),dog.carriedBundleCount())) rows.add(t("board.check",
-                    t("check."+check.key(),check.detail().replace('_',' ')),check.current(),check.required())
+                    t("check."+check.key(),TextComponents.t(check.detail().replace('_',' '))),check.current(),check.required())
                     .withStyle(check.met() ? ChatFormatting.GREEN : ChatFormatting.RED));
         } else rows.add(Component.translatable("commission.bunnidogs."+request.key()+".requirements"));
         rows.add(t("board.fixed"));

@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.item;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.Optional;
 import java.util.function.Consumer;
 import com.bunnidogs.mod.client.ClientScreens;
@@ -38,7 +39,7 @@ public final class ApexCrestItem extends Item {
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack, context, display, lines, flag);
         lines.accept(Component.translatable("tooltip.bunnidogs.apex_crest.source").withStyle(ChatFormatting.GOLD));
-        read(stack).ifPresent(tissue -> lines.accept(Component.literal(Plain.look(tissue.genome())).withStyle(ChatFormatting.GRAY)));
+        read(stack).ifPresent(tissue -> lines.accept(TextComponents.look(tissue.genome()).withStyle(ChatFormatting.GRAY)));
         lines.accept(Component.translatable("tooltip.bunnidogs.apex_crest.use").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

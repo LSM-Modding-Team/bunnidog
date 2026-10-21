@@ -9,7 +9,7 @@ import java.util.Optional;
 
 /**
  * Plain language for the Animal Sheet (docs/SHEET_SPECS.md section 5): the genome code is never the explanation, these
- * words are. Pure Java, English only, ALL sentences live in this one file (a language file is a mechanical later step).
+ * words are. Pure Java; presentation uses a scoped translator with English fallbacks.
  *
  * <p>Effect sentences are built from the same numbers the game uses ({@link Gene} values, {@link Traits}, {@link Breeding},
  * {@link Trends}), so they cannot disagree with it. Every allele of every gene MUST have an entry in {@link #NOTES}
@@ -20,47 +20,45 @@ public final class Plain {
 
     /** How to read the genome code, for page 1 of the book and the code's hover box (spec 5.4). */
     public static final String HOW_TO_READ =
-            "Seven pairs, one per gene, in this order: Ears, Coat, Legs, Build, Temperament, Fertility, Diet. "
-                    + "In each pair the first digit came from the mother and the second from the father. "
-                    + "When the two differ, the stronger one shows and the other is carried: it does not show on this "
-                    + "animal but it can pass to its pups.";
+            "Seven pairs, one per gene, in this order: Ears, Coat, Legs, Build, Temperament, Fertility, Diet. In each pair the first digit came from the mother and the second from the father. When the two differ, the stronger one shows and the other is carried: it does not show on this animal but it can pass to its pups.";
 
     // ------------------------------------------------------------------ words
 
     /** The plain word for an allele: its name (none of the names is jargon enough to rename; the effect sentence explains). */
     public static String word(Allele allele) {
-        return allele.name().replace('_', ' ');
+        return Texts.t(allele.name().replace('_', ' '));
     }
 
     /** "Ears", "Coat", ... */
     public static String geneName(Gene gene) {
-        return gene.displayName();
+        return Texts.t(gene.displayName());
     }
 
     /** The label used on the sheet's gene rows, short enough for a 124 px page: "Ears", "Temper.", "Fertil.". */
     public static String shortGeneName(Gene gene) {
-        return switch (gene) {
+        if (gene == Gene.BUILD) return Texts.named("text.bunnidogs.short_build", "Build");
+        return Texts.t(switch (gene) {
             case TEMPERAMENT -> "Temper.";
             case FERTILITY -> "Fertil.";
             default -> gene.displayName();
-        };
+        });
     }
 
     /** The stat's name for players: Swiftness is shown as "Speed" (the enum keeps its saved name). */
     public static String statName(Stat stat) {
-        return stat == Stat.SWIFTNESS ? "Speed" : stat.displayName();
+        return Texts.t(stat == Stat.SWIFTNESS ? "Speed" : stat.displayName());
     }
 
     /** "short ears", "spotted coat", "standard legs", "average build", "loyal", "average fertility". */
     public static String phrase(Gene gene, Allele allele) {
         return switch (gene) {
-            case EARS -> word(allele) + " ears";
-            case COAT -> word(allele) + " coat";
-            case LEGS -> word(allele) + " legs";
-            case BUILD -> word(allele) + " build";
+            case EARS -> Texts.t("%s ears", word(allele));
+            case COAT -> Texts.t("%s coat", word(allele));
+            case LEGS -> Texts.t("%s legs", word(allele));
+            case BUILD -> Texts.t("%s build", word(allele));
             case TEMPERAMENT -> word(allele);
-            case FERTILITY -> word(allele) + " fertility";
-            case DIET -> word(allele) + " diet";
+            case FERTILITY -> Texts.t("%s fertility", word(allele));
+            case DIET -> Texts.t("%s diet", word(allele));
         };
     }
 
@@ -68,18 +66,18 @@ public final class Plain {
     public static String phrase(Genome genome, Gene gene) {
         String s = phrase(gene, genome.expressed(gene));
         Optional<Allele> hidden = genome.hidden(gene);
-        return hidden.map(a -> s + " carrying " + word(a)).orElse(s);
+        return hidden.map(a -> Texts.t("%s carrying %s", s, word(a))).orElse(s);
     }
 
     /** The allele's word, with its lineage for a wild allele: "tiny [tundra]", "short". */
     public static String label(Allele allele) {
-        return allele.isWild() ? word(allele) + " [" + allele.lineage().key() + "]" : word(allele);
+        return allele.isWild() ? word(allele) + " [" + Texts.t(allele.lineage().key()) + "]" : word(allele);
     }
 
     /** One gene as a chat row: {@code Ears: short, carries long} / {@code Coat: tan}. */
     public static String row(Genome genome, Gene gene) {
         String s = geneName(gene) + ": " + label(genome.expressed(gene));
-        return genome.hidden(gene).map(a -> s + ", carries " + label(a)).orElse(s);
+        return genome.hidden(gene).map(a -> Texts.t("%s, carries %s", s, label(a))).orElse(s);
     }
 
     /**
@@ -127,7 +125,7 @@ public final class Plain {
     /** {@code Carries: brown, stocky, prolific} or {@code Carries nothing hidden}. */
     public static String carriesText(Genome genome) {
         List<String> carried = carries(genome);
-        return carried.isEmpty() ? "Carries nothing hidden" : "Carries: " + String.join(", ", carried);
+        return carried.isEmpty() ? Texts.t("Carries nothing hidden") : Texts.t("Carries: ") + String.join(", ", carried);
     }
 
     // ------------------------------------------------------------------ one sentence per allele
@@ -190,8 +188,7 @@ public final class Plain {
         note(Gene.FERTILITY, "swarm", "Swarm: breeds like a swarm.");
         note(Gene.FERTILITY, "starborn",
                 "Starborn: it turns Bloom into extra seed quality, at a toll on Vitality and Senses each generation. Brush healthy adults with Bloom +20 for one Starlit Dust every ten minutes.");
-        for (Diet diet : Diet.values()) note(Gene.DIET, diet.key(), diet.foods()
-                + " Guavas remain its breeding food; other accepted foods heal or grow pups, without starting love.");
+        for (Diet diet : Diet.values()) note(Gene.DIET, diet.key(), diet.foods());
     }
 
     /** True if the allele has its note (the self-check requires it for every allele of every gene). */
@@ -205,7 +202,7 @@ public final class Plain {
         if (text == null) {
             throw new IllegalStateException("Plain has no text for " + gene.key() + "/" + allele.name());
         }
-        return text;
+        return Texts.t(text) + (gene == Gene.DIET ? Texts.t(" Guavas remain its breeding food; other accepted foods heal or grow pups, without starting love.") : "");
     }
 
     /** "35%": a percentage, rounded half away from zero, safe against 22.4999999 style float noise. */
@@ -219,38 +216,37 @@ public final class Plain {
         switch (gene) {
             case EARS: {
                 double d = v - 1.0D;
-                String s = "Hears " + pct(d) + (d > 0 ? "% further." : "% less far.");
-                return Math.abs(d) < 1e-9 ? "Normal hearing." : s;
+                String s = Texts.t(d > 0 ? "Hears %s%% further." : "Hears %s%% less far.", pct(d));
+                return Math.abs(d) < 1e-9 ? Texts.t("Normal hearing.") : s;
             }
             case COAT:
                 return Adaptations.explanation(gene,allele).isEmpty()
-                        ? "Cosmetic only: it changes the look and the pelt it drops, not what it can do." : "";
+                        ? Texts.t("Cosmetic only: it changes the look and the pelt it drops, not what it can do.") : "";
             case LEGS: {
                 double speed = (v - 1.0D) * 0.6D;
                 double jump = (v - 1.0D) * 1.2D;
                 if (Math.abs(speed) < 1e-9) {
-                    return "Normal speed and jumps.";
+                    return Texts.t("Normal speed and jumps.");
                 }
-                return "About " + pct(speed) + (speed > 0 ? "% faster and " : "% slower and ") + pct(jump)
-                        + (jump > 0 ? "% higher jumps." : "% lower jumps.");
+                return Texts.t(speed > 0 ? "About %s%% faster and %s%% higher jumps." : "About %s%% slower and %s%% lower jumps.", pct(speed), pct(jump));
             }
             case BUILD: {
                 double health = (v - 1.0D) * 1.5D;
-                return Math.abs(health) < 1e-9 ? "Normal health." : "About " + pct(health) + (health > 0 ? "% more health." : "% less health.");
+                return Math.abs(health) < 1e-9 ? Texts.t("Normal health.") : Texts.t(health > 0 ? "About %s%% more health." : "About %s%% less health.", pct(health));
             }
             case TEMPERAMENT:
                 return "";
             case DIET:
-                return "Does not change body stats, stat drift or juice effects.";
+                return Texts.t("Does not change body stats, stat drift or juice effects.");
             case FERTILITY: {
                 double litter = v - 1.0D;
                 double rest = 1.0D / v - 1.0D;
                 if (Math.abs(litter) < 1e-9) {
-                    return "Normal litters.";
+                    return Texts.t("Normal litters.");
                 }
-                return "Paired with one like it: litters " + pct(litter) + (litter > 0 ? "% bigger" : "% smaller") + ", "
-                        + pct(rest) + (rest < 0 ? "% less rest between litters" : "% more rest between litters")
-                        + ", mutations " + String.format(Locale.ROOT, "%.1f", v * v) + " times as likely.";
+                return Texts.t("Paired with one like it: litters ") + pct(litter) + (litter > 0 ? Texts.t("% bigger") : Texts.t("% smaller")) + ", "
+                        + pct(rest) + (rest < 0 ? Texts.t("% less rest between litters") : Texts.t("% more rest between litters"))
+                        + Texts.t(", mutations ") + String.format(Locale.ROOT, "%.1f", v * v) + Texts.t(" times as likely.");
             }
             default:
                 throw new IllegalStateException("unhandled gene " + gene);
@@ -260,12 +256,12 @@ public final class Plain {
     /** How the allele enters the population, from its data: rare, wild (recessive or not), or nothing to say for a common one. */
     private static String origin(Allele allele) {
         if (allele.isRare()) {
-            return "A rare mutation: it shows even when only one parent gave it.";
+            return Texts.t("A rare mutation: it shows even when only one parent gave it.");
         }
         if (allele.isWild()) {
             return allele.dominance() == 0
-                    ? "Found only in the " + allele.lineage().key() + " lineage, and it shows only when both parents gave it."
-                    : "Found only in the " + allele.lineage().key() + " lineage.";
+                    ? Texts.t("Found only in the %s lineage, and it shows only when both parents gave it.", Texts.t(allele.lineage().key()))
+                    : Texts.t("Found only in the %s lineage.", Texts.t(allele.lineage().key()));
         }
         return "";
     }
@@ -291,7 +287,7 @@ public final class Plain {
             String sign = term.kind() == Trends.Kind.GAIN ? "+" : "-";
             parts.add(sign + stripZero(term.amount()) + " " + statWord(term.stat()));
         }
-        return parts.isEmpty() ? "" : "Each generation: " + String.join(", ", parts) + ".";
+        return parts.isEmpty() ? "" : Texts.t("Each generation: ") + String.join(", ", parts) + ".";
     }
 
     private static String statWord(Stat stat) {
@@ -318,9 +314,9 @@ public final class Plain {
         }
         Optional<Allele> hidden = genome.hidden(gene);
         if (hidden.isPresent()) {
-            sb.append(" Hidden \"").append(word(hidden.get())).append("\": about half of its pups get it.");
+            sb.append(Texts.t(" Hidden \"")).append(word(hidden.get())).append(Texts.t("\": about half of its pups get it."));
         } else {
-            sb.append(" Both parents gave the same gene, so every pup gets it.");
+            sb.append(Texts.t(" Both parents gave the same gene, so every pup gets it."));
         }
         return sb.toString();
     }

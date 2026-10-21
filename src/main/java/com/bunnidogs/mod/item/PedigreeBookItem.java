@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.item;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.function.Consumer;
 
 import com.bunnidogs.mod.client.ClientScreens;
@@ -41,19 +42,21 @@ public class PedigreeBookItem extends Item {
     public static void log(Player player, ItemStack book, Pedigree.Entry entry) {
         Pedigree log = read(book);
         Pedigree.Added result = log.add(entry);
-        String who = Plain.look(entry.genome()) + (entry.stats().isPresent() ? (entry.pup() ? ", pup" : ", adult") : "");
-        String message = switch (result) {
-            case ADDED -> "Logged as #" + log.size() + (entry.tag().isPresent() ? " (ear tag " + entry.tag().get() + ")" : "") + ": " + who
-                    + (entry.mother().isPresent() ? " (parents recorded)." : " (no recorded parents).");
-            case UPDATED -> "Already in the book: its entry was brought up to date" + (entry.tag().isPresent() ? " (ear tag " + entry.tag().get() + ")" : "") + ": " + who + ".";
-            case ALREADY -> entry.id().isPresent() ? "Already in the book (this very animal)." : "Already in the book (same genes and parents).";
-            case FULL -> "The book is full (" + Pedigree.MAX_ENTRIES + " animals).";
+        Component who = TextComponents.look(entry.genome());
+        if (entry.stats().isPresent()) who = TextComponents.t("%s, %s",who,TextComponents.t(entry.pup() ? "pup" : "adult"));
+        Component tag = entry.tag().<Component>map(value -> TextComponents.t(" (ear tag %s)",value)).orElseGet(Component::empty);
+        var message = switch (result) {
+            case ADDED -> TextComponents.t("Logged as #%s%s: %s%s",log.size(),tag,who,
+                    TextComponents.t(entry.mother().isPresent() ? " (parents recorded)." : " (no recorded parents)."));
+            case UPDATED -> TextComponents.t("Already in the book: its entry was brought up to date%s: %s.",tag,who);
+            case ALREADY -> TextComponents.t(entry.id().isPresent() ? "Already in the book (this very animal)." : "Already in the book (same genes and parents).");
+            case FULL -> TextComponents.t("The book is full (%s animals).",Pedigree.MAX_ENTRIES);
         };
         if (result == Pedigree.Added.ADDED || result == Pedigree.Added.UPDATED) {
             book.set(ModItems.PEDIGREE_DATA.get(), log.toString());
         }
         DiscoveryProgress.observe(player,log);
-        player.sendSystemMessage(Component.literal(message).withStyle(result == Pedigree.Added.ADDED || result == Pedigree.Added.UPDATED ? ChatFormatting.GOLD : ChatFormatting.GRAY));
+        player.sendSystemMessage(message.withStyle(result == Pedigree.Added.ADDED || result == Pedigree.Added.UPDATED ? ChatFormatting.GOLD : ChatFormatting.GRAY));
     }
 
     /**
@@ -67,7 +70,7 @@ public class PedigreeBookItem extends Item {
         DiscoveryProgress.observe(player,log);
         if (log.size() == 0) {
             if (!level.isClientSide()) {
-                player.sendSystemMessage(Component.literal("The book is empty. Right-click a bunnidog to log it.").withStyle(ChatFormatting.GRAY));
+                player.sendSystemMessage(TextComponents.t("The book is empty. Right-click a bunnidog to log it.").withStyle(ChatFormatting.GRAY));
             }
         } else if (level.isClientSide()) {
             ClientScreens.openBook(log,hand,player.getItemInHand(hand));
@@ -87,10 +90,10 @@ public class PedigreeBookItem extends Item {
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack, context, display, lines, flag);
         var log=read(stack);
-        lines.accept(Component.literal(log.size() + " of " + Pedigree.MAX_ENTRIES + " animals logged").withStyle(ChatFormatting.GRAY));
+        lines.accept(TextComponents.t("%s of %s animals logged", log.size(), Pedigree.MAX_ENTRIES).withStyle(ChatFormatting.GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.records.wild",com.bunnidogs.mod.genetics.GeneticDiscoveries.wildLineages(log).size(),
                 com.bunnidogs.mod.genetics.GeneticDiscoveries.wildLineageCount()).withStyle(ChatFormatting.DARK_GREEN));
-        lines.accept(Component.literal("Right-click a bunnidog to log it, the air to open").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(TextComponents.t("Right-click a bunnidog to log it, the air to open").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.records.carried").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

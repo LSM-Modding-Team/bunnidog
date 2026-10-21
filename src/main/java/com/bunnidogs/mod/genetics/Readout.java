@@ -28,52 +28,52 @@ public final class Readout {
     public static List<String> animal(Genome genome, Stats stats, boolean baby, Optional<Genome> mother, Optional<Genome> father,
             Optional<String> earTag) {
         List<String> lines = new ArrayList<>();
-        lines.add("Bunnidog (" + (baby ? "pup" : "adult") + "): " + Plain.look(genome));
+        lines.add(Texts.t("Bunnidog (") + (baby ? Texts.t("pup") : Texts.t("adult")) + "): " + Plain.look(genome));
         if (earTag.isPresent()) {
-            lines.add("  Ear tag: " + earTag.get());
+            lines.add(Texts.t("  Ear tag: ") + earTag.get());
         }
         for (Gene gene : Gene.values()) {
             lines.add("  " + Plain.row(genome, gene));
         }
         lines.add("  " + statsText(genome, stats));
         lines.add("  " + Combat.describe(genome,stats));
-        lines.add("  Next generation (identical partner, quality 0): " + pushText(genome));
+        lines.add(Texts.t("  Next generation (identical partner, quality 0): ") + pushText(genome));
         double bonus = Drift.qualityBonus(genome, stats);
         if (bonus > 0.0D) {
-            lines.add(String.format(Locale.ROOT, "  Starborn: adds %.2f seed quality (half of it if only one parent has it)", bonus));
+            lines.add(String.format(Locale.ROOT, Texts.t("  Starborn: adds %.2f seed quality (half of it if only one parent has it)"), bonus));
         }
         lines.add("  " + Drops.describe(genome, stats, baby));
         if (mother.isPresent() && father.isPresent()) {
-            lines.add("  Born of: mother " + Plain.look(mother.get()));
-            lines.add("           father " + Plain.look(father.get()));
+            lines.add(Texts.t("  Born of: mother ") + Plain.look(mother.get()));
+            lines.add(Texts.t("           father ") + Plain.look(father.get()));
         } else {
-            lines.add("  No recorded parents (wild, or summoned)");
+            lines.add(Texts.t("  No recorded parents (wild, or summoned)"));
         }
-        lines.add("  Code: " + genome);
+        lines.add(Texts.t("  Code: ") + genome);
         return lines;
     }
 
     /** What the seed will do (quality, litter, mutation, drift) and both parents gene by gene. */
     public static List<String> seed(Seed seed) {
         List<String> lines = new ArrayList<>();
-        lines.add("Seed: " + seed.summary().get(0));
+        lines.add(Texts.t("Seed: ") + seed.summary().get(0));
         lines.addAll(seed.summary().subList(1, seed.summary().size()));
-        parent(lines, "Mother", seed.mother(), seed.motherStats());
-        parent(lines, "Father", seed.father(), seed.fatherStats());
+        parent(lines, Texts.t("Mother"), seed.mother(), seed.motherStats());
+        parent(lines, Texts.t("Father"), seed.father(), seed.fatherStats());
         return lines;
     }
 
     /** What a Tissue Sample holds (drops D7a): the animal in words, gene by gene, the bred stats and where the line would drift; the code last. No parents: a sample is the animal itself. */
     public static List<String> tissue(Tissue tissue) {
         List<String> lines = new ArrayList<>();
-        lines.add("Tissue sample: " + Plain.look(tissue.genome()));
+        lines.add(Texts.t("Tissue sample: ") + Plain.look(tissue.genome()));
         for (Gene gene : Gene.values()) {
             lines.add("  " + Plain.row(tissue.genome(), gene));
         }
         lines.add("  " + statsText(tissue.genome(), tissue.stats()));
         lines.add("  " + Combat.describe(tissue.genome(),tissue.stats()));
-        lines.add("  Next generation (identical partner, quality 0): " + pushText(tissue.genome()));
-        lines.add("  Code: " + tissue.genome());
+        lines.add(Texts.t("  Next generation (identical partner, quality 0): ") + pushText(tissue.genome()));
+        lines.add(Texts.t("  Code: ") + tissue.genome());
         return lines;
     }
 
@@ -84,7 +84,7 @@ public final class Readout {
         }
         lines.add("  " + statsText(genome, stats));
         lines.add("  " + Combat.describe(genome,stats));
-        lines.add("  Code: " + genome);
+        lines.add(Texts.t("  Code: ") + genome);
     }
 
     /**
@@ -92,7 +92,7 @@ public final class Readout {
      * Bloom +12 (grows up in 12.5 min)}: the points, which are what breeding changes, and what they mean.
      */
     static String statsText(Genome genome, Stats stats) {
-        StringBuilder sb = new StringBuilder("Stats: ");
+        StringBuilder sb = new StringBuilder(Texts.t("Stats: "));
         for (Units.Reading r : Units.readings(genome, stats)) {
             if (r.stat().ordinal() > 0) {
                 sb.append(", ");
@@ -113,6 +113,6 @@ public final class Readout {
                 push.append(String.format(Locale.ROOT, "%s %s%.1f  ", Plain.statName(stat), t > 0 ? "+" : "", t));
             }
         }
-        return push.length() == 0 ? "no drift" : push.toString().trim();
+        return push.length() == 0 ? Texts.t("no drift") : push.toString().trim();
     }
 }

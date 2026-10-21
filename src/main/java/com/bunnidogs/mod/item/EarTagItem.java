@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.item;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.Optional;
 import java.util.Locale;
 import java.util.function.Consumer;
@@ -38,22 +39,22 @@ public class EarTagItem extends Item {
     public static void apply(Player player, ItemStack stack, Bunnidog bunnidog) {
         Optional<String> code = bunnidog.applyEarTag();
         if (code.isEmpty()) {
-            player.sendSystemMessage(Component.literal("This bunnidog already wears ear tag " + bunnidog.earTag().orElse("?") + ".")
+            player.sendSystemMessage(TextComponents.t("This bunnidog already wears ear tag %s.", bunnidog.earTag().orElse("?"))
                     .withStyle(ChatFormatting.GRAY));
             return;
         }
         if (!player.hasInfiniteMaterials()) {
             stack.shrink(1);
         }
-        player.sendSystemMessage(Component.literal("Ear tag " + code.get() + " clipped on.").withStyle(ChatFormatting.GOLD));
+        player.sendSystemMessage(TextComponents.t("Ear tag %s clipped on.", code.get()).withStyle(ChatFormatting.GOLD));
     }
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display,
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack, context, display, lines, flag);
-        lines.accept(Component.literal("Right-click a bunnidog to give it a registration code").withStyle(ChatFormatting.GRAY));
-        lines.accept(Component.literal("One tag per animal, for good").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(TextComponents.t("Right-click a bunnidog to give it a registration code").withStyle(ChatFormatting.GRAY));
+        lines.accept(TextComponents.t("One tag per animal, for good").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.ear_tag.finder").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

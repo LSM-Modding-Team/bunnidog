@@ -176,7 +176,7 @@ public final class Pedigree {
     }
 
     private static String where(int index, Genome genome) {
-        return index >= 0 ? "#" + (index + 1) : Plain.look(genome) + " (not logged)";
+        return index >= 0 ? "#" + (index + 1) : Plain.look(genome) + Texts.t(" (not logged)");
     }
 
     @Override

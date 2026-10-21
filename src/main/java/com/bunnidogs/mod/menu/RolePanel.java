@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.menu;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -24,7 +25,10 @@ public final class RolePanel {
         // Keep the short, already-authoritative expressed-trait benefit; exact rules remain in Calipers.
         for (var gene:List.of(Gene.COAT,Gene.LEGS,Gene.EARS)) {
             var allele=dog.genome().expressed(gene); String explanation=Adaptations.explanation(gene,allele);
-            if (!explanation.isEmpty()) rows.add(t("roles.trait",Plain.label(allele),explanation.split("\\. ",2)[0]+(explanation.contains(". ") ? "." : "")));
+            if (!explanation.isEmpty()) {
+                String first=explanation.split("\\. ",2)[0]+(explanation.contains(". ") ? "." : "");
+                rows.add(t("roles.trait",TextComponents.label(allele),TextComponents.t(first)));
+            }
         }
         rows.add(t("roles.breeding"));
         var controls=new ArrayList<CareView.Control>();

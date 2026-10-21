@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.menu;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -47,12 +48,12 @@ public final class WorkshopPanels {
         // The chosen item must precede the primary placement button, even in a short viewport.
         if (room && !next.isEmpty()) {
             rows.add(t("table.next_sample",next.getHoverName()));
-            rows.add(Component.literal(Plain.look(TissueSampleItem.read(next).orElseThrow().genome())));
+            rows.add(TextComponents.look(TissueSampleItem.read(next).orElseThrow().genome()));
         }
         if (!litter.isEmpty()) rows.add(t("litter.source",litter.getHoverName()));
         for (int i=0;i<2;i++) rows.add(t("table.slot",i==0 ? "A" : "B",table.item(i).isEmpty() ? t("empty") : table.item(i).getHoverName()));
         for (int i=0;i<2;i++) if (!table.item(i).isEmpty()) rows.add(t("table.look",i==0 ? "A" : "B",
-                TissueSampleItem.read(table.item(i)).<Component>map(sample->Component.literal(Plain.look(sample.genome()))).orElse(t("table.unreadable"))));
+                TissueSampleItem.read(table.item(i)).<Component>map(sample->TextComponents.look(sample.genome())).orElse(t("table.unreadable"))));
         if (!table.goalKey().isEmpty()) rows.add(table.goal().map(goal->t("table.goal",Component.translatable("commission.bunnidogs."+goal.key()+".title")))
                 .orElseGet(()->t("table.goal_unknown")));
         rows.add(t("table.obtain")); rows.add(t("table.cues"));
@@ -81,11 +82,11 @@ public final class WorkshopPanels {
             rows.add(t("show.parents",t(dog.motherGenome().isPresent() ? "show.recorded" : "show.missing")));
             rows.add(t("show.fixed",Purebreds.fixedCount(dog.genome()),Gene.COUNT));
             if (Purebreds.fixedCount(dog.genome())<Gene.COUNT) rows.add(t("show.mixed",net.minecraft.network.chat.ComponentUtils.formatList(
-                    java.util.Arrays.stream(Gene.values()).filter(gene->!dog.genome().isHomozygous(gene)).toList(),gene->Component.literal(Plain.geneName(gene)))));
+                    java.util.Arrays.stream(Gene.values()).filter(gene->!dog.genome().isHomozygous(gene)).toList(),gene->TextComponents.gene(gene))));
             Show.Tier target=reading.tier()==Show.Tier.NONE ? Show.Tier.BRONZE : reading.status()==ShowJudging.Status.ALREADY && reading.tier()!=Show.Tier.GOLD
                     ? Show.Tier.values()[reading.tier().ordinal()+1] : reading.tier();
             rows.add(t("show.target",Component.translatable("show.bunnidogs.tier."+target.key())));
-            for (Stat stat:Stat.values()) rows.add(t("show.stat",Plain.statName(stat),String.format(Locale.ROOT,"%+d",dog.stats().get(stat)),target.minimum())
+            for (Stat stat:Stat.values()) rows.add(t("show.stat",TextComponents.stat(stat),String.format(Locale.ROOT,"%+d",dog.stats().get(stat)),target.minimum())
                     .copy().withStyle(dog.stats().get(stat)>=target.minimum() ? ChatFormatting.GREEN : ChatFormatting.RED));
             rows.add(t("show.once"));
         } else { rows.add(t("show.lead")); rows.add(t("show.thresholds")); }

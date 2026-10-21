@@ -140,19 +140,19 @@ public record Seed(Genome mother, Stats motherStats, Genome father, Stats father
                 sb.append(String.format(Locale.ROOT, "%s %+.1f", Plain.statName(stat), d));
             }
         }
-        return sb.length() == 0 ? "none" : sb.toString();
+        return sb.length() == 0 ? Texts.t("none") : sb.toString();
     }
 
     /** The short readable summary the item tooltip shows: quality, litter, mutation chance and where the stats will drift. */
     public List<String> summary() {
         List<String> lines = new ArrayList<>();
-        lines.add(String.format(Locale.ROOT, "Quality %.2f", quality));
-        lines.add(String.format(Locale.ROOT, "Litter of about %.1f pups", expectedLitter()));
-        lines.add(String.format(Locale.ROOT, "Mutation chance %.1f%% per pup", mutationChance() * 100.0));
+        lines.add(String.format(Locale.ROOT, Texts.t("Quality %.2f"), quality));
+        lines.add(String.format(Locale.ROOT, Texts.t("Litter of about %.1f pups"), expectedLitter()));
+        lines.add(String.format(Locale.ROOT, Texts.t("Mutation chance %.1f%% per pup"), mutationChance() * 100.0));
         if (mutagen) {
-            lines.add("Treated with Mutagen");
+            lines.add(Texts.t("Treated with Mutagen"));
         }
-        lines.add("Stats drift: " + driftText(drift(0.0)));
+        lines.add(Texts.t("Stats drift: ") + driftText(drift(0.0)));
         return lines;
     }
 

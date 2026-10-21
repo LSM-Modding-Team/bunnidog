@@ -1,5 +1,7 @@
 package com.bunnidogs.mod.layout;
 
+import com.bunnidogs.mod.genetics.Texts;
+
 import java.util.List;
 
 import com.bunnidogs.mod.genetics.Pedigree;
@@ -21,8 +23,7 @@ public final class BookContents {
     static final int GUIDE_LINES = 6;
 
     /** The short reading guide of the contents page (the full text, {@link Plain#HOW_TO_READ}, waits for the hover boxes of S5). */
-    public static final String GUIDE = "Pairs: Ears, Coat, Legs, Build, Temper., Fertil., Diet. "
-            + "The stronger copy shows. Either copy can pass to a pup.";
+    public static final String GUIDE = "Pairs: Ears, Coat, Legs, Build, Temper., Fertil., Diet. The stronger copy shows. Either copy can pass to a pup.";
 
     /** How many spreads the open book has: the contents and one per logged animal. */
     public static int spreadCount(Pedigree book) {
@@ -45,9 +46,9 @@ public final class BookContents {
         Page left = new Page();
         Page right = new Page();
         var matches = RecordFilter.indices(book,query);
-        left.text(0, 0, "Pedigree Book", Page.Tone.HEAD);
-        left.text(0, Page.LINE, query == null || query.isBlank() ? book.size() + " of " + Pedigree.MAX_ENTRIES + " animals"
-                : matches.size() + " of " + book.size() + " match", Page.Tone.MUTED);
+        left.text(0, 0, Texts.t("Pedigree Book"), Page.Tone.HEAD);
+        left.text(0, Page.LINE, query == null || query.isBlank() ? book.size() + Texts.t(" of ") + Pedigree.MAX_ENTRIES + Texts.t(" animals")
+                : matches.size() + Texts.t(" of ") + book.size() + Texts.t(" match"), Page.Tone.MUTED);
         for (int row = 0; row < matches.size(); row++) {
             int i = matches.get(row);
             var entry = book.entries().get(i);
@@ -62,8 +63,8 @@ public final class BookContents {
                 page.hotspot(0, y, Page.WIDTH, Page.LINE, whole, -1);        // a clipped look is shown whole on hover
             }
         }
-        right.text(0, GUIDE_Y, "HOW TO READ A CODE", Page.Tone.HEAD);
-        List<String> guide = Page.wrap(GUIDE, Page.WIDTH, m);
+        right.text(0, GUIDE_Y, Texts.t("HOW TO READ A CODE"), Page.Tone.HEAD);
+        List<String> guide = Page.wrap(Texts.t(GUIDE), Page.WIDTH, m);
         for (int i = 0; i < Math.min(GUIDE_LINES, guide.size()); i++) {
             right.text(0, GUIDE_Y + Page.LINE * (i + 1), guide.get(i), Page.Tone.MUTED);
         }

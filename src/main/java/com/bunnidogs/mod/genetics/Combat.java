@@ -31,14 +31,12 @@ public final class Combat {
     public static String describe(Genome genome,Stats stats) {
         var profile=profile(genome,stats);
         String habit=switch (genome.traits().temperament()) {
-            case LOYAL -> "Helps your attacks and watches for nearby attackers.";
-            case STOIC -> "Helps your attacks and defends against attackers close to you.";
-            case FERAL -> "Stronger directed strikes; less automatic keeper protection.";
-            case SKITTISH -> "Warns about visible threats; a directed bite is followed by withdrawal.";
+            case LOYAL -> Texts.t("Helps your attacks and watches for nearby attackers.");
+            case STOIC -> Texts.t("Helps your attacks and defends against attackers close to you.");
+            case FERAL -> Texts.t("Stronger directed strikes; less automatic keeper protection.");
+            case SKITTISH -> Texts.t("Warns about visible threats; a directed bite is followed by withdrawal.");
         };
-        return String.format(Locale.ROOT,"Adult bite: %.1f HP / %.1f s; withdraws at %.0f%% health. %s "
-                +"Whistle: %.0f blocks. Injury: %.1f safe loaded minutes and half health. "
-                +"Base potential before enemy defenses; bond and orders are learned individually.",
+        return Texts.t("Adult bite: %.1f HP / %.1f s; withdraws at %.0f%% health. %s Whistle: %.0f blocks. Injury: %.1f safe loaded minutes and half health. Base potential before enemy defenses; bond and orders are learned individually.",
                 profile.bite(),profile.interval()/20.0,profile.withdrawal()*100,habit,Trail.hearing(genome,stats),recoveryTicks(stats)/1200.0);
     }
 }

@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.item;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -48,9 +49,9 @@ public class WornEarTagItem extends Item {
         if (code.isPresent()) {
             lines.accept(Component.literal(code.get()).withStyle(ChatFormatting.GOLD));
         } else {
-            lines.accept(Component.literal("Blank and scuffed").withStyle(ChatFormatting.GRAY));
+            lines.accept(TextComponents.t("Blank and scuffed").withStyle(ChatFormatting.GRAY));
         }
-        lines.accept(Component.literal("Worn by a bunnidog to the end").withStyle(ChatFormatting.DARK_GRAY));
-        lines.accept(Component.literal("A keepsake: show it on a Trophy Pedestal").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(TextComponents.t("Worn by a bunnidog to the end").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(TextComponents.t("A keepsake: show it on a Trophy Pedestal").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

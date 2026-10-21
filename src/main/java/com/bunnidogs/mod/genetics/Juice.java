@@ -69,8 +69,8 @@ public final class Juice {
         public String describe() {
             int seconds = ticks / 20;
             String level = amplifier == 0 ? "" : " " + roman(amplifier + 1);
-            String where = target == Target.NEARBY ? " (on mobs nearby)" : "";
-            return String.format(Locale.ROOT, "%s%s %d:%02d%s", name, level, seconds / 60, seconds % 60, where);
+            String where = target == Target.NEARBY ? Texts.t(" (on mobs nearby)") : "";
+            return String.format(Locale.ROOT, "%s%s %d:%02d%s", Texts.t(name), level, seconds / 60, seconds % 60, where);
         }
     }
 

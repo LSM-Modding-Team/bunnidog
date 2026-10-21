@@ -10,7 +10,7 @@ public enum FertilityMark {
 
     private final String description;
     FertilityMark(String description) { this.description = description; }
-    public String description() { return this.description; }
+    public String description() { return Texts.t(this.description); }
     public static FertilityMark of(Genome genome) { return of(genome.expressed(Gene.FERTILITY)); }
     public static FertilityMark of(Allele allele) {
         return switch (allele.name()) {

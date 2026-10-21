@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.item;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.function.Consumer;
 
 import com.bunnidogs.mod.block.SeedCropBlock;
@@ -50,8 +51,8 @@ public class StarlitDustItem extends Item {
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display,
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack, context, display, lines, flag);
-        lines.accept(Component.literal("Right-click a planted seed crop: it ripens at once").withStyle(ChatFormatting.GRAY));
-        lines.accept(Component.literal("One dust, one crop").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(TextComponents.t("Right-click a planted seed crop: it ripens at once").withStyle(ChatFormatting.GRAY));
+        lines.accept(TextComponents.t("One dust, one crop").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.dust.dispenser").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

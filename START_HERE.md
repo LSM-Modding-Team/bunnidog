@@ -20,7 +20,31 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Current focus — gene-driven combat companions (2026-10-21)
+## Latest batch — shared Spanish localization (2026-10-21)
+
+The requested Spanish translation is implemented. Minecraft's language setting
+selects the mod text automatically: one neutral Peruvian Spanish source supplies
+all Spanish variants, including all seven currently shipped Minecraft choices.
+The source has **2,035 matching English/Spanish entries**; the build adds 128
+short guide previews for **2,163 packaged entries per locale**. Names, canonical
+commands/filter expressions, DNA, records and protocol **18** are preserved.
+
+Care/combat/workshop panels, feedback, items, advancements, signs, Calipers,
+Pedigree/Registry, samples, real seeds and all breeding/splicing forecasts are
+localized. Pure pages translate before measuring; native server feedback stays
+translatable per recipient. Long optional guide chapters show a brief preview;
+hovering reveals the complete translated chapter. The 141 pages and their links
+stay numbered as before. Opening an authored old guide refreshes its pages;
+customized title/author copies are retained.
+
+[LOCALIZATION.md](docs/LOCALIZATION.md) records maintenance and checks.
+The Spanish sheet/forecast preview uses a substitute font, not a running client.
+Java 25 `build runGameTestServer` passes, including the localization/layout
+gates and all **116 native scenarios**. The GitHub Build workflow repeats its
+gates and publishes the JAR for the exact pushed commit. This batch does not
+begin an intelligence overhaul or add another gameplay system.
+
+## Implemented foundation — gene-driven combat companions (2026-10-21)
 
 The planning-only stage is complete; the user explicitly authorized continuing
 into implementation. [COMBAT_SPECS.md](docs/COMBAT_SPECS.md) records actual B1/B2

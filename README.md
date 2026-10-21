@@ -2,7 +2,7 @@
 
 A NeoForge mod for Minecraft 26.2: baby-faced creatures, living warrens and
 inherited traits that shape companions, gardens and breeding lines. Client and
-server both need the current mod (network **17**).
+server both need the current mod (network **18**).
 
 Start with **empty hands on an animal or care station**. A short live panel shows
 its needs, the next useful step and buttons that use your real supplies. The
@@ -14,13 +14,17 @@ crosshair hint names the action; normal tools and direct item interactions work 
    their panels. Keep them close; they produce one litter seed.
 3. Plant that seed on farmland. Wait or use bone meal, then break the ripe crop
    to hatch pups. A Cradle is an optional alternative with visible hatch controls.
-4. Raise a useful line: equip bundles, train loyal/stoic partners with a Whistle,
+4. Raise a useful line: equip bundles, train partners of any temperament with a Whistle,
    help a home garden, or choose a Breeder commission and see what is missing.
 
 Six native milestones connect the first session. They do not lock any care
 interaction. Basic play needs no manual; the **Field Guide is optional reference**
 for deeper genetics and systems. Book + guava makes the Pedigree Book; add paper
 for the Field Guide. Saved books, animals and inventories remain compatible.
+
+Minecraft's language setting also selects the mod language. All Spanish options
+share one neutral translation based on Español (Perú). The optional guide keeps
+short pages; hover its chapter text for the full details.
 
 Useful roles & work shows what an ordinary animal can do now. Later, a Genetics
 Table breeding goal compares two reusable samples toward a chosen commission.

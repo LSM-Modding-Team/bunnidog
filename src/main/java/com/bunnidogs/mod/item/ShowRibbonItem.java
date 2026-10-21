@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.item;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.Optional;
 import java.util.function.Consumer;
 import com.bunnidogs.mod.client.ClientScreens;
@@ -50,9 +51,9 @@ public final class ShowRibbonItem extends Item {
         var winner = read(stack);
         if (winner.isEmpty()) lines.accept(Component.translatable("tooltip.bunnidogs.ribbon.blank").withStyle(ChatFormatting.GRAY));
         winner.ifPresent(entry -> {
-            lines.accept(Component.literal(entry.tag().orElse(Plain.look(entry.genome()))).withStyle(ChatFormatting.GRAY));
+            lines.accept(entry.tag().<net.minecraft.network.chat.MutableComponent>map(Component::literal).orElseGet(() -> TextComponents.look(entry.genome())).withStyle(ChatFormatting.GRAY));
             entry.stats().ifPresent(stats -> {
-                for (Stat stat : Stat.values()) lines.accept(Component.literal(Plain.statName(stat) + ": " + stats.get(stat)).withStyle(ChatFormatting.GRAY));
+                for (Stat stat : Stat.values()) lines.accept(TextComponents.t("%s: %s", TextComponents.stat(stat), stats.get(stat)).withStyle(ChatFormatting.GRAY));
             });
         });
         lines.accept(Component.translatable("tooltip.bunnidogs.ribbon.use").withStyle(ChatFormatting.DARK_GRAY));

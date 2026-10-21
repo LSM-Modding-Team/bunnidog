@@ -26,6 +26,56 @@ sourceSets.main.resources {
     exclude("src/generated/**/.cache") // datagen cache files
 }
 
+// One authored Spanish locale, shared by every Spanish setting. Generated previews keep
+// native 14-line guide pages readable; the full translated chapter is available on hover.
+sourceSets.main.resources.exclude('assets/bunnidogs/lang/**')
+abstract class GenerateLocalizations extends DefaultTask {
+    @InputDirectory abstract DirectoryProperty getSourceDirectory()
+    @OutputDirectory abstract DirectoryProperty getOutputDirectory()
+    @TaskAction void generate() {
+        def destination = outputDirectory.get().asFile
+        def width = { String value ->
+            value.codePoints().toArray().collect { ch ->
+                def c = new String(Character.toChars(ch))
+                "i!.,:;|'".contains(c) ? 2 : c == 'l' ? 3 : 'It[] '.contains(c) ? 4 : 'fk()<>*{}'.contains(c) ? 5 : '@~'.contains(c) ? 7 : 6
+            }.sum(0)
+        }
+        def preview = { String value ->
+            def words = value.split(/\s+/); def lines = 1; def line = ''; def kept = []
+            for (def word : words) {
+                def candidate = line ? line+' '+word : word
+                if (width(candidate+'…') > 108) { lines++; line = word } else line = candidate
+                if (lines > 6) break
+                kept.add(word)
+            }
+            kept.size() == words.size() ? value : kept.join(' ')+'…'
+        }
+        ['en_us','es_pe'].each { locale ->
+            def messages = new groovy.json.JsonSlurper().parse(new File(sourceDirectory.get().asFile,locale+'.json'),'UTF-8')
+            def previews = [:]
+            messages.each { key, value ->
+                if (key ==~ /guide\.bunnidogs\.page\.[0-9]+\.body/) previews[key.replace('.body','.preview')] = preview(value)
+            }
+            messages.putAll(previews)
+            def output = new File(destination,'assets/bunnidogs/lang/'+locale+'.json')
+            output.parentFile.mkdirs()
+            output.setText(groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(messages))+'\n','UTF-8')
+            if (locale == 'es_pe') {
+                ['ar','bo','cl','co','cr','cu','do','ec','es','gq','gt','hn','mx','ni','pa','pr','py','sv','us','uy','ve'].each { region ->
+                    new File(output.parentFile,'es_'+region+'.json').bytes = output.bytes
+                }
+            }
+        }
+    }
+}
+def localizedResources = tasks.register('generateLocalizations', GenerateLocalizations) {
+    sourceDirectory = layout.projectDirectory.dir('src/main/resources/assets/bunnidogs/lang')
+    outputDirectory = layout.buildDirectory.dir('generated/localizations')
+}
+tasks.named('processResources', ProcessResources).configure {
+    from(localizedResources)
+}
+
 repositories {
     // Add here additional repositories if required by some of the dependencies below.
 }
@@ -321,3 +371,14 @@ tasks.register('packageProject', Zip) {
                 '*.iml', '.DS_Store'
     }
 }
+
+// Pure/client-layout language contracts, included in the ordinary build and CI.
+tasks.register('checkLocalization', JavaExec) {
+    group = 'verification'
+    description = 'Check Spanish coverage, shared locale aliases, numeric formats and localized readouts.'
+    dependsOn tasks.named('modelCheckClasses')
+    classpath = sourceSets.modelCheck.runtimeClasspath
+    mainClass = 'LocalizationCheck'
+    if (project.hasProperty('localizationPreview')) args project.property('localizationPreview')
+}
+tasks.named('check').configure { dependsOn tasks.named('checkLocalization') }

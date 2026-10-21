@@ -118,7 +118,7 @@ public final class Units {
     public static Reading reading(Stat stat, Genome genome, Stats stats) {
         double value = valueOf(stat, genome, stats);
         double base = valueOf(stat, Genome.DEFAULT, Stats.ZERO);
-        return new Reading(stat, stats.get(stat), value, base, text(stat, value), "base " + unitText(stat, base));
+        return new Reading(stat, stats.get(stat), value, base, text(stat, value), Texts.t("base %s", unitText(stat, base)));
     }
 
     /** All five readings in {@link Stat} order. */
@@ -144,19 +144,19 @@ public final class Units {
     /** The value with its unit only: "7.4 hearts", "13.8 blocks/s", "1.25 blocks high", "21 blocks", "9.4 min". */
     public static String unitText(Stat stat, double value) {
         return switch (stat) {
-            case VITALITY -> String.format(Locale.ROOT, "%.1f hearts", value);
-            case SWIFTNESS -> String.format(Locale.ROOT, "%.1f blocks/s", value);
-            case LEAP -> String.format(Locale.ROOT, "%.2f blocks high", value);
-            case SENSES -> String.format(Locale.ROOT, "%d blocks", Math.round(value));
-            case BLOOM -> String.format(Locale.ROOT, "%.1f min", value);
+            case VITALITY -> Texts.t("%.1f hearts", value);
+            case SWIFTNESS -> Texts.t("%.1f blocks/s", value);
+            case LEAP -> Texts.t("%.2f blocks high", value);
+            case SENSES -> Texts.t("%d blocks", Math.round(value));
+            case BLOOM -> Texts.t("%.1f min", value);
         };
     }
 
     /** The sentence form the sheet shows: unit text, with "hears" and "grows up in" for the last two. */
     public static String text(Stat stat, double value) {
         return switch (stat) {
-            case SENSES -> "hears " + unitText(stat, value);
-            case BLOOM -> "grows up in " + unitText(stat, value);
+            case SENSES -> Texts.t("hears %s", unitText(stat, value));
+            case BLOOM -> Texts.t("grows up in %s", unitText(stat, value));
             default -> unitText(stat, value);
         };
     }
@@ -170,19 +170,19 @@ public final class Units {
     public static String working(Stat stat, Genome genome, Stats stats) {
         Traits t = genome.traits();
         return switch (stat) {
-            case VITALITY -> String.format(Locale.ROOT, "%s HP x %s %s build x %s bred = %.1f HP (2 HP = 1 heart)",
+            case VITALITY -> Texts.t("%s HP x %s %s build x %s bred = %.1f HP (2 HP = 1 heart)",
                     num(BASE_HEALTH), num(t.healthMultiplier()), Plain.word(genome.expressed(Gene.BUILD)),
                     num(stats.multiplier(Stat.VITALITY)), healthPoints(genome, stats));
-            case SWIFTNESS -> String.format(Locale.ROOT, "speed %s x %s %s legs x %s bred = %s, which is %.1f blocks/s",
+            case SWIFTNESS -> Texts.t("speed %s x %s %s legs x %s bred = %s, which is %.1f blocks/s",
                     num(BASE_SPEED), num(t.speedMultiplier()), Plain.word(genome.expressed(Gene.LEGS)),
                     num(stats.multiplier(Stat.SWIFTNESS)), num(speedAttribute(genome, stats)), blocksPerSecond(genome, stats));
-            case LEAP -> String.format(Locale.ROOT, "jump %s x %s %s legs x %s bred = %s, which is %.2f blocks high",
+            case LEAP -> Texts.t("jump %s x %s %s legs x %s bred = %s, which is %.2f blocks high",
                     num(BASE_JUMP), num(t.jumpMultiplier()), Plain.word(genome.expressed(Gene.LEGS)),
                     num(stats.multiplier(Stat.LEAP)), num(jumpAttribute(genome, stats)), jumpHeight(genome, stats));
-            case SENSES -> String.format(Locale.ROOT, "%s blocks x %s %s ears x %s bred = %.1f blocks",
+            case SENSES -> Texts.t("%s blocks x %s %s ears x %s bred = %.1f blocks",
                     num(BASE_FOLLOW_RANGE), num(t.hearingMultiplier()), Plain.word(genome.expressed(Gene.EARS)),
                     num(stats.multiplier(Stat.SENSES)), senseBlocks(genome, stats));
-            case BLOOM -> String.format(Locale.ROOT, "%s min as a pup / %s growth speed = %.1f min",
+            case BLOOM -> Texts.t("%s min as a pup / %s growth speed = %.1f min",
                     num(Growth.minutesToAdult(1.0D)), num(stats.growthMultiplier()), bloomMinutes(stats));
         };
     }

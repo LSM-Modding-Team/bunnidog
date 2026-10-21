@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.block;
 
+import com.bunnidogs.mod.network.TextComponents;
 import com.bunnidogs.mod.entity.ShowJudging;
 import com.bunnidogs.mod.genetics.Plain;
 import com.bunnidogs.mod.genetics.Purebreds;
@@ -59,7 +60,7 @@ public final class JudgingStandBlock extends Block {
         Stat limiting=Stat.VITALITY;
         for (Stat stat:Stat.values()) if (dog.stats().get(stat)==lowest) { limiting=stat; break; }
         player.sendOverlayMessage(Component.translatable("message.bunnidogs.show.preview",
-                Component.translatable("show.bunnidogs.tier."+reading.tier().key()),Plain.statName(limiting),lowest,Purebreds.fixedCount(dog.genome())));
+                Component.translatable("show.bunnidogs.tier."+reading.tier().key()),TextComponents.stat(limiting),lowest,Purebreds.fixedCount(dog.genome())));
         return InteractionResult.SUCCESS;
     }
 }

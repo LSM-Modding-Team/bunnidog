@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.item;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.function.Consumer;
 import com.bunnidogs.mod.block.NurseryCradleBlockEntity;
 import com.bunnidogs.mod.block.SeedCropBlock;
@@ -55,8 +56,8 @@ public class MutagenItem extends Item {
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display,
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack, context, display, lines, flag);
-        lines.accept(Component.literal("Makes the pups of a seed mutate far more often").withStyle(ChatFormatting.GRAY));
-        lines.accept(Component.literal("Hold a seed and this vial in the other hand, then use the seed").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(TextComponents.t("Makes the pups of a seed mutate far more often").withStyle(ChatFormatting.GRAY));
+        lines.accept(TextComponents.t("Hold a seed and this vial in the other hand, then use the seed").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.mutagen.nursery").withStyle(ChatFormatting.DARK_GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.mutagen.table").withStyle(ChatFormatting.DARK_GRAY));
     }

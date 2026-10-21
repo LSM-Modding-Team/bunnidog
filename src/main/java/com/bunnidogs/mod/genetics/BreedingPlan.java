@@ -18,7 +18,7 @@ public record BreedingPlan(int guavaA, int guavaB, boolean mutagen, int fortune)
         var seed = Seed.of(a.genome(),a.stats(),b.genome(),b.stats(),guavaQuality());
         return this.mutagen ? seed.withMutagen() : seed;
     }
-    public String guavas() { return GuavaTier.ofLevel(this.guavaA).displayName()+" + "+GuavaTier.ofLevel(this.guavaB).displayName(); }
+    public String guavas() { return Texts.t(GuavaTier.ofLevel(this.guavaA).displayName())+" + "+Texts.t(GuavaTier.ofLevel(this.guavaB).displayName()); }
     @Override public String toString() { return this.guavaA+","+this.guavaB+","+(this.mutagen ? "1" : "0")+(this.fortune == 0 ? "" : ","+this.fortune); }
     public static Optional<BreedingPlan> parse(String text) {
         if (text == null || text.length() > 16) return Optional.empty();

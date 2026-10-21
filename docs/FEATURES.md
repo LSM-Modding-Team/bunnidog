@@ -4,6 +4,10 @@ Start with empty hands on an animal or care station. The live panel shows the
 current needs, a useful next step and named controls. Crosshair hints explain
 what a held item will do. Detailed genetics and the Field Guide are optional.
 
+Minecraft's language setting selects the mod text too. All Spanish variants use
+the same neutral Peruvian Spanish. Guide pages show short previews; hover a
+chapter's text for its complete explanation.
+
 ## Adventure together
 
 Train any healthy adult through care with a Trail Whistle and one plain guava.

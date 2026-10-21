@@ -1,5 +1,6 @@
 package com.bunnidogs.mod.menu;
 
+import com.bunnidogs.mod.network.TextComponents;
 import java.util.ArrayList;
 import java.util.List;
 import com.bunnidogs.mod.block.*;
@@ -27,14 +28,14 @@ public final class SignalPanels {
     private static Component stock(ItemStack item) { return item.isEmpty() ? t("empty") : t("stock",item.getCount(),item.getHoverName()); }
     private static void nextSample(List<Component> rows,ItemStack next) {
         rows.add(t("table.next_sample",next.getHoverName()));
-        rows.add(Component.literal(Plain.look(TissueSampleItem.read(next).orElseThrow().genome())));
+        rows.add(TextComponents.look(TissueSampleItem.read(next).orElseThrow().genome()));
     }
     public static CareView jar(Player player,BlockPos pos,SpecimenJarBlockEntity jar) {
         var rows=new ArrayList<Component>(); var sample=jar.sample(); var tissue=TissueSampleItem.read(sample);
         var next=WorkshopPanels.nextSample(player); boolean edit=StationUse.editable(player,jar);
         if (sample.isEmpty() && !next.isEmpty()) nextSample(rows,next);
         rows.add(t("jar.sample",stock(sample)));
-        tissue.ifPresent(value->rows.add(Component.literal(Plain.look(value.genome()))));
+        tissue.ifPresent(value->rows.add(TextComponents.look(value.genome())));
         rows.add(t("jar.signal",jar.fixedSignal())); rows.add(t("jar.use"));
         return new CareView(ModBlocks.SPECIMEN_JAR.get().getName(),t(!sample.isEmpty() && tissue.isEmpty() ? "jar.next.unreadable"
                 : sample.isEmpty() ? "jar.next.sample" : "jar.next.ready"),rows,List.of(
@@ -45,7 +46,7 @@ public final class SignalPanels {
         var rows=new ArrayList<Component>(); var next=WorkshopPanels.nextSample(player); var reference=detector.reference();
         var reading=detector.read(); boolean analog=detector.getBlockState().getValue(PedigreeComparatorBlock.ANALOG), edit=StationUse.editable(player,detector);
         if (!next.isEmpty()) nextSample(rows,next);
-        rows.add(t("detector.reference",reference.map(r->Component.literal(Plain.look(r.genome()))).orElseGet(()->Component.literal("—"))));
+        rows.add(t("detector.reference",reference.map(r->TextComponents.look(r.genome())).orElseGet(()->Component.literal("—"))));
         rows.add(Component.translatable("message.bunnidogs.detector."+reading.status().name().toLowerCase(java.util.Locale.ROOT),reading.pairs()));
         rows.add(t("detector.mode",t(analog ? "detector.analog" : "detector.exact"),detector.getBlockState().getValue(PedigreeComparatorBlock.POWER)));
         var front=pos.relative(detector.getBlockState().getValue(PedigreeComparatorBlock.FACING));
@@ -59,8 +60,8 @@ public final class SignalPanels {
     public static CareView trophy(Player player,BlockPos pos,TrophyPedestalBlockEntity pedestal) {
         var item=pedestal.item(); var rows=new ArrayList<Component>(); rows.add(t("trophy.stock",stock(item)));
         var ribbon=ShowRibbonItem.read(item); var sample=TissueSampleItem.read(item);
-        ribbon.ifPresent(value->rows.add(t("trophy.winner",value.tag().orElse(""),Plain.look(value.genome()))));
-        sample.ifPresent(value->rows.add(Component.literal(Plain.look(value.genome()))));
+        ribbon.ifPresent(value->rows.add(t("trophy.winner",value.tag().orElse(""),TextComponents.look(value.genome()))));
+        sample.ifPresent(value->rows.add(TextComponents.look(value.genome())));
         if (item.getItem() instanceof ApexOfferingItem) rows.add(t("trophy.offering"));
         rows.add(t("trophy.use"));
         return new CareView(ModBlocks.TROPHY_PEDESTAL.get().getName(),t(item.isEmpty() ? "trophy.next.place" : "trophy.next.ready"),rows,List.of(
