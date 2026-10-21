@@ -80,9 +80,14 @@ public final class FamilyGoalsGameTest {
         var seedMenu=CareMenuGameTest.open(h,player,tablePos); press(h,player,seedMenu,LitterPanel.LITTER); press(h,player,seedMenu,FamilyPanels.SEED_FAMILY);
         h.assertTrue(seedMenu.buttonId(LitterPanel.LITTER)>=0 && seedMenu.buttonId(WorkshopPanels.BACK_TABLE)<0,"The actual seed's family returns to its source rather than losing the handoff");
         press(h,player,seedMenu,LitterPanel.LITTER); player.closeContainer();
-        var reverse=Bunnidog.hatch(level,Vec3.atBottomCenterOf(tablePos.east(3)),Seed.of(b,points,a,points,0),0,new Random(600));
-        reverse.forEach(dog->{ dog.setNoAi(true); dog.snapTo(Vec3.atBottomCenterOf(tablePos.east(3))); });
-        h.assertTrue(FamilyPanels.relatives(player,tablePos,table).size()==family.size()+reverse.size(),"Reverse parent order remains the same sampled cross");
+        // Tick-zero queries need an already tracked chunk; a neighboring chunk can still be activating on CI.
+        var known=family.getFirst();
+        var reverseSpot=known.position().add(0,0,(known.getBlockZ()&15)<2 ? 2 : -2);
+        var reverse=Bunnidog.hatch(level,reverseSpot,Seed.of(b,points,a,points,0),0,new Random(600));
+        reverse.forEach(dog->dog.setNoAi(true));
+        var measured=FamilyPanels.relatives(player,tablePos,table);
+        h.assertTrue(measured.size()==family.size()+reverse.size(),"Reverse parent order remains the same sampled cross: found="+measured.size()
+                +", expected="+(family.size()+reverse.size())+", missing="+reverse.stream().filter(dog->!measured.contains(dog)).map(Bunnidog::position).toList());
         var stranger=h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),12,floor+1,35); stranger.setGenome(a); stranger.setStats(points); stranger.setBaby(true);
         h.assertTrue(FamilyPanels.fit(player,stranger,Commissions.Request.NIGHT_GUIDE).next().getString().contains("no recorded birth parents"),
                 "A matching wild pup must not invite a pointless wait for birth records that growing cannot create");
