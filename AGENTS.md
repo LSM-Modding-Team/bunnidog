@@ -9,10 +9,12 @@ are obsolete. The user's current request determines scope.
   respecting planning-only requests. The current user direction is the substantial
   gene-driven intelligence/civilization update in `docs/INTELLIGENCE_PLAN.md`,
   `docs/INTELLIGENCE_ENGINEERING.md` and `docs/INTELLIGENCE_SCENARIOS.md`. The
-  2026-10-21 request authorizes only planning for this turn: no gameplay/code or
-  resource implementation in that planning batch. A subsequent development
-  continuation should start with the complete I1 genetic/save foundation and
-  I2 useful learning journey, following the staged plan and user steering.
+  2026-10-21 planning request was followed by explicit implementation approval.
+  I1 and initial I2 are now implemented; `docs/COGNITION_SPECS.md` records actual
+  genetics, migration and attended practice. Continue I2 with observed lessons,
+  learned source/destination routes and interruption feedback, then finish I3's
+  remaining work integration before professions/civilization. Preserve the
+  implemented Garden/Supply learning gates and old adults' familiar routines.
   Multiple genes must create real limits and complementary minds, reaching
   independent professions and functioning autonomous communities. Separate
   inherited capacity, personal learning, shared culture and actual opportunity;
@@ -20,7 +22,8 @@ are obsolete. The user's current request determines scope.
   protected player builds, old saves and loaded-world bounds. The new plan
   supersedes unfinished combat extras as the next development priority while
   preserving the implemented combat foundation in `docs/COMBAT_SPECS.md`.
-  Do not describe these intelligence plans as implemented or gameplay-validated.
+  Distinguish implemented cognition/practice from future professions/civilization
+  and from natural client/Survival balance still awaiting play evidence.
   Preserve `docs/COHESION_PLAN.md`: players should discover the core loop through
   animals, stations and useful feedback; the long guide is optional reference.
   Address observed first-session friction rather than adding unrelated systems.

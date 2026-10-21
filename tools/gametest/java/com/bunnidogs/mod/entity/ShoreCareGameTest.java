@@ -42,7 +42,7 @@ public final class ShoreCareGameTest {
         var top=base.offset(5,0,4); var root=top.below();
         level.setBlock(top,Blocks.WATER.defaultBlockState(),3); level.setBlock(root,Blocks.KELP_PLANT.defaultBlockState(),3); level.setBlock(top,Blocks.KELP.defaultBlockState(),3);
         var dog=ModEntities.BUNNIDOG.get().create(level,EntitySpawnReason.COMMAND);
-        int diet=Gene.DIET.alleleNamed("shore_forager").id(); dog.setGenome(Genome.DEFAULT.with(Gene.DIET,0,diet).with(Gene.DIET,1,diet));
+        int diet=Gene.DIET.alleleNamed("shore_forager").id(); dog.setGenome(Genome.DEFAULT.with(Gene.DIET,0,diet).with(Gene.DIET,1,diet)); WorkerFixture.familiar(dog);
         dog.setAge(0); dog.setNoAi(true); dog.setHealth(dog.getMaxHealth()); dog.setPos(Vec3.atBottomCenterOf(base.offset(4,1,4))); dog.setOnGround(true);
         level.addFreshEntity(dog);
         h.assertTrue(dog.moveHomeTo(level,nest)==NestHome.MoveResult.MOVED,"A shore worker claims its real dry home");

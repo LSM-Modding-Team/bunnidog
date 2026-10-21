@@ -50,6 +50,7 @@ public final class PurebredRegistryItem extends Item {
         return InteractionResult.SUCCESS;
     }
     private static void register(Player player, ItemStack stack, Pedigree.Entry entry, BlockPos soundAt) {
+        if (PedigreeBookItem.protectFutureRecords(player, stack)) return;
         Pedigree registry = read(stack);
         Purebreds.Result result = Purebreds.add(registry, entry);
         Component message = switch (result) {
@@ -58,7 +59,7 @@ public final class PurebredRegistryItem extends Item {
             case FULL -> Component.translatable("message.bunnidogs.registry.full", Pedigree.MAX_ENTRIES);
             case PUP -> Component.translatable("message.bunnidogs.registry.pup");
             case PARENTS -> Component.translatable("message.bunnidogs.registry.parents");
-            case MIXED -> Component.translatable("message.bunnidogs.registry.mixed", Purebreds.fixedCount(entry.genome()), Gene.COUNT);
+            case MIXED -> Component.translatable("message.bunnidogs.registry.mixed", Purebreds.fullFixedCount(entry.genome()), com.bunnidogs.mod.genetics.Locus.COUNT);
         };
         if (result == Purebreds.Result.ADDED) {
             stack.set(ModItems.PEDIGREE_DATA.get(), registry.toString());

@@ -37,6 +37,7 @@ public final class Readout {
         }
         lines.add("  " + statsText(genome, stats));
         lines.add("  " + Combat.describe(genome,stats));
+        lines.add("  " + MindText.summary(genome));
         lines.add(Texts.t("  Next generation (identical partner, quality 0): ") + pushText(genome));
         double bonus = Drift.qualityBonus(genome, stats);
         if (bonus > 0.0D) {
@@ -72,6 +73,7 @@ public final class Readout {
         }
         lines.add("  " + statsText(tissue.genome(), tissue.stats()));
         lines.add("  " + Combat.describe(tissue.genome(),tissue.stats()));
+        lines.add("  " + MindText.summary(tissue.genome()));
         lines.add(Texts.t("  Next generation (identical partner, quality 0): ") + pushText(tissue.genome()));
         lines.add(Texts.t("  Code: ") + tissue.genome());
         return lines;
@@ -84,6 +86,7 @@ public final class Readout {
         }
         lines.add("  " + statsText(genome, stats));
         lines.add("  " + Combat.describe(genome,stats));
+        lines.add("  " + MindText.summary(genome));
         lines.add(Texts.t("  Code: ") + genome);
     }
 

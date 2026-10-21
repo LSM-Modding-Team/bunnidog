@@ -35,7 +35,7 @@ public final class CareMenu extends AbstractContainerMenu {
     private Context published;
     private long changedUntil;
     private boolean acting;
-    private enum Mode { MAIN, CARGO, ROLES, GOALS, CONFIRM_RITUAL, FAMILY, SEED_FAMILY, FIT, FIT_CHOICES, LITTER, COMBAT, PARTY }
+    private enum Mode { MAIN, CARGO, ROLES, LEARNING, GOALS, CONFIRM_RITUAL, FAMILY, SEED_FAMILY, FIT, FIT_CHOICES, LITTER, COMBAT, PARTY }
     private Mode mode=Mode.MAIN;
     private Commissions.Request fitGoal;
     private int familyPage;
@@ -114,6 +114,7 @@ public final class CareMenu extends AbstractContainerMenu {
         if (dog!=null) return switch (mode) {
             case CARGO -> CarePanels.cargo(owner,dog);
             case ROLES -> RolePanel.view(owner,dog);
+            case LEARNING -> LearningPanel.view(owner,dog);
             case COMBAT -> CombatPanel.view(owner,dog);
             case FIT -> FamilyPanels.fit(owner,dog,fitGoal);
             case FIT_CHOICES -> FamilyPanels.choices(owner,dog);
@@ -140,6 +141,8 @@ public final class CareMenu extends AbstractContainerMenu {
             facts.add(dog.combat().selected()); facts.add(dog.combat().downed()); facts.add(dog.combat().recovering());
             facts.add(dog.combat().partyState());
             facts.add(Optional.ofNullable(dog.homeNest()));
+            facts.add(dog.genome()); facts.add(dog.stats()); facts.add(dog.learning().knowledge());
+            facts.add(Optional.ofNullable(dog.learning().lesson())); facts.add(Optional.ofNullable(dog.learning().teacher()));
             stock.addAll(dog.carriedBundles());
             if (mode==Mode.FIT || mode==Mode.FIT_CHOICES || mode==Mode.ROLES) facts.add(FamilyPanels.hasCalipers(owner));
         } else {
@@ -214,6 +217,11 @@ public final class CareMenu extends AbstractContainerMenu {
         try {
             if (id==CarePanels.CARGO) mode=Mode.CARGO;
             else if (id==CarePanels.ROLES) mode=Mode.ROLES;
+            else if (id==LearningPanel.OPEN && dog!=null) mode=Mode.LEARNING;
+            else if (id>=LearningPanel.TEACH && id<LearningPanel.TEACH+com.bunnidogs.mod.genetics.Learning.Routine.values().length && dog!=null) {
+                dog.learning().begin(player,com.bunnidogs.mod.genetics.Learning.Routine.values()[id-LearningPanel.TEACH]);
+            }
+            else if (id==LearningPanel.STOP && dog!=null && dog.learning().authorized(player)) dog.learning().cancel();
             else if (id==CombatPanel.OPEN) mode=Mode.COMBAT;
             else if (id==PartyPanel.OPEN) { openParty(player); }
             else if (mode==Mode.PARTY) PartyPanel.act(player,id);

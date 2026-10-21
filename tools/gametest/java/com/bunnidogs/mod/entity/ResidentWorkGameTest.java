@@ -54,7 +54,7 @@ public final class ResidentWorkGameTest {
         }
         h.setBlock(1,1,1,ModBlocks.NEST.get());
         h.setBlock(new BlockPos(3,1,4),ModBlocks.FEEDING_TROUGH.get().defaultBlockState().setValue(FeedingTroughBlock.TENDING,true));
-        var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),3.5F,1,3.5F); dog.setAge(0); dog.setGenome(Genome.DEFAULT);
+        var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),3.5F,1,3.5F); dog.setAge(0); dog.setGenome(Genome.DEFAULT); WorkerFixture.familiar(dog);
         dog.setStats(Stats.of(0,0,0,0,10)); dog.setHealth(dog.getMaxHealth());
         var context = new Context(h.getLevel(),h.absolutePos(new BlockPos(3,1,4)),h.absolutePos(new BlockPos(5,1,4)),dog);
         context.stock().setWorkMode(mode); return context;

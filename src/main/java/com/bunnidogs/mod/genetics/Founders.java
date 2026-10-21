@@ -95,7 +95,7 @@ public final class Founders {
                 genome = genome.with(gene, slot, id);
             }
         }
-        return genome;
+        return Cognition.founder(genome, rng);
     }
 
     /** The allele id a signature picks for one slot, or -1 for "none, use the common pool". No random draw if unsigned. */

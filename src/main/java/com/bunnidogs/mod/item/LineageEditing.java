@@ -18,6 +18,7 @@ public final class LineageEditing {
         if (!registry && !stack.is(ModItems.PEDIGREE_BOOK.get())) return refused(request);
         String records = stack.getOrDefault(ModItems.PEDIGREE_DATA.get(),"");
         String previous = stack.getOrDefault(ModItems.LINEAGE_NAMES.get(),"");
+        if (Genome.containsUnsupportedSchema(records) || Genome.containsUnsupportedSchema(previous)) return refused(request);
         if (!records.equals(request.records()) || !previous.equals(request.previous())) return refused(request);
         var genome = Genome.parse(request.genome());
         var book = registry ? PurebredRegistryItem.read(stack) : PedigreeBookItem.read(stack);

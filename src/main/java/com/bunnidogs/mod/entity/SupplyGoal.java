@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.EnumSet;
 import com.bunnidogs.mod.block.FeedingTroughBlockEntity;
 import com.bunnidogs.mod.genetics.Gardening;
+import com.bunnidogs.mod.genetics.Learning;
 import com.bunnidogs.mod.genetics.Supplying;
 import com.bunnidogs.mod.registry.ModPoi;
 import net.minecraft.core.BlockPos;
@@ -29,7 +30,8 @@ final class SupplyGoal extends Goal {
     private long nextSearch;
     private int ticks, working;
     SupplyGoal(Bunnidog dog) { this.dog = dog; setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK)); }
-    private boolean wanted() { return this.dog.gardeningStatus() == Gardening.Status.READY && Supplying.qualified(this.dog.stats()); }
+    private boolean wanted() { return this.dog.gardeningStatus() == Gardening.Status.READY && Supplying.qualified(this.dog.stats())
+            && this.dog.learning().canWork(Learning.Routine.DELIVERY); }
     private boolean close(BlockPos pos) { return this.dog.distanceToSqr(Vec3.atCenterOf(pos)) <= Supplying.REACH_SQUARED; }
     @Override public boolean canUse() {
         if (!wanted() || this.dog.level().getGameTime() < this.nextSearch) return false;
@@ -65,6 +67,7 @@ final class SupplyGoal extends Goal {
     }
     @Override public boolean canContinueToUse() {
         return this.source != null && this.target != null && wanted() && this.home.equals(this.dog.homeNest())
+                && this.dog.learning().witnesses(this.source.getBlockPos(), this.target.getBlockPos())
                 && TroughSupply.trough(this.dog,this.source.getBlockPos()) == this.source && TroughSupply.source(this.dog,this.source,this.unit)
                 && TroughSupply.trough(this.dog,this.target.getBlockPos()) == this.target && TroughSupply.destination(this.source,this.target,this.unit)
                 && this.ticks < Gardening.MAX_VISIT && HomeRoutes.standing(this.dog,this.stand) && HomeRoutes.safe(this.dog,this.path,null);
@@ -78,7 +81,8 @@ final class SupplyGoal extends Goal {
     @Override public void tick() {
         if (!canContinueToUse()) return;
         this.ticks++; this.dog.getLookControl().setLookAt(Vec3.atCenterOf(this.target.getBlockPos()));
-        if (!close(this.source.getBlockPos()) || !close(this.target.getBlockPos())) {
+        if (!close(this.source.getBlockPos()) || !close(this.target.getBlockPos())
+                || !sight(this.source.getBlockPos()) || !sight(this.target.getBlockPos())) {
             this.working = 0;
             if (this.ticks % 20 == 0) {
                 var route = this.dog.getNavigation().createPath(this.stand,0);
@@ -88,13 +92,13 @@ final class SupplyGoal extends Goal {
             return;
         }
         this.dog.getNavigation().stop();
-        if (!sight(this.source.getBlockPos()) || !sight(this.target.getBlockPos())) { this.working = 0; return; }
         if (++this.working < Gardening.WORK_TICKS) return;
         if (EventHooks.canEntityGrief((ServerLevel)this.dog.level(),this.dog) && canContinueToUse()
                 && close(this.source.getBlockPos()) && close(this.target.getBlockPos()) && sight(this.source.getBlockPos()) && sight(this.target.getBlockPos())) {
             try (var transaction = Transaction.openRoot()) {
                 if (TroughSupply.reserve(this.source,this.target,this.unit,transaction)) {
                     transaction.commit(); this.dog.finishedGardening();
+                    this.dog.learning().completed(Learning.Routine.DELIVERY);
                 }
             }
         }

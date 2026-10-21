@@ -23,7 +23,7 @@ import net.minecraft.world.phys.Vec3;
 public final class WorkCensusGameTest {
     private WorkCensusGameTest() {}
     private static Bunnidog resident(GameTestHelper h, float x, int senses, int bloom) {
-        var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),x,1,3.5F); dog.setAge(0); dog.setGenome(Genome.DEFAULT);
+        var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),x,1,3.5F); dog.setAge(0); dog.setGenome(Genome.DEFAULT); WorkerFixture.familiar(dog);
         dog.setStats(Stats.of(0,0,0,senses,bloom)); dog.setHealth(dog.getMaxHealth()); return dog;
     }
     private static net.minecraft.nbt.CompoundTag save(Bunnidog dog) {

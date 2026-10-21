@@ -4,6 +4,9 @@ import com.bunnidogs.mod.network.TextComponents;
 import java.util.function.Consumer;
 import com.bunnidogs.mod.entity.Bunnidog;
 import com.bunnidogs.mod.genetics.Gene;
+import com.bunnidogs.mod.genetics.CognitiveGene;
+import com.bunnidogs.mod.genetics.Locus;
+import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.genetics.Plain;
 import com.bunnidogs.mod.genetics.Sampling;
 import com.bunnidogs.mod.genetics.Splicing;
@@ -23,14 +26,23 @@ import net.minecraft.world.level.Level;
 
 public final class GeneSplicerItem extends Item {
     public GeneSplicerItem(Properties properties) { super(properties); }
-    public static Gene selected(ItemStack stack) {
-        return Gene.values()[Math.floorMod(stack.getOrDefault(ModItems.SPLICE_GENE.get(),0),Gene.COUNT)];
+    private static int selection(ItemStack stack) {
+        return Math.floorMod(stack.getOrDefault(ModItems.SPLICE_GENE.get(),0), Gene.COUNT + 2 * CognitiveGene.COUNT);
+    }
+    public static Locus selected(ItemStack stack) {
+        int index = selection(stack);
+        return index < Gene.COUNT ? Gene.values()[index] : CognitiveGene.values()[(index - Gene.COUNT) / 2];
+    }
+    public static int donorCopy(ItemStack stack) { return Math.max(0, selection(stack) - Gene.COUNT) % 2; }
+    private static Component label(ItemStack stack) {
+        Locus locus = selected(stack);
+        return locus instanceof Gene gene ? TextComponents.gene(gene)
+                : TextComponents.t("%s (donor copy %s)", TextComponents.t(locus.displayName()), donorCopy(stack) + 1);
     }
     private static InteractionResult select(ItemStack stack, Player player) {
         if (!player.level().isClientSide()) {
-            Gene gene = Gene.values()[(selected(stack).ordinal()+1)%Gene.COUNT];
-            stack.set(ModItems.SPLICE_GENE.get(),gene.ordinal());
-            player.sendOverlayMessage(Component.translatable("message.bunnidogs.splice.selected",TextComponents.gene(gene)));
+            stack.set(ModItems.SPLICE_GENE.get(), (selection(stack) + 1) % (Gene.COUNT + 2 * CognitiveGene.COUNT));
+            player.sendOverlayMessage(Component.translatable("message.bunnidogs.splice.selected",label(stack)));
         }
         return InteractionResult.SUCCESS;
     }
@@ -56,23 +68,32 @@ public final class GeneSplicerItem extends Item {
         var donorStack = player.getItemInHand(other);
         var donor = TissueSampleItem.read(donorStack);
         if (donor.isEmpty()) return refuse(player,"donor");
-        Gene gene = selected(stack);
-        var change = Splicing.plan(dog.genome(),donor.get().genome(),gene);
-        if (change.isEmpty()) return refuse(player,"carried");
+        Locus locus = selected(stack);
+        Genome changed;
+        Component introduced;
+        if (locus instanceof Gene gene) {
+            var change = Splicing.plan(dog.genome(),donor.get().genome(),gene);
+            if (change.isEmpty()) return refuse(player,"carried");
+            changed = change.get().genome(); introduced = TextComponents.allele(change.get().donor());
+        } else {
+            var change = Splicing.plan(dog.genome(),donor.get().genome(),(CognitiveGene) locus,donorCopy(stack));
+            if (change.isEmpty()) return refuse(player,"carried");
+            changed = change.get().genome(); introduced = TextComponents.t(change.get().donor().key());
+        }
         int mutagen = -1;
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
             if (player.getInventory().getItem(i).is(ModItems.MUTAGEN.get())) { mutagen = i; break; }
         }
         if (mutagen < 0 && !player.hasInfiniteMaterials()) return refuse(player,"mutagen");
         float healthFraction = dog.getHealth()/dog.getMaxHealth();
-        dog.setGenome(change.get().genome());
+        dog.setGenome(changed);
         dog.setHealth(dog.getMaxHealth()*healthFraction);
         dog.beginSplicingRecovery();
         donorStack.consume(1,player);
         if (mutagen >= 0) player.getInventory().getItem(mutagen).consume(1,player);
         stack.hurtAndBreak(1,player,hand);
         dog.playSound(SoundEvents.BOTTLE_EMPTY,.35F,1.2F);
-        player.sendOverlayMessage(Component.translatable("message.bunnidogs.splice.done",TextComponents.gene(gene),TextComponents.allele(change.get().donor())));
+        player.sendOverlayMessage(Component.translatable("message.bunnidogs.splice.done",label(stack),introduced));
         return InteractionResult.SUCCESS;
     }
     private static InteractionResult refuse(Player player, String reason) {
@@ -83,7 +104,8 @@ public final class GeneSplicerItem extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display,
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack,context,display,lines,flag);
-        lines.accept(Component.translatable("message.bunnidogs.splice.selected",TextComponents.gene(selected(stack))).withStyle(ChatFormatting.GOLD));
+        lines.accept(Component.translatable("message.bunnidogs.splice.selected",label(stack)).withStyle(ChatFormatting.GOLD));
+        lines.accept(TextComponents.t("Mind genes use both copies. Select donor copy 1 or 2.").withStyle(ChatFormatting.GRAY));
         for (String key : new String[]{"select","donor","cost","slot","copy","preview"})
             lines.accept(Component.translatable("tooltip.bunnidogs.gene_splicer." + key).withStyle(ChatFormatting.GRAY));
     }

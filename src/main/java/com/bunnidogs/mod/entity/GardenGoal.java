@@ -10,6 +10,7 @@ import com.bunnidogs.mod.block.GuavaFruitBlock;
 import com.bunnidogs.mod.block.NurseryCradleBlockEntity;
 import com.bunnidogs.mod.block.SeedCropBlock;
 import com.bunnidogs.mod.genetics.Gardening;
+import com.bunnidogs.mod.genetics.Learning;
 import com.bunnidogs.mod.genetics.TroughWork;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModItems;
@@ -57,13 +58,16 @@ final class GardenGoal extends Goal {
         final TroughWork.Job job;
         Task(TroughWork.Job job) { this.job = job; }
         boolean spendsFood() { return this == PLANT || this == NURTURE || this == COMPOST; }
+        Learning.Routine routine() { return this == HARVEST ? Learning.Routine.HARVEST : this == NURTURE ? Learning.Routine.NURSERY : Learning.Routine.GARDEN; }
     }
     private Task task;
     private record Work(ItemStack produce, BlockState reset, Task task) {}
     private record Candidate(BlockPos trough, BlockPos crop, Work work) {}
     GardenGoal(Bunnidog dog) { this.dog = dog; this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK)); }
     private boolean wanted() {
-        return this.dog.gardeningStatus() == Gardening.Status.READY;
+        return this.dog.gardeningStatus() == Gardening.Status.READY && (this.dog.learning().canWork(Learning.Routine.HARVEST)
+                || Gardening.cultivates(this.dog.stats()) && this.dog.learning().canWork(Learning.Routine.GARDEN)
+                || Gardening.nurses(this.dog.stats()) && this.dog.learning().canWork(Learning.Routine.NURSERY));
     }
     private FeedingTroughBlockEntity trough(BlockPos pos) {
         var level = this.dog.level();
@@ -135,7 +139,7 @@ final class GardenGoal extends Goal {
             for (BlockPos p : BlockPos.betweenClosed(target.offset(-radius,-2,-radius),target.offset(radius,2,radius))) {
                 if (!level.hasChunkAt(p) || !this.dog.foodWithinHome(p)) continue;
                 var food = work(level,p,level.getBlockState(p),Gardening.cultivates(this.dog.stats()),stock.food(),stock.workMode());
-                if (food != null && stock.allowsWork(food.task().job) && this.dog.canEat(food.produce())
+                if (food != null && this.dog.learning().canWork(food.task().routine()) && stock.allowsWork(food.task().job) && this.dog.canEat(food.produce())
                         && (food.task().spendsFood() || stock.canInsert(food.produce())))
                     candidates.add(new Candidate(target.immutable(),p.immutable(),food));
             }
@@ -171,7 +175,7 @@ final class GardenGoal extends Goal {
     @Override public boolean canContinueToUse() { return continuing(false); }
     private boolean continuing(boolean reserved) {
         var stock = trough(this.trough);
-        return wanted() && this.crop != null && this.dog.level().hasChunkAt(this.crop) && this.dog.foodWithinHome(this.crop)
+        return wanted() && this.task != null && this.dog.learning().canWork(this.task.routine()) && this.crop != null && this.dog.level().hasChunkAt(this.crop) && this.dog.foodWithinHome(this.crop)
                 && this.dog.canEat(this.produce)
                 && (this.task == Task.HARVEST || (this.task == Task.NURTURE ? Gardening.nurses(this.dog.stats()) : Gardening.cultivates(this.dog.stats())))
                 && this.dog.level().getBlockState(this.crop).equals(this.mature)
@@ -183,7 +187,7 @@ final class GardenGoal extends Goal {
                 && (this.task != Task.PLANT || this.reset.equals(ResidentPlanting.plan((ServerLevel)this.dog.level(),this.crop,this.produce)))
                 && (this.task != Task.NURTURE || this.nursery != null && this.dog.level().getBlockEntity(this.crop) == this.nursery && this.nursery.seed().isPresent()
                         && this.nursery.age() == this.nurseryAge && ItemStack.matches(this.nursery.storedSeed(),this.litter))
-                && stock != null && stock.allowsWork(this.task.job) && (this.task.spendsFood()
+                && stock != null && this.dog.learning().witnesses(this.crop, this.trough) && stock.allowsWork(this.task.job) && (this.task.spendsFood()
                     ? stock.food().getCount() > Gardening.COMPOST_RESERVE-(reserved ? 1 : 0) && ItemStack.isSameItemSameComponents(stock.food(),this.produce)
                         && (this.task != Task.COMPOST || ComposterBlock.getValue(this.produce) > 0) : stock.canInsert(this.produce))
                 && this.ticks < Gardening.MAX_VISIT
@@ -202,7 +206,10 @@ final class GardenGoal extends Goal {
         this.ticks++;
         this.dog.getLookControl().setLookAt(Vec3.atCenterOf(this.crop));
         double reach = this.mature.is(Blocks.CACTUS) || this.produce.is(Items.KELP) ? 9 : 4;
-        if (this.dog.distanceToSqr(Vec3.atCenterOf(this.crop)) > reach || this.dog.distanceToSqr(Vec3.atCenterOf(this.trough)) > 9) {
+        boolean close = this.dog.distanceToSqr(Vec3.atCenterOf(this.crop)) <= reach && this.dog.distanceToSqr(Vec3.atCenterOf(this.trough)) <= 9;
+        // Reach alone can stop a small worker below a bank or behind the trough. Finish the
+        // safe approach until both work targets are visible before stopping navigation.
+        if (!close || !sight(this.crop) || !sight(this.trough)) {
             this.working = 0;
             if (this.ticks % 20 == 0) {
                 Path route = this.dog.getNavigation().createPath(this.stand,0);
@@ -212,7 +219,6 @@ final class GardenGoal extends Goal {
             return;
         }
         this.dog.getNavigation().stop();
-        if (!sight(this.crop) || !sight(this.trough)) { this.working = 0; return; }
         if (++this.working < Gardening.WORK_TICKS) return;
         var level = (ServerLevel)this.dog.level();
         if (!EventHooks.canEntityGrief(level,this.dog) || !CommonHooks.canEntityDestroy(level,this.crop,this.dog)
@@ -233,6 +239,7 @@ final class GardenGoal extends Goal {
             if (harvest && (stock == null || stock.insert(this.produce) != 1)) Block.popResource(level,this.crop,this.produce.copy());
             level.levelEvent(harvest ? 2001 : 2005,this.crop,harvest ? Block.getId(this.mature) : 15);
             this.dog.finishedGardening();
+            this.dog.learning().completed(this.task.routine());
         }
         this.ticks = Gardening.MAX_VISIT;
     }
@@ -248,6 +255,7 @@ final class GardenGoal extends Goal {
             acted = this.task == Task.PLANT ? level.setBlock(this.crop,this.reset,3) : this.nursery.nurture(this.litter,this.nurseryAge);
             if (acted) {
                 input.shrink(1); level.levelEvent(2005,this.crop,15); this.dog.finishedGardening();
+                this.dog.learning().completed(this.task.routine());
             }
         }
         if (!input.isEmpty()) {
@@ -271,7 +279,7 @@ final class GardenGoal extends Goal {
             if (level.getBlockEntity(this.trough) == stock && !stock.isRemoved()) input.shrink(stock.insert(input));
             if (!input.isEmpty()) Block.popResource(level,this.trough,input);
         }
-        if (attempted) this.dog.finishedGardening();
+        if (attempted) { this.dog.finishedGardening(); this.dog.learning().completed(Learning.Routine.GARDEN); }
     }
     @Override public void stop() {
         this.dog.getNavigation().stop(); this.trough = null; this.crop = null; this.stand = null; this.path = null;

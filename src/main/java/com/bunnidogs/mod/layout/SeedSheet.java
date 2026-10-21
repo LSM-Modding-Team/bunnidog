@@ -63,6 +63,13 @@ public final class SeedSheet {
         };
     }
 
+    public static Page.Spread mindSpread(Seed seed, int n, Metrics metrics) {
+        int clamped = Math.clamp(n, 0, SPREADS - 1);
+        if (clamped == 1 || clamped == 2) return MindSheets.individual(clamped == 1 ? seed.mother() : seed.father(),
+                clamped == 1 ? Texts.t("Seed: mother") : Texts.t("Seed: father"), metrics);
+        return clamped == INHERITANCE ? MindSheets.inheritance(new Cross(seed), metrics) : MindSheets.forecast(new Cross(seed), metrics);
+    }
+
     // ------------------------------------------------------------------ hover texts (numbers from the game's own constants)
 
     static String qualityHover() {
@@ -78,9 +85,9 @@ public final class SeedSheet {
 
     static String mutationHover(Seed seed) {
         long floor = Math.round(Seed.MUTAGEN_MUTATION_FLOOR * 100.0);
-        return seed.mutagen()
+        return (seed.mutagen()
                 ? Texts.t("The chance that a pup gets a new mutation. The seed is treated with a Mutagen, so it is at least ") + floor + "%."
-                : Texts.t("The chance that a pup gets a new mutation. It follows the parents' fertility. A Mutagen raises it to at least ") + floor + "%.";
+                : Texts.t("The chance that a pup gets a new mutation. It follows the parents' fertility. A Mutagen raises it to at least ") + floor + "%.") + " " + seed.mutationScope();
     }
 
     static String driftHover(Seed seed) {
@@ -152,7 +159,7 @@ public final class SeedSheet {
             page.text(0, y + Page.LINE * (i + 1), s, Page.Tone.INK);
         }
         page.text(0, y + Page.LINE * 4, Page.fit(Plain.carriesText(genome), Page.WIDTH, m), Page.Tone.MUTED);
-        page.text(0, y + Page.LINE * 5, genome.toString(), Page.Tone.MUTED);
+        page.text(0, y + Page.LINE * 5, genome.bodyCode(), Page.Tone.MUTED);
         page.hotspot(0, y, Page.WIDTH, BLOCK_H, role.charAt(0) + role.substring(1).toLowerCase(Locale.ROOT) + ": " + look + ". " + Plain.carriesText(genome) + Texts.t(". Click to open ")
                 + pronoun.toLowerCase(Locale.ROOT) + Texts.t(" sheet."), -1);
         page.link(0, y, Page.WIDTH, BLOCK_H, spread);

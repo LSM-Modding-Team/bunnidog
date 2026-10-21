@@ -8,6 +8,21 @@ Minecraft's language setting selects the mod text too. All Spanish variants use
 the same neutral Peruvian Spanish. Guide pages show short previews; hover a
 chapter's text for its complete explanation.
 
+## Learn useful work
+
+Open **Skills and roles → Lessons** on a healthy adult with a Nest. Choose a
+routine, follow its short work setup, and stay nearby watching. Real successful
+harvests or paid transfers teach it; waiting alone does not. The panel tells you
+when it has learned, needs guidance or finds a task too complex. Existing adults
+retain familiar chores. Care, companionship, cargo and trusted recall remain
+useful even with limited cognitive genes.
+
+Calipers and the Genetics Table offer a **Mind** view: four genes combine into
+memory, reasoning, handling and communication. Both copies contribute. Seed
+forecasts show genetic potential rather than inherited education. Samples and
+splices copy genes; learned routines stay with the animal through travel.
+Professions and autonomous civilization are future work.
+
 ## Adventure together
 
 Train any healthy adult through care with a Trail Whistle and one plain guava.

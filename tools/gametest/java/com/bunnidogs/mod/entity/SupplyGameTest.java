@@ -46,7 +46,7 @@ public final class SupplyGameTest {
         var food = new ItemStack(Items.CARROT,11); food.set(DataComponents.CUSTOM_NAME,Component.literal("Nursery supplies"));
         source.insert(food); source.setFilter(food); source.setWorkMode(TroughWork.SUPPLY); target.setFilter(food);
         var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),4.5F,1,3.5F); dog.setAge(0);
-        int forager = Gene.DIET.alleleNamed("forager").id(); dog.setGenome(Genome.DEFAULT.with(Gene.DIET,0,forager).with(Gene.DIET,1,forager));
+        int forager = Gene.DIET.alleleNamed("forager").id(); dog.setGenome(Genome.DEFAULT.with(Gene.DIET,0,forager).with(Gene.DIET,1,forager)); WorkerFixture.familiar(dog);
         dog.setStats(Stats.of(0,0,0,20,0)); dog.setHealth(dog.getMaxHealth());
         return new Context(level,from,to,source,target,dog,food);
     }

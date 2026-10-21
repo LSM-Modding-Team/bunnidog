@@ -100,4 +100,17 @@ public record TableSheet(Optional<Tissue> a, Optional<Tissue> b, BreedingPlan pl
         }
         return SheetLayout.tableSample(sample(n), slotOf(n) == 0, m);
     }
+
+    public Page.Spread mindSpread(int n, Metrics metrics) {
+        n = Math.clamp(n, 0, spreadCount() - 1);
+        if (isGoal(n)) return spread(n, metrics);
+        if (!isAnalysis(n)) return MindSheets.individual(sample(n).genome(),
+                slotOf(n) == 0 ? com.bunnidogs.mod.genetics.Texts.t("Table: sample A") : com.bunnidogs.mod.genetics.Texts.t("Table: sample B"), metrics);
+        var cross = new Cross(a.orElseThrow(), b.orElseThrow(), plan);
+        return switch (n) {
+            case SPLICING -> MindSheets.splicing(a.orElseThrow(), b.orElseThrow(), metrics);
+            case INHERITANCE -> MindSheets.inheritance(cross, metrics);
+            default -> MindSheets.forecast(cross, metrics);
+        };
+    }
 }

@@ -4,12 +4,13 @@ The user requests substantial continuations, prioritizing unfinished planned
 features over more quality-of-life controls. Historical per-turn chunk limits
 do not apply. Verify old completion claims against code before choosing work.
 
-## Current priority — intelligence and living civilization (planning only)
+## Current priority — intelligence and living civilization
 
 The 2026-10-21 user request is a substantial intelligence redesign: a spectrum
 inherited through several genes, with limited animals, useful learners and
 advanced individuals capable of professions and autonomous civilization.
-This turn produces only planning; no cognition genes or gameplay changes ship.
+I1 and initial I2 now ship cognitive genes and practical learning. See
+[COGNITION_SPECS.md](COGNITION_SPECS.md) for actual rules and limitations.
 
 - [INTELLIGENCE_PLAN.md](INTELLIGENCE_PLAN.md): creative/player direction and
   how the whole existing mod becomes richer.
@@ -18,8 +19,10 @@ This turn produces only planning; no cognition genes or gameplay changes ship.
   I0–I10 implementation/evidence sequence.
 - [INTELLIGENCE_SCENARIOS.md](INTELLIGENCE_SCENARIOS.md): 24 concrete experiences.
 
-Future intelligence development starts with complete save/genetic plumbing and
-a useful learning journey. Activate real low-end work limits together with clear
+The complete save/genetic foundation and attended harvest/garden/nursery/local
+transfer lessons are implemented. Continue I2 with observed demonstrations,
+remembered source/destination routes and clear interruption feedback, then finish
+I3's remaining gather/scouting/care/tactics. Keep actual low-end work limits with
 lessons/alternatives, preserve old working families and trusted recall, and prove
 independent building/cultural continuity with real items and residents. Exact
 alleles, thresholds and budgets are prototype choices. Do not substitute a job

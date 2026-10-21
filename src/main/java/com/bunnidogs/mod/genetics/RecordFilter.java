@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 public final class RecordFilter {
     private RecordFilter() {}
     private static final Pattern COMPARISON = Pattern.compile("([a-z]+)(<=|>=|=|<|>)([+-]?\\d+)");
+    private static final Pattern CAPACITY = Pattern.compile("mind:(memory|reasoning|handling|communication)(<=|>=|=|<|>)([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+))");
     /** Navigate matching original sheets; a parent link may put the current sheet outside this result list. */
     public static int turn(Pedigree book, String query, int current, int direction) {
         int previous = 0;
@@ -37,6 +38,25 @@ public final class RecordFilter {
     }
     private static boolean matches(Pedigree.Entry entry, String term) {
         if (term.isEmpty()) return true;
+        if (term.startsWith("mind:")) {
+            var capacity = CAPACITY.matcher(term);
+            if (capacity.matches()) {
+                double target;
+                try { target = Double.parseDouble(capacity.group(3)); } catch (NumberFormatException ignored) { return false; }
+                if (!Double.isFinite(target)) return false;
+                var axis = CognitiveGene.valueOf(capacity.group(1).toUpperCase(Locale.ROOT));
+                double actual = entry.genome().mind().get(axis);
+                return switch (capacity.group(2)) {
+                    case ">=" -> actual >= target; case "<=" -> actual <= target; case ">" -> actual > target;
+                    case "<" -> actual < target; default -> actual == target;
+                };
+            }
+            String allele = term.substring(5);
+            if (allele.isEmpty() || allele.contains("=") || allele.contains("<") || allele.contains(">")) return false;
+            for (var gene : CognitiveGene.values()) for (int copy = 0; copy < 2; copy++)
+                if (entry.genome().allele(gene, copy).key().contains(allele)) return true;
+            return false;
+        }
         var comparison = COMPARISON.matcher(term);
         if (comparison.matches()) {
             var stat = Stat.fromKey(comparison.group(1).equals("speed") ? "swiftness" : comparison.group(1));
@@ -69,6 +89,7 @@ public final class RecordFilter {
                 .append(Plain.look(entry.genome()));
         if (entry.stats().isEmpty()) text.append(" unknown stats age");
         for (var gene : Gene.values()) for (int copy = 0; copy < 2; copy++) text.append(' ').append(entry.genome().allele(gene,copy).name());
+        for (var gene : CognitiveGene.values()) for (int copy = 0; copy < 2; copy++) text.append(' ').append(entry.genome().allele(gene,copy).key());
         return text.toString().toLowerCase(Locale.ROOT).contains(term);
     }
 }

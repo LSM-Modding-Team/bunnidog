@@ -2,7 +2,7 @@
 
 A NeoForge mod for Minecraft 26.2: baby-faced creatures, living warrens and
 inherited traits that shape companions, gardens and breeding lines. Client and
-server both need the current mod (network **18**).
+server both need the current mod (network **19**).
 
 Start with **empty hands on an animal or care station**. A short live panel shows
 its needs, the next useful step and buttons that use your real supplies. The
@@ -26,8 +26,13 @@ Minecraft's language setting also selects the mod language. All Spanish options
 share one neutral translation based on Español (Perú). The optional guide keeps
 short pages; hover its chapter text for the full details.
 
-Useful roles & work shows what an ordinary animal can do now. Later, a Genetics
-Table breeding goal compares two reusable samples toward a chosen commission.
+**Skills and roles → Lessons** teaches real harvest, garden, nursery and nearby
+trough transfers. Four inherited mind genes set learning potential; practice is
+personal. Some minds need guidance; others learn to work alone. Existing adults
+keep familiar chores. Calipers and the Genetics Table have a separate **Mind**
+view for cognitive copies, capacities and exact pup forecasts.
+
+A Genetics Table breeding goal compares two reusable samples toward a chosen commission.
 Compare a real seed at its saved quality, find matching living offspring and use
 Calipers to check a pup before raising it. Food helps growth; it adds no bred
 points. Tables, Boards and Breeder's Pens accept feathers or Whiskers.

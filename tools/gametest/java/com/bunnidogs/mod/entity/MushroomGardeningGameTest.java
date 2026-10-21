@@ -49,7 +49,7 @@ public final class MushroomGardeningGameTest {
         var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),3.5F,1,3.5F);
         int eater = Gene.DIET.alleleNamed("mushroom_eater").id();
         var genome = Genome.DEFAULT.with(Gene.DIET,0,eater).with(Gene.DIET,1,eater);
-        dog.setAge(0); dog.setGenome(genome); dog.setHealth(dog.getMaxHealth());
+        dog.setAge(0); dog.setGenome(genome); WorkerFixture.familiar(dog); dog.setHealth(dog.getMaxHealth());
         h.runAfterDelay(2,() -> {
             var clock = level.dimensionType().defaultClock().orElseThrow(); long time = level.clockManager().getTotalTicks(clock);
             boolean griefing = level.getGameRules().get(GameRules.MOB_GRIEFING);

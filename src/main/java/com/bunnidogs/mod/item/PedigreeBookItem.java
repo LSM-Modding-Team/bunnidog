@@ -40,6 +40,7 @@ public class PedigreeBookItem extends Item {
 
     /** Logs one animal into the book and tells the player what happened. Call on the server. */
     public static void log(Player player, ItemStack book, Pedigree.Entry entry) {
+        if (protectFutureRecords(player, book)) return;
         Pedigree log = read(book);
         Pedigree.Added result = log.add(entry);
         Component who = TextComponents.look(entry.genome());
@@ -57,6 +58,13 @@ public class PedigreeBookItem extends Item {
         }
         DiscoveryProgress.observe(player,log);
         player.sendSystemMessage(message.withStyle(result == Pedigree.Added.ADDED || result == Pedigree.Added.UPDATED ? ChatFormatting.GOLD : ChatFormatting.GRAY));
+    }
+
+    static boolean protectFutureRecords(Player player, ItemStack stack) {
+        if (!com.bunnidogs.mod.genetics.Genome.containsUnsupportedSchema(stack.get(ModItems.PEDIGREE_DATA.get()))
+                && !com.bunnidogs.mod.genetics.Genome.containsUnsupportedSchema(stack.get(ModItems.LINEAGE_NAMES.get()))) return false;
+        player.sendOverlayMessage(TextComponents.t("This book contains a newer genome format. Its records have been preserved; update Bunnidogs to edit them."));
+        return true;
     }
 
     /**

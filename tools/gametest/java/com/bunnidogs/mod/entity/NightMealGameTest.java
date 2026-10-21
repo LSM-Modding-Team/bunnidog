@@ -38,7 +38,7 @@ public final class NightMealGameTest {
         var distant = (FeedingTroughBlockEntity)level.getBlockEntity(h.absolutePos(new BlockPos(6,1,1)));
         nearby.insert(new ItemStack(ModItems.GUAVA.get(),3)); distant.insert(new ItemStack(ModItems.GUAVA.get(),3));
         var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),2.5F,1,1.5F);
-        dog.setGenome(Genome.DEFAULT); dog.setAge(0); dog.setHealth(dog.getMaxHealth());
+        dog.setGenome(Genome.DEFAULT); WorkerFixture.familiar(dog); dog.setAge(0); dog.setHealth(dog.getMaxHealth());
         h.runAfterDelay(2,() -> {
             var clock = level.dimensionType().defaultClock().orElseThrow(); long previous = level.clockManager().getTotalTicks(clock);
             try {

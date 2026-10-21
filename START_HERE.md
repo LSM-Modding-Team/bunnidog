@@ -20,46 +20,58 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Current focus — intelligence and civilization (planning only, 2026-10-21)
+## Current focus — cognitive genetics and first learning (2026-10-21)
 
-The user requests a major gene-driven spectrum: some bunnidogs cannot do many
-current advanced tasks; others learn professions and build/sustain their own
-civilizations. **This turn is planning only. No intelligence code, resources,
-new genes, save format or gameplay behavior is implemented.**
+The user explicitly authorized implementation after the intelligence planning
+batch. **I1 and initial I2 are implemented**, with some garden/nursery I3
+integration. [COGNITION_SPECS.md](docs/COGNITION_SPECS.md) is the actual-behavior
+reference; the three intelligence design documents remain the longer direction.
 
-- [INTELLIGENCE_PLAN.md](docs/INTELLIGENCE_PLAN.md): creative gameplay direction,
-  four proposed cognitive loci, complementary capacities, honest low-end limits,
-  learning, professions, autonomous families/culture and enrichment of each loop.
-- [INTELLIGENCE_ENGINEERING.md](docs/INTELLIGENCE_ENGINEERING.md): the 56-bit
-  genome limit, proposed versioned multiword schema, legacy helper migration,
-  knowledge/task architecture, paid safe construction, bootstrap, bounded local
-  planning, performance and I0–I10 delivery sequence.
-- [INTELLIGENCE_SCENARIOS.md](docs/INTELLIGENCE_SCENARIOS.md): 24 player stories
-  and acceptance scenarios, from a limited companion and first lesson to a
-  self-supporting new generation, public works and communities exchanging goods.
+- Four diploid cognitive loci, Memory/Reasoning/Handling/Communication, combine
+  overlapping contributions from both copies into capacity. Seven body genes
+  and five bred stats retain their roles. Full `g2.body.mind` serialization,
+  equality, inheritance, parent/item/basket/archive paths and three-word sync
+  are implemented. Client/server protocol is **19**.
+- Old genomes consistently gain the heritable helper mind. Old adults receive
+  familiar current chores once; old seeds retain their body-only mutation law.
+  New founders vary genetically, and newborns inherit potential without lessons.
+- Separate Mind views cover copies, capacity, exact joint breeding odds,
+  full eleven-pair Registry purity and explicit donor-copy splicing. Existing
+  body-based shows, commissions, Jar/Comparator signals keep seven-pair meaning.
+- Empty-hand animal care → **Skills and roles → Lessons** teaches real harvest,
+  garden work, nursery tending and local trough transfer. Capacity plus personal
+  practice distinguishes independent, supported-only and genuinely limited work.
+  The guide must be nearby and see the work; real items, physical thresholds,
+  safe routes, permissions, redstone and shared rest still govern actions.
+- Lessons survive as personal knowledge through save/travel/splicing. Active
+  instruction is transient; recall/danger/pause/reload stops it. Basic care,
+  home, cargo and trusted companion recall remain available to limited minds.
+- English/neutral Peruvian Spanish now have **2,138 matching authored entries**,
+  **2,266 packaged per locale** after guide previews; all Spanish variants share
+  the canonical translation. No manual is required for lesson setup/status.
 
-The recommended model separates inherited capacity, individual skills, available
-culture and present opportunity. Four proposed loci—Memory, Reasoning, Handling
-and Communication—combine through codominant contributions; body genes and the
-five bred stats retain their separate jobs. No single “genius” allele, sixth stat,
-training grind or profession-menu shortcut fulfills this plan. Civilization must
-use actual residents, stock, teaching, construction and litter seeds.
+Next: finish I2's observed demonstrations, remembered source/destination routes
+and interruption feedback. The current delivery is the existing short-range,
+transactional trough transfer, not a walking courier. Then finish I3's remaining
+gather/scouting/care/tactics integration before I4 professions/shared jobs,
+construction, teachers/culture and I7 real autonomous family continuity. See
+[the engineering sequence](docs/INTELLIGENCE_ENGINEERING.md#13-implementation-sequence)
+and [player scenarios](docs/INTELLIGENCE_SCENARIOS.md). Keep implemented combat
+and the cohesion/optional-guide requirement reliable.
 
-The first future implementation work is I1 full hereditary/save/readout foundation,
-then I2 useful learning before activating new work restrictions. Exact alleles,
-thresholds, support costs and scheduling limits remain prototype decisions.
-Unfinished combat extras are subordinate to this new focus; keep implemented
-combat/care reliable. Planning docs were reviewed against `0c92ded` source and
-for cross-links/scope; no build is required for documentation-only changes.
+Validation: Java 25 build/pure/layout/localization checks and the 122-scenario
+native integration suite are the delivery gates. Natural client/GPU, Survival
+pacing, supported-work balance and multiplayer teaching remain unverified.
+GitHub Actions must pass and publish the artifact for the exact pushed commit.
 
-## Latest implemented batch — shared Spanish localization (2026-10-21)
+## Previous batch — shared Spanish localization (2026-10-21)
 
 The requested Spanish translation is implemented. Minecraft's language setting
 selects the mod text automatically: one neutral Peruvian Spanish source supplies
 all Spanish variants, including all seven currently shipped Minecraft choices.
 The source has **2,035 matching English/Spanish entries**; the build adds 128
-short guide previews for **2,163 packaged entries per locale**. Names, canonical
-commands/filter expressions, DNA, records and protocol **18** are preserved.
+short guide previews for **2,163 packaged entries per locale**. That batch preserved canonical commands/filter expressions, DNA and records
+on protocol **18**; current cognition uses protocol **19** as described above.
 
 Care/combat/workshop panels, feedback, items, advancements, signs, Calipers,
 Pedigree/Registry, samples, real seeds and all breeding/splicing forecasts are

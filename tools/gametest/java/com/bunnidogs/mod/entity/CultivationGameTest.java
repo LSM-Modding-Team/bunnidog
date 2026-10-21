@@ -55,7 +55,7 @@ public final class CultivationGameTest {
         var trough = (FeedingTroughBlockEntity)level.getBlockEntity(h.absolutePos(new BlockPos(4,1,4)));
         var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),3.5F,1,4.5F);
         var forager = Genome.DEFAULT.with(Gene.DIET,0,2).with(Gene.DIET,1,2);
-        dog.setGenome(forager); dog.setAge(0);
+        dog.setGenome(forager); WorkerFixture.familiar(dog); dog.setAge(0);
         h.runAfterDelay(2,() -> {
             var clock = level.dimensionType().defaultClock().orElseThrow();
             long previous = level.clockManager().getTotalTicks(clock);

@@ -57,7 +57,7 @@ public final class MelonGardeningGameTest {
         var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),3.5F,1,3.5F);
         int forager = Gene.DIET.alleleNamed("forager").id();
         var genome = Genome.DEFAULT.with(Gene.DIET,0,forager).with(Gene.DIET,1,forager);
-        dog.setAge(0); dog.setGenome(genome); dog.setStats(Stats.ZERO); dog.setHealth(dog.getMaxHealth());
+        dog.setAge(0); dog.setGenome(genome); WorkerFixture.familiar(dog); dog.setStats(Stats.ZERO); dog.setHealth(dog.getMaxHealth());
         h.runAfterDelay(2,() -> {
             var clock = level.dimensionType().defaultClock().orElseThrow(); long time = level.clockManager().getTotalTicks(clock);
             boolean griefing = level.getGameRules().get(GameRules.MOB_GRIEFING);

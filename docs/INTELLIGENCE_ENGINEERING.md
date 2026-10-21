@@ -1,12 +1,32 @@
 # Intelligence update: implementation design and delivery
 
-Planning only, 2026-10-21, based on source at `0c92ded`. None of the types,
-protocol additions, behavior gates, jobs or autonomous construction below are
-implemented by this planning batch. Read with [the gameplay plan](INTELLIGENCE_PLAN.md)
-and [acceptance scenarios](INTELLIGENCE_SCENARIOS.md). Proposed class names and
-APIs are architectural sketches; resolve actual Minecraft/NeoForge APIs against
-the target checkout before coding. Values marked prototype require play/profile
-evidence, not only passing tests.
+Engineering direction, originally planned 2026-10-21 against `0c92ded`.
+The following implementation checkpoint supersedes proposals where explicitly
+resolved; later architecture remains future work. Read with
+[the gameplay plan](INTELLIGENCE_PLAN.md), [acceptance scenarios](INTELLIGENCE_SCENARIOS.md)
+and [actual cognition/learning rules](COGNITION_SPECS.md). Future class names/APIs
+remain sketches; resolve native APIs against the target checkout. Prototype
+values require play/profile evidence, not only passing tests.
+
+## Implementation checkpoint: I1 and initial I2
+
+- `Genome(long packed, int mindPacked)`, `g2.body.mind`, full equality,
+  separate cognitive enum, three-word entity sync/cache and protocol **19**.
+  Both cognitive copies contribute overlapping vectors; no body IDs move.
+- Full inheritance, sampling, parent/item/infusion/basket/archive paths, chosen
+  donor-copy splicing, separate Mind pages and exact bounded joint forecasts.
+  Registry purity uses eleven pairs; body circuits/shows retain seven.
+- Uniform legacy helper genotype; old adults gain familiar routines once.
+  Old seeds retain body-only mutation through an explicit `body_mutation`
+  marker; new seeds choose one of eleven mutation targets at the old event rate.
+- `Learning`/`BunnidogLearning` and the live Lessons panel teach actual harvest,
+  garden, nursery and local trough transfer. Garden/Supply eligibility combines
+  capacity and personal knowledge with existing physical/world checks. Instructor
+  sessions are local and transient; practice survives reload/travel/splicing.
+- This first teaching model is **attended practice**, using existing safe paid
+  actions. Watched player demonstrations, remembered source/destination routes,
+  remaining I3 work/tactics, NPC teaching/culture, shared jobs and civilization
+  remain unfinished. Do not treat local trough transfer as a long-range courier.
 
 ## 1. Engineering principles
 
@@ -144,8 +164,8 @@ working animal never needs Registry purity merely to hold a job. New learning/
 service qualifications must explicitly test demonstrated skill rather than a
 sample's potential, and must allow talented wild-born adults where appropriate.
 
-Current `ModNetwork.VERSION` is 18. A real cognitive payload/schema implementation
-requires a new matching client/server version; **this planning batch changes none**.
+`ModNetwork.VERSION` was 18 at planning time; cognition now requires **19** on
+both client and server.
 Do not synchronize an entire archive or job graph through per-entity metadata.
 
 ## 3. Pure capacity and inheritance rules
@@ -661,7 +681,7 @@ not ship a later checkbox while an earlier player journey is still fictitious.
 
 | Stage | Concrete scope | Completion evidence |
 | --- | --- | --- |
-| I0: design (this batch) | Gameplay range, genetic model, full migration inventory, concrete colony loop, architecture and scenarios | Planning docs agree; shipped behavior clearly separated; no code/resources changed |
+| I0: design (delivered) | Gameplay range, genetic model, full migration inventory, concrete colony loop, architecture and scenarios | Planning documents committed before implementation |
 | I1: genetic foundation | Full genotype codec/sync, four cognitive loci and derived capacity, legacy migration, all genetic item/capture/breeding paths, honest mind inspection | Old save/item fixtures retain identity and usefulness; offspring/sample/basket/splice round trips; both languages; no new capacity gates silently active |
 | I2: one useful learner | Familiar harvest and a short source-to-destination lesson, visible limitations, supported versus independent work, reliable interruption | An ordinary compatible adult learns in play, a limited one gets an honest alternative, recall/safety interrupt safely, paid items arrive once |
 | I3: integrate existing work | Replant/compost/gather/supply/nursery/scouting/care capability rules and accessible lessons; current stat/Diet gates; broader role forecasts | New low-end limitations actually apply with feedback; migrated work lines still function; no obsolete ungated parallel Goal bypass |
@@ -685,7 +705,7 @@ implemented combat dependable while intelligence reshapes its planning ceiling.
 
 ## 14. Validation proportional to the risk
 
-No game build is necessary for this planning-only batch. Future code needs real
+The original planning batch required no game build. Implementation requires real
 Java 25 compilation and focused checks at coherent boundaries.
 
 - **Pure genetics:** all legacy body forms/allele order, complete schema parse,

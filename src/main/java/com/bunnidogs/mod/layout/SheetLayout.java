@@ -183,7 +183,7 @@ public final class SheetLayout {
         if (book != null) {
             page.textRight(Page.WIDTH, GENOME_LABEL_Y, Texts.t("generation ") + book.generationOf(index), Page.Tone.MUTED);
         }
-        String[] pairs = g.toString().split("-");
+        String[] pairs = g.bodyCode().split("-");
         int x = 0;
         for (int i = 0; i < pairs.length; i++) {
             if (i > 0) {

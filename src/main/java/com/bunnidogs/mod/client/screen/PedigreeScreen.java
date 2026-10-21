@@ -17,6 +17,8 @@ import com.bunnidogs.mod.layout.RegistryContents;
 import com.bunnidogs.mod.layout.SeedSheet;
 import com.bunnidogs.mod.layout.TableSheet;
 import com.bunnidogs.mod.layout.SheetLayout;
+import com.bunnidogs.mod.layout.MindSheets;
+import com.bunnidogs.mod.genetics.Texts;
 import com.bunnidogs.mod.registry.ModEntities;
 
 import net.minecraft.client.Minecraft;
@@ -75,7 +77,7 @@ public final class PedigreeScreen extends Screen {
     private static final int PORTRAIT_ENTITY_ID = 0x7FFFFF00;
 
     private final Pedigree book;
-    /** Phase 8 S6: the one animal of a Calipers window, or null for the book. A single sheet has no contents, no buttons and no page turning. */
+    /** One animal of a Calipers window, or null for the book. Standalone views retain the Body/Mind toggle. */
     private final Pedigree.Entry single;
     /** Phase 8 S8: the Tissue Sample of a sample window (one sheet, like {@link #single}), or null. */
     private final Tissue sample;
@@ -88,6 +90,8 @@ public final class PedigreeScreen extends Screen {
     private Page.Spread current;
     private Button previous;
     private Button next;
+    private Button mindToggle;
+    private boolean mindView;
     private EditBox filter;
     private Button rename;
     private InteractionHand editHand;
@@ -183,7 +187,7 @@ public final class PedigreeScreen extends Screen {
         else if (!table.plan().equals(com.bunnidogs.mod.genetics.BreedingPlan.PLAIN) && table.isForecast(TableSheet.FORECAST)) this.spread = TableSheet.FORECAST;
     }
 
-    /** True for the windows of ONE sheet (the Calipers on an animal, a Tissue Sample): no buttons, no page turning, no links. */
+    /** Standalone Calipers/sample views have no record navigation or links; the Body/Mind toggle remains. */
     private boolean oneSheet() {
         return this.single != null || this.sample != null;
     }
@@ -201,11 +205,15 @@ public final class PedigreeScreen extends Screen {
 
     @Override
     protected void init() {
+        int y = bookTop() + Page.BOOK_H + 4;
+        boolean namedBook = !oneSheet() && this.seed == null && this.table == null && this.editHand != null;
+        this.mindToggle = Button.builder(TextComponents.t("Mind >"), button -> { this.mindView = !this.mindView; pageSound(); refresh(); })
+                .bounds(bookLeft() + 84, y, namedBook ? 70 : Page.BOOK_W - 168, 20).build();
+        addRenderableWidget(this.mindToggle);
         if (oneSheet()) {
-            refresh();          // no buttons: one sheet, nothing to turn to (Escape closes the window)
+            refresh();
             return;
         }
-        int y = bookTop() + Page.BOOK_H + 4;
         this.previous = Button.builder(TextComponents.t("< Previous"), button -> turn(-1))
                 .bounds(bookLeft(), y, 80, 20).build();
         this.next = Button.builder(TextComponents.t("Next >"), button -> turn(1))
@@ -221,8 +229,8 @@ public final class PedigreeScreen extends Screen {
             this.filter.setResponder(value -> { this.query = value; this.spread = 0; refresh(); });
             addRenderableWidget(this.filter);
             if (this.editHand != null) {
-                this.rename = Button.builder(Component.translatable("screen.bunnidogs.lineage.name"),button -> editName())
-                        .bounds(bookLeft()+84,y,Page.BOOK_W-168,20).build();
+                this.rename = Button.builder(TextComponents.t("Name"),button -> editName())
+                        .bounds(bookLeft()+158,y,Page.BOOK_W-242,20).build();
                 addRenderableWidget(this.rename);
             }
         }
@@ -308,14 +316,16 @@ public final class PedigreeScreen extends Screen {
         TextComponents.localized(()->{ refreshLocalized(); return null; });
     }
     private void refreshLocalized() {
+        this.mindToggle.visible = oneSheet() || this.seed != null || this.table != null && !this.table.isGoal(this.spread) || this.spread > 0 && this.table == null;
+        this.mindToggle.setMessage(TextComponents.t(this.mindView ? "< Body" : "Mind >"));
         if (this.single != null) {
-            this.current = SheetLayout.single(this.single, text -> this.font.width(text));
-            this.animal = buildPortrait(this.single);
+            this.current = this.mindView ? MindSheets.individual(this.single.genome(), this.single.tag().orElse(Texts.t("Bunnidog")), text -> this.font.width(text)) : SheetLayout.single(this.single, text -> this.font.width(text));
+            this.animal = this.mindView ? null : buildPortrait(this.single);
             return;
         }
         if (this.sample != null) {
-            this.current = SheetLayout.sample(this.sample, text -> this.font.width(text));
-            this.animal = buildPortrait(SheetLayout.sampleEntry(this.sample));
+            this.current = this.mindView ? MindSheets.individual(this.sample.genome(), Texts.t("Tissue sample"), text -> this.font.width(text)) : SheetLayout.sample(this.sample, text -> this.font.width(text));
+            this.animal = this.mindView ? null : buildPortrait(SheetLayout.sampleEntry(this.sample));
             return;
         }
         this.previous.active = this.filter != null ? RecordFilter.turn(this.book,this.query,this.spread,-1) != this.spread : this.spread > 0;
@@ -332,18 +342,23 @@ public final class PedigreeScreen extends Screen {
             }
         }
         if (this.table != null) {
-            this.current = this.table.spread(this.spread, text -> this.font.width(text));
-            this.animal = this.table.isAnalysis(this.spread) ? null : buildPortrait(this.table.entry(this.spread));
+            this.current = this.mindView ? this.table.mindSpread(this.spread, text -> this.font.width(text)) : this.table.spread(this.spread, text -> this.font.width(text));
+            this.animal = this.mindView || this.table.isAnalysis(this.spread) ? null : buildPortrait(this.table.entry(this.spread));
             return;
         }
         if (this.seed != null) {
-            this.current = SeedSheet.spread(this.seed, this.spread, text -> this.font.width(text));
-            this.animal = this.spread >= 1 && this.spread <= 2 ? buildPortrait(SeedSheet.parentEntry(this.seed, this.spread == 1)) : null;
+            this.current = this.mindView ? SeedSheet.mindSpread(this.seed, this.spread, text -> this.font.width(text)) : SeedSheet.spread(this.seed, this.spread, text -> this.font.width(text));
+            this.animal = !this.mindView && this.spread >= 1 && this.spread <= 2 ? buildPortrait(SeedSheet.parentEntry(this.seed, this.spread == 1)) : null;
             return;
         }
         this.current = this.registry ? RegistryContents.spread(this.book, this.spread, text -> this.font.width(text),this.query)
                 : BookContents.spread(this.book, this.spread, text -> this.font.width(text),this.query);
-        this.animal = this.spread >= 1 && this.spread <= this.book.size() ? buildPortrait(this.book.entries().get(this.spread - 1)) : null;
+        if (this.mindView && this.spread > 0) {
+            var entry = this.book.entries().get(this.spread - 1);
+            String source = "#" + this.spread + this.book.lineageName(entry.genome()).or(() -> entry.tag()).map(name -> " " + name).orElse("");
+            this.current = MindSheets.individual(entry.genome(), source, text -> this.font.width(text));
+        }
+        this.animal = !this.mindView && this.spread >= 1 && this.spread <= this.book.size() ? buildPortrait(this.book.entries().get(this.spread - 1)) : null;
     }
 
     /**

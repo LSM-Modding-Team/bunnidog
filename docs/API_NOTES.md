@@ -541,3 +541,36 @@ Moved to `docs/history/API_HISTORY.md` (sections: Where each fact comes from; Ve
 Evidence: Java 25 Gradle build/model and 116 native scenarios at the integration
 checkpoint; separate substitute-font/native-view and actual-sculpt previews.
 Client/GPU and natural encounter/co-op balance remain unverified.
+
+## Cognitive schema and attended practice (26.2, 2026-10-21)
+
+- Entity metadata adds one native INT for the separate cognitive word; the old
+  24+32-bit body split stays unchanged. Cache invalidation must check both words.
+  `Genome.fromSynced(low, high, mind)` reconstructs full identity; the two-word
+  convenience overload deliberately means the legacy helper mind.
+- `g2.body.mind` avoids all existing archive/item wrapper delimiters. Never use
+  full `Genome.toString()` for the old seven-pair page: use `bodyCode()` and a
+  separate Mind view. Full names/parent/basket/item payloads remain bounded by
+  existing codecs; required content protocol is **19**.
+- Schooling reuses Garden/Supply goals, native placement/protection callbacks,
+  shared work rest and the existing NeoForge transfer transaction. Grant practice
+  only for a completed real action. Teacher presence alone never creates items
+  or lessons. A transient teacher/session is separate from saved `Learning`.
+- Server teacher lookup uses `ServerLevel.getPlayerByUUID`; instructor and both
+  work-target sight checks use native collision rays. There is no chunk forcing
+  or globally visible teacher/culture index.
+- Old adult migration is conditional on legacy genome text plus an absent
+  personal learning schema. Vanilla age must be restored first. Samples/parents
+  do not receive this personal state; reloads of an explicit empty schema do not
+  receive free lessons. Captures keep the native full entity save.
+- GameTest fixtures extending beyond their small template should build/load the
+  floor, then allow chunk/entity tracking to activate before querying newly
+  hatched families. A tick-zero query in a neighboring activating chunk can
+  legitimately exclude the entity; do not weaken production loaded-only rules.
+- `spawnWithNoFreeWill` removes the selectors, rather than toggling `NoAI`.
+  Normal-AI cases need ordinary spawning; a temporary `setNoAi` pause preserves
+  the goals. Allow existing search interval plus visit/work time in asynchronous
+  deadlines, since a newly settled animal can miss the first path search.
+
+Actual scope/limits: [COGNITION_SPECS.md](COGNITION_SPECS.md). Separate native
+integration evidence from substitute-font page previews and natural client play.

@@ -157,6 +157,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             SynchedEntityData.defineId(Bunnidog.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_GENES_HI =
             SynchedEntityData.defineId(Bunnidog.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> DATA_MIND =
+            SynchedEntityData.defineId(Bunnidog.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> DATA_FLEECE_READY =
             SynchedEntityData.defineId(Bunnidog.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> DATA_BUNDLE_COUNT = SynchedEntityData.defineId(Bunnidog.class,EntityDataSerializers.INT);
@@ -166,6 +168,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     // super constructor, which is harmless here but pointless.
     private Genome cachedGenome;
     private Traits cachedTraits;
+    private com.bunnidogs.mod.genetics.MindProfile cachedMind;
     // True until this bunnidog got its real genome (NBT, breeding, command) or, failing that, a founder genome for the
     // biome it stands in. Not saved: entities loaded from disk always get a genome from NBT before their first tick.
     private boolean founderPending;
@@ -191,6 +194,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private final CaveGuiding caveGuiding = new CaveGuiding(this);
     private final TrailCompanion trailCompanion = new TrailCompanion(this);
     private final CompanionCombat companionCombat = new CompanionCombat(this);
+    private final BunnidogLearning learning = new BunnidogLearning(this);
     private int biteWait;
     private boolean handCaring;
     private long nextForageTick;
@@ -233,6 +237,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         super.defineSynchedData(builder);
         builder.define(DATA_GENES_LO, 0);
         builder.define(DATA_GENES_HI, 0);
+        builder.define(DATA_MIND, com.bunnidogs.mod.genetics.CognitiveGene.LEGACY_HELPER);
         builder.define(DATA_FLEECE_READY,true);
         builder.define(DATA_BUNDLE_COUNT,0);
         builder.define(DATA_COMBAT_STATE,0);
@@ -243,13 +248,18 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         long packed = ((this.entityData.get(DATA_GENES_HI) & 0xFFFFFFFFL) << 24)
                 | (this.entityData.get(DATA_GENES_LO) & 0xFFFFFFL);
         Genome cached = this.cachedGenome;
-        if (cached == null || cached.packed() != packed) {
-            cached = new Genome(packed);
+        int mind = this.entityData.get(DATA_MIND);
+        if (cached == null || cached.packed() != packed || cached.mindPacked() != mind) {
+            cached = new Genome(packed, mind);
             this.cachedGenome = cached;
             this.cachedTraits = cached.traits();
+            this.cachedMind = cached.mind();
         }
         return cached;
     }
+
+    public com.bunnidogs.mod.genetics.MindProfile mind() { this.genome(); return this.cachedMind; }
+    public BunnidogLearning learning() { return this.learning; }
 
     /** What the genome looks like / does after dominance. */
     public Traits traits() {
@@ -298,6 +308,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.founderPending = false;        // somebody decided this bunnidog's genes: no lineage roll needed
         this.entityData.set(DATA_GENES_LO, genome.syncLow());
         this.entityData.set(DATA_GENES_HI, genome.syncHigh());
+        this.entityData.set(DATA_MIND, genome.mindPacked());
         if (!this.level().isClientSide()) {
             this.applyGenetics();
             if (Adaptations.poisonProof(genome)) this.removeEffect(MobEffects.POISON);
@@ -369,6 +380,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             this.trailCompanion.tick();
             if (this.biteWait>0) this.biteWait--;
             this.companionCombat.tick();
+            this.learning.tick();
             if (!this.entityData.get(DATA_FLEECE_READY) && this.level().getGameTime() >= this.nextFleeceTick) {
                 this.entityData.set(DATA_FLEECE_READY,true);
             }
@@ -806,7 +818,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         var pup = ModEntities.BUNNIDOG.get().create(level,EntitySpawnReason.BREEDING);
         if (pup == null) return null;
         pup.setGenome(roll.genome()); pup.setStats(roll.stats()); pup.setParents(seed.mother(),seed.father()); pup.setBaby(true);
-        if (roll.mutated()) BunnidogsMod.LOGGER.info("Mutation: a pup got a rare {} allele (genome {})",roll.mutatedGene().displayName(),roll.genome());
+        if (roll.mutated()) BunnidogsMod.LOGGER.info("Mutation: a pup changed its {} gene (genome {})",roll.mutatedGene().displayName(),roll.genome());
         return pup;
     }
 
@@ -1048,6 +1060,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.packs.save(output);
         this.trailCompanion.save(output);
         this.companionCombat.save(output);
+        this.learning.save(output);
         if (this.biteWait>0) output.putInt("CombatBiteWait",this.biteWait);
         output.putString(TAG_GENOME, this.genome().toString());
         output.putString(TAG_STATS, this.stats().toString());
@@ -1086,7 +1099,9 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     public void readAdditionalSaveData(ValueInput input) {
         // Genome FIRST: it sets max health etc., and super restores the saved Health value (which is clamped to
         // max health) afterwards. A missing or malformed tag keeps the genome rolled in the constructor.
-        Genome.parse(input.getStringOr(TAG_GENOME, "")).ifPresent(this::setGenome);
+        String savedGenome = input.getStringOr(TAG_GENOME, "");
+        var decodedGenome = Genome.parse(savedGenome);
+        decodedGenome.ifPresent(this::setGenome);
         // Stats after the genome (both change the attributes); a save from before Phase 4a has none = all zero.
         Stats.parse(input.getStringOr(TAG_STATS, "")).ifPresent(this::setStats);
         // Phase 5b: both parents or neither; a save from before it has none.
@@ -1102,6 +1117,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.companionCombat.restore(input);
         this.biteWait=Math.clamp(input.getIntOr("CombatBiteWait",0),0,28);
         this.packs.load(input);
+        this.learning.restore(input, decodedGenome.isPresent() && !Genome.isFullCode(savedGenome));
         if (!this.level().isClientSide()) this.applyAdaptations();
         this.highestShowAward = Math.max(0, input.getIntOr("ShowAward", 0));
         this.guardEnabled = input.getBooleanOr("GuardNest",false);
@@ -1153,10 +1169,12 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             @Override
             public boolean canUse() {
                 return Bunnidog.this.temperament() == Temperament.SKITTISH && !Bunnidog.this.combat().managesMovement()
-                        && super.canUse() && !Bunnidog.this.trail().belongsTo(this.toAvoid);
+                        && super.canUse() && !Bunnidog.this.trail().belongsTo(this.toAvoid)
+                        && !Bunnidog.this.learning().recognizesInstructor(this.toAvoid);
             }
             @Override public boolean canContinueToUse() {
-                return !Bunnidog.this.combat().managesMovement() && !Bunnidog.this.trail().belongsTo(this.toAvoid) && super.canContinueToUse();
+                return !Bunnidog.this.combat().managesMovement() && !Bunnidog.this.trail().belongsTo(this.toAvoid)
+                        && !Bunnidog.this.learning().recognizesInstructor(this.toAvoid) && super.canContinueToUse();
             }
         });
         // Feral ones bite whoever hurt them.
@@ -1186,7 +1204,10 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         // Breeding (Phase 2): mate with another bunnidog in love, follow a guava, pups follow an adult.
         this.goalSelector.addGoal(4, new TrailGoal(this));
         this.goalSelector.addGoal(4, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(5, new TemptGoal(this, 1.1D, this::canEat, false));
+        this.goalSelector.addGoal(5, new TemptGoal(this, 1.1D, this::canEat, false) {
+            @Override public boolean canUse() { return Bunnidog.this.learning().lesson() == null && super.canUse(); }
+            @Override public boolean canContinueToUse() { return Bunnidog.this.learning().lesson() == null && super.canContinueToUse(); }
+        });
         this.goalSelector.addGoal(6, new FollowParentGoal(this, 1.1D));
         // H2: a dog with a home (a claimed Nest, see NestHome and docs/HOME_SPECS.md) walks back once something (a guava, a scare, a
         // long stroll) led it more than 16 blocks away. Below panic, avoid and tempt, above the stroll. Idle for a dog without a nest.

@@ -87,6 +87,16 @@ public final class LocalizationCheck {
                 Plain.effect(gene,allele);Plain.trend(gene,allele); Plain.hover(island.with(gene,0,allele.id()),gene);
             }
             Readout.animal(island,stats,false,Optional.of(other),Optional.of(island));
+            var mindGenome = island;
+            for (var gene:CognitiveGene.values()) for (var allele:gene.alleles()) {
+                MindText.allele(allele); MindText.contribution(allele);
+                mindGenome=mindGenome.with(gene,0,allele.id());
+            }
+            for (var task:CapabilityRules.Task.values()) task.label();
+            snapshots.add(MindSheets.individual(mindGenome,Metrics.ESTIMATE));
+            snapshots.add(MindSheets.forecast(new Cross(new Tissue(mindGenome,stats),new Tissue(other,Stats.ZERO)),Metrics.ESTIMATE));
+            snapshots.add(MindSheets.inheritance(new Cross(new Tissue(mindGenome,stats),new Tissue(other,Stats.ZERO)),Metrics.ESTIMATE));
+            snapshots.add(MindSheets.splicing(new Tissue(mindGenome,stats),new Tissue(other,Stats.ZERO),Metrics.ESTIMATE));
             for (var def:Juice.DEFS.values()) for (var value:def) Juice.spec(value,4,stats).describe();
             new Infusion(island,stats,4).summary();
             snapshots.add(BookContents.contents(book,Metrics.ESTIMATE));

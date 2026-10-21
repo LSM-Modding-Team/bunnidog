@@ -246,6 +246,8 @@ public final class BunnidogsCommands {
                 sb.append("\n  ").append(genome.describe(gene));
             }
             appendStats(sb, dog);
+            sb.append("\n  ").append(com.bunnidogs.mod.genetics.MindText.summary(genome));
+            sb.append("\n  Personal learning: ").append(dog.learning().knowledge());
             if (dog.loveTierTicks() > 0) {
                 sb.append(String.format(Locale.ROOT, "\n  In love on a tier-%d guava (quality %s, remembered for %d more s)",
                         dog.loveTier(), GuavaTier.ofLevel(dog.loveTier()).qualityText(), dog.loveTierTicks() / 20));

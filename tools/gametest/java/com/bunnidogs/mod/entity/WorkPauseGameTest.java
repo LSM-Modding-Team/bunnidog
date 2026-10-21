@@ -41,7 +41,7 @@ public final class WorkPauseGameTest {
         level.setBlock(crop.below(),Blocks.FARMLAND.defaultBlockState(),3); var ripe = ((CropBlock)Blocks.CARROTS).getStateForAge(7); level.setBlock(crop,ripe,3);
         var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),4.5F,1,3.5F); dog.setAge(0);
         int forager = Gene.DIET.alleleNamed("forager").id(); var genes = Genome.DEFAULT.with(Gene.DIET,0,forager).with(Gene.DIET,1,forager);
-        var stats = Stats.of(0,0,0,20,20); dog.setGenome(genes); dog.setStats(stats); dog.setHealth(dog.getMaxHealth());
+        var stats = Stats.of(0,0,0,20,20); dog.setGenome(genes); WorkerFixture.familiar(dog); dog.setStats(stats); dog.setHealth(dog.getMaxHealth());
         var player = h.makeMockServerPlayerInLevel(); player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
         var hoe = new ItemStack(Items.IRON_HOE); hoe.setDamageValue(hoe.getMaxDamage()-1); player.setItemInHand(InteractionHand.OFF_HAND,hoe); player.setShiftKeyDown(true);
         h.runAfterDelay(2,() -> {

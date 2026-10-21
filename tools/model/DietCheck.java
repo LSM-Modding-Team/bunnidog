@@ -18,7 +18,7 @@ public final class DietCheck {
     public static void main(String[] args) throws Exception {
         String old = "33-22-33-33-33-33";
         Genome legacy = genome(old);
-        require(legacy.toString().equals(old+"-00") && Diet.of(legacy) == Diet.PLAIN,"Legacy genomes must keep six pairs and gain plain diet");
+        require(legacy.bodyCode().equals(old+"-00") && Diet.of(legacy) == Diet.PLAIN,"Legacy genomes must keep six pairs and gain plain diet");
         require(genome(old.replace("-","")).equals(legacy),"Unseparated old genomes must still load");
         for (Allele a : Gene.DIET.alleles()) for (Allele b : Gene.DIET.alleles()) {
             Genome g = legacy.with(Gene.DIET,0,a.id()).with(Gene.DIET,1,b.id());

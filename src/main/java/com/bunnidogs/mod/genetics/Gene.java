@@ -14,7 +14,7 @@ import java.util.random.RandomGenerator;
  *
  * <p>Pure Java on purpose: no Minecraft imports, so the whole package can be compiled and tested outside the game.
  */
-public enum Gene {
+public enum Gene implements Locus {
     // Ids are positions in each table and are SAVED: only ever append. Dominance is not saved (renumber freely):
     // common alleles 1..3, wild-lineage alleles 10+, rare mutation alleles 50 (a mutation always shows), and a
     // deliberately recessive wild allele gets 0 (only shows when homozygous).

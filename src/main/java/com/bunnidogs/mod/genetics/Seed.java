@@ -23,12 +23,11 @@ import java.util.random.RandomGenerator;
  * {@code 00-00-00-11-00-00/0,0,0,0,0|00-00-00-11-00-00/2,-1,0,0,0|1.5}. The stats part and the quality may be left
  * out (zeros), so {@code 00-00-00-00-00-00|22-22-22-22-22-22} is a valid seed too.
  *
- * <p><b>Mutagen (drops D6a):</b> a seed treated with a Mutagen has a 4th part, the word {@code mutagen}:
- * {@code mother/stats|father/stats|quality|mutagen} ({@code a|b||mutagen} is valid too: blank quality = 0). A seed WITHOUT the part
- * prints exactly as it always did, so old seeds, item stacks and planted crops are unchanged. The treatment raises the mutation
- * chance of every pup of the seed to at least {@link #MUTAGEN_MUTATION_FLOOR}, and a seed carries at most one.
+ * <p>Optional markers after quality are {@code mutagen} and {@code body_mutation}. The latter preserves the original
+ * body-only mutation law when an old seed is rewritten with full g2 parents; new seeds use all eleven loci. Treatment
+ * raises each pup's mutation chance to at least {@link #MUTAGEN_MUTATION_FLOOR}, without changing the saved target law.
  */
-public record Seed(Genome mother, Stats motherStats, Genome father, Stats fatherStats, double quality, boolean mutagen) {
+public record Seed(Genome mother, Stats motherStats, Genome father, Stats fatherStats, double quality, boolean mutagen, boolean legacyMutation) {
     /** Quality is clamped to this range only so that maths on it can never overflow (like {@link Stats#LIMIT}). */
     public static final double QUALITY_LIMIT = 1_000_000.0;
 
@@ -48,12 +47,16 @@ public record Seed(Genome mother, Stats motherStats, Genome father, Stats father
 
     /** An untreated seed (the form every seed had before the Mutagen existed). */
     public Seed(Genome mother, Stats motherStats, Genome father, Stats fatherStats, double quality) {
-        this(mother, motherStats, father, fatherStats, quality, false);
+        this(mother, motherStats, father, fatherStats, quality, false, false);
+    }
+
+    public Seed(Genome mother, Stats motherStats, Genome father, Stats fatherStats, double quality, boolean mutagen) {
+        this(mother, motherStats, father, fatherStats, quality, mutagen, false);
     }
 
     /** The same seed treated with a Mutagen (the same seed again if it already was: a seed carries one). */
     public Seed withMutagen() {
-        return mutagen ? this : new Seed(mother, motherStats, father, fatherStats, quality, true);
+        return mutagen ? this : new Seed(mother, motherStats, father, fatherStats, quality, true, legacyMutation);
     }
 
     /**
@@ -68,7 +71,7 @@ public record Seed(Genome mother, Stats motherStats, Genome father, Stats father
     // ------------------------------------------------------------------ hatching
 
     /** One pup of a litter: its rolled genome, its stat points and, if a mutation hit it, which gene. */
-    public record Pup(Genome genome, Stats stats, Gene mutatedGene) {
+    public record Pup(Genome genome, Stats stats, Locus mutatedGene) {
         public boolean mutated() {
             return mutatedGene != null;
         }
@@ -91,7 +94,7 @@ public record Seed(Genome mother, Stats motherStats, Genome father, Stats father
         }
         double[] drift = Drift.drift(mother, father, effectiveQuality(extraQuality));
         for (int i = 0; i < litter; i++) {
-            Genome.Offspring child = Genome.breed(mother, father, rng, mutationChance());
+            Genome.Offspring child = Genome.breed(mother, father, rng, mutationChance(), legacyMutation);
             out.add(new Pup(child.genome(), Drift.inherit(motherStats, fatherStats, drift, rng), child.mutatedGene()));
         }
         return out;
@@ -152,6 +155,7 @@ public record Seed(Genome mother, Stats motherStats, Genome father, Stats father
         if (mutagen) {
             lines.add(Texts.t("Treated with Mutagen"));
         }
+        lines.add(mutationScope());
         lines.add(Texts.t("Stats drift: ") + driftText(drift(0.0)));
         return lines;
     }
@@ -161,21 +165,35 @@ public record Seed(Genome mother, Stats motherStats, Genome father, Stats father
     /** Canonical text form, see the class comment. Round-trips exactly through {@link #parse}. */
     @Override
     public String toString() {
-        return mother + "/" + motherStats + "|" + father + "/" + fatherStats + "|" + Double.toString(quality) + (mutagen ? "|" + MUTAGEN_WORD : "");
+        return mother + "/" + motherStats + "|" + father + "/" + fatherStats + "|" + Double.toString(quality)
+                + (mutagen ? "|" + MUTAGEN_WORD : "") + (legacyMutation ? "|body_mutation" : "");
+    }
+
+    public String mutationScope() {
+        return legacyMutation ? Texts.t("Saved seed: mutations affect body genes only.")
+                : Texts.t("One mutation at most: 7 body or 4 mind genes, equally likely.");
     }
 
     /**
-     * Parses the text form. The stats of a parent and the quality are optional (zero), and a 4th part must be exactly the word
-     * {@code mutagen}. Empty if a genome or the stats are malformed, the quality is not a finite number, the 4th part is anything
-     * else, or there are not two to four {@code |}-separated parts.
+     * Parent stats/quality are optional (zero). Up to two distinct markers follow quality. Legacy body-only parent
+     * forms imply the old mutation law; a rewritten seed carries that law explicitly. Unknown/duplicate markers,
+     * invalid genomes/stats or nonfinite quality refuse without rewriting the original item component.
      */
     public static Optional<Seed> parse(String text) {
         if (text == null) {
             return Optional.empty();
         }
         String[] parts = text.trim().split("\\|", -1);
-        if (parts.length < 2 || parts.length > 4 || (parts.length == 4 && !parts[3].trim().equals(MUTAGEN_WORD))) {
+        if (parts.length < 2 || parts.length > 5) {
             return Optional.empty();
+        }
+        boolean treated = false, bodyMutation = !Genome.isFullCode(parts[0]) && !Genome.isFullCode(parts[1]);
+        boolean markedBody = false;
+        for (int i = 3; i < parts.length; i++) {
+            String marker = parts[i].trim();
+            if (marker.equals(MUTAGEN_WORD) && !treated) treated = true;
+            else if (marker.equals("body_mutation") && !markedBody) { bodyMutation = true; markedBody = true; }
+            else return Optional.empty();
         }
         Optional<Parent> mother = parseParent(parts[0]);
         Optional<Parent> father = parseParent(parts[1]);
@@ -194,7 +212,7 @@ public record Seed(Genome mother, Stats motherStats, Genome father, Stats father
             }
         }
         return Optional.of(new Seed(mother.get().genome(), mother.get().stats(),
-                father.get().genome(), father.get().stats(), quality, parts.length == 4));
+                father.get().genome(), father.get().stats(), quality, treated, bodyMutation));
     }
 
     private record Parent(Genome genome, Stats stats) {}

@@ -382,3 +382,12 @@ tasks.register('checkLocalization', JavaExec) {
     if (project.hasProperty('localizationPreview')) args project.property('localizationPreview')
 }
 tasks.named('check').configure { dependsOn tasks.named('checkLocalization') }
+
+tasks.register('checkCognition', JavaExec) {
+    group = 'verification'
+    description = 'Check complete genotypes, cognitive dosage, exact joint inheritance and legacy seed laws.'
+    dependsOn tasks.named('modelCheckClasses')
+    classpath = sourceSets.modelCheck.runtimeClasspath
+    mainClass = 'CognitionCheck'
+}
+tasks.named('check').configure { dependsOn tasks.named('checkCognition') }

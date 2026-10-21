@@ -62,7 +62,7 @@ public final class CompostingGameTest {
         var stock = (FeedingTroughBlockEntity)level.getBlockEntity(troughPos);
         var output = (HopperBlockEntity)level.getBlockEntity(composter.below());
         var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),3.5F,1,4.5F); dog.setAge(0);
-        var forager = Genome.DEFAULT.with(Gene.DIET,0,2).with(Gene.DIET,1,2); dog.setGenome(forager);
+        var forager = Genome.DEFAULT.with(Gene.DIET,0,2).with(Gene.DIET,1,2); dog.setGenome(forager); WorkerFixture.familiar(dog);
         var carrots = new ItemStack(Items.CARROT,9); carrots.set(DataComponents.CUSTOM_NAME,Component.literal("Compost reserve"));
         stock.insert(carrots); stock.setFilter(carrots);
         h.runAfterDelay(2,() -> {

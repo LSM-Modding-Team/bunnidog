@@ -26,9 +26,9 @@ public final class InheritanceSheet {
         if (fixed) {
             String all = String.format(Locale.ROOT, "%.2f%%", cross.fixedPupChance() * 100);
             page.textRight(Page.WIDTH, 0, all, Page.Tone.GOOD);
-            page.hotspot(0, 0, Page.WIDTH, Page.LINE, Texts.t("All seven gene pairs fixed: ") + all + Texts.t(" per pup, or ")
+            page.hotspot(0, 0, Page.WIDTH, Page.LINE, Texts.t("All seven body pairs fixed: ") + all + Texts.t(" per pup, or ")
                     + String.format(Locale.ROOT, "%.2f%%", cross.atLeastOneInLitter(cross.fixedPupChance()) * 100)
-                    + Texts.t(" for at least one in an uncrowded litter. Each gene is inherited independently. This can produce different stable genomes; it does not promise one particular registered line. Before mutation; grow an adult before registering it."), -1);
+                    + Texts.t(" for at least one in an uncrowded litter. Before mutation. The Registry also requires four fixed mind pairs; switch to Mind for complete purity odds."), -1);
         }
         for (Gene gene : Gene.values()) {
             List<String> summary = new ArrayList<>();

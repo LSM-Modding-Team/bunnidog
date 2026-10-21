@@ -43,7 +43,7 @@ public final class GardeningGameTest {
         var cropPos = h.absolutePos(new BlockPos(5,1,4));
         var trough = (FeedingTroughBlockEntity)level.getBlockEntity(troughPos);
         var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),3,1,4);
-        dog.setAge(0); dog.setGenome(Genome.DEFAULT); dog.setHealth(dog.getMaxHealth());
+        dog.setAge(0); dog.setGenome(Genome.DEFAULT); WorkerFixture.familiar(dog); dog.setHealth(dog.getMaxHealth());
         var player = h.makeMockPlayer(GameType.SURVIVAL);
         var hoe = new ItemStack(Items.WOODEN_HOE);
         player.setItemInHand(InteractionHand.MAIN_HAND,hoe);

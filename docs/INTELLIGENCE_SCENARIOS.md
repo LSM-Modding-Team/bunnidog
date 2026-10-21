@@ -1,7 +1,10 @@
 # Intelligence update: player stories and acceptance scenarios
 
-Planning only, 2026-10-21. These are proposed experiences, not completed tests or
-implemented features. Read [INTELLIGENCE_PLAN.md](INTELLIGENCE_PLAN.md) for the
+Acceptance direction, 2026-10-21. These are complete player experiences to reach,
+not a list of finished features. I1 and initial I2 now cover genetic potential,
+save migration and attended practice; [COGNITION_SPECS.md](COGNITION_SPECS.md)
+records the current behavior/evidence boundary. Demonstration/route learning and
+civic scenarios remain unfinished. Read [INTELLIGENCE_PLAN.md](INTELLIGENCE_PLAN.md) for the
 creative direction and [INTELLIGENCE_ENGINEERING.md](INTELLIGENCE_ENGINEERING.md)
 for state, resources and delivery. “Demonstrate” below means actual native/world
 play or an appropriate integration scenario; a matching string in source is not

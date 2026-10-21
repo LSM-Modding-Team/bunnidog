@@ -45,7 +45,7 @@ public final class ChorusCareGameTest {
         level.setBlock(flower,Blocks.CHORUS_FLOWER.defaultBlockState().setValue(ChorusFlowerBlock.AGE,4),3);
         var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),3.5F,1,3.5F); dog.setAge(0);
         int diet = Gene.DIET.alleleNamed("chorus_eater").id(); var line = Genome.DEFAULT.with(Gene.DIET,0,diet).with(Gene.DIET,1,diet);
-        dog.setGenome(line); bloom(dog,20); dog.setHealth(dog.getMaxHealth());
+        dog.setGenome(line); WorkerFixture.familiar(dog); bloom(dog,20); dog.setHealth(dog.getMaxHealth());
         h.runAfterDelay(2,() -> {
             var clock = level.dimensionType().defaultClock().orElseThrow(); long time = level.clockManager().getTotalTicks(clock);
             boolean griefing = level.getGameRules().get(GameRules.MOB_GRIEFING);

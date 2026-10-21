@@ -1,6 +1,6 @@
 package com.bunnidogs.mod.genetics;
 
-/** Registry rules. A stable line fixes all seven genes, including Diet; it need not match a wild lineage. */
+/** Body qualifications keep seven pairs; the complete Registry fixes all eleven, including the mind. */
 public final class Purebreds {
     private Purebreds() {}
 
@@ -11,20 +11,26 @@ public final class Purebreds {
         for (Gene gene : Gene.values()) if (genome.isHomozygous(gene)) fixed++;
         return fixed;
     }
+    public static int fullFixedCount(Genome genome) {
+        int fixed = fixedCount(genome);
+        for (var gene : CognitiveGene.values()) if (genome.isHomozygous(gene)) fixed++;
+        return fixed;
+    }
 
     public static String describe(Genome genome) {
         java.util.List<String> mixed = new java.util.ArrayList<>();
         for (Gene gene : Gene.values()) if (!genome.isHomozygous(gene)) mixed.add(Plain.geneName(gene));
-        return fixedCount(genome) + Texts.t(" of ") + Gene.COUNT + Texts.t(" gene pairs fixed. ")
+        for (var gene : CognitiveGene.values()) if (!genome.isHomozygous(gene)) mixed.add(MindText.gene(gene));
+        return fullFixedCount(genome) + Texts.t(" of ") + Locus.COUNT + Texts.t(" gene pairs fixed. ")
                 + (mixed.isEmpty() ? Texts.t("A mate with this same genome breeds true before mutation; bred stats still drift. ")
                         : Texts.t("Mixed pairs: ") + String.join(", ", mixed) + Texts.t(". The Genetics Table shows the odds of fixing both copies. "))
-                + Texts.t("The Purebred Registry accepts adults with recorded birth parents and all seven pairs fixed, including Diet.");
+                + Texts.t("The Purebred Registry accepts adults with recorded birth parents and all eleven pairs fixed, including Diet and the four mind genes. Shows and redstone still measure the seven body pairs.");
     }
 
     public static Result eligibility(Pedigree.Entry entry) {
         if (entry.pup()) return Result.PUP;
         if (entry.mother().isEmpty() || entry.id().isEmpty() || entry.stats().isEmpty()) return Result.PARENTS;
-        return fixedCount(entry.genome()) == Gene.COUNT ? Result.ADDED : Result.MIXED;
+        return fullFixedCount(entry.genome()) == Locus.COUNT ? Result.ADDED : Result.MIXED;
     }
 
     /** Register one distinct, stable genome. Keep its first representative and its historical snapshot. */

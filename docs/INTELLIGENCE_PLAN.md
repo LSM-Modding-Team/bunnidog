@@ -1,9 +1,11 @@
 # Intelligence, learning and living civilizations
 
-Planning draft, 2026-10-21. Requested after the Spanish update at `0c92ded`.
-**This is a substantial proposed redesign, not implemented behavior. This turn
-is planning only.** Numerical examples are starting hypotheses, not measured
-balance. The implementation sequence and migration contract are in
+Design direction, 2026-10-21, originally planned against `0c92ded`.
+**I1 and initial I2 are now implemented**: full cognitive genetics, migration,
+mind inspection/forecasts and attended practical learning. Actual behavior and
+its limits are in [COGNITION_SPECS.md](COGNITION_SPECS.md). The professions,
+culture and autonomous civilizations below remain future work. Numerical
+examples are starting hypotheses, not measured balance. The delivery sequence is in
 [INTELLIGENCE_ENGINEERING.md](INTELLIGENCE_ENGINEERING.md); playable acceptance
 stories are in [INTELLIGENCE_SCENARIOS.md](INTELLIGENCE_SCENARIOS.md).
 

@@ -31,7 +31,7 @@ public record Infusion(Genome genome, Stats stats, double quality) {
      */
     public static Infusion roll(Seed seed, RandomGenerator rng) {
         double[] drift = Drift.drift(seed.mother(), seed.father(), seed.quality());
-        Genome.Offspring child = Genome.breed(seed.mother(), seed.father(), rng, seed.mutationChance());
+        Genome.Offspring child = Genome.breed(seed.mother(), seed.father(), rng, seed.mutationChance(), seed.legacyMutation());
         Stats stats = Drift.inherit(seed.motherStats(), seed.fatherStats(), drift, rng);
         return new Infusion(child.genome(), stats, seed.quality());
     }

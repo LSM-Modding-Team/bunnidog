@@ -48,6 +48,12 @@ public final class FamilyGoalsGameTest {
         for (int x=0;x<=16;x++) for (int z=24;z<=42;z++) {
             h.setBlock(x,floor,z,Blocks.STONE); for (int up=1;up<=4;up++) h.setBlock(x,floor+up,z,Blocks.AIR);
         }
+        // This fixture extends beyond the small test template. Let the real chunk/entity
+        // tracking activate before hatching and querying its living family.
+        h.runAfterDelay(2, () -> { family(h, floor); h.succeed(); });
+    }
+    private static void family(GameTestHelper h, int floor) {
+        var level=h.getLevel();
         var player=h.makeMockServerPlayerInLevel(); player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL); CareMenuGameTest.prepare(player);
         var tablePos=h.absolutePos(new BlockPos(5,floor+1,31));
         level.setBlock(tablePos,ModBlocks.GENETICS_TABLE.get().defaultBlockState(),3);

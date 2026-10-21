@@ -112,6 +112,10 @@ public record Cross(Tissue a, Tissue b, BreedingPlan plan,Optional<Seed> actualS
         return chance;
     }
 
+    public double fullFixedPupChance() {
+        return fixedPupChance() * new CapabilityForecast(a.genome(), b.genome()).fixedMindChance();
+    }
+
     /** Mean litter size before crowding ({@link Breeding#expectedLitter}). */
     public double litter() {
         return Breeding.expectedLitter(this.a.genome(), this.b.genome());
