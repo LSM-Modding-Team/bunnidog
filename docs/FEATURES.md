@@ -4,6 +4,23 @@ Start with empty hands on an animal or care station. The live panel shows the
 current needs, a useful next step and named controls. Crosshair hints explain
 what a held item will do. Detailed genetics and the Field Guide are optional.
 
+## Adventure together
+
+Train any healthy adult through care with a Trail Whistle and one plain guava.
+Choose **Orders & combat → Join combat party** for up to three deliberate
+fighters. Loyal partners watch for attackers, stoic partners defend close by,
+feral partners suit directed strikes, and skittish partners warn and skirmish.
+Existing genes and bred points change their actual abilities.
+
+**Normal Whistle always recalls.** Crouch and aim it at an enemy to direct the
+chosen partner. Crouch nearby for orders, or away for the party view. Wait with
+Assist holds a small area. Ordinary carriers stay out of fights unless chosen.
+
+A bonded adult defeated in ordinary combat collapses. Give real guava first aid
+in care/orders or use an empty Travel Basket to extract it. It recuperates while
+you travel or rest safely; ordinary food heals proportionally. Terrain hazards
+remain dangerous. Exact rules and unfinished extensions: [combat](COMBAT_SPECS.md).
+
 ## Raise a family
 
 - Plain guavas work for every lineage. **Care** heals or helps a pup grow;
@@ -26,9 +43,8 @@ what a held item will do. Detailed genetics and the Field Guide are optional.
 - Adults carry real vanilla bundles according to Build. Equip a bundle by using
   it on the animal; retrieve it through care or sneak-empty-hand use. Contents,
   names, colors and transport saves stay intact; excess cargo slows movement.
-- Calm loyal/stoic adults train with a reusable **Trail Whistle** and one plain
-  guava. The care panel uses inventory supplies; direct whistle training uses
-  a guava in the other hand. Copper, two string and a feather craft the tool;
+- Calm adults of every temperament train with a reusable **Trail Whistle** and
+  one plain guava through care. Crouch-Whistle on an untrained animal opens it. Copper, two string and a feather craft the tool;
   Sinew/Whisker alternatives still work. The keeper chooses Follow, Wait or
   resident life, and can opt into ordinary meals from actual carried bundles.
 - **Useful roles & work** in care shows pack capacity, temperament, actual harvest

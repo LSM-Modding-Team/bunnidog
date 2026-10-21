@@ -1,9 +1,12 @@
-# Combat companions — design proposal
+# Combat companions — design and implementation plan
 
-Planning-only batch, 2026-10-20. **Nothing in this proposal is implemented by
-this batch.** The brief is gene-driven help in combat, considered from the
-player's experience. The recommendations below form a concrete starting design;
-numbers remain prototype values until actual encounters establish their feel.
+Planned 2026-10-20; implementation authorized and started 2026-10-21.
+**B1/B2 and the initial B3 party are implemented**: see
+[the actual specification](COMBAT_SPECS.md). The source audit below records the
+pre-combat baseline, not today's code. Three-member selection, spacing, bounded
+held defense and saved sightings now exist. B3 combat-specific breeding/seed/pup
+handoffs and B4 signatures remain unfinished. B5 natural/client/co-op evidence
+also remains; prototype numbers are not validated encounter balance.
 
 The aim is a companion the player chooses, breeds, commands and brings home.
 A common adult should help in an ordinary fight. Later breeding should change
@@ -36,7 +39,7 @@ These choices preserve the ordinary breeder, farmer, carrier and explorer.
 Joining a combat party is deliberate. Existing followers do not silently become
 fighters when a save is opened with a new version.
 
-## What exists now — source audit
+## Pre-combat baseline — source audit at `b34e90d`
 
 | Shipped behavior | Implication for this proposal |
 | --- | --- |
@@ -60,7 +63,8 @@ Relevant sources: [Bunnidog](../src/main/java/com/bunnidogs/mod/entity/Bunnidog.
 [Carrying](../src/main/java/com/bunnidogs/mod/genetics/Carrying.java) and
 [TravelBasketItem](../src/main/java/com/bunnidogs/mod/item/TravelBasketItem.java).
 The established [trail](TRAIL_SPECS.md), [care](CARE_SPECS.md) and
-[family](FAMILY_LOOP_SPECS.md) specifications remain descriptions of shipped play.
+[family](FAMILY_LOOP_SPECS.md) specifications describe their current integrated
+behavior; [COMBAT_SPECS.md](COMBAT_SPECS.md) records the new combat rules.
 
 ## The first playable journey
 
@@ -425,7 +429,9 @@ still spends actual stock; a basket is the safer deliberate extraction tool.
 High-health lines should not require an absurd number of two-HP meals after
 every battle. Aim for about four real ordinary meals from near-empty to full
 health during safe care; try `max(2 HP, 25% of max HP)` per meal, retaining the
-existing shared meal recovery and danger refusals. This leaves an ordinary
+existing automatic meal recovery and danger refusals. Paid calm direct hand
+care preserves its earlier behavior: it spends actual stock, does not wait on
+that automatic cooldown, and does not clear it. This leaves an ordinary
 eight-HP animal's meal unchanged and keeps unbounded health progression from
 creating unbounded feeding chores. Hands, Troughs and bundle provisions must
 agree. Bloom can shorten recuperation; do not add simultaneous permanent
@@ -495,8 +501,12 @@ homes/cargo and retain injured state across basket/save transitions.
 
 ## Implementation sequence — each slice proves a player experience
 
-This batch writes the plan only. A later implementation continuation can start
-with the first slice; there is no extra approval gate implied by this document.
+The original batch wrote the plan only. The subsequent continuation explicitly
+authorized implementation. B1/B2 and initial B3 party behavior now have native
+server evidence; read the actual specification for limits. B3's combat-specific
+breeding handoffs, B4 signatures and B5 encounter/client evidence remain work.
+The success criteria below continue to include player experiences that headless
+checks cannot prove.
 
 | Slice | Work | Done when |
 | --- | --- | --- |

@@ -35,7 +35,7 @@ public final class CareMenu extends AbstractContainerMenu {
     private Context published;
     private long changedUntil;
     private boolean acting;
-    private enum Mode { MAIN, CARGO, ROLES, GOALS, CONFIRM_RITUAL, FAMILY, SEED_FAMILY, FIT, FIT_CHOICES, LITTER }
+    private enum Mode { MAIN, CARGO, ROLES, GOALS, CONFIRM_RITUAL, FAMILY, SEED_FAMILY, FIT, FIT_CHOICES, LITTER, COMBAT, PARTY }
     private Mode mode=Mode.MAIN;
     private Commissions.Request fitGoal;
     private int familyPage;
@@ -67,11 +67,21 @@ public final class CareMenu extends AbstractContainerMenu {
         openAnimal(player,dog,null);
     }
     private static void openAnimal(Player player,Bunnidog dog,Commissions.Request goal) {
+        openAnimal(player,dog,goal,false);
+    }
+    public static void openCombat(Player player,Bunnidog dog) { openAnimal(player,dog,null,true); }
+    public static void openParty(Player player) {
+        if (player instanceof ServerPlayer server && !player.isSpectator()) server.openMenu(new SimpleMenuProvider((id,inv,p)->{
+            var menu=new CareMenu(id,inv,null,null); menu.mode=Mode.PARTY; return menu;
+        },Component.translatable("care.bunnidogs.party.title")));
+    }
+    private static void openAnimal(Player player,Bunnidog dog,Commissions.Request goal,boolean combat) {
         if (player instanceof ServerPlayer server && !player.isSpectator() && dog.isAlive() && dog.acceptsCare() && dog.level()==player.level() && dog.distanceToSqr(player)<=36) {
             com.bunnidogs.mod.item.JourneyProgress.met(player);
             server.openMenu(new SimpleMenuProvider((id,inv,p)->{
                 var menu=new CareMenu(id,inv,dog,null);
                 if (goal!=null) { menu.fitGoal=goal; menu.mode=Mode.FIT; }
+                if (combat) menu.mode=Mode.COMBAT;
                 return menu;
             },dog.getDisplayName()));
         }
@@ -94,14 +104,17 @@ public final class CareMenu extends AbstractContainerMenu {
     @Override public boolean stillValid(Player player) {
         if (level.isClientSide()) return true;
         if (player!=owner || player.level()!=level || !player.isAlive() || player.isSpectator()) return false;
+        if (mode==Mode.PARTY) return true;
         if (dog!=null) return dog.isAlive() && !dog.isRemoved() && dog.acceptsCare() && dog.level()==level && dog.distanceToSqr(player)<=36;
         return pos!=null && level.hasChunkAt(pos) && level.getBlockState(pos).is(block) && level.getBlockEntity(pos)==station
                 && player.distanceToSqr(pos.getX()+.5,pos.getY()+.5,pos.getZ()+.5)<=36;
     }
     private CareView snapshot() {
+        if (mode==Mode.PARTY) return PartyPanel.view(owner);
         if (dog!=null) return switch (mode) {
             case CARGO -> CarePanels.cargo(owner,dog);
             case ROLES -> RolePanel.view(owner,dog);
+            case COMBAT -> CombatPanel.view(owner,dog);
             case FIT -> FamilyPanels.fit(owner,dog,fitGoal);
             case FIT_CHOICES -> FamilyPanels.choices(owner,dog);
             default -> CarePanels.animal(owner,dog);
@@ -121,8 +134,11 @@ public final class CareMenu extends AbstractContainerMenu {
     /** Bind an action to the actual shared stock/selection the player saw, not to a timer tick. */
     private Context context() {
         var facts=new ArrayList<Object>(); var stock=new ArrayList<ItemStack>();
-        if (dog!=null) {
+        if (mode==Mode.PARTY) facts.add(com.bunnidogs.mod.entity.CompanionParty.context(owner));
+        else if (dog!=null) {
             facts.add(dog.workPaused()); facts.add(Optional.ofNullable(dog.trail().keeper())); facts.add(dog.trail().order()); facts.add(dog.trail().provisions());
+            facts.add(dog.combat().selected()); facts.add(dog.combat().downed()); facts.add(dog.combat().recovering());
+            facts.add(dog.combat().partyState());
             facts.add(Optional.ofNullable(dog.homeNest()));
             stock.addAll(dog.carriedBundles());
             if (mode==Mode.FIT || mode==Mode.FIT_CHOICES || mode==Mode.ROLES) facts.add(FamilyPanels.hasCalipers(owner));
@@ -198,6 +214,9 @@ public final class CareMenu extends AbstractContainerMenu {
         try {
             if (id==CarePanels.CARGO) mode=Mode.CARGO;
             else if (id==CarePanels.ROLES) mode=Mode.ROLES;
+            else if (id==CombatPanel.OPEN) mode=Mode.COMBAT;
+            else if (id==PartyPanel.OPEN) { openParty(player); }
+            else if (mode==Mode.PARTY) PartyPanel.act(player,id);
             else if (id==CarePanels.BACK) mode=Mode.MAIN;
             else if (id==FamilyPanels.COMPARE && dog!=null) mode=fitGoal==null ? Mode.FIT_CHOICES : Mode.FIT;
             else if (id==FamilyPanels.CHOOSE_GOAL && dog!=null) mode=Mode.FIT_CHOICES;

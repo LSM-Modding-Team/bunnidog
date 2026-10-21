@@ -99,6 +99,15 @@ public class BunnidogModel extends EntityModel<BunnidogRenderState> {
         // Tiny ear twitch, driven by age so it idles even when standing still.
         this.earR.zRot += earSplay + Mth.sin(state.ageInTicks * 0.11F) * 0.05F;
         this.earL.zRot -= earSplay + Mth.sin(state.ageInTicks * 0.11F + 1.7F) * 0.05F;
+        this.head.xRot-=Mth.sin(state.bite*(float)Math.PI)*.35F;
+        if (state.alerted) { this.earR.zRot*=.4F; this.earL.zRot*=.4F; this.tail.yRot*=.15F; }
+        if (state.downed) {
+            for (var leg : new ModelPart[]{this.legFr,this.legFl,this.legBr,this.legBl}) {
+                leg.xRot=0; leg.yScale*=.65F; leg.y+=2.2F*(state.buildScale-1);
+            }
+            this.head.xRot=.3F; this.tail.yRot=0; this.tail.xRot-=.5F;
+            this.earR.zRot+=.2F; this.earL.zRot-=.2F;
+        }
     }
 
     /** Ears / Legs / Build genes -> part scales. Must run right after the pose reset. */

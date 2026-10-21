@@ -1,130 +1,123 @@
 # H12/H13 — trained trail companions and provisions
 
-Implemented 2026-10-20. The original concrete proposals are
-implemented. This extension uses the standing design latitude to connect
-existing cargo, ore scouting and cave guidance to ordinary exploration with a
-living bred animal. It adds deliberate training, rather than changing wild
-spawns, native leads or the existing home/care systems.
+Implemented 2026-10-20; integrated with B1/B2 and the initial B3 combat party
+2026-10-21. See [COMBAT_SPECS.md](COMBAT_SPECS.md) for fighting, rescue, party
+limits and the changed Whistle gestures. This document describes current trail
+behavior; older protocol/test counts are historical checkpoints.
 
-## C1/C2 interaction update
+## Training and ordinary travelling
 
-Empty-hand care offers inventory-backed training and named Follow, Wait,
-Return home (or Resume roaming without a Nest), provision and release controls.
-Training requires the real reusable Whistle plus one actual plain guava; direct
-whistle/other-hand guava training remains available. Local orders need no held
-Whistle after training. A bowl still toggles provisions. The early recipe now
-accepts string/feather alternatives; old Sinew/Whisker recipes stay valid.
-Housing connects to the existing partner advancement without resetting progress.
-The native care view does not change a saved home, genome or cargo on inspection.
-See `COHESION_PLAN.md` for current evidence and client review priorities.
+Craft a reusable Trail Whistle from copper, two string/Sinew and a
+feather/Whisker. Empty-hand care offers **Train trail partner** using a real
+Whistle in inventory and one actual plain guava. Crouch-Whistle on an untrained
+animal also opens care. All four adult temperaments can bond. Training needs
+normal build permission, calm and at least half health. Pups, Apex, courting,
+fighting and another keeper's animals refuse. Creative retains the required
+food. A bowl still toggles provisions after bonding.
 
-## Rules
+Training records the keeper UUID, starts Follow and persists the animal.
+Genes, bred points, parentage, health, home claims and work preferences stay.
+An existing partner advancement records housing/training without resetting
+progress. Local named Follow, Wait, Return home/Resume roaming, provisions and
+Release training operations need no held Whistle after bonding. Inspecting the
+native view changes no animal or stock. Other players can provide ordinary care,
+use existing leads/baskets and rescue, but cannot overwrite a bond or give
+owner-only orders. Release is unavailable during injury/recent party combat.
 
-- Craft a Trail Whistle from copper, two string/Sinew and a feather/Whisker. It is reusable and
-  uses normal interaction permissions. Train a calm, at-least-half-health
-  ordinary adult expressing loyal or stoic temperament with the whistle and
-  one plain guava in the other hand. Creative keeps the required guava.
-- Training records the keeper UUID and starts Follow. A pup, Apex, frightened,
-  fighting or courting animal refuses. Hidden loyal/stoic copies do not help.
-  Training does not rewrite genes, bred stats, parents, health, work preferences
-  or an existing Nest claim. There is no inherited taming or new diet need.
-- The keeper uses the whistle on that companion to switch Follow/Wait. Wait
-  means holding its current safe position, subject to escape/swimming/combat.
-  Sneak-use on the animal releases the training and restores resident behavior.
-  Other players can still use existing care tools, leads and baskets; they
-  cannot use this whistle to overwrite the keeper or command the companion.
-- Air use calls nearby loaded trained partners to Follow. Sneak-air use sends
-  them back to resident/home behavior while retaining training. Calls are
-  bounded, audible, subject to hearing range, and have a short native item
-  cooldown. No remote lookup, chunk ticket, cross-dimension pull or teleport.
-- Following walks near the actual living keeper on safe loaded dry ground.
-  Current native path hazards and lost support interrupt a route. Breeding
-  legs, ears, defenses and cargo continue to affect the actual animal. The
-  first version retains water avoidance; swimming traits do not authorize
-  unsafe routes. A led/ridden/carried animal yields to native transport.
-  Follow itself never teleports. An expressed Phase partner can still make its
-  normal defensive blink and twenty-second recovery after a real attack: while trained
-  and ordered with a living keeper within 64 blocks, its preserved old Nest no
-  longer clips that escape. Full native landing/protection/transport checks and
-  damage remain; ordinary residents keep their existing home boundary.
-- Follow/Wait suppress competing home chores while ordered, preserving their
-  preferences, clocks and claim. Panic/refuge remain able to interrupt. New
-  courting or unsuitable temperament returns the animal to resident behavior.
-  Follow returns to resident behavior after 200 loaded ticks without a living
-  nearby keeper; Wait remains a deliberate parked order until changed.
-  Commands never force combat or immunity.
-- Optional keeper/order data saves on the animal and travels in whole-animal
-  baskets. Missing or invalid legacy data means ordinary resident behavior.
-  Seeds, samples, pedigrees and newly born animals do not inherit training.
-  Sneak-Calipers reports training/order without changing it.
+**Training alone never enables fighting.** Deliberately join the combat party
+through orders to opt in. The three slots, directed-order choice and deliberate
+quiet-time removal are separate from ownership and ordinary carrying.
+
+## Current Whistle controls
+
+- Normal use at air, terrain or an entity recalls heard Follow companions and
+  selected Wait party members, even during combat. Clears owned/refuge targets,
+  starts regrouping and cannot be canceled by another hit. Ordinary residents
+  and unrelated parked Wait animals stay. Native chest/villager interaction is
+  intercepted so it cannot swallow an emergency call.
+- Crouch-use on an animal opens its care/orders. Crouched aimed hostile use
+  tries a single Focus task for the party's chosen member. Otherwise crouch
+  nearby opens local orders; away from nearby owned animals it opens Combat
+  party with remembered last sightings. No Whistle modifier releases training.
+- Commands require a physically heard, same-level, loaded companion; there is
+  no remote chunk ticket, cross-dimension pull or teleport. Normal recall has
+  no item cooldown. Only its flute sound is throttled for forty ticks.
+- Calls consider up to sixteen owned companions, prioritizing party members,
+  with `clamp(16 × expressed ear scale + 0.2 × max(0, Senses), 8, 32)` hearing.
+  Larger ears/points help; small ears remain deterministic.
+
+## Walking, waiting and residence
+
+Following uses native safe dry loaded paths near the living nonspectator keeper
+within 64 blocks. Party members prefer separate rear/side places and respect
+actual body width; unselected carriers retain ordinary following. Path hazards
+and missing support interrupt progress. Legs, ears, defenses and excess-cargo
+slowdown continue to matter. Follow never teleports or authorizes a dangerous
+water route. Leads, riding and other native transport retain priority.
+
+Wait parks an ordinary unselected animal. Wait + Assist gives a selected
+fighter a saved local anchor with a four-block defense area and bounded return.
+A heard normal Whistle recalls that held party member. Danger/withdrawal yields
+the position. Transport/basket release preserves the order but a new basket
+landing establishes a new local anchor instead of walking to old coordinates.
+
+Orders suppress competing home chores while preserving preferences, clocks and
+the Nest claim. The combat controller arbitrates panic/refuge/retaliation for
+bonded ordered animals so these cannot cancel recall. Selected members stop
+pursuit and Wait when the keeper is lost/dead/spectating/too far/in another
+level. Unselected followers keep the prior 200-loaded-tick fallback to residence.
+Wait remains parked. New courtship suspends ordinary trail behavior; injury
+can travel while fighting, breeding and work remain paused.
+
+Phase legs retain a real defensive blink and twenty-second rest after a
+nonlethal attack. While ordered with a living keeper within 64 blocks, the old
+Nest does not clip that escape. Native landing/protection/transport checks and
+damage remain. A selected expedition fighter regroups afterward; ordinary
+residents retain the old home boundary.
 
 ## H13: opt-in provisions
 
-Use a vanilla bowl on your trained partner to enable/disable provisions, with
-either hand and normal build permission. The bowl stays. Training defaults to
-disabled; other keepers cannot change it. This preference applies to Follow
-and Wait. Resident mode uses the existing home food systems instead. Releasing
-training clears the preference; calling a partner home retains it for later.
+Use a vanilla bowl or the named care button to enable/disable provisions for
+your bonded animal. The bowl stays. Training defaults off; another keeper cannot
+change it. Follow and Wait can eat from actual equipment. Resident mode uses
+home food systems; calling home retains the preference, releasing clears it.
 
-An injured calm adult on safe dry ground can eat one suitable ordinary food
-from its own carried bundles for two HP, sharing the normal 600-tick meal
-recovery. Transport, passengers, water/lava, fire, courtship, danger and recent
-attacks pause the routine. There is no terrain harvest or inventory search
-outside the animal's own equipment. Manual feeding remains available.
+An injured calm adult on supported dry ground can eat one suitable ordinary
+food from its own bundles for `max(2 HP, 25% maximum HP)`, sharing the normal
+600-tick automatic meal rest. Transport, passengers, water/lava, fire, courtship,
+danger, downed state and recent attacks pause the routine. Upgraded guavas,
+nested containers, unrelated items and malformed contents stay. The current
+expressed Diet applies; there is no outside inventory or free terrain harvest.
 
-The last equipped bag is searched first; the first directly contained suitable
-ordinary food pays. Current expressed Diet applies. Upgraded guavas, unrelated
-items, nested containers and unsupported malformed bundle contents stay. Empty
-bags remain equipped. Named/colored bundles, remaining item order and complete
-components stay intact. Eating updates native BundleContents, clearing its
-temporary selected-item index as a normal content change does.
+The last equipped bag is searched first, with the first directly contained
+suitable food paying. Empty bags stay equipped. Names/colors/components, item
+order and other contents stay; normal content changes clear the native selected
+item index. Cargo and meal rest are reserved before healing callbacks, with
+an eating guard preventing reentry. Replaced/dropped equipment is not overwritten;
+healing cancellation retains ordinary real meal cost/rest. Eligible unsuccessful
+searches are bounded to once per 100 ticks. Healthy/resting animals do not rummage.
 
-Cargo is reserved before native healing callbacks. Shared food recovery also
-starts before those callbacks, and a transient eating guard prevents reentry.
-A callback can drop/replace equipment without restoring the paid food or
-overwriting replacement cargo. Native healing cancellation keeps ordinary meal
-cost/recovery semantics. Eligible unsuccessful searches are bounded to once
-per 100 ticks; healthy/resting animals do not rummage through the bags.
+Paid direct calm hand care remains available and does not clear or wait on that
+automatic meal rest. It spends actual stock, uses the same proportional healing
+amount and has a callback guard. First aid is a separate downed rescue action.
 
-## Save and inspection details
+## Saves, inspection and evidence
 
-`TrailKeeper` is the UUID string, `TrailOrder` a stable resident/follow/wait key
-and optional `TrailProvisions` an opt-in boolean. Invalid/missing keeper data
-means no training; missing/unknown orders mean resident, and missing provision
-data means disabled. Care state travels in the existing whole-animal basket.
-Baskets retain their existing home-release behavior; walking under trail orders
-preserves the claim. No seed/sample/pedigree format or allele ID changes.
+`TrailKeeper`, `TrailOrder` and optional `TrailProvisions` remain the saved care
+fields. Invalid/missing keeper means ordinary untrained residence; unknown
+orders mean Resident; absent provisions means off. Whole-animal baskets retain
+care state while releasing the previous Nest. Walking under orders preserves
+that claim. New combat fields/global party data are described in COMBAT_SPECS.
+Nothing enters seed/sample/pedigree formats or a newborn's inherited state.
 
-Whistle calls have 40 ticks of native item cooldown, hear at most sixteen
-loaded partners, and use `clamp(16 × expressed ear scale + 0.2 × nonnegative
-Senses, 8, 32)` blocks of hearing. Follow walks near the keeper and can make
-bounded safe partial-path progress; it does not teleport to catch up. A follower
-keeps its order for 200 loaded ticks without a living nonspectator keeper in
-the same level within 64 blocks, then resumes residence. Wait stays parked;
-panic and transport can relocate it. None of these actions claims passing Nests.
+Sneak-Calipers reports keeper/order, provision preference and actual combat
+intent without changing them. The genetic sheet describes adult potential from
+the actual genome/points. **A Partner for the Path** retains its native one-time
+25 XP reward. Protocol **18** requires updated client/server.
 
-Sneak-Calipers reports keeper relation, order and provision preference, with
-home food/work paused under active orders. The separate work-pause preference
-is retained. **A Partner for the Path** awards native once-per-player 25 XP
-after successful paid training. Native client/server content protocol **16**
-requires updated versions on both sides.
-
-## Evidence
-
-Java 25 build and all **100** native cases pass at the combined checkpoint.
-Native training covers real held-item payment, age/temperament/permission
-refusals, owner-only controls, read-only inspection and native save/basket
-conservation. A real AI goal walks beyond a retained Nest boundary, waits after
-native braking, respects heard calls/cooldown, notices a changed damaging floor,
-yields to leads and resumes residence after losing its keeper. An actual attack
-also proves that a trained Phase partner retains damage/recovery and can escape
-beyond the old home boundary without relinquishing its Nest.
-
-The provision case covers disabled/healthy/transport/other-keeper refusal,
-actual named native bundle contents, Diet/upgraded-food protection, two-HP
-healing and shared recovery before reentrant heal callbacks. Legacy defaults,
-saved baskets, exact remaining cargo, dropped old bags and callback refills
-conserve food and components. The model gate passed after the Phase integration;
-no creature mesh/render pass changed. Item/control and guide previews are
-inspected separately. Natural journeys, multiplayer feel, native UI fonts and
-GPU appearance remain gameplay review.
+Java 25 build/model and all **116** native scenarios pass at the integration
+checkpoint, including actual walking/braking, heard recall, terrain changes,
+Phase/home preservation, all-temperament bonding, fighting/held defense, party
+conservation and ordinary provisions/callback cases. Four native combat-panel
+snapshots and actual-sculpt poses are inspected as substitute-font/headless
+previews. Natural journeys, client controls/GPU and co-op balance remain play.

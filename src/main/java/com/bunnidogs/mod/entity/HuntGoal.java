@@ -89,7 +89,7 @@ final class HuntGoal extends Goal {
         if (this.dog.isWithinMeleeAttackRange(this.prey) && HomeRoutes.standing(this.dog,this.dog.blockPosition())) {
             this.dog.getNavigation().stop();
             if (this.biteWait <= 0 && this.dog.level() instanceof ServerLevel server) {
-                this.biteWait = Foraging.HUNT_BITE_INTERVAL; this.dog.swing(InteractionHand.MAIN_HAND); this.dog.doHurtTarget(server,this.prey);
+                this.biteWait = com.bunnidogs.mod.genetics.Combat.profile(this.dog.genome(),this.dog.stats()).interval(); this.dog.swing(InteractionHand.MAIN_HAND); this.dog.doHurtTarget(server,this.prey);
             }
         } else if (this.ticks % Foraging.HUNT_REPATH_INTERVAL == 0) {
             if (!plan(this.prey,new int[]{0}) || this.path == null || !this.dog.getNavigation().moveTo(this.path,1.2)) {

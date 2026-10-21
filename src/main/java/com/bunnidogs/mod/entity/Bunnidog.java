@@ -160,6 +160,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private static final EntityDataAccessor<Boolean> DATA_FLEECE_READY =
             SynchedEntityData.defineId(Bunnidog.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> DATA_BUNDLE_COUNT = SynchedEntityData.defineId(Bunnidog.class,EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> DATA_COMBAT_STATE = SynchedEntityData.defineId(Bunnidog.class,EntityDataSerializers.INT);
 
     // Cache of the decoded genome. NO initializers on purpose: fields with initializers would be reset after the
     // super constructor, which is harmless here but pointless.
@@ -189,6 +190,9 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private final BunnidogPacks packs = new BunnidogPacks(this);
     private final CaveGuiding caveGuiding = new CaveGuiding(this);
     private final TrailCompanion trailCompanion = new TrailCompanion(this);
+    private final CompanionCombat companionCombat = new CompanionCombat(this);
+    private int biteWait;
+    private boolean handCaring;
     private long nextForageTick;
     private long nextGardenTick;
     private long nextSampleTick;
@@ -231,6 +235,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         builder.define(DATA_GENES_HI, 0);
         builder.define(DATA_FLEECE_READY,true);
         builder.define(DATA_BUNDLE_COUNT,0);
+        builder.define(DATA_COMBAT_STATE,0);
     }
 
     /** The decoded genome. Cheap: only re-decodes when the synced value changed. */
@@ -314,6 +319,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         setBase(Attributes.MOVEMENT_SPEED, BASE_SPEED * t.speedMultiplier() * st.multiplier(Stat.SWIFTNESS));
         setBase(Attributes.JUMP_STRENGTH, BASE_JUMP * t.jumpMultiplier() * st.multiplier(Stat.LEAP));
         setBase(Attributes.FOLLOW_RANGE, BASE_FOLLOW_RANGE * t.hearingMultiplier() * st.multiplier(Stat.SENSES));
+        if (this.acceptsCare()) setBase(Attributes.ATTACK_DAMAGE,com.bunnidogs.mod.genetics.Combat.profile(this.genome(),st).bite());
         this.applyAdaptations();
         this.setHealth(this.getMaxHealth() * fraction);
     }
@@ -361,6 +367,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             this.growthTick();
             this.guavaMemory.tick(this.getAge());      // Phase 4e: forgets the tier when love is over
             this.trailCompanion.tick();
+            if (this.biteWait>0) this.biteWait--;
+            this.companionCombat.tick();
             if (!this.entityData.get(DATA_FLEECE_READY) && this.level().getGameTime() >= this.nextFleeceTick) {
                 this.entityData.set(DATA_FLEECE_READY,true);
             }
@@ -391,7 +399,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     // ------------------------------------------------------------------ breeding (Phase 2)
 
     boolean readyForPen() {
-        return this.isAlive() && this.acceptsCare() && this.getAge() == 0 && !this.isInLove() && !this.guavaMemory.active()
+        return this.isAlive() && this.acceptsCare() && !this.combat().recovering() && this.getAge() == 0 && !this.isInLove() && !this.guavaMemory.active()
                 && this.getHealth() >= this.getMaxHealth() && !this.beingTransported() && !this.isVehicle()
                 && this.getTarget() == null && !this.seekingRefuge() && !this.isInWater() && !this.isInLava() && !this.isOnFire();
     }
@@ -405,16 +413,25 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     }
     /** Inventory-backed care buttons share the same meal/growth operation as deliberate hand care. */
     public boolean careFromStock(Player player,ItemStack actual) {
+        if (this.combat().downed()) return this.combat().firstAid(player,actual);
         if (!(level() instanceof ServerLevel) || !player.mayBuild() || player.level()!=level() || distanceToSqr(player)>36
                 || !acceptsCare() || !isAlive() || !actual.is(ModItems.GUAVA.get()) || !canEat(actual)
+                || !this.handCareReady()
                 || !Foraging.handFood(true,false,getHealth()<getMaxHealth(),canAgeUp())) return false;
         applyHandCare(player,actual); return true;
     }
     private void applyHandCare(Player player,ItemStack actual) {
-        actual.consume(1,player);
-        this.heal(Foraging.HEAL);
-        if (this.canAgeUp()) this.ageUp(getSpeedUpSecondsWhenFeeding(-this.getAge()),true);
-        this.playEatingSound();
+        handCaring=true;
+        try {
+            actual.consume(1,player);
+            this.heal(com.bunnidogs.mod.genetics.Combat.mealHealing(this.getMaxHealth()));
+            if (this.canAgeUp()) this.ageUp(getSpeedUpSecondsWhenFeeding(-this.getAge()),true);
+            this.playEatingSound();
+        } finally { handCaring=false; }
+    }
+    public boolean handCareReady() {
+        return !handCaring && !this.combat().receivingAid() && !this.combat().downed() && (this.isBaby()
+                || !this.combat().danger() && this.getTarget()==null && !this.seekingRefuge());
     }
     public boolean readyForCareCourtship() {
         return readyForPen() && (getLastHurtByMob()==null || tickCount-getLastHurtByMobTimestamp()>=100);
@@ -479,6 +496,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     }
     private Foraging.Status foragingStatus(boolean trough) {
         if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel)) return Foraging.Status.UNAVAILABLE;
+        if (this.combat().downed() || !trough && this.combat().recovering()) return Foraging.Status.UNAVAILABLE;
         if (this.trail().ordered()) return Foraging.Status.TRAIL;
         if (this.seekingRefuge()) return Foraging.Status.DANGER;
         boolean night = this.homeNight();
@@ -517,7 +535,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
 
     void ateForage(float healing) {
         this.nextForageTick = this.level().getGameTime() + Foraging.MEAL_COOLDOWN;
-        this.heal(healing);
+        this.heal(healing>0 ? Math.max(healing,com.bunnidogs.mod.genetics.Combat.mealHealing(this.getMaxHealth())) : 0);
         this.playEatingSound();
     }
 
@@ -530,6 +548,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     /** The same cheap snapshot serves the AI and Calipers; it does not search for crops or paths. */
     public Gardening.Status gardeningStatus() {
         if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel server)) return Gardening.Status.UNAVAILABLE;
+        if (this.combat().recovering()) return Gardening.Status.UNAVAILABLE;
         if (this.trail().ordered()) return Gardening.Status.TRAIL;
         if (this.workPaused) return Gardening.Status.PAUSED;
         var status = Gardening.status(!this.isBaby(),this.getHealth() >= this.getMaxHealth(),
@@ -552,6 +571,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     /** A cheap status snapshot; no intruder/path search and no claim or target changes. */
     public Guarding.Status guardingStatus() {
         if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel)) return Guarding.Status.UNAVAILABLE;
+        if (this.combat().recovering() || this.trail().ordered()) return Guarding.Status.UNAVAILABLE;
         if (!this.guardEnabled) return Guarding.Status.DISABLED;
         if (this.isBaby()) return Guarding.Status.ADULT;
         if (this.temperament() != Temperament.FERAL) return Guarding.Status.FERAL;
@@ -595,6 +615,10 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack held = player.getItemInHand(hand);
+        if (this.combat().downed() && held.is(ModItems.GUAVA.get())) {
+            if (!this.level().isClientSide()) this.combat().firstAid(player,held);
+            return InteractionResult.SUCCESS;
+        }
         if (held.getItem() instanceof net.minecraft.world.item.BundleItem) return this.packs.equip(player,held);
         if (held.isEmpty() && player.getMainHandItem().isEmpty() && player.getOffhandItem().isEmpty() && this.acceptsCare() && this.isAlive()) {
             if (player.isShiftKeyDown() && this.carriedBundleCount()>0) return this.packs.emptyHands(player);
@@ -663,6 +687,10 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             }
         }
         if (guavaCare || !isBunnidogFood(held) && this.canEat(held)) {
+            if (!this.handCareReady()) {
+                if (!this.level().isClientSide()) player.sendOverlayMessage(Component.translatable("message.bunnidogs.combat.meal_rest"));
+                return InteractionResult.SUCCESS;
+            }
             if (!Foraging.handFood(true, false, this.getHealth() < this.getMaxHealth(), this.canAgeUp())) {
                 if (!this.level().isClientSide()) player.sendOverlayMessage(Component.translatable("message.bunnidogs.feeding.no_care"));
                 return InteractionResult.SUCCESS;
@@ -671,6 +699,10 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
                 // Reserve the real hand's food before native healing hooks can replace that hand.
                 applyHandCare(player,held);
             }
+            return InteractionResult.SUCCESS;
+        }
+        if (this.combat().recovering() && isBunnidogFood(held)) {
+            if (!this.level().isClientSide() && held.is(ModItems.GUAVA.get())) this.careFromStock(player,held);
             return InteractionResult.SUCCESS;
         }
         boolean readyForLove = !this.level().isClientSide() && isBunnidogFood(held) && !this.isBaby() && this.getAge() == 0
@@ -820,8 +852,9 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     /** H2, rule R7: a dead dog gives its nest ticket back, so the nest is free for the next dog. */
     @Override
     public void die(DamageSource source) {
+        if (!this.level().isClientSide() && this.combat().defeat(source)) return;
         super.die(source);
-        if (this.level() instanceof ServerLevel serverLevel) {
+        if (this.isDeadOrDying() && this.level() instanceof ServerLevel serverLevel) {
             this.nestHome.release(serverLevel);
         }
     }
@@ -839,6 +872,28 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     /** Domestic routines and tools are inappropriate for the summoned Apex. */
     public boolean acceptsCare() { return true; }
     public TrailCompanion trail() { return this.trailCompanion; }
+    public CompanionCombat combat() { return this.companionCombat; }
+    public int combatState() { return this.entityData.get(DATA_COMBAT_STATE); }
+    void syncCombatState(int state) { this.entityData.set(DATA_COMBAT_STATE,state); }
+    @Override public boolean canBeSeenAsEnemy() { return this.combatState()!=3 && super.canBeSeenAsEnemy(); }
+    @Override public boolean canBeHitByProjectile() { return this.combatState()!=3 && super.canBeHitByProjectile(); }
+    @Override public boolean isPushable() { return this.combatState()!=3 && super.isPushable(); }
+    @Override protected boolean considersEntityAsAlly(net.minecraft.world.entity.Entity other) {
+        if (this.trailCompanion!=null && this.trail().keeper()!=null) {
+            if (this.trail().keeper().equals(other.getUUID())) return true;
+            if (other instanceof Bunnidog pet && this.trail().keeper().equals(pet.trail().keeper())) return true;
+            var keeper=this.trail().keeperPlayer();
+            if (keeper!=null && keeper.isAlliedTo(other)) return true;
+        }
+        return super.considersEntityAsAlly(other);
+    }
+    @Override public boolean doHurtTarget(ServerLevel level,net.minecraft.world.entity.Entity enemy) {
+        if (this.acceptsCare()) {
+            if (this.biteWait>0 || this.combat().recovering() || this.combat().bonded() && enemy instanceof Player) return false;
+            this.biteWait=com.bunnidogs.mod.genetics.Combat.profile(this.genome(),this.stats()).interval();
+        }
+        return super.doHurtTarget(level,enemy);
+    }
     ItemStack takeTrailProvision() { return this.packs.takeProvision(); }
 
     public int carriedBundleCount() { return this.entityData.get(DATA_BUNDLE_COUNT); }
@@ -907,6 +962,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     @Override
     public boolean isInvulnerableTo(ServerLevel level, DamageSource source) {
         return super.isInvulnerableTo(level, source) || this.entityData != null
+                && this.companionCombat!=null && this.combat().protects(source) || this.entityData != null
                 && source.is(DamageTypes.CACTUS) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)
                 && Adaptations.cactusProof(this.genome());
     }
@@ -927,9 +983,13 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     @Override
     public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         float before = this.getHealth()+this.getAbsorptionAmount();
+        var origin=this.position();
         boolean hurt = super.hurtServer(level,source,amount);
-        if (hurt && this.getHealth()+this.getAbsorptionAmount() < before && source.getEntity() instanceof LivingEntity attacker)
-            this.phaseEscape.afterAttack(level,attacker);
+        if (hurt && this.getHealth()+this.getAbsorptionAmount() < before) {
+            this.combat().hurt();
+            if (!this.combat().recovering() && source.getEntity() instanceof LivingEntity attacker) this.phaseEscape.afterAttack(level,attacker);
+            if (!origin.equals(this.position()) && this.combat().selected() && this.trail().ordered()) this.combat().recall(this.trail().keeperPlayer());
+        }
         return hurt;
     }
     public int groomingWait() {
@@ -987,6 +1047,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         super.addAdditionalSaveData(output);
         this.packs.save(output);
         this.trailCompanion.save(output);
+        this.companionCombat.save(output);
+        if (this.biteWait>0) output.putInt("CombatBiteWait",this.biteWait);
         output.putString(TAG_GENOME, this.genome().toString());
         output.putString(TAG_STATS, this.stats().toString());
         if (this.highestShowAward > 0) output.putInt("ShowAward", this.highestShowAward);
@@ -1037,6 +1099,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.earTag = EarTag.parse(input.getStringOr(TAG_EAR_TAG, "")).orElse(null);
         super.readAdditionalSaveData(input);
         this.trailCompanion.restore(input);
+        this.companionCombat.restore(input);
+        this.biteWait=Math.clamp(input.getIntOr("CombatBiteWait",0),0,28);
         this.packs.load(input);
         if (!this.level().isClientSide()) this.applyAdaptations();
         this.highestShowAward = Math.max(0, input.getIntOr("ShowAward", 0));
@@ -1070,35 +1134,45 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     // every temperament and gate themselves in canUse() by reading the (later) genome.
     @Override
     protected void registerGoals() {
+        this.goalSelector.addGoal(0, new DownedGoal(this));
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(0, new ClimbOnTopOfPowderSnowGoal(this,this.level()));
         // Everyone flees when hurt, except feral ones, who fight back instead.
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.5D) {
             @Override
             public boolean canUse() {
-                return Bunnidog.this.temperament() != Temperament.FERAL && super.canUse();
+                return Bunnidog.this.temperament() != Temperament.FERAL && !Bunnidog.this.combat().managesMovement() && super.canUse();
             }
+            @Override public boolean canContinueToUse() { return !Bunnidog.this.combat().managesMovement() && super.canContinueToUse(); }
         });
         this.goalSelector.addGoal(2, new RefugeGoal(this));
         this.goalSelector.addGoal(2, new GuardGoal(this));
+        this.goalSelector.addGoal(2, new CompanionFightGoal(this));
         // Skittish ones keep their distance from players.
         this.goalSelector.addGoal(2, new AvoidEntityGoal<Player>(this, Player.class, 8.0F, 1.0D, 1.6D) {
             @Override
             public boolean canUse() {
-                return Bunnidog.this.temperament() == Temperament.SKITTISH && super.canUse();
+                return Bunnidog.this.temperament() == Temperament.SKITTISH && !Bunnidog.this.combat().managesMovement()
+                        && super.canUse() && !Bunnidog.this.trail().belongsTo(this.toAvoid);
+            }
+            @Override public boolean canContinueToUse() {
+                return !Bunnidog.this.combat().managesMovement() && !Bunnidog.this.trail().belongsTo(this.toAvoid) && super.canContinueToUse();
             }
         });
         // Feral ones bite whoever hurt them.
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3D, true) {
+            @Override protected int getAttackInterval() {
+                return com.bunnidogs.mod.genetics.Combat.profile(Bunnidog.this.genome(),Bunnidog.this.stats()).interval();
+            }
             @Override
             public boolean canUse() {
-                return Bunnidog.this.temperament() == Temperament.FERAL
+                return Bunnidog.this.temperament() == Temperament.FERAL && !Bunnidog.this.combat().bonded()
                         && Bunnidog.this.getTarget() != Bunnidog.this.huntingTarget
                         && Bunnidog.this.getTarget() != Bunnidog.this.guardingTarget && super.canUse();
             }
             @Override
             public boolean canContinueToUse() {
-                return Bunnidog.this.temperament() == Temperament.FERAL
+                return Bunnidog.this.temperament() == Temperament.FERAL && !Bunnidog.this.combat().bonded()
                         && Bunnidog.this.getTarget() != Bunnidog.this.huntingTarget
                         && Bunnidog.this.getTarget() != Bunnidog.this.guardingTarget && super.canContinueToUse();
             }
@@ -1106,7 +1180,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this) {
             @Override
             public boolean canUse() {
-                return Bunnidog.this.temperament() == Temperament.FERAL && super.canUse();
+                return Bunnidog.this.temperament() == Temperament.FERAL && !Bunnidog.this.combat().bonded() && super.canUse();
             }
         });
         // Breeding (Phase 2): mate with another bunnidog in love, follow a guava, pups follow an adult.

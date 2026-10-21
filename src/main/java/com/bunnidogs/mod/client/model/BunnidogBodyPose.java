@@ -16,5 +16,6 @@ public final class BunnidogBodyPose {
         float size = state.isBaby ? .65F : 1;
         root.xScale = size; root.yScale = size; root.zScale = size;
         root.y += 24*(1-size);
+        if (state.downed) root.y+=Math.max(.05F,BunnidogModelLayer.LEG_LENGTH*.35F*state.legScale-2.2F*(state.buildScale-1));
     }
 }

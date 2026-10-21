@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.bunnidogs.mod.genetics.Allele;
+import com.bunnidogs.mod.genetics.Combat;
 import com.bunnidogs.mod.genetics.Drift;
 import com.bunnidogs.mod.genetics.Drops;
 import com.bunnidogs.mod.genetics.Gene;
@@ -197,7 +198,8 @@ public final class SheetLayout {
         int y = ROWS_Y;
         int geneIndex = 0;
         for (Gene gene : Gene.values()) {
-            page.hotspot(0, y, Page.WIDTH, Page.LINE, Plain.hover(g, gene), geneIndex++);
+            String combat=gene==Gene.TEMPERAMENT && e.stats().isPresent() ? " " + Combat.describe(g,e.stats().get()) : "";
+            page.hotspot(0, y, Page.WIDTH, Page.LINE, Plain.hover(g, gene)+combat, geneIndex++);
             page.text(0, y, Plain.shortGeneName(gene), Page.Tone.HEAD);
             int room = Page.WIDTH - LABEL_W;
             String shown = Page.fit(Plain.word(g.expressed(gene)), room, m);
@@ -321,7 +323,10 @@ public final class SheetLayout {
             }
             y = line + Page.LINE;
             String care = r.stat() == Stat.SENSES ? " Healthy adults bred to Senses +10 yield one loose whisker with a Brush every ten minutes." : "";
-            page.hotspot(0, top, Page.WIDTH, y - top, Units.working(r.stat(), g, e.stats().get()) + care, -1);
+            var profile=Combat.profile(g,e.stats().get());
+            String combat=r.stat()==Stat.VITALITY ? String.format(Locale.ROOT," Adult base bite %.1f HP, every %.1f s before defenses.",profile.bite(),profile.interval()/20.0)
+                    : r.stat()==Stat.BLOOM ? String.format(Locale.ROOT," Combat injury: %.1f minutes of safe loaded recovery, with at least half health.",Combat.recoveryTicks(e.stats().get())/1200.0) : "";
+            page.hotspot(0, top, Page.WIDTH, y - top, Units.working(r.stat(), g, e.stats().get()) + care + combat, -1);
         }
     }
 

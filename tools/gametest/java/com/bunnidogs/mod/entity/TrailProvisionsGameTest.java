@@ -52,7 +52,7 @@ public final class TrailProvisionsGameTest {
         var player=h.makeMockServerPlayerInLevel(); player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL); player.setPos(dog.position().add(1,0,0));
         player.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(ModItems.TRAIL_WHISTLE.get()));
         player.setItemInHand(InteractionHand.OFF_HAND,new ItemStack(ModItems.GUAVA.get(),2));
-        player.interactOn(dog,InteractionHand.MAIN_HAND,net.minecraft.world.phys.Vec3.ZERO);
+        h.assertTrue(dog.trail().trainFromStock(player,player.getOffhandItem()),"Provisions use a deliberately trained partner");
         player.setItemInHand(InteractionHand.MAIN_HAND,bag(3)); player.interactOn(dog,InteractionHand.MAIN_HAND,net.minecraft.world.phys.Vec3.ZERO);
         h.assertTrue(dog.carriedBundleCount()==1&&!dog.trail().provisions(),"Training and equipping cargo do not opt in to eating it");
         dog.setHealth(dog.getMaxHealth()-4); dog.trail().tick();

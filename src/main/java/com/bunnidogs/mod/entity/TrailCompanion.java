@@ -36,7 +36,7 @@ public final class TrailCompanion {
     public boolean provisions() { return provisions; }
     public boolean belongsTo(Player player) { return player.getUUID().equals(keeper); }
     private boolean calm() {
-        return dog.getTarget()==null && !dog.seekingRefuge() && !dog.isInLove()
+        return !dog.combat().danger() && !dog.combat().downed() && dog.getTarget()==null && !dog.seekingRefuge() && !dog.isInLove()
                 && (dog.getLastHurtByMob()==null || dog.tickCount-dog.getLastHurtByMobTimestamp()>=100);
     }
     public ServerPlayer keeperPlayer() {
@@ -47,7 +47,7 @@ public final class TrailCompanion {
     }
     boolean canWalk() {
         return ordered() && dog.acceptsCare() && dog.isAlive() && !dog.isBaby() && Trail.qualified(dog.genome())
-                && !dog.beingTransported() && !dog.isVehicle() && dog.getTarget()==null && !dog.seekingRefuge() && !dog.isInLove();
+                && !dog.combat().downed() && !dog.beingTransported() && !dog.isVehicle() && dog.getTarget()==null && !dog.seekingRefuge() && !dog.isInLove();
     }
     void tick() {
         if (!ordered()) return;
@@ -55,11 +55,11 @@ public final class TrailCompanion {
             setOrder(Trail.Order.RESIDENT); return;
         }
         if (order==Trail.Order.WAIT || keeperPlayer()!=null) missingTicks=0;
-        else if (++missingTicks>=Trail.LOST_KEEPER_TICKS) setOrder(Trail.Order.RESIDENT);
+        else if (++missingTicks>=Trail.LOST_KEEPER_TICKS) setOrder(dog.combat().selected() ? Trail.Order.WAIT : Trail.Order.RESIDENT);
         if (ordered()) meal();
     }
     private void meal() {
-        if (!provisions || eating || !dog.isAlive() || dog.getHealth()>=dog.getMaxHealth() || dog.forageWait()>0
+        if (!provisions || eating || dog.combat().downed() || !dog.isAlive() || dog.getHealth()>=dog.getMaxHealth() || dog.forageWait()>0
                 || dog.beingTransported() || dog.isVehicle() || !dog.onGround() || dog.isInWater() || dog.isInLava() || dog.isOnFire()
                 || !calm() || !HomeRoutes.dryCell(dog,dog.blockPosition())) return;
         long now=dog.level().getGameTime();
@@ -81,8 +81,11 @@ public final class TrailCompanion {
     }
     private void setOrder(Trail.Order next) {
         order=next; missingTicks=0;
+        dog.combat().orderChanged(next);
         if (calm()) dog.getNavigation().stop();
     }
+    void combatFollow() { setOrder(Trail.Order.FOLLOW); }
+    void combatWait() { setOrder(Trail.Order.WAIT); }
     /** The trained keeper can give the same local orders through the care panel. */
     public boolean command(Player player,Trail.Order next) {
         if (dog.level().isClientSide() || !belongsTo(player) || readiness(player)!=Trail.Status.READY) return false;
@@ -95,7 +98,9 @@ public final class TrailCompanion {
     }
     public boolean release(Player player) {
         if (dog.level().isClientSide() || !player.mayBuild() || !belongsTo(player) || training || !dog.isAlive()
-                || !dog.acceptsCare() || player.level()!=dog.level() || dog.distanceToSqr(player)>36) return false;
+                || !dog.acceptsCare() || player.level()!=dog.level() || dog.distanceToSqr(player)>36
+                || !calm() || !dog.combat().canRelease()) return false;
+        dog.combat().released(player);
         keeper=null; provisions=false; setOrder(Trail.Order.RESIDENT); say(player,"released"); return true;
     }
     private Trail.Status readiness(Player player) {
@@ -134,43 +139,42 @@ public final class TrailCompanion {
         return Trail.Status.READY;
     }
     public InteractionResult use(Player player,InteractionHand hand) {
-        if (!player.mayBuild() || !dog.acceptsCare() || !dog.isAlive() || dog.level()!=player.level()
-                || dog.distanceToSqr(player)>36) return InteractionResult.PASS;
-        if (dog.level().isClientSide()) return InteractionResult.SUCCESS;
-        if (!player.getItemInHand(hand).is(ModItems.TRAIL_WHISTLE.get())) return InteractionResult.PASS;
-        if (belongsTo(player) && player.isShiftKeyDown() && !training) {
-            release(player); return InteractionResult.SUCCESS;
+        if (player.isShiftKeyDown()) {
+            if (keeper==null) com.bunnidogs.mod.menu.CareMenu.open(player,dog);
+            else com.bunnidogs.mod.menu.CareMenu.openCombat(player,dog);
+            return InteractionResult.SUCCESS;
         }
-        var status=readiness(player);
-        if (status!=Trail.Status.READY) { say(player,status.name().toLowerCase(Locale.ROOT)); return InteractionResult.SUCCESS; }
-        if (keeper==null) {
-            var food=player.getItemInHand(hand==InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
-            if (!food.is(ModItems.GUAVA.get())) { say(player,"food"); return InteractionResult.SUCCESS; }
-            train(player,food);
-        } else {
-            setOrder(order==Trail.Order.FOLLOW ? Trail.Order.WAIT : Trail.Order.FOLLOW);
-            say(player,order.name().toLowerCase(Locale.ROOT));
-        }
-        return InteractionResult.SUCCESS;
+        return call(player,hand);
     }
     private static void say(Player player,String key) { player.sendOverlayMessage(Component.translatable("message.bunnidogs.trail."+key)); }
+    private static final java.util.Map<UUID,Long> LAST_SOUND=new java.util.WeakHashMap<>();
     public static InteractionResult call(Player player,InteractionHand hand) {
         if (!player.mayBuild()) return InteractionResult.PASS;
         if (!(player.level() instanceof ServerLevel level)) return InteractionResult.SUCCESS;
-        var whistle=player.getItemInHand(hand);
-        if (!whistle.is(ModItems.TRAIL_WHISTLE.get()) || player.getCooldowns().isOnCooldown(whistle)) return InteractionResult.SUCCESS;
-        player.getCooldowns().addCooldown(whistle,Trail.CALL_COOLDOWN);
-        var next=player.isShiftKeyDown() ? Trail.Order.RESIDENT : Trail.Order.FOLLOW;
+        if (!player.getItemInHand(hand).is(ModItems.TRAIL_WHISTLE.get())) return InteractionResult.PASS;
         var dogs=level.getEntitiesOfClass(Bunnidog.class,player.getBoundingBox().inflate(Trail.MAX_HEARING),dog->dog.trail().belongsTo(player)
                 && dog.acceptsCare() && dog.isAlive() && dog.distanceToSqr(player)<=Math.pow(Trail.hearing(dog.genome(),dog.stats()),2))
-                .stream().sorted(Comparator.comparingDouble(dog->dog.distanceToSqr(player))).limit(Trail.MAX_CALLS).toList();
+                .stream().sorted(Comparator.comparingInt((Bunnidog dog)->dog.combat().selected() ? 0 : 1)
+                        .thenComparingDouble(dog->dog.distanceToSqr(player))).limit(Trail.MAX_CALLS).toList();
+        if (player.isShiftKeyDown()) {
+            if (CompanionCombat.focusLook(player)) return InteractionResult.SUCCESS;
+            var near=dogs.stream().filter(d->d.distanceToSqr(player)<=36)
+                    .min(Comparator.comparingInt(d->d.combat().selected() ? 0 : 1));
+            if (near.isPresent()) com.bunnidogs.mod.menu.CareMenu.openCombat(player,near.get());
+            else com.bunnidogs.mod.menu.CareMenu.openParty(player);
+            return InteractionResult.SUCCESS;
+        }
         int changed=0;
         for (var dog:dogs) {
-            if (next!=Trail.Order.RESIDENT && dog.trail().readiness(player,false)!=Trail.Status.READY) continue;
-            dog.trail().setOrder(next); changed++;
+            if (dog.trail().order()==Trail.Order.RESIDENT || dog.trail().order()==Trail.Order.WAIT && !dog.combat().selected()) continue;
+            if (dog.combat().recall(player)) changed++;
         }
-        level.playSound(null,player.blockPosition(),SoundEvents.NOTE_BLOCK_FLUTE.value(),SoundSource.PLAYERS,2,player.isShiftKeyDown() ? .75F : 1.5F);
-        player.sendOverlayMessage(Component.translatable(next==Trail.Order.RESIDENT ? "message.bunnidogs.trail.sent_home" : "message.bunnidogs.trail.called",changed));
+        long now=level.getGameTime();
+        if (now>=LAST_SOUND.getOrDefault(player.getUUID(),now-Trail.CALL_COOLDOWN)+Trail.CALL_COOLDOWN) {
+            LAST_SOUND.put(player.getUUID(),now);
+            level.playSound(null,player.blockPosition(),SoundEvents.NOTE_BLOCK_FLUTE.value(),SoundSource.PLAYERS,2,1.5F);
+        }
+        player.sendOverlayMessage(Component.translatable("message.bunnidogs.trail.called",changed));
         return InteractionResult.SUCCESS;
     }
     void save(ValueOutput output) {

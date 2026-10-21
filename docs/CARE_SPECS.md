@@ -3,8 +3,7 @@
 Current A11 supplies the Island's native oxygen/propulsion and A12 completes
 useful pale-coat cave vision. A10 supplies coat camouflage; H11 adds
 Build-based native bundle carriers, with cargo breaking cover. Current
-client/server protocol **17** adds live inventory-backed care to partners and commissions; update both
-sides. Earlier per-feature protocol/test counts are historical checkpoints.
+client/server protocol **18** adds combat intent/pose state; update both sides. Earlier per-feature protocol/test counts are historical checkpoints.
 
 C1/C2 puts the existing operations in a compact empty-hand panel: real plain-guava
 care/courtship, developed-line Brush products, ownership-checked trail controls,
@@ -29,6 +28,24 @@ Implemented 2026-10-16 under the user's standing design latitude. These addition
 make a valuable breeding animal useful while alive, and give several wild traits
 clear environmental benefits. Compiler/server evidence is separate from manual
 client gameplay review.
+
+## Combat care integration (2026-10-21)
+
+[COMBAT_SPECS.md](COMBAT_SPECS.md) records the actual B1/B2 and initial B3
+combat rules. All temperaments can learn a keeper bond; three explicit party
+slots never recruit ordinary carriers automatically. Bonded adults defeated by
+ordinary combat collapse, can receive paid first aid in care/combat orders or
+be extracted with a basket, then recuperate while travelling safely. Injury
+preserves genome/identity/cargo/bond, pauses breeding/work/fighting, and survives
+capture/save changes. Native terrain hazards and unbonded death remain real.
+
+Calm real ordinary meals heal `max(2 HP, 25% maximum HP)`, including direct paid
+hand care, Troughs and opted-in bundles. Automatic meals retain shared thirty-
+second rest before callbacks. Hand care preserves its existing cooldown behavior:
+actual paid calm use neither waits on nor clears that automatic rest, with a
+reentry lock. First aid pays one actual plain guava once and reserves meal rest.
+Aftercare recovery uses safe loaded time, a Bloom-shortened five-minute wait
+with a two-minute floor and at least half health. It needs no mandatory hospital.
 
 ## C1: Sampling Syringe
 

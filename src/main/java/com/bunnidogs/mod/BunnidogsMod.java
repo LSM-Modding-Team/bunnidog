@@ -53,5 +53,9 @@ public class BunnidogsMod {
         NeoForge.EVENT_BUS.addListener(ResidentBellCalls::onGameEvent);
         NeoForge.EVENT_BUS.addListener(CoatCamouflage::onGameEvent);
         NeoForge.EVENT_BUS.addListener(TroughInteraction::onRightClick);
+        NeoForge.EVENT_BUS.addListener(com.bunnidogs.mod.entity.CompanionEvents::projectile);
+        NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.HIGHEST,com.bunnidogs.mod.entity.CompanionEvents::block);
+        NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.HIGHEST,com.bunnidogs.mod.entity.CompanionEvents::entity);
+        NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.LOWEST,com.bunnidogs.mod.entity.CompanionEvents::credit);
     }
 }

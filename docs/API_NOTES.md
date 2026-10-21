@@ -512,3 +512,32 @@ Moved to `docs/history/API_HISTORY.md` (sections: Where each fact comes from; Ve
   checkpoint, including genuine courtship through paid feeding, pickup, planting,
   bone meal and actual pup harvest. Snapshot previews use a substitute font;
   they do not verify a real client, GPU, GUI scale or unfamiliar-player pacing.
+
+## Combat integration (26.2 / NeoForge 26.2.0.88, 2026-10-21)
+
+- Native entity constants are `EntityTypes.*`. `Entity.isAlliedTo(Entity)` is
+  final; ordinary bonded alliances extend protected `considersEntityAsAlly`.
+- Override `die` before `super` for downed defeat: native `hurtServer` has already
+  applied real damage/totem logic. Restoring positive health and avoiding native
+  death prevents death flags, loot/XP and home release. Terrain uses native death.
+- `PlayerInteractEvent` exposes `RightClickBlock` and `EntityInteract` (with hit
+  location); there is no `EntityInteractSpecific` in this target. Intercept the
+  Whistle on the server only so the client still transmits its native packet.
+- Canceling `ProjectileImpactEvent` lets the actual friendly arrow continue on
+  a later tick. No position nudge or synthetic hit is required; a native case
+  verifies it passes a pet and hits the hostile beyond.
+- `LivingDamageEvent.Pre` exposes final positive damage before death. Local
+  participating keeper credit uses `setLastHurtByPlayer(player, 100)`; no held
+  Looting copy, duplicate drops or synthetic advancement trigger is introduced.
+- Global roster storage uses overworld `getDataStorage().computeIfAbsent(type)`;
+  `SavedDataType(Identifier, Supplier, Codec)` and `UUIDUtil.STRING_CODEC` encode
+  stable membership/command/sightings. Native level UUID indexes do not load chunks.
+- Native `ATTACK_DAMAGE` caps at 2048; pure combat readouts respect that bound.
+  `MeleeAttackGoal.getAttackInterval()` is protected. Actual melee and its native
+  hurt window are retained; a saved bite delay is shared across ordinary callers.
+- `ProjectileUtil.getHitResultOnViewVector` supports a bounded server Focus ray;
+  `Creeper.getSwellDir()` exposes a real visible fuse for warnings/withdrawal.
+
+Evidence: Java 25 Gradle build/model and 116 native scenarios at the integration
+checkpoint; separate substitute-font/native-view and actual-sculpt previews.
+Client/GPU and natural encounter/co-op balance remain unverified.

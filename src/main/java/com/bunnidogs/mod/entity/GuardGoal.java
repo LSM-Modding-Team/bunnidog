@@ -77,7 +77,7 @@ final class GuardGoal extends Goal {
         }
         if (this.biteWait <= 0 && this.dog.isWithinMeleeAttackRange(this.intruder)
                 && this.dog.level() instanceof ServerLevel server) {
-            this.biteWait = Guarding.BITE_INTERVAL;
+            this.biteWait = com.bunnidogs.mod.genetics.Combat.profile(this.dog.genome(),this.dog.stats()).interval();
             this.dog.doHurtTarget(server,this.intruder);
         }
     }

@@ -80,6 +80,7 @@ public class CalipersItem extends Item {
             return;
         }
         var nest = dog.homeNest();
+        careRow(player,"combat",Component.translatable("care.bunnidogs.combat.intent."+dog.combat().intent()));
         if (dog.trail().keeper()!=null) careRow(player,"trail",Component.translatable("message.bunnidogs.trail.inspect",
                 Component.translatable("message.bunnidogs.trail.order."+dog.trail().order().name().toLowerCase(Locale.ROOT)),
                 Component.translatable(dog.trail().belongsTo(player) ? "message.bunnidogs.trail.yours" : "message.bunnidogs.trail.other")));

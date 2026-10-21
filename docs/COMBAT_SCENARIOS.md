@@ -1,7 +1,8 @@
 # Combat companions — adventures worth designing for
 
-These are **proposed player experiences**, not descriptions of implemented
-combat. They test the recommendations in [the combat plan](COMBAT_COMPANION_PLAN.md).
+These are **player experience goals**, including some future abilities.
+They test [the combat plan](COMBAT_COMPANION_PLAN.md);
+[COMBAT_SPECS.md](COMBAT_SPECS.md) describes implemented behavior.
 The animals below are examples of useful combinations, not classes, required
 recipes or names the player must learn.
 
@@ -175,5 +176,8 @@ can keep decisions interesting without erasing progression.
 | Does defeat create a good rescue or constant chores? | Protect the ordinary recovery window and tune frequency/aftercare; no invisible death clock or repeated feeding clicks. |
 | Does a developed line trivialize its old first-night fight? | Allow earned progression; assess it on harder adventures rather than nullifying the breeding result. |
 
-These are encounter/playtest goals for later implementation, not a request to
-write dozens of mirrored automated tests during a documentation-only batch.
+These remain encounter/playtest goals. The 2026-10-21 implementation covers
+B1/B2 and initial B3 party mechanics; [COMBAT_SPECS.md](COMBAT_SPECS.md) separates
+actual rules from the remaining signatures/breeding handoffs. Focused native
+scenarios provide implementation evidence, not proof of the player experiences
+or a reason to add dozens of mirrored automated cases.

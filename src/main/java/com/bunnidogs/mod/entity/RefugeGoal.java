@@ -25,7 +25,7 @@ final class RefugeGoal extends Goal {
     private int ticks, quiet;
     RefugeGoal(Bunnidog dog) { this.dog = dog; this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK)); }
     private boolean wanted() {
-        return this.dog.acceptsCare() && this.dog.isAlive() && this.dog.level() instanceof ServerLevel
+        return this.dog.acceptsCare() && this.dog.isAlive() && !this.dog.combat().managesMovement() && this.dog.level() instanceof ServerLevel
                 && Refuge.eligible(!this.dog.isBaby(),this.dog.homeNest() != null,this.dog.temperament() == Temperament.FERAL,
                         this.dog.beingTransported(),this.dog.hasCombatTarget(),this.dog.foodWithinHome(this.dog.blockPosition()));
     }

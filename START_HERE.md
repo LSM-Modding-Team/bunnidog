@@ -20,33 +20,52 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Current focus — gene-driven combat companions (planning, 2026-10-20)
+## Current focus — gene-driven combat companions (2026-10-21)
 
-The user's new request is a **planning-only batch** for bunnidogs helping in
-combat, with inherited damage, loyalty and other meaningful differences. Read
-[the combat proposal](docs/COMBAT_COMPANION_PLAN.md) and
-[ten player scenarios](docs/COMBAT_SCENARIOS.md). No combat code, resources,
-saved fields, protocol or art changed; this batch needs no game build.
+The planning-only stage is complete; the user explicitly authorized continuing
+into implementation. [COMBAT_SPECS.md](docs/COMBAT_SPECS.md) records actual B1/B2
+and the first B3 party. [The broader plan](docs/COMBAT_COMPANION_PLAN.md) and
+[ten player scenarios](docs/COMBAT_SCENARIOS.md) distinguish future work and
+prototype balance. Core play is learned through care, Whistle orders and animal
+feedback; no manual or kill grind is required.
 
-The proposed direction uses the existing seven genes/five stats: learned keeper
-bonds plus inherited loyal, stoic, feral and skittish habits; useful zero-point
-adults; a small deliberately selected party; dependable emergency recall;
-native combat and regional adaptations; recoverable defeat, rescue and actual
-care. New damage curves, three party slots, withdrawal thresholds and recovery
-durations are starting hypotheses, not validated balance or adopted save rules.
+- **Useful ordinary fighters:** all four temperaments bond with actual stock.
+  Deliberately choose up to three fighters; training/carriers alone stay safe.
+  Existing Build, temperament and Vitality supply actual native bite attributes
+  and a saved attack interval. Other genetic defenses/movement remain useful.
+- **Distinct partnerships:** loyal keeper watch, close stoic defense, directed
+  feral strikes and skittish visible warnings/one-bite skirmishes. Real hearing,
+  native target/terrain checks, bounded pursuits and keeper loss govern combat.
+- **Control under pressure:** normal Whistle at air/blocks/entities always
+  recalls heard party members, including held defenders, without an item lock.
+  Crouched aimed use directs one chosen partner; nearby crouch opens orders.
+  Wait + Assist holds a small area. Recall/danger yields the position and incoming
+  attacks cannot cancel regrouping. Native player arrows pass bonded pets.
+- **Party and supplies:** three global UUID slots survive capture/unloading;
+  quiet-time removal works for packed/away members. Actual following positions,
+  uncovered-target preference, shared warnings and saved last sightings help
+  the group. Resident guards remain separate; ordinary carriers are not recruited.
+- **Bring them home:** bonded adults collapse after ordinary combat defeat,
+  including non-party carriers. Real first aid or downed basket rescue conserves
+  identity/cargo/bond/injury. Quiet loaded recovery (Bloom shortens it) and half
+  health restore fighting; no invisible bleed timer or capture reset. Terrain
+  hazards remain real. Calm real meals heal proportionally; automatic meals
+  retain shared rest and paid hand care preserves its prior cooldown behavior.
+- **Readouts and saves:** care/party views show actual intent, style, bite and
+  recovery. Actual Calipers/sample/parent hovers describe inherited potential.
+  Seven genes/five stats and old sample/seed formats stay. New care defaults keep
+  existing saved followers out of combat. Protocol **18** needs both sides updated.
 
-A later implementation continuation should start with **B1**, one common
-loyal/stoic partner in a real fight, including control, disengagement, downed
-rescue, a basic genetic bite profile, ally/owner-loss handling and saved-state
-conservation. Build the complete experience before extra signatures or a large
-ability list. Wider temperament bonding, fuller profiles/readouts, a three-member
-party and special movement follow.
-No extra approval gate is implied; follow the user's scope at that time.
-
-The cohesion work below is the foundation, not a replacement for this new
-direction. Natural Survival/client pacing still needs evidence. The latest
-implemented gameplay checkpoint remains C6 / `b34e90d` with the results below;
-none of that evidence validates the proposed combat system.
+Java 25 build, maintained Gradle genetics/layout checks, the model gate and all
+**116 native scenarios** pass at the integration checkpoint. Four actual-sculpt
+combat poses and four native care/party snapshots are inspected. The standalone
+legacy `GenomeCheck.java` still fails on unchanged Island-era allele assumptions
+before reaching these features; it is not the maintained Gradle gate. Native scenarios
+and substitute-font / actual-sculpt previews do not establish client/GPU feel,
+natural Survival balance or six-companion co-op behavior. The next accepted work
+is B3 combat-focused breeding comparisons/handoffs and B4 a few physical moves
+(pounce/braced interception), followed by natural/client encounters and tuning.
+Do not replace these unfinished features with another unrelated QoL batch.
 
 ## Implemented foundation — cohesive family and workshop play (2026-10-20)
 

@@ -155,15 +155,17 @@ public class BunnidogModelCheck {
         var packRoot = com.bunnidogs.mod.client.model.BunnidogPackModelLayer.createLayer().bakeRoot();
         animalMaterial[0] = false;
         var packs = new com.bunnidogs.mod.client.model.BunnidogPackModel(packRoot);
-        for (float build : new float[]{.7F,1,1.6F}) for (float leg : new float[]{.8F,1,1.5F}) for (boolean baby : new boolean[]{false,true}) {
+        for (float build : new float[]{.7F,1,1.6F}) for (float leg : new float[]{.8F,1,1.5F}) for (boolean baby : new boolean[]{false,true}) for (boolean downed : new boolean[]{false,true}) {
             state.buildScale = build; state.legScale = leg; state.isBaby = baby;
+            state.downed=downed && !baby;
             model.setupAnim(state);
+            if (state.downed) require(Math.abs(ground(root)-24)<.1,"Downed paws must stay grounded through actual leg/build extremes");
             for (int count : new int[]{4,1,0,3,2,0}) {
                 state.bundleCount = count; packs.setupAnim(state);
                 var body = root.getChild("body"); var equipment = packRoot.getChild("body");
                 require(body.storePose().equals(equipment.storePose()) && root.storePose().equals(packRoot.storePose())
                         && body.xScale == equipment.xScale && body.yScale == equipment.yScale && body.zScale == equipment.zScale
-                        && root.xScale == packRoot.xScale,"Separate packs must exactly follow the approved body/ground pose through genes and pups");
+                        && root.xScale == packRoot.xScale,"Separate packs must exactly follow the approved body/ground pose through genes, pups and downed rescue");
                 int before = rendered[0]; packRoot.render(new PoseStack(),consumer,0xF000F0,0);
                 require(rendered[0]-before == (count == 0 ? 0 : 4*(60+18*count)),"Shared equipment models must reset every bag and add no faces when empty");
             }

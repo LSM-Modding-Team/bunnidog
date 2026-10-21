@@ -4,26 +4,24 @@ The user requests substantial continuations, prioritizing unfinished planned
 features over more quality-of-life controls. Historical per-turn chunk limits
 do not apply. Verify old completion claims against code before choosing work.
 
-## Current priority — gene-driven combat companions (proposal)
+## Current priority — gene-driven combat companions
 
-The 2026-10-20 user request is **planning only**: combat assistance shaped by
-genes, designed around enjoyable player choices. No combat behavior is added
-by this batch. [COMBAT_COMPANION_PLAN.md](COMBAT_COMPANION_PLAN.md) contains the
-source audit, recommendations, tradeoffs and B1–B5 sequence;
-[COMBAT_SCENARIOS.md](COMBAT_SCENARIOS.md) works through ten actual adventures.
+The 2026-10-20 plan is followed by the explicitly authorized 2026-10-21
+implementation. [COMBAT_SPECS.md](COMBAT_SPECS.md) describes B1/B2 and initial
+B3 behavior: ordinary genetic fighters, all four bondable temperaments, reliable
+Whistle recall/Focus, downed rescue/aftercare, three deliberate party slots,
+spacing/distributed targets, held defense and remembered last sightings.
+[COMBAT_COMPANION_PLAN.md](COMBAT_COMPANION_PLAN.md) and
+[COMBAT_SCENARIOS.md](COMBAT_SCENARIOS.md) retain the longer gameplay direction.
+Prototype numbers and native checks are not natural-world balance evidence.
 
-Recommended next implementation slice: **B1 — one dependable partner**. A common
-bonded adult helps in a real fight, accepts emergency recall during combat and
-can be rescued after an ordinary defeat. Include a basic genetic bite profile
-and ally/owner-loss/save rules before shipping, rather than adding damage and
-leaving survival for later.
-Then expand inherited temperament/profile differences, a small selected party,
-breeding/recovery feedback and a few distinctive physical moves. Existing genes
-and bred points should suffice initially; exact numbers remain prototypes.
-
-Future implementation continuations have the standing design latitude; this
-planning document introduces no additional approval step. Current gameplay
-remains the cohesive-family checkpoint below, not an implemented combat system.
+Next: finish B3's combat-oriented breeding/actual seed and pup comparison
+handoffs, then B4's small set of physical signature moves and regional encounter
+integration. Existing actual Calipers/sample/parent hovers expose genetic combat
+potential; no nonlinear expected-points combat score is claimed. Preserve the
+ordinary first partner, recovery and trustworthy recall while extending them.
+Natural Survival/client/co-op encounter pacing remains B5 evidence to collect;
+new combat gear and optional practice should follow demonstrated needs.
 
 ## Foundation — cohesion and ordinary usefulness
 

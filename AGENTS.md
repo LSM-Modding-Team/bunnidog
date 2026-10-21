@@ -7,11 +7,13 @@ are obsolete. The user's current request determines scope.
 
 - Complete the requested change through implementation and appropriate validation,
   respecting planning-only requests. The current user direction is gene-driven
-  combat companions: `docs/COMBAT_COMPANION_PLAN.md` and its player scenarios in
-  `docs/COMBAT_SCENARIOS.md`. The 2026-10-20 combat batch is documentation only;
-  those recommendations are not shipped behavior. A subsequent implementation
-  continuation should start with B1's useful ordinary partner, dependable recall
-  and rescue, rather than collecting isolated attack abilities.
+  combat companions: `docs/COMBAT_SPECS.md` describes the implemented B1/B2 and
+  initial B3 party; `docs/COMBAT_COMPANION_PLAN.md` and `docs/COMBAT_SCENARIOS.md`
+  retain the broader accepted direction. The 2026-10-20 batch planned only; the
+  2026-10-21 continuation explicitly authorized implementation. Continue unfinished
+  B3 breeding handoffs and B4 physical signatures, with useful ordinary partners,
+  reliable recall and rescue kept together. Do not call prototype tuning or
+  headless evidence validated client/gameplay balance.
   Preserve `docs/COHESION_PLAN.md`: players should discover the core loop through
   animals, stations and useful feedback; the long guide is optional reference.
   Address observed first-session friction rather than adding unrelated systems.

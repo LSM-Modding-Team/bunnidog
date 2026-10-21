@@ -4,9 +4,10 @@ The player should be able to raise a useful companion without reading a manual.
 The Field Guide is an optional reference for exact genetics and advanced systems.
 Adding another chapter does not count as making an interaction discoverable.
 
-The next user-directed design is [combat companions](COMBAT_COMPANION_PLAN.md),
-with [player scenarios](COMBAT_SCENARIOS.md). Its 2026-10-20 batch is planning
-only. Combat should extend this journey: an ordinary adult helps immediately,
+The user-directed [combat plan](COMBAT_COMPANION_PLAN.md) and
+[player scenarios](COMBAT_SCENARIOS.md) now have an implemented B1/B2 and initial
+B3 party in [COMBAT_SPECS.md](COMBAT_SPECS.md), following the 2026-10-20 planning
+batch and explicit 2026-10-21 implementation authorization. Combat extends this journey: an ordinary adult helps immediately,
 clear commands and rescue make it worth bringing along, and real adventures
 give the player a reason to improve a family. No mandatory manual, loyalty grind
 or separate gear prerequisite replaces the existing care/breeding loop.

@@ -15,7 +15,7 @@ from gen_bunnidog import PARTS, ROOT, TILES, build_geometry, rotation
 from sculpt_bunnidog import HIP_HEIGHT
 
 
-def world_faces(ear_scale=1, leg_scale=1, build_scale=1, baby=False, webbed=False, parts=None, fertility='average'):
+def world_faces(ear_scale=1, leg_scale=1, build_scale=1, baby=False, webbed=False, parts=None, fertility='average', combat_pose=None):
     build_geometry()
     bones = {p['name']: p for p in PARTS}
     matrices = {}
@@ -29,14 +29,28 @@ def world_faces(ear_scale=1, leg_scale=1, build_scale=1, baby=False, webbed=Fals
             scale = np.diag((1 + (ear_scale - 1) * .4, ear_scale, 1))
         elif name in ('leg_fr','leg_fl','leg_br','leg_bl'):
             thick = 1 + (build_scale - 1) * .6
-            scale = np.diag((thick, leg_scale, thick))
+            scale = np.diag((thick, leg_scale*(.65 if combat_pose == 'downed' else 1), thick))
         elif name == 'body':
             scale = np.diag((build_scale, 1 + (build_scale - 1) * .6, 1 + (build_scale - 1) * .3))
         elif name == 'head' and baby:
             scale = np.eye(3) * 1.08
-        r = np.asarray(rotation(p['rot'])) @ scale
+        angles = list(p['rot'])
+        # Match the Java pose in model space: X/Z angles reverse when Y is flipped.
+        if combat_pose == 'downed':
+            folded = {'head': -.3, 'tail': .5}
+            if name in folded:
+                angles[0] = math.degrees(folded[name])
+            if name == 'ear_r':
+                angles[2] -= math.degrees(.2)
+            elif name == 'ear_l':
+                angles[2] += math.degrees(.2 + math.sin(1.7)*.05)
+        elif combat_pose == 'bite' and name == 'head':
+            angles[0] += math.degrees(.35)
+        r = np.asarray(rotation(angles)) @ scale
         pivot = np.asarray(p['pivot'], dtype=float)
         offset = pivot - r @ pivot
+        if combat_pose == 'downed' and name in ('leg_fr','leg_fl','leg_br','leg_bl'):
+            offset[1] -= 2.2*(build_scale-1)
         if p['parent']:
             pr, po = matrix(p['parent'])
             r, offset = pr @ r, pr @ offset + po
@@ -56,6 +70,8 @@ def world_faces(ear_scale=1, leg_scale=1, build_scale=1, baby=False, webbed=Fals
         corners = np.asarray(t['corners']) @ r.T + off
         if baby:
             corners *= .65
+        if combat_pose == 'downed':
+            corners[:, 1] -= max(.05, HIP_HEIGHT*.35*leg_scale-2.2*(build_scale-1))
         a, b = corners[2] - corners[0], corners[3] - corners[1]
         normal = np.cross(a, b)
         normal /= np.linalg.norm(normal)

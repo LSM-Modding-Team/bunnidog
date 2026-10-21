@@ -285,7 +285,7 @@ def main():
         lang=json.loads(path.read_text()); lang.update(TEXT); path.write_text(json.dumps(lang,indent=2)+'\n')
     print('Generated six native first-litter milestones, starter recipe and concise contextual text.')
 
-def preview_from_log(log_path):
+def preview_from_log(log_path, combat_only=False):
     """Draw production view data in the screen's layout, with an explicitly substitute font."""
     import re
     from pathlib import Path
@@ -296,7 +296,7 @@ def preview_from_log(log_path):
         if 'CARE_PREVIEW ' in line:
             value=json.loads(line.split('CARE_PREVIEW ',1)[1]); views[value['name']]=value
     core_names=('Injured companion','Trained partner','Food and garden work','Juicer inputs','Blocked nursery','Commission progress')
-    core={name:views.pop(name) for name in core_names}
+    core={} if combat_only else {name:views.pop(name) for name in core_names}
     workshop=views; views=core
     lang=json.loads((RES/'assets/bunnidogs/lang/en_us.json').read_text())
     def text(value):
@@ -355,6 +355,15 @@ def preview_from_log(log_path):
         for x,width,label in ([(12,194,'Done'),(214,194,text({'translate':'care.bunnidogs.choose.back' if choosing else 'care.bunnidogs.choose.open'}))] if choices else [(12,396,'Done')]):
             d.rectangle((x,332,x+width-1,351),fill=(79,76,70),outline=(135,130,116)); d.text((x+(width-font.getlength(label))/2,336),label,font=font,fill='white')
         return im
+    if combat_only:
+        canvas=Image.new('RGB',(884,820),(39,44,39)); d=ImageDraw.Draw(canvas)
+        d.text((12,9),'Combat care | native server snapshots | substitute font; client rendering unverified',font=bold,fill=(235,225,194))
+        for i,name in enumerate(('Combat orders','Combat party','Downed partner','Recovering partner')):
+            x=12+(i%2)*440; y=35+(i//2)*390
+            d.text((x,y),name,font=bold,fill=(235,225,194)); canvas.paste(panel(workshop[name]),(x,y+17))
+        canvas.resize((1768,1640),Image.Resampling.NEAREST).save(ROOT/'art/combat_care_preview.png')
+        print('Rendered four native combat care snapshots (substitute font).')
+        return
     canvas=Image.new('RGB',(1320,820),(39,44,39)); d=ImageDraw.Draw(canvas)
     d.text((12,9),'Care panel layout | native server snapshots | substitute font; client rendering pending',font=bold,fill=(235,225,194))
     for i,(name,view) in enumerate(views.items()):

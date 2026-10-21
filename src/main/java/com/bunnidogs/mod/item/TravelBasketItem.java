@@ -104,8 +104,9 @@ public final class TravelBasketItem extends Item {
         if (!dog.isAlive() || !dog.acceptsCare() || dog.getType() != ModEntities.BUNNIDOG.get()) return Result.ORDINARY;
         if (dog.beingTransported() || dog.isVehicle()
                 || !Leashable.leashableInArea(dog,leashed -> leashed.getLeashHolder() == dog).isEmpty()) return Result.TRANSPORTED;
-        if (CAPTURING.contains(dog) || dog.getTarget() != null || dog.seekingRefuge()
-                || dog.getLastHurtByMob() != null && dog.tickCount-dog.getLastHurtByMobTimestamp() < 200) return Result.DANGER;
+        if (CAPTURING.contains(dog)) return Result.DANGER;
+        if (!dog.combat().downed() && (dog.getTarget() != null || dog.seekingRefuge() || dog.combat().danger()
+                || dog.getLastHurtByMob() != null && dog.tickCount-dog.getLastHurtByMobTimestamp() < 200)) return Result.DANGER;
         return Result.READY;
     }
     public static Result capture(ServerLevel server, ItemStack basket, Bunnidog dog) {
@@ -156,6 +157,7 @@ public final class TravelBasketItem extends Item {
             if (dog == null) return Result.BLOCKED;
             saved.store(Entity.TAG_POS,Vec3.CODEC,Vec3.atBottomCenterOf(spot));
             saved.remove("NestX"); saved.remove("NestY"); saved.remove("NestZ");
+            saved.remove("CombatHold"); // A local held position belongs to the old place, unlike injury/bond/party membership.
             try { dog.load(TagValueInput.create(ProblemReporter.DISCARDING,server.registryAccess(),saved)); }
             catch (RuntimeException invalid) { return Result.INVALID; }
             dog.setDeltaMovement(Vec3.ZERO); dog.resetFallDistance();

@@ -45,48 +45,51 @@ public final class TrailGameTest {
         var level=h.getLevel(); int y=302; floor(h,y,8);
         var dog=h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),2,y+1,1); dog.setGenome(Genome.DEFAULT);
         dog.setAge(0); dog.setOnGround(true); dog.setHealth(dog.getMaxHealth());
-        var keeper=h.makeMockServerPlayerInLevel(); keeper.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
+        var keeper=h.makeMockServerPlayerInLevel(); CareMenuGameTest.prepare(keeper); keeper.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
         keeper.setPos(dog.position().add(1,0,0));
-        var whistle=new ItemStack(ModItems.TRAIL_WHISTLE.get()); keeper.setItemInHand(InteractionHand.MAIN_HAND,whistle);
+        keeper.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(ModItems.TRAIL_WHISTLE.get()));
         var guavas=new ItemStack(ModItems.GUAVA.get(),3); guavas.set(DataComponents.CUSTOM_NAME,Component.literal("Training stock"));
         keeper.setItemInHand(InteractionHand.OFF_HAND,guavas);
-        dog.setBaby(true); keeper.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
-        h.assertTrue(dog.trail().keeper()==null&&guavas.getCount()==3,"Pups retain training stock"); dog.setAge(0);
-        dog.setGenome(temperament("feral")); keeper.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
-        h.assertTrue(dog.trail().keeper()==null&&guavas.getCount()==3,"Expressed unsuitable temperament refuses training"); dog.setGenome(Genome.DEFAULT);
-        keeper.gameMode.changeGameModeForPlayer(GameType.ADVENTURE); keeper.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
-        h.assertTrue(dog.trail().keeper()==null&&guavas.getCount()==3,"Native Adventure permission cannot train"); keeper.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
+        keeper.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
+        h.assertTrue(dog.trail().keeper()==null && guavas.getCount()==3,"Normal Whistle use never trains or spends food under the crosshair");
+        dog.setBaby(true);
+        h.assertTrue(!dog.trail().trainFromStock(keeper,guavas),"Pups retain training stock"); dog.setAge(0);
+        dog.setHealth(dog.getMaxHealth()/4);
+        h.assertTrue(!dog.trail().trainFromStock(keeper,guavas),"An injured animal retains training stock until healthy enough"); dog.setHealth(dog.getMaxHealth());
+        keeper.gameMode.changeGameModeForPlayer(GameType.ADVENTURE);
+        h.assertTrue(!dog.trail().trainFromStock(keeper,guavas),"Native Adventure permission cannot train"); keeper.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
         var nest=h.absolutePos(new BlockPos(2,y,1)); level.setBlock(nest,ModBlocks.NEST.get().defaultBlockState(),3);
         h.assertTrue(dog.moveHomeTo(level,nest)==NestHome.MoveResult.MOVED,"The trained resident begins with a real claimed Nest");
-        keeper.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
+        com.bunnidogs.mod.menu.CareMenu.open(keeper,dog);
+        var menu=(com.bunnidogs.mod.menu.CareMenu)keeper.containerMenu;
+        h.assertTrue(menu.clickMenuButton(keeper,menu.buttonId(com.bunnidogs.mod.menu.CarePanels.TRAIN)),"Native care provides deliberate inventory-backed training");
         h.assertTrue(dog.trail().belongsTo(keeper)&&dog.trail().order()==Trail.Order.FOLLOW&&guavas.getCount()==2
-                &&dog.homeNest().equals(nest)&&dog.gardeningStatus()==Gardening.Status.TRAIL,"Real training spends one actual guava and retains home while pausing chores");
+                &&dog.homeNest().equals(nest)&&dog.gardeningStatus()==Gardening.Status.TRAIL&&!dog.combat().selected(),"Training spends one guava, retains home and leaves combat off");
         var goal=level.getServer().getAdvancements().get(Identifier.fromNamespaceAndPath("bunnidogs","trail_partner"));
         h.assertTrue(keeper.getAdvancements().getOrStartProgress(goal).isDone(),"Native trail training goal is earned");
-        var stranger=h.makeMockServerPlayerInLevel(); stranger.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
+        var stranger=h.makeMockServerPlayerInLevel(); CareMenuGameTest.prepare(stranger); stranger.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
         stranger.setPos(keeper.position()); stranger.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(ModItems.TRAIL_WHISTLE.get()));
         stranger.setItemInHand(InteractionHand.OFF_HAND,new ItemStack(ModItems.GUAVA.get(),4)); stranger.setShiftKeyDown(true);
         stranger.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
-        h.assertTrue(dog.trail().belongsTo(keeper)&&dog.trail().order()==Trail.Order.FOLLOW&&stranger.getOffhandItem().getCount()==4,
-                "Another keeper cannot release or overwrite training");
-        keeper.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
-        h.assertTrue(dog.trail().order()==Trail.Order.WAIT&&guavas.getCount()==2,"Owner controls cost no more food");
+        h.assertTrue(!dog.trail().release(stranger)&&dog.trail().belongsTo(keeper)&&stranger.getOffhandItem().getCount()==4,"Another keeper cannot release or overwrite training");
+        h.assertTrue(dog.trail().command(keeper,Trail.Order.WAIT),"Named Wait controls remain available without more food");
+        ModItems.TRAIL_WHISTLE.get().use(level,keeper,InteractionHand.MAIN_HAND);
+        h.assertTrue(dog.trail().order()==Trail.Order.WAIT,"Normal recall leaves a deliberately parked non-party animal alone");
         var before=saved(dog); CalipersItem.showCare(keeper,dog);
         h.assertTrue(saved(dog).equals(before),"Trail care inspection never changes saved animal state");
         dog.load(TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),before));
         h.assertTrue(dog.trail().belongsTo(keeper)&&dog.trail().order()==Trail.Order.WAIT&&dog.homeNest().equals(nest),"Native load preserves training, order and Nest independently");
         var basket=new ItemStack(ModItems.TRAVEL_BASKET.get()); var uuid=dog.getUUID();
         h.assertTrue(TravelBasketItem.capture(level,basket,dog)==TravelBasketItem.Result.CAPTURED,"Ordinary baskets can pack a trained waiting adult");
-        var arrival=h.absolutePos(new BlockPos(6,y+1,1));
-        h.assertTrue(TravelBasketItem.release(level,arrival,basket)==TravelBasketItem.Result.RELEASED,"Native safe basket release succeeds");
+        h.assertTrue(TravelBasketItem.release(level,h.absolutePos(new BlockPos(6,y+1,1)),basket)==TravelBasketItem.Result.RELEASED,"Native safe basket release succeeds");
         var restored=(Bunnidog)level.getEntity(uuid);
-        h.assertTrue(restored!=null&&restored.trail().belongsTo(keeper)&&restored.trail().order()==Trail.Order.WAIT,
-                "Whole-animal basket travel conserves exact training and order");
+        h.assertTrue(restored!=null&&restored.trail().belongsTo(keeper)&&restored.trail().order()==Trail.Order.WAIT,"Whole-animal basket travel conserves exact training and order");
         keeper.setPos(restored.position().add(1,0,0)); keeper.setShiftKeyDown(true); keeper.interactOn(restored,InteractionHand.MAIN_HAND,Vec3.ZERO);
-        h.assertTrue(restored.trail().keeper()==null&&restored.trail().order()==Trail.Order.RESIDENT,"Only the keeper can release training");
+        h.assertTrue(restored.trail().belongsTo(keeper)&&keeper.containerMenu instanceof com.bunnidogs.mod.menu.CareMenu,"Crouch Whistle opens orders without releasing the bond");
+        menu=(com.bunnidogs.mod.menu.CareMenu)keeper.containerMenu;
+        h.assertTrue(menu.clickMenuButton(keeper,menu.buttonId(com.bunnidogs.mod.menu.CarePanels.RELEASE))&&restored.trail().keeper()==null,"The deliberate named release action belongs to the keeper");
         keeper.setShiftKeyDown(false); keeper.gameMode.changeGameModeForPlayer(GameType.CREATIVE);
-        keeper.interactOn(restored,InteractionHand.MAIN_HAND,Vec3.ZERO);
-        h.assertTrue(restored.trail().belongsTo(keeper)&&guavas.getCount()==2,"Creative training preserves actual off-hand guavas");
+        h.assertTrue(restored.trail().trainFromStock(keeper,guavas)&&guavas.getCount()==2,"Creative care training preserves actual guavas");
         var legacy=saved(restored); legacy.putString("TrailKeeper","invalid uuid"); legacy.putString("TrailOrder","follow");
         restored.load(TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),legacy));
         h.assertTrue(restored.trail().keeper()==null&&!restored.trail().ordered(),"Invalid/legacy training cannot lock an animal in a phantom order");
@@ -96,37 +99,34 @@ public final class TrailGameTest {
         var level=h.getLevel(); int y=244; floor(h,y,31);
         var dog=h.spawn(ModEntities.BUNNIDOG.get(),2,y+1,1); dog.setGenome(Genome.DEFAULT); dog.setStats(Stats.ZERO);
         dog.setAge(0); dog.setHealth(dog.getMaxHealth()); dog.setOnGround(true);
-        var keeper=h.makeMockServerPlayerInLevel(); keeper.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
+        var keeper=h.makeMockServerPlayerInLevel(); CareMenuGameTest.prepare(keeper); keeper.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
         keeper.setPos(dog.position().add(1,0,0)); keeper.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(ModItems.TRAIL_WHISTLE.get()));
         keeper.setItemInHand(InteractionHand.OFF_HAND,new ItemStack(ModItems.GUAVA.get(),3));
         var nest=h.absolutePos(new BlockPos(1,y,1)); level.setBlock(nest,ModBlocks.NEST.get().defaultBlockState(),3);
         h.assertTrue(dog.moveHomeTo(level,nest)==NestHome.MoveResult.MOVED,"The walking partner starts with a real housing ticket");
-        keeper.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
+        h.assertTrue(dog.trail().trainFromStock(keeper,keeper.getOffhandItem()),"The walker trains through actual stock");
         var destination=h.absolutePos(new BlockPos(28,y+1,1)); keeper.setPos(Vec3.atBottomCenterOf(destination));
         double[] stopped={0,0};
         h.startSequence().thenWaitUntil(()->{
             h.assertTrue(dog.blockPosition().getX()-nest.getX()>16,"A real goal must walk outside the retained home boundary: "+dog.position());
         }).thenExecute(()->{
             h.assertTrue(dog.homeNest().equals(nest)&&dog.trail().order()==Trail.Order.FOLLOW,"The excursion never gives up or reclaims housing");
-            keeper.setPos(dog.position().add(1,0,0)); keeper.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
-            h.assertTrue(dog.trail().order()==Trail.Order.WAIT,"Native held-whistle interaction pauses the real walker");
+            keeper.setPos(dog.position().add(1,0,0)); dog.trail().command(keeper,Trail.Order.WAIT);
+            h.assertTrue(dog.trail().order()==Trail.Order.WAIT,"Named Wait pauses the real walker");
         }).thenIdle(4).thenExecute(()->{
             stopped[0]=dog.getX(); stopped[1]=dog.getZ();
         }).thenIdle(10).thenExecute(()->{
             h.assertTrue(Math.abs(dog.getX()-stopped[0])<.3&&Math.abs(dog.getZ()-stopped[1])<.3,"Wait holds after native braking instead of home tether or wandering: "
                     +(dog.getX()-stopped[0])+", "+(dog.getZ()-stopped[1])+"; order="+dog.trail().order());
             keeper.setShiftKeyDown(true); ModItems.TRAIL_WHISTLE.get().use(level,keeper,InteractionHand.MAIN_HAND);
-            h.assertTrue(dog.trail().order()==Trail.Order.RESIDENT&&dog.trail().belongsTo(keeper),"Sneak-air resumes resident routines without clearing training");
-            ModItems.TRAIL_WHISTLE.get().use(level,keeper,InteractionHand.MAIN_HAND);
-            h.assertTrue(dog.trail().order()==Trail.Order.RESIDENT,"The native call cooldown prevents repeated commands");
-            for(int i=0;i<Trail.CALL_COOLDOWN;i++) keeper.getCooldowns().tick();
+            h.assertTrue(dog.trail().order()==Trail.Order.WAIT&&dog.trail().belongsTo(keeper),"Crouch-air opens orders without changing the parked animal");
+            h.assertTrue(dog.combat().assist(keeper)&&dog.trail().command(keeper,Trail.Order.WAIT),"The keeper deliberately chooses this partner before testing heard recall");
             keeper.setShiftKeyDown(false); keeper.setPos(dog.position().add(-20,0,0));
             ModItems.TRAIL_WHISTLE.get().use(level,keeper,InteractionHand.MAIN_HAND);
-            h.assertTrue(dog.trail().order()==Trail.Order.RESIDENT,"An ordinary-eared partner cannot hear a twenty-block call");
+            h.assertTrue(dog.trail().order()==Trail.Order.WAIT,"An ordinary-eared chosen partner cannot hear a twenty-block call");
             dog.setStats(Stats.of(0,10,0,20,0));
-            for(int i=0;i<Trail.CALL_COOLDOWN;i++) keeper.getCooldowns().tick();
             ModItems.TRAIL_WHISTLE.get().use(level,keeper,InteractionHand.MAIN_HAND);
-            h.assertTrue(dog.trail().order()==Trail.Order.FOLLOW,"Bred Senses extends a real heard call beyond sixteen blocks");
+            h.assertTrue(dog.trail().order()==Trail.Order.FOLLOW,"Bred Senses extends a heard recall without a cooldown lock");
             var route=dog.getNavigation().createPath(keeper.blockPosition().offset(2,0,0),0);
             h.assertTrue(HomeRoutes.trailSafe(dog,route),"The loaded dry excursion path is safe independently of a Nest radius");
             var node=route.getNode(Math.max(1,route.getNodeCount()/2)).asBlockPos();
@@ -145,7 +145,7 @@ public final class TrailGameTest {
             h.assertTrue(!new TrailGoal(dog).canUse()&&dog.trail().order()==Trail.Order.FOLLOW,"Native leads take priority without discarding the keeper order");
             dog.dropLeash(); keeper.setHealth(0);
             for(int i=0;i<Trail.LOST_KEEPER_TICKS;i++) dog.trail().tick();
-            h.assertTrue(dog.trail().order()==Trail.Order.RESIDENT&&dog.homeNest().equals(nest),"An unavailable keeper returns the companion to its retained resident routine");
+            h.assertTrue(dog.trail().order()==Trail.Order.WAIT&&dog.homeNest().equals(nest),"A chosen combat partner waits safely when its keeper disappears, retaining its home");
             dog.discard();
         }).thenSucceed();
     }

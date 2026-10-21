@@ -102,6 +102,7 @@ public final class BreedingLabCheck {
                 "Visible hover working must name the exact feed pair and planned mutation rate");
     }
     public static void main(String[] args) {
+        combatPotential();
         require(Growth.secondsRemaining(-24000,1)==1200 && Growth.secondsRemaining(-24000,2)==600
                 && Growth.secondsRemaining(-24000,Stats.GROWTH_FLOOR)==3000
                 && Growth.secondsRemaining(-1,1)==1 && Growth.secondsRemaining(6000,1)==0,
@@ -190,6 +191,33 @@ public final class BreedingLabCheck {
         page(index.left()); page(index.right());
         require(index.left().links().size() + index.right().links().size() == Pedigree.MAX_ENTRIES, "Full index must link every line");
         System.out.println("Breeding lab OK: recessive/carrier/fixed odds, integer/fractional litters, splice pages and stable-line registry.");
+    }
+
+    private static void combatPotential() {
+        var ordinary=Combat.profile(Genome.DEFAULT,Stats.ZERO);
+        near(ordinary.bite(),2);
+        int feral=Gene.TEMPERAMENT.alleleNamed("feral").id();
+        require(Combat.profile(Genome.DEFAULT.with(Gene.TEMPERAMENT,1,feral),Stats.ZERO).equals(ordinary),
+                "A hidden feral allele must change offspring potential, never the loyal parent's actual bite or retreat");
+        var quick=Stats.ZERO.with(Stat.SWIFTNESS,Integer.MAX_VALUE);
+        require(Combat.profile(Genome.DEFAULT,quick).interval()==ordinary.interval(),"Swiftness must not bypass native hurt windows");
+        var grown=Stats.ZERO.with(Stat.VITALITY,1000);
+        require(Combat.profile(Genome.DEFAULT,grown).bite()>Combat.profile(Genome.DEFAULT,Stats.ZERO.with(Stat.VITALITY,20)).bite(),
+                "Developed lines must retain useful offensive progress beyond early point thresholds");
+        for (var build:Gene.BUILD.alleles()) for (var temper:Gene.TEMPERAMENT.alleles()) {
+            var genome=pair(Gene.BUILD,build.id(),build.id()).with(Gene.TEMPERAMENT,0,temper.id()).with(Gene.TEMPERAMENT,1,temper.id());
+            var weak=Combat.profile(genome,Stats.ZERO.with(Stat.VITALITY,Integer.MIN_VALUE));
+            var strong=Combat.profile(genome,Stats.ZERO.with(Stat.VITALITY,Integer.MAX_VALUE));
+            require(weak.bite()>0 && Double.isFinite(strong.bite()) && strong.bite()>=weak.bite() && strong.bite()<=2048
+                    &&strong.interval()>=20&&strong.interval()<=28&&strong.withdrawal()>0&&strong.withdrawal()<1,
+                    "Every expressed build/temperament must remain playable and within actual native attribute/cadence limits");
+        }
+        require(Combat.recoveryTicks(Stats.ZERO)==6000
+                &&Combat.recoveryTicks(Stats.ZERO.with(Stat.BLOOM,Integer.MAX_VALUE))==2400
+                &&Combat.recoveryTicks(Stats.ZERO.with(Stat.BLOOM,Integer.MIN_VALUE))==6000,
+                "Bloom shortens actual injury waits without punitive negative-stat waits or instant recovery");
+        for (float health:new float[]{8,32,1024}) require(Combat.mealHealing(health)*4>=health,
+                "Four real ordinary meals must suffice for a high-health animal's calm care");
     }
 
     private static void actualSeeds() {

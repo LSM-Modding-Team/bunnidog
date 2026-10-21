@@ -58,6 +58,9 @@ public class BunnidogRenderer extends MobRenderer<Bunnidog, BunnidogRenderState,
         state.webbed = Adaptations.swimmingFeet(entity.genome());
         state.paddling = state.webbed && entity.isInWater();
         state.bundleCount = entity.acceptsCare() ? entity.carriedBundleCount() : 0;
+        state.downed = entity.combatState()==3;
+        state.alerted = entity.combatState()==6;
+        state.bite = entity.getAttackAnim(partialTicks);
         state.fertilityMark = com.bunnidogs.mod.genetics.FertilityMark.of(entity.genome());
     }
 
