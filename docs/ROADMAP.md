@@ -4,7 +4,28 @@ The user requests substantial continuations, prioritizing unfinished planned
 features over more quality-of-life controls. Historical per-turn chunk limits
 do not apply. Verify old completion claims against code before choosing work.
 
-## Current priority — gene-driven combat companions
+## Current priority — intelligence and living civilization (planning only)
+
+The 2026-10-21 user request is a substantial intelligence redesign: a spectrum
+inherited through several genes, with limited animals, useful learners and
+advanced individuals capable of professions and autonomous civilization.
+This turn produces only planning; no cognition genes or gameplay changes ship.
+
+- [INTELLIGENCE_PLAN.md](INTELLIGENCE_PLAN.md): creative/player direction and
+  how the whole existing mod becomes richer.
+- [INTELLIGENCE_ENGINEERING.md](INTELLIGENCE_ENGINEERING.md): full genotype
+  migration, learning/jobs, paid construction, real autonomous bootstrap and
+  I0–I10 implementation/evidence sequence.
+- [INTELLIGENCE_SCENARIOS.md](INTELLIGENCE_SCENARIOS.md): 24 concrete experiences.
+
+Future intelligence development starts with complete save/genetic plumbing and
+a useful learning journey. Activate real low-end work limits together with clear
+lessons/alternatives, preserve old working families and trusted recall, and prove
+independent building/cultural continuity with real items and residents. Exact
+alleles, thresholds and budgets are prototype choices. Do not substitute a job
+menu, new templates or QoL work for these unfinished core experiences.
+
+## Implemented foundation — gene-driven combat companions
 
 The 2026-10-20 plan is followed by the explicitly authorized 2026-10-21
 implementation. [COMBAT_SPECS.md](COMBAT_SPECS.md) describes B1/B2 and initial
@@ -15,7 +36,8 @@ spacing/distributed targets, held defense and remembered last sightings.
 [COMBAT_SCENARIOS.md](COMBAT_SCENARIOS.md) retain the longer gameplay direction.
 Prototype numbers and native checks are not natural-world balance evidence.
 
-Next: finish B3's combat-oriented breeding/actual seed and pup comparison
+Remaining combat work, subordinate to the new intelligence focus: B3's combat-oriented
+breeding/actual seed and pup comparison
 handoffs, then B4's small set of physical signature moves and regional encounter
 integration. Existing actual Calipers/sample/parent hovers expose genetic combat
 potential; no nonlinear expected-points combat score is claimed. Preserve the
@@ -26,7 +48,7 @@ new combat gear and optional practice should follow demonstrated needs.
 ## Foundation — cohesion and ordinary usefulness
 
 The established requirement is to connect gameplay and remove the need to study
-a manual. `COHESION_PLAN.md` records that foundation for the combat direction.
+a manual. `COHESION_PLAN.md` records that foundation for current development.
 C1/C2 deliver live animal/six-station controls, real inventory-backed care,
 consistent ordinary meals, an accessible first companion, six native milestones
 and an end-to-end first-litter route. Existing recipes, tools and advanced

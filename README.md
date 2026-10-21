@@ -88,6 +88,10 @@ gene/baby ground contact; use `runClient` for appearance, motion and performance
 Development-only GameTests live in `tools/gametest` and run in `build/game-test`,
 separate from player saves. Their classes and fixture are excluded from the
 shipped JAR. GitHub Actions runs these server checks before uploading the artifact.
+
+The proposed [intelligence and civilization update](docs/INTELLIGENCE_PLAN.md)
+is currently planning only; it is not part of the shipped behavior above.
+
 See [current status](START_HERE.md), [player guide](docs/FEATURES.md),
 [roadmap](docs/ROADMAP.md), and [architecture/reference](docs/REFERENCE.md).
 

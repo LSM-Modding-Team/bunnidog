@@ -6,14 +6,21 @@ past decisions; their Claude sandbox, chunk-size, upload and approval routines
 are obsolete. The user's current request determines scope.
 
 - Complete the requested change through implementation and appropriate validation,
-  respecting planning-only requests. The current user direction is gene-driven
-  combat companions: `docs/COMBAT_SPECS.md` describes the implemented B1/B2 and
-  initial B3 party; `docs/COMBAT_COMPANION_PLAN.md` and `docs/COMBAT_SCENARIOS.md`
-  retain the broader accepted direction. The 2026-10-20 batch planned only; the
-  2026-10-21 continuation explicitly authorized implementation. Continue unfinished
-  B3 breeding handoffs and B4 physical signatures, with useful ordinary partners,
-  reliable recall and rescue kept together. Do not call prototype tuning or
-  headless evidence validated client/gameplay balance.
+  respecting planning-only requests. The current user direction is the substantial
+  gene-driven intelligence/civilization update in `docs/INTELLIGENCE_PLAN.md`,
+  `docs/INTELLIGENCE_ENGINEERING.md` and `docs/INTELLIGENCE_SCENARIOS.md`. The
+  2026-10-21 request authorizes only planning for this turn: no gameplay/code or
+  resource implementation in that planning batch. A subsequent development
+  continuation should start with the complete I1 genetic/save foundation and
+  I2 useful learning journey, following the staged plan and user steering.
+  Multiple genes must create real limits and complementary minds, reaching
+  independent professions and functioning autonomous communities. Separate
+  inherited capacity, personal learning, shared culture and actual opportunity;
+  preserve useful limited animals, trusted safety commands, real materials,
+  protected player builds, old saves and loaded-world bounds. The new plan
+  supersedes unfinished combat extras as the next development priority while
+  preserving the implemented combat foundation in `docs/COMBAT_SPECS.md`.
+  Do not describe these intelligence plans as implemented or gameplay-validated.
   Preserve `docs/COHESION_PLAN.md`: players should discover the core loop through
   animals, stations and useful feedback; the long guide is optional reference.
   Address observed first-session friction rather than adding unrelated systems.

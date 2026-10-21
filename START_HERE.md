@@ -20,7 +20,39 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Latest batch — shared Spanish localization (2026-10-21)
+## Current focus — intelligence and civilization (planning only, 2026-10-21)
+
+The user requests a major gene-driven spectrum: some bunnidogs cannot do many
+current advanced tasks; others learn professions and build/sustain their own
+civilizations. **This turn is planning only. No intelligence code, resources,
+new genes, save format or gameplay behavior is implemented.**
+
+- [INTELLIGENCE_PLAN.md](docs/INTELLIGENCE_PLAN.md): creative gameplay direction,
+  four proposed cognitive loci, complementary capacities, honest low-end limits,
+  learning, professions, autonomous families/culture and enrichment of each loop.
+- [INTELLIGENCE_ENGINEERING.md](docs/INTELLIGENCE_ENGINEERING.md): the 56-bit
+  genome limit, proposed versioned multiword schema, legacy helper migration,
+  knowledge/task architecture, paid safe construction, bootstrap, bounded local
+  planning, performance and I0–I10 delivery sequence.
+- [INTELLIGENCE_SCENARIOS.md](docs/INTELLIGENCE_SCENARIOS.md): 24 player stories
+  and acceptance scenarios, from a limited companion and first lesson to a
+  self-supporting new generation, public works and communities exchanging goods.
+
+The recommended model separates inherited capacity, individual skills, available
+culture and present opportunity. Four proposed loci—Memory, Reasoning, Handling
+and Communication—combine through codominant contributions; body genes and the
+five bred stats retain their separate jobs. No single “genius” allele, sixth stat,
+training grind or profession-menu shortcut fulfills this plan. Civilization must
+use actual residents, stock, teaching, construction and litter seeds.
+
+The first future implementation work is I1 full hereditary/save/readout foundation,
+then I2 useful learning before activating new work restrictions. Exact alleles,
+thresholds, support costs and scheduling limits remain prototype decisions.
+Unfinished combat extras are subordinate to this new focus; keep implemented
+combat/care reliable. Planning docs were reviewed against `0c92ded` source and
+for cross-links/scope; no build is required for documentation-only changes.
+
+## Latest implemented batch — shared Spanish localization (2026-10-21)
 
 The requested Spanish translation is implemented. Minecraft's language setting
 selects the mod text automatically: one neutral Peruvian Spanish source supplies
@@ -41,8 +73,7 @@ customized title/author copies are retained.
 The Spanish sheet/forecast preview uses a substitute font, not a running client.
 Java 25 `build runGameTestServer` passes, including the localization/layout
 gates and all **116 native scenarios**. The GitHub Build workflow repeats its
-gates and publishes the JAR for the exact pushed commit. This batch does not
-begin an intelligence overhaul or add another gameplay system.
+gates and publishes the JAR for the exact pushed commit. That implementation batch added localization without changing intelligence.
 
 ## Implemented foundation — gene-driven combat companions (2026-10-21)
 
