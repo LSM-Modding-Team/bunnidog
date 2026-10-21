@@ -111,6 +111,9 @@ are obsolete. The user's current request determines scope.
   changes. No mandatory edits to every spec, design ledger and session log.
   Record build, headless, preview and actual gameplay evidence separately;
   never turn a vague approval into verification of unrelated features.
+  Worldgen block-entity changes need coverage in a real `WorldGenRegion` with
+  unfinished `ProtoChunk`s, not only an already loaded `ServerLevel`: entities
+  there can have no attached `Level`, so live-update setters may crash generation.
 - Prefer a reviewable workspace diff and concise handoff. Build the JAR in
   `build/libs/`. A source ZIP is optional for transfers (`packageProject`),
   not a requirement for continuing in Codex. Exclude caches, saves and secrets.

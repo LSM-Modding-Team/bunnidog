@@ -20,7 +20,34 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Current focus — cognitive genetics and first learning (2026-10-21)
+## Stability fix — exploration crash (2026-10-21)
+
+The user's first recent client exploration exposed a real chunk-decoration crash
+in `WarrenSigns.place`: native `SignBlockEntity.setText` sends a live block update,
+but signs created in a `WorldGenRegion`/`ProtoChunk` have no attached `Level`.
+The report identifies Overworld seed `3314416676720181443`, chunk `(-1, -24)` and
+the `bunnidogs:warren_underground` feature. This takes priority over new features.
+
+Generated signs now initialize both faces through the native saved-text codec;
+only placement directly in a live `ServerLevel` sends an explicit client update.
+The shared helper covers cave features and saved structure pieces, preserving
+translated labels, dye/glow, chunk ownership and existing player-edited signs.
+The new `worldgen_signs` regression uses an actual `WorldGenRegion` with a detached
+`ProtoChunk` at the reported chunk coordinate, rather than the loaded-world-only
+sign fixture. It reproduces the report's exact null-Level exception before the
+fix and checks all room labels plus native block-entity save/load afterwards.
+This is a generation-stage regression, not a replay of the seed's full terrain
+generation or a client/GPU playtest. Java 25 `build runGameTestServer` passes,
+including all **123 native scenarios**. Verify the exact pushed GitHub build
+artifact as the final delivery gate.
+
+The user clarified that the previous week's continuations were requested while
+away and had not been run in a client. Treat earlier unspecific approvals as
+feedback, not exploration/Survival verification. Resume intelligence work only
+after handling the reported stability issue; its next implementation step stays
+I2 as recorded below.
+
+## Implemented focus — cognitive genetics and first learning (2026-10-21)
 
 The user explicitly authorized implementation after the intelligence planning
 batch. **I1 and initial I2 are implemented**, with some garden/nursery I3
@@ -59,8 +86,9 @@ construction, teachers/culture and I7 real autonomous family continuity. See
 and [player scenarios](docs/INTELLIGENCE_SCENARIOS.md). Keep implemented combat
 and the cohesion/optional-guide requirement reliable.
 
-Validation: Java 25 build/pure/layout/localization checks and the 122-scenario
-native integration suite are the delivery gates. Natural client/GPU, Survival
+Validation: Java 25 build/pure/layout/localization checks and the native
+integration suite are the delivery gates (122 cognition-batch scenarios, now
+123 with the generation-stage sign regression above). Natural client/GPU, Survival
 pacing, supported-work balance and multiplayer teaching remain unverified.
 GitHub Actions must pass and publish the artifact for the exact pushed commit.
 

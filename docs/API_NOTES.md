@@ -182,6 +182,27 @@ Status words: **COMPILED** = the user's compile accepted it (names and types are
 | Is the player sneaking (Genetics Table T1, session 36) | `player.isShiftKeyDown()` (`Entity`; also `isSecondaryUseActive()`, vanilla's own "suppress block use" test). Vanilla skips a block's use while sneaking WITH something in a hand, so "sneak + both hands empty" is the way to give a block a sneak action | SOURCE (session 36; not compiled) | `tests/.../debug/entity/player/PlayerEventTests.java:130` and `tests/.../oldtest/client/rendering/CustomParticleTypeTest.java:72` (`isShiftKeyDown()`), `tests/.../oldtest/AttachmentSyncTest.java:129,139` and `patches/net/minecraft/server/level/ServerPlayerGameMode.java.patch:130` (`isSecondaryUseActive`, the suppress rule) |
 | Blocks, block entities, Fortune, commands, renderers, biome modifiers, spawn placement | see the sections named after the phase that used them | COMPILED | "Session 4, part 8" (4d), "Verified from NeoForge 26.2.x sources in session 2" (1), "Session 4" (3) |
 
+### Generation-stage sign initialization (2026-10-21)
+
+The client crash report for Overworld seed `3314416676720181443`, chunk `(-1,-24)`
+exposed `SignBlockEntity.setText` -> `markUpdated` -> `level.sendBlockUpdated`
+with a null `level`. Resolved 26.2 sources show `WorldGenRegion.getBlockEntity`
+creates and stores a detached entity in a `ProtoChunk`; it does not call
+`BlockEntity.setLevel`. Do not attach it to the backing server level or call live
+sign setters during decoration. `TagValueOutput.store("front_text"/"back_text",
+SignText.DIRECT_CODEC, text)` and `BlockEntity.loadCustomOnly(TagValueInput)`
+initialize the native saved fields without a live notification. Use the region's
+registry access. Direct debug-command placement in `ServerLevel` still needs an
+explicit `sendBlockUpdated` after initialization.
+
+`worldgen_signs` now uses a real `WorldGenRegion` and `ProtoChunk` at the report's
+chunk coordinate. It reproduced the exact exception with the old helper; its
+post-fix assertions cover all eight room labels, both faces, translatable
+components, green/glowing text and native save/load. The existing `wayfinding`
+fixture retains loaded-world checks for chunk ownership and player edits.
+This focused headless fixture does not regenerate the report's complete seed
+or establish client exploration stability.
+
 ### U2: saved underground plans (2026-10-15)
 
 Verified against resolved Minecraft 26.2 sources and the Gradle compiler:
