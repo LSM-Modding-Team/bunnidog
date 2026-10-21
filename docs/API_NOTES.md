@@ -184,12 +184,23 @@ Status words: **COMPILED** = the user's compile accepted it (names and types are
 
 ### Interaction snapshots and native test bounds (2026-10-21)
 
-Protocol 20 adds a visual-only `subjectId` to `CareView` (default -1 for stations)
+Protocol 21 sends the first `CareView` in `MenuProvider.writeClientSideData`.
+`IMenuTypeExtension.create(IContainerFactory)` installs the three-argument client
+constructor, which decodes it before any screen initialization. Resolved
+`ServerPlayer.openMenu` writes provider data into `AdvancedOpenScreenPayload`
+before `initMenu` or incremental updates. Build the stamped view without sending
+an early separate payload. Mock connections must advertise the native advanced
+opening channel as well as the mod's view/readout channels. The factory test
+decodes the complete initial view without invoking the update receiver.
+
+The view retains the visual-only `subjectId` (default -1 for stations, added in 20)
 and a translatable `hint` to each bounded control. The server still owns the
 actual animal/station and validates permission, reach, live contents and action
 generation. Calipers possession participates in every animal menu's context;
 losing the tool both hides measurement and rejects its previous button packet.
-Ordinary animal interaction falls back to the menu only after native food use;
+Guavas open a hand-bound choice view before feeding; a valid selection uses the
+actual offered stack. Its copied contents participate in stale-click validation.
+Other ordinary animal interaction falls back to the menu after native food use;
 item-owned interactions (including vanilla shears/name tags and mod tools) and
 actual off-hand uses must retain PASS dispatch. Client `CareScreen.extractBackground`
 omits the normal modal background for animal views, keeping the world visible.

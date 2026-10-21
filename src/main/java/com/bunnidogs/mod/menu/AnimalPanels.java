@@ -49,7 +49,7 @@ public final class AnimalPanels {
         buttons.add(action(CarePanels.CARE,dog.combat().downed() ? "first_aid" : "feed",feed,careReason));
         boolean court=edit && guava && dog.readyForCareCourtship();
         buttons.add(action(CarePanels.COURTSHIP,"courtship",court,!edit ? text("read_only") : !guava ? text("need_guava")
-                : dog.isBaby() ? text("still_growing") : dog.isInLove() ? text("courting")
+                : dog.isBaby() ? text("still_growing") : dog.getHealth()<dog.getMaxHealth() ? text("injured") : dog.isInLove() ? text("courting")
                 : dog.beingTransported() || dog.isVehicle() ? text("transported") : dog.combat().danger() ? text("alarmed") : text("resting")));
         boolean brush=has(player,Items.BRUSH);
         buttons.add(action(CarePanels.GROOM,"brush",edit && brush && BunnidogCare.canGroom(dog),
@@ -57,6 +57,21 @@ public final class AnimalPanels {
                 : BunnidogCare.groomingProducts(dog).isEmpty() ? text("no_grooming") : text("resting")));
         buttons.add(back());
         return new CareView(text("care"),condition(dog),List.of(),buttons);
+    }
+    /** The offered hand, including upgraded breeding guavas, is the only stock used by these choices. */
+    public static CareView guava(Player player,Bunnidog dog,net.minecraft.world.item.ItemStack offered) {
+        var buttons=new ArrayList<CareView.Control>();
+        boolean valid=offered.getItem() instanceof com.bunnidogs.mod.item.GuavaItem && !offered.isEmpty();
+        if (offered.is(ModItems.GUAVA.get())) {
+            care(player,dog).controls().stream().filter(c->c.id()==CarePanels.CARE).forEach(buttons::add);
+        }
+        buttons.add(action(CarePanels.COURTSHIP,"courtship",valid && player.mayBuild() && offered.is(ModItems.BUNNIDOG_FOOD) && dog.readyForCareCourtship(),
+                !player.mayBuild() ? text("read_only") : !valid ? text("need_guava") : dog.isBaby() ? text("still_growing") : dog.getHealth()<dog.getMaxHealth() ? text("injured")
+                : dog.isInLove() ? text("courting") : dog.beingTransported() || dog.isVehicle() ? text("transported") : text("resting")));
+        if (offered.is(ModItems.GUAVA.get()) && dog.trail().keeper()==null && !dog.isBaby())
+            orders(player,dog).controls().stream().filter(c->c.id()==CarePanels.TRAIN).forEach(buttons::add);
+        buttons.add(back());
+        return new CareView(dog.getDisplayName(),condition(dog),List.of(),buttons);
     }
     public static CareView orders(Player player,Bunnidog dog) {
         var buttons=new ArrayList<CareView.Control>();

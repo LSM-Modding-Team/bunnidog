@@ -16,6 +16,15 @@ cue is later justified by actual play, make it a durable one-time cue rather tha
 an always-on layer. Prioritize observed usability issues over new intelligence
 features while the human review is ongoing.
 
+Follow-up review: deliver the initial animal view in the menu-opening payload;
+never show the legacy station layout while waiting for data. Animal controls
+have no enclosing panel, and Back/Close occupy fixed separate footer positions.
+Calm animals pause voluntary movement and face their viewer until the real menu
+closes; danger/hostility and safety AI retain priority. Nests have no menu: direct
+world use assigns a led adult or reports occupancy. Offering any guava opens
+explicit food choices instead of feeding/breeding immediately; preserve the
+offered hand, stack components and tier, and spend only after a valid choice.
+
 - Complete the requested change through implementation and appropriate validation,
   respecting planning-only requests. The accepted longer-term direction is the substantial
   gene-driven intelligence/civilization update in `docs/INTELLIGENCE_PLAN.md`,

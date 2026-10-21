@@ -2,18 +2,19 @@
 
 A NeoForge mod for Minecraft 26.2: baby-faced creatures, living warrens and
 inherited traits that shape companions, gardens and breeding lines. Client and
-server both need the current mod (network **20**).
+server both need the current mod (network **21**).
 
 Interact with a bunnidog to choose **Care, Orders or Work** beside the visible
-animal. Ordinary held items work too; food and tools retain their direct uses.
+animal. Calm animals stay and face you while you interact. Ordinary held items
+work too; guavas open food choices, and other food/tools retain their direct uses.
 Cargo appears when it carries bundles. Calipers offer **Measure** for detailed
-information. There are no automatic crosshair instructions. Care stations keep
-their empty-hand controls; every action uses real supplies.
+information. There are no automatic crosshair instructions. Nests work directly
+in the world; other care stations keep their controls. Every action uses real supplies.
 
 1. Find guavas and a bunnidog. Care heals with a plain guava; healthy adults need
    no meals. Each adult can claim its own Nest, made from wheat and any planks.
-2. Feed a guava normally to each of two ready adults, or choose Courtship in
-   their panels. Keep them close; they produce one litter seed.
+2. Offer a guava to each of two ready adults and choose Courtship. Keep them
+   close; they produce one litter seed. Opening the choices spends nothing.
 3. Plant that seed on farmland. Wait or use bone meal, then break the ripe crop
    to hatch pups. A Cradle is an optional alternative with visible hatch controls.
 4. Raise a useful line: equip bundles, train partners of any temperament with a Whistle,

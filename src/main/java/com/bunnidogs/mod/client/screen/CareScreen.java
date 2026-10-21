@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import com.bunnidogs.mod.menu.CareMenu;
 import com.bunnidogs.mod.menu.CareView;
+import com.bunnidogs.mod.menu.CarePanels;
+import com.bunnidogs.mod.menu.FamilyPanels;
+import com.bunnidogs.mod.menu.AnimalPanels;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractScrollArea;
 import net.minecraft.client.gui.components.Button;
@@ -35,23 +38,18 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
     private boolean animal() { return menu.view()!=null && menu.view().subjectId()>=0; }
     private void arrangePanel() {
         panelWidth=Math.min(animal() ? 214 : 420,this.width-24);
-        int desired=360;
-        if (animal()) {
-            var value=menu.view(); desired=70+27*value.controls().size();
-            for (var row:value.rows()) desired+=7+9*font.split(row,panelWidth-36).size();
-            if (!value.next().getString().isEmpty()) desired+=7+9*font.split(value.next(),panelWidth-36).size();
-            desired=Math.min(310,desired);
-        }
+        int desired=animal() ? 310 : 360;
         panelHeight=Math.min(desired,this.height-24);
         leftPos=animal() ? width-panelWidth-12 : (width-panelWidth)/2;
-        topPos=(height-panelHeight)/2;
+        topPos=animal() ? 12 : (height-panelHeight)/2;
     }
     private void build(double scroll) {
         clearWidgets(); rows.clear(); controls.clear(); actions.clear();
+        shown=menu.view();
+        if (shown==null) return;
         arrangePanel();
         content=LinearLayout.vertical().spacing(7);
         int textWidth=panelWidth-36;
-        shown=menu.view();
         next=new MultiLineTextWidget(advice(shown),font).setMaxWidth(textWidth);
         if (!animal() || !advice(shown).getString().isEmpty()) content.addChild(next);
         if (shown!=null) {
@@ -73,6 +71,16 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
         position(); body.visitWidgets(this::addRenderableWidget);
         body.visitChildren(child->{ if (child instanceof AbstractScrollArea area) area.setScrollAmount(scroll); });
         boolean hasChoices=shown!=null && shown.controls().stream().anyMatch(c->c.section()==CareView.Control.CHOICE);
+        if (animal()) {
+            int footerWidth=(panelWidth-32)/2;
+            shown.controls().stream().filter(this::backControl).findFirst().ifPresent(control->{
+                var back=Button.builder(Component.literal("← ").append(AnimalPanels.text("back")),b->send(control)).bounds(leftPos+12,topPos+panelHeight-28,footerWidth,20).build();
+                back.active=control.enabled(); addRenderableWidget(back);
+            });
+            addRenderableWidget(Button.builder(AnimalPanels.text("close"),b->onClose())
+                    .bounds(leftPos+20+footerWidth,topPos+panelHeight-28,footerWidth,20).build());
+            return;
+        }
         int footerWidth=hasChoices ? (panelWidth-32)/2 : panelWidth-24;
         addRenderableWidget(Button.builder(Component.translatable("gui.done"),b->onClose()).bounds(leftPos+12,topPos+panelHeight-28,footerWidth,20).build());
         if (hasChoices) addRenderableWidget(Button.builder(Component.translatable(choosing ? "care.bunnidogs.choose.back" : "care.bunnidogs.choose.open"),b->{
@@ -83,8 +91,14 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
         return value==null ? Component.translatable("care.bunnidogs.loading") : choosing ? Component.translatable("care.bunnidogs.choose.hint") : value.next();
     }
     private void addRow(Component text,int width) { rows.add(content.addChild(new MultiLineTextWidget(text,font).setMaxWidth(width))); }
+    private boolean backControl(CareView.Control control) {
+        int id=control.id()&255; return id==CarePanels.BACK || id==FamilyPanels.BACK_FIT;
+    }
+    private void send(CareView.Control control) {
+        if (minecraft.gameMode!=null && control.enabled()) minecraft.gameMode.handleInventoryButtonClick(menu.containerId,control.id());
+    }
     private void addControls(CareView value,int section,int width) {
-        var group=value.controls().stream().filter(c->c.section()==section).toList();
+        var group=value.controls().stream().filter(c->c.section()==section && (!animal() || !backControl(c))).toList();
         int columns=animal() ? 1 : 2;
         for (int i=0;i<group.size();i+=columns) {
             var line=content.addChild(LinearLayout.horizontal().spacing(8));
@@ -105,6 +119,7 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
     @Override protected void containerTick() {
         super.containerTick(); var value=menu.view();
         if (value==null || value==shown) return;
+        if (shown==null) { build(0); return; }
         if (value.subjectId()>=0) {
             double[] scroll={0}; if (body!=null) body.visitChildren(child->{if (child instanceof AbstractScrollArea area) scroll[0]=area.scrollAmount();});
             build(scroll[0]); return;
@@ -126,14 +141,17 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
         position();
     }
     @Override public void extractRenderState(GuiGraphicsExtractor graphics,int mouseX,int mouseY,float partialTick) {
-        graphics.fill(leftPos-1,topPos-1,leftPos+panelWidth+1,topPos+panelHeight+1,0xFFE1C790);
-        graphics.fill(leftPos,topPos,leftPos+panelWidth,topPos+panelHeight,0xF0221C16);
+        if (menu.view()==null) return;
+        if (!animal()) {
+            graphics.fill(leftPos-1,topPos-1,leftPos+panelWidth+1,topPos+panelHeight+1,0xFFE1C790);
+            graphics.fill(leftPos,topPos,leftPos+panelWidth,topPos+panelHeight,0xF0221C16);
+        }
         super.extractRenderState(graphics,mouseX,mouseY,partialTick);
     }
     @Override public void extractBackground(GuiGraphicsExtractor graphics,int mouseX,int mouseY,float partialTick) {
-        if (!animal()) super.extractBackground(graphics,mouseX,mouseY,partialTick);
+        if (menu.view()!=null && !animal()) super.extractBackground(graphics,mouseX,mouseY,partialTick);
     }
     @Override protected void extractLabels(GuiGraphicsExtractor graphics,int x,int y) {
-        graphics.text(font,font.split(choosing ? Component.translatable("care.bunnidogs.choose.title") : shown==null ? title : shown.title(),panelWidth-24).getFirst(),12,10,0xFFF4E7C9,false);
+        graphics.text(font,font.split(choosing ? Component.translatable("care.bunnidogs.choose.title") : shown==null ? title : shown.title(),panelWidth-24).getFirst(),12,10,0xFFF4E7C9,animal());
     }
 }

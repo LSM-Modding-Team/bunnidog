@@ -195,6 +195,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private final TrailCompanion trailCompanion = new TrailCompanion(this);
     private final CompanionCombat companionCombat = new CompanionCombat(this);
     private final BunnidogLearning learning = new BunnidogLearning(this);
+    private final BunnidogConversation conversation = new BunnidogConversation(this);
     private int biteWait;
     private boolean handCaring;
     private long nextForageTick;
@@ -260,6 +261,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
 
     public com.bunnidogs.mod.genetics.MindProfile mind() { this.genome(); return this.cachedMind; }
     public BunnidogLearning learning() { return this.learning; }
+    public BunnidogConversation conversation() { return this.conversation; }
 
     /** What the genome looks like / does after dominance. */
     public Traits traits() {
@@ -450,8 +452,9 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     }
     public boolean courtshipFromStock(Player player,ItemStack actual) {
         if (!(level() instanceof ServerLevel) || !player.mayBuild() || player.level()!=level() || distanceToSqr(player)>36
-                || !actual.is(ModItems.GUAVA.get()) || !isBunnidogFood(actual) || !readyForCareCourtship()) return false;
-        actual.consume(1,player); beginPenCourtship(0,player); courtshipFeedback(player,0); return true;
+                || !(actual.getItem() instanceof GuavaItem) || !isBunnidogFood(actual) || !readyForCareCourtship()) return false;
+        int tier=GuavaItem.tierOf(actual);
+        actual.consume(1,player); beginPenCourtship(tier,player); courtshipFeedback(player,tier); return true;
     }
     public boolean groomFromStock(Player player,ItemStack brush) {
         if (!(level() instanceof ServerLevel server) || !(player instanceof ServerPlayer keeper) || !player.mayBuild()
@@ -627,8 +630,9 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack held = player.getItemInHand(hand);
-        if (this.combat().downed() && held.is(ModItems.GUAVA.get())) {
-            if (!this.level().isClientSide()) this.combat().firstAid(player,held);
+        if (held.getItem() instanceof GuavaItem) {
+            if (!this.acceptsCare() || !this.isAlive()) return InteractionResult.PASS;
+            com.bunnidogs.mod.menu.CareMenu.openGuava(player,this,hand);
             return InteractionResult.SUCCESS;
         }
         if (held.getItem() instanceof net.minecraft.world.item.BundleItem) return this.packs.equip(player,held);
@@ -690,15 +694,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             return InteractionResult.SUCCESS;
         }
         if (held.is(Items.BRUSH)) return BunnidogGrooming.use(this, player, held, hand);
-        boolean guavaCare = player.isShiftKeyDown() && held.getItem() instanceof GuavaItem;
-        if (guavaCare) {
-            if (!this.acceptsCare() || !this.isAlive() || !this.canEat(held)) return InteractionResult.PASS;
-            if (!held.is(ModItems.GUAVA.get())) {
-                if (!this.level().isClientSide()) player.sendOverlayMessage(Component.translatable("message.bunnidogs.feeding.plain_care"));
-                return InteractionResult.SUCCESS;
-            }
-        }
-        if (guavaCare || !isBunnidogFood(held) && this.canEat(held)) {
+        if (!isBunnidogFood(held) && this.canEat(held)) {
             if (!this.handCareReady()) {
                 if (!this.level().isClientSide()) player.sendOverlayMessage(Component.translatable("message.bunnidogs.combat.meal_rest"));
                 return InteractionResult.SUCCESS;
@@ -1190,13 +1186,16 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             public boolean canUse() {
                 return Bunnidog.this.temperament() == Temperament.SKITTISH && !Bunnidog.this.combat().managesMovement()
                         && super.canUse() && !Bunnidog.this.trail().belongsTo(this.toAvoid)
-                        && !Bunnidog.this.learning().recognizesInstructor(this.toAvoid);
+                        && !Bunnidog.this.learning().recognizesInstructor(this.toAvoid)
+                        && !Bunnidog.this.conversation().recognizes(this.toAvoid);
             }
             @Override public boolean canContinueToUse() {
                 return !Bunnidog.this.combat().managesMovement() && !Bunnidog.this.trail().belongsTo(this.toAvoid)
-                        && !Bunnidog.this.learning().recognizesInstructor(this.toAvoid) && super.canContinueToUse();
+                        && !Bunnidog.this.learning().recognizesInstructor(this.toAvoid)
+                        && !Bunnidog.this.conversation().recognizes(this.toAvoid) && super.canContinueToUse();
             }
         });
+        this.goalSelector.addGoal(3, BunnidogConversation.goal(this));
         // Feral ones bite whoever hurt them.
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3D, true) {
             @Override protected int getAttackInterval() {

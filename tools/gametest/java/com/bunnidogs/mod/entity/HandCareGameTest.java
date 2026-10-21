@@ -35,33 +35,33 @@ public final class HandCareGameTest {
         player.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(Items.IRON_HOE)); player.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO); player.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY);
         dog.ateForage(0); dog.finishedGardening(); int foodRest = dog.forageWait(), workRest = dog.gardeningWait();
         var guavas = new ItemStack(ModItems.GUAVA.get(),3); guavas.set(DataComponents.CUSTOM_NAME,Component.literal("Care guavas")); player.setItemInHand(InteractionHand.OFF_HAND,guavas);
-        float health = dog.getHealth(); player.interactOn(dog,InteractionHand.OFF_HAND,Vec3.ZERO);
+        float health = dog.getHealth(); CareMenuGameTest.chooseGuava(h,player,dog,InteractionHand.OFF_HAND,com.bunnidogs.mod.menu.CarePanels.CARE);
         h.assertTrue(guavas.getCount() == 2 && guavas.getHoverName().getString().equals("Care guavas") && dog.getHealth() == health+com.bunnidogs.mod.genetics.Combat.mealHealing(dog.getMaxHealth())
                 && dog.getAge() == 1234 && !dog.isInLove() && dog.workPaused() && dog.forageWait() == foodRest && dog.gardeningWait() == workRest,
                 "Sneak off-hand care must pay one exact plain guava, heal its proportional meal and retain pause/breeding cooldown/recoveries");
-        dog.setAge(0); player.interactOn(dog,InteractionHand.OFF_HAND,Vec3.ZERO);
+        dog.setAge(0); CareMenuGameTest.chooseGuava(h,player,dog,InteractionHand.OFF_HAND,com.bunnidogs.mod.menu.CarePanels.CARE);
         h.assertTrue(guavas.getCount() == 1 && dog.getHealth() == dog.getMaxHealth() && !dog.isInLove() && !saved(dog).contains("LoveTierTicks"),"Even a breed-ready adult must receive care without love or a quality memory");
-        player.interactOn(dog,InteractionHand.OFF_HAND,Vec3.ZERO);
+        CareMenuGameTest.chooseGuava(h,player,dog,InteractionHand.OFF_HAND,com.bunnidogs.mod.menu.CarePanels.CARE);
         h.assertTrue(guavas.getCount() == 1 && !dog.isInLove(),"Healthy adults keep a medical guava without falling through to breeding");
         var golden = new ItemStack(ModItems.GOLDEN_GUAVA.get(),2); golden.set(DataComponents.CUSTOM_NAME,Component.literal("Keep for breeding")); player.setItemInHand(InteractionHand.OFF_HAND,golden); dog.setHealth(dog.getMaxHealth()-4);
-        health = dog.getHealth(); player.interactOn(dog,InteractionHand.OFF_HAND,Vec3.ZERO);
+        health = dog.getHealth(); CareMenuGameTest.chooseGuava(h,player,dog,InteractionHand.OFF_HAND,com.bunnidogs.mod.menu.CarePanels.CARE);
         h.assertTrue(golden.getCount() == 2 && dog.getHealth() == health && !dog.isInLove(),"Sneak care keeps upgraded guavas without healing or breeding");
-        dog.setAge(-1000); var pupFood = new ItemStack(ModItems.GUAVA.get(),2); player.setItemInHand(InteractionHand.OFF_HAND,pupFood); player.interactOn(dog,InteractionHand.OFF_HAND,Vec3.ZERO);
+        dog.setAge(-1000); var pupFood = new ItemStack(ModItems.GUAVA.get(),2); player.setItemInHand(InteractionHand.OFF_HAND,pupFood); CareMenuGameTest.chooseGuava(h,player,dog,InteractionHand.OFF_HAND,com.bunnidogs.mod.menu.CarePanels.CARE);
         h.assertTrue(pupFood.getCount() == 1 && dog.getHealth() == health+com.bunnidogs.mod.genetics.Combat.mealHealing(dog.getMaxHealth()) && dog.getAge() > -1000 && dog.isBaby() && !dog.isInLove(),"One plain medical guava heals and grows a pup through the existing hand-food rule");
         dog.setAge(0); dog.setHealth(dog.getMaxHealth()-4); player.gameMode.changeGameModeForPlayer(GameType.CREATIVE); player.setItemInHand(InteractionHand.OFF_HAND,guavas);
-        health = dog.getHealth(); player.interactOn(dog,InteractionHand.OFF_HAND,Vec3.ZERO);
+        health = dog.getHealth(); CareMenuGameTest.chooseGuava(h,player,dog,InteractionHand.OFF_HAND,com.bunnidogs.mod.menu.CarePanels.CARE);
         h.assertTrue(guavas.getCount() == 1 && player.getOffhandItem() == guavas && dog.getHealth() == health+com.bunnidogs.mod.genetics.Combat.mealHealing(dog.getMaxHealth()) && !dog.isInLove(),"Creative off-hand care changes the real animal while preserving the actual guava");
-        player.setShiftKeyDown(false); player.setItemInHand(InteractionHand.OFF_HAND,golden); player.interactOn(dog,InteractionHand.OFF_HAND,Vec3.ZERO);
-        h.assertTrue(dog.isInLove() && saved(dog).getIntOr("LoveTier",-1) == 1,"Normal upgraded-guava feeding still starts breeding with its original tier");
+        dog.setHealth(dog.getMaxHealth()); player.setShiftKeyDown(false); player.setItemInHand(InteractionHand.OFF_HAND,golden); CareMenuGameTest.chooseGuava(h,player,dog,InteractionHand.OFF_HAND,com.bunnidogs.mod.menu.CarePanels.COURTSHIP);
+        h.assertTrue(dog.isInLove() && saved(dog).getIntOr("LoveTier",-1) == 1,"Explicit upgraded-guava courtship retains its original tier");
         int love = dog.getInLoveTime(), memory = saved(dog).getIntOr("LoveTierTicks",0); dog.setHealth(dog.getMaxHealth()-4); player.setShiftKeyDown(true); player.setItemInHand(InteractionHand.OFF_HAND,guavas);
-        player.interactOn(dog,InteractionHand.OFF_HAND,Vec3.ZERO);
+        CareMenuGameTest.chooseGuava(h,player,dog,InteractionHand.OFF_HAND,com.bunnidogs.mod.menu.CarePanels.CARE);
         h.assertTrue(dog.getInLoveTime() == love && saved(dog).getIntOr("LoveTier",-1) == 1 && saved(dog).getIntOr("LoveTierTicks",0) == memory,"Care preserves an already planned love tier and its exact remaining time");
         player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL); var last = new ItemStack(ModItems.GUAVA.get()); player.setItemInHand(InteractionHand.OFF_HAND,last); dog.setHealth(dog.getMaxHealth()-4);
         boolean[] paidFirst = {false}; Consumer<LivingHealEvent> refill = event -> {
             if (event.getEntity() == dog) { paidFirst[0] = last.isEmpty(); player.setItemInHand(InteractionHand.OFF_HAND,new ItemStack(Items.DIAMOND,3)); }
         };
         NeoForge.EVENT_BUS.addListener(refill);
-        try { player.interactOn(dog,InteractionHand.OFF_HAND,Vec3.ZERO); } finally { NeoForge.EVENT_BUS.unregister(refill); }
+        try { CareMenuGameTest.chooseGuava(h,player,dog,InteractionHand.OFF_HAND,com.bunnidogs.mod.menu.CarePanels.CARE); } finally { NeoForge.EVENT_BUS.unregister(refill); }
         h.assertTrue(paidFirst[0] && last.isEmpty() && player.getOffhandItem().is(Items.DIAMOND) && player.getOffhandItem().getCount() == 3
                 && dog.genome().equals(Genome.DEFAULT) && dog.stats().equals(stats) && dog.getUUID().equals(identity) && dog.earTag().equals(tag)
                 && dog.forageWait() == foodRest && dog.gardeningWait() == workRest,"A native heal callback must see the paid food, retain replacement hand stock and leave biology/rests intact");

@@ -95,7 +95,7 @@ public final class CarePanels {
         if (be instanceof PedigreeComparatorBlockEntity detector) return SignalPanels.detector(player,pos,detector);
         if (be instanceof TrophyPedestalBlockEntity pedestal) return SignalPanels.trophy(player,pos,pedestal);
         if (player.level().getBlockState(pos).getBlock() instanceof JudgingStandBlock) return WorkshopPanels.show(player,pos);
-        return nest(player,pos);
+        throw new IllegalArgumentException("Unsupported care station");
     }
     private static CareView trough(Player player,BlockPos pos,FeedingTroughBlockEntity trough) {
         var controls=new ArrayList<CareView.Control>(); boolean edit=editable(player,pos);
@@ -175,17 +175,6 @@ public final class CarePanels {
         return new CareView(ModBlocks.COMMISSION_BOARD.get().getName(),done ? t("board.next.done") : reading.status()==Commissions.Status.READY
                 ? t(has(player,Items.PAPER) ? "board.next.submit" : "board.next.paper")
                 : message("commission."+reading.status().name().toLowerCase(Locale.ROOT)),rows,controls);
-    }
-    private static CareView nest(Player player,BlockPos pos) {
-        var level=(ServerLevel)player.level(); boolean claimed=NestBlock.claimed(level,pos);
-        var residents=level.getEntitiesOfClass(Bunnidog.class,new net.minecraft.world.phys.AABB(pos).inflate(24),
-                dog->dog.isAlive() && dog.acceptsCare() && pos.equals(dog.homeNest()));
-        var rows=new ArrayList<Component>(); rows.add(t(claimed ? "nest.claimed" : "nest.free"));
-        for (var dog:residents.stream().limit(1).toList()) rows.add(t("nest.resident",dog.getDisplayName()));
-        rows.add(t("nest.one")); rows.add(t("nest.range")); rows.add(t("nest.compass"));
-        return new CareView(ModBlocks.NEST.get().getName(),t(claimed ? "nest.next.claimed" : "nest.next.lead"),rows,
-                List.of(control(REHOME,"rehome",editable(player,pos) && NestBlock.hasLedAdult(level,pos,player)
-                        && (!claimed || residents.stream().anyMatch(dog->dog.isLeashed() && dog.getLeashHolder()==player)))));
     }
     public static void act(Player player,Bunnidog dog,BlockPos pos,BlockEntity be,int id) {
         if (dog!=null) {

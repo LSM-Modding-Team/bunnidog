@@ -11,7 +11,10 @@ import com.bunnidogs.mod.registry.ModMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.inventory.MenuConstructor;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -35,13 +38,14 @@ public final class CareMenu extends AbstractContainerMenu {
     private Context published;
     private long changedUntil;
     private boolean acting;
-    private enum Mode { MAIN, CARE, ORDERS, CARGO, ROLES, LEARNING, GOALS, CONFIRM_RITUAL, FAMILY, SEED_FAMILY, FIT, FIT_CHOICES, LITTER, COMBAT, PARTY }
+    private enum Mode { MAIN, CARE, GUAVA, ORDERS, CARGO, ROLES, LEARNING, GOALS, CONFIRM_RITUAL, FAMILY, SEED_FAMILY, FIT, FIT_CHOICES, LITTER, COMBAT, PARTY }
     private Mode mode=Mode.MAIN;
     private Commissions.Request fitGoal;
     private int familyPage;
     private final ItemStack preferredSample;
     private Component actionNotice;
     private long noticeUntil;
+    private InteractionHand offeringHand;
     private record Context(List<Object> facts,List<ItemStack> stock) {
         Context { facts=List.copyOf(facts); stock=stock.stream().map(ItemStack::copy).toList(); }
         boolean same(Context other) {
@@ -53,6 +57,24 @@ public final class CareMenu extends AbstractContainerMenu {
 
     /** Native client factory. Target resolution exists only on the server. */
     public CareMenu(int id,Inventory inventory) { this(id,inventory,null,null); }
+    public CareMenu(int id,Inventory inventory,RegistryFriendlyByteBuf data) {
+        this(id,inventory,null,null);
+        if (data!=null) this.view=CareViewPayload.VIEW.decode(data);
+    }
+    /** The initial view travels with the native opening packet, before client screen construction. */
+    private static MenuProvider provider(MenuConstructor factory,Component title) {
+        return new MenuProvider() {
+            @Override public Component getDisplayName() { return title; }
+            @Override public AbstractContainerMenu createMenu(int id,Inventory inventory,Player player) { return factory.createMenu(id,inventory,player); }
+            @Override public void writeClientSideData(AbstractContainerMenu menu,RegistryFriendlyByteBuf buffer) {
+                ((CareMenu)menu).writeOpeningData(buffer);
+            }
+        };
+    }
+    public void writeOpeningData(RegistryFriendlyByteBuf buffer) {
+        view=currentView();
+        CareViewPayload.VIEW.encode(buffer,view);
+    }
     private CareMenu(int id,Inventory inventory,Bunnidog dog,BlockPos pos) {
         this(id,inventory,dog,pos,null);
     }
@@ -70,18 +92,24 @@ public final class CareMenu extends AbstractContainerMenu {
         openAnimal(player,dog,goal,false);
     }
     public static void openCombat(Player player,Bunnidog dog) { openAnimal(player,dog,null,true); }
+    public static void openGuava(Player player,Bunnidog dog,InteractionHand hand) { openAnimal(player,dog,null,false,hand); }
     public static void openParty(Player player) {
-        if (player instanceof ServerPlayer server && !player.isSpectator()) server.openMenu(new SimpleMenuProvider((id,inv,p)->{
+        if (player instanceof ServerPlayer server && !player.isSpectator()) server.openMenu(provider((id,inv,p)->{
             var menu=new CareMenu(id,inv,null,null); menu.mode=Mode.PARTY; return menu;
         },Component.translatable("care.bunnidogs.party.title")));
     }
     private static void openAnimal(Player player,Bunnidog dog,Commissions.Request goal,boolean combat) {
+        openAnimal(player,dog,goal,combat,null);
+    }
+    private static void openAnimal(Player player,Bunnidog dog,Commissions.Request goal,boolean combat,InteractionHand offeringHand) {
         if (player instanceof ServerPlayer server && !player.isSpectator() && dog.isAlive() && dog.acceptsCare() && dog.level()==player.level() && dog.distanceToSqr(player)<=36) {
             com.bunnidogs.mod.item.JourneyProgress.met(player);
-            server.openMenu(new SimpleMenuProvider((id,inv,p)->{
+            server.openMenu(provider((id,inv,p)->{
                 var menu=new CareMenu(id,inv,dog,null);
                 if (goal!=null) { menu.fitGoal=goal; menu.mode=Mode.FIT; }
                 if (combat) menu.mode=Mode.COMBAT;
+                if (offeringHand!=null) { menu.mode=Mode.GUAVA; menu.offeringHand=offeringHand; }
+                dog.conversation().begin(server,menu);
                 return menu;
             },dog.getDisplayName()));
         }
@@ -93,10 +121,15 @@ public final class CareMenu extends AbstractContainerMenu {
         if (player instanceof ServerPlayer server && !player.isSpectator() && server.level().hasChunkAt(pos) && supported(server.level().getBlockState(pos).getBlock())
                 && player.distanceToSqr(pos.getX()+.5,pos.getY()+.5,pos.getZ()+.5)<=36) {
             com.bunnidogs.mod.item.JourneyProgress.met(player);
-            server.openMenu(new SimpleMenuProvider((id,inv,p)->new CareMenu(id,inv,null,pos,preferredSample),Component.translatable("screen.bunnidogs.care.title")));
+            server.openMenu(provider((id,inv,p)->new CareMenu(id,inv,null,pos,preferredSample),Component.translatable("screen.bunnidogs.care.title")));
         }
     }
     public CareView view() { return view; }
+    public boolean talksTo(Bunnidog target) { return dog==target && owner.containerMenu==this && stillValid(owner); }
+    @Override public void removed(Player player) {
+        super.removed(player);
+        if (dog!=null) dog.conversation().end(player,this);
+    }
     public int buttonId(int action) {
         return view==null ? -1 : view.controls().stream().filter(c->(c.id()&255)==action).mapToInt(CareView.Control::id).findFirst().orElse(-1);
     }
@@ -113,6 +146,7 @@ public final class CareMenu extends AbstractContainerMenu {
         if (mode==Mode.PARTY) return PartyPanel.view(owner);
         if (dog!=null) return switch (mode) {
             case CARE -> AnimalPanels.care(owner,dog);
+            case GUAVA -> AnimalPanels.guava(owner,dog,owner.getItemInHand(offeringHand));
             case ORDERS -> AnimalPanels.orders(owner,dog);
             case CARGO -> CarePanels.cargo(owner,dog);
             case ROLES -> RolePanel.view(owner,dog);
@@ -129,7 +163,7 @@ public final class CareMenu extends AbstractContainerMenu {
         return CarePanels.station(owner,pos,station);
     }
     private static boolean supported(Block block) {
-        return block instanceof NestBlock || block instanceof FeedingTroughBlock || block instanceof BreedingPenBlock
+        return block instanceof FeedingTroughBlock || block instanceof BreedingPenBlock
                 || block instanceof NurseryCradleBlock || block instanceof JuicerBlock || block instanceof CommissionBoardBlock
                 || block instanceof GeneticsTableBlock || block instanceof JudgingStandBlock || block instanceof SpecimenJarBlock
                 || block instanceof PedigreeComparatorBlock || block instanceof TrophyPedestalBlock || block instanceof ApexCrucibleBlock;
@@ -139,6 +173,7 @@ public final class CareMenu extends AbstractContainerMenu {
         var facts=new ArrayList<Object>(); var stock=new ArrayList<ItemStack>();
         if (mode==Mode.PARTY) facts.add(com.bunnidogs.mod.entity.CompanionParty.context(owner));
         else if (dog!=null) {
+            if (mode==Mode.GUAVA) stock.add(owner.getItemInHand(offeringHand));
             facts.add(dog.workPaused()); facts.add(Optional.ofNullable(dog.trail().keeper())); facts.add(dog.trail().order()); facts.add(dog.trail().provisions());
             facts.add(dog.combat().selected()); facts.add(dog.combat().downed()); facts.add(dog.combat().recovering());
             facts.add(dog.combat().partyState());
@@ -189,17 +224,20 @@ public final class CareMenu extends AbstractContainerMenu {
         }
         return new Context(facts,stock);
     }
-    private void publish(boolean force) {
-        if (!(owner instanceof ServerPlayer server) || !stillValid(owner)) return;
+    private CareView currentView() {
         var currentContext=context();
         if (!currentContext.same(published)) {
             generation=generation==0x7FFFFF ? 1 : generation+1; published=currentContext;
             if (mode==Mode.CONFIRM_RITUAL) mode=Mode.MAIN;
         }
         var base=snapshot();
-        var current=new CareView(base.title(),level.getGameTime()<changedUntil ? Component.translatable("care.bunnidogs.feedback.changed")
+        return new CareView(base.title(),level.getGameTime()<changedUntil ? Component.translatable("care.bunnidogs.feedback.changed")
                 : actionNotice!=null && level.getGameTime()<noticeUntil ? actionNotice : base.next(),
                 base.rows(),base.controls().stream().map(c->new CareView.Control((generation<<8)|c.id(),c.label(),c.enabled(),c.section(),c.hint())).toList(),dog==null ? -1 : dog.getId());
+    }
+    private void publish(boolean force) {
+        if (!(owner instanceof ServerPlayer server) || !stillValid(owner)) return;
+        var current=currentView();
         if (force || !current.equals(view)) { view=current; PacketDistributor.sendToPlayer(server,new CareViewPayload(containerId,current)); }
     }
     @Override public void broadcastChanges() {
@@ -218,7 +256,16 @@ public final class CareMenu extends AbstractContainerMenu {
         acting=true;
         actionNotice=null;
         try {
-            if (id==AnimalPanels.CARE_MENU && dog!=null) mode=Mode.CARE;
+            if (mode==Mode.GUAVA && dog!=null && (id==CarePanels.CARE || id==CarePanels.COURTSHIP || id==CarePanels.TRAIN)) {
+                var actual=player.getItemInHand(offeringHand);
+                boolean used=switch (id) {
+                    case CarePanels.CARE -> dog.careFromStock(player,actual);
+                    case CarePanels.COURTSHIP -> dog.courtshipFromStock(player,actual);
+                    default -> dog.trail().trainFromStock(player,actual);
+                };
+                if (used && player.containerMenu==this) player.closeContainer();
+            }
+            else if (id==AnimalPanels.CARE_MENU && dog!=null) mode=Mode.CARE;
             else if (id==AnimalPanels.ORDERS && dog!=null) mode=Mode.ORDERS;
             else if (id==CarePanels.CARGO) mode=Mode.CARGO;
             else if (id==CarePanels.ROLES) mode=Mode.ROLES;

@@ -4,12 +4,37 @@ The player should be able to raise a useful companion without reading a manual.
 The Field Guide is an optional reference for exact genetics and advanced systems.
 Adding another chapter does not count as making an interaction discoverable.
 
-## First client review corrections (2026-10-21)
+## Client review corrections (2026-10-21)
 
 The user found that persistent crosshair instructions and verbose animal panels
 had moved the manual into the UI. That is failed discovery, even when a headless
 test proves the controls work. This review overrides earlier claims of completed
 first-session cohesion.
+
+The follow-up review identified six concrete failures. The current corrections:
+
+- The first bounded snapshot is encoded in NeoForge's menu-opening data and
+  decoded by the registered client factory before screen construction. A pending
+  snapshot never renders the old station UI.
+- Animal controls draw directly over the world, without an enclosing box.
+  Back (left arrow) and Close have fixed separate footer positions; Back never
+  appears among the action buttons or moves with their content.
+- A temporary conversation goal keeps calm animals in place, facing an actual
+  nearby viewer of their menu. Closing/replacing it releases attention; hostile
+  or frightened animals keep their response. Combat, refuge and native safety
+  behavior retain priority; no AI-disable flag, teleport or persistent order.
+- Nests have no menu. Direct use assigns a nearby led adult or gives brief
+  occupancy feedback. Compass marking and actual POI ownership remain intact.
+- Offering any guava, including from the off hand, opens its food choices and
+  spends nothing. A valid selection uses that offered hand's actual stack;
+  upgraded courtship keeps its tier. A changed hand rejects the stale choice.
+  Successful guava choices close the interaction, allowing courtship to proceed.
+
+The native factory/opening-data test runs before any incremental view message;
+the normal-AI conversation scenario checks a skittish animal over 20 ticks,
+immediate menu-close release and response to the actual viewer's attack.
+The full suite has **125 scenarios**. The preview remains a substitute-font
+layout illustration; these checks do not establish the client's first frame.
 
 - Remove the automatic crosshair tutorial layer completely. No replacement
   popup or repeating instruction; no essential one-time hint has been identified.
@@ -17,7 +42,8 @@ first-session cohesion.
   short named action groups beside the actual visible animal/world, without a
   full-screen blur or a scrolling first-contact readout. This is an interaction
   reference, not imported MCA code or a new social/relationship system.
-- Ordinary held items may open interaction. Preserve direct food, both hands,
+- Ordinary held items may open interaction. Guavas open deliberate food choices;
+  preserve other direct food, both hands,
   leads, shears, name tags, bundles and the mod's purpose-built tools.
 - First contact offers Care, Orders and Work; Cargo appears for actual bundles.
   Calipers add a deliberate Measure action. No initial instructions, inferred
@@ -48,7 +74,7 @@ or separate gear prerequisite replaces the existing care/breeding loop.
 | Player's goal | Discover it through play | Success condition |
 |---|---|---|
 | Meet an animal | Try ordinary interaction; short action groups beside the animal | Choose care or orders without a manual or unsolicited measurements |
-| Set up a home | Nest panel, actual resident and lead controls | Understand one Nest per adult and assign a led resident deliberately |
+| Set up a home | Lead an adult to a Nest and use it directly | Assign a real resident in the world, with brief occupancy feedback |
 | Care for residents | Animal and Trough panels | Distinguish healing food, guava courtship and optional crop work |
 | Raise the first litter | Guava feedback, seed tooltip, crop/Cradle status | Know a mating drops a seed; plant it, wait and hatch with room |
 | Choose a purpose | Existing traits, cargo, Whistle and commissions | Connect an inherited trait to something useful in the world |
@@ -57,7 +83,7 @@ or separate gear prerequisite replaces the existing care/breeding loop.
 ## C1 — Controls where the work happens (implemented)
 
 - Native, live animal action groups and station controls. Animal opening is
-  read-only; opening a station never spends food,
+  read-only; opening a station menu never spends food,
   starts mating, changes a request or hatches a litter.
 - Preserve direct item interactions and deliberate crouching shortcuts. Put the
   same operations behind visible buttons rather than inventing a second economy.

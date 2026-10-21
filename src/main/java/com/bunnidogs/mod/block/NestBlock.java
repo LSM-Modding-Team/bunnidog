@@ -73,9 +73,6 @@ public final class NestBlock extends Block {
     }
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (!player.isShiftKeyDown() && player.getMainHandItem().isEmpty() && player.getOffhandItem().isEmpty()) {
-            com.bunnidogs.mod.menu.CareMenu.open(player,pos); return InteractionResult.SUCCESS;
-        }
         return player.getMainHandItem().isEmpty() && player.getOffhandItem().isEmpty()
                 ? this.rehome(level, pos, player) : InteractionResult.PASS;
     }

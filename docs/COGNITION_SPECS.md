@@ -105,7 +105,7 @@ Canonical genotype text is `g2.<seven body pairs>.<four mind pairs>`, for exampl
 existing Seed/Tissue/Infusion/Pedigree/LineageNames delimiters. Full equality
 includes both words; `.packed()` deliberately remains only the body word.
 Entities sync three integers and invalidate capacity caches on either word.
-Required client/server protocol is **20** after the interaction-menu update.
+Required client/server protocol is **21** after the opening-data/guava-choice update.
 
 Valid old six/seven-pair genomes resolve to the same fixed, heritable helper
 mind `11-11-11-11`: capacities 2.25/2.00/1.75/2.00. Six-pair forms also retain

@@ -92,7 +92,7 @@ public final class CohesionGameTest {
         out.add("next",ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE,view.next()).getOrThrow());
         var rows=new JsonArray(); for (var row:view.rows()) rows.add(ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE,row).getOrThrow()); out.add("rows",rows);
         var controls=new JsonArray(); for (var control:view.controls()) {
-            var button=new JsonObject(); button.add("label",ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE,control.label()).getOrThrow());
+            var button=new JsonObject(); button.addProperty("action",control.id()&255); button.add("label",ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE,control.label()).getOrThrow());
             button.add("hint",ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE,control.hint()).getOrThrow());
             button.addProperty("enabled",control.enabled()); button.addProperty("section",control.section()); controls.add(button);
         }
@@ -304,13 +304,13 @@ public final class CohesionGameTest {
         animal(h,player,a); h.assertTrue(done(player,"root"),"Meeting an animal discovers the native first-session journey without a guide");
         for (var dog:List.of(a,b)) dog.setLeashedTo(player,false);
         h.startSequence().thenIdle(3).thenExecute(()->{
-            CareMenuGameTest.click(h,player,nestA,CarePanels.REHOME); CareMenuGameTest.click(h,player,nestB,CarePanels.REHOME);
-            CareMenuGameTest.click(h,player,nestA,CarePanels.REHOME);
+            CareMenuGameTest.assignHome(h,player,nestA); CareMenuGameTest.assignHome(h,player,nestB);
+            CareMenuGameTest.assignHome(h,player,nestA);
             h.assertTrue(nestA.equals(a.homeNest()) && nestB.equals(b.homeNest()) && done(player,"home"),"Named Nest controls give two actual led adults separate native home claims");
             a.removeLeash(); b.removeLeash();
             var care=animal(h,player,a); press(h,player,care,CarePanels.COURTSHIP); player.closeContainer();
             var offered=player.getInventory().removeItemNoUpdate(9); player.setItemInHand(InteractionHand.MAIN_HAND,offered); player.snapTo(b.position().add(1,0,0));
-            player.interactOn(b,InteractionHand.MAIN_HAND,Vec3.ZERO); var remainder=player.getMainHandItem(); player.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY); player.getInventory().setItem(9,remainder);
+            CareMenuGameTest.chooseGuava(h,player,b,InteractionHand.MAIN_HAND,CarePanels.COURTSHIP); var remainder=player.getMainHandItem(); player.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY); player.getInventory().setItem(9,remainder);
             h.assertTrue(a.isInLove() && b.isInLove() && count(player,ModItems.GUAVA.get())==4 && done(player,"courtship"),"Menu and direct-hand courtship spend the two real guavas and join the same native breeding flow");
             a.setNoAi(false); b.setNoAi(false);
         }).thenWaitUntil(()->{

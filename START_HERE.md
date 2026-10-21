@@ -20,7 +20,7 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Current focus — first client interaction review (2026-10-21)
+## Current focus — client interaction review (2026-10-21)
 
 The user rejected the persistent crosshair instructions, animal-panel information
 dump and measurements that made information tools redundant. This human review
@@ -30,28 +30,42 @@ the revised design and the old MCA 1.12 interaction reference.
 
 - The automatic crosshair hint layer is removed, including its obsolete strings.
   No replacement tutorial popup or one-time cue has been identified as necessary.
-- Bunnidog interaction opens short Care / Orders / Work groups beside the visible
-  animal/world, with no full-screen blur or initial scrolling readout. Ordinary
-  held items work; actual food, off-hand tools, shears, leads, name tags, bundles
+- The complete initial snapshot now travels in the menu-opening payload and is
+  decoded by the registered client factory before screen construction, eliminating
+  the old station-layout fallback while waiting for a view.
+- Bunnidog interaction opens short Care / Orders / Work groups directly over the
+  visible world, with no enclosing panel, blur or initial scrolling readout.
+  Back and Close occupy fixed separate footer positions outside the action list.
+  Ordinary held items work; other food, off-hand tools, shears, leads, name tags, bundles
   and purpose-built mod items retain their direct interactions.
+- Calm animals stay and face the nearby player while their actual menu is open.
+  Closing it releases attention. Anger, fear and safety AI retain priority;
+  conversation neither disables AI nor saves an artificial order.
+- Nests have no menu: use them in the world to assign a led adult or inspect
+  occupancy. Guavas open deliberate food choices, spending nothing on opening.
+  A valid choice uses the offered hand's real stack and preserves breeding tier;
+  replacing that hand rejects stale clicks. Successful choices dismiss the menu.
 - Cargo appears for actual carried bundles. Calipers add a deliberate Measure
   action; losing them rejects stale measurement clicks. Ordinary menus expose
   no inherited copies/points, exact health, combat calculations or thresholds.
 - Unavailable actions explain their own immediate constraint on hover. Work and
   lessons show personal practice and live activity, without a theory/setup wall.
   Exact body/mind forecasts remain with the existing tools and stations.
-- Protocol **20** carries the visual subject ID and local action reasons. Only
+- Protocol **21** adds the first view to opening data, retaining the visual subject
+  ID and local action reasons. Only
   the server resolves action targets. Saves, breeding, materials and ability
-  rules are unchanged. English and neutral Peruvian Spanish have **2,133 authored
-  keys** and **2,261 packaged entries per locale** after guide previews.
+  rules remain authoritative. English and neutral Peruvian Spanish have **2,134 authored
+  keys** and **2,262 packaged entries per locale** after guide previews.
 
-The headless suite now has **124 scenarios**, including first-contact simplicity,
+The headless suite now has **125 scenarios**, including the initial native client
+factory, normal-AI conversation hold/release/hostility, hand-bound guava choices,
+first-contact simplicity,
 ordinary held items, off-hand food/Calipers priority, real stock, hidden-point
 independence and stale/lost-tool denial. Shearing retains native item dispatch.
 The existing walking test now declares a 36-block template: native tests only
 keep chunks inside their declared structure entity-ticking, and its old 8-block
 bounds could strand the walker exactly at a chunk edge. Its gameplay is unchanged.
-Java 25 `build` and all 124 native scenarios pass; verify the exact pushed GitHub
+Java 25 `build` and all 125 native scenarios pass; verify the exact pushed GitHub
 artifact as the final delivery gate.
 `art/interaction_preview.png` is an English/Spanish native-snapshot layout preview
 with a substitute font and the existing sculpt, not an in-client capture. Real
