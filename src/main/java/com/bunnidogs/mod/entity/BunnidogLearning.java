@@ -55,8 +55,8 @@ public final class BunnidogLearning {
         if (!canBegin(player, routine) || dog.level().isClientSide()) return false;
         lesson = routine; teacher = player.getUUID(); until = dog.level().getGameTime() + SESSION_TICKS;
         dog.setPersistenceRequired();
-        player.sendOverlayMessage(TextComponents.t("Practice started: %s. Stay within %s blocks and watch the work.",
-                TextComponents.t(routine.task().displayName()), GUIDE_RANGE));
+        player.sendOverlayMessage(net.minecraft.network.chat.Component.translatable("message.bunnidogs.learning.started",
+                dog.getDisplayName(),TextComponents.t(routine.task().displayName())));
         return true;
     }
     public boolean guided() {
@@ -92,12 +92,12 @@ public final class BunnidogLearning {
         knowledge = knowledge.practice(dog.mind(), routine);
         if (player != null && !knew) {
             if (knowledge.knows(routine)) {
-                player.sendOverlayMessage(TextComponents.t(knowledge.independent(dog.mind(), routine)
-                        ? "Learned %s. This bunnidog can now work independently."
-                        : "Learned %s. This bunnidog still needs nearby guidance.", TextComponents.t(routine.task().displayName())));
+                player.sendOverlayMessage(net.minecraft.network.chat.Component.translatable(knowledge.independent(dog.mind(), routine)
+                        ? "message.bunnidogs.learning.learned" : "message.bunnidogs.learning.guided",
+                        dog.getDisplayName(),TextComponents.t(routine.task().displayName())));
                 level.sendParticles(ParticleTypes.HAPPY_VILLAGER, dog.getX(), dog.getY() + .6, dog.getZ(), 5, .2, .2, .2, 0);
-            } else player.sendOverlayMessage(TextComponents.t("%s practice: %s/%s. Progress is saved; rest, then try again.",
-                    TextComponents.t(routine.task().displayName()), knowledge.progress(routine), Learning.MASTERED));
+            } else player.sendOverlayMessage(net.minecraft.network.chat.Component.translatable("message.bunnidogs.learning.practicing",
+                    dog.getDisplayName(),TextComponents.t(routine.task().displayName())));
         }
         if (knowledge.independent(dog.mind(), routine)) cancel();
     }

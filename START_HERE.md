@@ -51,25 +51,43 @@ the revised design and the old MCA 1.12 interaction reference.
 - Unavailable actions explain their own immediate constraint on hover. Work and
   lessons show personal practice and live activity, without a theory/setup wall.
   Exact body/mind forecasts remain with the existing tools and stations.
-- Protocol **21** adds the first view to opening data, retaining the visual subject
-  ID and local action reasons. Only
-  the server resolves action targets. Saves, breeding, materials and ability
-  rules remain authoritative. English and neutral Peruvian Spanish have **2,134 authored
-  keys** and **2,262 packaged entries per locale** after guide previews.
+- Station interaction now uses compact pages over the world, without the large
+  gold/brown enclosing panel or full-screen blur. Troughs, Pens, Cradles, Juicers,
+  Tables, Jars and Pedestals show actual item icons/counts instead of stock
+  paragraphs. Working stations show state, not repeated setup instructions.
+  Trough work modes and Board requests have deliberate separate choice pages.
+- Actions depend on real contents: ripe Cradles omit Insert/Grow, empty presses
+  omit withdrawals, full Tables omit placement. An empty Trophy Pedestal has no
+  menu. Cargo shows actual bundles with native hover contents instead of expanded
+  text lists. Item displays are copied read-only snapshots, never payment sources.
+- All care pages share fixed Back/Close positions. Back follows actual page
+  history, including Work → Cargo, seed → offspring and Combat → Party. Page
+  changes reset scrolling and invalidate old action stamps. Ordinary live state
+  updates retain widgets, focus and current scroll when their structure permits.
+- Combat omits duplicated everyday orders and irrelevant nonmember controls.
+  Party actions name the animal. Lessons no longer repeat each routine in a
+  second status list; a successful start dismisses conversation so real work can
+  begin. Practice feedback and busy inventory tooltips are shorter. Exact seed
+  calculations remain in requested tools/readers and advanced debug tooltips.
+- Protocol **22** adds bounded item displays and page identity to the existing
+  first-view payload. Client/server builds must match; saved data is unchanged.
+  English and neutral Peruvian Spanish have **2,176 authored keys** and
+  **2,304 packaged entries per locale** after guide previews.
 
-The headless suite now has **125 scenarios**, including the initial native client
-factory, normal-AI conversation hold/release/hostility, hand-bound guava choices,
-first-contact simplicity,
-ordinary held items, off-hand food/Calipers priority, real stock, hidden-point
-independence and stale/lost-tool denial. Shearing retains native item dispatch.
-The existing walking test now declares a 36-block template: native tests only
-keep chunks inside their declared structure entity-ticking, and its old 8-block
-bounds could strand the walker exactly at a chunk edge. Its gameplay is unchanged.
-Java 25 `build` and all 125 native scenarios pass; verify the exact pushed GitHub
-artifact as the final delivery gate.
-`art/interaction_preview.png` is an English/Spanish native-snapshot layout preview
-with a substitute font and the existing sculpt, not an in-client capture. Real
-GUI scale, natural discovery and play pacing remain human review work.
+The headless suite has **126 scenarios**, including the registered opening factory,
+normal-AI conversation, actual hand-bound guavas, copied stock/component roundtrips,
+page-transition stale denial, current-content controls and real Back navigation.
+The family fixture now declares its actual 17×43-block horizontal work area;
+writing beyond an 8-block template did not keep all its births entity-ticking.
+The older trail fixture retains its 36-block bounds. These are fixture corrections,
+not production chunk-loading changes. Java 25 `build` and all 126 native scenarios pass. Verify the exact pushed
+GitHub build/artifact as the final delivery gate.
+
+`art/interaction_preview.png` and `art/station_interactions_preview.png` render
+English/Spanish native snapshots with substitute fonts/backgrounds. They are not
+in-client captures. Actual GUI scales, accessibility, natural discovery and play
+pacing remain human review work. Continue auditing friction found by play before
+new intelligence features; do not replace removed manuals with another UI guide.
 
 ## Previous fix — exploration crash (2026-10-21)
 

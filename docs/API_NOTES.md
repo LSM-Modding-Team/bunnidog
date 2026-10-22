@@ -184,7 +184,7 @@ Status words: **COMPILED** = the user's compile accepted it (names and types are
 
 ### Interaction snapshots and native test bounds (2026-10-21)
 
-Protocol 21 sends the first `CareView` in `MenuProvider.writeClientSideData`.
+Protocol 21 introduced the first `CareView` in `MenuProvider.writeClientSideData`.
 `IMenuTypeExtension.create(IContainerFactory)` installs the three-argument client
 constructor, which decodes it before any screen initialization. Resolved
 `ServerPlayer.openMenu` writes provider data into `AdvancedOpenScreenPayload`
@@ -205,11 +205,28 @@ item-owned interactions (including vanilla shears/name tags and mod tools) and
 actual off-hand uses must retain PASS dispatch. Client `CareScreen.extractBackground`
 omits the normal modal background for animal views, keeping the world visible.
 
+Protocol 22 extends that same opening/update codec with a bounded six-item stock
+list and an explicit page identity. `CareView.Stock` copies the complete actual
+`ItemStack`, compares with `ItemStack.matches`, and uses the registry-aware
+`OPTIONAL_STREAM_CODEC`. It is a read-only display; the server never accepts a
+client item as a transfer source. Actual costs still come from bound native
+stock. Item displays use native item/decorations/tooltip rendering, including
+bundle contents; empty indicators are not interactive inventory slots.
+
+Mode transitions renew button generations independently of stock changes. A
+small server-side history supplies Back. The client resets scroll for page
+changes, updates compatible live widgets in place, and refreshes disabled-action
+tooltips as well as labels. Content changes rebuild with the current scroll and
+restore focused action where possible. Station backgrounds use a light dim
+without the modal blur or enclosing panel; animal views keep the undimmed world.
+A successful lesson begins then closes its actual menu, releasing conversation.
+
 `TestInstanceBlockEntity.forceLoadChunks()` only forces the declared structure's
 intersecting chunks. `GameTestInfo` checks those bounds for entity ticking; merely
 writing a longer floor with `h.setBlock` does not force its extra chunks to tick.
 The 31-block walking excursion now uses the generated 36-block `trail_corridor`
-template rather than `empty`'s 8-block bounds. Regenerate it with
+template rather than `empty`'s 8-block bounds. The family birth/query fixture
+uses `family_workshop` (17×5×43) for the same reason. Regenerate both with
 `python tools/gametest/generate_fixtures.py`. This fixes a native fixture boundary,
 not a production pathfinding or chunk-loading policy.
 

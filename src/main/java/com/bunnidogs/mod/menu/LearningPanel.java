@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 
-/** Immediate teach/guide choices with real-world setup advice, separate from the genetic snapshot. */
+/** Teach/guide actions report personal learning; inherited capacity stays in the measuring tools. */
 public final class LearningPanel {
     private LearningPanel() {}
     public static final int OPEN = 220, TEACH = 221, STOP = 225;
@@ -22,14 +22,13 @@ public final class LearningPanel {
     public static CareView view(Player player, Bunnidog dog) {
         var rows = new ArrayList<Component>(); var controls = new ArrayList<CareView.Control>();
         for (var routine : Learning.Routine.values()) {
-            rows.add(TextComponents.t("%s: %s", name(routine), dog.learning().knowledge().progress(routine)>0 ? status(dog,routine) : AnimalPanels.text("unfamiliar")));
             boolean known = dog.learning().knowledge().knows(routine);
-            controls.add(new CareView.Control(TEACH + routine.ordinal(), TextComponents.t(known ? "Guide %s" : "Teach %s", name(routine)),
+            boolean learned=known && CapabilityRules.potential(dog.mind(),routine.task())==CapabilityRules.Potential.INDEPENDENT;
+            controls.add(new CareView.Control(TEACH + routine.ordinal(), learned ? AnimalPanels.text("learned_label",name(routine)) : TextComponents.t(known ? "Guide %s" : "Teach %s", name(routine)),
                     dog.learning().canBegin(player, routine) && dog.learning().lesson() != routine,CareView.Control.PRIMARY,lessonReason(player,dog,routine)));
         }
         var lesson = dog.learning().lesson();
-        if (lesson != null) rows.add(TextComponents.t(dog.learning().guided() ? "Current lesson: %s; instructor nearby." : "Current lesson: %s; waiting for its instructor to return.", name(lesson)));
-        controls.add(new CareView.Control(STOP, TextComponents.t("Stop lesson"), dog.learning().authorized(player) && lesson != null));
+        if (lesson!=null) controls.add(new CareView.Control(STOP, TextComponents.t("Stop lesson"), dog.learning().authorized(player)));
         controls.add(new CareView.Control(CarePanels.BACK, Component.translatable("care.bunnidogs.button.back"), true));
         Component next=dog.isBaby() ? AnimalPanels.text("still_growing")
                 : dog.homeNest()==null ? AnimalPanels.text("need_home")

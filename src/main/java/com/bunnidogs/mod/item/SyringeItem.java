@@ -46,7 +46,7 @@ public final class SyringeItem extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display,
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack,context,display,lines,flag);
-        for (String key : new String[]{"use","health","recovery"}) {
+        for (String key : flag.isAdvanced() ? new String[]{"use","health","recovery"} : new String[]{"use"}) {
             lines.accept(Component.translatable("tooltip.bunnidogs.syringe." + key).withStyle(ChatFormatting.GRAY));
         }
     }

@@ -25,6 +25,17 @@ world use assigns a led adult or reports occupancy. Offering any guava opens
 explicit food choices instead of feeding/breeding immediately; preserve the
 offered hand, stack components and tier, and spend only after a valid choice.
 
+The proactive UX audit extends this to station and nested pages: show actual
+stock icons/native item contents, concise live state and actions relevant to the
+current contents. Keep work-mode/request banks in deliberate choice pages; no
+repeated setup paragraphs. All care pages share Back/Close footer positions;
+Back follows actual history and page changes reset scroll. Routine refreshes
+should preserve widgets/focus when possible. Stock displays are read-only
+copies; server-side real-stock and stale-action protections remain authoritative.
+Empty Trophy Pedestals have no menu. Lessons close conversation after a valid
+start, so the animal can begin work. Avoid duplicated routine/status lists and
+ordinary order controls inside Combat. Keep detailed measurement tools useful.
+
 - Complete the requested change through implementation and appropriate validation,
   respecting planning-only requests. The accepted longer-term direction is the substantial
   gene-driven intelligence/civilization update in `docs/INTELLIGENCE_PLAN.md`,

@@ -72,7 +72,10 @@ public final class SignalControlsGameTest {
 
         p=player(h); var display=pos.east(9); level.setBlock(display,ModBlocks.TROPHY_PEDESTAL.get().defaultBlockState(),3);
         var pedestal=(TrophyPedestalBlockEntity)level.getBlockEntity(display); var trophy=original.copy();
-        p.snapTo(Vec3.atCenterOf(display).add(0,0,2)); p.setItemInHand(InteractionHand.OFF_HAND,trophy);
+        p.snapTo(Vec3.atCenterOf(display).add(0,0,2));
+        p.gameMode.useItemOn(p,level,ItemStack.EMPTY,InteractionHand.MAIN_HAND,new BlockHitResult(Vec3.atCenterOf(display),Direction.UP,display,false));
+        h.assertTrue(!(p.containerMenu instanceof CareMenu) && pedestal.isEmpty(),"An empty display has no useless inspection menu");
+        p.setItemInHand(InteractionHand.OFF_HAND,trophy);
         p.gameMode.useItemOn(p,level,trophy,InteractionHand.OFF_HAND,new BlockHitResult(Vec3.atCenterOf(display),Direction.UP,display,false));
         h.assertTrue(trophy.isEmpty() && ItemStack.matches(pedestal.item(),original),"Actual off-hand display placement pays only that item and preserves its complete record");
         menu=CareMenuGameTest.open(h,p,display); h.assertTrue(ItemStack.matches(pedestal.item(),original),"Opening a display cannot take its trophy");

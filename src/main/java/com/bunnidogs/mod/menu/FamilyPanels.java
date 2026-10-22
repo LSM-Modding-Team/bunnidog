@@ -118,7 +118,7 @@ public final class FamilyPanels {
         rows.add(t(fromSeed ? "family.seed_source" : "family.source",RANGE));
         if (!hasCalipers(player)) rows.add(t("family.need_calipers"));
         rows.add(t("family.page",page+1,Math.max(1,(family.size()+PAGE_SIZE-1)/PAGE_SIZE),family.size()));
-        controls.add(button(fromSeed ? LitterPanel.LITTER : WorkshopPanels.BACK_TABLE,fromSeed ? "back_litter" : "back_table",true));
+        controls.add(button(CarePanels.BACK,"back",true));
         controls.add(button(PREV,"family_prev",page>0)); controls.add(button(NEXT,"family_next",(page+1)*PAGE_SIZE<family.size()));
         controls.add(button(SHOW_FAMILY,"show_family",!shown.isEmpty()));
         return new CareView(t("family.title"),t("family.next"),rows,controls);

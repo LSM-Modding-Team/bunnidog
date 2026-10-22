@@ -7,6 +7,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 from preview_bunnidog import ROOT, render, world_faces
+from preview_stations import icon, wrap
 
 
 def main():
@@ -23,7 +24,7 @@ def main():
     bold = ImageFont.truetype('DejaVuSans-Bold.ttf', 10)
     texture = np.asarray(Image.open(root/'src/main/resources/assets/bunnidogs/textures/entity/bunnidog_tan.png'), dtype=float)
     scene = render(world_faces(), texture, -35, 8, 330, 330, 17, background_rgb=(75, 91, 68))
-    canvas = Image.new('RGB', (1800, 760), (28, 32, 27))
+    canvas = Image.new('RGB', (2400, 760), (28, 32, 27))
     draw = ImageDraw.Draw(canvas)
     draw.text((12, 8), 'Interaction layout | native server snapshots | substitute font; not a client capture', font=bold, fill='white')
     for row, locale in enumerate(('en_us', 'es_pe')):
@@ -32,6 +33,8 @@ def main():
         def text(value):
             if isinstance(value, str):
                 return value
+            if isinstance(value, (int, float)):
+                return str(value)
             if isinstance(value, list):
                 return ''.join(map(text, value))
             if 'text' in value:
@@ -50,7 +53,7 @@ def main():
                 result = re.sub(r'%(?:(\d+)\$)?s', sub, result).replace('%%', '%')
             return result+''.join(text(part) for part in value.get('extra', []))
 
-        for column, name in enumerate(('First contact', 'Care without tools', 'Guava choices')):
+        for column, name in enumerate(('First contact', 'Care without tools', 'Guava choices', 'Packed cargo')):
             view = views[name]
             frame = Image.new('RGB', (600, 355), (75, 91, 68))
             frame.paste(scene, (6, 20))
@@ -62,6 +65,20 @@ def main():
             if text(view['next']):
                 painter.text((x+12, at), text(view['next']), font=font, fill=(230, 225, 214))
                 at += 16
+            stocks = view.get('stock', [])
+            if stocks:
+                columns = min(3, len(stocks))
+                sw = (178-8*(columns-1))//columns
+                for i, stock in enumerate(stocks):
+                    sx = x+12+(i%columns)*(sw+8)
+                    sy = at+(i//columns)*61
+                    for line_no, part in enumerate(wrap(text(stock['label']), sw)[:2]):
+                        painter.text((sx+(sw-font.getlength(part))/2, sy+2+line_no*9), part, font=font, fill=(224, 214, 193))
+                    sprite = icon(stock['item']) if stock['count'] else None
+                    if sprite:
+                        sprite = sprite.resize((16, 16), Image.Resampling.NEAREST)
+                        frame.paste(sprite, (sx+(sw-18)//2+1, sy+31), sprite)
+                at += ((len(stocks)+columns-1)//columns)*61
             back = next((button for button in view['controls'] if button.get('action') in (18, 182)), None)
             for button in view['controls']:
                 if button is back:
@@ -71,6 +88,11 @@ def main():
                 painter.text((x+101-font.getlength(label)/2, at+4), label, font=font,
                              fill='white' if button['enabled'] else (136, 132, 123))
                 at += 27
+            for value in view['rows']:
+                for part in wrap(text(value), 178):
+                    painter.text((x+12, at), part, font=font, fill=(230, 226, 217))
+                    at += 9
+                at += 7
             footer_width = (width-32)//2
             for offset, label in ((12, '← '+messages['interaction.bunnidogs.back']) if back else (12, None),
                                   (20+footer_width, messages['interaction.bunnidogs.close'])):

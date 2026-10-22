@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regenerate the native structure bounds used by the long walking test."""
+"""Regenerate native structure bounds for tests with extended physical fixtures."""
 from pathlib import Path
 import sys
 
@@ -11,3 +11,7 @@ from nbt_template import save
 # An 8-block template cannot keep a 31-block excursion entity-ticking reliably.
 save(ROOT/'tools/gametest/resources/data/bunnidogs/structure/trail_corridor.nbt',
      {(0, 0, 0): ('minecraft:air', {}, None)}, (36, 5, 8), version=4903)
+
+# Family queries and births take place around z=31, not inside the default 8x8 template.
+save(ROOT/'tools/gametest/resources/data/bunnidogs/structure/family_workshop.nbt',
+     {(0, 0, 0): ('minecraft:air', {}, None)}, (17, 5, 43), version=4903)

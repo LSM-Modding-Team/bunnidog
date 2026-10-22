@@ -48,8 +48,8 @@ public final class FamilyGoalsGameTest {
         for (int x=0;x<=16;x++) for (int z=24;z<=42;z++) {
             h.setBlock(x,floor,z,Blocks.STONE); for (int up=1;up<=4;up++) h.setBlock(x,floor+up,z,Blocks.AIR);
         }
-        // This fixture extends beyond the small test template. Let the real chunk/entity
-        // tracking activate before hatching and querying its living family.
+        // The declared family_workshop bounds keep the whole birth/query area ticking.
+        // Allow native chunk/entity tracking to activate before querying new births.
         h.runAfterDelay(2, () -> { family(h, floor); h.succeed(); });
     }
     private static void family(GameTestHelper h, int floor) {
@@ -84,8 +84,9 @@ public final class FamilyGoalsGameTest {
         player.getInventory().setItem(15,originalSeed); player.getInventory().setItem(16,differentSeed);
         h.assertTrue(FamilyPanels.relatives(player,tablePos,table,true).size()==family.size(),"The actual seed uses its own recorded pair when finding living offspring");
         var seedMenu=CareMenuGameTest.open(h,player,tablePos); press(h,player,seedMenu,LitterPanel.LITTER); press(h,player,seedMenu,FamilyPanels.SEED_FAMILY);
-        h.assertTrue(seedMenu.buttonId(LitterPanel.LITTER)>=0 && seedMenu.buttonId(WorkshopPanels.BACK_TABLE)<0,"The actual seed's family returns to its source rather than losing the handoff");
-        press(h,player,seedMenu,LitterPanel.LITTER); player.closeContainer();
+        h.assertTrue(seedMenu.buttonId(CarePanels.BACK)>=0 && seedMenu.buttonId(WorkshopPanels.BACK_TABLE)<0,"The actual seed's family returns to its source rather than losing the handoff");
+        press(h,player,seedMenu,CarePanels.BACK);
+        h.assertTrue(seedMenu.buttonId(LitterPanel.READ_SEED)>=0,"Back returns to the actual seed, not the sample table"); player.closeContainer();
         // Tick-zero queries need an already tracked chunk; a neighboring chunk can still be activating on CI.
         var known=family.getFirst();
         var reverseSpot=known.position().add(0,0,(known.getBlockZ()&15)<2 ? 2 : -2);

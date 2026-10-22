@@ -88,6 +88,7 @@ public final class TrailGameTest {
         keeper.setPos(restored.position().add(1,0,0)); keeper.setShiftKeyDown(true); keeper.interactOn(restored,InteractionHand.MAIN_HAND,Vec3.ZERO);
         h.assertTrue(restored.trail().belongsTo(keeper)&&keeper.containerMenu instanceof com.bunnidogs.mod.menu.CareMenu,"Crouch Whistle opens orders without releasing the bond");
         menu=(com.bunnidogs.mod.menu.CareMenu)keeper.containerMenu;
+        h.assertTrue(menu.clickMenuButton(keeper,menu.buttonId(com.bunnidogs.mod.menu.CarePanels.BACK)),"Combat returns to the keeper's ordinary orders");
         h.assertTrue(menu.clickMenuButton(keeper,menu.buttonId(com.bunnidogs.mod.menu.CarePanels.RELEASE))&&restored.trail().keeper()==null,"The deliberate named release action belongs to the keeper");
         keeper.setShiftKeyDown(false); keeper.gameMode.changeGameModeForPlayer(GameType.CREATIVE);
         h.assertTrue(restored.trail().trainFromStock(keeper,guavas)&&guavas.getCount()==2,"Creative care training preserves actual guavas");

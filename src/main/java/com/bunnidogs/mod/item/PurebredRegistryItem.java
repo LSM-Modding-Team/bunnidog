@@ -93,8 +93,8 @@ public final class PurebredRegistryItem extends Item {
         super.appendHoverText(stack, context, display, lines, flag);
         lines.accept(Component.translatable("tooltip.bunnidogs.registry.count", read(stack).size(), Pedigree.MAX_ENTRIES).withStyle(ChatFormatting.GRAY));
         lines.accept(Component.translatable("tooltip.bunnidogs.registry.use").withStyle(ChatFormatting.GRAY));
-        lines.accept(Component.translatable("tooltip.bunnidogs.registry.goal").withStyle(ChatFormatting.DARK_GRAY));
-        lines.accept(Component.translatable("tooltip.bunnidogs.registry.snapshot").withStyle(ChatFormatting.DARK_GRAY));
-        lines.accept(Component.translatable("tooltip.bunnidogs.records.carried").withStyle(ChatFormatting.DARK_GRAY));
+        if (flag.isAdvanced()) lines.accept(Component.translatable("tooltip.bunnidogs.registry.goal").withStyle(ChatFormatting.DARK_GRAY));
+        if (flag.isAdvanced()) lines.accept(Component.translatable("tooltip.bunnidogs.registry.snapshot").withStyle(ChatFormatting.DARK_GRAY));
+        if (flag.isAdvanced()) lines.accept(Component.translatable("tooltip.bunnidogs.records.carried").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

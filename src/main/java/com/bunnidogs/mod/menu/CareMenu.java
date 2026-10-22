@@ -38,8 +38,12 @@ public final class CareMenu extends AbstractContainerMenu {
     private Context published;
     private long changedUntil;
     private boolean acting;
-    private enum Mode { MAIN, CARE, GUAVA, ORDERS, CARGO, ROLES, LEARNING, GOALS, CONFIRM_RITUAL, FAMILY, SEED_FAMILY, FIT, FIT_CHOICES, LITTER, COMBAT, PARTY }
+    private enum Mode { MAIN, CARE, GUAVA, ORDERS, CARGO, ROLES, LEARNING, GOALS, CONFIRM_RITUAL, FAMILY, SEED_FAMILY, FIT, FIT_CHOICES, LITTER, COMBAT, PARTY, TROUGH_WORK, REQUESTS }
     private Mode mode=Mode.MAIN;
+    private Mode publishedMode;
+    private final java.util.ArrayDeque<Mode> history=new java.util.ArrayDeque<>();
+    private void navigate(Mode next) { if (mode!=next) { history.push(mode); mode=next; } }
+    private void back() { mode=history.isEmpty() ? Mode.MAIN : history.pop(); }
     private Commissions.Request fitGoal;
     private int familyPage;
     private final ItemStack preferredSample;
@@ -107,7 +111,7 @@ public final class CareMenu extends AbstractContainerMenu {
             server.openMenu(provider((id,inv,p)->{
                 var menu=new CareMenu(id,inv,dog,null);
                 if (goal!=null) { menu.fitGoal=goal; menu.mode=Mode.FIT; }
-                if (combat) menu.mode=Mode.COMBAT;
+                if (combat) { menu.navigate(Mode.ORDERS); menu.navigate(Mode.COMBAT); }
                 if (offeringHand!=null) { menu.mode=Mode.GUAVA; menu.offeringHand=offeringHand; }
                 dog.conversation().begin(server,menu);
                 return menu;
@@ -137,13 +141,19 @@ public final class CareMenu extends AbstractContainerMenu {
     @Override public boolean stillValid(Player player) {
         if (level.isClientSide()) return true;
         if (player!=owner || player.level()!=level || !player.isAlive() || player.isSpectator()) return false;
-        if (mode==Mode.PARTY) return true;
+        if (mode==Mode.PARTY && dog==null) return true;
         if (dog!=null) return dog.isAlive() && !dog.isRemoved() && dog.acceptsCare() && dog.level()==level && dog.distanceToSqr(player)<=36;
         return pos!=null && level.hasChunkAt(pos) && level.getBlockState(pos).is(block) && level.getBlockEntity(pos)==station
                 && player.distanceToSqr(pos.getX()+.5,pos.getY()+.5,pos.getZ()+.5)<=36;
     }
     private CareView snapshot() {
-        if (mode==Mode.PARTY) return PartyPanel.view(owner);
+        if (mode==Mode.PARTY) {
+            var party=PartyPanel.view(owner);
+            if (history.isEmpty()) return party;
+            var controls=new ArrayList<>(party.controls());
+            controls.add(new CareView.Control(CarePanels.BACK,AnimalPanels.text("back"),true));
+            return new CareView(party.title(),party.next(),party.rows(),controls);
+        }
         if (dog!=null) return switch (mode) {
             case CARE -> AnimalPanels.care(owner,dog);
             case GUAVA -> AnimalPanels.guava(owner,dog,owner.getItemInHand(offeringHand));
@@ -157,6 +167,8 @@ public final class CareMenu extends AbstractContainerMenu {
             default -> CarePanels.animal(owner,dog);
         };
         if (block instanceof ApexCrucibleBlock) return ApexPanel.view(owner,pos,ApexPanel.sample(owner,preferredSample),mode==Mode.CONFIRM_RITUAL);
+        if (station instanceof FeedingTroughBlockEntity trough && mode==Mode.TROUGH_WORK) return CarePanels.troughWork(owner,pos,trough);
+        if (station instanceof CommissionBoardBlockEntity board && mode==Mode.REQUESTS) return CarePanels.requests(owner,pos,board);
         if (station instanceof GeneticsTableBlockEntity table && mode==Mode.GOALS) return WorkshopPanels.goals(owner,pos,table);
         if (station instanceof GeneticsTableBlockEntity table && (mode==Mode.FAMILY || mode==Mode.SEED_FAMILY)) return FamilyPanels.family(owner,pos,table,familyPage,mode==Mode.SEED_FAMILY);
         if (station instanceof GeneticsTableBlockEntity table && mode==Mode.LITTER) return LitterPanel.view(owner,table);
@@ -226,14 +238,22 @@ public final class CareMenu extends AbstractContainerMenu {
     }
     private CareView currentView() {
         var currentContext=context();
-        if (!currentContext.same(published)) {
-            generation=generation==0x7FFFFF ? 1 : generation+1; published=currentContext;
-            if (mode==Mode.CONFIRM_RITUAL) mode=Mode.MAIN;
+        boolean changed=!currentContext.same(published);
+        if (changed || mode!=publishedMode) {
+            generation=generation==0x7FFFFF ? 1 : generation+1;
+            if (changed && mode==Mode.CONFIRM_RITUAL && publishedMode==Mode.CONFIRM_RITUAL) { back(); }
+            published=currentContext; publishedMode=mode;
         }
         var base=snapshot();
         return new CareView(base.title(),level.getGameTime()<changedUntil ? Component.translatable("care.bunnidogs.feedback.changed")
                 : actionNotice!=null && level.getGameTime()<noticeUntil ? actionNotice : base.next(),
-                base.rows(),base.controls().stream().map(c->new CareView.Control((generation<<8)|c.id(),c.label(),c.enabled(),c.section(),c.hint())).toList(),dog==null ? -1 : dog.getId());
+                base.rows(),base.controls().stream().map(this::stamp).toList(),dog==null ? -1 : dog.getId(),
+                mode.ordinal() | ((mode==Mode.FAMILY || mode==Mode.SEED_FAMILY) ? familyPage<<8 : 0),base.stock());
+    }
+    private CareView.Control stamp(CareView.Control control) {
+        var hint=pos!=null && !control.enabled() && !CarePanels.readOnly(control.id()) && (!owner.mayBuild() || !level.mayInteract(owner,pos))
+                ? Component.translatable("care.bunnidogs.station.read_only") : control.hint();
+        return new CareView.Control((generation<<8)|control.id(),control.label(),control.enabled(),control.section(),hint);
     }
     private void publish(boolean force) {
         if (!(owner instanceof ServerPlayer server) || !stillValid(owner)) return;
@@ -265,28 +285,31 @@ public final class CareMenu extends AbstractContainerMenu {
                 };
                 if (used && player.containerMenu==this) player.closeContainer();
             }
-            else if (id==AnimalPanels.CARE_MENU && dog!=null) mode=Mode.CARE;
-            else if (id==AnimalPanels.ORDERS && dog!=null) mode=Mode.ORDERS;
-            else if (id==CarePanels.CARGO) mode=Mode.CARGO;
-            else if (id==CarePanels.ROLES) mode=Mode.ROLES;
-            else if (id==LearningPanel.OPEN && dog!=null) mode=Mode.LEARNING;
+            else if (id==AnimalPanels.CARE_MENU && dog!=null) navigate(Mode.CARE);
+            else if (id==AnimalPanels.ORDERS && dog!=null) navigate(Mode.ORDERS);
+            else if (id==CarePanels.CARGO) navigate(Mode.CARGO);
+            else if (id==CarePanels.ROLES) navigate(Mode.ROLES);
+            else if (id==LearningPanel.OPEN && dog!=null) navigate(Mode.LEARNING);
             else if (id>=LearningPanel.TEACH && id<LearningPanel.TEACH+com.bunnidogs.mod.genetics.Learning.Routine.values().length && dog!=null) {
-                dog.learning().begin(player,com.bunnidogs.mod.genetics.Learning.Routine.values()[id-LearningPanel.TEACH]);
+                if (dog.learning().begin(player,com.bunnidogs.mod.genetics.Learning.Routine.values()[id-LearningPanel.TEACH]) && player.containerMenu==this)
+                    player.closeContainer();
             }
             else if (id==LearningPanel.STOP && dog!=null && dog.learning().authorized(player)) dog.learning().cancel();
-            else if (id==CombatPanel.OPEN) mode=Mode.COMBAT;
-            else if (id==PartyPanel.OPEN) { openParty(player); }
+            else if (id==CombatPanel.OPEN) navigate(Mode.COMBAT);
+            else if (id==PartyPanel.OPEN) navigate(Mode.PARTY);
+            else if (CarePanels.backAction(id)) back();
             else if (mode==Mode.PARTY) PartyPanel.act(player,id);
-            else if (id==CarePanels.BACK) mode=mode==Mode.LEARNING ? Mode.ROLES : mode==Mode.COMBAT ? Mode.ORDERS : Mode.MAIN;
-            else if (id==FamilyPanels.COMPARE && dog!=null) mode=fitGoal==null ? Mode.FIT_CHOICES : Mode.FIT;
-            else if (id==FamilyPanels.CHOOSE_GOAL && dog!=null) mode=Mode.FIT_CHOICES;
-            else if (id==FamilyPanels.BACK_FIT && dog!=null) mode=fitGoal==null ? Mode.ROLES : Mode.FIT;
+            else if (id==CarePanels.WORK_MODES) navigate(Mode.TROUGH_WORK);
+            else if (id==CarePanels.REQUESTS) navigate(Mode.REQUESTS);
+            else if (id==FamilyPanels.COMPARE && dog!=null) navigate(fitGoal==null ? Mode.FIT_CHOICES : Mode.FIT);
+            else if (id==FamilyPanels.CHOOSE_GOAL && dog!=null) navigate(Mode.FIT_CHOICES);
             else if (id>=FamilyPanels.SELECT_GOAL && id<FamilyPanels.SELECT_GOAL+Commissions.Request.values().length && dog!=null) {
                 fitGoal=Commissions.Request.values()[id-FamilyPanels.SELECT_GOAL]; mode=Mode.FIT;
+                if (history.peek()==Mode.FIT) history.pop();
             }
-            else if (id==FamilyPanels.FAMILY && station instanceof GeneticsTableBlockEntity) { mode=Mode.FAMILY; familyPage=0; }
-            else if (id==FamilyPanels.SEED_FAMILY && station instanceof GeneticsTableBlockEntity) { mode=Mode.SEED_FAMILY; familyPage=0; }
-            else if (id==LitterPanel.LITTER && station instanceof GeneticsTableBlockEntity) mode=Mode.LITTER;
+            else if (id==FamilyPanels.FAMILY && station instanceof GeneticsTableBlockEntity) { navigate(Mode.FAMILY); familyPage=0; }
+            else if (id==FamilyPanels.SEED_FAMILY && station instanceof GeneticsTableBlockEntity) { navigate(Mode.SEED_FAMILY); familyPage=0; }
+            else if (id==LitterPanel.LITTER && station instanceof GeneticsTableBlockEntity) navigate(Mode.LITTER);
             else if (id==LitterPanel.READ_SEED && player instanceof ServerPlayer server) {
                 var seed=station instanceof NurseryCradleBlockEntity cradle ? cradle.seed()
                         : station instanceof GeneticsTableBlockEntity ? com.bunnidogs.mod.item.SeedItem.read(LitterPanel.nextSeed(owner)) : Optional.<com.bunnidogs.mod.genetics.Seed>empty();
@@ -304,17 +327,15 @@ public final class CareMenu extends AbstractContainerMenu {
                 if (id-FamilyPanels.SELECT<shown.size() && table.goal().isPresent() && FamilyPanels.hasCalipers(player))
                     openAnimal(player,shown.get(id-FamilyPanels.SELECT),table.goal().orElseThrow());
             }
-            else if (id==WorkshopPanels.GOALS && station instanceof GeneticsTableBlockEntity) mode=Mode.GOALS;
-            else if (id==WorkshopPanels.BACK_TABLE && station instanceof GeneticsTableBlockEntity) mode=Mode.MAIN;
+            else if (id==WorkshopPanels.GOALS && station instanceof GeneticsTableBlockEntity) navigate(Mode.GOALS);
             else if (id==com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD) { player.closeContainer(); com.bunnidogs.mod.entity.StationMarkers.show(player,pos); }
             else if (block instanceof ApexCrucibleBlock) {
-                if (id==ApexPanel.PREPARE) mode=Mode.CONFIRM_RITUAL;
-                else if (id==ApexPanel.CANCEL) mode=Mode.MAIN;
+                if (id==ApexPanel.PREPARE) navigate(Mode.CONFIRM_RITUAL);
                 else if (id==ApexPanel.SHOW_RING) {
                     player.closeContainer();
                     ((ApexCrucibleBlock)block).showRing(player,pos);
                 } else if (id==ApexPanel.SUMMON && mode==Mode.CONFIRM_RITUAL) {
-                    mode=Mode.MAIN;
+                    back();
                     var result=com.bunnidogs.mod.entity.ApexRitual.summon(player,pos,ApexPanel.sample(owner,preferredSample));
                     if (result==com.bunnidogs.mod.entity.ApexRitual.Status.SUMMONED) {
                         player.closeContainer(); player.sendOverlayMessage(Component.translatable("message.bunnidogs.apex.summoned"));
@@ -323,7 +344,9 @@ public final class CareMenu extends AbstractContainerMenu {
             }
             else {
                 CarePanels.act(player,dog,pos,station,id);
-                if (station instanceof GeneticsTableBlockEntity && (id==WorkshopPanels.CLEAR_GOAL || id>=WorkshopPanels.GOAL && id<WorkshopPanels.GOAL+com.bunnidogs.mod.genetics.Commissions.Request.values().length)) mode=Mode.MAIN;
+                if (station instanceof GeneticsTableBlockEntity && (id==WorkshopPanels.CLEAR_GOAL || id>=WorkshopPanels.GOAL && id<WorkshopPanels.GOAL+com.bunnidogs.mod.genetics.Commissions.Request.values().length)) back();
+                else if (mode==Mode.TROUGH_WORK && id>=CarePanels.MODE && id<CarePanels.MODE+com.bunnidogs.mod.genetics.TroughWork.values().length
+                        || mode==Mode.REQUESTS && id>=CarePanels.REQUEST && id<CarePanels.REQUEST+Commissions.Request.values().length) back();
             }
         }
         finally { acting=false; refresh=0; changedUntil=0; }

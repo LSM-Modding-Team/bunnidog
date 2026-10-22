@@ -183,8 +183,8 @@ public final class TravelBasketItem extends Item {
             var saved = stack.get(DataComponents.BUCKET_ENTITY_DATA).copyTag();
             lines.accept(Component.translatable("tooltip.bunnidogs.basket.occupant",saved.getStringOr("BasketName","Bunnidog")).withStyle(ChatFormatting.GRAY));
             lines.accept(Component.translatable("tooltip.bunnidogs.basket.release").withStyle(ChatFormatting.GRAY));
-            lines.accept(Component.translatable("tooltip.bunnidogs.basket.calipers").withStyle(ChatFormatting.DARK_GRAY));
-            lines.accept(Component.translatable("tooltip.bunnidogs.basket.records").withStyle(ChatFormatting.DARK_GRAY));
+            if (flag.isAdvanced()) lines.accept(Component.translatable("tooltip.bunnidogs.basket.calipers").withStyle(ChatFormatting.DARK_GRAY));
+            if (flag.isAdvanced()) lines.accept(Component.translatable("tooltip.bunnidogs.basket.records").withStyle(ChatFormatting.DARK_GRAY));
         } else lines.accept(Component.translatable("tooltip.bunnidogs.basket.capture").withStyle(ChatFormatting.GRAY));
     }
 }

@@ -118,7 +118,7 @@ public final class WorkshopControlsGameTest {
         h.assertTrue(!menu.clickMenuButton(player,menu.buttonId(WorkshopPanels.AWARD)) && other.highestShowAward()==2,
                 "Adventure scorecards cannot claim awards");
         other.setGenome(other.genome().with(Gene.DIET,0,1));
-        h.assertTrue(com.bunnidogs.mod.menu.WorkshopPanels.show(player,stand).rows().size()==12,
+        h.assertTrue(com.bunnidogs.mod.menu.WorkshopPanels.show(player,stand).rows().size()<=12,
                 "An unfinished entrant with a mixed gene pair still fits the bounded view");
     }
 }

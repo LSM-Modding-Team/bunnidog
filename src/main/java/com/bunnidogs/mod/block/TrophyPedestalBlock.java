@@ -49,6 +49,7 @@ public class TrophyPedestalBlock extends Block implements EntityBlock {
     protected InteractionResult useWithoutItem(BlockState state,Level level,BlockPos pos,Player player,BlockHitResult hit) {
         if (!player.getMainHandItem().isEmpty() || !player.getOffhandItem().isEmpty()
                 || !(level.getBlockEntity(pos) instanceof TrophyPedestalBlockEntity pedestal)) return InteractionResult.PASS;
+        if (pedestal.isEmpty()) return InteractionResult.PASS;
         if (!level.isClientSide()) {
             if (player.isShiftKeyDown()) pedestal.returnToPlayer(player);
             else CareMenu.open(player,pos);

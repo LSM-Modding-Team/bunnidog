@@ -173,11 +173,11 @@ public class SeedItem extends Item {
         }
         lines.accept(Component.translatable("care.bunnidogs.seed.use").withStyle(ChatFormatting.YELLOW));
         var summary=TextComponents.localized(() -> seed.get().summary());
-        for (int i=0;i<(flag.isAdvanced() ? summary.size() : 2);i++) lines.accept(Component.literal(summary.get(i)).withStyle(ChatFormatting.GRAY));
+        for (int i=0;i<(flag.isAdvanced() ? summary.size() : 0);i++) lines.accept(Component.literal(summary.get(i)).withStyle(ChatFormatting.GRAY));
         if (!flag.isAdvanced() && seed.get().mutagen()) lines.accept(Component.translatable("care.bunnidogs.seed.treated").withStyle(ChatFormatting.LIGHT_PURPLE));
         lines.accept(Component.translatable("tooltip.bunnidogs.seed.quality_band",TextComponents.t(com.bunnidogs.mod.genetics.SeedQuality.band(seed.get().quality()).displayName()))
                 .withStyle(ChatFormatting.DARK_GRAY));
-        lines.accept(Component.translatable("care.bunnidogs.seed.details").withStyle(ChatFormatting.DARK_GRAY));
+
         if (flag.isAdvanced()) {
             lines.accept(Component.translatable("tooltip.bunnidogs.seed.dispenser").withStyle(ChatFormatting.DARK_GRAY));
             lines.accept(TextComponents.t("Mother %s / %s", seed.get().mother().toString(), seed.get().motherStats().toString())

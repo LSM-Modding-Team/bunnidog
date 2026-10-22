@@ -283,13 +283,16 @@ public class CalipersItem extends Item {
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display,
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack, context, display, lines, flag);
-        lines.accept(TextComponents.t("Right-click a bunnidog: its sheet opens").withStyle(ChatFormatting.GRAY));
-        lines.accept(Component.translatable("tooltip.bunnidogs.calipers.care").withStyle(ChatFormatting.GRAY));
-        lines.accept(TextComponents.t("Right-click a planted seed or Nursery Cradle: litter forecast").withStyle(ChatFormatting.GRAY));
-        lines.accept(Component.translatable("tooltip.bunnidogs.calipers.cradle").withStyle(ChatFormatting.DARK_GRAY));
-        lines.accept(Component.translatable("tooltip.bunnidogs.calipers.finder").withStyle(ChatFormatting.DARK_GRAY));
-        lines.accept(Component.translatable("tooltip.bunnidogs.calipers.census").withStyle(ChatFormatting.DARK_GRAY));
-        lines.accept(TextComponents.t("Or hold a seed, sample or occupied Travel Basket in the other hand").withStyle(ChatFormatting.DARK_GRAY));
-        lines.accept(TextComponents.t("Off hand when you kill: a Tissue Sample").withStyle(ChatFormatting.DARK_GRAY));
+        lines.accept(Component.translatable("tooltip.bunnidogs.calipers.purpose").withStyle(ChatFormatting.GRAY));
+        lines.accept(Component.translatable("tooltip.bunnidogs.calipers.care").withStyle(ChatFormatting.DARK_GRAY));
+        if (flag.isAdvanced()) {
+            lines.accept(TextComponents.t("Right-click a bunnidog: its sheet opens").withStyle(ChatFormatting.GRAY));
+            lines.accept(TextComponents.t("Right-click a planted seed or Nursery Cradle: litter forecast").withStyle(ChatFormatting.GRAY));
+            lines.accept(Component.translatable("tooltip.bunnidogs.calipers.cradle").withStyle(ChatFormatting.DARK_GRAY));
+            lines.accept(Component.translatable("tooltip.bunnidogs.calipers.finder").withStyle(ChatFormatting.DARK_GRAY));
+            lines.accept(Component.translatable("tooltip.bunnidogs.calipers.census").withStyle(ChatFormatting.DARK_GRAY));
+            lines.accept(TextComponents.t("Or hold a seed, sample or occupied Travel Basket in the other hand").withStyle(ChatFormatting.DARK_GRAY));
+            lines.accept(TextComponents.t("Off hand when you kill: a Tissue Sample").withStyle(ChatFormatting.DARK_GRAY));
+        }
     }
 }

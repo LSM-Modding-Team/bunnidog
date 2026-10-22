@@ -36,6 +36,7 @@ public final class CarePanels {
     public static final int HATCH=40, TAKE_SEED=41, AUTO_HATCH=42, ADD_SEED=43, GROW=44;
     public static final int TAKE_JUICE=50, TAKE_FRUIT=51, TAKE_CARRIER=52, ADD_FRUIT=53, ADD_BOTTLE=54;
     public static final int REHOME=60, SUBMIT=70, REQUEST=80;
+    public static final int WORK_MODES=228, REQUESTS=229;
 
     private static net.minecraft.network.chat.MutableComponent t(String key,Object... args) { return Component.translatable("care.bunnidogs."+key,args); }
     private static Component message(String key,Object... args) { return Component.translatable("message.bunnidogs."+key,args); }
@@ -56,10 +57,11 @@ public final class CarePanels {
         return ItemStack.EMPTY;
     }
     private static boolean editable(Player player,BlockPos pos) { return player.mayBuild() && (pos==null || player.level().mayInteract(player,pos)); }
-    private static Component home(Bunnidog dog) {
-        var pos=dog.homeNest(); return pos==null ? t("animal.no_home") : t("animal.home",pos.getX(),pos.getY(),pos.getZ());
+    public static boolean backAction(int id) {
+        id&=255;
+        return id==BACK || id==FamilyPanels.BACK_FIT || id==WorkshopPanels.BACK_TABLE || id==ApexPanel.CANCEL;
     }
-    public static boolean readOnly(int id) { return id==AnimalPanels.CARE_MENU || id==AnimalPanels.ORDERS || id==GENETICS || id==CARGO || id==BACK || id==ROLES || id==LearningPanel.OPEN || id==CombatPanel.OPEN || id==PartyPanel.OPEN || id==WorkshopPanels.READ_TABLE || SignalPanels.readOnly(id)
+    public static boolean readOnly(int id) { return id==WORK_MODES || id==REQUESTS || id==AnimalPanels.CARE_MENU || id==AnimalPanels.ORDERS || id==GENETICS || id==CARGO || id==BACK || id==ROLES || id==LearningPanel.OPEN || id==CombatPanel.OPEN || id==PartyPanel.OPEN || id==WorkshopPanels.READ_TABLE || SignalPanels.readOnly(id)
             || id==ApexPanel.PREPARE || id==ApexPanel.CANCEL || id==ApexPanel.SHOW_RING || id==WorkshopPanels.GOALS || id==WorkshopPanels.BACK_TABLE
             || id==com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD || FamilyPanels.readOnly(id) || id==LitterPanel.LITTER || id==LitterPanel.READ_SEED; }
     public static CareView animal(Player player,Bunnidog dog) {
@@ -68,21 +70,13 @@ public final class CarePanels {
     public static CareView cargo(Player player,Bunnidog dog) {
         var bags=dog.carriedBundles(); var rows=new ArrayList<Component>();
         rows.add(t("animal.cargo",bags.size(),dog.bundleCapacity()));
-        for (int i=0;i<Math.min(4,bags.size());i++) {
-            var bag=bags.get(i); rows.add(t("cargo.bag",i+1,bag.getHoverName()));
-            var contents=bag.getOrDefault(net.minecraft.core.component.DataComponents.BUNDLE_CONTENTS,net.minecraft.world.item.component.BundleContents.EMPTY);
-            if (contents.weight().isError()) rows.add(t("cargo.unsupported"));
-            else if (contents.items().isEmpty()) rows.add(t("empty"));
-            else {
-                var summary=net.minecraft.network.chat.ComponentUtils.formatList(contents.items().stream().limit(8).toList(),entry->stock(entry.create())).copy();
-                if (contents.items().size()>8) summary.append("; ").append(t("cargo.more",contents.items().size()-8));
-                rows.add(summary);
-            }
-        }
-        if (bags.size()>4) rows.add(t("cargo.more_bags",bags.size()-4));
-        // Two rows per shown bag keep the snapshot bounded even for legacy or command-added cargo.
-        return new CareView(t("cargo.title",dog.getDisplayName()),Component.empty(),rows,
+        if (bags.size()>6) rows.add(t("cargo.more_bags",bags.size()-6));
+        var view=new CareView(t("cargo.title",dog.getDisplayName()),Component.empty(),rows,
                 List.of(control(BACK,"back",true),control(TAKE_BUNDLE,"take_bundle",editable(player,null) && !bags.isEmpty())));
+        // Show the newest six, including the actual next bag returned by Retrieve.
+        var stock=new ArrayList<CareView.Stock>();
+        for (int i=Math.max(0,bags.size()-6);i<bags.size();i++) stock.add(new CareView.Stock(t("display.bundle",i+1),bags.get(i)));
+        return view.withStock(stock.toArray(CareView.Stock[]::new));
     }
     public static CareView station(Player player,BlockPos pos,BlockEntity be) {
         if (be instanceof FeedingTroughBlockEntity trough) return trough(player,pos,trough);
@@ -97,68 +91,76 @@ public final class CarePanels {
         if (player.level().getBlockState(pos).getBlock() instanceof JudgingStandBlock) return WorkshopPanels.show(player,pos);
         throw new IllegalArgumentException("Unsupported care station");
     }
+    private static CareView.Control reason(int id,String key,boolean enabled,String hint) {
+        var c=control(id,key,enabled);
+        return new CareView.Control(c.id(),c.label(),enabled,c.section(),enabled ? Component.empty() : t(hint));
+    }
+    private static CareView.Stock display(String key,ItemStack item) { return new CareView.Stock(t("display."+key),item); }
     private static CareView trough(Player player,BlockPos pos,FeedingTroughBlockEntity trough) {
         var controls=new ArrayList<CareView.Control>(); boolean edit=editable(player,pos);
         boolean tending=trough.getBlockState().getValue(FeedingTroughBlock.TENDING);
+        controls.add(reason(ADD_FOOD,"add_food",edit && !find(player,stack->stack.is(ModItems.GUAVA.get()) && trough.canInsert(stack)).isEmpty(),"station.need_guava"));
         controls.add(control(TENDING,tending ? "tending_off" : "tending_on",edit));
+        controls.add(control(WORK_MODES,"work_modes",true));
+        if (!trough.food().isEmpty()) controls.add(control(TAKE_FOOD,"take_food",edit));
+        if (!trough.filter().isEmpty()) controls.add(control(CLEAR_FILTER,"clear_filter",edit));
+        var view=new CareView(ModBlocks.FEEDING_TROUGH.get().getName(),trough.residentsPaused() ? t("station.paused")
+                : com.bunnidogs.mod.item.GuavaItem.tierOf(trough.food())>0 ? t("trough.rich") : Component.empty(),
+                List.of(t("trough.work",Component.translatable("work.bunnidogs.mode."+trough.workMode().key()),t(tending ? "on" : "off"))),controls);
+        return trough.filter().isEmpty() ? view.withStock(display("food",trough.food()))
+                : view.withStock(display("food",trough.food()),display("filter",trough.filter()));
+    }
+    public static CareView troughWork(Player player,BlockPos pos,FeedingTroughBlockEntity trough) {
+        var controls=new ArrayList<CareView.Control>(); boolean edit=editable(player,pos);
         for (var mode:TroughWork.values()) controls.add(new CareView.Control(MODE+mode.ordinal(),
-                Component.translatable("work.bunnidogs.mode."+mode.key()),edit && mode!=trough.workMode(),CareView.Control.DETAIL));
-        controls.add(control(TAKE_FOOD,"take_food",edit && !trough.food().isEmpty()));
-        controls.add(control(CLEAR_FILTER,"clear_filter",edit && !trough.filter().isEmpty()));
-        controls.add(control(ADD_FOOD,"add_food",edit && !find(player,stack->stack.is(ModItems.GUAVA.get()) && trough.canInsert(stack)).isEmpty()));
-        return new CareView(ModBlocks.FEEDING_TROUGH.get().getName(),t(trough.residentsPaused() ? "trough.next.power" : com.bunnidogs.mod.item.GuavaItem.tierOf(trough.food())>0
-                ? "trough.next.rich" : trough.food().isEmpty() ? "trough.next.food" : "trough.next.ready"),
-                List.of(t("trough.stock",stock(trough.food())),t("trough.filter",stock(trough.filter())),
-                        t("trough.work",Component.translatable("work.bunnidogs.mode."+trough.workMode().key()),t(tending ? "on" : "off")),
-                        t("trough.mode."+trough.workMode().key()),t("trough.meals")),controls);
+                Component.translatable("work.bunnidogs.mode."+mode.key()),edit && mode!=trough.workMode(),CareView.Control.PRIMARY,t("trough.mode."+mode.key())));
+        controls.add(control(BACK,"back",true));
+        return new CareView(t("station.work_title"),Component.empty(),List.of(),controls);
     }
     private static CareView pen(Player player,BlockPos pos,BreedingPenBlockEntity pen) {
         var status=pen.status(); boolean edit=editable(player,pos);
-        var rows=new ArrayList<Component>(); rows.add(t("pen.left",stock(pen.food(0)))); rows.add(t("pen.right",stock(pen.food(1))));
-        rows.add(message("pen."+(status==Pen.Status.PAIR ? "need_pair" : status.name().toLowerCase(Locale.ROOT))));
+        var rows=new ArrayList<Component>();
         var pair=PenBreeding.inspect((ServerLevel)player.level(),pos,pen.getBlockState().getValue(BreedingPenBlock.FACING));
-        for (int i=0;i<Math.min(2,pair.parents().size());i++) rows.add(t("pen.parent",i+1,pair.parents().get(i).getDisplayName(),home(pair.parents().get(i))));
-        rows.add(t("pen.seed"));
-        return new CareView(ModBlocks.BREEDING_PEN.get().getName(),t("pen.next."+status.name().toLowerCase(Locale.ROOT)),rows,
-                List.of(control(ADD_LEFT,"add_left",edit && !find(player,stack->stack.is(ModItems.GUAVA.get()) && pen.canInsert(stack,0)).isEmpty()),
-                        control(ADD_RIGHT,"add_right",edit && !find(player,stack->stack.is(ModItems.GUAVA.get()) && pen.canInsert(stack,1)).isEmpty()),
+        for (var parent:pair.parents().stream().limit(2).toList()) rows.add(parent.getDisplayName());
+        return new CareView(ModBlocks.BREEDING_PEN.get().getName(),status==Pen.Status.READY ? Component.empty() : t("pen.next."+status.name().toLowerCase(Locale.ROOT)),rows,
+                List.of(reason(ADD_LEFT,"add_left",edit && !find(player,stack->stack.is(ModItems.GUAVA.get()) && pen.canInsert(stack,0)).isEmpty(),"station.need_guava"),
+                        reason(ADD_RIGHT,"add_right",edit && !find(player,stack->stack.is(ModItems.GUAVA.get()) && pen.canInsert(stack,1)).isEmpty(),"station.need_guava"),
                         control(PAIR,"pair",edit && status==Pen.Status.READY),control(TAKE_LEFT,"take_left",edit && !pen.food(0).isEmpty()),
-                        control(TAKE_RIGHT,"take_right",edit && !pen.food(1).isEmpty())));
+                        control(TAKE_RIGHT,"take_right",edit && !pen.food(1).isEmpty())))
+                .withStock(display("manger_a",pen.food(0)),display("manger_b",pen.food(1)));
     }
     private static CareView cradle(Player player,BlockPos pos,NurseryCradleBlockEntity cradle) {
         boolean edit=editable(player,pos), ripe=cradle.age()==SeedCropBlock.MAX_AGE && cradle.seed().isPresent();
         var pad=NurseryHatching.inspect((ServerLevel)player.level(),pos,cradle.getBlockState().getValue(NurseryCradleBlock.FACING));
-        var rows=new ArrayList<Component>(); rows.add(t("cradle.seed",stock(cradle.storedSeed())));
-        rows.add(t("cradle.growth",cradle.age(),SeedCropBlock.MAX_AGE,(cradle.growthWait()+19)/20));
-        rows.add(t("cradle.pad",message("cradle."+pad.status().name().toLowerCase(Locale.ROOT))));
-        if (pad.problem()!=null) rows.add(t("cradle.blocked_at",pad.problem().getX(),pad.problem().getY(),pad.problem().getZ()));
-        rows.add(t("cradle.auto",t(cradle.manualHatchOnly() ? "off" : "on")));
-        rows.add(t("cradle.grow"));
-        return new CareView(ModBlocks.NURSERY_CRADLE.get().getName(),t(cradle.storedSeed().isEmpty() ? "cradle.next.seed" : !ripe ? "cradle.next.grow"
-                : pad.status()==NurseryHatching.Status.READY ? "cradle.next.hatch" : "cradle.next.space"),rows,
-                List.of(control(HATCH,"hatch",edit && ripe && pad.status()==NurseryHatching.Status.READY),
-                        control(TAKE_SEED,"take_seed",edit && !cradle.storedSeed().isEmpty()),
-                        control(AUTO_HATCH,cradle.manualHatchOnly() ? "auto_on" : "auto_off",edit),
-                        control(ADD_SEED,"add_seed",edit && cradle.storedSeed().isEmpty() && !find(player,stack->com.bunnidogs.mod.item.SeedItem.read(stack).isPresent()).isEmpty()),
-                        control(GROW,"grow",edit && cradle.seed().isPresent() && !ripe && has(player,Items.BONE_MEAL)),
-                        control(LitterPanel.READ_SEED,"read_seed",cradle.seed().isPresent()),
-                        control(com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD,"show_hatch_pad",true)));
+        var rows=new ArrayList<Component>();
+        if (cradle.seed().isPresent()) rows.add(ripe ? t("station.ripe") : t("cradle.growth",cradle.age(),SeedCropBlock.MAX_AGE,(cradle.growthWait()+19)/20));
+        var controls=new ArrayList<CareView.Control>();
+        if (cradle.storedSeed().isEmpty()) controls.add(reason(ADD_SEED,"add_seed",edit && !find(player,stack->com.bunnidogs.mod.item.SeedItem.read(stack).isPresent()).isEmpty(),"station.need_seed"));
+        if (ripe) controls.add(reason(HATCH,"hatch",edit && pad.status()==NurseryHatching.Status.READY,"station.pad_blocked"));
+        else if (cradle.seed().isPresent()) controls.add(reason(GROW,"grow",edit && has(player,Items.BONE_MEAL),"station.need_bone_meal"));
+        if (cradle.seed().isPresent()) controls.add(control(LitterPanel.READ_SEED,"read_seed",true));
+        controls.add(control(com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD,"show_hatch_pad",true));
+        if (!cradle.storedSeed().isEmpty()) controls.add(new CareView.Control(TAKE_SEED,t("button.take_seed"),edit,CareView.Control.DETAIL,t("station.withdraw_growth")));
+        controls.add(control(AUTO_HATCH,cradle.manualHatchOnly() ? "auto_on" : "auto_off",edit));
+        return new CareView(ModBlocks.NURSERY_CRADLE.get().getName(),ripe && pad.status()!=NurseryHatching.Status.READY ? t("station.pad_blocked") : Component.empty(),rows,controls)
+                .withStock(display("seed",cradle.storedSeed()));
     }
     private static CareView juicer(Player player,BlockPos pos,JuicerBlockEntity juicer) {
         boolean edit=editable(player,pos), powered=player.level().hasNeighborSignal(pos);
-        return new CareView(ModBlocks.JUICER.get().getName(),t(powered ? "juicer.next.power" : juicer.outputBlocked() ? "juicer.next.output" : "juicer.next.inputs"),
-                List.of(t("juicer.fruit",stock(juicer.item(0))),t("juicer.carrier",stock(juicer.item(1))),t("juicer.output",stock(juicer.item(2))),
-                        t("juicer.progress",juicer.progress()*100/JuicerBlockEntity.PROCESS_TICKS),t("juicer.infuse")),
-                List.of(control(ADD_FRUIT,"add_fruit",edit && juicer.canInsert(find(player,ModItems.GUAVA.get()))),
-                        control(ADD_BOTTLE,"add_bottle",edit && juicer.canInsert(find(player,Items.GLASS_BOTTLE))),
-                        control(TAKE_JUICE,"take_juice",edit && !juicer.item(2).isEmpty()),
-                        control(TAKE_FRUIT,"take_fruit",edit && !juicer.item(0).isEmpty()),control(TAKE_CARRIER,"take_carrier",edit && !juicer.item(1).isEmpty())));
+        var controls=new ArrayList<CareView.Control>();
+        controls.add(reason(ADD_FRUIT,"add_fruit",edit && juicer.canInsert(find(player,ModItems.GUAVA.get())),"station.need_guava"));
+        controls.add(reason(ADD_BOTTLE,"add_bottle",edit && juicer.canInsert(find(player,Items.GLASS_BOTTLE)),"station.need_bottle"));
+        if (!juicer.item(2).isEmpty()) controls.add(control(TAKE_JUICE,"take_juice",edit));
+        if (!juicer.item(0).isEmpty()) controls.add(control(TAKE_FRUIT,"take_fruit",edit));
+        if (!juicer.item(1).isEmpty()) controls.add(control(TAKE_CARRIER,"take_carrier",edit));
+        return new CareView(ModBlocks.JUICER.get().getName(),powered ? t("station.paused") : juicer.outputBlocked() ? t("station.output_full") : Component.empty(),
+                juicer.progress()>0 ? List.of(t("juicer.progress",juicer.progress()*100/JuicerBlockEntity.PROCESS_TICKS)) : List.of(),controls)
+                .withStock(display("input",juicer.item(0)),display("carrier",juicer.item(1)),display("output",juicer.item(2)));
     }
     private static CareView board(Player player,BlockPos pos,CommissionBoardBlockEntity board) {
         var reading=board.read(); var request=board.request(); boolean edit=editable(player,pos), done=board.completed(player,request);
-        var rows=new ArrayList<Component>(); var controls=new ArrayList<CareView.Control>();
+        var rows=new ArrayList<Component>();
         rows.add(t("board.request",Component.translatable("commission.bunnidogs."+request.key()+".title")));
-        rows.add(t("board.progress",board.completedCount(player),Commissions.Request.values().length));
         rows.add(Component.translatable("commission.bunnidogs."+request.key()+".reward"));
         if (reading.candidate()!=null) {
             var dog=reading.candidate(); rows.add(t("board.candidate",dog.getDisplayName()));
@@ -166,15 +168,17 @@ public final class CarePanels {
                     t("check."+check.key(),TextComponents.t(check.detail().replace('_',' '))),check.current(),check.required())
                     .withStyle(check.met() ? ChatFormatting.GREEN : ChatFormatting.RED));
         } else rows.add(Component.translatable("commission.bunnidogs."+request.key()+".requirements"));
-        rows.add(t("board.fixed"));
-        rows.add(t("board.setup"));
+        return new CareView(ModBlocks.COMMISSION_BOARD.get().getName(),done ? t("station.completed") : reading.status()==Commissions.Status.READY ? Component.empty()
+                : message("commission."+reading.status().name().toLowerCase(Locale.ROOT)),rows,List.of(
+                reason(SUBMIT,"submit",edit && !done && has(player,Items.PAPER) && reading.status()==Commissions.Status.READY,"station.need_submission"),
+                control(REQUESTS,"requests",true),control(com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD,"show_front_pad",true)));
+    }
+    public static CareView requests(Player player,BlockPos pos,CommissionBoardBlockEntity board) {
+        var controls=new ArrayList<CareView.Control>();
         for (var choice:Commissions.Request.values()) controls.add(new CareView.Control(REQUEST+choice.ordinal(),
-                t(board.completed(player,choice) ? "board.done" : "board.choice",Component.translatable("commission.bunnidogs."+choice.key()+".title")),edit && choice!=request,CareView.Control.CHOICE));
-        controls.add(control(SUBMIT,"submit",edit && !done && has(player,Items.PAPER) && reading.status()==Commissions.Status.READY));
-        controls.add(control(com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD,"show_front_pad",true));
-        return new CareView(ModBlocks.COMMISSION_BOARD.get().getName(),done ? t("board.next.done") : reading.status()==Commissions.Status.READY
-                ? t(has(player,Items.PAPER) ? "board.next.submit" : "board.next.paper")
-                : message("commission."+reading.status().name().toLowerCase(Locale.ROOT)),rows,controls);
+                t(board.completed(player,choice) ? "board.done" : "board.choice",Component.translatable("commission.bunnidogs."+choice.key()+".title")),editable(player,pos) && choice!=board.request()));
+        controls.add(control(BACK,"back",true));
+        return new CareView(t("station.requests_title"),Component.empty(),List.of(t("board.progress",board.completedCount(player),Commissions.Request.values().length)),controls);
     }
     public static void act(Player player,Bunnidog dog,BlockPos pos,BlockEntity be,int id) {
         if (dog!=null) {

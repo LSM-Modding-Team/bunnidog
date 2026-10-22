@@ -4,6 +4,44 @@ The player should be able to raise a useful companion without reading a manual.
 The Field Guide is an optional reference for exact genetics and advanced systems.
 Adding another chapter does not count as making an interaction discoverable.
 
+## Proactive interaction audit (2026-10-21)
+
+The follow-up review applies to stations and nested actions as well as animals.
+This batch removes the remaining always-present station instructions, the large
+bordered station panel and blur, and textual inventory dumps. Actual stock uses
+item icons/counts; hover gives the native item or bundle contents. These are
+read-only displays of server stock. Existing named transfers still conserve the
+actual components and use server permissions, lifetime and stale-action checks.
+
+Work policies and commission selection are separate pages. Back/Close have the
+same footer positions throughout; Back follows the route actually taken. A
+page change resets scroll and retires its buttons even when no items changed.
+Routine live refreshes update existing widgets, labels, reasons and stocks,
+avoiding the old animal-screen rebuild on each timed change.
+
+Empty presses omit withdrawals, mature Cradles omit insertion/growth, and full
+Tables omit placement. Cradle growth and hatch-area clearance are distinct
+states. Empty Trophy Pedestals have no inspection menu. Cargo shows real bundles
+with native hover contents, including the next bag actually retrieved. Exact
+measurements stay in the tools and explicit analysis stations; requesting a
+forecast is still allowed to show useful detail. Warnings about real consequences
+remain local (for example, seed withdrawal resets growth).
+
+Combat no longer repeats Follow/Wait/Home, provisions or bond release. It omits
+controls for membership an animal does not have. Party actions name the actual
+animal and return to their source page. Lessons offer each routine once, with
+learned/guide/teach action labels. Starting a lesson closes conversation, allowing
+the animal to move into real work. Practice feedback is brief. Calipers, Registry,
+Basket, Syringe and seed tooltips no longer present the full secondary-operation
+manual by default; tools/readers and advanced tooltips keep the exact reference.
+
+Native regressions cover initial and updated stock/component payloads, detached
+stock, read-only choice opening, page-transition stamps, Work/Cargo and seed-family
+Back paths, current-content actions, empty displays and lesson-start release.
+The complete suite has 126 scenarios. The family case now declares the real
+horizontal fixture extent so newborns are in entity-ticking chunks. Substitute-
+font previews are layout evidence only; first-client usability remains open.
+
 ## Client review corrections (2026-10-21)
 
 The user found that persistent crosshair instructions and verbose animal panels
@@ -261,9 +299,8 @@ See `FAMILY_LOOP_SPECS.md` for contracts, evidence and compatibility.
    free play and existing saves; milestones never gate ordinary animal care.
 
 Start the next continuation with these review goals, rather than another content
-extension. Practical client questions: does the first empty-hand hint get noticed;
-are primary buttons visible at the player's GUI scale; do request selection and
-scroll/focus remain comfortable; is the crop's ripe state legible; and does a
+extension. Practical client questions: are primary buttons visible at the player's
+GUI scale; do request selection and scroll/focus remain comfortable; is the crop's ripe state legible; and does a
 young family become useful soon enough? The current batch implements a path;
 it does not establish that an unfamiliar player understands it.
 

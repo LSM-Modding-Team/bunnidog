@@ -102,6 +102,6 @@ public class PedigreeBookItem extends Item {
         lines.accept(Component.translatable("tooltip.bunnidogs.records.wild",com.bunnidogs.mod.genetics.GeneticDiscoveries.wildLineages(log).size(),
                 com.bunnidogs.mod.genetics.GeneticDiscoveries.wildLineageCount()).withStyle(ChatFormatting.DARK_GREEN));
         lines.accept(TextComponents.t("Right-click a bunnidog to log it, the air to open").withStyle(ChatFormatting.DARK_GRAY));
-        lines.accept(Component.translatable("tooltip.bunnidogs.records.carried").withStyle(ChatFormatting.DARK_GRAY));
+        if (flag.isAdvanced()) lines.accept(Component.translatable("tooltip.bunnidogs.records.carried").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

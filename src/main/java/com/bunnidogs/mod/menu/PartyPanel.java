@@ -13,15 +13,15 @@ public final class PartyPanel {
     public static CareView view(Player player) {
         var rows=new ArrayList<Component>(); var controls=new ArrayList<CareView.Control>();
         var members=CompanionParty.members(player);
-        rows.add(t("count",members.size())); rows.add(t("focus_hint"));
+        rows.add(t("count",members.size()));
         for (int i=0;i<members.size();i++) {
             var member=members.get(i);
             rows.add(t(member.commanded() ? "chosen_row" : "row",i+1,member.name())); rows.add(member.detail());
-            controls.add(new CareView.Control(COMMAND+i,t("command",i+1),player.mayBuild() && !member.commanded()));
-            controls.add(new CareView.Control(REMOVE+i,t("remove",i+1),CompanionParty.canChange(player)));
+            controls.add(new CareView.Control(COMMAND+i,t("command_name",member.name()),player.mayBuild() && !member.commanded()));
+            controls.add(new CareView.Control(REMOVE+i,t("remove_name",member.name()),CompanionParty.canChange(player)));
         }
         if (members.isEmpty()) rows.add(t("empty"));
-        return new CareView(t("title"),t(CompanionParty.canChange(player) ? "next" : "busy"),rows,controls);
+        return new CareView(t("title"),CompanionParty.canChange(player) ? Component.empty() : t("busy"),rows,controls);
     }
     public static void act(Player player,int action) {
         int index=action>=REMOVE ? action-REMOVE : action-COMMAND;

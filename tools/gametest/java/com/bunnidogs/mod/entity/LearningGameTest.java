@@ -87,7 +87,7 @@ public final class LearningGameTest {
         c.h.assertTrue(menu.clickMenuButton(c.teacher, menu.buttonId(CarePanels.ROLES)), "Skills and roles opens");
         c.h.assertTrue(menu.clickMenuButton(c.teacher, menu.buttonId(LearningPanel.OPEN)), "Lessons opens");
         c.h.assertTrue(menu.clickMenuButton(c.teacher, menu.buttonId(LearningPanel.TEACH + routine.ordinal())), "The authoritative lesson button starts practice");
-        c.teacher.closeContainer();
+        c.h.assertTrue(c.teacher.containerMenu!=menu,"Beginning a real lesson closes conversation so the animal can do the work");
     }
     private static void harvest(Context c) {
         var job = new GardenGoal(c.dog); c.h.assertTrue(job.canUse(), "A guided/educated compatible resident finds real ripe produce");
