@@ -135,9 +135,11 @@ public final class CohesionGameTest {
         player.connection.handleContainerButtonClick(new ServerboundContainerButtonClickPacket(menu.containerId,menu.buttonId(CarePanels.CARE)));
         h.assertTrue(dog.getHealth()==health+Foraging.HEAL && count(player,ModItems.GUAVA.get())==5 && !dog.isInLove(),
                 "The actual native button packet spends one inventory guava for care without courtship");
-        press(h,player,menu,CarePanels.CARE);
+        h.assertTrue(player.containerMenu!=menu,"Paid care returns to the world");
+        menu=animal(h,player,dog); press(h,player,menu,CarePanels.CARE);
         h.assertTrue(dog.getHealth()==dog.getMaxHealth() && count(player,ModItems.GUAVA.get())==4,"A second paid care meal restores full health");
-        h.assertTrue(!menu.clickMenuButton(player,menu.buttonId(CarePanels.CARE)) && count(player,ModItems.GUAVA.get())==4,"Healthy adults keep unneeded care food");
+        menu=animal(h,player,dog); press(h,player,menu,com.bunnidogs.mod.menu.AnimalPanels.CARE_MENU);
+        h.assertTrue(!menu.clickMenuButton(player,menu.buttonId(CarePanels.CARE)) && count(player,ModItems.GUAVA.get())==4 && player.containerMenu==menu,"Healthy adults keep unneeded care food and the refused action stays open");
         press(h,player,menu,CarePanels.ROLES);
         preview("Useful first roles",menu.view());
         press(h,player,menu,CarePanels.WORK); h.assertTrue(dog.workPaused(),"Work controls live beside the actual role readiness");
@@ -149,16 +151,22 @@ public final class CohesionGameTest {
         press(h,player,menu,CarePanels.TRAIN);
         h.assertTrue(dog.trail().belongsTo(player) && dog.trail().order()==Trail.Order.FOLLOW && count(player,ModItems.GUAVA.get())==3
                 && player.getInventory().getItem(11)==whistle,"Menu training pays one real plain guava and retains the required reusable Whistle");
+        h.assertTrue(player.containerMenu!=menu,"Successful befriending releases the animal to follow");
+        menu=animal(h,player,dog); press(h,player,menu,com.bunnidogs.mod.menu.AnimalPanels.ORDERS);
         preview("Trained partner",menu.view());
         var stranger=player(h); var strangerMenu=animal(h,stranger,dog);
         press(h,stranger,strangerMenu,com.bunnidogs.mod.menu.AnimalPanels.ORDERS);
         h.assertTrue(!strangerMenu.clickMenuButton(stranger,strangerMenu.buttonId(CarePanels.WAIT)) && dog.trail().order()==Trail.Order.FOLLOW,
                 "Another keeper's panel cannot command or enable meals for this partner");
         h.assertTrue(!menu.clickMenuButton(stranger,menu.buttonId(CarePanels.ROLES)),"A container session belongs to its actual player");
-        press(h,player,menu,CarePanels.WAIT); press(h,player,menu,CarePanels.PROVISIONS); press(h,player,menu,CarePanels.RESIDENT);
+        press(h,player,menu,CarePanels.WAIT);
+        h.assertTrue(player.containerMenu!=menu,"Waiting closes conversation after the real order commits");
+        menu=animal(h,player,dog); press(h,player,menu,CarePanels.PROVISIONS);
+        h.assertTrue(player.containerMenu==menu,"Meal preferences stay open for further settings");
+        press(h,player,menu,CarePanels.RESIDENT);
         h.assertTrue(dog.trail().order()==Trail.Order.RESIDENT && dog.trail().provisions() && count(player,ModItems.GUAVA.get())==3,
                 "Named local orders and meal preference use the existing bond without another food cost");
-        press(h,player,menu,CarePanels.GROOM);
+        menu=animal(h,player,dog); press(h,player,menu,CarePanels.GROOM);
         h.assertTrue(brush.isEmpty() && count(player,ModItems.WHISKER.get())==1 && dog.groomingWait()>0
                 && !menu.clickMenuButton(player,menu.buttonId(CarePanels.GROOM)),"Grooming uses the actual unequipped Brush, reserves native recovery and delivers one real material exactly once");
         player.closeContainer(); CareMenuGameTest.stow(player); var contents=new net.minecraft.world.item.component.BundleContents.Mutable(net.minecraft.world.item.component.BundleContents.EMPTY);

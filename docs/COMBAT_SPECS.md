@@ -36,6 +36,21 @@ interfaces. Crouched use on a bunnidog deliberately opens that animal's orders;
 ordinary use at it still recalls. Returning to residence suspends expedition
 combat while retaining the chosen membership and existing home assignment.
 
+## Command conversation handoff (2026-10-22)
+
+A committed local command closes its actual conversation so following,
+regrouping and fighting can begin. Failure leaves the choice open; provision/work
+settings and cargo remain open. Native booleans determine success, and closing
+never dismisses a different menu installed by a callback. A normal-AI regression
+uses actual menu training, Wait, then Follow and observes the real companion walk.
+
+Bond release first reviews its concrete consequence, then uses a separate
+confirmed mutation. Back preserves the keeper. Quiet-time, ownership, range,
+party and stale-generation checks still apply at the final operation; this adds
+no command cost or new genetic gate. Party settings retain their own original
+membership/removal semantics. The damage, injury, rescue and whistle rules below
+are unchanged.
+
 ## Three deliberate fighters
 
 One world-level SavedData roster reserves up to three UUIDs per keeper, shared

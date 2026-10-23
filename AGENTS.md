@@ -36,6 +36,17 @@ Empty Trophy Pedestals have no menu. Lessons close conversation after a valid
 start, so the animal can begin work. Avoid duplicated routine/status lists and
 ordinary order controls inside Combat. Keep detailed measurement tools useful.
 
+Successful world actions/orders dismiss their actual conversation so animals can
+obey; refused actions and settings/cargo remain open. Do not close a replacement
+menu opened by a native callback. Bond release requires its explicit confirmation.
+Plain held materials can inspect care stations, retaining real input/tool,
+off-hand and crouch-placement dispatch. Active practice exposes actual goal
+activity and physical blockers inside Work/Lessons; interruption feedback is a
+brief event for the nearby guide, never a repeating tutorial/HUD. Crouch-Calipers
+care readings use deliberate purpose groups instead of a chat dump; all measured
+pages require the actual instrument throughout the menu lifetime. Keep learned
+skills distinct from stat thresholds when reporting work readiness.
+
 - Complete the requested change through implementation and appropriate validation,
   respecting planning-only requests. The accepted longer-term direction is the substantial
   gene-driven intelligence/civilization update in `docs/INTELLIGENCE_PLAN.md`,

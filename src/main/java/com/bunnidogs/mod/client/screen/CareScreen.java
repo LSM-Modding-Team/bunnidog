@@ -30,6 +30,7 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
     private final List<Integer> actions=new ArrayList<>();
     private final List<CareStockWidget> stocks=new ArrayList<>();
     private Button back;
+    private Button close;
     public CareScreen(CareMenu menu,Inventory inventory,Component title) { super(menu,inventory,title); }
     @Override protected void init() { super.init(); build(0,-1); }
     private boolean animal() { return shown!=null && shown.subjectId()>=0; }
@@ -40,7 +41,7 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
         return value.controls().stream().filter(c->!backControl(c)).sorted(java.util.Comparator.comparingInt(CareView.Control::section)).toList();
     }
     private void build(double scroll,int focus) {
-        clearWidgets(); rows.clear(); controls.clear(); actions.clear(); stocks.clear(); back=null;
+        clearFocus(); clearWidgets(); rows.clear(); controls.clear(); actions.clear(); stocks.clear(); back=null; close=null;
         shown=menu.view(); if (shown==null) return;
         panelWidth=Math.min(animal() ? 214 : 300,this.width-24);
         panelHeight=Math.min(310,this.height-24);
@@ -73,8 +74,10 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
                     .bounds(leftPos+12,topPos+panelHeight-28,footerWidth,20).build();
             back.active=control.enabled(); addRenderableWidget(back);
         });
-        addRenderableWidget(Button.builder(AnimalPanels.text("close"),b->onClose())
+        close=addRenderableWidget(Button.builder(AnimalPanels.text("close"),b->onClose())
                 .bounds(leftPos+20+footerWidth,topPos+panelHeight-28,footerWidth,20).build());
+        if (focus==-2 && back!=null) setFocused(back);
+        if (focus==-3) setFocused(close);
         if (focus>=0) for (int i=0;i<controls.size();i++) if (actions.get(i)==focus) {
             var button=controls.get(i);
             body.visitChildren(child->{ if (child instanceof AbstractContainerWidget container) { container.setFocused(button); setFocused(container); } });
@@ -113,6 +116,8 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
             if (page && body!=null) {
                 body.visitChildren(child->{if (child instanceof AbstractScrollArea area) scroll[0]=area.scrollAmount();});
                 for (int i=0;i<controls.size();i++) if (controls.get(i).isFocused()) focus=actions.get(i);
+                if (back!=null && back.isFocused()) focus=-2;
+                if (close!=null && close.isFocused()) focus=-3;
             }
             build(scroll[0],focus); return;
         }

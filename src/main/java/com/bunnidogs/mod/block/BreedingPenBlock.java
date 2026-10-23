@@ -57,6 +57,8 @@ public final class BreedingPenBlock extends Block implements EntityBlock {
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (stack.isEmpty()) return super.useItemOn(stack,state,level,pos,player,hand,hit);
         if (!(level.getBlockEntity(pos) instanceof BreedingPenBlockEntity pen)) return InteractionResult.PASS;
+        var inspection=StationUse.openHeld(player,pos,hand);
+        if (inspection.consumesAction()) return inspection;
         if (!level.isClientSide()) {
             if (player.mayBuild() && stack.getItem() instanceof GuavaItem) {
                 var right = state.getValue(FACING).getCounterClockWise();

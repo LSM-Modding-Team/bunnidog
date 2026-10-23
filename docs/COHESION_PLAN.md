@@ -4,6 +4,44 @@ The player should be able to raise a useful companion without reading a manual.
 The Field Guide is an optional reference for exact genetics and advanced systems.
 Adding another chapter does not count as making an interaction discoverable.
 
+## World actions and requested information (2026-10-22)
+
+Closing the last UI gaps requires behavior as well as shorter text. A successful
+care/order now returns to the world, releasing the conversation goal so following,
+courtship and combat can happen. Failure stays open for its local reason;
+settings and cargo stay open for further changes. Native success is checked before
+closing, and a callback's replacement menu is preserved. Releasing the companion
+has a concise consequence/confirmation page; cancellation changes nothing.
+
+Plain held materials inspect care stations rather than placing against them or
+printing setup instructions. Purposeful tool subclasses, enchanted preview cues,
+actual ingredient handlers and real off-hand uses retain native priority.
+Crouch-placement still uses Minecraft's own path. This is a conservative fallback,
+not a global input hook or a claim that every other mod's item is generic.
+
+Work/Lessons now identify actual pauses, orders, night, missing/outside homes and
+other physical blockers. Chosen practice reports searching, approaching, working,
+waiting for its guide and actual shared rest. Goal callbacks supply activity;
+no hypothetical work or inherited mastery is invented. An interrupted chosen
+session gives its nearby guide one brief event and keeps learned knowledge.
+There is no automatic tutorial or new status overlay for ordinary animals.
+
+Crouch-Calipers now first offers purposes, then shows the requested measurements
+in bounded pages. Health, home/food, work, field traits and combat keep their
+information; ordinary Calipers retains the genetic reader. Measured work separates
+learning from physical point requirements. The former work report used some label
+keys without placeholders, silently dropping their statuses; the new view displays
+actual values and the native regression checks component arguments remain visible.
+The tool must remain in inventory: losing it hides the readings and retires old
+buttons. No free measurement path is added to ordinary interaction.
+
+Native coverage includes real held-block inspection, direct off-hand inputs,
+crouch-placement, a normal AI companion waiting/following after real menu clicks,
+practice activity and interrupted knowledge, actual Calipers dispatch and tool
+loss. Full Java 25 build and 130 native scenarios pass. English/Spanish snapshot
+previews are layout evidence; actual discovery, scales and keyboard feel remain
+client review work.
+
 ## Proactive interaction audit (2026-10-21)
 
 The follow-up review applies to stations and nested actions as well as animals.

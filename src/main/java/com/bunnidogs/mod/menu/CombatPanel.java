@@ -32,11 +32,14 @@ public final class CombatPanel {
         buttons.add(button(CarePanels.BACK,Component.translatable("care.bunnidogs.button.back"),true));
         return new CareView(t("title",dog.getDisplayName()),AnimalPanels.condition(dog),rows,buttons);
     }
-    public static void act(Player player,Bunnidog dog,int id) {
-        if (id==ASSIST) dog.combat().assist(player);
-        else if (id==SAFE) dog.combat().staySafe(player);
-        else if (id==RECALL) dog.combat().recall(player);
-        else if (id==STAND_DOWN) dog.combat().standDown(player);
-        else if (id==COMMAND) dog.combat().commandPartner(player);
+    public static boolean act(Player player,Bunnidog dog,int id) {
+        return switch (id) {
+            case ASSIST -> dog.combat().assist(player);
+            case SAFE -> dog.combat().staySafe(player);
+            case RECALL -> dog.combat().recall(player);
+            case STAND_DOWN -> dog.combat().standDown(player);
+            case COMMAND -> dog.combat().commandPartner(player);
+            default -> false;
+        };
     }
 }

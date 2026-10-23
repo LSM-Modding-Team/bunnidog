@@ -20,13 +20,39 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Current focus — client interaction review (2026-10-21)
+## Current focus — client interaction review (2026-10-22)
 
 The user rejected the persistent crosshair instructions, animal-panel information
 dump and measurements that made information tools redundant. This human review
 overrides earlier claims of completed discovery; prioritize usability corrections
 over new intelligence features. [COHESION_PLAN.md](docs/COHESION_PLAN.md) records
 the revised design and the old MCA 1.12 interaction reference.
+
+Latest continuation:
+
+- Successful care, courtship, befriending, grooming, Follow/Wait/Home and combat
+  commands dismiss their actual conversation, allowing their world behavior to
+  run. Refused actions stay open; work/provision settings and cargo stay available
+  for further changes. Bond release has a short deliberate confirmation; Back
+  preserves the bond. Real native operations and callback/reentry guards remain
+  authoritative, and a callback's replacement menu is never closed accidentally.
+- Plain held materials inspect the Trough, Pen, Cradle, Juicer, Table and Board;
+  Nests still work directly in the world. Item-owned tools, enchanted preview
+  cues, real inputs, off-hand use and vanilla crouch-placement retain priority.
+  Adventure may inspect, while server mutation restrictions still apply.
+- Selected practice reports actual searching/approaching/working, waiting for its
+  guide and shared recovery. Work/Lessons identify physical blockers such as a
+  pause, active order, night or missing home without guessing genes. A stopped
+  chosen session gives its nearby guide one brief event; personal knowledge stays
+  saved. No new automatic hints, lesson-progress HUD or gene/profession features.
+- Crouch-using actual Calipers now opens purposes (health, home/food, work, field
+  traits, combat, genes), then only the requested bounded readings. It no longer
+  dumps the full care report into chat. Normal Calipers use retains its genetics
+  reader. Losing the tool dismisses measured views and rejects their old clicks.
+  Work readings distinguish actual personal learning from physical stat targets;
+  no availability claim is inferred from points alone.
+- Structural client refreshes clear detached focus paths and retain focused
+  Back/Close buttons. Actual keyboard/GUI-scale feel still needs a client pass.
 
 - The automatic crosshair hint layer is removed, including its obsolete strings.
   No replacement tutorial popup or one-time cue has been identified as necessary.
@@ -71,19 +97,23 @@ the revised design and the old MCA 1.12 interaction reference.
   calculations remain in requested tools/readers and advanced debug tooltips.
 - Protocol **22** adds bounded item displays and page identity to the existing
   first-view payload. Client/server builds must match; saved data is unchanged.
-  English and neutral Peruvian Spanish have **2,176 authored keys** and
-  **2,304 packaged entries per locale** after guide previews.
+  English and neutral Peruvian Spanish have **2,209 authored keys** and
+  **2,337 packaged entries per locale** after guide previews.
 
-The headless suite has **126 scenarios**, including the registered opening factory,
+The headless suite has **130 scenarios**, including the registered opening factory,
 normal-AI conversation, actual hand-bound guavas, copied stock/component roundtrips,
 page-transition stale denial, current-content controls and real Back navigation.
 The family fixture now declares its actual 17×43-block horizontal work area;
 writing beyond an 8-block template did not keep all its births entity-ticking.
 The older trail fixture retains its 36-block bounds. These are fixture corrections,
-not production chunk-loading changes. Java 25 `build` and all 126 native scenarios pass. Verify the exact pushed
-GitHub build/artifact as the final delivery gate.
+not production chunk-loading changes. Added native cases cover held station materials,
+normal-AI Wait/Follow after menu dismissal, chosen-practice feedback and real
+Calipers dispatch, group bounds, displayed values and lost-tool denial.
+Java 25 `build` and all 130 native scenarios pass. Verify the exact pushed GitHub
+build/artifact as the final delivery gate.
 
-`art/interaction_preview.png` and `art/station_interactions_preview.png` render
+`art/interaction_preview.png`, `art/companion_activity_preview.png`,
+`art/care_readings_preview.png` and `art/station_interactions_preview.png` render
 English/Spanish native snapshots with substitute fonts/backgrounds. They are not
 in-client captures. Actual GUI scales, accessibility, natural discovery and play
 pacing remain human review work. Continue auditing friction found by play before

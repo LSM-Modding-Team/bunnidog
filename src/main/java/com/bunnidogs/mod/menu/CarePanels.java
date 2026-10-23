@@ -36,7 +36,7 @@ public final class CarePanels {
     public static final int HATCH=40, TAKE_SEED=41, AUTO_HATCH=42, ADD_SEED=43, GROW=44;
     public static final int TAKE_JUICE=50, TAKE_FRUIT=51, TAKE_CARRIER=52, ADD_FRUIT=53, ADD_BOTTLE=54;
     public static final int REHOME=60, SUBMIT=70, REQUEST=80;
-    public static final int WORK_MODES=228, REQUESTS=229;
+    public static final int WORK_MODES=228, REQUESTS=229, CONFIRM_RELEASE=230;
 
     private static net.minecraft.network.chat.MutableComponent t(String key,Object... args) { return Component.translatable("care.bunnidogs."+key,args); }
     private static Component message(String key,Object... args) { return Component.translatable("message.bunnidogs."+key,args); }
@@ -61,7 +61,7 @@ public final class CarePanels {
         id&=255;
         return id==BACK || id==FamilyPanels.BACK_FIT || id==WorkshopPanels.BACK_TABLE || id==ApexPanel.CANCEL;
     }
-    public static boolean readOnly(int id) { return id==WORK_MODES || id==REQUESTS || id==AnimalPanels.CARE_MENU || id==AnimalPanels.ORDERS || id==GENETICS || id==CARGO || id==BACK || id==ROLES || id==LearningPanel.OPEN || id==CombatPanel.OPEN || id==PartyPanel.OPEN || id==WorkshopPanels.READ_TABLE || SignalPanels.readOnly(id)
+    public static boolean readOnly(int id) { return CareReadingPanel.action(id) || id==WORK_MODES || id==REQUESTS || id==AnimalPanels.CARE_MENU || id==AnimalPanels.ORDERS || id==GENETICS || id==CARGO || id==BACK || id==ROLES || id==LearningPanel.OPEN || id==CombatPanel.OPEN || id==PartyPanel.OPEN || id==WorkshopPanels.READ_TABLE || SignalPanels.readOnly(id)
             || id==ApexPanel.PREPARE || id==ApexPanel.CANCEL || id==ApexPanel.SHOW_RING || id==WorkshopPanels.GOALS || id==WorkshopPanels.BACK_TABLE
             || id==com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD || FamilyPanels.readOnly(id) || id==LitterPanel.LITTER || id==LitterPanel.READ_SEED; }
     public static CareView animal(Player player,Bunnidog dog) {
@@ -180,30 +180,39 @@ public final class CarePanels {
         controls.add(control(BACK,"back",true));
         return new CareView(t("station.requests_title"),Component.empty(),List.of(t("board.progress",board.completedCount(player),Commissions.Request.values().length)),controls);
     }
-    public static void act(Player player,Bunnidog dog,BlockPos pos,BlockEntity be,int id) {
-        if (dog!=null) {
-            if (id>=CombatPanel.ASSIST && id<=CombatPanel.COMMAND) { CombatPanel.act(player,dog,id); return; }
-            switch (id) {
-                case GENETICS -> {
-                    if (player instanceof ServerPlayer server && has(player,ModItems.CALIPERS.get())) {
-                        player.closeContainer();
-                        ModNetwork.sendSheet(server,new Pedigree.Entry(dog.genome(),dog.motherGenome(),dog.fatherGenome(),Optional.of(dog.getUUID()),dog.earTag(),Optional.of(dog.stats()),dog.isBaby()));
-                    }
+    /** True only after the real animal operation commits; callers can then release conversation. */
+    public static boolean animalAction(Player player,Bunnidog dog,int id) {
+        if (id>=CombatPanel.ASSIST && id<=CombatPanel.COMMAND) return CombatPanel.act(player,dog,id);
+        return switch (id) {
+            case GENETICS -> {
+                boolean measured=player instanceof ServerPlayer && has(player,ModItems.CALIPERS.get());
+                if (measured) {
+                    player.closeContainer();
+                    ModNetwork.sendSheet((ServerPlayer)player,new Pedigree.Entry(dog.genome(),dog.motherGenome(),dog.fatherGenome(),Optional.of(dog.getUUID()),dog.earTag(),Optional.of(dog.stats()),dog.isBaby()));
                 }
-                case WORK -> dog.setWorkPaused(!dog.workPaused());
-                case CARE -> dog.careFromStock(player,find(player,ModItems.GUAVA.get()));
-                case COURTSHIP -> dog.courtshipFromStock(player,find(player,ModItems.GUAVA.get()));
-                case TRAIN -> dog.trail().trainFromStock(player,find(player,ModItems.GUAVA.get()));
-                case GROOM -> dog.groomFromStock(player,find(player,Items.BRUSH));
-                case RELEASE -> dog.trail().release(player);
-                case FOLLOW -> dog.trail().command(player,Trail.Order.FOLLOW);
-                case WAIT -> dog.trail().command(player,Trail.Order.WAIT);
-                case RESIDENT -> dog.trail().command(player,Trail.Order.RESIDENT);
-                case PROVISIONS -> dog.trail().setProvisions(player,!dog.trail().provisions());
-                case TAKE_BUNDLE -> dog.retrieveBundle(player);
-                default -> { }
+                yield measured;
             }
-        } else if (be instanceof FeedingTroughBlockEntity trough) {
+            case WORK -> { dog.setWorkPaused(!dog.workPaused()); yield true; }
+            case CARE -> dog.careFromStock(player,find(player,ModItems.GUAVA.get()));
+            case COURTSHIP -> dog.courtshipFromStock(player,find(player,ModItems.GUAVA.get()));
+            case TRAIN -> dog.trail().trainFromStock(player,find(player,ModItems.GUAVA.get()));
+            case GROOM -> dog.groomFromStock(player,find(player,Items.BRUSH));
+            case CONFIRM_RELEASE -> dog.trail().release(player);
+            case FOLLOW -> dog.trail().command(player,Trail.Order.FOLLOW);
+            case WAIT -> dog.trail().command(player,Trail.Order.WAIT);
+            case RESIDENT -> dog.trail().command(player,Trail.Order.RESIDENT);
+            case PROVISIONS -> dog.trail().setProvisions(player,!dog.trail().provisions());
+            case TAKE_BUNDLE -> { int before=dog.carriedBundleCount(); dog.retrieveBundle(player); yield dog.carriedBundleCount()<before; }
+            default -> false;
+        };
+    }
+    public static boolean endsConversation(int id) {
+        return id==CARE || id==COURTSHIP || id==TRAIN || id==GROOM || id==CONFIRM_RELEASE || id==FOLLOW || id==WAIT || id==RESIDENT
+                || id>=CombatPanel.ASSIST && id<=CombatPanel.COMMAND;
+    }
+    public static void act(Player player,Bunnidog dog,BlockPos pos,BlockEntity be,int id) {
+        if (dog!=null) { animalAction(player,dog,id); return; }
+        if (be instanceof FeedingTroughBlockEntity trough) {
             if (id==TENDING) player.level().setBlock(pos,trough.getBlockState().cycle(FeedingTroughBlock.TENDING),3);
             else if (id==TAKE_FOOD) give(player,trough.takeAll());
             else if (id==CLEAR_FILTER) trough.clearFilter();

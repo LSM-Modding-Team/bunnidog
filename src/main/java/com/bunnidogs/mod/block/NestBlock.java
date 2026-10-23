@@ -69,6 +69,7 @@ public final class NestBlock extends Block {
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hit) {
         if (stack.is(Items.COMPASS)) return mark(level,pos,player,hand,hit);
+        if (StationUse.inspectHeld(player,hand,entry->entry.is(Items.LEAD) || entry.is(Items.COMPASS))) return this.rehome(level,pos,player);
         return stack.is(Items.LEAD) ? this.rehome(level, pos, player) : super.useItemOn(stack, state, level, pos, player, hand, hit);
     }
     @Override

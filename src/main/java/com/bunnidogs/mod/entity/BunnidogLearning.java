@@ -23,10 +23,21 @@ public final class BunnidogLearning {
     private UUID teacher;
     private long until;
     private String opaqueKnowledge;
+    public enum Activity { IDLE, SEARCHING, WALKING, WORKING, WAITING_FOR_GUIDE, RESTING }
+    private Activity observed=Activity.SEARCHING;
     BunnidogLearning(Bunnidog dog) { this.dog = dog; }
     public Learning knowledge() { return knowledge; }
     public Learning.Routine lesson() { return lesson; }
     public UUID teacher() { return teacher; }
+    /** Reports actual session/goal activity, without inferring ability or searching the world. */
+    public Activity activity() {
+        if (lesson==null) return Activity.IDLE;
+        if (!guided()) return Activity.WAITING_FOR_GUIDE;
+        return dog.gardeningWait()>0 ? Activity.RESTING : observed;
+    }
+    void observe(Learning.Routine routine,Activity activity) {
+        if (lesson==routine) observed=activity;
+    }
     /** Brief occlusion pauses instruction; it does not erase recognition and trigger skittish flight. */
     public boolean recognizesInstructor(Player player) {
         return lesson != null && player.getUUID().equals(teacher) && authorized(player)
@@ -53,7 +64,7 @@ public final class BunnidogLearning {
     }
     public boolean begin(Player player, Learning.Routine routine) {
         if (!canBegin(player, routine) || dog.level().isClientSide()) return false;
-        lesson = routine; teacher = player.getUUID(); until = dog.level().getGameTime() + SESSION_TICKS;
+        lesson = routine; teacher = player.getUUID(); until = dog.level().getGameTime() + SESSION_TICKS; observed=Activity.SEARCHING;
         dog.setPersistenceRequired();
         player.sendOverlayMessage(net.minecraft.network.chat.Component.translatable("message.bunnidogs.learning.started",
                 dog.getDisplayName(),TextComponents.t(routine.task().displayName())));
@@ -101,12 +112,22 @@ public final class BunnidogLearning {
         }
         if (knowledge.independent(dog.mind(), routine)) cancel();
     }
-    public void cancel() { lesson = null; teacher = null; until = 0; }
+    public void cancel() { lesson = null; teacher = null; until = 0; observed=Activity.SEARCHING; }
     void tick() {
         if (lesson == null) return;
         var status = dog.gardeningStatus();
         if (dog.level().getGameTime() >= until || status != Gardening.Status.READY && status != Gardening.Status.RESTING
-                || dog.isInLove() || CapabilityRules.potential(dog.mind(), lesson.task()) == CapabilityRules.Potential.LIMITED) cancel();
+                || dog.isInLove() || CapabilityRules.potential(dog.mind(), lesson.task()) == CapabilityRules.Potential.LIMITED) {
+            var player=dog.level() instanceof ServerLevel level ? level.getPlayerByUUID(teacher) : null;
+            if (player!=null && player.isAlive() && dog.distanceToSqr(player)<=GUIDE_RANGE*GUIDE_RANGE) {
+                String reason=dog.level().getGameTime()>=until ? "finished" : switch (status) {
+                    case TRAIL -> "order"; case PAUSED -> "paused"; case FULL_HEALTH, DANGER, UNAVAILABLE -> "unsafe";
+                    case DAYTIME -> "night"; default -> "stopped";
+                };
+                player.sendOverlayMessage(net.minecraft.network.chat.Component.translatable("message.bunnidogs.learning."+reason,dog.getDisplayName()));
+            }
+            cancel();
+        }
     }
     public void save(ValueOutput output) { output.putString("Learning", opaqueKnowledge == null ? knowledge.toString() : opaqueKnowledge); }
     public void restore(ValueInput input, boolean legacyGenome) {

@@ -89,7 +89,12 @@ public final class TrailGameTest {
         h.assertTrue(restored.trail().belongsTo(keeper)&&keeper.containerMenu instanceof com.bunnidogs.mod.menu.CareMenu,"Crouch Whistle opens orders without releasing the bond");
         menu=(com.bunnidogs.mod.menu.CareMenu)keeper.containerMenu;
         h.assertTrue(menu.clickMenuButton(keeper,menu.buttonId(com.bunnidogs.mod.menu.CarePanels.BACK)),"Combat returns to the keeper's ordinary orders");
-        h.assertTrue(menu.clickMenuButton(keeper,menu.buttonId(com.bunnidogs.mod.menu.CarePanels.RELEASE))&&restored.trail().keeper()==null,"The deliberate named release action belongs to the keeper");
+        h.assertTrue(menu.clickMenuButton(keeper,menu.buttonId(com.bunnidogs.mod.menu.CarePanels.RELEASE)) && restored.trail().belongsTo(keeper),"Opening bond release keeps the real bond intact");
+        CohesionGameTest.preview("Release bond",menu.view());
+        h.assertTrue(menu.clickMenuButton(keeper,menu.buttonId(com.bunnidogs.mod.menu.CarePanels.BACK)) && restored.trail().belongsTo(keeper),"Backing out preserves the bond");
+        h.assertTrue(menu.clickMenuButton(keeper,menu.buttonId(com.bunnidogs.mod.menu.CarePanels.RELEASE))
+                && menu.clickMenuButton(keeper,menu.buttonId(com.bunnidogs.mod.menu.CarePanels.CONFIRM_RELEASE)) && restored.trail().keeper()==null
+                && keeper.containerMenu!=menu,"Confirmed release belongs to the keeper and returns to the world");
         keeper.setShiftKeyDown(false); keeper.gameMode.changeGameModeForPlayer(GameType.CREATIVE);
         h.assertTrue(restored.trail().trainFromStock(keeper,guavas)&&guavas.getCount()==2,"Creative care training preserves actual guavas");
         var legacy=saved(restored); legacy.putString("TrailKeeper","invalid uuid"); legacy.putString("TrailOrder","follow");

@@ -51,7 +51,10 @@ public final class JuicerBlock extends Block implements EntityBlock {
     }
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (stack.isEmpty()) return super.useItemOn(stack,state,level,pos,player,hand,hit);
-        if (!player.mayBuild() || !(level.getBlockEntity(pos) instanceof JuicerBlockEntity juicer)) return InteractionResult.PASS;
+        if (!(level.getBlockEntity(pos) instanceof JuicerBlockEntity juicer)) return InteractionResult.PASS;
+        var inspection=StationUse.openHeld(player,pos,hand,entry->entry.is(net.minecraft.world.item.Items.GLASS_BOTTLE));
+        if (inspection.consumesAction()) return inspection;
+        if (!player.mayBuild()) return InteractionResult.PASS;
         if (!level.isClientSide()) {
             int inserted = juicer.insertFromHand(player,player.getItemInHand(hand));
             player.sendOverlayMessage(Component.translatable(inserted > 0 ? "message.bunnidogs.juicer.inserted" : "message.bunnidogs.juicer.inputs",inserted));

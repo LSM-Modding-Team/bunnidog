@@ -21,8 +21,9 @@ stock grants none. Existing work rest still applies, including during practice.
 | Garden | Existing cultivation, replanting and composting actions; Bloom +10, compatible stock and selected work policy. Food-spending work preserves eight food. |
 | Nursery | Advance an unfinished real Cradle; Bloom +20, Nursery mode and a real plain guava above the eight-food reserve. |
 
-Ordinary work menus show personally practiced routines; untried lessons say
-**unfamiliar**, without predicting genetic potential or listing bred thresholds.
+Ordinary work menus show personally practiced routines. Lessons offer Teach,
+Guide or a learned label without predicting untried genetic potential or listing
+bred thresholds. Disabled actions identify actual physical blockers.
 After practice, status distinguishes **learning**, **learned** and
 **learned; needs guidance**. Calipers expose exact inherited capacity. Genetic potential does not
 claim a learned job. A compatible mind can learn independent work; a supported
@@ -44,6 +45,23 @@ guided work; returning can resume the current session. Recall/trail orders,
 danger, work pause, incompatible splicing, reload and travel end the session.
 Knowledge survives. A restored capacity can make dormant knowledge usable
 again. An independent graduate no longer needs the instructor.
+
+## Practice activity and interruption feedback (2026-10-22)
+
+A successful lesson start closes its real conversation. Garden/Supply Goals
+report searching, approaching and working from their actual lifecycle; guided
+work reports waiting when its real instructor is absent or occluded, and shared
+recovery reports resting. Work/Lessons shows that status only when requested.
+No new status HUD or automatic tutorial is added. A stopped chosen session gives
+its nearby teacher one short interruption event and preserves personal knowledge.
+
+Actual physical blockers (work pause, active trail order, night, health, home and
+world work permission) have local reasons. Supported/limited potential and body
+point thresholds stay separate. Requested Calipers Work readings now show actual
+learning status beside concise physical requirements and the eight-food reserve;
+a high stat does not label a routine as already learned or independently usable.
+These are transient activity/reporting changes around the existing paid actions,
+not observed-player imitation, saved routes, new professions or shared culture.
 
 ## Inherited potential
 
@@ -143,7 +161,7 @@ in the shared Spanish translation.
 This is **initial I2**, with some garden/nursery integration from I3. These are
 attended practice sessions around existing local actions, not observed player
 demonstrations or saved courier programs. Finish discovery/observation, learned
-source/destination routes and their interruption feedback next, then integrate
+source/destination routes and route-specific interruption feedback next, then integrate
 remaining gather/scouting/care/tactics without bypassing taught limitations.
 NPC teachers, shared culture, professions, commons, construction, independent
 family continuity and autonomous civilization remain I4–I10 work. No client/GPU

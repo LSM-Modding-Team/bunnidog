@@ -30,21 +30,43 @@ public final class LearningPanel {
         var lesson = dog.learning().lesson();
         if (lesson!=null) controls.add(new CareView.Control(STOP, TextComponents.t("Stop lesson"), dog.learning().authorized(player)));
         controls.add(new CareView.Control(CarePanels.BACK, Component.translatable("care.bunnidogs.button.back"), true));
-        Component next=dog.isBaby() ? AnimalPanels.text("still_growing")
-                : dog.homeNest()==null ? AnimalPanels.text("need_home")
-                : dog.getHealth()<dog.getMaxHealth() ? AnimalPanels.text("injured")
-                : dog.trail().ordered() ? AnimalPanels.text("busy")
-                : lesson==null ? Component.empty() : AnimalPanels.text("lesson_active",name(lesson));
+        Component next=lesson==null ? blocker(dog) : activity(dog);
         return new CareView(TextComponents.t("Learning: %s", dog.getDisplayName()), next, rows, controls);
+    }
+    public static Component activity(Bunnidog dog) {
+        var lesson=dog.learning().lesson();
+        if (lesson==null) return blocker(dog);
+        var status=dog.gardeningStatus();
+        if (status!=Gardening.Status.READY && status!=Gardening.Status.RESTING) return blocker(dog);
+        return AnimalPanels.text("practice."+dog.learning().activity().name().toLowerCase(java.util.Locale.ROOT),name(lesson));
+    }
+    /** Immediate work constraints, never inferred genes, numerical thresholds or a setup tutorial. */
+    public static Component blocker(Bunnidog dog) {
+        return switch (dog.gardeningStatus()) {
+            case READY -> Component.empty();
+            case RESTING -> AnimalPanels.text("resting");
+            case ADULT -> AnimalPanels.text("still_growing");
+            case HOME -> AnimalPanels.text("need_home");
+            case FULL_HEALTH -> AnimalPanels.text("injured");
+            case PAUSED -> AnimalPanels.text("work_paused");
+            case TRAIL -> AnimalPanels.text("following_order");
+            case DAYTIME -> AnimalPanels.text("night_rest");
+            case OUTSIDE_HOME -> AnimalPanels.text("away_home");
+            case GRIEFING_OFF -> AnimalPanels.text("world_work_off");
+            case TRANSPORTED -> AnimalPanels.text("transported");
+            case DANGER -> AnimalPanels.text("alarmed");
+            case UNAVAILABLE -> AnimalPanels.condition(dog);
+        };
     }
     private static Component lessonReason(Player player,Bunnidog dog,Learning.Routine routine) {
         if (dog.learning().canBegin(player,routine) && dog.learning().lesson()!=routine) return Component.empty();
-        return !dog.learning().authorized(player) ? AnimalPanels.text("keeper_only")
-                : dog.isBaby() ? AnimalPanels.text("still_growing") : dog.homeNest()==null ? AnimalPanels.text("need_home")
-                : dog.getHealth()<dog.getMaxHealth() ? AnimalPanels.text("injured")
-                : dog.learning().lesson()==routine ? AnimalPanels.text("lesson_active",name(routine))
-                : dog.learning().knowledge().knows(routine) && CapabilityRules.potential(dog.mind(),routine.task())==CapabilityRules.Potential.INDEPENDENT
-                ? AnimalPanels.text("already_learned") : AnimalPanels.text("lesson_unavailable");
+        if (!player.mayBuild()) return AnimalPanels.text("read_only");
+        if (!dog.learning().authorized(player)) return AnimalPanels.text("keeper_only");
+        if (dog.learning().lesson()==routine) return activity(dog);
+        if (dog.learning().knowledge().independent(dog.mind(),routine)) return AnimalPanels.text("already_learned");
+        if (!player.hasLineOfSight(dog)) return AnimalPanels.text("guide_out_of_sight");
+        if (dog.gardeningStatus()==Gardening.Status.RESTING) return AnimalPanels.text("lesson_unavailable");
+        var blocker=blocker(dog);
+        return blocker.getString().isEmpty() ? AnimalPanels.text("lesson_unavailable") : blocker;
     }
-
 }

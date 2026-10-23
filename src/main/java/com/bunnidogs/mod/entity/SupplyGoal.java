@@ -73,7 +73,7 @@ final class SupplyGoal extends Goal {
                 && this.ticks < Gardening.MAX_VISIT && HomeRoutes.standing(this.dog,this.stand) && HomeRoutes.safe(this.dog,this.path,null);
     }
     @Override public boolean requiresUpdateEveryTick() { return true; }
-    @Override public void start() { this.ticks = 0; this.working = 0; this.dog.getNavigation().moveTo(this.path,1); }
+    @Override public void start() { this.ticks = 0; this.working = 0; this.dog.learning().observe(Learning.Routine.DELIVERY,BunnidogLearning.Activity.WALKING); this.dog.getNavigation().moveTo(this.path,1); }
     private boolean sight(BlockPos pos) {
         var hit = this.dog.level().clip(new ClipContext(this.dog.getEyePosition(),Vec3.atCenterOf(pos),ClipContext.Block.COLLIDER,ClipContext.Fluid.NONE,this.dog));
         return hit.getType() == HitResult.Type.MISS || hit.getBlockPos().equals(pos);
@@ -83,7 +83,7 @@ final class SupplyGoal extends Goal {
         this.ticks++; this.dog.getLookControl().setLookAt(Vec3.atCenterOf(this.target.getBlockPos()));
         if (!close(this.source.getBlockPos()) || !close(this.target.getBlockPos())
                 || !sight(this.source.getBlockPos()) || !sight(this.target.getBlockPos())) {
-            this.working = 0;
+            this.working = 0; this.dog.learning().observe(Learning.Routine.DELIVERY,BunnidogLearning.Activity.WALKING);
             if (this.ticks % 20 == 0) {
                 var route = this.dog.getNavigation().createPath(this.stand,0);
                 if (!HomeRoutes.safe(this.dog,route,null) || !this.dog.getNavigation().moveTo(route,1)) this.ticks = Gardening.MAX_VISIT;
@@ -92,6 +92,7 @@ final class SupplyGoal extends Goal {
             return;
         }
         this.dog.getNavigation().stop();
+        this.dog.learning().observe(Learning.Routine.DELIVERY,BunnidogLearning.Activity.WORKING);
         if (++this.working < Gardening.WORK_TICKS) return;
         if (EventHooks.canEntityGrief((ServerLevel)this.dog.level(),this.dog) && canContinueToUse()
                 && close(this.source.getBlockPos()) && close(this.target.getBlockPos()) && sight(this.source.getBlockPos()) && sight(this.target.getBlockPos())) {
@@ -105,6 +106,7 @@ final class SupplyGoal extends Goal {
         this.ticks = Gardening.MAX_VISIT;
     }
     @Override public void stop() {
+        this.dog.learning().observe(Learning.Routine.DELIVERY,BunnidogLearning.Activity.SEARCHING);
         this.dog.getNavigation().stop(); this.source = null; this.target = null; this.stand = null; this.home = null; this.path = null; this.unit = ItemStack.EMPTY;
     }
 }

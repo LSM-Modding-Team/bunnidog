@@ -92,6 +92,7 @@ public final class LearningGameTest {
     private static void harvest(Context c) {
         var job = new GardenGoal(c.dog); c.h.assertTrue(job.canUse(), "A guided/educated compatible resident finds real ripe produce");
         job.start();
+        if (c.dog.learning().lesson()!=null) c.h.assertTrue(c.dog.learning().activity()==BunnidogLearning.Activity.WALKING,"Lesson activity follows the actual started approach");
         c.dog.setPos(Vec3.atBottomCenterOf(c.h.absolutePos(new BlockPos(4, 1, 3))));
         for (int i = 0; i < Gardening.WORK_TICKS; i++) job.tick();
         job.stop();
@@ -102,12 +103,38 @@ public final class LearningGameTest {
         for (int i = 0; i < Gardening.WORK_TICKS; i++) job.tick();
         job.stop();
     }
+    public static void feedback(GameTestHelper h) {
+        var c=setup(h,false);
+        day(c,()->{
+            var knowledge=c.dog.learning().knowledge();
+            c.dog.setWorkPaused(true); CareMenu.open(c.teacher,c.dog);
+            var menu=(CareMenu)c.teacher.containerMenu;
+            h.assertTrue(menu.clickMenuButton(c.teacher,menu.buttonId(CarePanels.ROLES)) && menu.clickMenuButton(c.teacher,menu.buttonId(LearningPanel.OPEN)),"A paused worker can still inspect its lesson actions");
+            var teach=menu.view().controls().stream().filter(control->(control.id()&255)==LearningPanel.TEACH).findFirst().orElseThrow();
+            h.assertTrue(!teach.enabled() && teach.hint().equals(AnimalPanels.text("work_paused")) && c.dog.learning().knowledge().equals(knowledge),"Disabled lessons identify the actual pause without reading genes or changing knowledge");
+            CohesionGameTest.preview("Paused lessons",menu.view()); c.teacher.closeContainer();
+            c.dog.setWorkPaused(false); teachFromMenu(c,Learning.Routine.HARVEST);
+            h.assertTrue(c.dog.learning().activity()==BunnidogLearning.Activity.SEARCHING,"A chosen lesson begins by looking for real work");
+            c.teacher.snapTo(c.teacher.position().add(15,0,0));
+            h.assertTrue(c.dog.learning().activity()==BunnidogLearning.Activity.WAITING_FOR_GUIDE && c.dog.learning().knowledge().equals(knowledge),"Walking away pauses instruction without fabricated progress");
+            c.teacher.snapTo(c.dog.position().add(1,0,0));
+            h.assertTrue(c.dog.learning().activity()==BunnidogLearning.Activity.SEARCHING,"Returning the real guide resumes the same session");
+            CareMenu.open(c.teacher,c.dog); menu=(CareMenu)c.teacher.containerMenu;
+            h.assertTrue(menu.clickMenuButton(c.teacher,menu.buttonId(CarePanels.ROLES)),"Work exposes only the current real activity");
+            CohesionGameTest.preview("Searching for practice",menu.view()); c.teacher.closeContainer();
+            c.dog.setWorkPaused(true); c.dog.learning().tick();
+            h.assertTrue(c.dog.learning().lesson()==null && c.dog.learning().activity()==BunnidogLearning.Activity.IDLE && c.dog.learning().knowledge().equals(knowledge),"A real work interruption ends transient instruction and retains personal knowledge");
+            c.dog.setWorkPaused(false); h.assertTrue(c.dog.learning().begin(c.teacher,Learning.Routine.HARVEST),"Interrupted practice can be deliberately resumed");
+            c.dog.learning().cancel();
+        });
+    }
     public static void harvest(GameTestHelper h) {
         var c = setup(h, false);
         day(c, () -> {
             h.assertTrue(!new GardenGoal(c.dog).canUse() && c.dog.learning().knowledge().equals(Learning.EMPTY), "A fresh compatible adult inherits capacity without uploaded garden lessons");
             var genome = c.dog.genome(); var stats = c.dog.stats();
             teachFromMenu(c, Learning.Routine.HARVEST); harvest(c);
+            h.assertTrue(c.dog.learning().activity()==BunnidogLearning.Activity.RESTING,"Paid work reports actual shared recovery, not a generic active-lesson label");
             int first = c.dog.learning().knowledge().progress(Learning.Routine.HARVEST);
             h.assertTrue(first > 0 && first < Learning.MASTERED && c.stock(c.source).food().getCount() == 1, "A real harvest deposits one food and teaches bounded personal practice");
             ready(c.dog); ripe(h, c.target);
@@ -115,6 +142,7 @@ public final class LearningGameTest {
                     "Reload saves progress, drops transient instruction and never grants free mastery");
             h.assertTrue(c.dog.learning().begin(c.teacher, Learning.Routine.HARVEST), "A second short session resumes practice");
             c.teacher.snapTo(c.teacher.position().add(15, 0, 0));
+            h.assertTrue(c.dog.learning().activity()==BunnidogLearning.Activity.WAITING_FOR_GUIDE,"An absent guide has a distinct live status");
             h.assertTrue(!c.dog.learning().canWork(Learning.Routine.HARVEST) && !new GardenGoal(c.dog).canUse(), "An absent instructor cannot teach from afar");
             c.teacher.snapTo(Vec3.atBottomCenterOf(h.absolutePos(new BlockPos(4, 1, 2))));
             harvest(c);

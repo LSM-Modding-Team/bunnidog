@@ -11,15 +11,8 @@ import com.bunnidogs.mod.block.NurseryCradleBlockEntity;
 import com.bunnidogs.mod.block.NurseryCradleBlock;
 import com.bunnidogs.mod.entity.NurseryHatching;
 import com.bunnidogs.mod.entity.Bunnidog;
-import com.bunnidogs.mod.entity.BunnidogCare;
 import com.bunnidogs.mod.entity.ResidentFinding;
 import com.bunnidogs.mod.entity.ResidentCensus;
-import com.bunnidogs.mod.genetics.Gene;
-import com.bunnidogs.mod.genetics.Diet;
-import com.bunnidogs.mod.genetics.Foraging;
-import com.bunnidogs.mod.genetics.Gardening;
-import com.bunnidogs.mod.genetics.Grooming;
-import com.bunnidogs.mod.genetics.Sampling;
 import com.bunnidogs.mod.genetics.Readout;
 import com.bunnidogs.mod.genetics.Seed;
 import com.bunnidogs.mod.genetics.Tissue;
@@ -28,7 +21,6 @@ import com.bunnidogs.mod.network.ModNetwork;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -36,7 +28,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
@@ -73,92 +64,10 @@ public class CalipersItem extends Item {
         }
     }
 
-    /** Server-side care snapshot. No items, timers or animal state are changed. */
-    public static void showCare(Player player, Bunnidog dog) {
-        player.sendSystemMessage(Component.translatable("message.bunnidogs.care.header", dog.getDisplayName()).withStyle(ChatFormatting.GOLD));
-        if (!dog.acceptsCare()) {
-            player.sendSystemMessage(Component.translatable("message.bunnidogs.care.unavailable").withStyle(ChatFormatting.GRAY));
-            return;
-        }
-        var combat=com.bunnidogs.mod.genetics.Combat.profile(dog.genome(),dog.stats());
-        player.sendSystemMessage(Component.translatable("care.bunnidogs.combat.bite",String.format(Locale.ROOT,"%.1f",combat.bite()),String.format(Locale.ROOT,"%.1f",combat.interval()/20.0)).withStyle(ChatFormatting.GRAY));
-        var nest = dog.homeNest();
-        careRow(player,"combat",Component.translatable("care.bunnidogs.combat.intent."+dog.combat().intent()));
-        if (dog.trail().keeper()!=null) careRow(player,"trail",Component.translatable("message.bunnidogs.trail.inspect",
-                Component.translatable("message.bunnidogs.trail.order."+dog.trail().order().name().toLowerCase(Locale.ROOT)),
-                Component.translatable(dog.trail().belongsTo(player) ? "message.bunnidogs.trail.yours" : "message.bunnidogs.trail.other")));
-        if (dog.trail().keeper()!=null) careRow(player,"provisions",Component.translatable(dog.trail().provisions()
-                ? "message.bunnidogs.trail.provisions_enabled" : "message.bunnidogs.trail.provisions_disabled"));
-        careRow(player,"home",nest == null ? Component.translatable("message.bunnidogs.care.home_none")
-                : Component.translatable("message.bunnidogs.care.home_at",nest.getX(),nest.getY(),nest.getZ(),
-                        String.format(Locale.ROOT,"%.1f",Math.sqrt(dog.blockPosition().distSqr(nest)))));
-        careRow(player,"food",dog.diet() == Diet.PLAIN ? Component.translatable("message.bunnidogs.care.food_guavas")
-                : Component.translatable("message.bunnidogs.care.food_other",TextComponents.diet(dog.diet())));
-        careRow(player,"camouflage",Component.translatable("message.bunnidogs.camouflage."+dog.camouflageStatus().name().toLowerCase(Locale.ROOT),
-                TextComponents.t(com.bunnidogs.mod.genetics.Camouflage.cover(dog.genome()).ground())));
-        careRow(player,"packs",Component.translatable(dog.carryingSlowdown() > 0 ? "message.bunnidogs.packs.overloaded" : "message.bunnidogs.packs.stock",
-                dog.carriedBundleCount(),dog.bundleCapacity(),dog.carryingSlowdown()));
-        var meals = dog.troughFeedingStatus();
-        Component foodStatus = meals == Foraging.Status.RESTING ? recovery(dog.forageWait())
-                : Component.translatable("message.bunnidogs.foraging." + meals.name().toLowerCase(Locale.ROOT));
-        if (dog.forageWait() > 0 && meals != Foraging.Status.RESTING)
-            foodStatus = Component.translatable("message.bunnidogs.care.status_recovery",foodStatus,recovery(dog.forageWait()));
-        careRow(player,"foraging",foodStatus);
-        boolean healthy = Sampling.healthy(dog.getHealth(), dog.getMaxHealth());
-        Component health = Component.translatable("message.bunnidogs.care.health");
-        Component adult = Component.translatable("message.bunnidogs.care.adult");
-        careRow(player, "sampling", !healthy ? health : recovery(dog.samplingWait()));
-        careRow(player, "fleece", dog.isBaby() ? adult
-                : !dog.genome().expressed(Gene.BUILD).name().equals("woolly") ? Component.translatable("message.bunnidogs.care.woolly")
-                : !healthy ? health : dog.fleeceWait() > 0 ? recovery(dog.fleeceWait())
-                : Component.translatable("message.bunnidogs.care.fleece_ready",ComponentUtils.formatList(dog.fleeceProducts(),
-                        product -> Component.translatable("message.bunnidogs.care.fleece_product",product.getCount(),product.getHoverName()))));
-        var products = BunnidogCare.groomingProducts(dog);
-        careRow(player, "grooming", dog.isBaby() ? adult
-                : products.isEmpty() ? Component.translatable("message.bunnidogs.groom.traits",Grooming.MIN_SENSES,Grooming.MIN_STARLIT_BLOOM,Grooming.MIN_MOSS_BLOOM,Grooming.MIN_FROST_BLOOM)
-                : !healthy ? health : dog.groomingWait() > 0 ? recovery(dog.groomingWait())
-                : Component.translatable("message.bunnidogs.care.groom_ready",
-                        ComponentUtils.formatList(products,p -> Component.translatable(p.translationKey()))));
-        careRow(player, "splicing", dog.isBaby() ? adult : !healthy ? health
-                : dog.splicingWait() > 0 ? recovery(dog.splicingWait()) : Component.translatable("message.bunnidogs.care.splice_ready"));
-        var work = dog.gardeningStatus();
-        careRow(player, "gardening", work == Gardening.Status.RESTING ? recovery(dog.gardeningWait())
-                : Component.translatable("message.bunnidogs.gardening." + work.name().toLowerCase(Locale.ROOT)));
-        careRow(player,"cultivation",Component.translatable(Gardening.cultivates(dog.stats())
-                ? "message.bunnidogs.care.cultivation_bonus" : "message.bunnidogs.care.cultivation_requirement",Gardening.MIN_CULTIVATION_BLOOM,Gardening.COMPOST_RESERVE));
-        careRow(player,"nursery",Component.translatable(Gardening.nurses(dog.stats())
-                ? "message.bunnidogs.care.nursery_bonus" : "message.bunnidogs.care.nursery_requirement",Gardening.MIN_NURSERY_BLOOM,Gardening.COMPOST_RESERVE));
-        if (dog.canEat(new ItemStack(Items.CHORUS_FRUIT))) careRow(player,"chorus",Component.translatable(Gardening.tendsChorus(dog.stats())
-                ? "message.bunnidogs.care.chorus_bonus" : "message.bunnidogs.care.chorus_requirement",Gardening.MIN_CHORUS_BLOOM));
-        careRow(player,"guarding",Component.translatable("message.bunnidogs.guarding."+dog.guardingStatus().name().toLowerCase(Locale.ROOT)));
-        careRow(player,"gathering",Component.translatable(com.bunnidogs.mod.genetics.Scavenging.gathers(dog.stats())
-                ? "message.bunnidogs.care.gathering_bonus" : "message.bunnidogs.care.gathering_requirement",
-                com.bunnidogs.mod.genetics.Scavenging.MIN_GATHERING_SENSES));
-        careRow(player,"supplying",Component.translatable(com.bunnidogs.mod.genetics.Supplying.qualified(dog.stats())
-                ? "message.bunnidogs.care.supplying_bonus" : "message.bunnidogs.care.supplying_requirement",
-                com.bunnidogs.mod.genetics.Supplying.MIN_SENSES,com.bunnidogs.mod.genetics.Supplying.RESERVE));
-        var scouting = dog.scoutingStatus();
-        careRow(player,"scouting",scouting == com.bunnidogs.mod.genetics.Scouting.Status.RESTING ? recovery(dog.scoutingWait())
-                : Component.translatable("message.bunnidogs.scouting."+scouting.name().toLowerCase(Locale.ROOT)));
-        if (dog.genome().expressed(com.bunnidogs.mod.genetics.Gene.COAT).name().equals("pale")) {
-            var sight=dog.caveSightStatus(player);
-            careRow(player,"cave_sight",sight==com.bunnidogs.mod.genetics.CaveSight.Status.RESTING ? recovery(dog.caveSightWait())
-                    : Component.translatable("message.bunnidogs.cave_sight."+sight.name().toLowerCase(Locale.ROOT)));
-        }
-        careRow(player,"recovery_rest",Component.translatable("message.bunnidogs.recovery_rest."+dog.recoveryRestStatus().name().toLowerCase(Locale.ROOT)));
-        if (com.bunnidogs.mod.genetics.Adaptations.phasing(dog.genome())) careRow(player,"phasing",dog.isBaby() ? adult
-                : dog.beingTransported() || dog.isVehicle() ? Component.translatable("message.bunnidogs.phasing.transported")
-                : dog.phaseWait() > 0 ? recovery(dog.phaseWait()) : Component.translatable("message.bunnidogs.phasing.ready"));
-    }
-
-    private static Component recovery(int ticks) {
-        if (ticks == 0) return Component.translatable("message.bunnidogs.care.ready");
-        int seconds = (ticks + 19) / 20;
-        return Component.translatable("message.bunnidogs.care.wait", String.format(Locale.ROOT, "%d:%02d", seconds / 60, seconds % 60));
-    }
-
-    private static void careRow(Player player, String activity, Component status) {
-        player.sendSystemMessage(Component.translatable("message.bunnidogs.care." + activity, status).withStyle(ChatFormatting.GRAY));
+    /** Deliberate tool inspection uses bounded views; ordinary interaction never opens these readings. */
+    public static void showCare(Player player,Bunnidog dog) {
+        if (!dog.acceptsCare()) { player.sendOverlayMessage(Component.translatable("message.bunnidogs.care.unavailable")); return; }
+        com.bunnidogs.mod.menu.CareMenu.openCareReading(player,dog);
     }
 
     /** Opens the window of a seed on a real player's screen (Phase 8 S8); a non-player gets the chat lines, as before. Call on the server. */

@@ -59,8 +59,9 @@ public final class CommissionBoardBlock extends Block implements EntityBlock {
         }
     }
     @Override protected InteractionResult useItemOn(ItemStack stack,BlockState state,Level level,BlockPos pos,Player player,InteractionHand hand,BlockHitResult hit) {
-        if (!stack.is(Items.PAPER) || !(level.getBlockEntity(pos) instanceof CommissionBoardBlockEntity board))
-            return super.useItemOn(stack,state,level,pos,player,hand,hit);
+        if (stack.isEmpty()) return super.useItemOn(stack,state,level,pos,player,hand,hit);
+        if (!(level.getBlockEntity(pos) instanceof CommissionBoardBlockEntity board)) return InteractionResult.PASS;
+        if (!stack.is(Items.PAPER)) return StationUse.openHeld(player,pos,hand,entry->entry.is(Items.PAPER));
         if (!player.mayBuild()) return InteractionResult.PASS;
         if (!level.isClientSide()) board.submit(player,hand);
         return InteractionResult.SUCCESS;

@@ -22,6 +22,6 @@ public final class RolePanel {
         controls.add(new CareView.Control(CarePanels.WORK,t(dog.workPaused() ? "button.work_on" : "button.work_off"),player.mayBuild()));
         if (FamilyPanels.hasCalipers(player)) controls.add(new CareView.Control(FamilyPanels.COMPARE,t("button.compare_goal"),true));
         if (dog.carriedBundleCount()>0) controls.add(new CareView.Control(CarePanels.CARGO,t("button.cargo"),true));
-        return new CareView(AnimalPanels.text("work"),Component.empty(),rows,controls);
+        return new CareView(AnimalPanels.text("work"),LearningPanel.activity(dog),rows,controls);
     }
 }

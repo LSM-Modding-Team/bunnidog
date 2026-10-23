@@ -73,6 +73,11 @@ public final class AnimalPanels {
         buttons.add(back());
         return new CareView(dog.getDisplayName(),condition(dog),List.of(),buttons);
     }
+    public static CareView release(Player player,Bunnidog dog) {
+        return new CareView(text("release_title",dog.getDisplayName()),text("release_effect"),List.of(),List.of(
+                action(CarePanels.CONFIRM_RELEASE,"release_confirm",player.mayBuild() && dog.trail().belongsTo(player)
+                        && !dog.combat().danger() && !dog.combat().downed() && !dog.isInLove() && dog.combat().canRelease(),text("busy")),back()));
+    }
     public static CareView orders(Player player,Bunnidog dog) {
         var buttons=new ArrayList<CareView.Control>();
         boolean edit=player.mayBuild(), own=dog.trail().belongsTo(player);

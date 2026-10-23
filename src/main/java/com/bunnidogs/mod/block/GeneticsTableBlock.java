@@ -60,8 +60,9 @@ public class GeneticsTableBlock extends Block implements EntityBlock {
     @Override
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hit) {
-        return stack.isEmpty() ? super.useItemOn(stack,state,level,pos,player,hand,hit)
-                : interact(level,pos,player,player.getItemInHand(hand));
+        if (stack.isEmpty()) return super.useItemOn(stack,state,level,pos,player,hand,hit);
+        var inspection=StationUse.openHeld(player,pos,hand);
+        return inspection.consumesAction() ? inspection : interact(level,pos,player,player.getItemInHand(hand));
     }
 
     @Override

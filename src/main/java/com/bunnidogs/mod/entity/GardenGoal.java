@@ -194,7 +194,7 @@ final class GardenGoal extends Goal {
                 && HomeRoutes.standing(this.dog,this.stand) && HomeRoutes.safe(this.dog,this.path,null);
     }
     @Override public boolean requiresUpdateEveryTick() { return true; }
-    @Override public void start() { this.ticks = 0; this.working = 0; this.dog.getNavigation().moveTo(this.path,1); }
+    @Override public void start() { this.ticks = 0; this.working = 0; this.dog.learning().observe(this.task.routine(),BunnidogLearning.Activity.WALKING); this.dog.getNavigation().moveTo(this.path,1); }
     private boolean sight(BlockPos pos) {
         var eye = this.dog.getEyePosition(); var target = ResidentPlants.sightPoint(this.dog,pos);
         var hit = this.dog.level().clip(new ClipContext(eye,target,
@@ -210,7 +210,7 @@ final class GardenGoal extends Goal {
         // Reach alone can stop a small worker below a bank or behind the trough. Finish the
         // safe approach until both work targets are visible before stopping navigation.
         if (!close || !sight(this.crop) || !sight(this.trough)) {
-            this.working = 0;
+            this.working = 0; this.dog.learning().observe(this.task.routine(),BunnidogLearning.Activity.WALKING);
             if (this.ticks % 20 == 0) {
                 Path route = this.dog.getNavigation().createPath(this.stand,0);
                 if (!HomeRoutes.safe(this.dog,route,null) || !this.dog.getNavigation().moveTo(route,1)) this.ticks = Gardening.MAX_VISIT;
@@ -219,6 +219,7 @@ final class GardenGoal extends Goal {
             return;
         }
         this.dog.getNavigation().stop();
+        this.dog.learning().observe(this.task.routine(),BunnidogLearning.Activity.WORKING);
         if (++this.working < Gardening.WORK_TICKS) return;
         var level = (ServerLevel)this.dog.level();
         if (!EventHooks.canEntityGrief(level,this.dog) || !CommonHooks.canEntityDestroy(level,this.crop,this.dog)
@@ -282,6 +283,7 @@ final class GardenGoal extends Goal {
         if (attempted) { this.dog.finishedGardening(); this.dog.learning().completed(Learning.Routine.GARDEN); }
     }
     @Override public void stop() {
+        if (this.task!=null) this.dog.learning().observe(this.task.routine(),BunnidogLearning.Activity.SEARCHING);
         this.dog.getNavigation().stop(); this.trough = null; this.crop = null; this.stand = null; this.path = null;
         this.produce = ItemStack.EMPTY; this.mature = null; this.reset = null; this.task = null;
         this.nursery = null; this.litter = ItemStack.EMPTY; this.nurseryAge = 0;

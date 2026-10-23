@@ -7,11 +7,13 @@ server both need the current mod (network **22**).
 Interact with a bunnidog to choose **Care, Orders or Work** beside the visible
 animal. Calm animals stay and face you while you interact. Ordinary held items
 work too; guavas open food choices, and other food/tools retain their direct uses.
-Cargo appears when it carries bundles. Calipers offer **Measure** for detailed
-information. There are no automatic crosshair instructions. Nests work directly
+Cargo appears when it carries bundles. Calipers offer **Measure** for genetics;
+crouch-use opens requested health, home, work, field and combat readings. There are no automatic crosshair instructions. Nests work directly
 in the world. Stations show actual stock and relevant actions; their work modes
 and commission choices have separate pages. Cargo uses the bundles’ native hover
-contents. Every action uses real supplies.
+contents. Orders and committed care return to the world; settings stay open.
+Plain held materials can inspect stations, with normal crouch-placement preserved.
+Every action uses real supplies.
 
 1. Find guavas and a bunnidog. Care heals with a plain guava; healthy adults need
    no meals. Each adult can claim its own Nest, made from wheat and any planks.
@@ -33,7 +35,8 @@ short pages; hover its chapter text for the full details.
 
 **Work → Lessons** teaches real harvest, garden, nursery and nearby
 trough transfers. Four inherited mind genes set learning potential; practice is
-personal. Some minds need guidance; others learn to work alone. Existing adults
+personal. Work/Lessons show actual practice activity, waiting and recovery.
+Some minds need guidance; others learn to work alone. Existing adults
 keep familiar chores. Calipers and the Genetics Table have a separate **Mind**
 view for cognitive copies, capacities and exact pup forecasts.
 

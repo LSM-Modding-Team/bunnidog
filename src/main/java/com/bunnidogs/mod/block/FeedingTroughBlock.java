@@ -40,7 +40,7 @@ public final class FeedingTroughBlock extends Block implements EntityBlock {
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hit) {
         if (stack.isEmpty()) return super.useItemOn(stack,state,level,pos,player,hand,hit);
-        if (!player.mayBuild()) return InteractionResult.PASS;
+        if (!player.mayBuild()) return StationUse.openHeld(player,pos,hand,entry->FeedingTroughBlockEntity.accepts(entry) || entry.is(ItemTags.HOES));
         if (stack.getItem() instanceof com.bunnidogs.mod.item.GuavaItem && com.bunnidogs.mod.item.GuavaItem.tierOf(stack)>0) {
             if (!level.isClientSide()) player.sendOverlayMessage(Component.translatable("care.bunnidogs.trough.rich"));
             return InteractionResult.SUCCESS;
@@ -60,7 +60,7 @@ public final class FeedingTroughBlock extends Block implements EntityBlock {
             }
             return InteractionResult.SUCCESS;
         }
-        if (!FeedingTroughBlockEntity.accepts(stack)) return super.useItemOn(stack,state,level,pos,player,hand,hit);
+        if (!FeedingTroughBlockEntity.accepts(stack)) return StationUse.openHeld(player,pos,hand,FeedingTroughBlockEntity::accepts);
         if (!level.isClientSide() && level.getBlockEntity(pos) instanceof FeedingTroughBlockEntity trough) {
             if (player.isShiftKeyDown()) {
                 player.sendOverlayMessage(trough.setFilter(stack)

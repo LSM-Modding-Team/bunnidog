@@ -64,7 +64,10 @@ public final class NurseryCradleBlock extends Block implements EntityBlock, Bone
     }
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (stack.isEmpty()) return super.useItemOn(stack,state,level,pos,player,hand,hit);
-        if (!player.mayBuild() || !(level.getBlockEntity(pos) instanceof NurseryCradleBlockEntity cradle)) return InteractionResult.PASS;
+        if (!(level.getBlockEntity(pos) instanceof NurseryCradleBlockEntity cradle)) return InteractionResult.PASS;
+        var inspection=StationUse.openHeld(player,pos,hand,entry->entry.is(Items.BONE_MEAL));
+        if (inspection.consumesAction()) return inspection;
+        if (!player.mayBuild()) return InteractionResult.PASS;
         if (player.isShiftKeyDown() && stack.is(ItemTags.HOES)) {
             if (!level.isClientSide()) {
                 cradle.setManualHatchOnly(!cradle.manualHatchOnly());

@@ -221,6 +221,26 @@ restore focused action where possible. Station backgrounds use a light dim
 without the modal blur or enclosing panel; animal views keep the undimmed world.
 A successful lesson begins then closes its actual menu, releasing conversation.
 
+The 2026-10-22 continuation makes animal dispatch report native success; only a
+completed world action closes its actual `CareMenu`. Work/provision settings and
+cargo remain open. Guard every close with `player.containerMenu==this` so native
+callbacks can replace the UI. Bond release uses a separate server mode and
+mutation action; the initial release button cannot itself release the keeper.
+
+`StationUse.openHeld` is a conservative fallback for plain `Item`/`BlockItem`
+materials. Direct ingredient handlers run first, item-owned subclasses and
+enchanted cues defer, and a purposeful off hand is not intercepted. Minecraft
+retains its ordinary crouch-placement path. No global interaction event bypasses
+other mods' protection hooks.
+
+Calipers inspection uses the same bounded protocol 22 views. `Mode.MEASURE`
+retains the real server-side animal binding and range while the visual-only
+`subjectId=-1` selects the centered inspection layout. Purpose/page selection is
+server owned and included in generation context/page identity. All actual rows
+require live Calipers possession, including after opening; loss returns to
+unmeasured interaction before publishing or accepting an old action. Normal
+Calipers still uses the existing gene sheet. No transport or save schema changed.
+
 `TestInstanceBlockEntity.forceLoadChunks()` only forces the declared structure's
 intersecting chunks. `GameTestInfo` checks those bounds for entity ticking; merely
 writing a longer floor with `h.setBlock` does not force its extra chunks to tick.

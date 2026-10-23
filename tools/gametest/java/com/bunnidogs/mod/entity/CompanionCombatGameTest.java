@@ -70,6 +70,8 @@ public final class CompanionCombatGameTest {
         floor(h); var dog=dog(h,2,true); var keeper=keeper(h,dog);
         CareMenu.openCombat(keeper,dog); var menu=(CareMenu)keeper.containerMenu;
         h.assertTrue(menu.clickMenuButton(keeper,menu.buttonId(CombatPanel.ASSIST))&&dog.combat().selected(),"Actual orders explicitly choose one fighter");
+        h.assertTrue(keeper.containerMenu!=menu && dog.conversation().viewer()==null,"Choosing combat assistance returns to the live world");
+        CareMenu.openCombat(keeper,dog); menu=(CareMenu)keeper.containerMenu;
         CohesionGameTest.preview("Combat orders",menu.view()); keeper.closeContainer();
         var enemy=h.spawnWithNoFreeWill(EntityTypes.HUSK,6,Y+1,2); enemy.setTarget(keeper);
         keeper.attack(enemy);
