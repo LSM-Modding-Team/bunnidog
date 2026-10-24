@@ -52,7 +52,8 @@ Latest continuation:
   Trough work toggles now describe all resident work rather than only crops;
   bone meal costs and pair-feed costs remain local to their actions/hover.
   Native cases exercise exact sample choice/swapping, initial slot data,
-  protected/hidden/out-of-range gestures, callback reentry/menu replacement,
+  protected/hidden/out-of-range gestures and occupied-slot merges, callback
+  reentry/menu replacement,
   Cradle growth/milestones, saved-stock recovery, Juicer output and tiered mangers.
 
 Earlier interaction corrections retained:

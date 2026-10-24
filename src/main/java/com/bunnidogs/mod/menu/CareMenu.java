@@ -443,12 +443,17 @@ public final class CareMenu extends AbstractContainerMenu {
         return true;
     }
     @Override public ItemStack quickMoveStack(Player player,int index) {
-        if (player!=owner || !stillValid(player) || !inventoryVisible() || index<0 || index>=slots.size()) return ItemStack.EMPTY;
+        if (player!=owner || player.containerMenu!=this || !stillValid(player) || !inventoryVisible() || !owner.mayBuild()
+                || station!=null && !editStorage() || index<0 || index>=slots.size()) return ItemStack.EMPTY;
         var slot=slots.get(index);
         if (!slot.hasItem() || !slot.mayPickup(player)) return ItemStack.EMPTY;
         var stack=slot.getItem(); var original=stack.copy();
-        boolean moved=index<inventoryKind.slots ? moveItemStackTo(stack,inventoryKind.slots,slots.size(),true)
-                : moveItemStackTo(stack,0,inventoryKind.slots,false);
+        boolean moved=false;
+        if (index<inventoryKind.slots) moved=moveItemStackTo(stack,inventoryKind.slots,slots.size(),true);
+        else for (int target=0;target<inventoryKind.slots && !stack.isEmpty();target++) {
+            // Vanilla's occupied-stack merge bypasses mayPlace; validate each destination before entering it.
+            if (slots.get(target).mayPlace(stack)) moved|=moveItemStackTo(stack,target,target+1,false);
+        }
         if (!moved) return ItemStack.EMPTY;
         if (stack.isEmpty()) slot.setByPlayer(ItemStack.EMPTY); else slot.setChanged();
         slot.onTake(player,stack); return original;

@@ -273,7 +273,11 @@ saved `Sample`, without exposing a new automation capability.
 Minecraft 26.2 `AbstractContainerMenu.clicked` takes `ContainerInput` (including
 `PICKUP` and `QUICK_MOVE`). Guard owner, current menu, live target, visible page
 and reentry before forwarding to vanilla; keep the guard through slot-listener
-broadcasts. `moveItemStackTo` plus the slot's native setter handles shift-click.
+broadcasts. `moveItemStackTo` plus the slot's native setter handles shift-click,
+but its occupied-stack merge does **not** call `mayPlace`. Validate permissions
+and each destination before passing a single-slot range to it; otherwise matching
+Juicer output can accept input, or a rejected protected write can lose the source.
+Native tests exercise occupied protected stock and matching output/carrier juice.
 `super.removed` already returns/drops the real carried stack safely. Never manually
 refund it again or close a callback-installed replacement.
 

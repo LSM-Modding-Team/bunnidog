@@ -125,13 +125,25 @@ public final class StationInventoryGameTest {
         level.setBlockEntity(trough); menu=CareMenuGameTest.open(h,player,troughPos);
         menu.clicked(0,0,ContainerInput.QUICK_MOVE,player);
         h.assertTrue(trough.food().isEmpty() && owns(player,legacy),"Legacy over-capacity breeding stock remains retrievable even though new meal insertion rejects it"); player.closeContainer();
+        trough.insert(new ItemStack(ModItems.GUAVA.get(),3)); player.getInventory().setItem(11,new ItemStack(ModItems.GUAVA.get(),6));
+        player.gameMode.changeGameModeForPlayer(GameType.ADVENTURE); menu=CareMenuGameTest.open(h,player,troughPos);
+        menu.clicked(inventorySlot(menu,11),0,ContainerInput.QUICK_MOVE,player);
+        h.assertTrue(trough.food().getCount()==3 && player.getInventory().getItem(11).getCount()==6,"A native shift-click cannot merge paid inventory into protected occupied stock or lose that rejected source");
+        player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
+        menu.clicked(inventorySlot(menu,11),0,ContainerInput.QUICK_MOVE,player);
+        h.assertTrue(trough.food().getCount()==9 && player.getInventory().getItem(11).isEmpty(),"The same occupied-stack merge moves the actual source when station editing is permitted");
+        menu.clicked(0,0,ContainerInput.QUICK_MOVE,player); player.closeContainer();
         var pressPos=pos.south(3); level.setBlock(pressPos,ModBlocks.JUICER.get().defaultBlockState(),3);
         var press=(JuicerBlockEntity)level.getBlockEntity(pressPos); player.getInventory().setItem(11,new ItemStack(ModItems.GUAVA.get(),2)); player.getInventory().setItem(12,new ItemStack(Items.GLASS_BOTTLE,2));
         menu=CareMenuGameTest.open(h,player,pressPos); CareMenuGameTest.transfer(h,player,menu,CarePanels.ADD_FRUIT); CareMenuGameTest.transfer(h,player,menu,CarePanels.ADD_BOTTLE);
         for (int i=0;i<JuicerBlockEntity.PROCESS_TICKS;i++) press.serverTick(level);
-        h.assertTrue(press.item(2).getItem() instanceof JuiceItem && !menu.slots.get(2).mayPlace(new ItemStack(ModItems.GUAVA.get())),"A real processing cycle produces juice and its native output slot rejects insertion");
+        var output=press.item(2);
+        h.assertTrue(output.getItem() instanceof JuiceItem && !menu.slots.get(2).mayPlace(output),"A real processing cycle produces juice and its native output slot rejects matching juice insertion");
+        player.getInventory().setItem(15,output.copyWithCount(2)); menu.clicked(inventorySlot(menu,15),0,ContainerInput.QUICK_MOVE,player);
+        h.assertTrue(ItemStack.matches(press.item(2),output) && ItemStack.matches(press.item(1),output.copyWithCount(2)) && player.getInventory().getItem(15).isEmpty(),
+                "Shift-clicking matching juice selects the valid carrier input instead of merging into occupied output");
         menu.broadcastChanges(); CohesionGameTest.preview("Juicer output",menu);
-        var output=press.item(2); menu.clicked(2,0,ContainerInput.QUICK_MOVE,player);
+        menu.clicked(2,0,ContainerInput.QUICK_MOVE,player);
         h.assertTrue(press.item(2).isEmpty() && owns(player,output),"Shift-clicking output returns the complete actual juice"); player.closeContainer();
         var penPos=pos.offset(3,0,3); level.setBlock(penPos,ModBlocks.BREEDING_PEN.get().defaultBlockState(),3);
         var pen=(BreedingPenBlockEntity)level.getBlockEntity(penPos);
