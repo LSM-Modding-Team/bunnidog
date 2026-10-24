@@ -6,17 +6,20 @@ import net.minecraft.world.item.ItemStack;
 
 /** A small, server-authored snapshot. Buttons use stable meanings, never row indices. */
 public record CareView(Component title, Component next, List<Component> rows, List<Control> controls,
-        int subjectId, int page, List<Stock> stock) {
+        int subjectId, int page, List<Stock> stock, StationInventory.State station) {
     public CareView(Component title,Component next,List<Component> rows,List<Control> controls) { this(title,next,rows,controls,-1); }
     public CareView(Component title,Component next,List<Component> rows,List<Control> controls,int subjectId) {
         this(title,next,rows,controls,subjectId,0,List.of());
+    }
+    public CareView(Component title,Component next,List<Component> rows,List<Control> controls,int subjectId,int page,List<Stock> stock) {
+        this(title,next,rows,controls,subjectId,page,stock,StationInventory.State.NONE);
     }
     public CareView {
         rows=List.copyOf(rows); controls=List.copyOf(controls); stock=List.copyOf(stock);
         if (rows.size()>12 || controls.size()>12 || stock.size()>6) throw new IllegalArgumentException("Oversized care view");
     }
     public CareView withStock(Stock... stock) {
-        return new CareView(title,next,rows,controls,subjectId,page,List.of(stock));
+        return new CareView(title,next,rows,controls,subjectId,page,List.of(stock),station);
     }
     /** A display of actual stock, never a second client inventory or a source for payment. */
     public record Stock(Component label,ItemStack item) {

@@ -250,6 +250,53 @@ uses `family_workshop` (17×5×43) for the same reason. Regenerate both with
 `python tools/gametest/generate_fixtures.py`. This fixes a native fixture boundary,
 not a production pathfinding or chunk-loading policy.
 
+### Native care-station slots (2026-10-24)
+
+Protocol **23** appends station kind and bounded visual progress to the existing
+registry-aware `CareView` codec. The registered three-argument client constructor
+creates a matching fixed station/player slot list immediately after decoding
+the opening view; copied initial stock seeds its client shadow before vanilla
+slot synchronization. Page changes hide that fixed list rather than adding or
+removing slot indices mid-session. Client prediction uses matching capacities
+and pure input predicates; the server rechecks actual protection and contents.
+
+NeoForge `ResourceHandlerSlot` extends `StackCopySlot`. Its index modifier must
+write the supplied resource/count through the existing handler's root transaction;
+mutating a returned stack does not replace saved stock. Same-resource decrements
+must extract only the difference, allowing old invalid/over-capacity remainders
+without reinserting them through today's stricter input validator. Empty and
+unchanged writes do nothing. Simulated extraction/pickup checks must not reset
+Cradle growth. Pen/Juicer menus use their full internal handler, while hoppers
+keep their existing side-restricted ports. The Jar adds a journal over its existing
+saved `Sample`, without exposing a new automation capability.
+
+Minecraft 26.2 `AbstractContainerMenu.clicked` takes `ContainerInput` (including
+`PICKUP` and `QUICK_MOVE`). Guard owner, current menu, live target, visible page
+and reentry before forwarding to vanilla; keep the guard through slot-listener
+broadcasts. `moveItemStackTo` plus the slot's native setter handles shift-click.
+`super.removed` already returns/drops the real carried stack safely. Never manually
+refund it again or close a callback-installed replacement.
+
+Station fill/dirty updates can synchronously invoke native neighbor hooks during
+`Slot.remove`, before vanilla assigns the returned stack to its carried slot.
+`StationInventoryUpdates` batches those notifications for the duration of one
+native gesture, leaving authoritative stock edits immediate. It flushes after
+vanilla has balanced cursor/player inventory, inside the menu's reentry guard.
+The seven BEs route only their existing `changed()` notification through it;
+ordinary hand/hopper transactions remain immediate. This avoids keeping a global
+resource transaction open across other mods' item hooks. The regression replaces
+the real menu from `NeighborNotifyEvent` and checks exact cursor return.
+
+`AbstractContainerScreen.imageWidth/imageHeight` are final in these resolved
+sources. Custom 300×224 geometry must override `hasClickedOutside`; otherwise
+clicking a sidebar button can treat it as outside vanilla's 176-pixel area and
+drop a carried item. Station slots use fixed coordinates shared by client/server.
+The 26.2 superclass already invokes tooltip extraction; customize
+`getTooltipFromContainerItem` for the Cradle warning without extracting it twice.
+Native initial-content, exact-item, transaction/reentry, cursor return and machine
+cases run in `StationInventoryGameTest`; previews export real active slot positions
+and contents from those same menus. Client rendering itself remains manual.
+
 ### Generation-stage sign initialization (2026-10-21)
 
 The client crash report for Overworld seed `3314416676720181443`, chunk `(-1,-24)`

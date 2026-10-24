@@ -18,6 +18,10 @@ import net.minecraft.world.inventory.MenuConstructor;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerInput;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.SimpleContainer;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -51,6 +55,7 @@ public final class CareMenu extends AbstractContainerMenu {
     private Component actionNotice;
     private long noticeUntil;
     private InteractionHand offeringHand;
+    private StationInventory.Kind inventoryKind=StationInventory.Kind.NONE;
     private record Context(List<Object> facts,List<ItemStack> stock) {
         Context { facts=List.copyOf(facts); stock=stock.stream().map(ItemStack::copy).toList(); }
         boolean same(Context other) {
@@ -64,7 +69,7 @@ public final class CareMenu extends AbstractContainerMenu {
     public CareMenu(int id,Inventory inventory) { this(id,inventory,null,null); }
     public CareMenu(int id,Inventory inventory,RegistryFriendlyByteBuf data) {
         this(id,inventory,null,null);
-        if (data!=null) this.view=CareViewPayload.VIEW.decode(data);
+        if (data!=null) { this.view=CareViewPayload.VIEW.decode(data); addStorageSlots(inventory,null); }
     }
     /** The initial view travels with the native opening packet, before client screen construction. */
     private static MenuProvider provider(MenuConstructor factory,Component title) {
@@ -89,6 +94,71 @@ public final class CareMenu extends AbstractContainerMenu {
         this.dog=dog; this.pos=pos==null ? null : pos.immutable();
         this.block=pos==null ? null : level.getBlockState(pos).getBlock();
         this.station=pos==null ? null : level.getBlockEntity(pos);
+        if (station!=null) addStorageSlots(inventory,station);
+    }
+    public StationInventory.Kind inventoryKind() { return inventoryKind; }
+    public boolean inventoryVisible() {
+        return inventoryKind!=StationInventory.Kind.NONE && (station!=null ? mode==Mode.MAIN : view!=null && (view.page()&255)==0);
+    }
+    private boolean editStorage() { return station!=null && inventoryVisible() && stillValid(owner) && StationUse.editable(owner,station); }
+    private void addStorageSlots(Inventory inventory,BlockEntity target) {
+        inventoryKind=target==null ? view.station().kind() : StationInventory.state(target).kind();
+        if (inventoryKind==StationInventory.Kind.NONE) return;
+        var kind=inventoryKind;
+        if (target!=null) {
+            var handler=StationInventory.handler(target);
+            for (int i=0;i<kind.slots;i++) {
+                final int index=i;
+                addSlot(new ResourceHandlerSlot(handler,(slot,resource,amount)->{
+                    if (editStorage()) {
+                        var next=resource.toStack(amount);
+                        boolean incubating=kind==StationInventory.Kind.CRADLE && com.bunnidogs.mod.item.SeedItem.read(next).isPresent()
+                                && !handler.getResource(slot).equals(resource);
+                        StationInventory.replace(handler,slot,next);
+                        if (incubating) com.bunnidogs.mod.item.JourneyProgress.incubating(owner);
+                    }
+                },i,kind.x(i),44) {
+                    @Override public boolean isActive() { return inventoryVisible(); }
+                    @Override public boolean mayPlace(ItemStack stack) { return editStorage() && !(kind==StationInventory.Kind.JUICER && index==2) && super.mayPlace(stack); }
+                    @Override public boolean mayPickup(Player player) { return player==owner && editStorage() && super.mayPickup(player); }
+                });
+            }
+        } else {
+            var shadow=new SimpleContainer(kind.slots);
+            for (int i=0;i<kind.slots;i++) {
+                if (i<view.stock().size()) shadow.setItem(i,view.stock().get(i).item().copy());
+                final int index=i;
+                addSlot(new Slot(shadow,i,kind.x(i),44) {
+                    @Override public boolean isActive() { return inventoryVisible(); }
+                    @Override public int getMaxStackSize() { return kind.capacity; }
+                    @Override public int getMaxStackSize(ItemStack stack) { return Math.min(kind.capacity,stack.getMaxStackSize()); }
+                    @Override public boolean mayPlace(ItemStack stack) {
+                        var filter=kind==StationInventory.Kind.TROUGH && view.stock().size()>1 ? view.stock().get(1).item() : ItemStack.EMPTY;
+                        return inventoryVisible() && owner.mayBuild() && kind.accepts(index,stack,filter);
+                    }
+                    @Override public boolean mayPickup(Player player) { return inventoryVisible() && player.mayBuild(); }
+                });
+            }
+        }
+        for (int row=0;row<3;row++) for (int column=0;column<9;column++) addPlayerSlot(inventory,column+9+row*9,8+column*18,105+row*18);
+        for (int column=0;column<9;column++) addPlayerSlot(inventory,column,8+column*18,163);
+    }
+    private void addPlayerSlot(Inventory inventory,int index,int x,int y) {
+        addSlot(new Slot(inventory,index,x,y) {
+            @Override public boolean isActive() { return inventoryVisible(); }
+            @Override public boolean mayPlace(ItemStack stack) { return inventoryVisible(); }
+            @Override public boolean mayPickup(Player player) { return player==owner && inventoryVisible(); }
+        });
+    }
+    @Override public void clicked(int slot,int button,ContainerInput input,Player player) {
+        if (acting || player!=owner || player.containerMenu!=this || !stillValid(player) || !inventoryVisible()) return;
+        acting=true;
+        try {
+            // A neighbor notification may close/replace the menu; publish it after vanilla owns the carried item.
+            try (var updates=StationInventoryUpdates.begin()) { super.clicked(slot,button,input,player); }
+            if (player.containerMenu==this) { refresh=0; broadcastChanges(); }
+        }
+        finally { acting=false; }
     }
     public static void open(Player player,Bunnidog dog) {
         openAnimal(player,dog,null);
@@ -222,7 +292,6 @@ public final class CareMenu extends AbstractContainerMenu {
                 facts.add(table.goalKey());
                 stock.add(table.item(0)); stock.add(table.item(1));
                 stock.add(LitterPanel.nextSeed(owner));
-                if (table.isEmpty(0) || table.isEmpty(1)) stock.add(WorkshopPanels.nextSample(owner));
                 if (mode==Mode.FAMILY || mode==Mode.SEED_FAMILY) {
                     facts.add(FamilyPanels.hasCalipers(owner));
                     var family=FamilyPanels.relatives(owner,pos,table,mode==Mode.SEED_FAMILY); facts.add(mode); facts.add(familyPage); facts.add(family.size());
@@ -233,7 +302,7 @@ public final class CareMenu extends AbstractContainerMenu {
                 facts.add(reading.entry());
                 facts.add(reading.candidate().map(Bunnidog::highestShowAward));
             } else if (station instanceof SpecimenJarBlockEntity jar) {
-                stock.add(jar.sample()); if (jar.sample().isEmpty()) stock.add(WorkshopPanels.nextSample(owner));
+                stock.add(jar.sample());
             } else if (station instanceof PedigreeComparatorBlockEntity detector) {
                 facts.add(detector.reference()); stock.add(WorkshopPanels.nextSample(owner));
             } else if (station instanceof TrophyPedestalBlockEntity pedestal) {
@@ -260,7 +329,7 @@ public final class CareMenu extends AbstractContainerMenu {
         return new CareView(base.title(),level.getGameTime()<changedUntil ? Component.translatable("care.bunnidogs.feedback.changed")
                 : actionNotice!=null && level.getGameTime()<noticeUntil ? actionNotice : base.next(),
                 base.rows(),base.controls().stream().map(this::stamp).toList(),dog==null || mode==Mode.MEASURE ? -1 : dog.getId(),
-                mode.ordinal() | (mode==Mode.MEASURE ? (readingPage+1)<<8 : (mode==Mode.FAMILY || mode==Mode.SEED_FAMILY) ? familyPage<<8 : 0),base.stock());
+                mode.ordinal() | (mode==Mode.MEASURE ? (readingPage+1)<<8 : (mode==Mode.FAMILY || mode==Mode.SEED_FAMILY) ? familyPage<<8 : 0),base.stock(),StationInventory.state(station));
     }
     private CareView.Control stamp(CareView.Control control) {
         var hint=pos!=null && !control.enabled() && !CarePanels.readOnly(control.id()) && (!owner.mayBuild() || !level.mayInteract(owner,pos))
@@ -279,7 +348,7 @@ public final class CareMenu extends AbstractContainerMenu {
     }
     @Override public boolean clickMenuButton(Player player,int buttonId) {
         int id=buttonId&255;
-        if (acting || player.containerMenu!=this || !stillValid(player) || !CarePanels.readOnly(id) && !player.mayBuild()
+        if (acting || StationInventory.transferButton(id) || player.containerMenu!=this || !stillValid(player) || !CarePanels.readOnly(id) && !player.mayBuild()
                 || pos!=null && !level.mayInteract(player,pos)) return false;
         if (buttonId<0 || (buttonId>>>8)!=generation || !context().same(published)) {
             changedUntil=level.getGameTime()+60; publish(true); return false;
@@ -373,5 +442,15 @@ public final class CareMenu extends AbstractContainerMenu {
         if (player.containerMenu==this) publish(true);
         return true;
     }
-    @Override public ItemStack quickMoveStack(Player player,int slot) { return ItemStack.EMPTY; }
+    @Override public ItemStack quickMoveStack(Player player,int index) {
+        if (player!=owner || !stillValid(player) || !inventoryVisible() || index<0 || index>=slots.size()) return ItemStack.EMPTY;
+        var slot=slots.get(index);
+        if (!slot.hasItem() || !slot.mayPickup(player)) return ItemStack.EMPTY;
+        var stack=slot.getItem(); var original=stack.copy();
+        boolean moved=index<inventoryKind.slots ? moveItemStackTo(stack,inventoryKind.slots,slots.size(),true)
+                : moveItemStackTo(stack,0,inventoryKind.slots,false);
+        if (!moved) return ItemStack.EMPTY;
+        if (stack.isEmpty()) slot.setByPlayer(ItemStack.EMPTY); else slot.setChanged();
+        slot.onTake(player,stack); return original;
+    }
 }

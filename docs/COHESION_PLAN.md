@@ -4,6 +4,51 @@ The player should be able to raise a useful companion without reading a manual.
 The Field Guide is an optional reference for exact genetics and advanced systems.
 Adding another chapter does not count as making an interaction discoverable.
 
+## Native station inventories (2026-10-24)
+
+A player with several samples or seed records must be able to choose which one
+enters a station. The old Add/Withdraw buttons silently chose the first matching
+inventory item, even after replacing the text dump with icons. The Trough, Pen,
+Cradle, Juicer, Genetics Table, Specimen Jar and populated Trophy Pedestal now use
+real Minecraft inventory slots, backed by their existing saved stock. The player's
+inventory is visible beside concise actions; normal pickup, placement, deliberate
+swaps and shift-click move the actual item. No additional guide layer is added.
+
+There is no second menu inventory, changed recipe cost or new saved format. The
+original journals enforce component-sensitive stacks, input limits and retrieval;
+Juicer output rejects insertion, while players can retrieve input stock that
+hopper ports intentionally cannot drain. Saved invalid/overfilled Trough stock
+can still be recovered intact. Cradle insertion retains the incubation milestone;
+only actual removal resets growth. Native close handling returns cursor items.
+Reentry, lifetime, reach and permissions still apply to real slot gestures, and
+callbacks may replace the menu without that replacement being closed. Native
+station notifications are deferred until the complete gesture owns its cursor,
+so replacement during a block-neighbor callback also returns that item safely.
+
+The storage layout is 300×224 GUI pixels, fitting Minecraft's minimum 320×240
+viewport. Captions identify inputs; visual bars replace raw growth/timing numbers.
+The press has a simple input + carrier → output diagram. Analysis and settings
+stay in a short sidebar. Nested work/goal/family pages hide and reject all slots
+without changing footer positions. Read-only filters and cargo retain copied
+icons; a virtual template must never become an item the player can withdraw.
+English and neutral Spanish labels fit the narrower sidebar. Optional-guide
+pages describe actual controls instead of retired transfer buttons.
+
+Protocol **23** carries the station kind/progress before screen initialization;
+vanilla container packets synchronize actual slots. The **132 native scenarios**
+include exact item selection/swapping, first-frame slot contents, cursor refund,
+recursive listener/menu replacement, protected/hidden/distant gestures, actual
+Juicer output, Cradle insertion/growth and saved legacy recovery. The ordinary
+Java 25 build also validates localization. English/Spanish ordinary and minimum-
+viewport previews use substitute fonts/backgrounds; mouse/keyboard feel, native
+font scaling and natural first-session discovery still need client review.
+
+Next audit: the Table's non-consuming actual-seed preview and the Comparator's
+reference copy still select their first inventory candidate. They should gain
+an explicit selection path without turning copied references into payable stock
+or replacing familiar inventory placement with another instruction menu.
+Continue fixing observed interaction friction before new intelligence features.
+
 ## World actions and requested information (2026-10-22)
 
 Closing the last UI gaps requires behavior as well as shorter text. A successful
@@ -45,11 +90,11 @@ client review work.
 ## Proactive interaction audit (2026-10-21)
 
 The follow-up review applies to stations and nested actions as well as animals.
-This batch removes the remaining always-present station instructions, the large
+That audit removed the remaining always-present station instructions, the large
 bordered station panel and blur, and textual inventory dumps. Actual stock uses
-item icons/counts; hover gives the native item or bundle contents. These are
-read-only displays of server stock. Existing named transfers still conserve the
-actual components and use server permissions, lifetime and stale-action checks.
+item icons/counts; hover gives the native item or bundle contents. That original
+read-only stock display is superseded for the seven storage stations by native
+slots above. Cargo, filters and other preview-only items remain copied displays.
 
 Work policies and commission selection are separate pages. Back/Close have the
 same footer positions throughout; Back follows the route actually taken. A
@@ -57,8 +102,8 @@ page change resets scroll and retires its buttons even when no items changed.
 Routine live refreshes update existing widgets, labels, reasons and stocks,
 avoiding the old animal-screen rebuild on each timed change.
 
-Empty presses omit withdrawals, mature Cradles omit insertion/growth, and full
-Tables omit placement. Cradle growth and hatch-area clearance are distinct
+The original audit hid impossible transfer buttons; native slots now replace
+those buttons. Mature Cradles still omit growth controls. Cradle growth and hatch-area clearance are distinct
 states. Empty Trophy Pedestals have no inspection menu. Cargo shows real bundles
 with native hover contents, including the next bag actually retrieved. Exact
 measurements stay in the tools and explicit analysis stations; requesting a

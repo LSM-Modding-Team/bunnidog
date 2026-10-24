@@ -44,7 +44,7 @@ public final class StationInteractionGameTest {
         h.assertTrue(menu.clickMenuButton(player,menu.buttonId(CarePanels.WORK_MODES)),"Work choices open deliberately");
         h.assertTrue(menu.view().page()!=root && trough.workMode()==TroughWork.MIXED && trough.food().getCount()==7,
                 "Opening a choice page changes neither work policy nor stock");
-        CohesionGameTest.preview("Resident work choices",menu.view());
+        CohesionGameTest.preview("Resident work choices",menu);
         h.assertTrue(menu.clickMenuButton(player,menu.buttonId(CarePanels.BACK)),"Work choices return through the common Back control");
         h.assertTrue(menu.view().page()==root && !menu.clickMenuButton(player,stale)
                 && !trough.getBlockState().getValue(FeedingTroughBlock.TENDING),

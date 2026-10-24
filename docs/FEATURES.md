@@ -90,14 +90,14 @@ remain dangerous. Exact rules and unfinished extensions: [combat](COMBAT_SPECS.m
 Calipers measure genes, parents and stats. A Pedigree Book records real animals;
 its sheets support filtering, lineage names and planning. The Table, Juicer,
 Splicer and Registry support inherited lines, seed quality, infusion and stable
-breeds. Empty-hand Table controls show reusable samples, place the shown next
-sample without replacing stock, retrieve A/B and open the existing breeding
-plans. Choose a commission goal at the Table to see combined target-gene and
+breeds. The Table's two native slots let you place the exact samples you choose,
+swap or retrieve them. Analyze opens the existing breeding plans. Choose a commission goal at the Table to see combined target-gene and
 point odds, required traits and the next useful step. Goals keep no animal or
 sample costs; the Board still judges the actual adult. A Judging Stand first shows the led entrant's missing requirements and
 five stat targets; **Claim eligible ribbon** awards once. Ribbons display the
 winning snapshot on a Trophy Pedestal. Jars, displays and gene detectors now
-inspect before mutation, with named sample/signal/retrieval controls. Cradles,
+inspect before mutation. Jars/displays use real stock slots; gene detectors keep
+explicit reference/signal controls. Cradles,
 Boards and detectors can mark their actual working area in the world.
 
 The optional Apex encounter previews a chosen sample and all five offerings;

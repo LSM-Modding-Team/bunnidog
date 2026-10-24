@@ -29,6 +29,7 @@ import net.minecraft.world.phys.Vec3;
 public final class WorkshopControlsGameTest {
     private WorkshopControlsGameTest() {}
     private static void press(GameTestHelper h,ServerPlayer player,CareMenu menu,int action) {
+        if (com.bunnidogs.mod.menu.StationInventory.transferButton(action)) { CareMenuGameTest.transfer(h,player,menu,action); return; }
         int button=menu.buttonId(action);
         h.assertTrue(menu.view().permits(button),"The displayed workshop control must be enabled: "+action);
         player.connection.handleContainerButtonClick(new ServerboundContainerButtonClickPacket(menu.containerId,button));
@@ -49,27 +50,31 @@ public final class WorkshopControlsGameTest {
         var before=table.saveWithFullMetadata(level.registryAccess());
         var menu=CareMenuGameTest.open(h,player,pos);
         h.assertTrue(before.equals(table.saveWithFullMetadata(level.registryAccess())) && !menu.view().permits(menu.buttonId(WorkshopPanels.READ_TABLE)),
-                "Opening an empty Table only explains how to collect samples");
+                "Opening an empty Table does not edit stock or publish an unavailable analysis");
         var a=TissueSampleItem.create(Genome.DEFAULT,Stats.of(4,5,6,7,8));
         var b=TissueSampleItem.create(Genome.DEFAULT.with(Gene.COAT,0,2).with(Gene.COAT,1,2),Stats.of(9,8,7,6,5));
         a.set(DataComponents.CUSTOM_NAME,Component.literal("Founding parent")); b.set(DataComponents.CUSTOM_NAME,Component.literal("Chosen mate"));
         var expectedA=a.copy(); var expectedB=b.copy();
         player.getInventory().setItem(9,a);
-        menu=CareMenuGameTest.open(h,player,pos); int oldChoice=menu.buttonId(WorkshopPanels.ADD_SAMPLE);
+        menu=CareMenuGameTest.open(h,player,pos); int oldChoice=menu.buttonId(WorkshopPanels.GOALS);
         player.getInventory().setItem(9,b); player.getInventory().setItem(10,a);
-        h.assertTrue(!menu.clickMenuButton(player,oldChoice) && table.isEmpty(0) && owns(player,expectedA) && owns(player,expectedB),
-                "Reordering inventory refuses an old Place-next intent rather than using an unseen sample");
+        h.assertTrue(!menu.clickMenuButton(player,(oldChoice&~255)|WorkshopPanels.ADD_SAMPLE) && table.isEmpty(0) && owns(player,expectedA) && owns(player,expectedB),
+                "An old transfer-button packet cannot place an automatically selected sample");
+        h.assertTrue(menu.clickMenuButton(player,oldChoice) && table.isEmpty(0) && owns(player,expectedA) && owns(player,expectedB),
+                "Reordering unrelated inventory no longer invalidates a simple breeding-goal choice");
+        press(h,player,menu,WorkshopPanels.BACK_TABLE);
         press(h,player,menu,WorkshopPanels.ADD_SAMPLE);
         h.assertTrue(ItemStack.matches(table.item(0),expectedB) && !owns(player,expectedB) && owns(player,expectedA),
-                "Place-next commits exactly the displayed real sample to A");
+                "The selected real inventory sample enters A through native clicks");
         press(h,player,menu,WorkshopPanels.ADD_SAMPLE);
         h.assertTrue(ItemStack.matches(table.item(1),expectedA) && !owns(player,expectedA)
-                && !menu.clickMenuButton(player,menu.buttonId(WorkshopPanels.ADD_SAMPLE)),"Table controls fill B without ever replacing an occupied slot");
-        CohesionGameTest.preview("Genetics Table",menu.view());
+                && menu.view().controls().stream().noneMatch(c->com.bunnidogs.mod.menu.StationInventory.transferButton(c.id()&255)),"The native slots fill B without a bank of automatic placement/retrieval buttons");
+        CohesionGameTest.preview("Genetics Table",menu);
         var stored=table.saveWithFullMetadata(level.registryAccess());
         player.gameMode.changeGameModeForPlayer(GameType.ADVENTURE);
         menu=CareMenuGameTest.open(h,player,pos);
-        h.assertTrue(!menu.clickMenuButton(player,menu.buttonId(WorkshopPanels.TAKE_A)),"Adventure inspection cannot withdraw a sample");
+        menu.clicked(0,0,net.minecraft.world.inventory.ContainerInput.QUICK_MOVE,player);
+        h.assertTrue(menu.getCarried().isEmpty() && stored.equals(table.saveWithFullMetadata(level.registryAccess())),"Adventure inspection cannot withdraw a sample");
         press(h,player,menu,WorkshopPanels.READ_TABLE);
         h.assertTrue(player.containerMenu!=menu && stored.equals(table.saveWithFullMetadata(level.registryAccess())),
                 "Adventure can open the existing native breeding reader without editing or spending samples");
@@ -79,9 +84,9 @@ public final class WorkshopControlsGameTest {
         level.getBlockState(pos).useItemOn(player.getMainHandItem(),level,player,InteractionHand.MAIN_HAND,hit);
         h.assertTrue(stored.equals(table.saveWithFullMetadata(level.registryAccess())),"Direct sneaking/sample swaps obey the same Adventure mutation rule");
         player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
-        menu=CareMenuGameTest.open(h,player,pos); int oldTake=menu.buttonId(WorkshopPanels.TAKE_A);
+        menu=CareMenuGameTest.open(h,player,pos); int oldTake=menu.buttonId(WorkshopPanels.READ_TABLE);
         table.setItem(0,expectedA.copy());
-        h.assertTrue(!menu.clickMenuButton(player,oldTake) && !owns(player,expectedA),"A changed shared Table refuses an old retrieval intent");
+        h.assertTrue(!menu.clickMenuButton(player,oldTake) && !owns(player,expectedA),"Changed parents refuse an old analysis intent");
         table.setItem(0,expectedB.copy()); menu=CareMenuGameTest.open(h,player,pos);
         press(h,player,menu,WorkshopPanels.TAKE_A); press(h,player,menu,WorkshopPanels.TAKE_B);
         h.assertTrue(table.isEmpty(0) && table.isEmpty(1) && owns(player,expectedA) && owns(player,expectedB),
@@ -98,7 +103,7 @@ public final class WorkshopControlsGameTest {
         menu=CareMenuGameTest.open(h,player,stand);
         var after=net.minecraft.world.level.storage.TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess()); dog.saveWithoutId(after);
         h.assertTrue(saved.buildResult().equals(after.buildResult()) && dog.highestShowAward()==0,"Opening a ready show scorecard does not judge or change the entrant");
-        CohesionGameTest.preview("Judging Stand",menu.view());
+        CohesionGameTest.preview("Judging Stand",menu);
         int oldAward=menu.buttonId(WorkshopPanels.AWARD);
         var other=h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),8,y+1,4); other.setAge(0);
         other.setParents(Genome.DEFAULT,Genome.DEFAULT); other.setGenome(Genome.DEFAULT); other.setStats(Stats.of(5,5,5,5,5)); other.setHealth(other.getMaxHealth());

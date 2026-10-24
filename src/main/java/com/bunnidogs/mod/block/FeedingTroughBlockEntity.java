@@ -109,6 +109,7 @@ public final class FeedingTroughBlockEntity extends BlockEntity {
         var out = this.food.split(1); changed(); return out;
     }
     private void changed() {
+        if (StationInventoryUpdates.defer(this,this::changed)) return;
         this.setChanged();
         if (this.level instanceof ServerLevel server && !this.isRemoved() && server.getBlockEntity(this.worldPosition) == this) {
             int fill = this.food.isEmpty() ? 0 : this.food.getCount() <= 5 ? 1 : this.food.getCount() <= 10 ? 2 : 3;

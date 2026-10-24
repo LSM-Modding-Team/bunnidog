@@ -2,15 +2,16 @@
 
 A NeoForge mod for Minecraft 26.2: baby-faced creatures, living warrens and
 inherited traits that shape companions, gardens and breeding lines. Client and
-server both need the current mod (network **22**).
+server both need the current mod (network **23**).
 
 Interact with a bunnidog to choose **Care, Orders or Work** beside the visible
 animal. Calm animals stay and face you while you interact. Ordinary held items
 work too; guavas open food choices, and other food/tools retain their direct uses.
 Cargo appears when it carries bundles. Calipers offer **Measure** for genetics;
 crouch-use opens requested health, home, work, field and combat readings. There are no automatic crosshair instructions. Nests work directly
-in the world. Stations show actual stock and relevant actions; their work modes
-and commission choices have separate pages. Cargo uses the bundles’ native hover
+in the world. Troughs, Pens, Cradles, Juicers, Tables, Jars and Pedestals use
+ordinary inventory slots: place exactly the items you choose or shift-click
+supplies. Work modes and commission choices have separate pages. Cargo uses the bundles’ native hover
 contents. Orders and committed care return to the world; settings stay open.
 Plain held materials can inspect stations, with normal crouch-placement preserved.
 Every action uses real supplies.
@@ -44,8 +45,9 @@ A Genetics Table breeding goal compares two reusable samples toward a chosen com
 Compare a real seed at its saved quality, find matching living offspring and use
 Calipers to check a pup before raising it. Food helps growth; it adds no bred
 points. Tables, Boards and Breeder's Pens accept feathers or Whiskers.
-Workshops inspect before acting; named controls and requested area markers make
-stock, signals, judging and optional Apex preparation visible where they happen.
+Workshops inspect before acting. Native slots handle stock; concise controls
+handle analysis, work settings and requested markers for judging, hatching and
+optional Apex preparation.
 
 See [the short feature overview](docs/FEATURES.md) for optional depth and
 [the cohesion plan](docs/COHESION_PLAN.md) for the current development priorities.

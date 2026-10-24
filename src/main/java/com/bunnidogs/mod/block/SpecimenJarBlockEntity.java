@@ -23,6 +23,14 @@ import net.minecraft.world.level.storage.ValueOutput;
 /** A single preserved sample displayed in its expressed coat; the actual snapshot remains the authority. */
 public final class SpecimenJarBlockEntity extends BlockEntity {
     private ItemStack sample = ItemStack.EMPTY;
+    private final net.neoforged.neoforge.transfer.item.ItemStackResourceHandler menuStock=new net.neoforged.neoforge.transfer.item.ItemStackResourceHandler() {
+        @Override protected ItemStack getStack() { return sample; }
+        @Override protected void setStack(ItemStack stack) { sample=stack; }
+        @Override protected boolean isValid(net.neoforged.neoforge.transfer.item.ItemResource resource) { return TissueSampleItem.read(resource.toStack()).isPresent(); }
+        @Override protected int getCapacity(net.neoforged.neoforge.transfer.item.ItemResource resource) { return 1; }
+        @Override protected void onRootCommit(ItemStack previous) { changed(); }
+    };
+    public net.neoforged.neoforge.transfer.ResourceHandler<net.neoforged.neoforge.transfer.item.ItemResource> menuInventory() { return menuStock; }
     public SpecimenJarBlockEntity(BlockPos pos, BlockState state) { super(ModBlocks.SPECIMEN_JAR_BE.get(),pos,state); }
     public ItemStack sample() { return this.sample.copy(); }
     public boolean insertFromHand(Player player, ItemStack actual) {
@@ -43,6 +51,7 @@ public final class SpecimenJarBlockEntity extends BlockEntity {
     public int fixedSignal() { return TissueSampleItem.read(this.sample).map(t -> 1+2*Purebreds.fixedCount(t.genome())).orElse(0); }
     private boolean live() { return this.level != null && !this.isRemoved() && this.level.getBlockEntity(this.worldPosition) == this; }
     private void changed() {
+        if (StationInventoryUpdates.defer(this,this::changed)) return;
         this.setChanged();
         if (live() && !this.level.isClientSide()) {
             int coat = TissueSampleItem.read(this.sample).map(t -> t.genome().expressed(Gene.COAT).id()+1).orElse(0);

@@ -118,6 +118,7 @@ public final class NurseryCradleBlockEntity extends net.minecraft.world.level.bl
         return outcome;
     }
     private void changed() {
+        if (StationInventoryUpdates.defer(this,this::changed)) return;
         setChanged();
         if (this.level instanceof ServerLevel server && attached(server)) {
             int fill = this.stored.isEmpty() ? 0 : 1+this.age*3/SeedCropBlock.MAX_AGE;

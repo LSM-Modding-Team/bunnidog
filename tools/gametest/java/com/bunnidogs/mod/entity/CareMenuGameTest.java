@@ -67,6 +67,38 @@ public final class CareMenuGameTest {
         if (!menu.view().permits(button)) { player.closeContainer(); return false; }
         return menu.clickMenuButton(player,button);
     }
+    /** Select an actual visible inventory stack, place one into a real slot, and return the cursor remainder. */
+    public static void transfer(GameTestHelper h,ServerPlayer player,CareMenu menu,int action) {
+        int target=switch (action) {
+            case CarePanels.ADD_RIGHT,CarePanels.TAKE_RIGHT,CarePanels.ADD_BOTTLE,CarePanels.TAKE_CARRIER,com.bunnidogs.mod.menu.WorkshopPanels.TAKE_B -> 1;
+            case CarePanels.TAKE_JUICE -> 2;
+            case com.bunnidogs.mod.menu.WorkshopPanels.ADD_SAMPLE -> menu.slots.get(0).hasItem() ? 1 : 0;
+            default -> 0;
+        };
+        boolean add=java.util.Set.of(CarePanels.ADD_FOOD,CarePanels.ADD_LEFT,CarePanels.ADD_RIGHT,CarePanels.ADD_SEED,CarePanels.ADD_FRUIT,CarePanels.ADD_BOTTLE,
+                com.bunnidogs.mod.menu.WorkshopPanels.ADD_SAMPLE,com.bunnidogs.mod.menu.SignalPanels.JAR_ADD).contains(action);
+        h.assertTrue(menu.getCarried().isEmpty(),"A transfer gesture begins with an empty cursor");
+        if (add) {
+            int source=-1;
+            for (int i=menu.inventoryKind().slots;i<menu.slots.size();i++) {
+                var candidate=menu.slots.get(i).getItem();
+                boolean type=switch (action) {
+                    case CarePanels.ADD_FOOD,CarePanels.ADD_LEFT,CarePanels.ADD_RIGHT,CarePanels.ADD_FRUIT -> candidate.is(com.bunnidogs.mod.registry.ModItems.GUAVA.get());
+                    case CarePanels.ADD_BOTTLE -> candidate.is(net.minecraft.world.item.Items.GLASS_BOTTLE);
+                    case CarePanels.ADD_SEED -> com.bunnidogs.mod.item.SeedItem.read(candidate).isPresent();
+                    default -> com.bunnidogs.mod.item.TissueSampleItem.read(candidate).isPresent();
+                };
+                var stored=menu.slots.get(target).getItem();
+                if (type && menu.slots.get(target).mayPlace(candidate) && (stored.isEmpty() || ItemStack.isSameItemSameComponents(candidate,stored)
+                        && stored.getCount()<menu.slots.get(target).getMaxStackSize(candidate))) { source=i; break; }
+            }
+            h.assertTrue(source>=0,"A real inventory input can enter the requested native slot: "+action);
+            menu.clicked(source,1,net.minecraft.world.inventory.ContainerInput.PICKUP,player);
+            menu.clicked(target,1,net.minecraft.world.inventory.ContainerInput.PICKUP,player);
+            if (!menu.getCarried().isEmpty()) menu.clicked(source,0,net.minecraft.world.inventory.ContainerInput.PICKUP,player);
+            h.assertTrue(menu.getCarried().isEmpty(),"The exact remainder returns to the player's inventory");
+        } else menu.clicked(target,0,net.minecraft.world.inventory.ContainerInput.QUICK_MOVE,player);
+    }
     public static void click(GameTestHelper h,ServerPlayer player,BlockPos pos,int action) {
         var menu=open(h,player,pos);
         h.assertTrue(menu.clickMenuButton(player,menu.buttonId(action)),"The explicit live station action must be available: "+action);

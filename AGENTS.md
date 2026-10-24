@@ -30,8 +30,14 @@ stock icons/native item contents, concise live state and actions relevant to the
 current contents. Keep work-mode/request banks in deliberate choice pages; no
 repeated setup paragraphs. All care pages share Back/Close footer positions;
 Back follows actual history and page changes reset scroll. Routine refreshes
-should preserve widgets/focus when possible. Stock displays are read-only
-copies; server-side real-stock and stale-action protections remain authoritative.
+should preserve widgets/focus when possible. Storage stations expose native
+Minecraft inventory slots over their original
+saved stock and journals, including the player's inventory. Choose exact items
+with ordinary clicks/shift-clicks; do not restore first-match Add/Withdraw banks.
+Hide/invalidate those slots on nested choice pages while keeping Back/Close fixed.
+Native carried-item ownership, output-only slots, permissions and close refunds
+remain authoritative. Read-only displays (cargo, filters and reference previews)
+remain copied snapshots; never turn a virtual filter into retrievable stock.
 Empty Trophy Pedestals have no menu. Lessons close conversation after a valid
 start, so the animal can begin work. Avoid duplicated routine/status lists and
 ordinary order controls inside Combat. Keep detailed measurement tools useful.

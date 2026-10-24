@@ -63,6 +63,7 @@ public final class CohesionGameTest {
         return (CareMenu)player.containerMenu;
     }
     private static void press(GameTestHelper h,ServerPlayer player,CareMenu menu,int action) {
+        if (com.bunnidogs.mod.menu.StationInventory.transferButton(action)) { CareMenuGameTest.transfer(h,player,menu,action); return; }
         if (menu.buttonId(action)<0 && action>=CarePanels.MODE && action<CarePanels.MODE+TroughWork.values().length)
             h.assertTrue(menu.clickMenuButton(player,menu.buttonId(CarePanels.WORK_MODES)),"Open resident work choices");
         if (menu.buttonId(action)<0 && action>=CarePanels.REQUEST && action<CarePanels.REQUEST+Commissions.Request.values().length)
@@ -90,7 +91,9 @@ public final class CohesionGameTest {
         var goal=player.level().getServer().getAdvancements().get(Identifier.fromNamespaceAndPath("bunnidogs","journey/"+step));
         return goal!=null && player.getAdvancements().getOrStartProgress(goal).isDone();
     }
-    static void preview(String name,CareView view) {
+    static void preview(String name,CareView view) { preview(name,view,null); }
+    static void preview(String name,CareMenu menu) { preview(name,menu.view(),menu); }
+    private static void preview(String name,CareView view,CareMenu menu) {
         var out=new JsonObject(); out.addProperty("name",name); out.addProperty("subjectId",view.subjectId());
         out.add("title",ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE,view.title()).getOrThrow());
         out.add("next",ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE,view.next()).getOrThrow());
@@ -107,6 +110,17 @@ public final class CohesionGameTest {
             display.addProperty("count",stock.item().getCount()); stocks.add(display);
         }
         out.add("stock",stocks); out.addProperty("page",view.page());
+        var station=new JsonObject(); station.addProperty("kind",view.station().kind().name()); station.addProperty("progress",view.station().progress()); out.add("station",station);
+        if (menu!=null) {
+            var slots=new JsonArray();
+            for (var slot:menu.slots) if (slot.isActive()) {
+                var item=slot.getItem(); var entry=new JsonObject();
+                entry.addProperty("index",slot.index); entry.addProperty("x",slot.x); entry.addProperty("y",slot.y);
+                entry.addProperty("item",net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item.getItem()).toString());
+                entry.addProperty("count",item.getCount()); slots.add(entry);
+            }
+            out.add("slots",slots);
+        }
         out.add("controls",controls); BunnidogsMod.LOGGER.info("CARE_PREVIEW {}",out);
     }
     public static void animals(GameTestHelper h) {
@@ -123,9 +137,9 @@ public final class CohesionGameTest {
         var after=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess()); dog.saveWithoutId(after);
         h.assertTrue(before.buildResult().equals(after.buildResult()) && count(player,ModItems.GUAVA.get())==6 && done(player,"root"),
                 "Opening care records discovery but leaves the complete animal and actual supplies unchanged");
-        preview("Injured companion",menu.view());
+        preview("Injured companion",menu);
         press(h,player,menu,com.bunnidogs.mod.menu.AnimalPanels.CARE_MENU);
-        preview("Animal care",menu.view());
+        preview("Animal care",menu);
         var wire=new RegistryFriendlyByteBuf(Unpooled.buffer(),level.registryAccess());
         try {
             var snapshot=new CareViewPayload(menu.containerId,menu.view()); CareViewPayload.STREAM_CODEC.encode(wire,snapshot);
@@ -141,7 +155,7 @@ public final class CohesionGameTest {
         menu=animal(h,player,dog); press(h,player,menu,com.bunnidogs.mod.menu.AnimalPanels.CARE_MENU);
         h.assertTrue(!menu.clickMenuButton(player,menu.buttonId(CarePanels.CARE)) && count(player,ModItems.GUAVA.get())==4 && player.containerMenu==menu,"Healthy adults keep unneeded care food and the refused action stays open");
         press(h,player,menu,CarePanels.ROLES);
-        preview("Useful first roles",menu.view());
+        preview("Useful first roles",menu);
         press(h,player,menu,CarePanels.WORK); h.assertTrue(dog.workPaused(),"Work controls live beside the actual role readiness");
         press(h,player,menu,CarePanels.WORK);
         player.gameMode.changeGameModeForPlayer(GameType.ADVENTURE);
@@ -153,7 +167,7 @@ public final class CohesionGameTest {
                 && player.getInventory().getItem(11)==whistle,"Menu training pays one real plain guava and retains the required reusable Whistle");
         h.assertTrue(player.containerMenu!=menu,"Successful befriending releases the animal to follow");
         menu=animal(h,player,dog); press(h,player,menu,com.bunnidogs.mod.menu.AnimalPanels.ORDERS);
-        preview("Trained partner",menu.view());
+        preview("Trained partner",menu);
         var stranger=player(h); var strangerMenu=animal(h,stranger,dog);
         press(h,stranger,strangerMenu,com.bunnidogs.mod.menu.AnimalPanels.ORDERS);
         h.assertTrue(!strangerMenu.clickMenuButton(stranger,strangerMenu.buttonId(CarePanels.WAIT)) && dog.trail().order()==Trail.Order.FOLLOW,
@@ -176,7 +190,7 @@ public final class CohesionGameTest {
         menu=animal(h,player,dog); var cargoBefore=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess()); dog.saveWithoutId(cargoBefore);
         press(h,player,menu,CarePanels.ROLES); int workPage=menu.view().page();
         press(h,player,menu,CarePanels.CARGO); var cargoAfter=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess()); dog.saveWithoutId(cargoAfter);
-        preview("Packed cargo",menu.view());
+        preview("Packed cargo",menu);
         h.assertTrue(menu.view().rows().size()==1 && menu.view().stock().size()==1 && ItemStack.matches(menu.view().stock().getFirst().item(),expectedBundle) && cargoBefore.buildResult().equals(cargoAfter.buildResult()),"Cargo inspection exposes the actual bag and contents without changing any animal or item state");
         press(h,player,menu,CarePanels.BACK);
         h.assertTrue(menu.view().page()==workPage && menu.buttonId(com.bunnidogs.mod.menu.LearningPanel.OPEN)>=0,
@@ -209,11 +223,11 @@ public final class CohesionGameTest {
         press(h,player,menu,CarePanels.ADD_FOOD); press(h,player,menu,CarePanels.MODE+TroughWork.GARDEN.ordinal()); press(h,player,menu,CarePanels.TENDING);
         h.assertTrue(guavas.getCount()==7 && trough.food().getCount()==1 && trough.workMode()==TroughWork.GARDEN
                 && trough.getBlockState().getValue(FeedingTroughBlock.TENDING),"Visible Trough controls pay actual stock and choose the real saved garden policy");
-        preview("Food and garden work",menu.view());
-        int oldWithdraw=menu.buttonId(CarePanels.TAKE_FOOD); var reserved=trough.takeAll();
+        preview("Food and garden work",menu);
+        int oldWithdraw=menu.buttonId(CarePanels.TENDING); var reserved=trough.takeAll();
         var replacement=new ItemStack(ModItems.GUAVA.get()); replacement.set(DataComponents.CUSTOM_NAME,Component.literal("Another keeper's food")); trough.setInitialFood(replacement);
         h.assertTrue(!menu.clickMenuButton(player,oldWithdraw) && ItemStack.matches(trough.food(),replacement) && reserved.getCount()==1,
-                "A stale withdrawal cannot take newly replaced shared stock");
+                "A stale work preference cannot act after the shared stock changes");
         level.removeBlock(pos,false); level.setBlock(pos,ModBlocks.FEEDING_TROUGH.get().defaultBlockState(),3);
         h.assertTrue(!menu.stillValid(player) && !menu.clickMenuButton(player,menu.buttonId(CarePanels.ADD_FOOD)) && guavas.getCount()==7,
                 "Replacing a station with the same type cannot reuse the old block-entity session");
@@ -229,7 +243,8 @@ public final class CohesionGameTest {
         player.gameMode.useItemOn(player,level,offeredRich,InteractionHand.MAIN_HAND,new BlockHitResult(Vec3.atCenterOf(pos),Direction.UP,pos,false));
         h.assertTrue(offeredRich.getCount()==3 && ItemStack.matches(restored.food(),rich),"A real crouched rich-guava offer keeps its hand and saved stock instead of feeding, filtering or consuming it");
         player.gameMode.changeGameModeForPlayer(GameType.ADVENTURE); var readonly=CareMenuGameTest.open(h,player,pos);
-        h.assertTrue(!readonly.clickMenuButton(player,readonly.buttonId(CarePanels.TAKE_FOOD)) && ItemStack.matches(restored.food(),rich),
+        readonly.clicked(0,0,net.minecraft.world.inventory.ContainerInput.QUICK_MOVE,player);
+        h.assertTrue(readonly.getCarried().isEmpty() && ItemStack.matches(restored.food(),rich),
                 "Actual empty-hand station opening permits Adventure inspection while keeping all mutation controls unavailable");
         player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL); var recovery=CareMenuGameTest.open(h,player,pos); press(h,player,recovery,CarePanels.TAKE_FOOD);
         h.assertTrue(restored.food().isEmpty() && count(player,ModItems.GOLDEN_GUAVA.get())==5,"The panel recovers all legacy and offered breeding-grade fruit without loss"); hungry.discard();
@@ -240,7 +255,7 @@ public final class CohesionGameTest {
         press(h,player,press,CarePanels.ADD_FRUIT); press(h,player,press,CarePanels.ADD_BOTTLE);
         h.assertTrue(guavas.getCount()==6 && count(player,Items.GLASS_BOTTLE)==1 && juicer.item(0).getCount()==1 && juicer.item(1).getCount()==1,
                 "Press controls stock the actual native input slots and spend one of each real ingredient");
-        preview("Juicer inputs",press.view());
+        preview("Juicer inputs",press);
         var cradlePos=h.absolutePos(new BlockPos(9,y+1,5)); level.setBlock(cradlePos,ModBlocks.NURSERY_CRADLE.get().defaultBlockState().setValue(NurseryCradleBlock.FACING,Direction.NORTH),3);
         var cradle=(NurseryCradleBlockEntity)level.getBlockEntity(cradlePos);
         var seed=SeedItem.create(new Seed(Genome.DEFAULT,Stats.ZERO,Genome.DEFAULT,Stats.ZERO,1)); seed.set(DataComponents.CUSTOM_NAME,Component.literal("Chosen litter"));
@@ -254,7 +269,7 @@ public final class CohesionGameTest {
                 "A newly obstructed landing pad refuses the hatch button and keeps the whole litter");
         h.assertTrue(nursery.buttonId(CarePanels.ADD_SEED)<0 && nursery.buttonId(CarePanels.GROW)<0,
                 "A ripe stored litter does not offer irrelevant insertion or growth actions");
-        preview("Blocked nursery",nursery.view());
+        preview("Blocked nursery",nursery);
         var markedBefore=cradle.saveWithFullMetadata(level.registryAccess());
         press(h,player,nursery,StationMarkers.SHOW_PAD);
         h.assertTrue(player.containerMenu!=nursery && markedBefore.equals(cradle.saveWithFullMetadata(level.registryAccess())),
@@ -276,7 +291,7 @@ public final class CohesionGameTest {
         player.getInventory().setItem(20,new ItemStack(Items.PAPER,3)); var commissions=CareMenuGameTest.open(h,player,boardPos);
         h.assertTrue(board.read().status()==Commissions.Status.GENES && !commissions.clickMenuButton(player,commissions.buttonId(CarePanels.SUBMIT)) && count(player,Items.PAPER)==3,
                 "A partially inherited commission shows actual missing requirements and keeps its paper");
-        preview("Commission progress",commissions.view());
+        preview("Commission progress",commissions);
         candidate.setGenome(fixed(fixed(fixed(genes,Gene.COAT,"pale"),Gene.LEGS,"hoofed"),Gene.BUILD,"stocky")); candidate.setStats(Stats.of(0,10,20,20,0));
         player.closeContainer(); player.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(Items.BUNDLE)); player.snapTo(candidate.position().add(1,0,0));
         player.interactOn(candidate,InteractionHand.MAIN_HAND,Vec3.ZERO); player.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY);

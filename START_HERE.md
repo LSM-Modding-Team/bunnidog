@@ -20,7 +20,7 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Current focus — client interaction review (2026-10-22)
+## Current focus — client interaction review (2026-10-24)
 
 The user rejected the persistent crosshair instructions, animal-panel information
 dump and measurements that made information tools redundant. This human review
@@ -29,6 +29,33 @@ over new intelligence features. [COHESION_PLAN.md](docs/COHESION_PLAN.md) record
 the revised design and the old MCA 1.12 interaction reference.
 
 Latest continuation:
+
+- Seven storage stations now expose real Minecraft slots and the player inventory:
+  Trough, Pen, Cradle, Juicer, Table, Jar and populated Trophy Pedestal. Players
+  choose the actual named sample, seed or tiered ingredient with ordinary mouse
+  gestures or shift-click. Automatic first-match Add/Withdraw button banks and
+  their mutation branches are removed; old button IDs are explicitly rejected.
+- Native slots wrap existing saved stacks/resource journals. Input validation,
+  output-only Juicer stock, sixteen-item food buffers and one-item sample/seed
+  limits remain. Player retrieval keeps full components and recoverable legacy
+  over-capacity stock; hopper port directions are unchanged. No save schema or
+  secondary stock store is introduced. Closing returns actual cursor items;
+  native callbacks can replace the menu without losing/duplicating that cursor.
+  Block/neighbor notifications flush after the gesture owns its cursor/remainders,
+  inside the same reentry guard; direct hand/hopper paths retain their behavior.
+- Storage uses a 300×224 layout with stable Back/Close positions, short sidebar
+  actions, input labels and visual growth/processing bars. It fits Minecraft's
+  320×240 minimum GUI viewport. Work/goal/family choices hide and reject all
+  inventory slots until Back. Animal controls and the menu-free Nest stay as
+  reviewed. Trough filter icons remain non-retrievable templates.
+- English/Spanish labels and optional-guide pages describe the slot controls.
+  Trough work toggles now describe all resident work rather than only crops;
+  bone meal costs and pair-feed costs remain local to their actions/hover.
+  Native cases exercise exact sample choice/swapping, initial slot data,
+  protected/hidden/out-of-range gestures, callback reentry/menu replacement,
+  Cradle growth/milestones, saved-stock recovery, Juicer output and tiered mangers.
+
+Earlier interaction corrections retained:
 
 - Successful care, courtship, befriending, grooming, Follow/Wait/Home and combat
   commands dismiss their actual conversation, allowing their world behavior to
@@ -79,13 +106,14 @@ Latest continuation:
   Exact body/mind forecasts remain with the existing tools and stations.
 - Station interaction now uses compact pages over the world, without the large
   gold/brown enclosing panel or full-screen blur. Troughs, Pens, Cradles, Juicers,
-  Tables, Jars and Pedestals show actual item icons/counts instead of stock
-  paragraphs. Working stations show state, not repeated setup instructions.
+  Tables, Jars and Pedestals now use real stock slots instead of stock
+  paragraphs or automatic transfer buttons. Working stations show state, without
+  repeated setup instructions.
   Trough work modes and Board requests have deliberate separate choice pages.
-- Actions depend on real contents: ripe Cradles omit Insert/Grow, empty presses
-  omit withdrawals, full Tables omit placement. An empty Trophy Pedestal has no
-  menu. Cargo shows actual bundles with native hover contents instead of expanded
-  text lists. Item displays are copied read-only snapshots, never payment sources.
+- Actions depend on real contents: ripe Cradles omit growth, and readers appear
+  for readable stock. Empty inventory slots remain available for deliberate
+  placement. Empty Trophy Pedestals have no menu. Cargo still uses copied bundle
+  icons with native hover contents; these displays are never payment sources.
 - All care pages share fixed Back/Close positions. Back follows actual page
   history, including Work → Cargo, seed → offspring and Combat → Party. Page
   changes reset scrolling and invalidate old action stamps. Ordinary live state
@@ -95,12 +123,13 @@ Latest continuation:
   second status list; a successful start dismisses conversation so real work can
   begin. Practice feedback and busy inventory tooltips are shorter. Exact seed
   calculations remain in requested tools/readers and advanced debug tooltips.
-- Protocol **22** adds bounded item displays and page identity to the existing
-  first-view payload. Client/server builds must match; saved data is unchanged.
-  English and neutral Peruvian Spanish have **2,209 authored keys** and
-  **2,337 packaged entries per locale** after guide previews.
+- Protocol **23** adds station slot kind and visual progress to the existing
+  first-view/update payload; native container packets synchronize actual slots.
+  Client/server builds must match; saved data is unchanged.
+  English and neutral Peruvian Spanish have **2,210 authored keys** and
+  **2,338 packaged entries per locale** after guide previews.
 
-The headless suite has **130 scenarios**, including the registered opening factory,
+The headless suite has **132 scenarios**, including the registered opening factory,
 normal-AI conversation, actual hand-bound guavas, copied stock/component roundtrips,
 page-transition stale denial, current-content controls and real Back navigation.
 The family fixture now declares its actual 17×43-block horizontal work area;
@@ -109,15 +138,19 @@ The older trail fixture retains its 36-block bounds. These are fixture correctio
 not production chunk-loading changes. Added native cases cover held station materials,
 normal-AI Wait/Follow after menu dismissal, chosen-practice feedback and real
 Calipers dispatch, group bounds, displayed values and lost-tool denial.
-Java 25 `build` and all 130 native scenarios pass. Verify the exact pushed GitHub
+Java 25 `build` and all 132 native scenarios pass. Verify the exact pushed GitHub
 build/artifact as the final delivery gate.
 
 `art/interaction_preview.png`, `art/companion_activity_preview.png`,
-`art/care_readings_preview.png` and `art/station_interactions_preview.png` render
+`art/care_readings_preview.png`, `art/station_interactions_preview.png` and
+`art/station_inventory_preview.png` render
 English/Spanish native snapshots with substitute fonts/backgrounds. They are not
 in-client captures. Actual GUI scales, accessibility, natural discovery and play
 pacing remain human review work. Continue auditing friction found by play before
 new intelligence features; do not replace removed manuals with another UI guide.
+The next selection audit should cover the Table's first inventory seed preview
+and the Comparator's first inventory sample copy; native storage placement is
+now exact, but these separate non-consuming readers still use that older rule.
 
 ## Previous fix — exploration crash (2026-10-21)
 

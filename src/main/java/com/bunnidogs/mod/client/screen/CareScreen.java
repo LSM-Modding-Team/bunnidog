@@ -5,6 +5,7 @@ import java.util.List;
 import com.bunnidogs.mod.menu.CareMenu;
 import com.bunnidogs.mod.menu.CareView;
 import com.bunnidogs.mod.menu.CarePanels;
+import com.bunnidogs.mod.menu.StationInventory;
 import com.bunnidogs.mod.menu.AnimalPanels;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractContainerWidget;
@@ -17,6 +18,7 @@ import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 
 /** Small action pages over the world, with actual stock and stable navigation. */
 public final class CareScreen extends AbstractContainerScreen<CareMenu> {
@@ -33,7 +35,19 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
     private Button close;
     public CareScreen(CareMenu menu,Inventory inventory,Component title) { super(menu,inventory,title); }
     @Override protected void init() { super.init(); build(0,-1); }
+    private boolean storage() { return menu.inventoryVisible(); }
+    private boolean storageFamily() { return menu.inventoryKind()!=StationInventory.Kind.NONE; }
     private boolean animal() { return shown!=null && shown.subjectId()>=0; }
+    @Override protected boolean hasClickedOutside(double x,double y,int left,int top) {
+        return x<left || y<top || x>=left+panelWidth || y>=top+panelHeight;
+    }
+    @Override protected List<Component> getTooltipFromContainerItem(ItemStack item) {
+        var lines=super.getTooltipFromContainerItem(item);
+        if (storage() && menu.inventoryKind()==StationInventory.Kind.CRADLE && hoveredSlot!=null && hoveredSlot.index==0) {
+            var result=new ArrayList<>(lines); result.add(Component.translatable("care.bunnidogs.station.withdraw_growth")); return result;
+        }
+        return lines;
+    }
     private boolean backControl(CareView.Control control) {
         return CarePanels.backAction(control.id());
     }
@@ -43,14 +57,14 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
     private void build(double scroll,int focus) {
         clearFocus(); clearWidgets(); rows.clear(); controls.clear(); actions.clear(); stocks.clear(); back=null; close=null;
         shown=menu.view(); if (shown==null) return;
-        panelWidth=Math.min(animal() ? 214 : 300,this.width-24);
-        panelHeight=Math.min(310,this.height-24);
+        panelWidth=Math.min(animal() ? 214 : 300,this.width-(storageFamily() ? 16 : 24));
+        panelHeight=Math.min(storageFamily() ? 224 : 310,this.height-(storageFamily() ? 16 : 24));
         leftPos=animal() ? width-panelWidth-12 : (width-panelWidth)/2;
         topPos=animal() ? 12 : (height-panelHeight)/2;
         headerHeight=font.split(shown.title(),panelWidth-24).size()*font.lineHeight;
         content=LinearLayout.vertical().spacing(7);
-        int textWidth=panelWidth-36;
-        if (!shown.stock().isEmpty()) {
+        int textWidth=storage() ? 100 : panelWidth-36;
+        if (!storage() && !shown.stock().isEmpty()) {
             int columns=Math.min(3,shown.stock().size()), stockWidth=(textWidth-8*(columns-1))/columns;
             for (int i=0;i<shown.stock().size();i+=columns) {
                 var line=content.addChild(LinearLayout.horizontal().spacing(8));
@@ -65,17 +79,20 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
         addControls(shown,CareView.Control.DETAIL,textWidth);
         addControls(shown,CareView.Control.CHOICE,textWidth);
         body=new ScrollableLayout(minecraft,content,Math.max(20,panelHeight-headerHeight-54),ScrollableLayout.ReserveStrategy.RIGHT);
-        body.setMinWidth(panelWidth-24); body.setScrollbarSpacing(6);
+        body.setMinWidth(storage() ? 100 : panelWidth-24); body.setScrollbarSpacing(6);
         position(); body.visitWidgets(this::addRenderableWidget);
         body.visitChildren(child->{ if (child instanceof AbstractScrollArea area) area.setScrollAmount(scroll); });
-        int footerWidth=(panelWidth-32)/2;
+        int footerWidth=storageFamily() ? 100 : (panelWidth-32)/2;
         shown.controls().stream().filter(this::backControl).findFirst().ifPresent(control->{
             back=Button.builder(Component.literal("← ").append(AnimalPanels.text("back")),b->send(control.id()&255))
                     .bounds(leftPos+12,topPos+panelHeight-28,footerWidth,20).build();
             back.active=control.enabled(); addRenderableWidget(back);
         });
         close=addRenderableWidget(Button.builder(AnimalPanels.text("close"),b->onClose())
-                .bounds(leftPos+20+footerWidth,topPos+panelHeight-28,footerWidth,20).build());
+                .bounds(leftPos+(storageFamily() ? 188 : 20+footerWidth),topPos+panelHeight-28,footerWidth,20).build());
+        if (storage() && menu.inventoryKind()==StationInventory.Kind.TROUGH && shown.stock().size()>1) {
+            var filter=new CareStockWidget(minecraft,46,shown.stock().get(1)); filter.setPosition(leftPos+126,topPos+18); addRenderableWidget(filter);
+        }
         if (focus==-2 && back!=null) setFocused(back);
         if (focus==-3) setFocused(close);
         if (focus>=0) for (int i=0;i<controls.size();i++) if (actions.get(i)==focus) {
@@ -100,13 +117,13 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
         button.setMessage(control.label()); button.active=control.enabled();
         button.setTooltip(control.hint().getString().isEmpty() ? null : Tooltip.create(control.hint()));
     }
-    private void position() { body.arrangeElements(); body.setX(leftPos+12); body.setY(topPos+headerHeight+18); }
+    private void position() { body.arrangeElements(); body.setX(leftPos+(storage() ? 188 : 12)); body.setY(topPos+headerHeight+18); }
     @Override protected void containerTick() {
         super.containerTick(); var value=menu.view();
         if (value==null || value==shown) return;
         boolean page=shown!=null && shown.page()==value.page() && shown.subjectId()==value.subjectId();
         var visible=visible(value);
-        boolean same=page && value.rows().size()==rows.size() && value.stock().size()==stocks.size() && visible.size()==controls.size()
+        boolean same=page && (!storage() || menu.inventoryKind()!=StationInventory.Kind.TROUGH || shown.stock().equals(value.stock())) && value.rows().size()==rows.size() && (storage() || value.stock().size()==stocks.size()) && visible.size()==controls.size()
                 && shown.next().getString().isEmpty()==value.next().getString().isEmpty()
                 && shown.controls().stream().anyMatch(this::backControl)==value.controls().stream().anyMatch(this::backControl)
                 && font.split(value.title(),panelWidth-24).size()*font.lineHeight==headerHeight;
@@ -133,9 +150,33 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
     }
     @Override public void extractBackground(GuiGraphicsExtractor graphics,int mouseX,int mouseY,float partialTick) {
         if (shown!=null && !animal()) graphics.fill(0,0,width,height,0x60000000);
+        if (storage()) for (var slot:menu.slots) if (slot.isActive()) {
+            int x=leftPos+slot.x, y=topPos+slot.y;
+            graphics.fill(x-1,y-1,x+17,y+17,0xFFE1E1E1);
+            graphics.fill(x-1,y-1,x+16,y+16,0xFF373737);
+            graphics.fill(x,y,x+16,y+16,0xFF8B8B8B);
+        }
     }
     @Override protected void extractLabels(GuiGraphicsExtractor graphics,int x,int y) {
         if (shown==null) return;
+        if (storage()) {
+            graphics.text(font,Component.translatable("container.inventory"),8,93,0xFFF4E7C9,true);
+            for (int i=0;i<menu.inventoryKind().slots && i<shown.stock().size();i++) {
+                int line=0, center=menu.inventoryKind().x(i)+8;
+                for (var part:font.split(shown.stock().get(i).label(),54)) {
+                    if (line==2) break;
+                    graphics.text(font,part,center-font.width(part)/2,20+9*line++,0xFFE0D6C1,true);
+                }
+            }
+            if (menu.inventoryKind()==StationInventory.Kind.JUICER) {
+                graphics.text(font,Component.literal("+"),52,48,0xFFE0D6C1,true);
+                graphics.text(font,Component.literal("→"),110,48,0xFFE0D6C1,true);
+            }
+            if (shown.station().progress()>=0) {
+                graphics.fill(18,73,150,78,0xFF373737);
+                graphics.fill(19,74,19+130*shown.station().progress()/100,77,0xFF8CB66A);
+            }
+        }
         int line=0;
         for (var part:font.split(shown.title(),panelWidth-24)) graphics.text(font,part,12,10+line++*font.lineHeight,0xFFF4E7C9,true);
     }

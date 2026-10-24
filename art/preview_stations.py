@@ -69,81 +69,134 @@ def icon(item):
     return None
 
 
+BACK = {18, 151, 182, 142}
+SLOT_X = {'TROUGH': [80], 'PEN': [53, 107], 'CRADLE': [80], 'JUICER': [18, 76, 134], 'TABLE': [53, 107], 'JAR': [80], 'PEDESTAL': [80]}
+
+
+def frame(view, name, locale, size):
+    text, messages = translator(locale)
+    screen_width, screen_height = size
+    result = Image.new('RGB', (screen_width, screen_height+30), (28, 32, 27))
+    painter = ImageDraw.Draw(result)
+    painter.text((8, 6), locale+' / '+name, font=FONT, fill=(220, 224, 207))
+    scene = Image.new('RGB', size, (48, 58, 43))
+    draw = ImageDraw.Draw(scene)
+    kind = view.get('station', {}).get('kind', 'NONE')
+    family = kind != 'NONE'
+    storage = family and view.get('page', 0)&255 == 0
+    width = min(300, screen_width-(16 if family else 24))
+    height = min(224 if family else 310, screen_height-(16 if family else 24))
+    x, y = (screen_width-width)//2, (screen_height-height)//2
+    title = wrap(text(view['title']), width-24)
+    for i, part in enumerate(title):
+        draw.text((x+12, y+10+i*9), part, font=BOLD, fill=(244, 231, 201), stroke_width=1, stroke_fill=(25, 25, 20))
+
+    def item(target, painter, stock, sx, sy):
+        sprite = icon(stock['item']) if stock['count'] else None
+        if sprite:
+            sprite = sprite.resize((16, 16), Image.Resampling.NEAREST)
+            target.paste(sprite, (sx, sy), sprite)
+        if stock['count'] > 1:
+            count = str(stock['count'])
+            painter.text((sx+17-FONT.getlength(count), sy+8), count, font=FONT, fill='white', stroke_width=1, stroke_fill='black')
+
+    stocks = view.get('stock', [])
+    if storage:
+        for slot in view['slots']:
+            sx, sy = x+slot['x'], y+slot['y']
+            draw.rectangle((sx-1, sy-1, sx+16, sy+16), fill=(225, 225, 225))
+            draw.rectangle((sx-1, sy-1, sx+15, sy+15), fill=(55, 55, 55))
+            draw.rectangle((sx, sy, sx+15, sy+15), fill=(139, 139, 139))
+            item(scene, draw, slot, sx, sy)
+        draw.text((x+8, y+93), 'Inventario' if locale == 'es_pe' else 'Inventory', font=FONT, fill=(244, 231, 201), stroke_width=1, stroke_fill=(25, 25, 20))
+        for i, sx in enumerate(SLOT_X[kind]):
+            for line_no, part in enumerate(wrap(text(stocks[i]['label']), 54)[:2]):
+                draw.text((x+sx+8-FONT.getlength(part)/2, y+20+line_no*9), part, font=FONT, fill=(224, 214, 193), stroke_width=1, stroke_fill=(25, 25, 20))
+        if kind == 'JUICER':
+            draw.text((x+52, y+48), '+', font=FONT, fill=(224, 214, 193))
+            draw.text((x+110, y+48), '→', font=FONT, fill=(224, 214, 193))
+        progress = view['station']['progress']
+        if progress >= 0:
+            draw.rectangle((x+18, y+73, x+149, y+77), fill=(55, 55, 55))
+            if progress:
+                draw.rectangle((x+19, y+74, x+18+130*progress//100, y+76), fill=(140, 182, 106))
+        if kind == 'TROUGH' and len(stocks) > 1:
+            filter_stock = stocks[1]
+            for i, part in enumerate(wrap(text(filter_stock['label']), 46)[:2]):
+                draw.text((x+126+(46-FONT.getlength(part))/2, y+20+i*9), part, font=FONT, fill=(224, 214, 193))
+            if filter_stock['count']:
+                item(scene, draw, filter_stock, x+141, y+49)
+            else:
+                draw.text((x+143, y+51), '—', font=FONT, fill=(176, 171, 161))
+
+    text_width = 100 if storage else width-36
+    content = Image.new('RGBA', (text_width+12, 1600))
+    ink, at = ImageDraw.Draw(content), 0
+    if stocks and not storage:
+        columns = min(3, len(stocks))
+        sw = (text_width-8*(columns-1))//columns
+        for i, stock in enumerate(stocks):
+            sx, sy = (i%columns)*(sw+8), (i//columns)*61
+            for line_no, part in enumerate(wrap(text(stock['label']), sw)[:2]):
+                ink.text((sx+(sw-FONT.getlength(part))/2, sy+2+line_no*9), part, font=FONT, fill=(224, 214, 193))
+            item(content, ink, stock, sx+(sw-16)//2, sy+31)
+            if not stock['count']:
+                ink.text((sx+(sw-18)//2+4, sy+34), '—', font=FONT, fill=(176, 171, 161))
+        at += ((len(stocks)+columns-1)//columns)*61
+    for value in [view['next']]+view['rows']:
+        parts = wrap(text(value), text_width)
+        for part in parts:
+            ink.text((0, at), part, font=FONT, fill=(230, 226, 217), stroke_width=1, stroke_fill=(25, 25, 20))
+            at += 9
+        if parts:
+            at += 7
+    for button in sorted(view['controls'], key=lambda b: b['section']):
+        if button['action'] in BACK:
+            continue
+        ink.rectangle((0, at, text_width-1, at+19), fill=(79, 76, 70) if button['enabled'] else (48, 46, 42), outline=(135, 130, 116))
+        label = text(button['label'])
+        ink.text(((text_width-FONT.getlength(label))/2, at+4), label, font=FONT, fill='white' if button['enabled'] else (136, 132, 123))
+        at += 27
+    at = max(0, at-7)  # LinearLayout has no spacing after its final child.
+    visible = height-len(title)*9-54
+    content_x, content_y = x+(188 if storage else 12), y+len(title)*9+18
+    clipped = content.crop((0, 0, text_width+12, visible))
+    scene.paste(clipped, (content_x, content_y), clipped)
+    if at > visible:
+        draw.rectangle((x+width-8, content_y, x+width-5, content_y+visible-1), fill=(100, 100, 92))
+        draw.rectangle((x+width-8, content_y, x+width-5, content_y+max(12, visible*visible//at)), fill=(191, 190, 177))
+    footer_width = 100 if family else (width-32)//2
+    has_back = any(b['action'] in BACK for b in view['controls'])
+    for offset, label in [(12, '← '+messages['interaction.bunnidogs.back'] if has_back else None), (188 if family else 20+footer_width, messages['interaction.bunnidogs.close'])]:
+        if label:
+            draw.rectangle((x+offset, y+height-28, x+offset+footer_width-1, y+height-9), fill=(79, 76, 70), outline=(135, 130, 116))
+            draw.text((x+offset+(footer_width-FONT.getlength(label))/2, y+height-24), label, font=FONT, fill='white')
+    result.paste(scene, (0, 30))
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('log', type=Path)
+    parser.add_argument('--views', nargs='+', default=['Food and garden work', 'Resident work choices', 'Juicer inputs', 'Genetics Table', 'Blocked nursery', 'Commission progress'])
+    parser.add_argument('--minimum', action='store_true', help='Use the 320×240 minimum Minecraft GUI viewport')
+    parser.add_argument('--output', type=Path, default=ROOT/'art/station_interactions_preview.png')
     args = parser.parse_args()
     views = {}
     for line in args.log.read_text().splitlines():
         if 'CARE_PREVIEW ' in line:
             view = json.loads(line.split('CARE_PREVIEW ', 1)[1])
             views[view['name']] = view
-    names = ['Food and garden work', 'Resident work choices', 'Juicer inputs', 'Genetics Table', 'Blocked nursery', 'Commission progress']
-    canvas = Image.new('RGB', (1200, 1430), (25, 29, 25))
-    draw = ImageDraw.Draw(canvas)
-    draw.text((12, 8), 'Station layout | native stock/actions | substitute font and background; not client screenshots', font=BOLD, fill='white')
+    size = (320, 240) if args.minimum else (400, 340)
+    cell_width, cell_height = size[0], size[1]+30
+    rows = (len(args.views)+2)//3
+    canvas = Image.new('RGB', (3*cell_width, 35+2*rows*cell_height), (25, 29, 25))
+    ImageDraw.Draw(canvas).text((12, 8), 'Station inventory | native slots/actions | substitute font/background; not client screenshots', font=BOLD, fill='white')
     for row, locale in enumerate(['en_us', 'es_pe']):
-        text, messages = translator(locale)
-        for column, name in enumerate(names):
-            frame = Image.new('RGB', (400, 350), (48, 58, 43))
-            d = ImageDraw.Draw(frame)
-            d.text((8, 4), locale+' / '+name, font=FONT, fill=(190, 199, 182))
-            view = views[name]
-            x, y, width, height = 50, 25, 300, 310
-            title = wrap(text(view['title']), width-24)
-            at = y+10
-            for part in title:
-                d.text((x+12, at), part, font=BOLD, fill=(244, 231, 201))
-                at += 9
-            at += 8
-            # Draw into a clipped viewport, matching the screen's scrolling body.
-            body = Image.new('RGB', (288, 1200), (48, 58, 43))
-            painter, by = ImageDraw.Draw(body), 0
-            stocks = view.get('stock', [])
-            if stocks:
-                sw = (264-8*(len(stocks)-1))//len(stocks)
-                for i, stock in enumerate(stocks):
-                    sx = i*(sw+8)
-                    for line_no, part in enumerate(wrap(text(stock['label']), sw)[:2]):
-                        painter.text((sx+(sw-FONT.getlength(part))/2, 2+line_no*9), part, font=FONT, fill=(224, 214, 193))
-                    if stock['count']:
-                        image = icon(stock['item'])
-                        if image:
-                            body.paste(image.resize((16, 16), Image.Resampling.NEAREST), (sx+(sw-18)//2+1, 31), image.resize((16, 16), Image.Resampling.NEAREST))
-                        if stock['count']>1:
-                            painter.text((sx+(sw-18)//2+12, 41), str(stock['count']), font=FONT, fill='white', stroke_width=1, stroke_fill='black')
-                    else:
-                        painter.text((sx+(sw-18)//2+4, 34), '—', font=FONT, fill=(176, 171, 161))
-                by += 61
-            for value in [view['next']]+view['rows']:
-                parts = wrap(text(value), 264)
-                for part in parts:
-                    painter.text((0, by), part, font=FONT, fill=(230, 226, 217))
-                    by += 9
-                if parts:
-                    by += 7
-            back = next((b for b in view['controls'] if b['action'] in [18, 151, 182, 142]), None)
-            for button in sorted(view['controls'], key=lambda b: b['section']):
-                if button is back:
-                    continue
-                painter.rectangle((0, by, 263, by+19), fill=(79, 76, 70) if button['enabled'] else (48, 46, 42), outline=(135, 130, 116))
-                label = text(button['label'])
-                painter.text(((264-FONT.getlength(label))/2, by+4), label, font=FONT, fill='white' if button['enabled'] else (136, 132, 123))
-                by += 27
-            visible = height-len(title)*9-54
-            frame.paste(body.crop((0, 0, 288, visible)), (x+12, at))
-            if by>visible:
-                d.rectangle((x+width-8, at, x+width-5, at+visible-1), fill=(100, 100, 92))
-                d.rectangle((x+width-8, at, x+width-5, at+max(12, visible*visible//by)), fill=(191, 190, 177))
-            footer_width = (width-32)//2
-            for offset, label in [(12, '← '+messages['interaction.bunnidogs.back'] if back else None), (20+footer_width, messages['interaction.bunnidogs.close'])]:
-                if label:
-                    d.rectangle((x+offset, y+height-28, x+offset+footer_width-1, y+height-9), fill=(79, 76, 70), outline=(135, 130, 116))
-                    d.text((x+offset+(footer_width-FONT.getlength(label))/2, y+height-24), label, font=FONT, fill='white')
-            canvas.paste(frame, ((column%3)*400, 30+(row*2+column//3)*350))
-    output = ROOT/'art/station_interactions_preview.png'
-    canvas.save(output)
-    print(output)
+        for column, name in enumerate(args.views):
+            canvas.paste(frame(views[name], name, locale, size), ((column%3)*cell_width, 35+(row*rows+column//3)*cell_height))
+    canvas.save(args.output)
+    print(args.output)
 
 
 if __name__ == '__main__':

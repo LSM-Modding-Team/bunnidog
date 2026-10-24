@@ -50,6 +50,8 @@ public final class JuicerBlockEntity extends BlockEntity {
         return direction == null ? new CombinedResourceHandler<>(this.top,this.side,this.bottom)
                 : direction == Direction.DOWN ? this.bottom : direction == Direction.UP ? this.top : this.side;
     }
+    /** Full native menu access; hopper direction rules remain separate. */
+    public ResourceHandler<ItemResource> menuInventory() { return inventory; }
     private boolean live() { return this.level != null && !isRemoved() && this.level.getBlockEntity(this.worldPosition) == this; }
     private static boolean accepts(int slot, ItemStack stack) {
         return switch (slot) {
@@ -156,6 +158,7 @@ public final class JuicerBlockEntity extends BlockEntity {
     }
     public int stockSignal() { return this.stock[2].isEmpty() ? 0 : 1+14*this.stock[2].getCount()/Math.min(16,this.stock[2].getMaxStackSize()); }
     private void changed() {
+        if (StationInventoryUpdates.defer(this,this::changed)) return;
         this.setChanged();
         if (live() && !this.level.isClientSide()) this.level.sendBlockUpdated(this.worldPosition,this.getBlockState(),this.getBlockState(),Block.UPDATE_ALL);
     }

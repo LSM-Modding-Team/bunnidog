@@ -10,7 +10,7 @@ Minecraft Spanish choices (`es_ar`, `es_cl`, `es_ec`, `es_es`, `es_mx`, `es_uy`,
 not separate authored translations. No custom Peru entry is added to Minecraft's
 language picker, since the vanilla game does not currently supply that locale.
 
-The authored catalog contains 2,209 keys in both languages (2,337 packaged after
+The authored catalog contains 2,210 keys in both languages (2,338 packaged after
 generated guide previews). Cognitive copies, capacity/learning feedback and
 separate mind forecasts share the same regional Spanish aliases. Items, blocks,
 advancements, subtitles, feedback, care/combat/workshop screens and the optional
@@ -25,7 +25,9 @@ new warren signs carry translatable Components.
 Use familiar neutral Spanish: *guayaba*, *guayabo*, *jugo*, *madriguera*, *cría*,
 *calibrador*, *arete de identificación*, *libro de pedigrí*, *canasta de viaje*.
 The five displayed stats are Vitalidad, Velocidad, Salto, Sentidos and Floración.
-Use short labels where the actual screen requires them; detailed hovers retain
+Storage sidebars use short action labels; the pair-feeding cost is on hover and
+seed-removal consequences stay on the actual slot tooltip. Use short labels
+where the actual screen requires them; detailed hovers retain
 the full explanation. Avoid separate Spain/Argentina/Mexico wording.
 
 ## Adding text

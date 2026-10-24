@@ -25,6 +25,7 @@ public final class SignalControlsGameTest {
         var p=h.makeMockServerPlayerInLevel(); p.gameMode.changeGameModeForPlayer(GameType.SURVIVAL); CareMenuGameTest.prepare(p); return p;
     }
     private static void press(GameTestHelper h,ServerPlayer player,CareMenu menu,int action) {
+        if (com.bunnidogs.mod.menu.StationInventory.transferButton(action)) { CareMenuGameTest.transfer(h,player,menu,action); return; }
         int button=menu.buttonId(action); h.assertTrue(menu.view().permits(button),"The displayed signal control is enabled: "+action);
         player.connection.handleContainerButtonClick(new ServerboundContainerButtonClickPacket(menu.containerId,button));
     }
@@ -42,9 +43,10 @@ public final class SignalControlsGameTest {
         h.assertTrue(saved.equals(jar.saveWithFullMetadata(level.registryAccess())) && owns(p,original),"Opening the Jar must preserve both empty storage and real inventory");
         press(h,p,menu,SignalPanels.JAR_ADD);
         h.assertTrue(ItemStack.matches(jar.sample(),original) && !owns(p,original) && jar.fixedSignal()==15,"Preserve-next pays the actual named sample once");
-        CohesionGameTest.preview("Preserved sample",menu.view()); saved=jar.saveWithFullMetadata(level.registryAccess());
+        CohesionGameTest.preview("Preserved sample",menu); saved=jar.saveWithFullMetadata(level.registryAccess());
         p.gameMode.changeGameModeForPlayer(GameType.ADVENTURE); menu=CareMenuGameTest.open(h,p,pos);
-        h.assertTrue(!menu.clickMenuButton(p,menu.buttonId(SignalPanels.JAR_TAKE)),"Adventure cannot retrieve a preserved sample");
+        menu.clicked(0,0,net.minecraft.world.inventory.ContainerInput.QUICK_MOVE,p);
+        h.assertTrue(menu.getCarried().isEmpty() && ItemStack.matches(jar.sample(),original),"Adventure cannot retrieve a preserved sample");
         press(h,p,menu,SignalPanels.JAR_READ);
         h.assertTrue(p.containerMenu!=menu && saved.equals(jar.saveWithFullMetadata(level.registryAccess())),"A read-only native sample reader leaves storage intact");
         p.gameMode.changeGameModeForPlayer(GameType.SURVIVAL); menu=CareMenuGameTest.open(h,p,pos); press(h,p,menu,SignalPanels.JAR_TAKE);
@@ -60,7 +62,7 @@ public final class SignalControlsGameTest {
         press(h,p,menu,SignalPanels.COPY); press(h,p,menu,SignalPanels.ANALOG);
         h.assertTrue(owns(p,expected) && detector.reference().orElseThrow().genome().equals(wanted)
                 && detector.getBlockState().getValue(PedigreeComparatorBlock.POWER)==13,"Explicit free copying and named analog mode use the real hidden-copy signal");
-        CohesionGameTest.preview("Live gene signal",menu.view());
+        CohesionGameTest.preview("Live gene signal",menu);
         int exact=menu.buttonId(SignalPanels.EXACT); animal.snapTo(animal.position().add(3,0,0)); detector.refresh();
         h.assertTrue(menu.clickMenuButton(p,exact),"An ordinary signal poll cannot invalidate an unrelated mode choice");
         int oldClear=menu.buttonId(SignalPanels.CLEAR); detector.setReference(new Tissue(Genome.DEFAULT,Stats.ZERO));
@@ -79,7 +81,7 @@ public final class SignalControlsGameTest {
         p.gameMode.useItemOn(p,level,trophy,InteractionHand.OFF_HAND,new BlockHitResult(Vec3.atCenterOf(display),Direction.UP,display,false));
         h.assertTrue(trophy.isEmpty() && ItemStack.matches(pedestal.item(),original),"Actual off-hand display placement pays only that item and preserves its complete record");
         menu=CareMenuGameTest.open(h,p,display); h.assertTrue(ItemStack.matches(pedestal.item(),original),"Opening a display cannot take its trophy");
-        CohesionGameTest.preview("Trophy display",menu.view()); press(h,p,menu,SignalPanels.TROPHY_READ);
+        CohesionGameTest.preview("Trophy display",menu); press(h,p,menu,SignalPanels.TROPHY_READ);
         h.assertTrue(p.containerMenu!=menu && ItemStack.matches(pedestal.item(),original),"The existing native record reader is inspection only");
         menu=CareMenuGameTest.open(h,p,display); press(h,p,menu,SignalPanels.TROPHY_TAKE);
         h.assertTrue(pedestal.isEmpty() && owns(p,original),"Named trophy retrieval retains the full original sample"); p.closeContainer();

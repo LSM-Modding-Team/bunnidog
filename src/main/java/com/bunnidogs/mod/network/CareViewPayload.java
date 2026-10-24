@@ -1,6 +1,7 @@
 package com.bunnidogs.mod.network;
 
 import com.bunnidogs.mod.menu.CareView;
+import com.bunnidogs.mod.menu.StationInventory;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -21,9 +22,15 @@ public record CareViewPayload(int containerId,CareView view) implements CustomPa
             ComponentSerialization.STREAM_CODEC,CareView::title,ComponentSerialization.STREAM_CODEC,CareView::next,
             ComponentSerialization.STREAM_CODEC.apply(ByteBufCodecs.list(12)),CareView::rows,
             CONTROL.apply(ByteBufCodecs.list(12)),CareView::controls,ByteBufCodecs.VAR_INT,CareView::subjectId,CareView::new);
-    public static final StreamCodec<RegistryFriendlyByteBuf,CareView> VIEW=StreamCodec.composite(
+    private static final StreamCodec<RegistryFriendlyByteBuf,CareView> DETAILS=StreamCodec.composite(
             BASE,view->view,ByteBufCodecs.VAR_INT,CareView::page,STOCK.apply(ByteBufCodecs.list(6)),CareView::stock,
             (base,page,stock)->new CareView(base.title(),base.next(),base.rows(),base.controls(),base.subjectId(),page,stock));
+    private static final StreamCodec<RegistryFriendlyByteBuf,StationInventory.State> STATION=StreamCodec.composite(
+            ByteBufCodecs.VAR_INT,state->state.kind().ordinal(),ByteBufCodecs.VAR_INT,StationInventory.State::progress,
+            (kind,progress)->new StationInventory.State(StationInventory.Kind.values()[kind],progress));
+    public static final StreamCodec<RegistryFriendlyByteBuf,CareView> VIEW=StreamCodec.composite(
+            DETAILS,view->view,STATION,CareView::station,
+            (base,station)->new CareView(base.title(),base.next(),base.rows(),base.controls(),base.subjectId(),base.page(),base.stock(),station));
     public static final StreamCodec<RegistryFriendlyByteBuf,CareViewPayload> STREAM_CODEC=StreamCodec.composite(
             ByteBufCodecs.VAR_INT,CareViewPayload::containerId,VIEW,CareViewPayload::view,CareViewPayload::new);
     @Override public Type<CareViewPayload> type() { return TYPE; }

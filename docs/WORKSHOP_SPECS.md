@@ -1,7 +1,8 @@
 # Breeder workshop — J1/J2/G5/D12/T5
 
-**Current (C3–C5):** shared live controls cover the Juicer, Table, Jar,
-Pedestal, Pedigree Comparator and Apex preparation. Protocol **17**; optional
+**Current (2026-10-24):** native inventory slots cover Juicer, Table, Jar and
+populated Pedestal stock. Compact live controls handle analysis, signals and Apex
+preparation. Protocol **23**; optional
 Field Guide **141 pages**. Table goals connect samples to real commission targets;
 requested pad/ring markers expose the working spaces. Historical J1/G5 counts
 below describe older checkpoints, not current compatibility.
@@ -33,7 +34,8 @@ needs no fuel. There are two recipes:
   Invalid pairings also wait. There is no rerolling a completed bottle.
 - Right-click inserts as much of the actual used hand as fits. Survival pays
   before commit notifications; creative keeps the actual stack. Empty-hand use
-  opens live counts/progress and explicit inventory-input/Collect juice controls.
+  opens its actual input/output slots and player inventory, with a visual
+  processing bar. Choose exact items or shift-click; output rejects insertion.
   Opening never withdraws or spends ingredients. Sneak with **both hands empty**
   recovers both input stacks. Adventure use cannot move stock.
 - Hoppers above insert fruit/seeds; horizontal hoppers insert bottles/carriers;
@@ -125,10 +127,11 @@ emission from a hide. The rug is decorative and consumes real matching materials
 
 ## C3 — Current preserved-sample and display controls
 
-Empty hands inspect Jars and Pedestals without withdrawing anything. Jar controls
-preserve the shown inventory sample, open the existing reader and retrieve the
-complete original; direct actual-hand insertion remains. Displays accept one
-held item when empty and expose read/retrieve controls. Crouched-empty retrieval
+Empty hands inspect Jars and populated Pedestals without withdrawing anything.
+Native slots preserve the chosen sample/display item and retrieve the complete
+original; a concise Read action opens its existing reader. Direct actual-hand
+insertion remains. Displays accept one held item when empty; an empty display
+has no menu. Crouched-empty retrieval
 remains for both. Permission, reach and exact live-target checks apply to direct
 and menu transfers. Complete components, legacy counts and saved samples stay.
 

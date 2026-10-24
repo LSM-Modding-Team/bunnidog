@@ -41,6 +41,8 @@ public final class BreedingPenBlockEntity extends BlockEntity {
     public BreedingPenBlockEntity(BlockPos pos, BlockState state) { super(ModBlocks.BREEDING_PEN_BE.get(),pos,state); }
     public ItemStack food(int slot) { return this.food[slot].copy(); }
     public ResourceHandler<ItemResource> automation(Direction side) { return side == null ? this.unsided : side == Direction.DOWN ? this.closed : side == Direction.UP ? this.top : this.side; }
+    /** Full native menu access; hopper direction rules remain separate. */
+    public ResourceHandler<ItemResource> menuInventory() { return inventory; }
     private boolean live() { return this.level != null && !this.isRemoved() && this.level.getBlockEntity(this.worldPosition) == this; }
     private static boolean accepts(ItemStack stack) { return stack.getItem() instanceof GuavaItem && Bunnidog.isBunnidogFood(stack); }
     private ItemStackResourceHandler slot(int slot) {
@@ -133,6 +135,7 @@ public final class BreedingPenBlockEntity extends BlockEntity {
         return 1+14*Math.min(this.food[0].getCount(),this.food[1].getCount())/16;
     }
     private void changed() {
+        if (StationInventoryUpdates.defer(this,this::changed)) return;
         this.setChanged();
         if (live() && !this.level.isClientSide()) {
             int fill = (this.food[0].isEmpty() ? 0 : 1)+(this.food[1].isEmpty() ? 0 : 2);

@@ -32,10 +32,11 @@ loaded; inspection makes no chunk requests or path requests and changes no
 navigation or home tickets. Calipers, including sneak-use, report status and the
 two parent identifiers with their corresponding guava names/counts.
 
-Empty-hand ordinary use opens stock, parent status and named controls. Choose
-**Feed both parents** to deliberately feed a ready pair. Inventory buttons add
-one real plain guava to each manger; richer tiers still use their chosen hand
-stack. Manual menu pairing records the actual keeper as the love cause, so the
+Empty-hand ordinary use opens two actual manger slots, the player's inventory
+and concise parent status. Choose **Feed pair** to deliberately feed a ready
+pair; its hover states the one-guava cost for each parent. Place the exact stack
+or shift-click, preserving plain or upgraded tiers, names and components. Native
+pickup/shift-click retrieves either manger; automatic hopper ports remain input-only. Manual menu pairing records the actual keeper as the love cause, so the
 real mating joins the first-family milestones. Sneak with **both
 hands empty** withdraws both mangers instead. Adventure may inspect but cannot
 insert, feed or withdraw. A real rising redstone edge schedules one automatic

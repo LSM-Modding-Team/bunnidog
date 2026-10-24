@@ -77,6 +77,7 @@ public class TrophyPedestalBlockEntity extends BlockEntity {
 
     /** Saves the chunk and tells the clients near it to fetch the new update tag (they redraw the item). */
     private void changed() {
+        if (StationInventoryUpdates.defer(this,this::changed)) return;
         this.setChanged();
         if (this.getLevel() != null && !this.getLevel().isClientSide()) {
             this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);

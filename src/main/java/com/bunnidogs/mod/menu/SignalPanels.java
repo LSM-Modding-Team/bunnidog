@@ -24,14 +24,11 @@ public final class SignalPanels {
     private static CareView.Control button(int id,String key,boolean enabled) { return new CareView.Control(id,t("button."+key),enabled); }
     public static CareView jar(Player player,BlockPos pos,SpecimenJarBlockEntity jar) {
         var rows=new ArrayList<Component>(); var sample=jar.sample(); var tissue=TissueSampleItem.read(sample);
-        var next=WorkshopPanels.nextSample(player); boolean edit=StationUse.editable(player,jar);
         tissue.ifPresent(value->rows.add(TextComponents.look(value.genome())));
         if (!sample.isEmpty()) rows.add(t("jar.signal",jar.fixedSignal()));
         var view=new CareView(ModBlocks.SPECIMEN_JAR.get().getName(),!sample.isEmpty() && tissue.isEmpty() ? t("jar.next.unreadable") : Component.empty(),rows,List.of(
-                button(JAR_ADD,"jar_add",edit && sample.isEmpty() && !next.isEmpty()),
-                button(JAR_READ,"jar_read",tissue.isPresent()),button(JAR_TAKE,"jar_take",edit && !sample.isEmpty())));
-        return sample.isEmpty() && !next.isEmpty() ? view.withStock(new CareView.Stock(t("display.sample"),sample),new CareView.Stock(t("display.next_sample"),next))
-                : view.withStock(new CareView.Stock(t("display.sample"),sample));
+                button(JAR_READ,"jar_read",tissue.isPresent())));
+        return view.withStock(new CareView.Stock(t("display.sample"),sample));
     }
     public static CareView detector(Player player,BlockPos pos,PedigreeComparatorBlockEntity detector) {
         var rows=new ArrayList<Component>(); var next=WorkshopPanels.nextSample(player); var reference=detector.reference();
@@ -53,24 +50,20 @@ public final class SignalPanels {
         ribbon.ifPresent(value->rows.add(t("trophy.winner",value.tag().orElse(""),TextComponents.look(value.genome()))));
         sample.ifPresent(value->rows.add(TextComponents.look(value.genome())));
         return new CareView(ModBlocks.TROPHY_PEDESTAL.get().getName(),Component.empty(),rows,List.of(
-                button(TROPHY_TAKE,"take_trophy",StationUse.editable(player,pedestal) && !item.isEmpty()),
                 button(TROPHY_READ,"read_trophy",ribbon.isPresent() || sample.isPresent())))
                 .withStock(new CareView.Stock(t("display.trophy"),item));
     }
     public static boolean readOnly(int action) { return action==READ_REFERENCE || action==JAR_READ || action==TROPHY_READ; }
     public static void act(Player player,BlockEntity target,int action) {
         if (target instanceof SpecimenJarBlockEntity jar) {
-            if (action==JAR_ADD) jar.insertFromHand(player,WorkshopPanels.nextSample(player));
-            else if (action==JAR_TAKE) jar.returnToPlayer(player);
-            else if (action==JAR_READ && player instanceof ServerPlayer server) TissueSampleItem.read(jar.sample()).ifPresent(sample->{player.closeContainer(); ModNetwork.sendSample(server,sample);});
+            if (action==JAR_READ && player instanceof ServerPlayer server) TissueSampleItem.read(jar.sample()).ifPresent(sample->{player.closeContainer(); ModNetwork.sendSample(server,sample);});
         } else if (target instanceof PedigreeComparatorBlockEntity detector) {
             if (action==COPY) detector.copyFromPlayer(player,WorkshopPanels.nextSample(player));
             else if (action==CLEAR) detector.clearFromPlayer(player);
             else if (action==EXACT || action==ANALOG) detector.modeFromPlayer(player,action==ANALOG);
             else if (action==READ_REFERENCE && player instanceof ServerPlayer server) detector.reference().ifPresent(sample->{player.closeContainer(); ModNetwork.sendSample(server,sample);});
         } else if (target instanceof TrophyPedestalBlockEntity pedestal) {
-            if (action==TROPHY_TAKE) pedestal.returnToPlayer(player);
-            else if (action==TROPHY_READ && player instanceof ServerPlayer server) {
+            if (action==TROPHY_READ && player instanceof ServerPlayer server) {
                 var ribbon=ShowRibbonItem.read(pedestal.item()); var sample=TissueSampleItem.read(pedestal.item());
                 if (ribbon.isPresent()) { player.closeContainer(); ModNetwork.sendSheet(server,ribbon.orElseThrow()); }
                 else if (sample.isPresent()) { player.closeContainer(); ModNetwork.sendSample(server,sample.orElseThrow()); }

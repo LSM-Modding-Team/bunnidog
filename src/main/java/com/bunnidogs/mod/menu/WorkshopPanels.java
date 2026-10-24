@@ -9,7 +9,6 @@ import com.bunnidogs.mod.block.StationUse;
 import com.bunnidogs.mod.genetics.Commissions;
 import com.bunnidogs.mod.entity.ShowJudging;
 import com.bunnidogs.mod.genetics.Gene;
-import com.bunnidogs.mod.genetics.Plain;
 import com.bunnidogs.mod.genetics.Purebreds;
 import com.bunnidogs.mod.genetics.Show;
 import com.bunnidogs.mod.genetics.Stat;
@@ -40,29 +39,19 @@ public final class WorkshopPanels {
         return ItemStack.EMPTY;
     }
     public static CareView table(Player player,BlockPos pos,GeneticsTableBlockEntity table) {
-        boolean edit=player.mayBuild() && player.level().mayInteract(player,pos);
-        var rows=new ArrayList<Component>(); var next=nextSample(player);
+        var rows=new ArrayList<Component>();
         var litter=LitterPanel.nextSeed(player);
         boolean a=TissueSampleItem.read(table.item(0)).isPresent(), b=TissueSampleItem.read(table.item(1)).isPresent();
-        boolean room=table.isEmpty(0) || table.isEmpty(1);
         var stock=new ArrayList<CareView.Stock>();
         stock.add(new CareView.Stock(t("display.sample_a"),table.item(0)));
         stock.add(new CareView.Stock(t("display.sample_b"),table.item(1)));
-        if (room && !next.isEmpty()) stock.add(new CareView.Stock(t("display.next_sample"),next));
-        if (!litter.isEmpty()) stock.add(new CareView.Stock(t("display.seed"),litter));
-        for (int i=0;i<2;i++) if (!table.item(i).isEmpty()) rows.add(t("table.look",i==0 ? "A" : "B",
-                TissueSampleItem.read(table.item(i)).<Component>map(sample->TextComponents.look(sample.genome())).orElse(t("table.unreadable"))));
         if (!table.goalKey().isEmpty()) rows.add(table.goal().map(goal->t("table.goal",Component.translatable("commission.bunnidogs."+goal.key()+".title")))
                 .orElseGet(()->t("table.goal_unknown")));
         var controls=new ArrayList<CareView.Control>();
         if (a || b) controls.add(button(READ_TABLE,"read_table",true,false));
-        var add=button(ADD_SAMPLE,"add_sample",edit && room && !next.isEmpty(),false);
-        if (room) controls.add(new CareView.Control(add.id(),add.label(),add.enabled(),add.section(),add.enabled() ? Component.empty() : t("station.need_sample")));
         controls.add(button(GOALS,"goals",true,false));
         if (FamilyPanels.hasCalipers(player)) controls.add(button(FamilyPanels.FAMILY,"family",a && b && table.goal().isPresent(),false));
         if (!litter.isEmpty()) controls.add(button(LitterPanel.LITTER,"litter",true,false));
-        if (!table.isEmpty(0)) controls.add(button(TAKE_A,"take_a",edit,true));
-        if (!table.isEmpty(1)) controls.add(button(TAKE_B,"take_b",edit,true));
         return new CareView(ModBlocks.GENETICS_TABLE.get().getName(),Component.empty(),rows,controls).withStock(stock.toArray(CareView.Stock[]::new));
     }
     public static CareView goals(Player player,BlockPos pos,GeneticsTableBlockEntity table) {
@@ -98,9 +87,7 @@ public final class WorkshopPanels {
         if (id==READ_TABLE && player instanceof ServerPlayer server) {
             var sheet=TablePlanning.snapshot(table,player);
             if (sheet.spreadCount()>0) { player.closeContainer(); ModNetwork.sendTable(server,sheet); }
-        } else if (id==ADD_SAMPLE) table.placeFromPlayer(player,nextSample(player),false);
-        else if (id==TAKE_A || id==TAKE_B) table.returnToPlayer(player,id==TAKE_A ? 0 : 1);
-        else if (id==CLEAR_GOAL) table.setGoalFromPlayer(player,null);
+        } else if (id==CLEAR_GOAL) table.setGoalFromPlayer(player,null);
         else if (id>=GOAL && id<GOAL+Commissions.Request.values().length) table.setGoalFromPlayer(player,Commissions.Request.values()[id-GOAL]);
     }
 }
