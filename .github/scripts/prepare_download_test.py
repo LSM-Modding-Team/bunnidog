@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Copy an identified successful CI JAR into an unpublished diagnostic release."""
+from io import BytesIO
 import hashlib
 import json
 import os
@@ -7,6 +8,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+from zipfile import ZipFile
 
 
 def gh(*args):
@@ -64,16 +66,39 @@ def main():
     jar = output / f'{source.stem}-mc26.2-neoforge-{sha[:7]}.jar'
     jar.write_bytes(content)
     checksums = output / 'SHA256SUMS.txt'
-    checksums.write_text(f'{expected}  {jar.name}\n')
+    artifacts = api(f'repos/{repo}/actions/runs/{run_id}/artifacts?per_page=100')['artifacts']
+    original = [a for a in artifacts if a['name'] == f'bunnidogs-{sha}' and not a['expired']]
+    require(len(original) == 1, 'Original artifact is missing or expired')
+    try:
+        archive = subprocess.check_output(['gh', 'api', f"repos/{repo}/actions/artifacts/{original[0]['id']}/zip"], stderr=subprocess.PIPE)
+    except subprocess.CalledProcessError:
+        raise SystemExit('Could not retrieve the original artifact ZIP')
+    archive_digest = hashlib.sha256(archive).hexdigest()
+    require(original[0].get('digest') == f'sha256:{archive_digest}', 'Original archive digest differs from GitHub metadata')
+    with ZipFile(BytesIO(archive)) as zipped:
+        require(len(zipped.infolist()) == 1 and zipped.namelist()[0] == source.name, 'Unexpected original ZIP contents')
+        require(zipped.read(source.name) == content, 'ZIP and extracted JAR differ')
+    control = output / f'bunnidogs-{sha}.zip'
+    control.write_bytes(archive)
+    checksums.write_text(f'{expected}  {jar.name}\n{archive_digest}  {control.name}\n')
     # Check again immediately before uploading; this workflow never publishes a release.
-    require(api(f'repos/{repo}/releases/{release_id}')['draft'] is True, 'Release was published during preparation')
-    subprocess.run(['gh', 'release', 'upload', release['tag_name'], str(jar), str(checksums), '--repo', repo], check=True)
+    fresh = api(f'repos/{repo}/releases/{release_id}')
+    require(fresh['draft'] is True, 'Release was published during preparation')
+    existing = {a['name']: a for a in fresh['assets']}
+    upload = [str(checksums)]
+    for path, digest in [(jar, expected), (control, archive_digest)]:
+        if path.name in existing:
+            require(existing[path.name].get('digest') == f'sha256:{digest}', 'Existing asset differs; refusing to replace it')
+        else:
+            upload.append(str(path))
+    # Keep existing binary asset IDs stable while a maintainer is testing their downloads.
+    subprocess.run(['gh', 'release', 'upload', release['tag_name'], *upload, '--clobber', '--repo', repo], check=True)
     current = api(f'repos/{repo}/releases/{release_id}')
     require(current['draft'] is True, 'Release is no longer a draft')
     assets = {a['name']: a for a in current['assets']}
     require(jar.name in assets and assets[jar.name]['size'] == len(content), 'Uploaded JAR is missing or has the wrong size')
-    if assets[jar.name].get('digest'):
-        require(assets[jar.name]['digest'] == f'sha256:{expected}', 'Uploaded JAR digest differs')
+    require(assets[jar.name].get('digest') == f'sha256:{expected}', 'Uploaded JAR digest differs')
+    require(assets.get(control.name, {}).get('digest') == f'sha256:{archive_digest}', 'Uploaded ZIP digest differs')
     with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
         out.write(f"Prepared [unpublished download test]({current['html_url']}) from `{sha}`.\n\nJAR SHA-256: `{expected}`\n")
     print('Draft assets uploaded; original JAR bytes preserved:', expected)

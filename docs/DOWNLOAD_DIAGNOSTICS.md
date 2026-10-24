@@ -30,7 +30,8 @@ No game code was changed to generate a new hash or try to evade the warning.
 Draft release `apex-preview-c39c82e` targets the exact original commit. The manual
 **Prepare download test** workflow copies the original JAR from successful Build
 run `40118608846`, checks its expected SHA-256, and attaches the identical bytes
-under a descriptive filename, plus `SHA256SUMS.txt`. It never publishes a release.
+under a descriptive filename, the unchanged original ZIP under its original
+filename, and `SHA256SUMS.txt`. Existing binary asset IDs are retained on reruns. It never publishes a release.
 This is a testable distribution route, not a confirmed fix for Chrome.
 
 Dispatch inputs for this incident:
@@ -45,8 +46,15 @@ GitHub's normal Actions token to upload; it does not change the current cloud
 session's credentials. Do not upload private binaries to public scanning services
 or publish this draft merely to investigate the warning.
 
-With Chrome's normal protection enabled, compare the original Actions ZIP and
-the draft's direct JAR. A successful direct download narrows the issue to the
+The original artifact API redirects also differed: the previous run used
+`productionresultssa2.blob.core.windows.net`, while the flagged run used
+`productionresultssa6.blob.core.windows.net`. This is an observed delivery
+variable, not evidence that either host is the cause.
+
+With Chrome's normal protection enabled, compare the Actions ZIP, the exact same
+ZIP from the draft, and the direct JAR from that draft. An unblocked identical
+ZIP on the release route isolates a download-URL/context difference without any
+change to the archive contents, filename or hash. A successful direct download narrows the issue to the
 container/download route or associated reputation; it does not identify Google's
 exact rule. If both are blocked, obtain Chrome's specific download-protection
 verdict before changing packaging or gameplay. Google's download warning cannot

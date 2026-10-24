@@ -44,5 +44,5 @@ jobs:
           run-id: ${{ inputs.build_run_id }}
           github-token: ${{ github.token }}
           path: download-test-input
-      - name: Attach identical JAR and checksum to draft
+      - name: Attach identical JAR, original ZIP and checksums to draft
         run: python3 .github/scripts/prepare_download_test.py upload
