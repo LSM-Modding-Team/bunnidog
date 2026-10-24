@@ -41,11 +41,13 @@ Latest review response (2026-10-24):
   requested Trough, its nested work choices and Apex preparation. This is layout
   evidence with substitute fonts, not a new client playtest.
 - `docs/APEX_EXPANSION_PLAN.md` is the new future-content direction. It plans
-  same-band Brute/beam/swarm/blast/support Apexes, all flying variants, the Great
+  Brute/beam/swarm/blast/support Apexes at the revised damage baseline, all flying variants, the Great
   Warren realm, lavish loot and the Crowned Apex dungeon finale. It covers native
   power-10 repeated blasts with family immunity, bounded hook/stun/true drain and
   healing, wild-vs-ritual persistence, source/save compatibility and phased AX1–AX7
   implementation. **No new Apex, item, dimension or combat behavior ships now.**
+  Further player testing updates the plan to +60% outgoing damage, with health
+  unchanged; the shipped combat code still uses its existing values.
   Later Apex implementation starts at AX1 when requested. Existing cognition
   plans remain valid but do not override this explicit steering.
 - Runtime changes are client presentation only. Protocol **23**, authored and

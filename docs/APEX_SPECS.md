@@ -1,7 +1,10 @@
 # Apex — the implemented lineage encounter
 
 The 2026-10-24 player direction treats this existing strength as a vanilla-midgame
-boss / vanilla-endgame ordinary enemy. Future same-band types, flight, the Great
+boss / vanilla-endgame ordinary enemy. Further testing requests a planned +60%
+outgoing damage increase with health unchanged; that buff is not implemented yet.
+The numerical encounter values below still describe shipped behavior. Future
+types, flight, the Great
 Warren dimension, lavish loot and the Apex-of-Apexes finale are planned in
 [APEX_EXPANSION_PLAN.md](APEX_EXPANSION_PLAN.md); none of them is implemented by
 the container-background batch. This document describes the current encounter.

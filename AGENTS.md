@@ -49,13 +49,16 @@ animal conversations. This supersedes the earlier backgroundless-station choice,
 without restoring tutorial panels. The book/reader keeps its deliberate pages.
 
 Apex expansion steering: `docs/APEX_EXPANSION_PLAN.md` records the requested
-current-strength Brute/beam/swarm/blast/support roles, flying versions, Apex-filled
+Brute/beam/swarm/blast/support roles at the revised damage baseline, flying versions, Apex-filled
 dimension, extravagant loot and a distinct Apex-of-Apexes dungeon boss. The
 2026-10-24 request authorizes UI implementation and this plan only; new Apex
 runtime behavior is deferred. When later asked to begin/continue Apex
 implementation, follow AX1 onward, starting with family preservation and the
 focused beam hunt, then the other roles before flight/dimension/dungeon. Preserve
-the current Apex as a vanilla-midgame boss / vanilla-endgame basic-enemy baseline.
+the Apex as a vanilla-midgame boss / vanilla-endgame basic enemy. Further player
+testing revises the planned baseline to +60% outgoing damage (×1.6 after existing
+damage bounds), with health unchanged. This is planning only until implementation
+is requested; do not silently buff health or explosion radius.
 This explicit user direction takes priority over resuming unrelated cognition
 work while the Apex expansion is the active task.
 

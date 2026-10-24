@@ -81,8 +81,9 @@ Lineage encounter: **The Apex**, a boss version of the player's own line. G4 imp
 its source-sample ritual, amplified bounded combat stats, inherited look and
 adaptations, five legendary offerings and readable lineage crest. The original
 bred points remain intact in the source/crest. See `APEX_SPECS.md`. The user's
-2026-10-24 direction keeps its present strength as a vanilla-midgame boss and
-vanilla-endgame ordinary enemy. `APEX_EXPANSION_PLAN.md` plans same-band role and
+2026-10-24 direction targets a vanilla-midgame boss and vanilla-endgame ordinary
+enemy. Further testing revises the planned baseline to +60% outgoing damage,
+with health unchanged; current runtime values have not yet changed. `APEX_EXPANSION_PLAN.md` plans same-band role and
 flight variants, a rich Apex dimension and the distinct Apex-of-Apexes final boss.
 That expansion is planned, not currently implemented.
 

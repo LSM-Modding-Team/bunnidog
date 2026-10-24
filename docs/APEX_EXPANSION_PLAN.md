@@ -9,8 +9,11 @@ it does not claim the future content is available in a world.
 
 ## The intended power curve
 
-The current Apex is a boss relative to vanilla midgame equipment and a reasonable
-ordinary enemy relative to vanilla endgame equipment. Keep that relationship.
+The Apex is intended as a boss relative to vanilla midgame equipment and an
+ordinary enemy relative to vanilla endgame equipment. Further player testing
+sets the planned baseline to **1.6× current outgoing damage (+60%), with health
+unchanged**. This supersedes the initial current-damage target; it is not yet
+implemented. Keep that gear-relative relationship.
 The user has fought several current Apexes with endgame gear; that play evidence
 sets the direction. The expansion should not quietly turn every variant into a
 much stronger boss, or reduce the dimension to avoiding one enemy at a time.
@@ -19,7 +22,7 @@ larger mixed packs an attractive challenge. The true mod endgame is beyond them.
 
 | Stage | What the player wants | Intended encounter |
 |---|---|---|
-| First ritual | Test a bred line and win its trophy | One current-strength Apex; a meaningful vanilla-midgame boss |
+| First ritual | Test a bred line and win its trophy | One Apex at the revised damage baseline; a meaningful vanilla-midgame boss |
 | Variant hunts | Learn a different fight, obtain its material | The same strength band, with a different combat role |
 | First dimensional expedition | Fight several Apexes, bring home conspicuous treasure | Vanilla-endgame gear is viable; mod preparation gives an advantage |
 | Established expeditions | Choose routes, fight mixed packs, collect specialist rewards | Apexes are the dimension's normal hostile population |
@@ -30,9 +33,18 @@ These are encounter targets, not equipment checks at a portal. A skilled player
 can go early. Ordinary care, breeding and useful limited companions keep their
 place; no dimension visit is required to maintain a home or learn a basic job.
 
-The current `ApexRules` bounds remain the reference: health 180–720, movement
-.25–.42, jump .4–.8, melee 8–15, awareness 24–64, scale 1.8, and inherited
-armor/resistance additions. Compare variants using the **same source specimen**,
+The current `ApexRules` bounds document the shipped reference: health 180–720,
+movement .25–.42, jump .4–.8, melee 8–15, awareness 24–64, scale 1.8, and inherited
+armor/resistance additions. The revised plan multiplies outgoing attack damage
+by 1.6 **after** the existing bounded damage calculation: melee becomes 12.8–24,
+and stomp damage scales by the same factor. Do not clamp the increased result
+back to the old 15-damage ceiling. Health remains 180–720; movement, armor,
+resistance, attack timings and enrage multipliers are not increased by this edit.
+Apply the same damage target to the variant prototypes, without automatically
+increasing healing, minion health, summon counts or the final boss's proposed HP.
+Power-10 blasts retain power/radius 10: scale victim damage separately rather than
+raising explosion power. The caster's explicit backlash remains its stated health
+cost, not an outgoing attack to amplify. Compare variants using the **same source specimen**,
 including weak, typical, specialized and capped examples. Range, crowd control,
 healing, minions and flight spend encounter power too; do not give each new role
 all the Brute's offense plus free specialties and extra health. Prototype values
@@ -102,6 +114,7 @@ not only through coat color or a nameplate.
 ### Brute: preserve the baseline
 
 Keep `bunnidogs:apex`, the existing ritual and its source-bearing Crest working.
+Implement the planned +60% outgoing damage without adding health.
 Its pounce/stomp warning, half-health enrage and bounded genetics are the comparison
 point. Do not retroactively upgrade old saved bosses into one of the new roles.
 The flying Brute later exchanges continuous ground pursuit for dives and recovery
@@ -116,7 +129,7 @@ cover blocks it. Afterward the mouth dims and the creature has a punishable paus
 
 Initial prototype: 1.25–1.75 seconds of warning, about 1–1.5 seconds of channel,
 range around 32 blocks, and two or three scheduled damage pulses. Start around
-6–8 raw damage per pulse and a cast-wide damage ceiling, then compare actual
+9.6–12.8 raw damage per pulse (the original 6–8 prototype ×1.6) and a cast-wide damage ceiling, then compare actual
 survivability with the current Apex. This beam uses ordinary armor/shield damage
 rules; the Lifebinder owns the special armor-bypassing role. Large visuals need
 not mean a screen-wide invisible collision cylinder.
@@ -135,8 +148,8 @@ targets. They visually belong to its source line. They are dangerous helpers,
 not additional full-health Apexes.
 
 Start with four minions per call, a maximum of six alive per caller and a shared
-local encounter cap of twelve. Initial minion candidates: 6–10 health, 2–3 melee
-damage, 30–45 seconds of life, and at least twelve seconds between calls. These
+local encounter cap of twelve. Initial minion candidates: 6–10 health, 3.2–4.8 melee
+damage (the original 2–3 prototype ×1.6), 30–45 seconds of life, and at least twelve seconds between calls. These
 numbers are a playtest starting point. A caller cannot accumulate an army while
 its target is behind an unloaded wall or keep summoning off-screen forever.
 
@@ -204,7 +217,7 @@ The draining mouth ray **bypasses armor and toughness**. It does not automatical
 bypass Resistance, absorption, protection enchantments, shields, Totems, damage
 cancellation or death rules. Break line of sight, leave the tether's reach or
 interrupt its channel to end it. Prototype: a two-second channel with four pulses
-of 1–2 raw damage; tune against actual vanilla-endgame protection, not the size
+of 1.6–3.2 raw damage (the original 1–2 prototype ×1.6); tune against actual vanilla-endgame protection, not the size
 of the visual ray. Only this role has the armor-bypassing ray by default.
 
 Actual accepted health/absorption loss supplies a single healing budget. A
@@ -646,5 +659,5 @@ juices/companions, and mixed packs of two/four/six. Test airborne and grounded
 versions, multiplayer support chains, retreat and visibility at ordinary settings.
 Headless native tests establish mechanics and conservation, **not** encounter
 feel. Keep numerical knobs configurable/data-driven where useful, and tune from
-those observations without abandoning the requested common-Apex power band or
+those observations without abandoning the revised +60%-damage, unchanged-health common-Apex target or
 the realm's deliberately generous loot.
