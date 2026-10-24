@@ -24,6 +24,9 @@ import net.neoforged.neoforge.client.event.RegisterRangeSelectItemModelPropertyE
 @EventBusSubscriber(modid = BunnidogsMod.MODID, value = Dist.CLIENT)
 public final class BunnidogsClient {
     private BunnidogsClient() {}
+    @SubscribeEvent public static void hud(net.neoforged.neoforge.client.event.RegisterGuiLayersEvent event) {
+        event.registerAboveAll(Identifier.fromNamespaceAndPath("bunnidogs","anvil_escape"),ApexDazeOverlay::render);
+    }
     @SubscribeEvent public static void menus(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) {
         event.register(com.bunnidogs.mod.registry.ModMenus.CARE.get(),com.bunnidogs.mod.client.screen.CareScreen::new);
     }
@@ -49,7 +52,9 @@ public final class BunnidogsClient {
         ModEntities.GROUND_APEX.forEach(type->event.registerEntityRenderer(type.get(),BunnidogRenderer::new));
         ModEntities.FLYING_APEX.forEach(type->event.registerEntityRenderer(type.get(),BunnidogRenderer::new));
         event.registerEntityRenderer(ModEntities.APEX_MINION.get(),BunnidogRenderer::new);
-        event.registerEntityRenderer(ModEntities.APEX_HOOK.get(),context -> new net.minecraft.client.renderer.entity.ThrownItemRenderer<>(context,3F,true));
+        event.registerEntityRenderer(ModEntities.APEX_FIREBALL.get(),context -> new net.minecraft.client.renderer.entity.ThrownItemRenderer<>(context,2F,true));
+        event.registerEntityRenderer(ModEntities.APEX_ANVIL.get(),context -> new net.minecraft.client.renderer.entity.ThrownItemRenderer<>(context,3F,false));
+        event.registerEntityRenderer(ModEntities.APEX_HOOK.get(),context -> new net.minecraft.client.renderer.entity.ThrownItemRenderer<>(context,4F,true));
         event.registerEntityRenderer(ModEntities.GUAVA_BOAT.get(), context -> new BoatRenderer(context, GUAVA_BOAT_LAYER));
         event.registerEntityRenderer(ModEntities.GUAVA_CHEST_BOAT.get(), context -> new BoatRenderer(context, GUAVA_CHEST_BOAT_LAYER));
         event.registerBlockEntityRenderer(ModBlocks.TROPHY_PEDESTAL_BE.get(), TrophyPedestalRenderer::new);

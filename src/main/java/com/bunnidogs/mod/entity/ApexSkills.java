@@ -33,6 +33,11 @@ public final class ApexSkills {
     private LivingEntity tether;
     private int tetherTicks;
     private float vitality=8;
+    private int fireWait=30,anvilWait=35,broodWait=40,grabTicks;
+    private ApexMinion grabbed;
+    private LivingEntity queuedHook;
+    private int hookDelay;
+    private boolean lastMeal;
     ApexSkills(Apex apex) { this.apex=apex; }
     public float vitality() { return vitality; }
     void restore(float value) { vitality=Float.isFinite(value) ? Math.clamp(value,0,12) : 0; tether=null; }
@@ -47,20 +52,23 @@ public final class ApexSkills {
                 Identifier.fromNamespaceAndPath("bunnidogs",id))),apex);
     }
     public void trace(ServerLevel level,Vec3 direction,boolean damage) {
-        Vec3 start=mouth(), end=start.add(direction.normalize().scale(32));
+        trace(level,mouth(),direction,damage);
+    }
+    public void trace(ServerLevel level,Vec3 start,Vec3 direction,boolean damage) {
+        Vec3 end=start.add(direction.normalize().scale(32));
         if (!level.hasChunksAt(BlockPos.containing(new Vec3(Math.min(start.x,end.x),Math.min(start.y,end.y),Math.min(start.z,end.z))),
                 BlockPos.containing(new Vec3(Math.max(start.x,end.x),Math.max(start.y,end.y),Math.max(start.z,end.z))))) return;
         PacketDistributor.sendToPlayersTrackingEntity(apex,new ApexBeamPayload(start,end,damage ? 0 : 1));
         if (!damage) return;
-        float amount=(float)(15*apex.getAttributeValue(Attributes.ATTACK_DAMAGE)/12.8);
+        float amount=(float)(12.75*apex.getAttributeValue(Attributes.ATTACK_DAMAGE)/12.8);
         for (var entity:level.getEntitiesOfClass(LivingEntity.class,new AABB(start,end).inflate(1.25),this::victim))
             if (entity.getBoundingBox().inflate(1.25).clip(start,end).isPresent()) entity.hurtServer(level,source("apex_beam"),amount);
     }
     public int summon(ServerLevel level) {
         if (!apex.isAlive() || apex.kind()!=ApexKind.BROOD) return 0;
         var alive=level.getEntitiesOfClass(ApexMinion.class,apex.getBoundingBox().inflate(40),Entity::isAlive);
-        int room=Math.min(24-alive.size(),12-(int)alive.stream().filter(m->m.belongsTo(apex)).count()), spawned=0;
-        for (int attempt=0;attempt<40 && spawned<Math.min(8,room);attempt++) {
+        int room=Math.min(20-alive.size(),10-(int)alive.stream().filter(m->m.belongsTo(apex)).count()), spawned=0;
+        for (int attempt=0;attempt<40 && spawned<Math.min(6,room);attempt++) {
             var at=apex.blockPosition().offset(apex.getRandom().nextInt(13)-6,0,apex.getRandom().nextInt(13)-6);
             if (!level.hasChunkAt(at)) continue;
             for (int y=apex.flying() ? 1 : 3;y>= (apex.flying() ? -1 : -5);y--) {
@@ -77,29 +85,46 @@ public final class ApexSkills {
         }
         return spawned;
     }
-    public boolean blast(ServerLevel level) {
-        var pos=apex.blockPosition();
-        if (apex.kind()!=ApexKind.BLAST || !apex.isAlive() || apex.getHealth()<=apex.getMaxHealth()*.31F || !level.hasChunksAt(pos.offset(-22,-22,-22),pos.offset(22,22,22))) return false;
+    public boolean blast(ServerLevel level) { return blast(level,apex.getHealth()<=apex.blastCost()); }
+    boolean blast(ServerLevel level,boolean lastStand) {
+        if(apex.kind()!=ApexKind.BLAST || !apex.isAlive())return false;
+        if(!explosion(level,apex,apex.position(),lastStand ? 20 : 10,false))return false;
+        if(apex.isAlive())apex.hurtServer(level,source("apex_backlash"),lastStand ? apex.getHealth()+apex.getAbsorptionAmount() : apex.blastCost());
+        return true;
+    }
+    static boolean explosion(ServerLevel level,Apex caster,Vec3 center,int power,boolean allBunnidogs) {
+        var pos=BlockPos.containing(center);int bound=power*2+2;
+        if(!level.hasChunksAt(pos.offset(-bound,-bound,-bound),pos.offset(bound,bound,bound)))return false;
         var calculator=new ExplosionDamageCalculator() {
-            @Override public boolean shouldDamageEntity(Explosion explosion,Entity entity) { return !family(entity); }
-            @Override public float getKnockbackMultiplier(Entity entity) { return family(entity) ? 0 : 1; }
+            private boolean immune(Entity entity) { return allBunnidogs ? entity instanceof Bunnidog : family(entity); }
+            @Override public boolean shouldDamageEntity(Explosion explosion,Entity entity) { return !immune(entity); }
+            @Override public float getKnockbackMultiplier(Entity entity) { return immune(entity) ? 0 : 1; }
             @Override public float getEntityDamageAmount(Explosion explosion,Entity entity,float exposure) {
-                return 1.6F*super.getEntityDamageAmount(explosion,entity,exposure);
+                return (allBunnidogs ? 1 : 1.6F)*super.getEntityDamageAmount(explosion,entity,exposure);
             }
         };
-        // Match native MOB/fireball terrain policy, including mobGriefing and mod protection hooks.
-        boolean grief=net.neoforged.neoforge.event.EventHooks.canEntityGrief(level,apex);
+        boolean grief=net.neoforged.neoforge.event.EventHooks.canEntityGrief(level,caster);
         var interaction=!grief ? Explosion.BlockInteraction.KEEP : level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.MOB_EXPLOSION_DROP_DECAY)
                 ? Explosion.BlockInteraction.DESTROY_WITH_DECAY : Explosion.BlockInteraction.DESTROY;
-        var boom=new ServerExplosion(level,apex,null,calculator,apex.position(),10,grief,interaction);
-        if (net.neoforged.neoforge.event.EventHooks.onExplosionStart(level,boom)) return false;
+        var boom=new ServerExplosion(level,caster,null,calculator,center,power,grief,interaction);
+        if(net.neoforged.neoforge.event.EventHooks.onExplosionStart(level,boom))return false;
         int blocks=boom.explode();
-        for (var player:level.players()) if (player.distanceToSqr(apex)<4096)
-            player.connection.send(new net.minecraft.network.protocol.game.ClientboundExplodePacket(apex.position(),10,blocks,
-                    java.util.Optional.ofNullable(boom.getHitPlayers().get(player)),ParticleTypes.EXPLOSION_EMITTER,SoundEvents.GENERIC_EXPLODE,
-                    net.minecraft.util.random.WeightedList.of()));
-        if (apex.isAlive()) apex.hurtServer(level,source("apex_backlash"),Math.min(apex.getMaxHealth()*.30F,apex.getHealth()-1));
+        for(var player:level.players())if(player.position().distanceToSqr(center)<16384)
+            player.connection.send(new net.minecraft.network.protocol.game.ClientboundExplodePacket(center,power,blocks,
+                java.util.Optional.ofNullable(boom.getHitPlayers().get(player)),ParticleTypes.EXPLOSION_EMITTER,SoundEvents.GENERIC_EXPLODE,net.minecraft.util.random.WeightedList.of()));
         return true;
+    }
+    public void fireball(ServerLevel level,LivingEntity target) {
+        var fire=ModEntities.APEX_FIREBALL.get().create(level,EntitySpawnReason.TRIGGERED);if(fire==null)return;
+        fire.setOwner(apex);fire.setPos(mouth());fire.setDeltaMovement(target.getEyePosition().subtract(fire.position()).normalize().scale(1.1));
+        if(!level.addFreshEntity(fire))fire.discard();else apex.playSound(SoundEvents.GHAST_SHOOT,1,.8F);
+    }
+    void queueHook(LivingEntity target) {queuedHook=target;hookDelay=8;}
+    public void anvil(ServerLevel level,LivingEntity target) {
+        var anvil=ModEntities.APEX_ANVIL.get().create(level,EntitySpawnReason.TRIGGERED);if(anvil==null)return;
+        anvil.setOwner(apex);anvil.setPos(mouth());Vec3 aim=target.getEyePosition().add(0,.3,0).subtract(anvil.position());
+        anvil.shoot(aim.x,aim.y,aim.z,2.4F,0);
+        if(!level.addFreshEntity(anvil))anvil.discard();else apex.playSound(SoundEvents.ANVIL_PLACE,.8F,.7F);
     }
     public void hook(ServerLevel level,LivingEntity target) {
         var hook=ModEntities.APEX_HOOK.get().create(level,EntitySpawnReason.TRIGGERED);
@@ -115,10 +140,21 @@ public final class ApexSkills {
         if (target.isUsingItem() && target.getUseItem().is(Items.SHIELD) && target.getLookAngle().dot(apex.position().subtract(target.position()).normalize())>.1) return false;
         if (!target.addEffect(new MobEffectInstance(ModEffects.STAGGER,10,0,false,true,true))) return false;
         target.getPersistentData().putLong("BunnidogsHookUntil",now+160);
+        if(target instanceof net.minecraft.server.level.ServerPlayer p)LifebinderMarks.get(level).mark(apex,p);
         tether=target; tetherTicks=0; return true;
     }
     public void tick(ServerLevel level) {
-        if (apex.kind()!=ApexKind.SUPPORT || !apex.isAlive()) { tether=null; return; }
+        if(!apex.isAlive())return;
+        var target=apex.getTarget();
+        if(!apex.isNoAi() && apex.kind()==ApexKind.BLAST && --fireWait<=0 && apex.abilityWait()>0 && !apex.casting() && target!=null && target.isAlive() && apex.distanceToSqr(target)<=1024 && apex.hasLineOfSight(target)) {fireball(level,target);fireWait=55;}
+        if(!apex.isNoAi() && apex.kind()==ApexKind.BROOD)brood(level);
+        if(apex.kind()!=ApexKind.SUPPORT) {tether=null;return;}
+        if(queuedHook!=null && --hookDelay<=0) {
+            if(victim(queuedHook) && queuedHook.level()==level && apex.distanceToSqr(queuedHook)<=625)hook(level,queuedHook);
+            queuedHook=null;
+        }
+        if(!apex.isNoAi() && --anvilWait<=0 && target!=null && target.isAlive() && !apex.casting() && apex.distanceToSqr(target)<=625 && apex.hasLineOfSight(target)) {anvil(level,target);anvilWait=140;}
+
         if (tether!=null) {
             if (!victim(tether) || tether.level()!=level || apex.distanceToSqr(tether)>(tetherTicks<8 ? 400 : 324) || !clearHookPath(level,tether) || ++tetherTicks>40) tether=null;
             else {
@@ -142,17 +178,40 @@ public final class ApexSkills {
             }
         }
     }
+    private void brood(ServerLevel level) {
+        if(grabbed!=null) {
+            if(!grabbed.isAlive() || !grabbed.belongsTo(apex) || ++grabTicks>90) {if(grabbed.isAlive())grabbed.release();grabbed=null;broodWait=40;return;}
+            if(!grabbed.held()) {
+                if(apex.distanceToSqr(grabbed)<=12.25) {grabbed.hold(apex);grabTicks=0;}return;
+            }
+            if(grabTicks<15)return;
+            if(apex.getHealth()<apex.getMaxHealth()*.5F && !lastMeal)lastMeal=consume(level,grabbed);
+            else {if(apex.getTarget()!=null)grabbed.launchAt(apex.getTarget());else grabbed.release();lastMeal=false;}
+            grabbed=null;broodWait=80;return;
+        }
+        if(--broodWait>0 || apex.casting() || apex.getTarget()==null)return;
+        grabbed=level.getEntitiesOfClass(ApexMinion.class,apex.getBoundingBox().inflate(24),m->m.isAlive() && m.belongsTo(apex) && !m.controlled())
+                .stream().min(java.util.Comparator.comparingDouble(apex::distanceToSqr)).orElse(null);
+        if(grabbed!=null) {grabbed.returnTo(apex);grabTicks=0;}else broodWait=20;
+    }
+    public boolean consume(ServerLevel level,ApexMinion minion) {
+        if(!apex.isAlive() || !minion.isAlive() || !minion.belongsTo(apex) || apex.distanceToSqr(minion)>16 || apex.getHealth()>=apex.getMaxHealth()*.5F)return false;
+        float before=apex.getHealth();apex.heal(minion.getHealth());
+        if(apex.getHealth()<=before) {minion.release();return false;}
+        level.sendParticles(ParticleTypes.HEART,apex.getX(),apex.getEyeY(),apex.getZ(),8,.4,.4,.4,0);
+        apex.playSound(SoundEvents.GENERIC_EAT.value(),1,.7F);minion.discard();return true;
+    }
     private boolean clearHookPath(ServerLevel level,LivingEntity target) {
-        return ApexTerrain.clear(level,apex,mouth(),target.getEyePosition(),.7,.7);
+        return ApexTerrain.clear(level,apex,mouth(),target.getEyePosition(),1.2,1.2);
     }
     public float drain(ServerLevel level,LivingEntity target) {
         if (!apex.isAlive() || !victim(target) || target.level()!=level || !apex.hasLineOfSight(target) || apex.distanceToSqr(target)>324) return 0;
         float before=target.getHealth()+target.getAbsorptionAmount(), amount=3F;
         boolean hit=target.hurtServer(level,source("apex_drain"),amount);
         float paid=hit ? Math.clamp(before-target.getHealth()-target.getAbsorptionAmount(),0,amount) : 0;
-        // Spend the accepted victim loss once: direct self healing first, surplus funds allies.
-        float ownBefore=apex.getHealth();if(paid>0)apex.heal(paid);
-        float used=Math.clamp(apex.getHealth()-ownBefore,0,paid);
-        vitality=Math.min(12,vitality+paid-used);return paid;
+        // The explicit seven-times conversion applies once to actual accepted damage, then pays self/allies.
+        float income=paid*7,ownBefore=apex.getHealth();if(income>0)apex.heal(income);
+        float used=Math.clamp(apex.getHealth()-ownBefore,0,income);
+        vitality=Math.min(12,vitality+income-used);return paid;
     }
 }

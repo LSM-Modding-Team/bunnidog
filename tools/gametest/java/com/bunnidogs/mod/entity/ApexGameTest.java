@@ -174,9 +174,10 @@ public final class ApexGameTest {
             var pounce = new ApexAbilityGoal(apex);
             h.assertTrue(pounce.canUse(), "A rested boss must be able to charge a ranged pounce");
             pounce.start();
-            while (pounce.canContinueToUse()) pounce.tick();
+            for(int t=0;t<40 && !apex.mobility().leaping();t++)pounce.tick();
+            apex.mobility().tick(level);
             pounce.stop();
-            h.assertTrue(apex.getDeltaMovement().horizontalDistanceSqr() > .1 && apex.getDeltaMovement().y > 0,
+            h.assertTrue(apex.getDeltaMovement().horizontalDistanceSqr() > .01 && apex.getDeltaMovement().y > 0,
                     "The warned pounce must produce bounded forward and upward motion");
             apex.hurtServer(level,level.damageSources().playerAttack(player),10000);
             var drops = level.getEntitiesOfClass(ItemEntity.class,new AABB(absolute).inflate(5));

@@ -20,6 +20,11 @@ import net.minecraft.world.level.storage.ValueOutput;
 public final class ApexMinion extends Bunnidog implements Enemy {
     private UUID caller;
     private int life=600,biteWait;
+    private UUID handler;
+    private boolean held;
+    private int controlAge,flightAge,flightDuration;
+    private net.minecraft.world.phys.Vec3 flightFrom,flightTo;
+    private net.minecraft.world.entity.LivingEntity thrownAt;
     public ApexMinion(EntityType<? extends ApexMinion> type,Level level) {
         super(type,level); setGenome(genome()); setHealth(getMaxHealth()); refreshDimensions();
     }
@@ -27,7 +32,7 @@ public final class ApexMinion extends Bunnidog implements Enemy {
     @Override protected void applyGenetics() {
         float fraction=getMaxHealth()>0 ? getHealth()/getMaxHealth() : 1;
         var traits=genome().traits();var stats=stats();var combat=com.bunnidogs.mod.genetics.Combat.profile(genome(),stats);
-        getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.clamp(8*traits.healthMultiplier()*stats.multiplier(com.bunnidogs.mod.genetics.Stat.VITALITY),16,48));
+        getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.clamp(.85*8*traits.healthMultiplier()*stats.multiplier(com.bunnidogs.mod.genetics.Stat.VITALITY),16,40));
         getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.clamp(combat.bite()*1.6,5.5,12));
         getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(Math.clamp(.25*traits.speedMultiplier()*stats.multiplier(com.bunnidogs.mod.genetics.Stat.SWIFTNESS),.4,.65));
         getAttribute(Attributes.ATTACK_SPEED).setBaseValue(20.0/combat.interval());
@@ -51,8 +56,51 @@ public final class ApexMinion extends Bunnidog implements Enemy {
         biteWait=com.bunnidogs.mod.genetics.Combat.profile(genome(),stats()).interval();
         return super.doHurtTarget(level,enemy);
     }
+    public boolean controlled() { return handler!=null || flightDuration>0; }
+    public boolean held() { return held; }
+    void returnTo(Apex apex) { handler=apex.getUUID();held=false;controlAge=0; }
+    void hold(Apex apex) { handler=apex.getUUID();held=true;controlAge=0;setNoAi(false);setNoGravity(true); }
+    void release() { handler=null;held=false;flightDuration=0;controlAge=0;setNoAi(false);setNoGravity(false);biteWait=10; }
+    public void launchAt(net.minecraft.world.entity.LivingEntity target) {
+        held=false;handler=null;flightFrom=position();flightTo=target.position().add(0,.4,0);thrownAt=target;flightAge=0;
+        flightDuration=Math.clamp((int)Math.ceil(flightFrom.distanceTo(flightTo)/1.2),10,28);setNoAi(false);setNoGravity(true);
+    }
+    private void controlledTick(ServerLevel level) {
+        if(flightDuration>0) {
+            double t=Math.min(1,(double)++flightAge/flightDuration),height=Math.max(2,flightFrom.distanceTo(flightTo)*.12);
+            var point=flightFrom.lerp(flightTo,t).add(0,4*height*t*(1-t),0);var step=point.subtract(position());
+            if(step.lengthSqr()>16 || !level.hasChunksAt(blockPosition().offset(-3,-3,-3),net.minecraft.core.BlockPos.containing(point).offset(3,3,3))) {release();return;}
+            var blocked=level.clip(new net.minecraft.world.level.ClipContext(position().add(0,.4,0),point.add(0,.4,0),net.minecraft.world.level.ClipContext.Block.COLLIDER,net.minecraft.world.level.ClipContext.Fluid.NONE,this));
+            if(blocked.getType()!=net.minecraft.world.phys.HitResult.Type.MISS) {release();return;}
+            for(var enemy:level.getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class,getBoundingBox().expandTowards(step).inflate(.2),e->e.isAlive() && !(e instanceof Bunnidog)
+                    && !e.isSpectator() && !(e instanceof Player p && p.hasInfiniteMaterials()) && (e==thrownAt || e instanceof Player))) {
+                if(enemy.getBoundingBox().inflate(getBbWidth()/2,.5,getBbWidth()/2).clip(position().add(0,.4,0),point.add(0,.4,0)).isEmpty())continue;
+                Entity owner=caller==null ? this : level.getEntity(caller);var source=damageSources().mobAttack(owner instanceof net.minecraft.world.entity.LivingEntity living ? living : this);
+                float damage=getHealth()*.4F;
+                if(enemy.hurtServer(level,source,damage)) {
+                    var away=enemy.position().subtract(owner==null ? position() : owner.position());
+                    enemy.knockback(2, -away.x,-away.z,source,damage);enemy.setDeltaMovement(enemy.getDeltaMovement().add(0,.25,0));enemy.hurtMarked=true;
+                }
+                release();return;
+            }
+            setDeltaMovement(step);resetFallDistance();hurtMarked=true;
+            if(flightAge>=flightDuration)release();return;
+        }
+        if(handler==null)return;
+        if(!(level.getEntity(handler) instanceof Apex apex) || !apex.isAlive() || ++controlAge>100) {release();return;}
+        if(held) {setPos(apex.skills().mouth().add(0,-.3,0));setDeltaMovement(0,0,0);return;}
+        var toward=apex.skills().mouth().subtract(position());
+        if(com.bunnidogs.mod.genetics.Wings.expressed(genome())) {setNoGravity(true);ApexFlightGoal.fly(this,apex.skills().mouth(),.75);}
+        else {setNoGravity(false);var flat=toward.multiply(1,0,1).normalize().scale(.45);setDeltaMovement(flat.x,horizontalCollision && onGround() ? .5 : isInWater() ? .2 : getDeltaMovement().y,flat.z);}
+    }
     public boolean belongsTo(Apex apex) { return apex.getUUID().equals(caller); }
     @Override protected void registerGoals() {
+        goalSelector.addGoal(0,new net.minecraft.world.entity.ai.goal.Goal() {
+            {setFlags(java.util.EnumSet.of(Flag.MOVE,Flag.LOOK,Flag.JUMP));}
+            @Override public boolean canUse() {return controlled();}
+            @Override public boolean requiresUpdateEveryTick() {return true;}
+            @Override public void tick() {getNavigation().stop();}
+        });
         goalSelector.addGoal(0,new FloatGoal(this)); goalSelector.addGoal(1,new WingFlightGoal(this));
         goalSelector.addGoal(2,new MeleeAttackGoal(this,1,true) {
             @Override protected void checkAndPerformAttack(net.minecraft.world.entity.LivingEntity target) {
@@ -67,7 +115,9 @@ public final class ApexMinion extends Bunnidog implements Enemy {
     }
     @Override public void tick() {
         if(biteWait>0)biteWait--;
+        if(controlled()) {setNoAi(false);if(held || flightDuration>0)setNoGravity(true);}
         super.tick();
+        if(level() instanceof ServerLevel server && controlled())controlledTick(server);
         if (level() instanceof ServerLevel server && (--life<=0 || tickCount%10==0 && (caller==null
                 || !(server.getEntity(caller) instanceof Apex apex) || !apex.isAlive() || distanceToSqr(apex)>1600))) discard();
     }
@@ -84,6 +134,6 @@ public final class ApexMinion extends Bunnidog implements Enemy {
     @Override public void readAdditionalSaveData(ValueInput input) {
         super.readAdditionalSaveData(input); life=Math.clamp(input.getIntOr("ApexMinionLife",0),0,600);
         try { caller=UUID.fromString(input.getStringOr("ApexCaller","")); } catch (IllegalArgumentException ignored) { life=0; }
-        setAge(0); applyGenetics();
+        setAge(0); applyGenetics();release();
     }
 }

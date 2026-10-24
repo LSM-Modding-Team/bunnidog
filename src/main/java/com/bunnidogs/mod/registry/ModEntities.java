@@ -55,8 +55,14 @@ public final class ModEntities {
             EntityType.Builder.of(com.bunnidogs.mod.entity.ApexMinion::new,MobCategory.MONSTER).sized(.6F,.9F).clientTrackingRange(8).notInPeaceful().noLootTable()
                     .build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","apex_minion"))));
     public static final DeferredHolder<EntityType<?>,EntityType<com.bunnidogs.mod.entity.ApexHook>> APEX_HOOK=ENTITIES.register("apex_hook",()->
-            EntityType.Builder.<com.bunnidogs.mod.entity.ApexHook>of(com.bunnidogs.mod.entity.ApexHook::new,MobCategory.MISC).sized(1F,1F).clientTrackingRange(8).updateInterval(1)
+            EntityType.Builder.<com.bunnidogs.mod.entity.ApexHook>of(com.bunnidogs.mod.entity.ApexHook::new,MobCategory.MISC).sized(2F,2F).clientTrackingRange(8).updateInterval(1)
                     .build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","apex_hook"))));
+    public static final DeferredHolder<EntityType<?>,EntityType<com.bunnidogs.mod.entity.ApexFireball>> APEX_FIREBALL=ENTITIES.register("apex_fireball",()->
+            EntityType.Builder.<com.bunnidogs.mod.entity.ApexFireball>of(com.bunnidogs.mod.entity.ApexFireball::new,MobCategory.MISC).sized(1F,1F).clientTrackingRange(12).updateInterval(1)
+                .build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","apex_fireball"))));
+    public static final DeferredHolder<EntityType<?>,EntityType<com.bunnidogs.mod.entity.ApexAnvil>> APEX_ANVIL=ENTITIES.register("apex_anvil",()->
+            EntityType.Builder.<com.bunnidogs.mod.entity.ApexAnvil>of(com.bunnidogs.mod.entity.ApexAnvil::new,MobCategory.MISC).sized(1.6F,1.6F).clientTrackingRange(12).updateInterval(1)
+                .build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","apex_anvil"))));
     public static EntityType<Apex> apex(com.bunnidogs.mod.entity.ApexKind kind,boolean flying) {
         return (flying ? FLYING_APEX : GROUND_APEX).get(kind.ordinal()).get();
     }

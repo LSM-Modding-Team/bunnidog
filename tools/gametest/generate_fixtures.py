@@ -19,3 +19,7 @@ save(ROOT/'tools/gametest/resources/data/bunnidogs/structure/family_workshop.nbt
 # A native power-10 blast reaches twenty blocks; every queried chunk must be forced.
 save(ROOT/'tools/gametest/resources/data/bunnidogs/structure/apex_arena.nbt',
      {(0, 0, 0): ('minecraft:air', {}, None)}, (64, 8, 64), version=4903)
+
+# Power twenty needs its actual forty-block victim/terrain bounds loaded.
+save(ROOT/'tools/gametest/resources/data/bunnidogs/structure/apex_blast_arena.nbt',
+     {(0, 0, 0): ('minecraft:air', {}, None)}, (112, 8, 112), version=4903)

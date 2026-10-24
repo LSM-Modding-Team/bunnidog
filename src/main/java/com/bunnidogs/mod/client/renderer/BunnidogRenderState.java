@@ -13,6 +13,7 @@ public class BunnidogRenderState extends LivingEntityRenderState {
     /** Index of the expressed Coat allele; picks the texture. */
     public int coat;
     public float swelling;
+    public boolean redFuse;
     /** Ear length multiplier (Ears gene). */
     public float earScale = 1.0F;
     /** Leg length multiplier (Legs gene). */

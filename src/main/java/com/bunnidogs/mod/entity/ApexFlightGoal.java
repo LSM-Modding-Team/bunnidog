@@ -28,7 +28,11 @@ final class ApexFlightGoal extends Goal {
             if(apex.isWithinMeleeAttackRange(target) && apex.hasLineOfSight(target))apex.doHurtTarget((ServerLevel)apex.level(),target);
             diving=false;orbit=80;point=target.position().add(0,10,0);
         }
-        fly(apex,point,diving ? .9 : .48);
+        if(diving) {
+            Vec3 step=point.subtract(apex.position()).normalize().scale(2.2);
+            if(ApexTerrain.clear((ServerLevel)apex.level(),apex,apex.position(),apex.position().add(step),apex.getBbWidth()/2+.15,apex.getBbHeight()))
+                apex.setDeltaMovement(apex.getDeltaMovement().lerp(step,.7));
+        } else fly(apex,point,.48);
         if(!apex.casting())apex.getLookControl().setLookAt(target,20,20);
     }
     static void fly(Bunnidog mob,Vec3 point,double speed) {

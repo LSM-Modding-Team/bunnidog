@@ -2255,5 +2255,9 @@
   "text.bunnidogs.b4400c5aad61b420": "Úsalo en un adulto criado con los 12 pares fijos. Al aire abre. Un registro por genoma.",
   "text.bunnidogs.3acb37fbbd64ff6b": "Cría copias iguales de los ocho genes corporales y los cuatro mentales. El adulto necesita padres registrados. El Calibrador y la Mesa muestran la pureza completa. Las estadísticas siguen variando y lo aprendido es personal. Un empalme introduce una copia; cría para fijar el par. La redstone compara los siete pares corporales originales.",
   "text.bunnidogs.f72854894c7172f2": "Los ocho pares corporales fijos: ",
-  "text.bunnidogs.9924c3fcf0444d9c": "Los ocho pares fijos"
+  "text.bunnidogs.9924c3fcf0444d9c": "Los ocho pares fijos",
+  "effect.bunnidogs.anvil_daze": "Aturdimiento",
+  "effect.bunnidogs.anvil_daze.escape": "Sacude la vista",
+  "entity.bunnidogs.apex_fireball": "Bola de fuego de Fauces Explosivas",
+  "entity.bunnidogs.apex_anvil": "Yunque del Vinculavidas"
 }

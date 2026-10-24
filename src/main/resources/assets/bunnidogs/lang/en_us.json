@@ -2255,5 +2255,9 @@
   "text.bunnidogs.b4400c5aad61b420": "Use on a bred adult with all 12 pairs fixed. Air opens. One entry per genome.",
   "text.bunnidogs.3acb37fbbd64ff6b": "Breed matching copies in all eight body and four mind genes. The adult needs recorded birth parents. Calipers and the Table show full purity. Bred stats still drift, and learned routines are personal. A splice introduces one copy; breed to fix the pair. Redstone compares the original seven body pairs.",
   "text.bunnidogs.f72854894c7172f2": "All eight body pairs fixed: ",
-  "text.bunnidogs.9924c3fcf0444d9c": "All eight pairs fixed"
+  "text.bunnidogs.9924c3fcf0444d9c": "All eight pairs fixed",
+  "effect.bunnidogs.anvil_daze": "Dazed",
+  "effect.bunnidogs.anvil_daze.escape": "Shake your view",
+  "entity.bunnidogs.apex_fireball": "Blastmaw Fireball",
+  "entity.bunnidogs.apex_anvil": "Lifebinder Anvil"
 }

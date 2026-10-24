@@ -37,6 +37,8 @@ public final class Apex extends Bunnidog implements Enemy {
     private int retreat;
     private static final net.minecraft.network.syncher.EntityDataAccessor<Integer> FUSE = net.minecraft.network.syncher.SynchedEntityData.defineId(Apex.class,net.minecraft.network.syncher.EntityDataSerializers.INT);
     private final ApexSkills skills=new ApexSkills(this);
+    private final ApexMobility mobility=new ApexMobility(this);
+    private static final net.minecraft.network.syncher.EntityDataAccessor<Boolean> LAST_STAND=net.minecraft.network.syncher.SynchedEntityData.defineId(Apex.class,net.minecraft.network.syncher.EntityDataSerializers.BOOLEAN);
     private boolean casting;
     private boolean enraged;
     private int abilityWait = 60;
@@ -54,10 +56,12 @@ public final class Apex extends Bunnidog implements Enemy {
         }
         // Default attribute values do not fire a Scale-change callback during construction.
         this.refreshDimensions();
+        getNavigation().setCanFloat(true);
+        setPathfindingMalus(net.minecraft.world.level.pathfinder.PathType.WATER,0);
     }
     public static AttributeSupplier.Builder createAttributes() {
         return Bunnidog.createAttributes().add(Attributes.ARMOR,ApexRules.BASE_ARMOR)
-                .add(Attributes.KNOCKBACK_RESISTANCE,ApexRules.BASE_KNOCKBACK_RESISTANCE).add(Attributes.SCALE,ApexRules.SCALE).add(Attributes.FLYING_SPEED,.3);
+                .add(Attributes.KNOCKBACK_RESISTANCE,ApexRules.BASE_KNOCKBACK_RESISTANCE).add(Attributes.SCALE,ApexRules.SCALE).add(Attributes.FLYING_SPEED,.3).add(net.neoforged.neoforge.common.NeoForgeMod.SWIM_SPEED,3);
     }
     @Override
     protected void applyGenetics() {
@@ -79,13 +83,19 @@ public final class Apex extends Bunnidog implements Enemy {
     public ApexKind kind() { return kind; }
     public boolean flying() { return flying; }
     public ApexSkills skills() { return skills; }
+    ApexMobility mobility() { return mobility; }
+    public boolean trackingBeam() { return getHealth()<=getMaxHealth()*.25F; }
+    public boolean lastStand() { return entityData.get(LAST_STAND); }
+    void lastStand(boolean value) { entityData.set(LAST_STAND,value); }
+    float blastCost() { return getMaxHealth()*.225F; }
+    int fuseLength() { return 30+(flying ? 20 : 0)+(lastStand() ? 20 : 0); }
     boolean flightActive() { return flying && isAlive(); }
     int retreatTicks() { return retreat; }
     void retreatFor(int ticks) { retreat=ticks; }
     @Override protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder data) {
-        super.defineSynchedData(data); data.define(FUSE,0);
+        super.defineSynchedData(data); data.define(FUSE,0);data.define(LAST_STAND,false);
     }
-    void fuse(int ticks) { entityData.set(FUSE,Math.clamp(ticks,0,30)); }
+    void fuse(int ticks) { entityData.set(FUSE,Math.clamp(ticks*30/fuseLength(),0,30)); }
     public float swelling(float partial) { int fuse=entityData.get(FUSE); return fuse==0 ? 0 : Math.min(1,(fuse+partial)/30F); }
     boolean casting() { return casting; }
     public boolean enraged() { return this.enraged; }
@@ -104,6 +114,7 @@ public final class Apex extends Bunnidog implements Enemy {
         if (retreat>0) retreat--;
         setNoGravity(flying);
         skills.tick((ServerLevel)level());
+        mobility.tick((ServerLevel)level());
         if (flying && flightActive() && tickCount%12==0) ((ServerLevel)level()).sendParticles(net.minecraft.core.particles.ParticleTypes.END_ROD,
                 getX(),getY(),getZ(),2,.4,.1,.4,.01);
         boolean angry = this.getHealth() <= this.getMaxHealth() * .5F;
@@ -116,7 +127,7 @@ public final class Apex extends Bunnidog implements Enemy {
     }
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new FloatGoal(this));
+
         this.goalSelector.addGoal(1, new ApexAbilityGoal(this));
         this.goalSelector.addGoal(1,new ApexSpecialGoal(this));
         this.goalSelector.addGoal(2,new ApexFlightGoal(this));
@@ -168,7 +179,7 @@ public final class Apex extends Bunnidog implements Enemy {
         super.readAdditionalSaveData(input);
         this.abilityWait = Math.clamp(input.getIntOr("ApexAbilityWait", 60), 0, kind.recovery);
         retreat=Math.clamp(input.getIntOr("ApexRetreat",0),0,100);
-        fuse(0);
+        fuse(0);lastStand(false);mobility.stopLeap();
         skills.restore(input.getFloatOr("ApexVitality",8));
         this.enraged = this.getHealth() <= this.getMaxHealth() * .5F;
         this.applyGenetics();

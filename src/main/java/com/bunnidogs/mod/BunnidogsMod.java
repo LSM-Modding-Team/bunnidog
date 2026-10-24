@@ -53,6 +53,11 @@ public class BunnidogsMod {
         modEventBus.addListener(ModDispensers::setup);
         NeoForge.EVENT_BUS.addListener(ResidentBellCalls::onGameEvent);
         NeoForge.EVENT_BUS.addListener(CoatCamouflage::onGameEvent);
+        NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.LOWEST,com.bunnidogs.mod.entity.ApexPlayerEvents::death);
+        NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.LOWEST,com.bunnidogs.mod.entity.ApexPlayerEvents::totem);
+        NeoForge.EVENT_BUS.addListener(com.bunnidogs.mod.entity.ApexPlayerEvents::tick);
+        NeoForge.EVENT_BUS.addListener(com.bunnidogs.mod.entity.ApexPlayerEvents::login);
+        NeoForge.EVENT_BUS.addListener(com.bunnidogs.mod.entity.ApexPlayerEvents::dimension);
         NeoForge.EVENT_BUS.addListener(TroughInteraction::onRightClick);
         NeoForge.EVENT_BUS.addListener(com.bunnidogs.mod.entity.CompanionEvents::projectile);
         NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.HIGHEST,com.bunnidogs.mod.entity.CompanionEvents::block);

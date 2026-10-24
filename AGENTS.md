@@ -53,12 +53,19 @@ runtime implementation. Five roles and their five flying variants now ship;
 `docs/APEX_SPECS.md` records actual behavior and evidence. Keep the +60% outgoing
 damage baseline (×1.6 after bounds), base Brute health unchanged, exact focused ritual costs,
 family blast immunity, finite swarms, hook recovery and healing conservation.
-The later detailed play review supersedes initial role prototypes: specialists
-have no melee; Blastmaw gets +20% HP, 30-tick creeper flash/swelling, destructive
-power-10 mob explosions and 30% backlash; brood are full-sized varied gene-driven
-elites; hook/pull destroy ordinary terrain and drain truly heals the caster;
-Prismmaw pierces blocks/shields, with a doubled channel and enrage tracking.
-Flying Apexes stay airborne, with Brute-only dives and double bite damage.
+The latest swimming/pillar review supersedes initial role prototypes: specialists
+have no melee; all ten variants swim strongly and counter three-block pillars.
+Brute uses variable destructive jumps; flying Brute has fast destructive stoops.
+Blastmaw retains +20% HP, pays 22.5% backlash, fires family-safe power-four recovery
+fireballs and commits to a longer red power-twenty final blast at lethal self-cost.
+Flying fuses add one second. Brood retains elite speed/cadence/damage but reduced
+health, wave size and spawn rate, and throws/eats actual owned minions. Lifebinder
+uses seven-times accepted drain income (spent once), broad hooks, physical anvil
+stun with a conditional crosshair-motion escape bar, and saved heart-container
+debt repaid by actual totems, death or caster kills. Prismmaw damage is reduced
+15%, tracking starts at 25%, and fixed rays retain their absolute shot origin.
+Preserve native protection/cancellation, finite resources and actual save/stock
+ownership. The explicitly requested escape bar is not a return of ambient hints.
 Wings genetics/flight ship; actual wing models/textures are explicitly deferred.
 `docs/APEX_EXPANSION_PLAN.md` retains the future dimension, extravagant loot and
 Apex-of-Apexes dungeon boss; those systems are not implemented. Prioritize actual

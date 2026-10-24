@@ -23,12 +23,12 @@ final class ApexAbilityGoal extends Goal {
     @Override public boolean requiresUpdateEveryTick() { return true; }
     @Override public boolean canUse() {
         var victim = this.apex.getTarget();
-        return apex.kind()==ApexKind.BRUTE && !apex.flying() && this.apex.abilityWait() == 0 && this.apex.onGround() && victim != null && victim.isAlive()
-                && this.apex.distanceToSqr(victim) <= 100 && this.apex.hasLineOfSight(victim);
+        return apex.kind()==ApexKind.BRUTE && !apex.flying() && this.apex.abilityWait() == 0 && (this.apex.onGround() || this.apex.isInWater()) && victim != null && victim.isAlive()
+                && this.apex.distanceToSqr(victim) <= 2304;
     }
     @Override public void start() {
         this.target = this.apex.getTarget();
-        this.stomp = this.apex.distanceToSqr(this.target) <= 9;
+        this.stomp = this.apex.distanceToSqr(this.target) <= 9 && Math.abs(this.target.getY()-this.apex.getY())<1.25;
         this.charge = this.stomp ? 30 : 20;
         if (this.apex.enraged()) this.charge = this.charge * 2 / 3;
         this.apex.beginAbility();
@@ -37,22 +37,18 @@ final class ApexAbilityGoal extends Goal {
         this.apex.playSound(SoundEvents.RAVAGER_ROAR, .8F, this.stomp ? .65F : 1.1F);
     }
     @Override public boolean canContinueToUse() {
-        return this.charge > 0 && this.target != null && this.target.isAlive();
+        return (this.charge > 0 || apex.mobility().leaping()) && this.target != null && this.target.isAlive();
     }
     @Override public void tick() {
         this.apex.getNavigation().stop();
         this.apex.getLookControl().setLookAt(this.target, 30, 30);
+        if(charge<=0)return;
         var level = (ServerLevel) this.apex.level();
         if (this.charge % 4 == 0) level.sendParticles(ParticleTypes.WITCH,
                 this.apex.getX(), this.apex.getY() + .5, this.apex.getZ(), 5, .6, .3, .6, .01);
         if (--this.charge > 0) return;
         if (this.stomp) stomp(level);
-        else {
-            Vec3 towards = this.target.position().subtract(this.apex.position()).multiply(1, 0, 1).normalize();
-            this.apex.setDeltaMovement(towards.scale(this.apex.enraged() ? 1.05 : .9)
-                    .add(0, this.apex.getAttributeValue(Attributes.JUMP_STRENGTH), 0));
-            this.apex.hurtMarked = true;
-        }
+        else apex.mobility().leap(this.target);
     }
     private void stomp(ServerLevel level) {
         var source = this.apex.damageSources().mobAttack(this.apex);
@@ -71,5 +67,6 @@ final class ApexAbilityGoal extends Goal {
         this.charge = 0;
         this.target = null;
         this.apex.charging(false);
+        this.apex.mobility().stopLeap();
     }
 }

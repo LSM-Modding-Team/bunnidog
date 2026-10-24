@@ -50,6 +50,7 @@ public class BunnidogRenderer extends MobRenderer<Bunnidog, BunnidogRenderState,
     public void extractRenderState(Bunnidog entity, BunnidogRenderState state, float partialTicks) {
         super.extractRenderState(entity, state, partialTicks);
         state.swelling=entity instanceof com.bunnidogs.mod.entity.Apex apex ? apex.swelling(partialTicks) : 0;
+        state.redFuse=entity instanceof com.bunnidogs.mod.entity.Apex apex && apex.lastStand();
         Traits traits = entity.traits();
         state.coat = traits.coat();
         state.earScale = traits.earScale();
@@ -72,7 +73,10 @@ public class BunnidogRenderer extends MobRenderer<Bunnidog, BunnidogRenderState,
         pose.scale((1+swell*.4F)*wobble,(1+swell*.1F)/wobble,(1+swell*.4F)*wobble);
     }
     @Override protected float getWhiteOverlayProgress(BunnidogRenderState state) {
-        return (int)(state.swelling*10)%2==0 ? 0 : Math.clamp(state.swelling,.5F,1F);
+        return state.redFuse || (int)(state.swelling*10)%2==0 ? 0 : Math.clamp(state.swelling,.5F,1F);
+    }
+    @Override protected int getModelTint(BunnidogRenderState state) {
+        return state.redFuse && (int)(state.swelling*10)%2!=0 ? 0xFFFF3030 : -1;
     }
     @Override
     public Identifier getTextureLocation(BunnidogRenderState state) {

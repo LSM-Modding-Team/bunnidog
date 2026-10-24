@@ -18,7 +18,7 @@ final class ApexPositionGoal extends Goal {
         var target=apex.getTarget();if(target==null)return;
         if(apex.casting()) { apex.getNavigation().stop();return; }
         if(--repath>0)return;repath=10;
-        boolean rush=apex.kind()==ApexKind.BLAST && apex.retreatTicks()==0 && apex.abilityWait()==0 && apex.getHealth()>apex.getMaxHealth()*.31F;
+        boolean rush=apex.kind()==ApexKind.BLAST && apex.retreatTicks()==0 && apex.abilityWait()==0;
         double near=rush ? 3 : apex.kind()==ApexKind.PRISM ? 16 : 10;
         double far=rush ? 4 : apex.kind()==ApexKind.PRISM ? 24 : 16;
         double distance=apex.distanceTo(target);

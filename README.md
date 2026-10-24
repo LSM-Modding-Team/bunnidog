@@ -87,7 +87,10 @@ for sharing. Chrome accepted the direct-release JAR with protection enabled.
 
 The original Apex now has 60% more damage, with health unchanged. Craft a sigil
 for Prismmaw (mouth beam), Broodcaller (swarm), Blastmaw (repeated huge explosions)
-or Lifebinder (hook/drain/healing). Flying versions exist for all five roles.
+or Lifebinder (anvil/hook/drain/healing). All roles counter pillars and swim well;
+flying versions exist for all five. Blastmaw has recovery fireballs and a final
+red blast; Broodcaller throws and eats its own pack. Lifebinder hooks cost heart
+containers, restored by totems, death or defeating its caster.
 Use the sigil on a Crucible with the actual Tissue Sample in your other hand;
 reviewing is free, and a successful Survival summon spends the sigil alongside
 the existing sample/five offerings. [Actual mechanics](docs/APEX_SPECS.md).

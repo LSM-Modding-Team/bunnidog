@@ -23,11 +23,11 @@ import net.neoforged.neoforge.common.NeoForge;
 
 /** Actual role factories, attacks and focused ritual costs over a correctly bounded native arena. */
 final class ApexTypesGameTest {
-    private static Vec3 center(GameTestHelper h) { return Vec3.atBottomCenterOf(h.absolutePos(new BlockPos(32,180,32))); }
-    private static void floor(GameTestHelper h) {
+    static Vec3 center(GameTestHelper h) { return Vec3.atBottomCenterOf(h.absolutePos(new BlockPos(32,180,32))); }
+    static void floor(GameTestHelper h) {
         for (int x=8;x<57;x++) for (int z=8;z<57;z++) h.setBlock(x,179,z,Blocks.STONE);
     }
-    private static ServerPlayer player(GameTestHelper h,Vec3 at) {
+    static ServerPlayer player(GameTestHelper h,Vec3 at) {
         var p=(ServerPlayer)h.makeMockServerPlayer(GameType.SURVIVAL);
         var connection=new net.minecraft.network.Connection(net.minecraft.network.protocol.PacketFlow.SERVERBOUND);
         new io.netty.channel.embedded.EmbeddedChannel(connection);
@@ -35,7 +35,7 @@ final class ApexTypesGameTest {
         p.connection.markClientLoaded();GameType.SURVIVAL.updatePlayerAbilities(p.getAbilities());
         CareMenuGameTest.prepare(p);p.snapTo(at);return p;
     }
-    private static Apex apex(GameTestHelper h,ApexKind kind,boolean flying,Vec3 at) {
+    static Apex apex(GameTestHelper h,ApexKind kind,boolean flying,Vec3 at) {
         var a=ModEntities.apex(kind,flying).create(h.getLevel(),EntitySpawnReason.COMMAND);a.snapTo(at);a.setNoAi(true);h.getLevel().addFreshEntity(a);return a;
     }
     static void variants(GameTestHelper h) {
@@ -85,22 +85,28 @@ final class ApexTypesGameTest {
         p.getAttribute(Attributes.ARMOR).setBaseValue(20);p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND,new ItemStack(net.minecraft.world.item.Items.SHIELD));
         p.setYRot(90);p.startUsingItem(net.minecraft.world.InteractionHand.MAIN_HAND);
         a.skills().trace(level,new Vec3(1,0,0),true);
-        h.assertTrue(Math.abs(hp-p.getHealth()-15)<.001,"The increased ray ignores armor and an active facing shield");
+        h.assertTrue(Math.abs(hp-p.getHealth()-12.75)<.001,"The increased ray ignores armor and an active facing shield");
         p.stopUsingItem();p.setHealth(512);p.invulnerableTime=0;hp=p.getHealth();
         for (int y=180;y<185;y++) for (int z=30;z<35;z++) h.setBlock(36,y,z,Blocks.AIR);
         var beam=new ApexSpecialGoal(a);beam.start();for (int t=0;t<29;t++) beam.tick();
         h.assertTrue(p.getHealth()==hp,"The mouth beam gives warning before its first pulse");beam.tick();
         h.assertTrue(p.getHealth()<hp,"The warned beam damages an unobstructed actual player");
-        p.snapTo(pos.add(8,0,8));float movedHp=p.getHealth();
+        float firstPulse=p.getHealth();a.snapTo(pos.add(0,0,6));
         for(int t=30;t<40;t++){p.invulnerableTime=0;beam.tick();}
+        h.assertTrue(p.getHealth()<firstPulse,"Moving the caster cannot move an already fired fixed beam origin");
+        p.snapTo(pos.add(8,0,8));float movedHp=p.getHealth();
+        for(int t=40;t<50;t++){p.invulnerableTime=0;beam.tick();}
         h.assertTrue(p.getHealth()==movedHp,"Above half health a committed beam stays on its original line");
         a.setHealth(a.getMaxHealth()*.4F);a.tick();
-        for(int t=40;t<60;t++){p.invulnerableTime=0;beam.tick();}
-        h.assertTrue(p.getHealth()<movedHp,"Below half health the actual damaging beam follows a relocated player");
+        for(int t=50;t<60;t++){p.invulnerableTime=0;beam.tick();}
+        h.assertTrue(p.getHealth()==movedHp,"At forty percent the beam still stays fixed");
+        a.setHealth(a.getMaxHealth()*.2F);a.tick();
+        for(int t=60;t<80;t++){p.invulnerableTime=0;beam.tick();}
+        h.assertTrue(p.getHealth()<movedHp,"Below a quarter health the actual damaging beam follows a relocated player");
         h.assertTrue(beam.canContinueToUse(),"The damaging channel outlasts the old sixty-tick cast");beam.stop();a.discard();
         var caller=apex(h,ApexKind.BROOD,false,pos);caller.setTarget(p);caller.skills().summon(level);caller.skills().summon(level);caller.skills().summon(level);
         var brood=level.getEntitiesOfClass(ApexMinion.class,caller.getBoundingBox().inflate(40),m->m.belongsTo(caller));
-        h.assertTrue(brood.size()==12 && brood.stream().allMatch(m->m.getAttributeValue(Attributes.SCALE)==1 && m.getMaxHealth()>=16 && m.getAttributeValue(Attributes.ATTACK_DAMAGE)>4.8 && m.getAttributeValue(Attributes.MOVEMENT_SPEED)>.34 && com.bunnidogs.mod.genetics.Combat.profile(m.genome(),m.stats()).interval()<20 && !m.acceptsCare()),"Calls create a bounded pack of twelve full-sized genetically fast, strong elite brood");
+        h.assertTrue(brood.size()==10 && brood.stream().allMatch(m->m.getAttributeValue(Attributes.SCALE)==1 && m.getMaxHealth()>=16 && m.getAttributeValue(Attributes.ATTACK_DAMAGE)>4.8 && m.getAttributeValue(Attributes.MOVEMENT_SPEED)>.34 && com.bunnidogs.mod.genetics.Combat.profile(m.genome(),m.stats()).interval()<20 && !m.acceptsCare()),"Calls create a bounded pack of ten full-sized genetically fast, strong elite brood");
         h.assertTrue(brood.stream().map(m->m.genome().toString()+m.stats()).distinct().count()>1,"Elite brood have varied saved genes and bred points");
         var wingCaller=apex(h,ApexKind.BROOD,true,pos.add(0,5,0));wingCaller.setTarget(p);wingCaller.skills().summon(level);
         var wings=level.getEntitiesOfClass(ApexMinion.class,wingCaller.getBoundingBox().inflate(40),m->m.belongsTo(wingCaller));
@@ -124,16 +130,17 @@ final class ApexTypesGameTest {
         h.assertTrue(a.getHealth()<before && a.isAlive() && p.getHealth()<512,"A real blast hurts victims and charges a surviving caster");
         h.assertTrue(ally.getHealth()==allyHp && ally.getDeltaMovement().lengthSqr()==0,"A different flying Apex is protected from both blast damage and knockback");
         h.assertTrue(level.getBlockState(h.absolutePos(new BlockPos(32,179,32))).isAir(),"Native power-ten mob explosions now break terrain");
-        h.assertTrue(Math.abs(before-a.getHealth()-a.getMaxHealth()*.30)<.001,"Backlash costs twice the old fifteen percent");
+        h.assertTrue(Math.abs(before-a.getHealth()-a.getMaxHealth()*.225)<.001,"Backlash is reduced by one quarter to 22.5 percent");
         a.invulnerableTime=0;h.assertTrue(a.skills().blast(level) && a.isAlive(),"The caster can detonate again without creeper death");
-        a.setHealth(a.getMaxHealth()*.1F);h.assertTrue(!a.skills().blast(level),"A near-dead caster cannot loop free detonations");a.discard();ally.discard();
+        a.setHealth(a.getMaxHealth()*.1F);a.setTarget(p);var desperate=new ApexSpecialGoal(a);desperate.start();
+        h.assertTrue(a.lastStand() && a.fuseLength()==50,"A lethal next self-cost starts the longer red last-stand fuse");desperate.stop();a.discard();ally.discard();
     }
     static void support(GameTestHelper h) {
         floor(h);var level=h.getLevel();var a=apex(h,ApexKind.SUPPORT,false,center(h));var p=player(h,center(h).add(8,0,0));
         a.setTarget(p);a.skills().restore(0);p.getAttribute(Attributes.ARMOR).setBaseValue(20);p.invulnerableTime=0;
-        a.setHealth(a.getMaxHealth()-20);float own=a.getHealth();
+        a.setHealth(a.getMaxHealth()-50);float own=a.getHealth();
         float hp=p.getHealth(), paid=a.skills().drain(level,p);
-        h.assertTrue(Math.abs(paid-3)<.001 && Math.abs(hp-p.getHealth()-paid)<.001 && Math.abs(a.getHealth()-own-paid)<.001 && a.skills().vitality()==0,"Increased armor-bypassing drain immediately steals actual accepted life, spending that income only once");
+        h.assertTrue(Math.abs(paid-3)<.001 && Math.abs(hp-p.getHealth()-paid)<.001 && Math.abs(a.getHealth()-own-paid*7)<.001 && a.skills().vitality()==0,"Armor-bypassing drain converts actual accepted life at seven times, spending that income once");
         Consumer<net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent> cancel=e->{if(e.getEntity()==p)e.setCanceled(true);};
         NeoForge.EVENT_BUS.addListener(cancel);float stored=a.skills().vitality();
         try {p.invulnerableTime=0;h.assertTrue(a.skills().drain(level,p)==0 && a.skills().vitality()==stored,"Cancelled damage cannot fund healing");} finally {NeoForge.EVENT_BUS.unregister(cancel);}

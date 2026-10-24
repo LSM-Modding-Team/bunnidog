@@ -20,39 +20,45 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Current focus — Apex play-review corrections (2026-10-24)
+## Current focus — Apex swimming and pillar-counter review (2026-10-24)
 
-The latest request implements combat corrections for all roles and direct JAR
-delivery. [APEX_SPECS.md](docs/APEX_SPECS.md) is the actual behavior reference.
+The latest play-review implementation is recorded in [APEX_SPECS.md](docs/APEX_SPECS.md).
 
-- Specialists no longer bite; ground positioning keeps Prismmaw at 16–24 blocks,
-  Broodcaller/Lifebinder at 10–16, and Blastmaw rushes/fuses/retreats. Blastmaw has
-  +20% health, native creeper flashing/swelling and a 30-tick fuse. Power-ten
-  explosions now destroy terrain like fireballs under native grief/protection
-  policy, spare Apex/brood family and charge 30% max-health backlash.
-- Prismmaw has six pulses over sixty damaging ticks (+100% duration), 1.5× pulse
-  damage, a larger visual/collision cylinder, block/armor/shield penetration and
-  below-half-health tracking. Lifebinder's larger hook travels four blocks/tick,
-  breaks outbound/pull corridors, and retains unbreakable/protected-block limits.
-  Three-HP drain pulses immediately heal the caster; only surplus funds finite
-  allied healing, prioritizing other Apexes.
-- Brood waves make up to eight full-size gene/stat-varied elites, with caps of
-  twelve owned/twenty-four local. Health is at least twice the prior eight;
-  damage, speed and bite cadence now derive from actual genes/bred points.
-  Temporary lifetime and no-drop/no-pet/no-breeding protections remain.
-- All Apex flyers stay aerial through recovery/casting. Flying Brute alone dives
-  for one double-damage strike then climbs. Flying Broodcallers summon winged
-  brood. Wings is an inherited eighth body locus, with actual companion Follow/
-  combat flight; old/g2 genomes gain grounded copies without altering old alleles
-  or minds. Canonical code is g3; protocol **25** uses three full sync words.
-  Existing cognitive locus IDs, splicer selections and redstone ranges remain.
-  Wing geometry/textures are explicitly **planned, not added**.
-- Java 25 compilation, genetics/localization/readers/model gates and **138 native
-  scenarios** cover actual flight physics, role spacing/no melee, penetrating
-  rays, terrain/cost/immunity, elite genetics and destructive hook/life-steal.
-  English/neutral Spanish: **2,257 authored / 2,385 packaged keys**. Matching
-  client/server versions are required. Headless checks and the inspected fuse
-  preview do not establish client combat balance or final flight appearance.
+- All ten Apex variants have stronger swimming/water escape. Ground Brute selects
+  a real colliding jump arc up to forty-eight blocks within awareness/loaded bounds,
+  breaking ordinary blocks through native protection hooks. Elevated targets jump;
+  nearby ground targets retain stomp. Flying Brute's stoop is much faster (2.2).
+- Blastmaw self-cost is 22.5% max HP. Its recovery fireballs have native power four
+  and spare all bunnidogs. A lethal next self-cost (also reached mid-fuse) commits
+  to power twenty, red flashing and twenty extra fuse ticks, then self-sacrifice.
+  Aerial fuses add another second: normal ground/air 30/50, final ground/air 50/70.
+- Broodcaller retains elite speed, bite timing and damage, with modestly reduced
+  gene-derived health (85% raw, bounds 16–40). Waves are six, caps ten owned/twenty
+  local, with sixteen seconds of recovery plus windup. It recalls real brood to
+  hold/throw, dealing damage proportional to remaining HP and strong knockback.
+  Below half HP it alternates throws with consuming brood for 1:1 remaining-HP
+  healing. Flight/genes/lifetime/drop/capture protections remain.
+- Lifebinder converts actual accepted drain damage at 7× into healing income,
+  spending it once on self then finite allied reserves. Hooks have a genuinely
+  broader swept entity hit volume. Physical thrown anvils immobilize victims and
+  queue a follow-up hook. A small, conditional **Shake your view** bar fills from
+  actual view motion, with a server budget equivalent to about one intense second.
+- Hooks remove one maximum-health container, stopping at one container. World save
+  data retains the debt across logout/dimensions. Successful native totems return
+  three; death or killing a marking caster restores all, including offline victims.
+  Native cancellation, other attribute modifiers and active-effect lifetime remain.
+- Prismmaw damage is 15% lower. Tracking starts at 25% HP. Fixed beams keep their
+  absolute origin/direction from the first damaging pulse, even if the caster moves.
+- Protocol **26** requires matching clients/servers. English/neutral Spanish:
+  **2,261 authored / 2,389 packaged keys**. Existing g3 genetics, source/ritual stock,
+  gray station frames and borderless animal conversations remain. Wing models and
+  textures are still explicitly planned, not added.
+- Java 25 build/model/localization gates and **152 native scenarios** cover every
+  three-block-pillar fight, real water progress, destructive jump/fast stoop,
+  final blast and family-safe fireball, brood throwing/eating, actual totem/death/
+  caster-kill heart restoration, saved debt and one-second stun escape. The inspected
+  art preview uses substitute fonts/equivalent renderer tints. Natural client
+  difficulty, input feel and terrain performance remain play review.
 
 ## Direct JAR downloads
 

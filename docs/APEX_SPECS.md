@@ -1,6 +1,6 @@
 # Apex — lineage encounters and combat roles
 
-All five ground roles and their flying variants ship. Protocol **25** requires
+All five ground roles and their flying variants ship. Protocol **26** requires
 matching clients/servers. The +60% outgoing baseline remains; the player's latest
 combat review adds **20% Blastmaw health** and **double flying-Brute bite damage**.
 The dimension, lavish new loot economy and Crowned Apex dungeon remain planned in
@@ -21,11 +21,11 @@ menu-replacement protections remain.
 
 | Role | Actual behavior |
 | --- | --- |
-| `apex` | Ground Brute retains warned stomp/pounce and ordinary melee. |
-| `prismmaw` | No melee. Holds 16–24 blocks on the ground. Thirty-tick aim warning, then sixty ticks of damaging beam (six pulses), followed by 160 ticks of recovery. Before half health the firing direction locks; below half it follows the target. |
-| `broodcaller` | No melee. Holds 10–16 blocks. Thirty-tick call, then up to eight elite brood, capped at twelve per caller and twenty-four locally, followed by 240 ticks of recovery. |
-| `blastmaw` | No melee. Rushes into a five-block fuse range, arms for thirty ticks, explodes and backs away for eighty ticks while its 280-tick recovery runs. Health below the safe self-cost threshold stops rearming. |
-| `lifebinder` | No melee. Holds 10–16 blocks. Thirty-tick hook windup, then a fast destructive hook/pull, four drain pulses and finite allied healing; 160 ticks of ability recovery. |
+| `apex` | Ground Brute keeps warned stomp/melee and chooses a destructive colliding jump arc to its target, up to 48 blocks within awareness/loaded bounds. |
+| `prismmaw` | No melee. Holds 16–24 blocks on the ground. Thirty-tick aim warning, then sixty ticks of damaging beam (six pulses), followed by 160 ticks of recovery. Above 25% health the firing direction locks; below 25% it follows the target. Fixed beams keep their absolute world origin, even while the caster moves. |
+| `broodcaller` | No melee. Holds 10–16 blocks. Thirty-tick call, then up to six elite brood, capped at ten per caller and twenty locally, followed by 320 ticks of recovery. Recalled pack members become thrown body projectiles or meals. |
+| `blastmaw` | No melee. Rushes into a five-block fuse range, arms for thirty ticks, explodes and backs away for eighty ticks during its 280-tick recovery, shooting power-four fireballs. A lethal next self-cost starts a longer red power-twenty final blast. |
+| `lifebinder` | No melee. Holds 10–16 blocks. Thrown anvils start the look-to-escape stun and queue a hook eight ticks after impact. Regular hooks retain their thirty-tick windup/160-tick recovery. Hooks remove one heart container; drains convert damage into seven-times healing. |
 
 The base Apex health band is 180–720; Blastmaw is **216–864**. Normal Brute bites
 are 12.8–24; flying-Brute bites are **25.6–48**. Enrage retains the existing bounded
@@ -35,13 +35,13 @@ speed/damage changes. Prefix each role ID with `flying_`, including `flying_apex
 
 Prismmaw beams travel thirty-two blocks **through blocks**, with a 1.25-block
 collision expansion, larger dust and a visible broad particle cylinder. Each
-pulse deals `15 × bounded attack / 12.8`, **1.5× the previous pulse**. Dedicated
+pulse deals `12.75 × bounded attack / 12.8`, **15% less than the prior build**. Dedicated
 beam damage bypasses armor and shields; native other protections/events still
 apply. Warning geometry never damages. The damaging channel is twice its former
-length; firing at full health locks its direction rather than slowly tracking.
+length; firing above 25% locks its direction and absolute world origin on the first damaging pulse. Moving the caster cannot move that beam. Reaching 25% activates tracking from the current mouth; that cast stays in tracking mode if healed.
 
-Lifebinder hooks travel at four blocks/tick (formerly 1.5), with a one-block
-projectile box, a three-times-size full-bright lead renderer and a particle trail.
+Lifebinder hooks travel at four blocks/tick (formerly 1.5), with a two-block
+projectile box, an actual 1.2-block swept entity-hit expansion and four-times-size full-bright lead renderer and a particle trail.
 The swept outbound corridor breaks ordinary blocks. Pulling clears a corridor
 for the victim's body as well. Unbreakable blocks, unloaded terrain, disabled
 mob griefing and native protection vetoes stop the hook/tether. No forced chunks.
@@ -49,24 +49,56 @@ A facing shield still counters the hook; the brief stagger does not disable aim
 or item use. Shared per-victim recovery prevents repeated chain-stuns.
 
 Drain deals **3 raw HP** per pulse (+25%), bypassing armor. Accepted victim
-health/absorption loss immediately heals the caster. Surplus alone enters a
+health/absorption loss becomes **seven times that amount** of healing income: a full three-HP pulse can heal twenty-one HP. Income heals the caster first. Surplus alone enters a
 finite vitality pool (initial eight, cap twelve), paying up to three HP every
 half-second to another visible wounded family member within sixteen blocks.
 Other Apexes take priority over brood. Cancelled damage funds nothing; cancelled
 healing spends nothing. Self healing and allied healing cannot spend the same
-stolen life twice. A green beam identifies allied healing.
+converted income twice. A green beam identifies allied healing.
 
-## Blastmaw terrain and fuse
+## Blastmaw terrain, fireballs and final blast
 
-Blastmaw flashes white and swells using the vanilla creeper renderer's curves.
-Its fuse is **thirty ticks / 1.5 seconds**. The blast uses native power ten,
-exposure, drops/fire, mob-griefing policy and explosion start/detonate events,
-matching the terrain behavior of a power-ten large fireball. Family Apexes and
-brood receive neither explosion damage nor knockback. Victim damage retains
-1.6× the native explosion calculation. Self backlash doubles from 15% to **30%
-maximum health**, capped below death; a caster at or below 31% cannot arm again.
-Cancelled explosions charge no self-cost. These attacks now destroy terrain
-when mob griefing permits it; this deliberately supersedes the earlier KEEP policy.
+Normal fuse is thirty ticks / 1.5 seconds on the ground and fifty ticks / 2.5
+seconds in the air. White flashing/swelling uses vanilla creeper curves. Normal
+power-ten blasts use native exposure, drops/fire, mob griefing and explosion
+start/detonate events, with 1.6× native victim damage and family Apex/brood immunity.
+Self-cost is now **22.5% maximum health**, a 25% reduction from the former 30%.
+
+If that cost would kill it, including damage received during an existing fuse,
+Blastmaw commits to a **power-twenty final explosion**, flashes **red** and adds
+another twenty ticks / one second to the fuse. Ground final fuse is fifty ticks;
+aerial final fuse is seventy. A resolved final blast consumes the caster's
+remaining life. Native cancellation pays no self-cost. Healing does not undo a
+committed final blast. Its full forty-block blast area must already be loaded;
+normal terrain/protection hooks remain authoritative.
+
+During explosion recovery, power-four fireballs launch roughly every 55 ticks
+at a valid target within thirty-two blocks. They use native fireball flight and
+mob terrain policy. Their damage and knockback spare **all bunnidogs**, including
+ordinary player companions; they cannot directly hit that family either.
+Fireballs have bounded loaded-world lifetime and no material drops.
+
+## Anvil stun and heart containers
+
+Lifebinder throws a visible physical anvil (2.4-block/tick launch, broad swept
+hit volume) at up to twenty-five blocks. Cover and shields can intercept it.
+An accepted hit immobilizes walking/jumping while keeping aim/items usable and
+queues a destructive hook after eight ticks. A small conditional bar reads
+**Shake your view** / **Sacude la vista**. Actual accumulated crosshair rotation
+fills it; cursor motion in menus does not. The server accepts at most eighteen
+angular degrees per tick toward a 360-degree target: about one second of intense
+shaking, slower for gentle movement. A single large/repeated stale packet cannot
+skip the tick budget. The stun/progress survive ordinary saving/rejoining; death
+or native effect removal clears it. No ambient tutorial layer is introduced.
+
+Each successful hook removes **one full heart container (two maximum HP)**, to a
+floor of one container. The world-owned debt ledger stores victims and caster
+UUIDs across logout, dimensions and saves; ordinary attribute saves cannot erase
+it. A successfully consumed native totem restores **three containers**. Death
+restores all. Killing a marking Lifebinder clears all heart debt for its victims,
+including offline victims; the next attribute sync restores their containers.
+Restored containers increase maximum health, rather than granting free healing.
+Other maximum-health modifiers are preserved. Shared hook recovery still applies.
 
 ## Continuous flight and brood genetics
 
@@ -74,17 +106,33 @@ Flying roles remain aerial without scheduled landings, including between casts.
 Ranged roles orbit at roughly seven to nine blocks above the target, maintaining
 horizontal spacing. Flying Blastmaw moves overhead to fuse and detonate in the
 air. Only the flying Brute descends: orbit/ascent, one dive strike, then climb and
-eighty-tick recovery before another dive. Collision avoidance rises around local
+eighty-tick recovery before another dive. Dives now accelerate toward a 2.2-block/tick stoop and clear ordinary obstructing terrain through the same protected collision corridor. Collision avoidance rises around local
 obstacles and stops at unloaded bounds. This is bounded steering, not a complete
 maze pathfinder. Natural terrain/client flight feel still needs play review.
 
 Elite `apex_minion` brood have **adult scale 1**, varied Build/Legs genes, feral
 temperament and saved bred-point variation. Health derives from normal traits
-and Vitality, bounded 16–48 (at least twice the former fixed eight); damage
-5.5–12, movement .4–.65 and faster gene/Swiftness-derived bite timing. Both grounded
+and Vitality, scaled to 85% of the previous raw value and bounded 16–40; damage
+5.5–12, movement .4–.65 and the existing fast gene/Swiftness-derived bite timing. Speed, bite cadence and damage are retained; wave size and frequency take the larger reductions requested in play review. Both grounded
 and flying brood honor their actual bite interval rather than vanilla's fixed
 one-second melee timer. They expire after thirty seconds or when the caller is
 lost/too far away, and cannot breed, become pets or supply materials/XP/Crests.
+
+Broodcallers recall an actual owned pack member, visibly hold it for fifteen
+ticks, then throw it. The colliding body deals **40% of its remaining HP** as
+native damage and strong knockback, allowing it to reach a three-block pillar.
+The minion survives a throw and resumes fighting after landing or impact; it is
+not copied into extra ammunition. Below half health, the caller alternates throws
+with eating those actual minions: accepted healing is proportional to their
+remaining HP (1:1), and the consumed creature is removed without drops. A damaged
+caller retains ranged pressure. Cancelled healing does not consume the creature.
+Recall/holds/throws expire and cancel safely on load or loss of the caller.
+
+All Apexes now have a higher swim attribute, floating navigation and direct
+loaded-world water propulsion/ascent, including aerial types escaping water.
+Brute jumps choose both travel duration and arc height, clear their actual body
+corridor using native grief/destruction vetoes, and collide rather than teleport.
+Existing nearby stomp remains; elevated targets select a jump instead.
 
 Flying Broodcallers summon airborne brood with inherited Wings alleles. Wings
 is the appended eighth body locus: grounded id 0, dominant mutation winged id 1.
@@ -112,14 +160,15 @@ Every variant retains its source-bearing Crest and localized type name.
 ## Validation
 
 The maintained Java 25 build, localization, reader bounds, genetic compatibility
-and model gates cover this revision. The native suite contains **138 scenarios**,
-including real terrain destruction/family immunity, exact backlash, penetrating
+and model gates cover this revision. The native suite contains **152 scenarios**,
+including all ten actual AI three-block-pillar fights, every role swimming, native final blasts/fireball family immunity, saved heart debt/real totem/death repayment, conditional stun escape, real thrown brood/consumption, exact backlash, penetrating
 beams/shields, longer warning/channel, full-size varied elite brood, winged
 pursuit, direct life steal/finite ally healing, destructive fast hooks, no specialist
 bite and real aerial AI/physics past the former landing cycle. Existing splicer
 selection IDs and redstone signals have compatibility regressions.
-`art/apex_fuse_preview.png` uses the actual sculpt/atlas with equivalent renderer
-transforms; `art/wing_genetics_reader_preview.png` shows the eight-pair Spanish
+`art/apex_review_preview.png` shows equivalent normal/final fuse tints and the
+conditional escape bar; `art/apex_fuse_preview.png` retains the initial fuse review.
+The approved sculpt/atlas are used without new wing geometry; `art/wing_genetics_reader_preview.png` shows the eight-pair Spanish
 reader and corrected complete-purity labels. Headless checks/previews do not establish client appearance or balance.
 
 ## Original ritual and encounter foundation

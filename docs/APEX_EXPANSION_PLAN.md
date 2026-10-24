@@ -7,6 +7,12 @@ Crests. See [APEX_SPECS.md](APEX_SPECS.md) for actual values/evidence. AX1–AX4
 and initial bounded AX5 flight are implemented; flight feel and mixed-pack balance
 still need client playtesting. Native testing does not establish final balance.
 
+The subsequent swimming/pillar review now ships: destructive variable Brute jumps,
+strong swimming, faster stoops, Blastmaw recovery fireballs and red final blasts,
+moderated elite brood with throws/eating, anvil/heart-debt Lifebinder mechanics,
+and quarter-health tracking/absolute fixed Prism beams. APEX_SPECS gives current
+values; earlier prototype numbers below yield to that play-reviewed behavior.
+
 AX6 (dimension/ruins/gear), AX7 (dungeon/Crowned Apex), natural wild spawning and
 the lavish expanded loot economy remain **planned**. The design below preserves
 the broader direction; prototype timings/architecture yield to the actual spec.
