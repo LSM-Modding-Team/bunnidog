@@ -3,7 +3,7 @@ package com.bunnidogs.mod.genetics;
 import java.util.List;
 import java.util.random.RandomGenerator;
 
-/** Four diploid loci, separately packed from the seven body loci. Both copies contribute equally. */
+/** Four diploid loci, separately packed from the eight body loci. Both copies contribute equally. */
 public enum CognitiveGene implements Locus {
     MEMORY("memory", "Memory",
             spec("fleeting", .25, 0, 0, 0, 3),

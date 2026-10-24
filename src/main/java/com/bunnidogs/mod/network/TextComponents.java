@@ -27,7 +27,7 @@ public final class TextComponents {
             case EARS -> t("%s ears",allele(allele)); case COAT -> t("%s coat",allele(allele));
             case LEGS -> t("%s legs",allele(allele)); case BUILD -> t("%s build",allele(allele));
             case FERTILITY -> t("%s fertility",allele(allele)); case DIET -> t("%s diet",allele(allele));
-            case TEMPERAMENT -> allele(allele);
+            case TEMPERAMENT, WINGS -> allele(allele);
         };
     }
     public static MutableComponent look(Genome genome) {

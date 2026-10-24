@@ -17,7 +17,7 @@ public final class CognitionCheck {
     }
     public static void main(String[] args) {
         var body = Genome.parse("33-22-33-33-33-33").orElseThrow();
-        require(body.bodyCode().equals("33-22-33-33-33-33-00") && body.mindPacked() == CognitiveGene.LEGACY_HELPER,
+        require(body.bodyCode().equals("33-22-33-33-33-33-00-00") && body.mindPacked() == CognitiveGene.LEGACY_HELPER,
                 "Six-pair migration must retain every body copy and add the uniform helper mind");
         require(Genome.parse(body.bodyCode()).orElseThrow().equals(body), "Seven-pair migration must agree with six-pair migration");
         for (var task : List.of(CapabilityRules.Task.HARVEST, CapabilityRules.Task.DELIVERY, CapabilityRules.Task.PLANTING, CapabilityRules.Task.NURSERY))
@@ -25,6 +25,13 @@ public final class CognitionCheck {
         require(CapabilityRules.potential(body.mind(), CapabilityRules.Task.PLANNING) == CapabilityRules.Potential.LIMITED, "Migration must not grant a civic planner");
         require(fixedMind(0).mind().equals(new MindProfile(.25, .25, .25, .25)), "Lowest genotype must impose real limits");
         require(fixedMind(3).mind().equals(new MindProfile(4, 4, 4, 4)), "Highest combined potential must be attainable");
+        var winged=Wings.winged(body);
+        require(Genome.parse("g2."+body.bodyCode().substring(0,20)+"."+body.mindCode()).orElseThrow().equals(body),"Old complete genomes migrate with grounded Wings and unchanged mind");
+        require(Genome.parse(winged.toString()).orElseThrow().equals(winged)
+                && Genome.fromSynced(winged.syncLow(),winged.syncHigh(),winged.mindPacked()).equals(winged),"Highest-byte Wings survive saves and all three sync words");
+        var child=Genome.breed(winged,body,new Random(1),0).genome();
+        require(child.alleleId(Gene.WINGS,0)==1 && child.alleleId(Gene.WINGS,1)==0 && Wings.expressed(child),"Actual maternal/paternal Wings copies are inherited independently");
+        require(Combat.profile(body,Stats.of(0,60,0,0,0)).interval()<Combat.profile(body,Stats.ZERO).interval(),"Bred speed points affect real attack cadence");
         var mixed = body;
         for (var gene : CognitiveGene.values()) {
             require(Locus.all().get(gene.index()) == gene, "Saved full-locus order");
@@ -32,7 +39,7 @@ public final class CognitionCheck {
                 var changed = mixed.with(gene, slot, allele.id());
                 require(changed.packed() == body.packed(), "Cognitive bits must never overwrite body genes");
                 require(Genome.parse(changed.toString()).orElseThrow().equals(changed), "Complete schema must round-trip every allele/copy");
-                require(Genome.fromSynced(changed.syncLow(), changed.syncHigh(), changed.mindPacked()).equals(changed), "Three-word sync must retain all 88 bits");
+                require(Genome.fromSynced(changed.syncLow(), changed.syncHigh(), changed.mindPacked()).equals(changed), "Three-word sync must retain all 96 bits");
                 require(changed.with(Gene.COAT, 0, 0).mindPacked() == changed.mindPacked(), "Body edits must retain the mind");
             }
             mixed = mixed.with(gene, 0, 0).with(gene, 1, 3);
@@ -51,14 +58,14 @@ public final class CognitionCheck {
         var oldNames = body.bodyCode() + "~THVuYQ";
         require(LineageNames.parse(oldNames).name(body).orElseThrow().equals("Luna"), "Legacy names must resolve to the same helper genotype");
         var seed = Seed.of(mixed, sample.stats(), fixedMind(2), Stats.ZERO, 3).withMutagen();
-        require(!seed.legacyMutation() && Seed.parse(seed.toString()).orElseThrow().equals(seed), "New seeds use all eleven mutation targets");
+        require(!seed.legacyMutation() && Seed.parse(seed.toString()).orElseThrow().equals(seed), "New seeds use all twelve mutation targets");
         var oldSeed = Seed.parse(body.bodyCode() + "/1,2,3,4,5|" + body.bodyCode() + "|3|mutagen").orElseThrow();
         require(oldSeed.legacyMutation() && Seed.parse(oldSeed.toString()).orElseThrow().equals(oldSeed), "Rewriting or treating an old seed must retain its mutation law");
         require(oldSeed.withMutagen().legacyMutation() && new Cross(oldSeed).seed().equals(oldSeed), "Actual-seed comparisons must retain the saved law");
-        for (String invalid : List.of("g3." + body.bodyCode() + ".11-11-11-11", "g2." + body.bodyCode(),
+        for (String invalid : List.of("g4." + body.bodyCode() + ".11-11-11-11", "g2." + body.bodyCode(),
                 "g2." + body.bodyCode() + ".11-11-11-ff", "g2.00-00-00-00-00-00.11-11-11-11", "g2." + body.bodyCode() + ".11-11-11-11.extra"))
             require(Genome.parse(invalid).isEmpty(), "Malformed/unknown schema must not become a default genome: " + invalid);
-        require(Genome.containsUnsupportedSchema(book + ";g3.opaque<" + body) && !Genome.containsUnsupportedSchema(book.toString()), "Protect future archive entries without blocking g2");
+        require(Genome.containsUnsupportedSchema(book + ";g4.opaque<" + body) && !Genome.containsUnsupportedSchema(book.toString()), "Protect future archive entries without blocking g2");
         for (var gene : CognitiveGene.values()) {
             var donor = Genome.DEFAULT.with(gene, 0, 0).with(gene, 1, 3);
             var first = Splicing.plan(Genome.DEFAULT, donor, gene, 0).orElseThrow();
@@ -67,8 +74,8 @@ public final class CognitionCheck {
                     "Cognitive splices must use the chosen donor copy, never fictitious dominance");
             require(first.genome().packed() == Genome.DEFAULT.packed() && first.genome().mindPacked() != second.genome().mindPacked(), "Mind splicing preserves body but changes full identity");
         }
-        require(Purebreds.eligibility(entry(mixed)) == Purebreds.Result.MIXED && Purebreds.fixedCount(mixed) == 7,
-                "Registry tests all eleven pairs while body qualifications still use seven");
+        require(Purebreds.eligibility(entry(mixed)) == Purebreds.Result.MIXED && Purebreds.fixedCount(mixed) == 8,
+                "Registry tests all twelve pairs while body qualifications still use seven");
         require(PedigreeSignal.matchingPairs(mixed, body) == 7 && PedigreeSignal.signal(7, false) == 15,
                 "Legacy detector circuits deliberately ignore cognitive pairs");
         var cross = new Cross(sample, new Tissue(mixed, Stats.ZERO));
@@ -104,7 +111,7 @@ public final class CognitionCheck {
             if (result.mutatedGene() instanceof CognitiveGene gene) { seen.add(gene); mindMutations++; }
             require(Genome.breed(Genome.DEFAULT, Genome.DEFAULT, rng, 1, true).mutatedGene() instanceof Gene, "Legacy seeds must not acquire cognitive mutations");
         }
-        require(seen.size() == 4 && mindMutations > 650 && mindMutations < 950, "All cognitive mutation targets must be reachable with the documented 4/11 share");
+        require(seen.size() == 4 && mindMutations > 650 && mindMutations < 950, "All cognitive mutation targets must be reachable with the documented 4/12 share");
         for (var lineage : Lineage.values()) {
             var minds = new HashSet<Integer>();
             for (int i = 0; i < 100; i++) minds.add(Genome.randomFounder(lineage, rng).mindPacked());

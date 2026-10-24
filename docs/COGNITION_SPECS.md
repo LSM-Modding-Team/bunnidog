@@ -1,3 +1,8 @@
+> Apex play-review integration: canonical genomes are now g3 with an appended
+> Wings body locus; legacy/g2 minds and their locus IDs remain unchanged. New seeds
+> include twelve loci; original body-only mutation seeds retain their seven targets.
+> See [APEX_SPECS.md](APEX_SPECS.md) for actual flight and migration behavior.
+
 # Cognitive genetics and attended learning
 
 Implemented 2026-10-21: I1's complete genotype foundation and the first practical
@@ -65,8 +70,9 @@ not observed-player imitation, saved routes, new professions or shared culture.
 
 ## Inherited potential
 
-`Genome` contains the unchanged 56-bit body word and a separate 32-bit mind
-word. Four saved cognitive loci follow the seven body loci in `Locus.all()`:
+`Genome` contains a 64-bit body word (the original seven bytes plus Wings) and
+a separate 32-bit mind word. Four saved cognitive loci retain their original
+indices after the seven original body loci in `Locus.all()`:
 Memory, Reasoning, Handling and Communication. Each has two four-bit copies.
 `CognitiveGene` is the append-only source of allele IDs and contribution vectors;
 never reorder existing body or cognitive IDs.
@@ -102,7 +108,7 @@ body/stat forecasts retain their meanings.
 
 Mind splice previews show both donor copies. Sneak-use the tool to cycle the
 seven original body selections followed by copy 1/copy 2 of each cognitive
-locus. A mind splice replaces the recipient copy contributing less to that
+locus, then the new Wings selection. Existing saved tool IDs are unchanged. A mind splice replaces the recipient copy contributing less to that
 axis, first on a tie; already-carried alleles refuse without cost. It costs the
 existing sample, Mutagen and tool use/recovery. Body genes, stats, health ratio,
 bond, injury and personal lessons are preserved. Breed to fix both copies.
@@ -111,23 +117,23 @@ Snapshot filters accept `mind:memory>=2.5` and `mind:retentive`, using canonical
 English keys regardless of interface language. `shown:`/`carried:` keep body
 dominance semantics. A snapshot cannot certify personal skill or culture.
 
-The Registry now requires all eleven pairs fixed. Its complete purity forecast
+The Registry now requires all twelve pairs fixed, including Wings. Its complete purity forecast
 is the product of body purity and exact mind purity. Shows, physical commissions,
 Jar outputs and existing Pedigree Comparator circuits keep their seven-body-pair
 contracts, including the analog maximum of 15. Detector help states that scope.
 
 ## Save and mutation contracts
 
-Canonical genotype text is `g2.<seven body pairs>.<four mind pairs>`, for example
-`g2.00-00-00-00-00-00-00.11-11-11-11`. The period does not collide with the
+Canonical genotype text is `g3.<eight body pairs>.<four mind pairs>`, for example
+`g3.00-00-00-00-00-00-00-00.11-11-11-11`. The period does not collide with the
 existing Seed/Tissue/Infusion/Pedigree/LineageNames delimiters. Full equality
 includes both words; `.packed()` deliberately remains only the body word.
 Entities sync three integers and invalidate capacity caches on either word.
-Required client/server protocol is **21** after the opening-data/guava-choice update.
+Required client/server protocol is **25** after the complete body-word update.
 
 Valid old six/seven-pair genomes resolve to the same fixed, heritable helper
 mind `11-11-11-11`: capacities 2.25/2.00/1.75/2.00. Six-pair forms also retain
-the previous plain-Diet migration. No random UUID/body-color migration occurs.
+the previous plain-Diet migration. These and old g2 records gain grounded Wings. No random UUID/body-color migration occurs.
 Samples, parent snapshots, seeds and old names agree on that same full identity.
 
 An old adult with a legacy genome and no `Learning` field receives familiar
@@ -140,7 +146,7 @@ not education. Unreadable future sample payloads stay untouched; book writes
 and name edits refuse to discard opaque future-version records.
 
 One mutation event at most remains per pup at the existing fertility/Mutagen
-chance. New seeds choose uniformly among seven body and four cognitive loci.
+chance. New seeds choose uniformly among eight body and four cognitive loci.
 Adding targets does not multiply the mutation chance. Existing saved seeds
 retain **body-only mutation targets**, recorded as `|body_mutation` when
 rewritten; `|mutagen` can coexist with that marker. The flag survives treatment,

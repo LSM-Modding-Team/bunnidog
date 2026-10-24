@@ -18,7 +18,7 @@ public final class DietCheck {
     public static void main(String[] args) throws Exception {
         String old = "33-22-33-33-33-33";
         Genome legacy = genome(old);
-        require(legacy.bodyCode().equals(old+"-00") && Diet.of(legacy) == Diet.PLAIN,"Legacy genomes must keep six pairs and gain plain diet");
+        require(legacy.bodyCode().equals(old+"-00-00") && Diet.of(legacy) == Diet.PLAIN,"Legacy genomes must keep six pairs and gain plain diet");
         require(genome(old.replace("-","")).equals(legacy),"Unseparated old genomes must still load");
         for (Allele a : Gene.DIET.alleles()) for (Allele b : Gene.DIET.alleles()) {
             Genome g = legacy.with(Gene.DIET,0,a.id()).with(Gene.DIET,1,b.id());
@@ -29,7 +29,7 @@ public final class DietCheck {
             require(Trends.terms(Gene.DIET,g.expressed(Gene.DIET)).isEmpty(),"Food preferences do not add stat drift");
             require(Juice.effects(g,Stats.ZERO,0).equals(Juice.effects(legacy,Stats.ZERO,0)),"Diet must not change juice recipes");
         }
-        require(diet(legacy,"chorus_eater").syncHigh() < 0,"Exercise a real negative sync high word");
+        require(Genome.fromSynced(Wings.winged(legacy).syncLow(),Wings.winged(legacy).syncHigh()).equals(Wings.winged(legacy)),"Both copies in the highest body byte must survive sync");
         require(Genome.parse(old+"-dd").isEmpty() && Genome.parse(old+"-0").isEmpty(),"Malformed diets must be rejected");
         require((new Genome(-1L).packed() >>> 56) == 0,"Sanitization must clear unused bits");
 
@@ -104,11 +104,11 @@ public final class DietCheck {
         Genome mixedA = Genome.DEFAULT, mixedB = Genome.DEFAULT;
         for (Gene gene : Gene.values()) {
             mixedA = mixedA.with(gene,0,0).with(gene,1,1);
-            mixedB = mixedB.with(gene,0,2).with(gene,1,3);
+            mixedB = mixedB.with(gene,0,2%gene.alleleCount()).with(gene,1,3%gene.alleleCount());
         }
         Page.Spread forecast = ForecastSheet.spread(new Tissue(mixedA,Stats.ZERO),new Tissue(mixedB,Stats.ZERO),Metrics.ESTIMATE);
         require(forecast.right().hotspots().size() == Gene.COUNT,"Forecast must include every gene");
-        for (Page.Hotspot h : forecast.right().hotspots()) require(h.y()+h.h() <= 138,"Forecast rows must not overlap the footer");
+        for (Page.Hotspot h : forecast.right().hotspots()) require(h.y()+h.h() <= 147,"Forecast rows must not overlap the footer");
         for (Diet d : Diet.values()) {
             Page page = SheetLayout.sample(new Tissue(diet(legacy,d.key()),Stats.ZERO),Metrics.ESTIMATE).left();
             require(page.pairs().size() == Gene.COUNT,"Animal/sample sheets need seven linked code pairs");

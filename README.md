@@ -76,13 +76,12 @@ The head uses continuous UVs and surface-derived normals to avoid horizontal
 texture and lighting bands, preserving the approved Low geometry and nose.
 See [rendering details](docs/GRAPHICS.md).
 
-For sharing, use the installable **JAR asset from an approved GitHub Release**,
-with its accompanying SHA-256 checksum. Direct JAR downloads have been tested in
-Chrome with download protection enabled. Actions build ZIPs remain available for
-development; Chrome blocked the latest Actions ZIP while accepting the exact
-same JAR from a release. Draft releases are visible only to maintainers.
-A green build establishes compilation and headless checks; final appearance still
-needs gameplay review.
+Download the installable **JAR** from [GitHub Releases](https://github.com/LSM-Modding-Team/bunnidog/releases).
+Every successful push to `main` publishes its exact checked CI JAR as a development
+prerelease, with a SHA-256 checksum. The Build run's **Publish direct JAR download**
+summary also has a **Download JAR** link. Install that file directly in `mods/`.
+GitHub's Actions artifact button always downloads a ZIP; use the release JAR/link
+for sharing. Chrome accepted the direct-release JAR with protection enabled.
 
 ## Apex encounters
 

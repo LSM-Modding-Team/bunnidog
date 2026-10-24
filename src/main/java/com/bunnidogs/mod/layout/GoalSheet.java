@@ -57,7 +57,7 @@ public final class GoalSheet {
                 page.hotspot(0,y,Page.WIDTH,18,Texts.t("A: ")+ForecastSheet.signed(f.cross().a().stats().get(stat))+Texts.t(". B: ")+ForecastSheet.signed(f.cross().b().stats().get(stat))+Texts.t(". Expected pup: ")+ForecastSheet.signed(expected)+Texts.t("; target +")+check.required()+Texts.t(". Siblings round independently; the left page includes that exact chance. Improve the parents' points or preview a different feed plan; traits do not improve from exercise."),-1);
             } else {
                 String label=check.gene().isPresent() ? Plain.geneName(check.gene().orElseThrow())+": "+(check.key().equals("build") ? Texts.t("fixed, 3+ packs") : Texts.t(check.detail().replace('_',' ')))
-                        : check.key().equals("fixed") ? Texts.t("All seven pairs fixed") : Texts.t("Four wild origins");
+                        : check.key().equals("fixed") ? Texts.t("All eight pairs fixed") : Texts.t("Four wild origins");
                 page.text(0,y,Page.fit(label,Page.WIDTH,m),Page.Tone.INK);
                 page.text(0,y+Page.LINE,Texts.t("A ")+check.current()+" / "+check.required()+Texts.t("; B ")+b.get(i).current()+" / "+check.required(),Page.Tone.MUTED);
                 page.hotspot(0,y,Page.WIDTH,18,label+Texts.t(". These are the actual commission requirements, including hidden copies and Diet. A/B numbers describe the sampled parents; matching-pup odds on the left combine all targets. If a required copy is absent, find another founder, choose another mate or use an optional splice plan."),-1);

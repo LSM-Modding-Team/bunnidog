@@ -2,7 +2,7 @@
 
 **Implementation status, 2026-10-24:** ground Brute/Prismmaw/Broodcaller/Blastmaw/
 Lifebinder and all five flying variants now ship, including the +60% damage
-baseline with unchanged health, focused rituals and original source-bearing
+baseline, the play-review role corrections, focused rituals and original source-bearing
 Crests. See [APEX_SPECS.md](APEX_SPECS.md) for actual values/evidence. AX1–AX4
 and initial bounded AX5 flight are implemented; flight feel and mixed-pack balance
 still need client playtesting. Native testing does not establish final balance.
@@ -12,14 +12,15 @@ the lavish expanded loot economy remain **planned**. The design below preserves
 the broader direction; prototype timings/architecture yield to the actual spec.
 The current shared `Apex` implementation uses role/type factories as its family
 contract rather than duplicating subclasses. Flight currently uses bounded direct
-movement/ground recovery; ambient healing of ordinary wild animals is deferred.
+continuous movement; ambient healing of ordinary wild animals is deferred.
 
 ## The intended power curve
 
 The Apex is intended as a boss relative to vanilla midgame equipment and an
 ordinary enemy relative to vanilla endgame equipment. Further player testing
 sets the planned baseline to **1.6× current outgoing damage (+60%), with health
-unchanged**. This supersedes the initial current-damage target; the outgoing
+unchanged for the base Brute**. Blastmaw now gains 20% health and flying Brute
+gains double bite damage after direct play feedback. This supersedes the initial current-damage target; the outgoing
 damage increase is now implemented. Keep that gear-relative relationship.
 The user has fought several current Apexes with endgame gear; that play evidence
 sets the direction. The expansion should not quietly turn every variant into a
@@ -41,14 +42,15 @@ can go early. Ordinary care, breeding and useful limited companions keep their
 place; no dimension visit is required to maintain a home or learn a basic job.
 
 The current `ApexRules` bounds document the shipped reference: health 180–720,
-movement .25–.42, jump .4–.8, melee 8–15, awareness 24–64, scale 1.8, and inherited
+movement .25–.42, jump .4–.8, pre-multiplier melee 8–15, awareness 24–64, scale 1.8, and inherited
 armor/resistance additions. The revised plan multiplies outgoing attack damage
 by 1.6 **after** the existing bounded damage calculation: melee becomes 12.8–24,
 and stomp damage scales by the same factor. Do not clamp the increased result
 back to the old 15-damage ceiling. Health remains 180–720; movement, armor,
 resistance, attack timings and enrage multipliers are not increased by this edit.
-Apply the same damage target to the variant prototypes, without automatically
-increasing healing, minion health, summon counts or the final boss's proposed HP.
+The explicit play-review overrides in APEX_SPECS now increase Blastmaw health,
+elite brood counts/stats and specialist attacks. These replace the initial
+prototype values below; they do not automatically raise the future final boss HP.
 Power-10 blasts retain power/radius 10: scale victim damage separately rather than
 raising explosion power. The caster's explicit backlash remains its stated health
 cost, not an outgoing attack to amplify. Compare variants using the **same source specimen**,
@@ -125,7 +127,7 @@ Implement the planned +60% outgoing damage without adding health.
 Its pounce/stomp warning, half-health enrage and bounded genetics are the comparison
 point. Do not retroactively upgrade old saved bosses into one of the new roles.
 The flying Brute later exchanges continuous ground pursuit for dives and recovery
-landings; it is not a hovering melee hitbox with permanent perfect access.
+ascent/orbit recovery; other flying roles remain aloft.
 
 ### Prismmaw: the mouth laser
 
@@ -150,14 +152,14 @@ change the body, so the server ray and client mouth effect must agree.
 ### Broodcaller: a finite enraged swarm
 
 The caller plants itself, beats its forefeet and gives a rising call. Several
-small enraged bunnidogs emerge on real nearby ground and pursue the encounter's
+full-size elite enraged bunnidogs emerge on checked nearby ground or in air and pursue the encounter's
 targets. They visually belong to its source line. They are dangerous helpers,
 not additional full-health Apexes.
 
-Start with four minions per call, a maximum of six alive per caller and a shared
-local encounter cap of twelve. Initial minion candidates: 6–10 health, 3.2–4.8 melee
-damage (the original 2–3 prototype ×1.6), 30–45 seconds of life, and at least twelve seconds between calls. These
-numbers are a playtest starting point. A caller cannot accumulate an army while
+The play-review revision uses up to eight per call, twelve alive per caller and
+twenty-four locally. Saved genes and bred points produce elite health (16–48),
+damage (5.5–12), faster movement and bite cadence. Life is thirty seconds;
+recovery is twelve seconds. Flying callers produce genetically winged brood. A caller cannot accumulate an army while
 its target is behind an unloaded wall or keep summoning off-screen forever.
 
 Killing the caller promptly ends its temporary pack, with a short visible fade.
@@ -190,21 +192,17 @@ making them secretly immune. Do not implement family immunity by canceling every
 explosion, protecting players, or checking only the original `Apex` Java class.
 
 **Repeatable self-cost:** suppress the caster's native point-blank blast damage,
-then apply one explicit backlash of about 15% of maximum health. Its own blast
+then apply one explicit backlash of 30% of maximum health. Its own blast
 leaves at least one health. It cannot arm again below the health needed to pay
 another backlash plus a small margin. It can still fight, be finished by players,
 or be healed by a support. This permits repeated explosions without an immortal
 one-health detonator or immediate creeper-style death. No backlash on a cancelled
 cast; a valid blast pays once even when it hits no player.
 
-**Terrain policy:** preserve the current ritual's non-destructive Overworld play.
-Power-10 victim effects remain; block destruction is enabled only in designated
-dimensional wilderness, under mob-griefing and actual server protection hooks.
-Do not damage protected builds, portals, encounter anchors or critical dungeon
-structure. Dungeon breakable cover is an explicit separate policy. Do not scan
-or generate unloaded chunks to complete an explosion; postpone the cast when its
-required loaded area is unavailable. Limit simultaneous detonations locally,
-without quietly lowering the explosion power.
+**Terrain policy:** the latest play review explicitly requests fireball-like terrain
+destruction in the Overworld too. Power ten uses native mob griefing, block-drop
+policy and protection hooks. This supersedes the original non-destructive ritual
+prototype. Unbreakable/protected terrain and cancellation remain authoritative.
 
 ### Lifebinder: hook, stun, drain and shared vitality
 
@@ -243,19 +241,22 @@ makes target priority readable: pressure the healer or break its supply.
 
 ## Flying versions and mixed packs
 
-Flight is a movement variation of every role, not a second stat multiplier.
-Prismmaw can strafe before committing its mouth beam; a flying Broodcaller lands
-or calls minions onto checked ground; a flying Blastmaw warns, descends and
-commits its detonation position; a Lifebinder exposes itself while tethering.
-The flying Brute dives, then recovers within reach. Flight is readable through
-added silhouette details and movement, while preserving the approved face/body.
+All Apex flying variants are continuous aerial creatures. Only the flying Brute
+descends for phantom-like dives; its limited strike cadence earns double ordinary
+Apex damage. Prismmaw, Broodcaller, Blastmaw and Lifebinder remain airborne between
+and during attacks. Flying Blastmaw detonates overhead. Flying Broodcaller makes
+winged elite brood with actual inherited flight. The runtime now implements this
+movement; client terrain/pack balance remains a playtest.
 
-Initial constraints: use local altitude bands roughly 4–10 blocks above valid
-terrain, bounded pursuit and periodic vulnerable low passes/landings. Do not
-hover forever beyond a sword user's reach, attack from terrain-hidden positions,
-or turn flying Blastmaws into unannounced overhead bombs. Bow/crossbow access is
-valuable; a melee player still has openings. Confined dungeon versions get
-geometry suited to their actual collision size and flight needs.
+**Art follow-up, explicitly deferred by the user:** add actual wings and appropriate
+textures/flight poses to every flying Apex and genetically winged bunnidog. Preserve
+the approved face/body; attachment, folded/extended silhouettes, flight animation
+and the inherited Wings signal must agree. Do not use particles as the final wing
+silhouette. This batch adds neither wing geometry nor textures.
+
+Loaded bounds, native collision and block-protection hooks remain authoritative.
+The previous landing/ground-recovery requirement is superseded by player feedback.
+Winged companions may land for Wait/resident work; Apex flyers stay aloft.
 
 Start with small mixed groups, then test combinations deliberately:
 
@@ -643,7 +644,7 @@ pipeline and actual client review; none are generated in this planning batch.
 | AX2 — Broodcaller | Finite hostile swarm with source/expiry and useful reward | Cancelled spawn, live cap, caster death and no-minion-loot case; mixed-pack play |
 | AX3 — Blastmaw | Real repeated power-10 detonation and family protection | Native explosion on a sufficiently large loaded fixture; cross-type immunity, backlash, terrain/protection refusal; client tell |
 | AX4 — Lifebinder | Physical hook, bounded stun, true drain and actual healing | Miss/cover/collision, two-caster anti-chain, armor bypass, cancelled damage and healing-conservation case; solo/coop play |
-| AX5 — flight | Flying Brute and all four role variants | Collision, altitude, landing and each role's cast positions; melee/ranged access in actual terrain |
+| AX5 — flight | Flying Brute and all four role variants | Continuous altitude, Brute-only dives, wing art and each role's cast positions; melee/ranged access in actual terrain |
 | AX6 — Great Warren | Returnable portal, natural Apex ecology and first rich ruins/gear | Real generation-stage and endpoint/save cases; loaded population/performance and endgame expeditions |
 | AX7 — Crown Warren | Branching wings, Crowned Apex, core upgrades and lavish vault | Real bounded encounter/reset/reward cases, generation safety and full solo/coop dungeon play |
 

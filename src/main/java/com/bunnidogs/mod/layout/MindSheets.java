@@ -73,8 +73,8 @@ public final class MindSheets {
                     + Texts.t("Independent %s; supported only %s; beyond capacity %s. These are exact joint genetic odds before mutation, not chances of being born educated.",
                     ForecastSheet.percent(independent), ForecastSheet.percent(supported), ForecastSheet.percent(1 - independent - supported)), -1);
         }
-        line(right, 138, Texts.t("All 11 fixed: %s", ForecastSheet.percent(cross.fullFixedPupChance())), Page.Tone.MUTED, metrics);
-        right.hotspot(0, 138, Page.WIDTH, 18, Texts.t("Registry purity includes seven body and four mind pairs. Shows and existing comparator signals still use body pairs only."), -1);
+        line(right, 138, Texts.t("All 12 fixed: %s", ForecastSheet.percent(cross.fullFixedPupChance())), Page.Tone.MUTED, metrics);
+        right.hotspot(0, 138, Page.WIDTH, 18, Texts.t("Registry purity includes eight body and four mind pairs. Existing redstone compares the original seven body pairs."), -1);
         return new Page.Spread(left, right);
     }
 

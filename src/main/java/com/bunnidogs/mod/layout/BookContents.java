@@ -23,7 +23,7 @@ public final class BookContents {
     static final int GUIDE_LINES = 6;
 
     /** The short reading guide of the contents page (the full text, {@link Plain#HOW_TO_READ}, waits for the hover boxes of S5). */
-    public static final String GUIDE = "Pairs: Ears, Coat, Legs, Build, Temper., Fertil., Diet. The stronger copy shows. Either copy can pass to a pup.";
+    public static final String GUIDE = "Pairs: Ears, Coat, Legs, Build, Temper., Fertil., Diet, Wings. Either copy can pass to a pup.";
 
     /** How many spreads the open book has: the contents and one per logged animal. */
     public static int spreadCount(Pedigree book) {

@@ -14,13 +14,15 @@ public final class Combat {
             case "stocky","woolly" -> 1.1; case "chonker" -> 1.2; default -> 1;
         };
         int interval=switch (build) { case "stocky","woolly" -> 24; case "chonker" -> 28; default -> 20; };
+        double agility=genome.traits().speedMultiplier()*Math.sqrt(Math.max(.3,stats.multiplier(Stat.SWIFTNESS)));
+        interval=Math.clamp((int)Math.round(interval/Math.max(.5,agility)),10,36);
         var temperament=genome.traits().temperament();
         double force=temperament==Temperament.FERAL ? 1.2 : temperament==Temperament.SKITTISH ? .9 : 1;
         int vitality=stats.get(Stat.VITALITY);
         double fitness=vitality>=0 ? 1+.2*Math.sqrt(vitality/20.0) : Math.max(.65,1+.02*vitality);
         double withdrawal=switch (temperament) { case LOYAL -> .4; case STOIC -> .35; case FERAL -> .25; case SKITTISH -> .55; };
         // The target version's native ATTACK_DAMAGE range ends at 2048; readouts must match actual attributes.
-        return new Profile(Math.min(2048,2*weight*force*fitness),interval,withdrawal);
+        return new Profile(Math.min(2048,2*weight*force*fitness*Math.sqrt(Math.max(.3,stats.multiplier(Stat.LEAP)))),interval,withdrawal);
     }
     public static int recoveryTicks(Stats stats) {
         return Math.max(MIN_RECOVERY_TICKS,(int)(RECOVERY_TICKS/Math.max(1,stats.growthMultiplier())));

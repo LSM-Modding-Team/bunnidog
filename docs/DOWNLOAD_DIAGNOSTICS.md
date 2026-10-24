@@ -1,4 +1,21 @@
-# Chrome download block — 2026-10-24
+# Direct JAR delivery after the Chrome ZIP incident
+
+The user confirmed the unchanged release JAR downloads with normal Chrome
+protection. Their latest instruction is to provide JAR downloads directly.
+Successful `main` pushes now publish a public development prerelease from the
+exact checked Actions artifact bytes, named for the full source commit's prefix.
+The build summary links straight to the JAR; a checksum accompanies it. PRs and
+failed builds cannot publish. Reruns verify an existing binary instead of
+silently replacing it. No local rebuild is substituted during publication.
+
+GitHub Actions' artifact-download button inherently serves a ZIP. Its internal
+transfer archive remains, while the user-facing download is the JAR release
+asset. This does not establish or change Google's reason for blocking the older
+ZIP. The old diagnostic draft stays historical; current delivery uses the newly
+verified combat build.
+
+## Original investigation
+
 
 The user reports that Chrome blocks the Actions ZIP for `c39c82e` as dangerous,
 while the previous version downloads normally with the same protection enabled.

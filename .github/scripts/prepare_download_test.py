@@ -48,7 +48,7 @@ def main():
     repo, run_id, release_id, expected, sha, release = metadata()
     if sys.argv[1:] == ['validate']:
         artifacts = api(f'repos/{repo}/actions/runs/{run_id}/artifacts?per_page=100')['artifacts']
-        matching = [a for a in artifacts if a['name'] == f'bunnidogs-{sha}' and not a['expired']]
+        matching = [a for a in artifacts if a['name'] in {f'bunnidogs-{sha}', f'ci-transfer-bunnidogs-{sha}'} and not a['expired']]
         require(len(matching) == 1, 'Expected one unexpired artifact for the exact commit')
         with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
             out.write(f"artifact={matching[0]['name']}\n")
@@ -71,7 +71,7 @@ def main():
     checksum_text = f'{expected}  {jar.name}\n'
     if os.environ.get('INCLUDE_ORIGINAL_ZIP', 'false').lower() == 'true':
         artifacts = api(f'repos/{repo}/actions/runs/{run_id}/artifacts?per_page=100')['artifacts']
-        original = [a for a in artifacts if a['name'] == f'bunnidogs-{sha}' and not a['expired']]
+        original = [a for a in artifacts if a['name'] in {f'bunnidogs-{sha}', f'ci-transfer-bunnidogs-{sha}'} and not a['expired']]
         require(len(original) == 1, 'Original artifact is missing or expired')
         try:
             archive = subprocess.check_output(['gh', 'api', f"repos/{repo}/actions/artifacts/{original[0]['id']}/zip"], stderr=subprocess.PIPE)

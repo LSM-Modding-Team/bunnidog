@@ -118,7 +118,7 @@ import net.minecraft.world.phys.Vec3;
  * of them mate, the seed's quality is the average of the two tiers' qualities ({@link GuavaTier#average}).
  *
  * <ul>
- *   <li>The genome is 56 bits, synced as one 24-bit low word and one 32-bit high word.</li>
+ *   <li>The genome is 64 body bits plus 32 mind bits, synced as three words.</li>
  *   <li>Saved to NBT as its text form, e.g. {@code Genome:"00-01-20-00-03-11"}, so it is hand-editable and works in
  *       {@code /summon bunnidogs:bunnidog ~ ~ ~ {Genome:"22-00-00-00-00-00"}}.</li>
  *   <li>A new bunnidog rolls a random founder genome in its constructor (server side). NBT loading and future
@@ -228,7 +228,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
                 .add(Attributes.JUMP_STRENGTH, BASE_JUMP)
                 .add(Attributes.FOLLOW_RANGE, BASE_FOLLOW_RANGE)
                 .add(Attributes.ARMOR,0).add(Attributes.KNOCKBACK_RESISTANCE,0)
-                .add(Attributes.ATTACK_DAMAGE, 2.0D);      // only used by feral bunnidogs biting back
+                .add(Attributes.ATTACK_SPEED,1).add(Attributes.ATTACK_DAMAGE, 2.0D);      // only used by feral bunnidogs biting back
     }
 
     // ------------------------------------------------------------------ genes
@@ -246,8 +246,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
 
     /** The decoded genome. Cheap: only re-decodes when the synced value changed. */
     public Genome genome() {
-        long packed = ((this.entityData.get(DATA_GENES_HI) & 0xFFFFFFFFL) << 24)
-                | (this.entityData.get(DATA_GENES_LO) & 0xFFFFFFL);
+        long packed = ((this.entityData.get(DATA_GENES_HI) & 0xFFFFFFFFL) << 32)
+                | (this.entityData.get(DATA_GENES_LO) & 0xFFFFFFFFL);
         Genome cached = this.cachedGenome;
         int mind = this.entityData.get(DATA_MIND);
         if (cached == null || cached.packed() != packed || cached.mindPacked() != mind) {
@@ -333,6 +333,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         setBase(Attributes.JUMP_STRENGTH, BASE_JUMP * t.jumpMultiplier() * st.multiplier(Stat.LEAP));
         setBase(Attributes.FOLLOW_RANGE, BASE_FOLLOW_RANGE * t.hearingMultiplier() * st.multiplier(Stat.SENSES));
         if (this.acceptsCare()) setBase(Attributes.ATTACK_DAMAGE,com.bunnidogs.mod.genetics.Combat.profile(this.genome(),st).bite());
+        setBase(Attributes.ATTACK_SPEED,20.0/com.bunnidogs.mod.genetics.Combat.profile(this.genome(),st).interval());
         this.applyAdaptations();
         this.setHealth(this.getMaxHealth() * fraction);
     }
@@ -996,7 +997,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     }
     @Override
     public boolean causeFallDamage(double distance, float modifier, DamageSource source) {
-        float adaptation = this.entityData == null ? 1F : Adaptations.fallMultiplier(this.genome());
+        float adaptation = this.entityData == null ? 1F : com.bunnidogs.mod.genetics.Wings.expressed(this.genome()) ? 0F : Adaptations.fallMultiplier(this.genome());
         return super.causeFallDamage(distance,modifier*adaptation,source);
     }
 
@@ -1179,6 +1180,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         });
         this.goalSelector.addGoal(2, new RefugeGoal(this));
         this.goalSelector.addGoal(2, new GuardGoal(this));
+        this.goalSelector.addGoal(1,new WingFlightGoal(this));
         this.goalSelector.addGoal(2, new CompanionFightGoal(this));
         // Skittish ones keep their distance from players.
         this.goalSelector.addGoal(2, new AvoidEntityGoal<Player>(this, Player.class, 8.0F, 1.0D, 1.6D) {

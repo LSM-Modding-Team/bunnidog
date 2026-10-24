@@ -38,9 +38,9 @@ public final class RegistryContents {
                     + Texts.t(". The first representative's adult stats and parents are a snapshot, not a live record."), -1);
         }
         right.text(0, 99, Texts.t("REGISTER A LINE"), Page.Tone.HEAD);
-        List<String> guide = Page.wrap(Texts.t("Use on a bred adult with all 11 pairs fixed. Air opens. One entry per genome."), Page.WIDTH, metrics);
+        List<String> guide = Page.wrap(Texts.t("Use on a bred adult with all 12 pairs fixed. Air opens. One entry per genome."), Page.WIDTH, metrics);
         for (int i = 0; i < Math.min(5, guide.size()); i++) right.text(0, 108 + Page.LINE * i, guide.get(i), Page.Tone.MUTED);
-        right.hotspot(0, 99, Page.WIDTH, 54, Texts.t("Breed matching copies in all seven body and four mind genes. The adult needs recorded birth parents. Calipers' Mind view shows cognitive pairs; the Table forecasts full Registry purity. Bred stats still drift, and learned routines are personal. A splice introduces one copy; breed to fix the pair. Shows and existing redstone still measure body pairs."), -1);
+        right.hotspot(0, 99, Page.WIDTH, 54, Texts.t("Breed matching copies in all eight body and four mind genes. The adult needs recorded birth parents. Calipers and the Table show full purity. Bred stats still drift, and learned routines are personal. A splice introduces one copy; breed to fix the pair. Redstone compares the original seven body pairs."), -1);
         return new Page.Spread(left, right);
     }
 }

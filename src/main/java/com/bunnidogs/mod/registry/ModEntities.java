@@ -55,7 +55,7 @@ public final class ModEntities {
             EntityType.Builder.of(com.bunnidogs.mod.entity.ApexMinion::new,MobCategory.MONSTER).sized(.6F,.9F).clientTrackingRange(8).notInPeaceful().noLootTable()
                     .build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","apex_minion"))));
     public static final DeferredHolder<EntityType<?>,EntityType<com.bunnidogs.mod.entity.ApexHook>> APEX_HOOK=ENTITIES.register("apex_hook",()->
-            EntityType.Builder.<com.bunnidogs.mod.entity.ApexHook>of(com.bunnidogs.mod.entity.ApexHook::new,MobCategory.MISC).sized(.25F,.25F).clientTrackingRange(8).updateInterval(1)
+            EntityType.Builder.<com.bunnidogs.mod.entity.ApexHook>of(com.bunnidogs.mod.entity.ApexHook::new,MobCategory.MISC).sized(1F,1F).clientTrackingRange(8).updateInterval(1)
                     .build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","apex_hook"))));
     public static EntityType<Apex> apex(com.bunnidogs.mod.entity.ApexKind kind,boolean flying) {
         return (flying ? FLYING_APEX : GROUND_APEX).get(kind.ordinal()).get();

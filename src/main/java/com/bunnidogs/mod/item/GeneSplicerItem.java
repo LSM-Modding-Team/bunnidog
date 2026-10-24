@@ -31,9 +31,9 @@ public final class GeneSplicerItem extends Item {
     }
     public static Locus selected(ItemStack stack) {
         int index = selection(stack);
-        return index < Gene.COUNT ? Gene.values()[index] : CognitiveGene.values()[(index - Gene.COUNT) / 2];
+        return index<7 ? Gene.values()[index] : index==15 ? Gene.WINGS : CognitiveGene.values()[(index-7)/2];
     }
-    public static int donorCopy(ItemStack stack) { return Math.max(0, selection(stack) - Gene.COUNT) % 2; }
+    public static int donorCopy(ItemStack stack) { return Math.max(0, selection(stack) - 7) % 2; }
     private static Component label(ItemStack stack) {
         Locus locus = selected(stack);
         return locus instanceof Gene gene ? TextComponents.gene(gene)

@@ -34,7 +34,7 @@ public final class ForecastSheet {
     // right page, y in px
     static final int LOOKS_Y = 11;
     static final int BLOCK_MAX_LINES = 2;
-    static final int FOOT_Y = 138;
+    static final int FOOT_Y = 147;
     static final int BLOCK_GAP = Math.max(0, (FOOT_Y - LOOKS_Y - Gene.COUNT * Page.LINE * BLOCK_MAX_LINES) / Gene.COUNT);
 
     public static Page.Spread spread(Tissue a, Tissue b, Metrics m) {
@@ -113,7 +113,7 @@ public final class ForecastSheet {
                 full.add(Plain.label(o.allele()) + " " + percent(o.chance()));
             }
             List<String> lines = Page.wrap(Plain.shortGeneName(gene) + ": " + String.join(", ", parts), Page.WIDTH, m);
-            int shown = Math.min(BLOCK_MAX_LINES, lines.size());
+            int shown = Math.min(gene==Gene.WINGS ? 1 : BLOCK_MAX_LINES, lines.size());
             for (int i = 0; i < shown; i++) {
                 String s = lines.get(i);
                 if (i == shown - 1 && lines.size() > shown) {
@@ -126,7 +126,7 @@ public final class ForecastSheet {
         }
 
         List<String> foot = List.of(Texts.t("Before mutation."),Texts.t("Hover for genes."));
-        for (int i = 0; i < Math.min(2, foot.size()); i++) {
+        for (int i = 0; i < Math.min(1, foot.size()); i++) {
             page.text(0, FOOT_Y + Page.LINE * i, foot.get(i), Page.Tone.MUTED);
         }
         return page;

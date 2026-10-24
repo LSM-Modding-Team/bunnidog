@@ -49,7 +49,7 @@ public final class BunnidogsClient {
         ModEntities.GROUND_APEX.forEach(type->event.registerEntityRenderer(type.get(),BunnidogRenderer::new));
         ModEntities.FLYING_APEX.forEach(type->event.registerEntityRenderer(type.get(),BunnidogRenderer::new));
         event.registerEntityRenderer(ModEntities.APEX_MINION.get(),BunnidogRenderer::new);
-        event.registerEntityRenderer(ModEntities.APEX_HOOK.get(),net.minecraft.client.renderer.entity.ThrownItemRenderer::new);
+        event.registerEntityRenderer(ModEntities.APEX_HOOK.get(),context -> new net.minecraft.client.renderer.entity.ThrownItemRenderer<>(context,3F,true));
         event.registerEntityRenderer(ModEntities.GUAVA_BOAT.get(), context -> new BoatRenderer(context, GUAVA_BOAT_LAYER));
         event.registerEntityRenderer(ModEntities.GUAVA_CHEST_BOAT.get(), context -> new BoatRenderer(context, GUAVA_CHEST_BOAT_LAYER));
         event.registerBlockEntityRenderer(ModBlocks.TROPHY_PEDESTAL_BE.get(), TrophyPedestalRenderer::new);

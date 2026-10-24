@@ -36,7 +36,7 @@ public final class ApexPanel {
         TissueSampleItem.read(sample).ifPresent(source->{
             rows.add(t("apex.source",sample.getHoverName())); rows.add(t("apex.kind",Component.translatable("entity.bunnidogs."+(focus==null ? "apex" : (focus.flying ? "flying_" : "")+focus.kind.id))));
             var plan=ApexRules.forecast(source);
-            rows.add(Component.translatable("message.bunnidogs.apex.forecast_combat",number(plan.normal().health()),number(plan.normal().damage()),number(plan.enraged().damage())));
+            rows.add(Component.translatable("message.bunnidogs.apex.forecast_combat",number(plan.normal().health()*(focus!=null && focus.kind==com.bunnidogs.mod.entity.ApexKind.BLAST ? 1.2 : 1)),number(plan.normal().damage()*(focus!=null && focus.flying && focus.kind==com.bunnidogs.mod.entity.ApexKind.BRUTE ? 2 : 1)),number(plan.enraged().damage()*(focus!=null && focus.flying && focus.kind==com.bunnidogs.mod.entity.ApexKind.BRUTE ? 2 : 1))));
             rows.add(Component.translatable("message.bunnidogs.apex.forecast_defense",number(plan.armor()),Math.round(plan.knockbackResistance()*100),number(plan.normal().awareness())));
             rows.add(Component.translatable("message.bunnidogs.apex.forecast_motion",Math.round((plan.enraged().speed()/plan.normal().speed()-1)*100),number(Units.jumpHeight(plan.normal().jump()))));
         });

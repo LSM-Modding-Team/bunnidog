@@ -5,7 +5,7 @@ import java.util.Locale;
 import java.util.random.RandomGenerator;
 
 /**
- * The seven gene slots and their allele tables. New slots are appended, never inserted.
+ * The eight body gene slots and their allele tables. New slots are appended, never inserted.
  *
  * <p>THE TABLES ARE SAVE-FORMAT: an allele's position in its table is its id, stored in every saved genome.
  * Append new alleles at the end (max 16 per gene); never reorder or delete existing ones.
@@ -81,7 +81,8 @@ public enum Gene implements Locus {
             wild("mountain_grazer",14, 0f, Lineage.MOUNTAIN),
             wild("nether_forager", 15, 0f, Lineage.NETHER),
             wild("chorus_eater",   16, 0f, Lineage.END),
-            wild("shore_forager",  17, 0f, Lineage.ISLAND));
+            wild("shore_forager",  17, 0f, Lineage.ISLAND)),
+    WINGS("wings", spec("grounded",3,0f,8),spec("winged",50,1f,0));
 
     /** Number of gene slots. */
     public static final int COUNT = values().length;

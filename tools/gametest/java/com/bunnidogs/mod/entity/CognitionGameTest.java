@@ -61,7 +61,7 @@ public final class CognitionGameTest {
         h.assertTrue(TissueSampleItem.read(copy(h, future)).isEmpty() && future.get(ModItems.TISSUE_DATA.get()).equals(opaque), "Unknown future samples remain recoverable");
         var player = h.makeMockPlayer(GameType.SURVIVAL);
         var tool = new ItemStack(ModItems.GENE_SPLICER.get());
-        tool.set(ModItems.SPLICE_GENE.get(), Gene.COUNT + 2 * CognitiveGene.HANDLING.ordinal() + 1);
+        tool.set(ModItems.SPLICE_GENE.get(), 7 + 2 * CognitiveGene.HANDLING.ordinal() + 1);
         var donor = Genome.DEFAULT.with(CognitiveGene.HANDLING, 0, 0).with(CognitiveGene.HANDLING, 1, 3);
         player.setItemInHand(InteractionHand.MAIN_HAND, tool);
         player.setItemInHand(InteractionHand.OFF_HAND, TissueSampleItem.create(donor, Stats.ZERO));
@@ -72,7 +72,7 @@ public final class CognitionGameTest {
                 "Native cognitive splice must introduce chosen donor copy 2 once, preserving the body");
         h.assertTrue(GeneSplicerItem.selected(copy(h, tool)) == CognitiveGene.HANDLING && GeneSplicerItem.donorCopy(copy(h, tool)) == 1,
                 "Cognitive tool selection survives item codecs");
-        var book = new ItemStack(ModItems.PEDIGREE_BOOK.get()); String futureRecords = "g3.opaque<g3.parent+g3.parent";
+        var book = new ItemStack(ModItems.PEDIGREE_BOOK.get()); String futureRecords = "g4.opaque<g3.parent+g3.parent";
         book.set(ModItems.PEDIGREE_DATA.get(), futureRecords);
         var entry = new Pedigree.Entry(full, Optional.of(full), Optional.of(full), Optional.of(dog.getUUID()), Optional.empty(), Optional.of(dog.stats()), false);
         PedigreeBookItem.log(player, book, entry);

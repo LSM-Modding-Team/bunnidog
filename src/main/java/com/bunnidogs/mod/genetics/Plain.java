@@ -20,7 +20,7 @@ public final class Plain {
 
     /** How to read the genome code, for page 1 of the book and the code's hover box (spec 5.4). */
     public static final String HOW_TO_READ =
-            "Seven pairs, one per gene, in this order: Ears, Coat, Legs, Build, Temperament, Fertility, Diet. In each pair the first digit came from the mother and the second from the father. When the two differ, the stronger one shows and the other is carried: it does not show on this animal but it can pass to its pups.";
+            "Eight pairs, one per body gene: Ears, Coat, Legs, Build, Temperament, Fertility, Diet, Wings. The first digit came from the mother and the second from the father. The stronger copy shows; either copy can pass to pups.";
 
     // ------------------------------------------------------------------ words
 
@@ -59,6 +59,7 @@ public final class Plain {
             case TEMPERAMENT -> word(allele);
             case FERTILITY -> Texts.t("%s fertility", word(allele));
             case DIET -> Texts.t("%s diet", word(allele));
+            case WINGS -> word(allele);
         };
     }
 
@@ -188,6 +189,8 @@ public final class Plain {
         note(Gene.FERTILITY, "swarm", "Swarm: breeds like a swarm.");
         note(Gene.FERTILITY, "starborn",
                 "Starborn: it turns Bloom into extra seed quality, at a toll on Vitality and Senses each generation. Brush healthy adults with Bloom +20 for one Starlit Dust every ten minutes.");
+        note(Gene.WINGS,"grounded","Grounded: travels on foot.");
+        note(Gene.WINGS,"winged","Winged: flies in combat and while following its keeper.");
         for (Diet diet : Diet.values()) note(Gene.DIET, diet.key(), diet.foods());
     }
 
@@ -235,6 +238,7 @@ public final class Plain {
                 return Math.abs(health) < 1e-9 ? Texts.t("Normal health.") : Texts.t(health > 0 ? "About %s%% more health." : "About %s%% less health.", pct(health));
             }
             case TEMPERAMENT:
+            case WINGS:
                 return "";
             case DIET:
                 return Texts.t("Does not change body stats, stat drift or juice effects.");

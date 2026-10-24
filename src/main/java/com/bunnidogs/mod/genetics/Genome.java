@@ -4,12 +4,12 @@ import java.util.Optional;
 import java.util.random.RandomGenerator;
 
 /**
- * A complete bunnidog genotype: seven body loci in 56 bits plus four cognitive loci in 32 bits.
+ * A complete bunnidog genotype: eight body loci in 64 bits plus four cognitive loci in 32 bits.
  * Layout: gene i occupies bits [8i, 8i+8): slot 0 in the low nibble, slot 1 in the high nibble.
  * By convention slot 0 came from the mother and slot 1 from the father (so a Pedigree can tell them apart later).
  *
  * <p>Immutable. Canonical text form (used in NBT, {@code /summon ... {Genome:"..."}} and debug output):
- * {@code g2.00-01-20-00-03-11-00.11-22-11-22}. Body allele order is unchanged. Legacy six/seven-pair forms
+ * {@code g3.00-01-20-00-03-11-00-00.11-22-11-22}. Body allele order is unchanged. Legacy six/seven-pair and g2 forms gain grounded Wings. Body-only forms
  * gain the uniform heritable helper mind; a six-pair form also gains plain/plain Diet.
  */
 public record Genome(long packed, int mindPacked) {
@@ -37,14 +37,14 @@ public record Genome(long packed, int mindPacked) {
         mindPacked = mind;
     }
 
-    /** Keep the existing 24-bit low word; the high word now uses all 32 bits. */
-    public int syncLow() { return (int) (packed & 0xFFFFFFL); }
-    public int syncHigh() { return (int) (packed >>> 24); }
+    /** Two full unsigned words carry the body, including Wings in the final byte. */
+    public int syncLow() { return (int) packed; }
+    public int syncHigh() { return (int) (packed >>> 32); }
     public static Genome fromSynced(int low, int high) {
-        return new Genome(((high & 0xFFFFFFFFL) << 24) | (low & 0xFFFFFFL));
+        return new Genome(((high & 0xFFFFFFFFL) << 32) | (low & 0xFFFFFFFFL));
     }
     public static Genome fromSynced(int low, int high, int mind) {
-        return new Genome(((high & 0xFFFFFFFFL) << 24) | (low & 0xFFFFFFL), mind);
+        return new Genome(((high & 0xFFFFFFFFL) << 32) | (low & 0xFFFFFFFFL), mind);
     }
 
     public int alleleId(CognitiveGene gene, int slot) {
@@ -135,10 +135,10 @@ public record Genome(long packed, int mindPacked) {
 
     @Override
     public String toString() {
-        return "g2." + bodyCode() + "." + mindCode();
+        return "g3." + bodyCode() + "." + mindCode();
     }
 
-    /** Compact original body code for the existing seven-row page and body-only circuits. */
+    /** Compact original body code for the eight-row page and body-only circuits. */
     public String bodyCode() {
         StringBuilder sb = new StringBuilder();
         for (Gene g : Gene.values()) {
@@ -159,13 +159,13 @@ public record Genome(long packed, int mindPacked) {
         return sb.toString();
     }
 
-    public static boolean isFullCode(String text) { return text != null && text.trim().startsWith("g2."); }
+    public static boolean isFullCode(String text) { return text != null && (text.trim().startsWith("g2.") || text.trim().startsWith("g3.")); }
 
     /** Prevent editing a container from discarding an opaque genome written by a newer mod. */
     public static boolean containsUnsupportedSchema(String text) {
         if (text == null) return false;
         var matcher = java.util.regex.Pattern.compile("(?:^|[;|<+])g([0-9]+)\\.").matcher(text);
-        while (matcher.find()) if (!matcher.group(1).equals("2")) return true;
+        while (matcher.find()) if (!matcher.group(1).equals("2") && !matcher.group(1).equals("3")) return true;
         return false;
     }
 
@@ -176,6 +176,7 @@ public record Genome(long packed, int mindPacked) {
         }
         text = text.trim();
         String mindDigits = null;
+        boolean oldFull=text.startsWith("g2.");
         if (isFullCode(text)) {
             String[] parts = text.split("\\.", -1);
             if (parts.length != 3) return Optional.empty();
@@ -183,7 +184,9 @@ public record Genome(long packed, int mindPacked) {
             if (mindDigits.length() != CognitiveGene.COUNT * 2) return Optional.empty();
         } else if (text.contains(".")) return Optional.empty(); // unknown schema is not a legacy genome
         String digits = text.replaceAll("[-_:\\s]", "");
-        if (mindDigits == null && digits.length() == LEGACY_GENES * 2) digits += "00";
+        if(mindDigits==null && digits.length()==LEGACY_GENES*2)digits+="00";
+        if(oldFull && digits.length()!=14)return Optional.empty();
+        if((mindDigits==null || oldFull) && digits.length()==14)digits+="00";
         if (digits.length() != Gene.COUNT * 2) {
             return Optional.empty();
         }
@@ -286,7 +289,7 @@ public record Genome(long packed, int mindPacked) {
         }
         Locus mutated = null;
         if (rng.nextDouble() < mutationChance) {
-            mutated = Locus.all().get(rng.nextInt(legacyMutation ? Gene.COUNT : Locus.COUNT));
+            mutated = Locus.all().get(rng.nextInt(legacyMutation ? 7 : Locus.COUNT));
             int slot = rng.nextInt(2);
             child = child.with(mutated, slot, mutated.randomMutationAlleleId(child.alleleId(mutated, slot), rng));
         }

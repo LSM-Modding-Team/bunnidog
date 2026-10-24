@@ -24,7 +24,7 @@ import java.util.random.RandomGenerator;
  * out (zeros), so {@code 00-00-00-00-00-00|22-22-22-22-22-22} is a valid seed too.
  *
  * <p>Optional markers after quality are {@code mutagen} and {@code body_mutation}. The latter preserves the original
- * body-only mutation law when an old seed is rewritten with full g2 parents; new seeds use all eleven loci. Treatment
+ * body-only mutation law when an old seed is rewritten with full g3 parents; new seeds use all twelve loci. Treatment
  * raises each pup's mutation chance to at least {@link #MUTAGEN_MUTATION_FLOOR}, without changing the saved target law.
  */
 public record Seed(Genome mother, Stats motherStats, Genome father, Stats fatherStats, double quality, boolean mutagen, boolean legacyMutation) {

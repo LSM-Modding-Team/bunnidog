@@ -159,7 +159,7 @@ public final class SeedSheet {
             page.text(0, y + Page.LINE * (i + 1), s, Page.Tone.INK);
         }
         page.text(0, y + Page.LINE * 4, Page.fit(Plain.carriesText(genome), Page.WIDTH, m), Page.Tone.MUTED);
-        page.text(0, y + Page.LINE * 5, genome.bodyCode(), Page.Tone.MUTED);
+        page.text(0, y + Page.LINE * 5, genome.bodyCode().replace('-',' '), Page.Tone.MUTED);
         page.hotspot(0, y, Page.WIDTH, BLOCK_H, role.charAt(0) + role.substring(1).toLowerCase(Locale.ROOT) + ": " + look + ". " + Plain.carriesText(genome) + Texts.t(". Click to open ")
                 + pronoun.toLowerCase(Locale.ROOT) + Texts.t(" sheet."), -1);
         page.link(0, y, Page.WIDTH, BLOCK_H, spread);

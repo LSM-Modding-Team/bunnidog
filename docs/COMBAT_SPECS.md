@@ -98,12 +98,15 @@ withdraw. Notifications share a keeper throttle; an urgent fuse can upgrade a
 recent ordinary alert. A short bell, overlay and ear/look pose provide the cue;
 there is no permanent alert chatter.
 
-Adult base bite is `2 × Build × temperament × Vitality fitness` HP. Slim/lean
+Adult base bite is `2 × Build × temperament × Vitality fitness × sqrt(Leap multiplier)` HP. Slim/lean
 use ×0.95/×0.9 and 20 ticks; average uses ×1 and 20 ticks; stocky/woolly use ×1.1
-and 24 ticks; chonker uses ×1.2 and 28 ticks. Positive Vitality fitness is
+and a 24-tick starting interval; chonker uses ×1.2 and 28 ticks.
+Actual interval divides that starting value by expressed leg speed and the square
+root of bred Swiftness, bounded 10–36 ticks. Wings allow aerial Follow/combat,
+with Wait/residence landing and fall protection; wing art is explicitly deferred. Positive Vitality fitness is
 `1 + 0.2 × sqrt(points / 20)`; negative fitness is `max(0.65, 1 + 0.02 × points)`.
 At extreme points, base bite respects the native 2048 attack-attribute limit,
-so readouts agree with actual native attributes. Swiftness never multiplies hit frequency. Every ordinary attack caller,
+so readouts agree with actual native attributes. Swiftness improves cadence within the native half-second hurt window. Every ordinary attack caller,
 including hunting/home guards, shares the saved actual bite delay. Native armor,
 effects, shields and hurt immunity still decide the hit. The Apex retains its
 separate attributes and combat behavior.

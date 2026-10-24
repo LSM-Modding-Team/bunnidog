@@ -35,10 +35,10 @@ public final class SheetLayout {
 
     // left page, y in px
     static final int PORTRAIT_Y = 11;
-    static final int PORTRAIT_H = 45;
-    static final int GENOME_LABEL_Y = 59;
-    static final int CODE_Y = 68;
-    static final int ROWS_Y = 79;
+    static final int PORTRAIT_H = 36;
+    static final int GENOME_LABEL_Y = 50;
+    static final int CODE_Y = 59;
+    static final int ROWS_Y = 70;
     static final int LEGEND_Y = 145;
     static final int LABEL_W = 40;          // width of the gene-name column ("Temper." is about 38 px)
 
@@ -187,8 +187,8 @@ public final class SheetLayout {
         int x = 0;
         for (int i = 0; i < pairs.length; i++) {
             if (i > 0) {
-                page.text(x, CODE_Y, "-", Page.Tone.MUTED);
-                x += m.width("-");
+                page.text(x, CODE_Y, " ", Page.Tone.MUTED);
+                x += m.width(" ");
             }
             page.text(x, CODE_Y, pairs[i], Page.Tone.INK);
             page.pair(x, CODE_Y, m.width(pairs[i]));

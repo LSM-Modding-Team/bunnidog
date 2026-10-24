@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
-/** A real colliding, blockable hook; no instant hit through cover. */
+/** A visible fast hook that clears ordinary terrain through native grief/protection hooks. */
 public final class ApexHook extends ThrowableItemProjectile {
     public ApexHook(EntityType<? extends ApexHook> type,Level level) { super(type,level); }
     @Override protected Item getDefaultItem() { return Items.LEAD; }
@@ -23,6 +23,10 @@ public final class ApexHook extends ThrowableItemProjectile {
     @Override public void tick() {
         if (!level().isClientSide() && (tickCount>30 || !(getOwner() instanceof Apex apex) || !apex.isAlive() || distanceToSqr(apex)>576
                 || !level().hasChunksAt(blockPosition().offset(-2,-2,-2),blockPosition().offset(2,2,2)))) { discard(); return; }
+        if (level() instanceof net.minecraft.server.level.ServerLevel level && getOwner() instanceof Apex apex) {
+            if(!ApexTerrain.clear(level,apex,position(),position().add(getDeltaMovement()),.7,.7)) { discard();return; }
+            level.sendParticles(net.minecraft.core.particles.ParticleTypes.END_ROD,getX(),getY(),getZ(),2,.2,.2,.2,0);
+        }
         super.tick();
     }
 }

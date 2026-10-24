@@ -48,7 +48,7 @@ public final class SpecimenJarBlockEntity extends BlockEntity {
         if (!live()) return ItemStack.EMPTY;
         var out = this.sample; this.sample = ItemStack.EMPTY; changed(); return out;
     }
-    public int fixedSignal() { return TissueSampleItem.read(this.sample).map(t -> 1+2*Purebreds.fixedCount(t.genome())).orElse(0); }
+    public int fixedSignal() { return TissueSampleItem.read(this.sample).map(t -> 1+2*com.bunnidogs.mod.genetics.PedigreeSignal.fixedPairs(t.genome())).orElse(0); }
     private boolean live() { return this.level != null && !this.isRemoved() && this.level.getBlockEntity(this.worldPosition) == this; }
     private void changed() {
         if (StationInventoryUpdates.defer(this,this::changed)) return;

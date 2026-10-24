@@ -51,8 +51,15 @@ without restoring tutorial panels. The book/reader keeps its deliberate pages.
 Apex expansion steering: the later "implement the apex types" request authorizes
 runtime implementation. Five roles and their five flying variants now ship;
 `docs/APEX_SPECS.md` records actual behavior and evidence. Keep the +60% outgoing
-damage baseline (×1.6 after bounds), health unchanged, exact focused ritual costs,
+damage baseline (×1.6 after bounds), base Brute health unchanged, exact focused ritual costs,
 family blast immunity, finite swarms, hook recovery and healing conservation.
+The later detailed play review supersedes initial role prototypes: specialists
+have no melee; Blastmaw gets +20% HP, 30-tick creeper flash/swelling, destructive
+power-10 mob explosions and 30% backlash; brood are full-sized varied gene-driven
+elites; hook/pull destroy ordinary terrain and drain truly heals the caster;
+Prismmaw pierces blocks/shields, with a doubled channel and enrage tracking.
+Flying Apexes stay airborne, with Brute-only dives and double bite damage.
+Wings genetics/flight ship; actual wing models/textures are explicitly deferred.
 `docs/APEX_EXPANSION_PLAN.md` retains the future dimension, extravagant loot and
 Apex-of-Apexes dungeon boss; those systems are not implemented. Prioritize actual
 Apex play feedback and remaining integration before starting that larger realm.
@@ -66,7 +73,9 @@ investigation; keep browser protection enabled. A direct-JAR draft release is a
 diagnostic route, not proof the block is resolved. The user confirmed the identical direct-release JAR downloads with protection
 enabled. Prefer direct JAR release assets for sharing. The manual workflow copies
 verified CI bytes to an unpublished draft; ZIP controls are optional and off by
-default. Publishing needs the user's request.
+default. The latest user request for direct JAR downloads authorizes publishing
+verified main builds as public development prereleases. Build CI now provides the
+raw JAR link; Actions itself always wraps artifact downloads in ZIPs.
 Do not claim a packaging defect or confirmed false positive without evidence.
 
 Successful world actions/orders dismiss their actual conversation so animals can
@@ -195,7 +204,9 @@ skills distinct from stat thresholds when reporting work readiness.
 - Delivery preference: the user downloads JARs from GitHub. For sharing, prefer
   direct JAR assets on approved Releases (Chrome accepted this route with normal
   protection). Actions ZIPs remain development artifacts. Do not attach or link
-  local JAR files in chat; do not publish drafts without instruction.
+  local JAR files in chat. Publish the newly verified main-build JAR through CI
+  under the latest instruction. Keep old diagnostic drafts separate; no repeated
+  publication approval is needed.
 - Answer in the user's current language; keep code/docs English. Ask only for
   material missing decisions. A request to plan only means plan only; ordinary
   implementation requests authorize implementation without another approval loop.

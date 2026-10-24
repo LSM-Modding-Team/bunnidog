@@ -6,33 +6,41 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
 
-/** Bounded low flight with regular landings; collision is still performed by native entity movement. */
+/** Continuous aerial orbit. Only the Brute dives, once per ascent/strike/recovery cycle. */
 final class ApexFlightGoal extends Goal {
     private final Apex apex;
-    private int bite;
-    ApexFlightGoal(Apex apex) { this.apex=apex; setFlags(EnumSet.of(Flag.MOVE)); }
+    private int orbit=80,diveTicks;
+    private boolean diving;
+    ApexFlightGoal(Apex apex) { this.apex=apex;setFlags(EnumSet.of(Flag.MOVE)); }
     @Override public boolean canUse() { return apex.flightActive(); }
     @Override public boolean requiresUpdateEveryTick() { return true; }
     @Override public void tick() {
-        var target=apex.getTarget(); if (target==null) return;
-        apex.getNavigation().stop();
-        double altitude=apex.kind()==ApexKind.BRUTE ? 3 : 5;
-        Vec3 point=target.position().add(0,altitude,0);
-        if (!apex.level().hasChunkAt(BlockPos.containing(point))) { apex.landFor(60); return; }
-        int surface=apex.level().getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,(int)Math.floor(point.x),(int)Math.floor(point.z));
-        point=new Vec3(point.x,Math.min(point.y,surface+10),point.z);
-        Vec3 towards=point.subtract(apex.position());
-        var ahead=apex.getBoundingBox().move(towards.normalize().scale(1.5));
-        Vec3 desired=towards.normalize().scale(Math.min(.32,towards.length()*.06));
-        if (!apex.level().hasChunkAt(BlockPos.containing(point)) || !apex.level().noCollision(apex,ahead)) {
-            apex.landFor(60); return;
+        apex.getNavigation().stop();apex.setNoGravity(true);apex.resetFallDistance();
+        var target=apex.getTarget();
+        if(target==null || !target.isAlive()) { apex.setDeltaMovement(apex.getDeltaMovement().scale(.8).add(0,apex.onGround() ? .12 : 0,0));return; }
+        boolean brute=apex.kind()==ApexKind.BRUTE;
+        if(brute && !diving && --orbit<=0 && apex.getY()>=target.getY()+5 && apex.hasLineOfSight(target)) { diving=true;diveTicks=0; }
+        double radius=apex.kind()==ApexKind.PRISM ? 18 : apex.kind()==ApexKind.BLAST && apex.retreatTicks()==0 && (apex.abilityWait()==0 || apex.casting()) ? 3 : 11;
+        double angle=apex.tickCount*.012;
+        Vec3 point=diving ? target.position().add(0,.5,0) : target.position().add(Math.cos(angle)*radius,apex.kind()==ApexKind.BLAST ? 7 : 9,Math.sin(angle)*radius);
+        if(brute && !diving)point=target.position().add(Math.cos(angle)*8,10,Math.sin(angle)*8);
+        if(diving && (++diveTicks>55 || apex.horizontalCollision || apex.onGround() || apex.isWithinMeleeAttackRange(target))) {
+            if(apex.isWithinMeleeAttackRange(target) && apex.hasLineOfSight(target))apex.doHurtTarget((ServerLevel)apex.level(),target);
+            diving=false;orbit=80;point=target.position().add(0,10,0);
         }
-        apex.setDeltaMovement(apex.getDeltaMovement().lerp(desired,.2));
-        apex.getLookControl().setLookAt(target,15,15);
-        if (bite>0) bite--;
-        if (bite==0 && apex.distanceToSqr(target)<9 && apex.hasLineOfSight(target)) {
-            apex.doHurtTarget((ServerLevel)apex.level(),target); bite=20;
+        fly(apex,point,diving ? .9 : .48);
+        if(!apex.casting())apex.getLookControl().setLookAt(target,20,20);
+    }
+    static void fly(Bunnidog mob,Vec3 point,double speed) {
+        Vec3 towards=point.subtract(mob.position());
+        if(!mob.level().hasChunksAt(BlockPos.containing(mob.position()).offset(-2,-2,-2),BlockPos.containing(point).offset(2,2,2))) { mob.setDeltaMovement(mob.getDeltaMovement().scale(.5));return; }
+        Vec3 desired=towards.normalize().scale(Math.min(speed,towards.length()*.08));
+        if(!mob.level().noCollision(mob,mob.getBoundingBox().move(desired.scale(2)))) {
+            // Rise around an obstruction, never drop deliberately or force an unloaded chunk.
+            desired=new Vec3(-desired.z*.5,.3,desired.x*.5);
+            if(!mob.level().noCollision(mob,mob.getBoundingBox().move(desired.scale(2))))desired=Vec3.ZERO;
         }
+        mob.setDeltaMovement(mob.getDeltaMovement().lerp(desired,.25));
     }
     @Override public void stop() { apex.getNavigation().stop(); }
 }

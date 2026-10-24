@@ -19,9 +19,8 @@ public final class SpliceSheet {
     private static Page page(Genome recipient, Genome donor, boolean intoA, Metrics metrics) {
         Page page = new Page();
         page.text(0, 0, Texts.t("SPLICE INTO ") + (intoA ? "A" : "B"), Page.Tone.HEAD);
-        page.text(0, 9, Texts.t("donor: sample ") + (intoA ? "B" : "A"), Page.Tone.MUTED);
         for (Gene gene : Gene.values()) {
-            int y = 20 + gene.ordinal() * 18;
+            int y = 11 + gene.ordinal() * 18;
             var source = donor.expressed(gene);
             var plan = Splicing.plan(recipient, donor, gene);
             String hover = Plain.geneName(gene) + Texts.t(": recipient has ") + Plain.label(recipient.allele(gene, 0))
@@ -41,8 +40,8 @@ public final class SpliceSheet {
                         + "; " + Plain.label(change.genome().expressed(gene)) + Texts.t(" shows. One sample, one Mutagen and one tool use. Use the matching gene on a healthy adult; one minute recovery. Recipient bred stats and relative health stay.");
             }
             page.text(0, y, Plain.shortGeneName(gene), Page.Tone.INK);
-            page.text(0, y + Page.LINE, Page.fit(note, Page.WIDTH, metrics), Page.Tone.MUTED);
-            page.hotspot(0, y, Page.WIDTH, 18, hover + Texts.t(" Samples are snapshots; a live animal's genes may have changed."), -1);
+            if(gene!=Gene.WINGS)page.text(0, y + Page.LINE, Page.fit(note, Page.WIDTH, metrics), Page.Tone.MUTED);
+            page.hotspot(0, y, Page.WIDTH, gene==Gene.WINGS ? 9 : 18, hover + Texts.t(" Samples are snapshots; a live animal's genes may have changed."), -1);
         }
         page.text(0, 147, Page.fit(Texts.t("Read-only; samples stay."), Page.WIDTH, metrics), Page.Tone.MUTED);
         return page;

@@ -26,7 +26,7 @@ public final class InheritanceSheet {
         if (fixed) {
             String all = String.format(Locale.ROOT, "%.2f%%", cross.fixedPupChance() * 100);
             page.textRight(Page.WIDTH, 0, all, Page.Tone.GOOD);
-            page.hotspot(0, 0, Page.WIDTH, Page.LINE, Texts.t("All seven body pairs fixed: ") + all + Texts.t(" per pup, or ")
+            page.hotspot(0, 0, Page.WIDTH, Page.LINE, Texts.t("All eight body pairs fixed: ") + all + Texts.t(" per pup, or ")
                     + String.format(Locale.ROOT, "%.2f%%", cross.atLeastOneInLitter(cross.fixedPupChance()) * 100)
                     + Texts.t(" for at least one in an uncrowded litter. Before mutation. The Registry also requires four fixed mind pairs; switch to Mind for complete purity odds."), -1);
         }
@@ -51,14 +51,13 @@ public final class InheritanceSheet {
             hover.append(Texts.t("Before mutation; crowding can reduce the litter."));
             int y = 11 + gene.ordinal() * 18;
             List<String> lines = Page.wrap(Plain.shortGeneName(gene) + ": " + String.join(", ", summary), Page.WIDTH, metrics);
-            for (int i = 0; i < Math.min(2, lines.size()); i++) {
+            for (int i = 0; i < Math.min(gene==Gene.WINGS ? 1 : 2, lines.size()); i++) {
                 String line = lines.get(i);
                 if (i == 1 && lines.size() > 2) line = Page.fit(line + "..", Page.WIDTH, metrics);
                 page.text(0, y + i * Page.LINE, line, Page.Tone.INK);
             }
-            page.hotspot(0, y, Page.WIDTH, 18, hover.toString(), -1);
+            page.hotspot(0, y, Page.WIDTH, gene==Gene.WINGS ? 9 : 18, hover.toString(), -1);
         }
-        page.text(0, 138, Page.fit(Texts.t("Per pup; before mutation."), Page.WIDTH, metrics), Page.Tone.MUTED);
         page.text(0, 147, Page.fit(Texts.t("Hover for litter odds."), Page.WIDTH, metrics), Page.Tone.MUTED);
         return page;
     }

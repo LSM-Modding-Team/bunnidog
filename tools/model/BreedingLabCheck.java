@@ -129,10 +129,12 @@ public final class BreedingLabCheck {
             near(allele(carriers, gene, 0).fixed(), .25);
             near(allele(carriers, gene, 1).carried(), .75);
             near(allele(carriers, gene, 1).fixed(), .25);
+            if(gene.alleleCount()>=4) {
             Cross disjoint = new Cross(tissue(pair(gene, 0, 1)), tissue(pair(gene, 2, 3)));
             require(disjoint.inherited(gene).size() == 4, "Both copies of both parents must be visible");
             for (var odds : disjoint.inherited(gene)) { near(odds.carried(), .5); near(odds.fixed(), 0); }
             require(disjoint.inherited(gene).equals(new Cross(disjoint.b(), disjoint.a()).inherited(gene)), "Reversing samples must preserve inherited odds");
+            }
             Cross fixed = new Cross(tissue(pair(gene, 1, 1)), tissue(pair(gene, 1, 1)));
             near(allele(fixed, gene, 1).carried(), 1);
             near(allele(fixed, gene, 1).fixed(), 1);
@@ -154,12 +156,12 @@ public final class BreedingLabCheck {
         near(new Cross(tissue(pair(Gene.COAT, 0, 0)), tissue(pair(Gene.COAT, 1, 1))).fixedPupChance(), 0);
         Genome allCarriers = Genome.DEFAULT;
         for (Gene gene : Gene.values()) allCarriers = allCarriers.with(gene, 1, 1);
-        near(new Cross(tissue(allCarriers), tissue(allCarriers)).fixedPupChance(), 1.0 / 128);
+        near(new Cross(tissue(allCarriers), tissue(allCarriers)).fixedPupChance(), 1.0 / (1<<Gene.COUNT));
 
         Genome mixedA = Genome.DEFAULT, mixedB = Genome.DEFAULT;
         for (Gene gene : Gene.values()) {
             mixedA = mixedA.with(gene, 0, 0).with(gene, 1, 1);
-            mixedB = mixedB.with(gene, 0, gene.alleleCount() - 1).with(gene, 1, 2);
+            mixedB = mixedB.with(gene, 0, gene.alleleCount() - 1).with(gene, 1, 2%gene.alleleCount());
         }
         TableSheet table = new TableSheet(Optional.of(tissue(mixedA)), Optional.of(tissue(mixedB)));
         require(TableSheet.parse(table.toString()).orElseThrow().equals(table), "Old A|B payload must remain exact");
@@ -200,7 +202,7 @@ public final class BreedingLabCheck {
         require(Combat.profile(Genome.DEFAULT.with(Gene.TEMPERAMENT,1,feral),Stats.ZERO).equals(ordinary),
                 "A hidden feral allele must change offspring potential, never the loyal parent's actual bite or retreat");
         var quick=Stats.ZERO.with(Stat.SWIFTNESS,Integer.MAX_VALUE);
-        require(Combat.profile(Genome.DEFAULT,quick).interval()==ordinary.interval(),"Swiftness must not bypass native hurt windows");
+        require(Combat.profile(Genome.DEFAULT,quick).interval()==10,"Swiftness improves attack cadence down to the native half-second hurt window");
         var grown=Stats.ZERO.with(Stat.VITALITY,1000);
         require(Combat.profile(Genome.DEFAULT,grown).bite()>Combat.profile(Genome.DEFAULT,Stats.ZERO.with(Stat.VITALITY,20)).bite(),
                 "Developed lines must retain useful offensive progress beyond early point thresholds");

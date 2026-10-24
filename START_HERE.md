@@ -14,57 +14,56 @@ surface trees, houses, paths and landmarks (levels 1–5).
 
 Work directly on `main`, preserving player saves and unrelated changes. Push
 coherent validated batches under the standing continuation authorization.
-The user downloads JARs from GitHub Actions artifacts; never attach/link a local
+The user downloads direct JARs from GitHub Releases; never attach/link a local
 JAR in chat. Discover `get_usage_limits` at substantial starts/checkpoints. It
 is not exposed in this session: use available work budget without inventing quota.
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Active distribution issue — Chrome download block
+## Current focus — Apex play-review corrections (2026-10-24)
 
-The user reports only the latest Apex artifact ZIP is blocked. Actual old/new CI
-archives have identical packaging/permissions and expected contents; latest CI
-JAR equals the local build byte-for-byte. The reason for Google's verdict is not
-established. `docs/DOWNLOAD_DIAGNOSTICS.md` records hashes and the diagnostic plan.
-A draft direct-JAR release (`apex-preview-c39c82e`, release ID 422901680) targets
-the original commit. The manual Prepare download test workflow copies/checks the
-original successful build into that unpublished draft, preserving the JAR hash.
-The user tested the direct JAR with Chrome protection enabled: it downloads
-normally. Prefer direct JAR release assets for sharing; the exact Google ZIP/URL
-verdict is still unknown. The draft remains unpublished pending instruction.
-Do not publish the draft or change gameplay merely to try a different hash.
+The latest request implements combat corrections for all roles and direct JAR
+delivery. [APEX_SPECS.md](docs/APEX_SPECS.md) is the actual behavior reference.
 
-## Current focus — Apex types implemented (2026-10-24)
+- Specialists no longer bite; ground positioning keeps Prismmaw at 16–24 blocks,
+  Broodcaller/Lifebinder at 10–16, and Blastmaw rushes/fuses/retreats. Blastmaw has
+  +20% health, native creeper flashing/swelling and a 30-tick fuse. Power-ten
+  explosions now destroy terrain like fireballs under native grief/protection
+  policy, spare Apex/brood family and charge 30% max-health backlash.
+- Prismmaw has six pulses over sixty damaging ticks (+100% duration), 1.5× pulse
+  damage, a larger visual/collision cylinder, block/armor/shield penetration and
+  below-half-health tracking. Lifebinder's larger hook travels four blocks/tick,
+  breaks outbound/pull corridors, and retains unbreakable/protected-block limits.
+  Three-HP drain pulses immediately heal the caster; only surplus funds finite
+  allied healing, prioritizing other Apexes.
+- Brood waves make up to eight full-size gene/stat-varied elites, with caps of
+  twelve owned/twenty-four local. Health is at least twice the prior eight;
+  damage, speed and bite cadence now derive from actual genes/bred points.
+  Temporary lifetime and no-drop/no-pet/no-breeding protections remain.
+- All Apex flyers stay aerial through recovery/casting. Flying Brute alone dives
+  for one double-damage strike then climbs. Flying Broodcallers summon winged
+  brood. Wings is an inherited eighth body locus, with actual companion Follow/
+  combat flight; old/g2 genomes gain grounded copies without altering old alleles
+  or minds. Canonical code is g3; protocol **25** uses three full sync words.
+  Existing cognitive locus IDs, splicer selections and redstone ranges remain.
+  Wing geometry/textures are explicitly **planned, not added**.
+- Java 25 compilation, genetics/localization/readers/model gates and **138 native
+  scenarios** cover actual flight physics, role spacing/no melee, penetrating
+  rays, terrain/cost/immunity, elite genetics and destructive hook/life-steal.
+  English/neutral Spanish: **2,257 authored / 2,385 packaged keys**. Matching
+  client/server versions are required. Headless checks and the inspected fuse
+  preview do not establish client combat balance or final flight appearance.
 
-The user approved Apex implementation after the planning batch and damage update.
-All five roles and five flying versions now have distinct registered types,
-shared source/genome rules and real abilities. `docs/APEX_SPECS.md` is the actual
-behavior reference; `docs/APEX_EXPANSION_PLAN.md` retains the future realm/dungeon.
+## Direct JAR downloads
 
-- The Brute keeps its old ID/ritual. All Apex outgoing melee damage is multiplied
-  by 1.6 after old caps (12.8–24), while health remains 180–720. Prismmaw fires
-  warned mouth beams; Broodcaller makes finite enraged minions; Blastmaw repeatedly
-  detonates at native power ten; Lifebinder hooks, briefly staggers, drains through
-  armor and pays finite ally/self healing from actual damage income.
-- Nine craftable sigils select the four new ground roles and five flying types.
-  Hold the chosen sample in the other hand; the normal confirmation names that
-  exact type. One sigil joins the established sample/five-legend Survival cost.
-  Lost/replaced focus/source cannot silently substitute stock or produce an unpaid
-  boss. Existing actual native callbacks, creative behavior and saves remain.
-- Flight has collision/loaded-height limits and periodic landings. Bosses use the
-  approved mesh and type-specific attack tells; final visual/flight/PvE feel is
-  still a client review. Dedicated temporary brood cannot become material/XP farms.
-  Blast damage/knockback spares all Apex types and brood, preserves terrain, pays
-  caster backlash and respects native cancellation. Hooks retain native collision,
-  shield counterplay, finite lifetime and shared per-victim stun recovery.
-- Cooldowns/landing/vitality save; active casts do not replay on load. Crests retain
-  source DNA/stats and variants have localized type names. No dimension, natural
-  Apex spawns, Crowned Apex or new endgame weapon/loot economy is implemented yet.
-- Protocol **24** requires matching clients/servers. English and neutral Spanish
-  have **2,241 authored / 2,369 packaged keys** with shared regional aliases.
-  Java 25 build/model checks and **137 native scenarios** pass. New cases use an
-  actual 64×64 loaded arena and real Survival players. Preserve the GUI corrections
-  below; no tutorial HUD or free measurements return with this content.
+The user confirmed Chrome accepts the unchanged direct release JAR with download
+protection enabled and explicitly requested JAR delivery. Successful main-push CI
+now publishes its checked bytes as a public development prerelease, with checksum
+and a direct **Download JAR** link in its summary. Actions' artifact button itself
+always wraps downloads in ZIPs; use Releases to download/share the JAR.
+The earlier diagnostic draft remains historical. No further publication approval
+is needed for this delivery. [DOWNLOAD_DIAGNOSTICS.md](docs/DOWNLOAD_DIAGNOSTICS.md)
+keeps the actual observations; Google's exact ZIP/URL verdict is still unknown.
 
 ## Previous focus — client interaction review (2026-10-24)
 

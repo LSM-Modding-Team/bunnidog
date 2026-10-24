@@ -34,7 +34,8 @@ public final class Apex extends Bunnidog implements Enemy {
             BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS);
     private ApexKind kind=ApexKind.BRUTE;
     private boolean flying;
-    private int landing;
+    private int retreat;
+    private static final net.minecraft.network.syncher.EntityDataAccessor<Integer> FUSE = net.minecraft.network.syncher.SynchedEntityData.defineId(Apex.class,net.minecraft.network.syncher.EntityDataSerializers.INT);
     private final ApexSkills skills=new ApexSkills(this);
     private boolean casting;
     private boolean enraged;
@@ -63,10 +64,10 @@ public final class Apex extends Bunnidog implements Enemy {
         float oldMax = this.getMaxHealth();
         float fraction = oldMax > 0 ? this.getHealth() / oldMax : 1;
         var combat = ApexRules.combat(this.genome(), this.stats(), this.enraged);
-        base(Attributes.MAX_HEALTH, combat.health());
+        base(Attributes.MAX_HEALTH, combat.health()*(kind==ApexKind.BLAST ? 1.2 : 1));
         base(Attributes.MOVEMENT_SPEED, combat.speed());
         base(Attributes.JUMP_STRENGTH, combat.jump());
-        base(Attributes.ATTACK_DAMAGE, combat.damage());
+        base(Attributes.ATTACK_DAMAGE, combat.damage()*(flying && kind==ApexKind.BRUTE ? 2 : 1));
         base(Attributes.FOLLOW_RANGE, combat.awareness());
         this.applyAdaptations();
         this.setHealth(this.getMaxHealth() * fraction);
@@ -78,8 +79,14 @@ public final class Apex extends Bunnidog implements Enemy {
     public ApexKind kind() { return kind; }
     public boolean flying() { return flying; }
     public ApexSkills skills() { return skills; }
-    boolean flightActive() { return flying && landing==0 && tickCount%240<160 && getTarget()!=null && getTarget().isAlive(); }
-    void landFor(int ticks) { landing=ticks; setNoGravity(false); }
+    boolean flightActive() { return flying && isAlive(); }
+    int retreatTicks() { return retreat; }
+    void retreatFor(int ticks) { retreat=ticks; }
+    @Override protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder data) {
+        super.defineSynchedData(data); data.define(FUSE,0);
+    }
+    void fuse(int ticks) { entityData.set(FUSE,Math.clamp(ticks,0,30)); }
+    public float swelling(float partial) { int fuse=entityData.get(FUSE); return fuse==0 ? 0 : Math.min(1,(fuse+partial)/30F); }
     boolean casting() { return casting; }
     public boolean enraged() { return this.enraged; }
     int abilityWait() { return this.abilityWait; }
@@ -90,12 +97,12 @@ public final class Apex extends Bunnidog implements Enemy {
     }
     @Override
     public void tick() {
+        if (flying) { setNoGravity(true); resetFallDistance(); }
         super.tick();
         if (this.level().isClientSide()) return;
         if (this.abilityWait > 0) this.abilityWait--;
-        if (landing>0) landing--;
-        setNoGravity(flightActive());
-        if (casting && flying) setDeltaMovement(getDeltaMovement().scale(.4));
+        if (retreat>0) retreat--;
+        setNoGravity(flying);
         skills.tick((ServerLevel)level());
         if (flying && flightActive() && tickCount%12==0) ((ServerLevel)level()).sendParticles(net.minecraft.core.particles.ParticleTypes.END_ROD,
                 getX(),getY(),getZ(),2,.4,.1,.4,.01);
@@ -113,11 +120,18 @@ public final class Apex extends Bunnidog implements Enemy {
         this.goalSelector.addGoal(1, new ApexAbilityGoal(this));
         this.goalSelector.addGoal(1,new ApexSpecialGoal(this));
         this.goalSelector.addGoal(2,new ApexFlightGoal(this));
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1, true));
+        this.goalSelector.addGoal(2,new ApexPositionGoal(this));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1, true) {
+            @Override public boolean canUse() { return kind()==ApexKind.BRUTE && !flying() && super.canUse(); }
+            @Override public boolean canContinueToUse() { return kind()==ApexKind.BRUTE && !flying() && super.canContinueToUse(); }
+        });
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, .7));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 12));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, Apex.class));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+    }
+    @Override public boolean doHurtTarget(ServerLevel level,Entity target) {
+        return kind==ApexKind.BRUTE && super.doHurtTarget(level,target);
     }
     @Override public boolean acceptsCare() { return false; }
     @Override public boolean canEat(ItemStack stack) { return false; }
@@ -146,14 +160,15 @@ public final class Apex extends Bunnidog implements Enemy {
     public void addAdditionalSaveData(ValueOutput output) {
         super.addAdditionalSaveData(output);
         output.putInt("ApexAbilityWait", this.abilityWait);
-        output.putInt("ApexLanding",landing);
+        output.putInt("ApexRetreat",retreat);
         output.putFloat("ApexVitality",skills.vitality());
     }
     @Override
     public void readAdditionalSaveData(ValueInput input) {
         super.readAdditionalSaveData(input);
         this.abilityWait = Math.clamp(input.getIntOr("ApexAbilityWait", 60), 0, kind.recovery);
-        landing=Math.clamp(input.getIntOr("ApexLanding",0),0,100);
+        retreat=Math.clamp(input.getIntOr("ApexRetreat",0),0,100);
+        fuse(0);
         skills.restore(input.getFloatOr("ApexVitality",8));
         this.enraged = this.getHealth() <= this.getMaxHealth() * .5F;
         this.applyGenetics();

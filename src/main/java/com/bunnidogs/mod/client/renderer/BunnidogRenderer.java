@@ -49,6 +49,7 @@ public class BunnidogRenderer extends MobRenderer<Bunnidog, BunnidogRenderState,
     @Override
     public void extractRenderState(Bunnidog entity, BunnidogRenderState state, float partialTicks) {
         super.extractRenderState(entity, state, partialTicks);
+        state.swelling=entity instanceof com.bunnidogs.mod.entity.Apex apex ? apex.swelling(partialTicks) : 0;
         Traits traits = entity.traits();
         state.coat = traits.coat();
         state.earScale = traits.earScale();
@@ -64,6 +65,15 @@ public class BunnidogRenderer extends MobRenderer<Bunnidog, BunnidogRenderState,
         state.fertilityMark = com.bunnidogs.mod.genetics.FertilityMark.of(entity.genome());
     }
 
+    @Override protected void scale(BunnidogRenderState state,com.mojang.blaze3d.vertex.PoseStack pose) {
+        float swelling=state.swelling;
+        float wobble=1+net.minecraft.util.Mth.sin(swelling*100)*swelling*.01F;
+        float swell=swelling*swelling*swelling*swelling;
+        pose.scale((1+swell*.4F)*wobble,(1+swell*.1F)/wobble,(1+swell*.4F)*wobble);
+    }
+    @Override protected float getWhiteOverlayProgress(BunnidogRenderState state) {
+        return (int)(state.swelling*10)%2==0 ? 0 : Math.clamp(state.swelling,.5F,1F);
+    }
     @Override
     public Identifier getTextureLocation(BunnidogRenderState state) {
         return TEXTURES[state.coat];
