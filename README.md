@@ -2,7 +2,7 @@
 
 A NeoForge mod for Minecraft 26.2: baby-faced creatures, living warrens and
 inherited traits that shape companions, gardens and breeding lines. Client and
-server both need the current mod (network **23**).
+server both need the current mod (network **24**).
 
 Interact with a bunnidog to choose **Care, Orders or Work** beside the visible
 animal. Calm animals stay and face you while you interact. Ordinary held items
@@ -81,11 +81,21 @@ The artifact ZIP contains the installable JAR. The workflow runs on pushes and
 pull requests, and can also be started manually. A green build establishes
 compilation and headless checks; final appearance still needs gameplay review.
 
+## Apex encounters
+
+The original Apex now has 60% more damage, with health unchanged. Craft a sigil
+for Prismmaw (mouth beam), Broodcaller (swarm), Blastmaw (repeated huge explosions)
+or Lifebinder (hook/drain/healing). Flying versions exist for all five roles.
+Use the sigil on a Crucible with the actual Tissue Sample in your other hand;
+reviewing is free, and a successful Survival summon spends the sigil alongside
+the existing sample/five offerings. [Actual mechanics](docs/APEX_SPECS.md).
+
 ## Development plans
 
-[The Apex expansion plan](docs/APEX_EXPANSION_PLAN.md) covers future combat roles,
-flying variants, a rich Apex-populated dimension and a final dungeon boss. The
-current build contains the original ritual Apex; the expansion is not implemented.
+[The Apex expansion plan](docs/APEX_EXPANSION_PLAN.md) tracks the combat roles and
+flying variants, plus the future rich Apex-populated realm and final dungeon boss. The
+combat roles and flying types are implemented; the realm, expanded equipment/loot
+and final dungeon remain planned.
 
 ## Working with Codex
 

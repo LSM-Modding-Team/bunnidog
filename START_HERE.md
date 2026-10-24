@@ -20,7 +20,39 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Current focus — client interaction review (2026-10-24)
+## Current focus — Apex types implemented (2026-10-24)
+
+The user approved Apex implementation after the planning batch and damage update.
+All five roles and five flying versions now have distinct registered types,
+shared source/genome rules and real abilities. `docs/APEX_SPECS.md` is the actual
+behavior reference; `docs/APEX_EXPANSION_PLAN.md` retains the future realm/dungeon.
+
+- The Brute keeps its old ID/ritual. All Apex outgoing melee damage is multiplied
+  by 1.6 after old caps (12.8–24), while health remains 180–720. Prismmaw fires
+  warned mouth beams; Broodcaller makes finite enraged minions; Blastmaw repeatedly
+  detonates at native power ten; Lifebinder hooks, briefly staggers, drains through
+  armor and pays finite ally/self healing from actual damage income.
+- Nine craftable sigils select the four new ground roles and five flying types.
+  Hold the chosen sample in the other hand; the normal confirmation names that
+  exact type. One sigil joins the established sample/five-legend Survival cost.
+  Lost/replaced focus/source cannot silently substitute stock or produce an unpaid
+  boss. Existing actual native callbacks, creative behavior and saves remain.
+- Flight has collision/loaded-height limits and periodic landings. Bosses use the
+  approved mesh and type-specific attack tells; final visual/flight/PvE feel is
+  still a client review. Dedicated temporary brood cannot become material/XP farms.
+  Blast damage/knockback spares all Apex types and brood, preserves terrain, pays
+  caster backlash and respects native cancellation. Hooks retain native collision,
+  shield counterplay, finite lifetime and shared per-victim stun recovery.
+- Cooldowns/landing/vitality save; active casts do not replay on load. Crests retain
+  source DNA/stats and variants have localized type names. No dimension, natural
+  Apex spawns, Crowned Apex or new endgame weapon/loot economy is implemented yet.
+- Protocol **24** requires matching clients/servers. English and neutral Spanish
+  have **2,241 authored / 2,369 packaged keys** with shared regional aliases.
+  Java 25 build/model checks and **137 native scenarios** pass. New cases use an
+  actual 64×64 loaded arena and real Survival players. Preserve the GUI corrections
+  below; no tutorial HUD or free measurements return with this content.
+
+## Previous focus — client interaction review (2026-10-24)
 
 The user rejected the persistent crosshair instructions, animal-panel information
 dump and measurements that made information tools redundant. This human review

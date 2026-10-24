@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "minecraft:paper",
+    "minecraft:copper_ingot",
+    "minecraft:gunpowder",
+    "minecraft:feather"
+  ],
+  "result": {
+    "id": "bunnidogs:flying_blastmaw_sigil"
+  }
+}

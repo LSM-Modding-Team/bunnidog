@@ -12,6 +12,7 @@ import com.bunnidogs.mod.item.TissueSampleItem;
 import com.bunnidogs.mod.item.WornEarTagItem;
 import com.bunnidogs.mod.registry.ModItems;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -48,9 +49,14 @@ public final class BunnidogDrops {
         if (!(event.getEntity() instanceof Bunnidog dog) || !(dog.level() instanceof ServerLevel level)) {
             return;                                                  // only bunnidogs, and only on the server
         }
-        if (dog instanceof Apex) {
-            if (event.isRecentlyHit() && level.getGameRules().get(GameRules.MOB_DROPS)) event.getDrops().add(new ItemEntity(level, dog.getX(), dog.getY(), dog.getZ(),
-                    ApexCrestItem.create(new Tissue(dog.genome(), dog.stats()))));
+        if (dog instanceof com.bunnidogs.mod.entity.ApexMinion) return;
+        if (dog instanceof Apex apex) {
+            if (event.isRecentlyHit() && level.getGameRules().get(GameRules.MOB_DROPS)) {
+                var crest=ApexCrestItem.create(new Tissue(dog.genome(),dog.stats()));
+                if (apex.kind()!=com.bunnidogs.mod.entity.ApexKind.BRUTE || apex.flying()) crest.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME,
+                        Component.translatable("item.bunnidogs.apex_crest.variant",apex.getType().getDescription()));
+                event.getDrops().add(new ItemEntity(level,dog.getX(),dog.getY(),dog.getZ(),crest));
+            }
             if (dog.getKillCredit() instanceof ServerPlayer player) {
                 var achievement = level.getServer().getAdvancements().get(Identifier.fromNamespaceAndPath("bunnidogs", "apex_of_the_line"));
                 if (achievement != null) player.getAdvancements().award(achievement, "defeated");

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "ingredient": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:ghast_tear"
+          }
+        ]
+      }
+    },
+    "recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bunnidogs:lifebinder_sigil"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ingredient",
+      "recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:lifebinder_sigil"
+    ]
+  }
+}

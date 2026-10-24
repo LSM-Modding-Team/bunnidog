@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "ingredient": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:amethyst_shard"
+          }
+        ]
+      }
+    },
+    "recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bunnidogs:prismmaw_sigil"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ingredient",
+      "recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:prismmaw_sigil"
+    ]
+  }
+}

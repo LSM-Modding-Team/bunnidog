@@ -34,10 +34,32 @@ public final class ModEntities {
                             Identifier.fromNamespaceAndPath(BunnidogsMod.MODID, "bunnidog"))));
 
     public static final DeferredHolder<EntityType<?>, EntityType<Apex>> APEX =
-            ENTITIES.register("apex", () -> EntityType.Builder.of(Apex::new, MobCategory.MONSTER)
+            ENTITIES.register("apex", () -> EntityType.Builder.<Apex>of(Apex::new, MobCategory.MONSTER)
                     .sized(.6F, .9F).clientTrackingRange(12).notInPeaceful().noLootTable()
                     .build(ResourceKey.create(Registries.ENTITY_TYPE,
                             Identifier.fromNamespaceAndPath(BunnidogsMod.MODID, "apex"))));
+
+    private static DeferredHolder<EntityType<?>,EntityType<Apex>> apex(String id,com.bunnidogs.mod.entity.ApexKind kind,boolean flying) {
+        return ENTITIES.register(id,()->EntityType.Builder.<Apex>of((type,level)->new Apex(type,level,kind,flying),MobCategory.MONSTER)
+                .sized(.6F,.9F).clientTrackingRange(12).notInPeaceful().noLootTable()
+                .build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs",id))));
+    }
+    public static final DeferredHolder<EntityType<?>,EntityType<Apex>> PRISMMAW=apex("prismmaw",com.bunnidogs.mod.entity.ApexKind.PRISM,false);
+    public static final DeferredHolder<EntityType<?>,EntityType<Apex>> BROODCALLER=apex("broodcaller",com.bunnidogs.mod.entity.ApexKind.BROOD,false);
+    public static final DeferredHolder<EntityType<?>,EntityType<Apex>> BLASTMAW=apex("blastmaw",com.bunnidogs.mod.entity.ApexKind.BLAST,false);
+    public static final DeferredHolder<EntityType<?>,EntityType<Apex>> LIFEBINDER=apex("lifebinder",com.bunnidogs.mod.entity.ApexKind.SUPPORT,false);
+    public static final java.util.List<DeferredHolder<EntityType<?>,EntityType<Apex>>> GROUND_APEX=java.util.List.of(APEX,PRISMMAW,BROODCALLER,BLASTMAW,LIFEBINDER);
+    public static final java.util.List<DeferredHolder<EntityType<?>,EntityType<Apex>>> FLYING_APEX=java.util.Arrays.stream(com.bunnidogs.mod.entity.ApexKind.values())
+            .map(kind->apex("flying_"+kind.id,kind,true)).toList();
+    public static final DeferredHolder<EntityType<?>,EntityType<com.bunnidogs.mod.entity.ApexMinion>> APEX_MINION=ENTITIES.register("apex_minion",()->
+            EntityType.Builder.of(com.bunnidogs.mod.entity.ApexMinion::new,MobCategory.MONSTER).sized(.6F,.9F).clientTrackingRange(8).notInPeaceful().noLootTable()
+                    .build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","apex_minion"))));
+    public static final DeferredHolder<EntityType<?>,EntityType<com.bunnidogs.mod.entity.ApexHook>> APEX_HOOK=ENTITIES.register("apex_hook",()->
+            EntityType.Builder.<com.bunnidogs.mod.entity.ApexHook>of(com.bunnidogs.mod.entity.ApexHook::new,MobCategory.MISC).sized(.25F,.25F).clientTrackingRange(8).updateInterval(1)
+                    .build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","apex_hook"))));
+    public static EntityType<Apex> apex(com.bunnidogs.mod.entity.ApexKind kind,boolean flying) {
+        return (flying ? FLYING_APEX : GROUND_APEX).get(kind.ordinal()).get();
+    }
 
     /** Native boats keep vehicle physics, passenger rules, inventory saves and drops. Suppliers avoid item-registry cycles. */
     public static final DeferredHolder<EntityType<?>, EntityType<Boat>> GUAVA_BOAT =
@@ -56,7 +78,9 @@ public final class ModEntities {
     /** Registered on the mod event bus from {@link BunnidogsMod}. */
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(BUNNIDOG.get(), Bunnidog.createAttributes().build());
-        event.put(APEX.get(), Apex.createAttributes().build());
+        GROUND_APEX.forEach(type->event.put(type.get(),Apex.createAttributes().build()));
+        FLYING_APEX.forEach(type->event.put(type.get(),Apex.createAttributes().build()));
+        event.put(APEX_MINION.get(),com.bunnidogs.mod.entity.ApexMinion.createAttributes().build());
     }
 
     /**

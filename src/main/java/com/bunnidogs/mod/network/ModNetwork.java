@@ -21,10 +21,11 @@ public final class ModNetwork {
     private ModNetwork() {}
 
     /** Bump for payload shape or required client content/allele semantics. */
-    public static final String VERSION = "23";
+    public static final String VERSION = "24";
 
     public static void register(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar(VERSION);
+        registrar.playToClient(ApexBeamPayload.TYPE,ApexBeamPayload.CODEC,(payload,context)->ClientScreens.apexBeam(payload));
         registrar.playToClient(CareViewPayload.TYPE,CareViewPayload.STREAM_CODEC,
                 (payload,context) -> ClientScreens.careView(payload));
         registrar.playToServer(LineageEditPayload.TYPE,LineageEditPayload.STREAM_CODEC,

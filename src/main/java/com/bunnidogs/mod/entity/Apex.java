@@ -32,11 +32,19 @@ import net.minecraft.world.level.storage.ValueOutput;
 public final class Apex extends Bunnidog implements Enemy {
     private final ServerBossEvent boss = new ServerBossEvent(this.getUUID(), this.getDisplayName(),
             BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS);
+    private ApexKind kind=ApexKind.BRUTE;
+    private boolean flying;
+    private int landing;
+    private final ApexSkills skills=new ApexSkills(this);
+    private boolean casting;
     private boolean enraged;
     private int abilityWait = 60;
 
     public Apex(EntityType<? extends Apex> type, Level level) {
-        super(type, level);
+        this(type,level,ApexKind.BRUTE,false);
+    }
+    public Apex(EntityType<? extends Apex> type,Level level,ApexKind kind,boolean flying) {
+        super(type,level); this.kind=kind; this.flying=flying;
         // Prevent the ordinary first-tick biome founder roll even for a plain /summon.
         if (!level.isClientSide()) {
             this.setGenome(this.genome());
@@ -48,7 +56,7 @@ public final class Apex extends Bunnidog implements Enemy {
     }
     public static AttributeSupplier.Builder createAttributes() {
         return Bunnidog.createAttributes().add(Attributes.ARMOR,ApexRules.BASE_ARMOR)
-                .add(Attributes.KNOCKBACK_RESISTANCE,ApexRules.BASE_KNOCKBACK_RESISTANCE).add(Attributes.SCALE,ApexRules.SCALE);
+                .add(Attributes.KNOCKBACK_RESISTANCE,ApexRules.BASE_KNOCKBACK_RESISTANCE).add(Attributes.SCALE,ApexRules.SCALE).add(Attributes.FLYING_SPEED,.3);
     }
     @Override
     protected void applyGenetics() {
@@ -67,17 +75,30 @@ public final class Apex extends Bunnidog implements Enemy {
         var instance = this.getAttribute(attribute);
         if (instance != null) instance.setBaseValue(value);
     }
+    public ApexKind kind() { return kind; }
+    public boolean flying() { return flying; }
+    public ApexSkills skills() { return skills; }
+    boolean flightActive() { return flying && landing==0 && tickCount%240<160 && getTarget()!=null && getTarget().isAlive(); }
+    void landFor(int ticks) { landing=ticks; setNoGravity(false); }
+    boolean casting() { return casting; }
     public boolean enraged() { return this.enraged; }
     int abilityWait() { return this.abilityWait; }
-    void beginAbility() { this.abilityWait = ApexRules.ABILITY_RECOVERY; }
+    void beginAbility() { this.abilityWait = kind.recovery; }
     void charging(boolean value) {
-        this.boss.setName(value ? Component.translatable("entity.bunnidogs.apex.charging") : this.getDisplayName());
+        casting=value;
+        this.boss.setName(value ? Component.translatable("entity.bunnidogs.apex.charging_kind",getType().getDescription()) : this.getDisplayName());
     }
     @Override
     public void tick() {
         super.tick();
         if (this.level().isClientSide()) return;
         if (this.abilityWait > 0) this.abilityWait--;
+        if (landing>0) landing--;
+        setNoGravity(flightActive());
+        if (casting && flying) setDeltaMovement(getDeltaMovement().scale(.4));
+        skills.tick((ServerLevel)level());
+        if (flying && flightActive() && tickCount%12==0) ((ServerLevel)level()).sendParticles(net.minecraft.core.particles.ParticleTypes.END_ROD,
+                getX(),getY(),getZ(),2,.4,.1,.4,.01);
         boolean angry = this.getHealth() <= this.getMaxHealth() * .5F;
         if (angry != this.enraged) {
             this.enraged = angry;
@@ -90,6 +111,8 @@ public final class Apex extends Bunnidog implements Enemy {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new ApexAbilityGoal(this));
+        this.goalSelector.addGoal(1,new ApexSpecialGoal(this));
+        this.goalSelector.addGoal(2,new ApexFlightGoal(this));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1, true));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, .7));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 12));
@@ -123,11 +146,15 @@ public final class Apex extends Bunnidog implements Enemy {
     public void addAdditionalSaveData(ValueOutput output) {
         super.addAdditionalSaveData(output);
         output.putInt("ApexAbilityWait", this.abilityWait);
+        output.putInt("ApexLanding",landing);
+        output.putFloat("ApexVitality",skills.vitality());
     }
     @Override
     public void readAdditionalSaveData(ValueInput input) {
         super.readAdditionalSaveData(input);
-        this.abilityWait = Math.clamp(input.getIntOr("ApexAbilityWait", 60), 0, ApexRules.ABILITY_RECOVERY);
+        this.abilityWait = Math.clamp(input.getIntOr("ApexAbilityWait", 60), 0, kind.recovery);
+        landing=Math.clamp(input.getIntOr("ApexLanding",0),0,100);
+        skills.restore(input.getFloatOr("ApexVitality",8));
         this.enraged = this.getHealth() <= this.getMaxHealth() * .5F;
         this.applyGenetics();
         this.setAge(0);

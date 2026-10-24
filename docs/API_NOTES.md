@@ -250,6 +250,25 @@ uses `family_workshop` (17×5×43) for the same reason. Regenerate both with
 `python tools/gametest/generate_fixtures.py`. This fixes a native fixture boundary,
 not a production pathfinding or chunk-loading policy.
 
+### Apex role attacks (2026-10-24)
+
+Protocol 24 adds required role/flying entities and a bounded Vec3/Vec3/style beam
+pulse. Client particles are produced locally; no particle-per-packet channel.
+Distinct EntityType factories configure one shared Apex class, so existing
+Apex-class ritual/drop/friendly-fire checks cover every role without inheritance
+splits. Dedicated temporary ApexMinion drops return before ordinary material rolls.
+
+26.2 ServerExplosion takes a calculator, center, radius, fire and block policy.
+Use EventHooks.onExplosionStart before explode(); the latter applies the native
+Detonate hook/exposure. shouldDamageEntity and getKnockbackMultiplier are separate:
+family immunity must set both. KEEP preserves terrain, while the native explode
+packet carries victim impulses/effects. Check the entire loaded 22-block radius
+before a power-ten blast. Backlash uses a separate armor/cooldown-bypassing type;
+accepted drain damage supplies bounded vitality. Native tests use an actual 64×64
+fixture and real Survival players; the old in-level mock reports Creative to
+combat checks even after a game-mode ability change. Manual entity.tick calls
+do not advance tickCount as the world's entity tick driver does.
+
 ### Container presentation (2026-10-24)
 
 `ContainerBackdrop` uses the existing 256×256 vanilla crafting texture. Its

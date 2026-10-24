@@ -23,7 +23,7 @@ final class ApexAbilityGoal extends Goal {
     @Override public boolean requiresUpdateEveryTick() { return true; }
     @Override public boolean canUse() {
         var victim = this.apex.getTarget();
-        return this.apex.abilityWait() == 0 && this.apex.onGround() && victim != null && victim.isAlive()
+        return apex.kind()==ApexKind.BRUTE && !apex.flying() && this.apex.abilityWait() == 0 && this.apex.onGround() && victim != null && victim.isAlive()
                 && this.apex.distanceToSqr(victim) <= 100 && this.apex.hasLineOfSight(victim);
     }
     @Override public void start() {

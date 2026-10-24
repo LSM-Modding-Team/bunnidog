@@ -55,6 +55,8 @@ public final class CareMenu extends AbstractContainerMenu {
     private Component actionNotice;
     private long noticeUntil;
     private InteractionHand offeringHand;
+    private final ItemStack ritualSigil;
+    private final ItemStack ritualSigilPattern;
     private StationInventory.Kind inventoryKind=StationInventory.Kind.NONE;
     private record Context(List<Object> facts,List<ItemStack> stock) {
         Context { facts=List.copyOf(facts); stock=stock.stream().map(ItemStack::copy).toList(); }
@@ -93,6 +95,8 @@ public final class CareMenu extends AbstractContainerMenu {
         this.preferredSample=preferredSample;
         this.dog=dog; this.pos=pos==null ? null : pos.immutable();
         this.block=pos==null ? null : level.getBlockState(pos).getBlock();
+        this.ritualSigil=block instanceof ApexCrucibleBlock ? com.bunnidogs.mod.entity.ApexRitual.heldSigil(owner) : ItemStack.EMPTY;
+        this.ritualSigilPattern=ritualSigil.copy();
         this.station=pos==null ? null : level.getBlockEntity(pos);
         if (station!=null) addStorageSlots(inventory,station);
     }
@@ -219,10 +223,15 @@ public final class CareMenu extends AbstractContainerMenu {
     @Override public boolean stillValid(Player player) {
         if (level.isClientSide()) return true;
         if (player!=owner || player.level()!=level || !player.isAlive() || player.isSpectator()) return false;
+        if (!ritualSigilPattern.isEmpty() && (!ItemStack.matches(ritualSigil,ritualSigilPattern) || !StationUse.owns(owner,ritualSigil))) return false;
         if (mode==Mode.PARTY && dog==null) return true;
         if (dog!=null) return dog.isAlive() && !dog.isRemoved() && dog.acceptsCare() && dog.level()==level && dog.distanceToSqr(player)<=36;
         return pos!=null && level.hasChunkAt(pos) && level.getBlockState(pos).is(block) && level.getBlockEntity(pos)==station
                 && player.distanceToSqr(pos.getX()+.5,pos.getY()+.5,pos.getZ()+.5)<=36;
+    }
+    private ItemStack ritualSource() {
+        if (!ritualSigilPattern.isEmpty()) return StationUse.owns(owner,preferredSample) && com.bunnidogs.mod.item.TissueSampleItem.read(preferredSample).isPresent() ? preferredSample : ItemStack.EMPTY;
+        return ApexPanel.sample(owner,preferredSample);
     }
     private CareView snapshot() {
         if (mode==Mode.PARTY) {
@@ -246,7 +255,7 @@ public final class CareMenu extends AbstractContainerMenu {
             case FIT_CHOICES -> FamilyPanels.choices(owner,dog);
             default -> CarePanels.animal(owner,dog);
         };
-        if (block instanceof ApexCrucibleBlock) return ApexPanel.view(owner,pos,ApexPanel.sample(owner,preferredSample),mode==Mode.CONFIRM_RITUAL);
+        if (block instanceof ApexCrucibleBlock) return ApexPanel.view(owner,pos,ritualSource(),ritualSigil,mode==Mode.CONFIRM_RITUAL);
         if (station instanceof FeedingTroughBlockEntity trough && mode==Mode.TROUGH_WORK) return CarePanels.troughWork(owner,pos,trough);
         if (station instanceof CommissionBoardBlockEntity board && mode==Mode.REQUESTS) return CarePanels.requests(owner,pos,board);
         if (station instanceof GeneticsTableBlockEntity table && mode==Mode.GOALS) return WorkshopPanels.goals(owner,pos,table);
@@ -308,7 +317,8 @@ public final class CareMenu extends AbstractContainerMenu {
             } else if (station instanceof TrophyPedestalBlockEntity pedestal) {
                 stock.add(pedestal.item());
             } else if (block instanceof ApexCrucibleBlock) {
-                var source=ApexPanel.sample(owner,preferredSample); stock.add(source);
+                var source=ritualSource(); stock.add(source);
+                stock.add(ritualSigil); facts.add(ritualSigil.isEmpty() || StationUse.owns(owner,ritualSigil));
                 var reading=com.bunnidogs.mod.entity.ApexRitual.inspect(owner,pos,source);
                 facts.add(level.getDifficulty()); facts.add(reading.status());
                 for (var slot:reading.slots()) { facts.add(slot.pos()); facts.add(Optional.ofNullable(slot.pedestal())); stock.add(slot.stock()); }
@@ -421,9 +431,9 @@ public final class CareMenu extends AbstractContainerMenu {
                     ((ApexCrucibleBlock)block).showRing(player,pos);
                 } else if (id==ApexPanel.SUMMON && mode==Mode.CONFIRM_RITUAL) {
                     back();
-                    var result=com.bunnidogs.mod.entity.ApexRitual.summon(player,pos,ApexPanel.sample(owner,preferredSample));
+                    var result=com.bunnidogs.mod.entity.ApexRitual.summon(player,pos,ritualSource(),ritualSigil);
                     if (result==com.bunnidogs.mod.entity.ApexRitual.Status.SUMMONED) {
-                        player.closeContainer(); player.sendOverlayMessage(Component.translatable("message.bunnidogs.apex.summoned"));
+                        if (player.containerMenu==this) player.closeContainer(); player.sendOverlayMessage(Component.translatable("message.bunnidogs.apex.summoned"));
                     } else { actionNotice=Component.translatable("care.bunnidogs.apex.next."+result.name().toLowerCase(java.util.Locale.ROOT)); noticeUntil=level.getGameTime()+60; }
                 }
             }

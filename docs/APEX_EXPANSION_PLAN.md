@@ -1,19 +1,26 @@
 # Apex expansion — hunting grounds and the Apex of Apexes
 
-**Design proposal, 2026-10-24. No new Apex type, flight behavior, dimension,
-combat mechanic, item or loot table is implemented by this planning batch.**
-The accompanying runtime change gives station/inspection menus a vanilla
-container background. [APEX_SPECS.md](APEX_SPECS.md) describes the existing boss.
-This document is the implementation direction for the user's next Apex work;
-it does not claim the future content is available in a world.
+**Implementation status, 2026-10-24:** ground Brute/Prismmaw/Broodcaller/Blastmaw/
+Lifebinder and all five flying variants now ship, including the +60% damage
+baseline with unchanged health, focused rituals and original source-bearing
+Crests. See [APEX_SPECS.md](APEX_SPECS.md) for actual values/evidence. AX1–AX4
+and initial bounded AX5 flight are implemented; flight feel and mixed-pack balance
+still need client playtesting. Native testing does not establish final balance.
+
+AX6 (dimension/ruins/gear), AX7 (dungeon/Crowned Apex), natural wild spawning and
+the lavish expanded loot economy remain **planned**. The design below preserves
+the broader direction; prototype timings/architecture yield to the actual spec.
+The current shared `Apex` implementation uses role/type factories as its family
+contract rather than duplicating subclasses. Flight currently uses bounded direct
+movement/ground recovery; ambient healing of ordinary wild animals is deferred.
 
 ## The intended power curve
 
 The Apex is intended as a boss relative to vanilla midgame equipment and an
 ordinary enemy relative to vanilla endgame equipment. Further player testing
 sets the planned baseline to **1.6× current outgoing damage (+60%), with health
-unchanged**. This supersedes the initial current-damage target; it is not yet
-implemented. Keep that gear-relative relationship.
+unchanged**. This supersedes the initial current-damage target; the outgoing
+damage increase is now implemented. Keep that gear-relative relationship.
 The user has fought several current Apexes with endgame gear; that play evidence
 sets the direction. The expansion should not quietly turn every variant into a
 much stronger boss, or reduce the dimension to avoiding one enemy at a time.
@@ -640,7 +647,7 @@ pipeline and actual client review; none are generated in this planning batch.
 | AX6 — Great Warren | Returnable portal, natural Apex ecology and first rich ruins/gear | Real generation-stage and endpoint/save cases; loaded population/performance and endgame expeditions |
 | AX7 — Crown Warren | Branching wings, Crowned Apex, core upgrades and lavish vault | Real bounded encounter/reset/reward cases, generation safety and full solo/coop dungeon play |
 
-The next requested Apex implementation should start at **AX1**, not by shipping
+The first Apex implementation started at **AX1**, not by shipping
 an empty dimension, all ten placeholder entities or a final boss without its
 supporting fights. Keep each type playable in Survival through its focused ritual.
 Build out the other types before flight/population, then the realm and true finale.

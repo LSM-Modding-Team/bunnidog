@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "minecraft:paper",
+    "minecraft:copper_ingot",
+    "minecraft:spider_eye"
+  ],
+  "result": {
+    "id": "bunnidogs:broodcaller_sigil"
+  }
+}

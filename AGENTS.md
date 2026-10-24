@@ -48,19 +48,17 @@ pages. Keep dark readable panel text and native slots; preserve borderless MCA
 animal conversations. This supersedes the earlier backgroundless-station choice,
 without restoring tutorial panels. The book/reader keeps its deliberate pages.
 
-Apex expansion steering: `docs/APEX_EXPANSION_PLAN.md` records the requested
-Brute/beam/swarm/blast/support roles at the revised damage baseline, flying versions, Apex-filled
-dimension, extravagant loot and a distinct Apex-of-Apexes dungeon boss. The
-2026-10-24 request authorizes UI implementation and this plan only; new Apex
-runtime behavior is deferred. When later asked to begin/continue Apex
-implementation, follow AX1 onward, starting with family preservation and the
-focused beam hunt, then the other roles before flight/dimension/dungeon. Preserve
-the Apex as a vanilla-midgame boss / vanilla-endgame basic enemy. Further player
-testing revises the planned baseline to +60% outgoing damage (×1.6 after existing
-damage bounds), with health unchanged. This is planning only until implementation
-is requested; do not silently buff health or explosion radius.
-This explicit user direction takes priority over resuming unrelated cognition
-work while the Apex expansion is the active task.
+Apex expansion steering: the later "implement the apex types" request authorizes
+runtime implementation. Five roles and their five flying variants now ship;
+`docs/APEX_SPECS.md` records actual behavior and evidence. Keep the +60% outgoing
+damage baseline (×1.6 after bounds), health unchanged, exact focused ritual costs,
+family blast immunity, finite swarms, hook recovery and healing conservation.
+`docs/APEX_EXPANSION_PLAN.md` retains the future dimension, extravagant loot and
+Apex-of-Apexes dungeon boss; those systems are not implemented. Prioritize actual
+Apex play feedback and remaining integration before starting that larger realm.
+This explicit user direction takes priority over unrelated cognition work while
+the Apex expansion is active. Preserve the screenshot-approved vanilla station
+frames and borderless MCA animal conversations.
 
 Successful world actions/orders dismiss their actual conversation so animals can
 obey; refused actions and settings/cargo remain open. Do not close a replacement

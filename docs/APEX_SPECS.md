@@ -1,13 +1,86 @@
-# Apex — the implemented lineage encounter
+# Apex — lineage encounters and combat roles
 
-The 2026-10-24 player direction treats this existing strength as a vanilla-midgame
-boss / vanilla-endgame ordinary enemy. Further testing requests a planned +60%
-outgoing damage increase with health unchanged; that buff is not implemented yet.
-The numerical encounter values below still describe shipped behavior. Future
-types, flight, the Great
-Warren dimension, lavish loot and the Apex-of-Apexes finale are planned in
-[APEX_EXPANSION_PLAN.md](APEX_EXPANSION_PLAN.md); none of them is implemented by
-the container-background batch. This document describes the current encounter.
+The ground Brute and four new roles, plus flying variants of all five, are
+implemented. The accepted **+60% outgoing damage** applies after the original
+bounds, with **health unchanged** (180–720). Current protocol is **24**.
+The Great Warren dimension, expanded equipment/loot economy and Crowned Apex
+final dungeon are still future work in [APEX_EXPANSION_PLAN.md](APEX_EXPANSION_PLAN.md).
+
+## Choosing an encounter
+
+The original source-only Crucible ritual still summons `bunnidogs:apex`. Craft a
+role sigil from paper, copper and its ingredient: Amethyst Shard (Prismmaw), Spider
+Eye (Broodcaller), Gunpowder (Blastmaw), or Ghast Tear (Lifebinder). Add a Feather
+to the same recipe for a flying version; the flying Brute uses Iron Ingot.
+The nine recipes unlock normally, and sigils appear in the creative tab.
+
+Use the actual sigil on a Crucible with a readable Tissue Sample in the other
+hand. The preview names the chosen type and keeps the existing separate summon
+confirmation. Ready previews omit repeated setup/ring instructions; requested
+ring markers remain available. Survival pays **one sigil, one actual sample and five legendary
+offerings** only after successful native spawning/revalidation. Creative retains
+its supplies. No sigil means the original ground Brute; a lost selected sigil
+invalidates its menu, and focused previews never substitute another inventory
+sample. Actual stock/components, callback cancellation/reentry and protected
+build checks remain authoritative. Replacement menus opened in callbacks survive.
+
+| Role / entity ID | Behavior |
+|---|---|
+| `apex` | Existing warned stomp/pounce and melee |
+| `prismmaw` | 1.5-second aim warning; three thick mouth-beam pulses over the next 1.5 seconds, solid cover blocks them; tracking slows during firing |
+| `broodcaller` | Warned call of up to four hostile minions; six alive per caller and twelve locally; finite 30-second life, ending with the caller |
+| `blastmaw` | Three-second fuse/radius tell, native power-10 explosion with 1.6× victim damage; other Apexes/minions receive neither blast damage nor knockback |
+| `lifebinder` | Colliding hook, half-second movement stagger and shared eight-second hook recovery; four armor-bypassing drain pulses, finite healing for the caster and nearby Apex/brood allies |
+
+Prefix any ID with `flying_` for its flying variant, including `flying_apex`.
+All are separately registered entity types with the same source/genetics/health
+rules and approved mesh. Flying types use collision-checked low flight, loaded
+terrain height limits, visible lift particles and regular ground recovery.
+Flying Brutes dive; the other roles retain their warned abilities in the air.
+This is bounded direct flight with ground recovery, not a complete aerial maze
+pathfinder. Actual terrain/flight feel remains client playtesting.
+
+Melee is now **12.8–24** after genetic/enrage bounds; stomp uses 75% of that.
+Prism pulses use `10 × melee / 12.8`, at most three per cast. Ordinary ray damage
+honors armor/shields. Lifebinder pulses deal 2.4 raw damage with a dedicated
+armor-bypassing damage type; other protections, cancellation and hurt rules remain.
+Only actual accepted health/absorption loss supplies vitality. The pool starts at
+eight, caps at twelve, and spends at most one health per half-second on a visible
+wounded family ally. Cancelled healing spends no resource; cancelled damage earns
+none. Hook victims retain aim, shielding and items during the brief movement stun.
+Hooks hit walls, can miss/be shielded, expire, and never pursue unloaded chunks.
+
+Blastmaw uses native explosion exposure and events. Ritual explosions preserve
+terrain. Native start cancellation pays no backlash. A resolved blast charges an
+armor-bypassing backlash of up to 15% max health, capped below lethal damage;
+normal native damage/protection hooks still apply. It cannot arm below 16% health.
+The repeat interval is fourteen seconds from charge start. Other Apex roles have
+six/eight/twelve-second recovery budgets. No natural Apex population is added.
+
+Temporary brood are dedicated `apex_minion` creatures, with eight health and 4.8
+melee damage. They preserve the caller's visual genome, cannot become pets,
+breed or supply normal material/XP/Crest drops. Minions expire or disappear when
+the caller is removed or too far away. They are not extra full-strength Apexes.
+
+All role attacks have server-owned geometry and outcomes. A bounded pulse packet
+lets clients draw beams locally. Remaining cooldown, landing recovery and support
+vitality save; active channels/hooks cancel on reload instead of replaying damage.
+Variants drop an exact source-bearing Crest named for their type. Existing ground
+Brute Crests and all genome/Tissue formats remain compatible.
+
+## Native evidence
+
+Java 25 build, localization and the existing headless model check pass. The suite
+has **137 native scenarios**, including five new actual role/focus cases covering
+all ten factories/saves, increased damage bounds, real flight/landing control,
+warned/blocked beams, minion caps/cleanup/drop suppression, real power-10 blasts
+and cancellation, cross-role/flying immunity, self-cost, true drain, cancelled
+income, healing conservation, physical hooks/shared recovery and exact focused
+spawn costs/callback replacement. The arena declares its full 64×64 chunk bounds.
+The original 132 cases still pass. Sprite and native menu previews are separate
+from actual client PvE balance, flight and multiplayer/performance review.
+
+## Original ritual and encounter foundation
 
 The five legendary stat drops now fund a deliberate boss encounter. A Tissue
 Sample supplies the look and original bred points; its living donor is never
@@ -60,7 +133,7 @@ Adventure, blocked space, changed qualifying displays/samples, spawn cancellatio
 recursive entry, replaced stock/ownership, one-item costs from stacked displays,
 exact source stats and creative keeps. The existing real survival encounter case
 retains combat, capabilities, crest and save/load coverage. Actual client feel
-and natural encounter difficulty remain playtests; protocol **23** is current.
+and natural encounter difficulty remain playtests; protocol **24** is current.
 
 ## Encounter
 
@@ -68,7 +141,7 @@ The Apex retains the full current source genome (seven body and four mind pairs)
 coat/body proportions and expressed
 environmental adaptations. The existing approved creature mesh is reused with
 native Scale 1.8. Source points are retained separately from bounded boss
-attributes: health 180–720, speed .25–.42, jump .4–.8, damage 8–15 and awareness
+attributes: health 180–720, speed .25–.42, jump .4–.8, damage 12.8–24 and awareness
 24–64. Build, legs, ears, Vitality, Swiftness, Leap and Senses affect these values.
 Bloom remains an adult breeding stat, with no boss growth effect. Cognitive
 source genes remain recorded; current boss combat does not grant learned jobs. A3 also
@@ -97,7 +170,7 @@ The first player victory grants the Apex of the Line advancement (200 XP);
 the boss itself grants 50 XP under native kill-credit rules.
 
 The original feature introduced protocol 6. Current matching builds use protocol
-23; existing genome/animal saves, pedestal contents and model assets remain
+24; existing genome/animal saves, pedestal contents and model assets remain
 compatible. The new entity uses existing genome sync and native boss
 packets; the crest uses the existing tissue component.
 

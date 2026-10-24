@@ -27,9 +27,10 @@ public final class CareMenuGameTest {
     private CareMenuGameTest() {}
     public static void prepare(ServerPlayer player) {
         var care=CareViewPayload.TYPE.id(); var sheet=SheetPayload.TYPE.id(); var table=TablePayload.TYPE.id(); var sample=SamplePayload.TYPE.id(); var seed=SeedPayload.TYPE.id();
+        var beam=com.bunnidogs.mod.network.ApexBeamPayload.TYPE.id();
         var opening=net.neoforged.neoforge.network.payload.AdvancedOpenScreenPayload.TYPE.id();
         ChannelAttributes.setPayloadSetup(player.connection.getConnection(),new NetworkPayloadSetup(Map.of(ConnectionProtocol.PLAY,
-                Map.of(care,new NetworkChannel(care,ModNetwork.VERSION),sheet,new NetworkChannel(sheet,ModNetwork.VERSION),table,new NetworkChannel(table,ModNetwork.VERSION),sample,new NetworkChannel(sample,ModNetwork.VERSION),seed,new NetworkChannel(seed,ModNetwork.VERSION),opening,new NetworkChannel(opening,"1")))));
+                Map.of(beam,new NetworkChannel(beam,ModNetwork.VERSION),care,new NetworkChannel(care,ModNetwork.VERSION),sheet,new NetworkChannel(sheet,ModNetwork.VERSION),table,new NetworkChannel(table,ModNetwork.VERSION),sample,new NetworkChannel(sample,ModNetwork.VERSION),seed,new NetworkChannel(seed,ModNetwork.VERSION),opening,new NetworkChannel(opening,"1")))));
     }
     public static CareMenu open(GameTestHelper h,ServerPlayer player,BlockPos pos) {
         prepare(player); player.setShiftKeyDown(false); stow(player);

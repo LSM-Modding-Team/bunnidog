@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "minecraft:paper",
+    "minecraft:copper_ingot",
+    "minecraft:ghast_tear",
+    "minecraft:feather"
+  ],
+  "result": {
+    "id": "bunnidogs:flying_lifebinder_sigil"
+  }
+}

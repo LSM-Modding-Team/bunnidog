@@ -83,6 +83,15 @@ public final class ModItems {
     public static final DeferredRegister.DataComponents COMPONENTS =
             DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, BunnidogsMod.MODID);
 
+    public static final Map<String,DeferredItem<com.bunnidogs.mod.item.ApexSigilItem>> APEX_SIGILS=new LinkedHashMap<>();
+    static {
+        for (var kind:com.bunnidogs.mod.entity.ApexKind.values()) for (boolean flying:new boolean[]{false,true}) {
+            if (kind==com.bunnidogs.mod.entity.ApexKind.BRUTE && !flying) continue;
+            String id=(flying ? "flying_" : "")+kind.id+"_sigil";
+            APEX_SIGILS.put(id,ITEMS.registerItem(id,props->new com.bunnidogs.mod.item.ApexSigilItem(props,kind,flying),props->props.rarity(Rarity.RARE)));
+        }
+    }
+
     /** An "okay" food for players too: 3 hunger points, low saturation. The same for every tier (do not eat your investment). */
     private static final FoodProperties GUAVA_FOOD = new FoodProperties.Builder().nutrition(3).saturationModifier(0.3F).build();
 
@@ -442,6 +451,7 @@ public final class ModItems {
             event.accept(LISTENING_SHELL.get());
             event.accept(EVERBLOOM.get());
             event.accept(APEX_CREST.get());
+            APEX_SIGILS.values().forEach(item->event.accept(item.get()));
             // One plain sample (the default genome, no bred points) so a sample can be had in creative mode.
             event.accept(TissueSampleItem.create(Genome.DEFAULT, Stats.ZERO), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }

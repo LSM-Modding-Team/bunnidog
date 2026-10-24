@@ -83,9 +83,9 @@ adaptations, five legendary offerings and readable lineage crest. The original
 bred points remain intact in the source/crest. See `APEX_SPECS.md`. The user's
 2026-10-24 direction targets a vanilla-midgame boss and vanilla-endgame ordinary
 enemy. Further testing revises the planned baseline to +60% outgoing damage,
-with health unchanged; current runtime values have not yet changed. `APEX_EXPANSION_PLAN.md` plans same-band role and
+with health unchanged; the damage increase and all ten ground/flying combat types now ship. `APEX_EXPANSION_PLAN.md` plans same-band role and
 flight variants, a rich Apex dimension and the distinct Apex-of-Apexes final boss.
-That expansion is planned, not currently implemented.
+The dimension, expanded equipment/loot economy and final boss remain planned.
 
 ### Bloat layer (hangs off the breeding loop; add any time)
 Blocks: Breeding Pen, Nesting Box, Genetics Table, Specimen Jar, Trophy Pedestal. Tools: Leash, Ear Tag, Calipers,

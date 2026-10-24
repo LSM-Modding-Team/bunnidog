@@ -29,6 +29,20 @@ public final class ClientScreens {
             menu.receive(payload.view());
     }
 
+    public static void apexBeam(com.bunnidogs.mod.network.ApexBeamPayload payload) {
+        var level=Minecraft.getInstance().level;
+        var from=payload.from(); var to=payload.to();
+        if (level==null || !Double.isFinite(from.lengthSqr()) || !Double.isFinite(to.lengthSqr()) || from.distanceToSqr(to)>1089) return;
+        int color=switch (payload.style()) { case 1 -> 0xFFC65A; case 2 -> 0xE34A92; case 3 -> 0x63E89A; default -> 0xBF7DFF; };
+        var dust=new net.minecraft.core.particles.DustParticleOptions(color,payload.style()==0 ? 2 : .8F);
+        int count=Math.min(64,Math.max(1,(int)(from.distanceTo(to)*2)));
+        for (int i=0;i<=count;i++) {
+            var p=from.lerp(to,(double)i/count);
+            level.addParticle(dust,p.x,p.y,p.z,0,0,0);
+            if (payload.style()==0) level.addParticle(net.minecraft.core.particles.ParticleTypes.ELECTRIC_SPARK,p.x,p.y,p.z,0,0,0);
+        }
+    }
+
     /** Opens the Pedigree Book window on this log (a snapshot of it). */
     public static void openBook(Pedigree book, InteractionHand hand, ItemStack stack) {
         Minecraft.getInstance().gui.setScreen(editable(new PedigreeScreen(book),hand,stack));

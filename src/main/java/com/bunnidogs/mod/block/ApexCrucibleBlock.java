@@ -25,6 +25,14 @@ public final class ApexCrucibleBlock extends Block {
         CareMenu.open(player,pos); return InteractionResult.SUCCESS;
     }
     @Override protected InteractionResult useItemOn(ItemStack stack,BlockState state,Level level,BlockPos pos,Player player,InteractionHand hand,BlockHitResult hit) {
+        if (stack.getItem() instanceof com.bunnidogs.mod.item.ApexSigilItem) {
+            var sample=player.getItemInHand(hand==InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+            if (com.bunnidogs.mod.item.TissueSampleItem.read(sample).isEmpty()) {
+                if (!level.isClientSide()) player.sendOverlayMessage(net.minecraft.network.chat.Component.translatable("message.bunnidogs.apex.sample"));
+                return InteractionResult.FAIL;
+            }
+            CareMenu.open(player,pos,sample); return InteractionResult.SUCCESS;
+        }
         if (stack.is(ModItems.TISSUE_SAMPLE.get())) { CareMenu.open(player,pos,player.getItemInHand(hand)); return InteractionResult.SUCCESS; }
         if (stack.is(ModItems.CALIPERS.get())) {
             CareMenu.open(player,pos,player.getItemInHand(hand==InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND));

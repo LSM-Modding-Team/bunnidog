@@ -58,10 +58,17 @@ public final class ApexRitual {
                 : TissueSampleItem.read(source).isEmpty() ? Status.SAMPLE : !missing.isEmpty() ? Status.OFFERINGS : Status.READY;
         return new Reading(status,slots,chosen,missing);
     }
-    public static Status summon(Player player,BlockPos pos,ItemStack actual) {
+    public static ItemStack heldSigil(Player player) {
+        if (player.getMainHandItem().getItem() instanceof com.bunnidogs.mod.item.ApexSigilItem) return player.getMainHandItem();
+        if (player.getOffhandItem().getItem() instanceof com.bunnidogs.mod.item.ApexSigilItem) return player.getOffhandItem();
+        return ItemStack.EMPTY;
+    }
+    public static Status summon(Player player,BlockPos pos,ItemStack actual) { return summon(player,pos,actual,ItemStack.EMPTY); }
+    public static Status summon(Player player,BlockPos pos,ItemStack actual,ItemStack sigil) {
         if (!(player.level() instanceof ServerLevel level) || !StationUse.editable(player,pos)
                 || !level.getBlockState(pos).is(ModBlocks.APEX_CRUCIBLE.get())) return Status.PERMISSION;
         if (!StationUse.owns(player,actual)) return Status.SAMPLE;
+        if (!sigil.isEmpty() && (!(sigil.getItem() instanceof com.bunnidogs.mod.item.ApexSigilItem) || !StationUse.owns(player,sigil))) return Status.CHANGED;
         var reading=inspect(player,pos,actual); if (reading.status()!=Status.READY) return reading.status();
         for (var slot:reading.chosen()) if (!level.mayInteract(player,slot.pos())) return Status.PERMISSION;
         var key=new Key(level,pos.immutable()); if (!ACTIVE.add(key)) return Status.BUSY;
@@ -71,9 +78,10 @@ public final class ApexRitual {
                 if (!RESERVED.add(slot.pedestal())) return Status.BUSY;
                 claimed.add(slot.pedestal());
             }
-            var expected=actual.copy(); boolean creative=player.hasInfiniteMaterials();
+            var expected=actual.copy(); var expectedSigil=sigil.copy(); boolean creative=player.hasInfiniteMaterials();
             var source=TissueSampleItem.read(expected).orElseThrow();
-            apex=ModEntities.APEX.get().create(level,EntitySpawnReason.TRIGGERED);
+            var focus=sigil.getItem() instanceof com.bunnidogs.mod.item.ApexSigilItem item ? item : null;
+            apex=ModEntities.apex(focus==null ? ApexKind.BRUTE : focus.kind,focus!=null && focus.flying).create(level,EntitySpawnReason.TRIGGERED);
             if (apex==null) return Status.BLOCKED;
             apex.setGenome(source.genome()); apex.setStats(source.stats()); apex.setHealth(apex.getMaxHealth());
             apex.snapTo(pos.getX()+.5,pos.getY()+1.01,pos.getZ()+.5,player.getYRot()+180,0);
@@ -83,6 +91,7 @@ public final class ApexRitual {
             if (!level.addFreshEntity(apex) || !apex.isAlive() || apex.isRemoved()) return Status.BLOCKED;
             // EntityJoinLevelEvent can cancel, replace stock, move the keeper or reenter another crucible.
             if (!StationUse.editable(player,pos) || !level.getBlockState(pos).is(ModBlocks.APEX_CRUCIBLE.get())
+                    || !ItemStack.matches(sigil,expectedSigil) || !expectedSigil.isEmpty() && !StationUse.owns(player,sigil)
                     || creative!=player.hasInfiniteMaterials() || !StationUse.owns(player,actual) || !ItemStack.matches(actual,expected)
                     || reading.chosen().stream().anyMatch(s->!s.current(level) || !level.mayInteract(player,s.pos()))
                     || !level.hasChunksAt(pos.offset(-4,0,-4),pos.offset(4,4,4)) || level.getDifficulty()==Difficulty.PEACEFUL) return Status.CHANGED;
@@ -91,7 +100,7 @@ public final class ApexRitual {
             if (!level.getEntitiesOfClass(Apex.class,new AABB(pos).inflate(48),other->other!=summoned && other.isAlive()).isEmpty()) return Status.ACTIVE;
             if (!creative) try (var tx=Transaction.openRoot()) {
                 for (var slot:reading.chosen()) if (slot.pedestal().ritualStock().extract(ItemResource.of(slot.stock()),1,tx)!=1) return Status.CHANGED;
-                actual.consume(1,player); tx.commit();
+                actual.consume(1,player); sigil.consume(1,player); tx.commit();
             }
             paid=true;
             apex.playSound(SoundEvents.RAVAGER_ROAR,1,.6F);

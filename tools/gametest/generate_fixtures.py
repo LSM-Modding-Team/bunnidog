@@ -15,3 +15,7 @@ save(ROOT/'tools/gametest/resources/data/bunnidogs/structure/trail_corridor.nbt'
 # Family queries and births take place around z=31, not inside the default 8x8 template.
 save(ROOT/'tools/gametest/resources/data/bunnidogs/structure/family_workshop.nbt',
      {(0, 0, 0): ('minecraft:air', {}, None)}, (17, 5, 43), version=4903)
+
+# A native power-10 blast reaches twenty blocks; every queried chunk must be forced.
+save(ROOT/'tools/gametest/resources/data/bunnidogs/structure/apex_arena.nbt',
+     {(0, 0, 0): ('minecraft:air', {}, None)}, (64, 8, 64), version=4903)

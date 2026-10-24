@@ -46,6 +46,7 @@ public class BunnidogsMod {
         modEventBus.addListener(ModBlocks::registerCapabilities);
         ModItems.COMPONENTS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
+        com.bunnidogs.mod.registry.ModEffects.EFFECTS.register(modEventBus);
         com.bunnidogs.mod.registry.ModMenus.MENUS.register(modEventBus);
         modEventBus.addListener(ModItems::addToCreativeTabs);
         modEventBus.addListener(ModNetwork::register);
