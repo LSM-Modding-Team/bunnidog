@@ -20,18 +20,21 @@ final class ApexFlightGoal extends Goal {
         if(target==null || !target.isAlive()) { apex.setDeltaMovement(apex.getDeltaMovement().scale(.8).add(0,apex.onGround() ? .12 : 0,0));return; }
         boolean brute=apex.kind()==ApexKind.BRUTE;
         if(brute && !diving && --orbit<=0 && apex.getY()>=target.getY()+5 && apex.hasLineOfSight(target)) { diving=true;diveTicks=0; }
-        double radius=apex.kind()==ApexKind.PRISM ? 18 : apex.kind()==ApexKind.BLAST && apex.retreatTicks()==0 && (apex.abilityWait()==0 || apex.casting()) ? 3 : 11;
+        double radius=apex.kind()==ApexKind.PRISM ? 16 : apex.kind()==ApexKind.BLAST && apex.retreatTicks()==0 && (apex.abilityWait()==0 || apex.casting()) ? 2.5 : 9;
         double angle=apex.tickCount*.012;
-        Vec3 point=diving ? target.position().add(0,.5,0) : target.position().add(Math.cos(angle)*radius,apex.kind()==ApexKind.BLAST ? 7 : 9,Math.sin(angle)*radius);
-        if(brute && !diving)point=target.position().add(Math.cos(angle)*8,10,Math.sin(angle)*8);
-        if(diving && (++diveTicks>55 || apex.horizontalCollision || apex.onGround() || apex.isWithinMeleeAttackRange(target))) {
+        Vec3 point=diving ? target.position().add(0,.5,0) : target.position().add(Math.cos(angle)*radius,apex.kind()==ApexKind.BLAST ? 6 : 8,Math.sin(angle)*radius);
+        if(brute && !diving)point=target.position().add(Math.cos(angle)*7,9,Math.sin(angle)*7);
+        if(diving && (++diveTicks>55 || apex.isWithinMeleeAttackRange(target) && apex.hasLineOfSight(target))) {
             if(apex.isWithinMeleeAttackRange(target) && apex.hasLineOfSight(target))apex.doHurtTarget((ServerLevel)apex.level(),target);
-            diving=false;orbit=80;point=target.position().add(0,10,0);
+            diving=false;orbit=80;point=target.position().add(0,9,0);
         }
         if(diving) {
-            Vec3 step=point.subtract(apex.position()).normalize().scale(2.2);
-            if(ApexTerrain.clear((ServerLevel)apex.level(),apex,apex.position(),apex.position().add(step),apex.getBbWidth()/2+.15,apex.getBbHeight()))
-                apex.setDeltaMovement(apex.getDeltaMovement().lerp(step,.7));
+            Vec3 step=point.subtract(apex.position()).normalize().scale(1.6);
+            Vec3 velocity=apex.getDeltaMovement().lerp(step,.7);
+            // Previous contact is not a reason to abandon a destructive dive: clear each swept layer.
+            if(ApexTerrain.clear((ServerLevel)apex.level(),apex,apex.position(),apex.position().add(velocity),apex.getBbWidth()/2+.2,apex.getBbHeight()+.1))
+                apex.setDeltaMovement(velocity);
+            else {diving=false;orbit=80;apex.setDeltaMovement(0,.2,0);}
         } else fly(apex,point,.48);
         if(!apex.casting())apex.getLookControl().setLookAt(target,20,20);
     }

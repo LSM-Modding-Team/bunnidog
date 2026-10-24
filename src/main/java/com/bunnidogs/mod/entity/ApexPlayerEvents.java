@@ -25,9 +25,10 @@ public final class ApexPlayerEvents {
         if(event.getEntity() instanceof ServerPlayer p)TOTEMS.putIfAbsent(p.getUUID(),new Totem(event.getTotem().getItem(),p.getStats().getValue(Stats.ITEM_USED.get(event.getTotem().getItem()))));
     }
     public static void death(LivingDeathEvent event) {
+        if(!(event.getEntity().level() instanceof net.minecraft.server.level.ServerLevel level))return;
         if(event.getEntity() instanceof ServerPlayer p) {
             LifebinderMarks.get(p.level()).clear(p);ApexDaze.clear(p);TOTEMS.remove(p.getUUID());
-        } else if(event.getEntity() instanceof Apex a && a.kind()==ApexKind.SUPPORT)LifebinderMarks.get((net.minecraft.server.level.ServerLevel)a.level()).casterDied(a);
+        } else if(event.getEntity() instanceof Apex a && a.kind()==ApexKind.SUPPORT)LifebinderMarks.get(level).casterDied(a);
     }
     public static void tick(PlayerTickEvent.Post event) {
         if(!(event.getEntity() instanceof ServerPlayer p))return;

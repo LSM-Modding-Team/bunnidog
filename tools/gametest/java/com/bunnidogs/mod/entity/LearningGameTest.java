@@ -248,7 +248,7 @@ public final class LearningGameTest {
             dog.setNoAi(false); dog.setOnGround(true);
             var home = h.absolutePos(new BlockPos(1, y + 1, 1)); var moved = dog.moveHomeTo(h.getLevel(), home);
             h.assertTrue(home.equals(dog.homeNest()), "A real AI learner claims or retains its home: " + moved);
-            h.assertTrue(dog.learning().begin(teacher, Learning.Routine.HARVEST), "A skittish animal can recognize its active instructor");
+            h.assertTrue(dog.learning().begin(teacher, Learning.Routine.HARVEST), "A skittish animal can recognize its active instructor: status="+dog.gardeningStatus()+", distance="+dog.distanceToSqr(teacher)+", sight="+teacher.hasLineOfSight(dog)+", knowledge="+dog.learning().knowledge()+", health="+dog.getHealth()+"/"+dog.getMaxHealth());
             h.succeedWhen(() -> {
                 var stock = (FeedingTroughBlockEntity)h.getLevel().getBlockEntity(trough);
                 h.assertTrue(stock.food().getCount() == 1 && dog.learning().knowledge().progress(Learning.Routine.HARVEST) > 0,

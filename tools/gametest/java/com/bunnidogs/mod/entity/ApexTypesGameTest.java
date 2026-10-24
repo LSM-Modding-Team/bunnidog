@@ -93,8 +93,8 @@ final class ApexTypesGameTest {
         h.assertTrue(p.getHealth()<hp,"The warned beam damages an unobstructed actual player");
         float firstPulse=p.getHealth();a.snapTo(pos.add(0,0,6));
         for(int t=30;t<40;t++){p.invulnerableTime=0;beam.tick();}
-        h.assertTrue(p.getHealth()<firstPulse,"Moving the caster cannot move an already fired fixed beam origin");
-        p.snapTo(pos.add(8,0,8));float movedHp=p.getHealth();
+        h.assertTrue(p.getHealth()==firstPulse,"Ground beams retain their current mouth origin as the caster moves");
+        p.snapTo(pos.add(8,0,12));float movedHp=p.getHealth();
         for(int t=40;t<50;t++){p.invulnerableTime=0;beam.tick();}
         h.assertTrue(p.getHealth()==movedHp,"Above half health a committed beam stays on its original line");
         a.setHealth(a.getMaxHealth()*.4F);a.tick();
@@ -104,9 +104,14 @@ final class ApexTypesGameTest {
         for(int t=60;t<80;t++){p.invulnerableTime=0;beam.tick();}
         h.assertTrue(p.getHealth()<movedHp,"Below a quarter health the actual damaging beam follows a relocated player");
         h.assertTrue(beam.canContinueToUse(),"The damaging channel outlasts the old sixty-tick cast");beam.stop();a.discard();
+        p.snapTo(pos.add(8,0,0));p.setHealth(512);p.invulnerableTime=0;
+        var aerial=apex(h,ApexKind.PRISM,true,pos.add(0,6,0));aerial.setTarget(p);var skyBeam=new ApexSpecialGoal(aerial);skyBeam.start();
+        for(int t=0;t<30;t++)skyBeam.tick();float skyHp=p.getHealth();aerial.snapTo(aerial.position().add(0,0,6));
+        for(int t=30;t<40;t++){p.invulnerableTime=0;skyBeam.tick();}
+        h.assertTrue(p.getHealth()<skyHp,"Only the aerial fixed beam keeps its absolute shot origin after caster movement");skyBeam.stop();aerial.discard();
         var caller=apex(h,ApexKind.BROOD,false,pos);caller.setTarget(p);caller.skills().summon(level);caller.skills().summon(level);caller.skills().summon(level);
         var brood=level.getEntitiesOfClass(ApexMinion.class,caller.getBoundingBox().inflate(40),m->m.belongsTo(caller));
-        h.assertTrue(brood.size()==10 && brood.stream().allMatch(m->m.getAttributeValue(Attributes.SCALE)==1 && m.getMaxHealth()>=16 && m.getAttributeValue(Attributes.ATTACK_DAMAGE)>4.8 && m.getAttributeValue(Attributes.MOVEMENT_SPEED)>.34 && com.bunnidogs.mod.genetics.Combat.profile(m.genome(),m.stats()).interval()<20 && !m.acceptsCare()),"Calls create a bounded pack of ten full-sized genetically fast, strong elite brood");
+        h.assertTrue(brood.size()==10 && brood.stream().allMatch(m->m.getAttributeValue(Attributes.SCALE)==1 && m.getMaxHealth()>=14.39 && m.getAttributeValue(Attributes.ATTACK_DAMAGE)>=4.67 && m.getAttributeValue(Attributes.MOVEMENT_SPEED)>.34 && com.bunnidogs.mod.genetics.Combat.profile(m.genome(),m.stats()).interval()<20 && !m.acceptsCare()),"Calls create a bounded pack of ten full-sized genetically fast, strong elite brood");
         h.assertTrue(brood.stream().map(m->m.genome().toString()+m.stats()).distinct().count()>1,"Elite brood have varied saved genes and bred points");
         var wingCaller=apex(h,ApexKind.BROOD,true,pos.add(0,5,0));wingCaller.setTarget(p);wingCaller.skills().summon(level);
         var wings=level.getEntitiesOfClass(ApexMinion.class,wingCaller.getBoundingBox().inflate(40),m->m.belongsTo(wingCaller));

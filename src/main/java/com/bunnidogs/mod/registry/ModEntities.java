@@ -61,7 +61,7 @@ public final class ModEntities {
             EntityType.Builder.<com.bunnidogs.mod.entity.ApexFireball>of(com.bunnidogs.mod.entity.ApexFireball::new,MobCategory.MISC).sized(1F,1F).clientTrackingRange(12).updateInterval(1)
                 .build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","apex_fireball"))));
     public static final DeferredHolder<EntityType<?>,EntityType<com.bunnidogs.mod.entity.ApexAnvil>> APEX_ANVIL=ENTITIES.register("apex_anvil",()->
-            EntityType.Builder.<com.bunnidogs.mod.entity.ApexAnvil>of(com.bunnidogs.mod.entity.ApexAnvil::new,MobCategory.MISC).sized(1.6F,1.6F).clientTrackingRange(12).updateInterval(1)
+            EntityType.Builder.<com.bunnidogs.mod.entity.ApexAnvil>of(com.bunnidogs.mod.entity.ApexAnvil::new,MobCategory.MISC).sized(2F,2F).clientTrackingRange(12).updateInterval(1)
                 .build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","apex_anvil"))));
     public static EntityType<Apex> apex(com.bunnidogs.mod.entity.ApexKind kind,boolean flying) {
         return (flying ? FLYING_APEX : GROUND_APEX).get(kind.ordinal()).get();

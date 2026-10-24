@@ -32,20 +32,23 @@ final class ApexMobility {
                 stopLeap();apex.setDeltaMovement(0,0,0);return;
             }
             apex.setDeltaMovement(step);apex.hurtMarked=true;
-            if(victim!=null && elapsed>duration/2 && apex.isWithinMeleeAttackRange(victim) && apex.hasLineOfSight(victim)) {
+            if(apex.kind()==ApexKind.BRUTE && victim!=null && elapsed>duration/2 && apex.isWithinMeleeAttackRange(victim) && apex.hasLineOfSight(victim)) {
                 apex.doHurtTarget(level,victim);victim=null;
             }
             if(elapsed>=duration)stopLeap();
             return;
         }
-        if(!apex.isInWater())return;
-        apex.resetFallDistance();var target=apex.getTarget();
-        Vec3 toward=target!=null && target.isAlive() ? target.getEyePosition().subtract(apex.getEyePosition()) : new Vec3(0,1,0);
-        if(!level.hasChunkAt(BlockPos.containing(apex.position().add(toward.normalize().scale(2)))))return;
-        double vertical=apex.flying() ? .45 : Math.clamp(toward.y*.15+.12,-.25,.35);
-        double horizontal=apex.casting() ? .05 : .48;
+        swim(apex,apex.getTarget(),apex.flying(),apex.casting(),apex.kind()!=ApexKind.BRUTE && apex.kind()!=ApexKind.BLAST);
+    }
+    static void swim(Bunnidog mob,LivingEntity target,boolean aerial,boolean casting,boolean keepDistance) {
+        if(!mob.isInWater())return;
+        mob.resetFallDistance();
+        Vec3 toward=target!=null && target.isAlive() ? target.getEyePosition().subtract(mob.getEyePosition()) : new Vec3(0,1,0);
+        if(!mob.level().hasChunkAt(BlockPos.containing(mob.position().add(toward.normalize().scale(2)))))return;
+        double vertical=aerial ? .45 : Math.clamp(toward.y*.15+.12,-.25,.35);
+        double horizontal=casting ? .05 : .48;
         Vec3 flat=toward.multiply(1,0,1).normalize();
-        if(!apex.flying() && target!=null && apex.kind()!=ApexKind.BRUTE && apex.kind()!=ApexKind.BLAST && apex.distanceToSqr(target)<64)flat=flat.scale(-1);
-        apex.setDeltaMovement(apex.getDeltaMovement().lerp(flat.scale(horizontal).add(0,vertical,0),.55));
+        if(!aerial && target!=null && keepDistance && mob.distanceToSqr(target)<64)flat=flat.scale(-1);
+        mob.setDeltaMovement(mob.getDeltaMovement().lerp(flat.scale(horizontal).add(0,vertical,0),.55));
     }
 }

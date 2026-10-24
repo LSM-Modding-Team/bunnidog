@@ -20,45 +20,46 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Current focus — Apex swimming and pillar-counter review (2026-10-24)
+## Current focus — Apex disconnect fix and combat follow-up (2026-10-24)
 
-The latest play-review implementation is recorded in [APEX_SPECS.md](docs/APEX_SPECS.md).
+[APEX_SPECS.md](docs/APEX_SPECS.md) records the current values and evidence.
 
-- All ten Apex variants have stronger swimming/water escape. Ground Brute selects
-  a real colliding jump arc up to forty-eight blocks within awareness/loaded bounds,
-  breaking ordinary blocks through native protection hooks. Elevated targets jump;
-  nearby ground targets retain stomp. Flying Brute's stoop is much faster (2.2).
-- Blastmaw self-cost is 22.5% max HP. Its recovery fireballs have native power four
-  and spare all bunnidogs. A lethal next self-cost (also reached mid-fuse) commits
-  to power twenty, red flashing and twenty extra fuse ticks, then self-sacrifice.
-  Aerial fuses add another second: normal ground/air 30/50, final ground/air 50/70.
-- Broodcaller retains elite speed, bite timing and damage, with modestly reduced
-  gene-derived health (85% raw, bounds 16–40). Waves are six, caps ten owned/twenty
-  local, with sixteen seconds of recovery plus windup. It recalls real brood to
-  hold/throw, dealing damage proportional to remaining HP and strong knockback.
-  Below half HP it alternates throws with consuming brood for 1:1 remaining-HP
-  healing. Flight/genes/lifetime/drop/capture protections remain.
-- Lifebinder converts actual accepted drain damage at 7× into healing income,
-  spending it once on self then finite allied reserves. Hooks have a genuinely
-  broader swept entity hit volume. Physical thrown anvils immobilize victims and
-  queue a follow-up hook. A small, conditional **Shake your view** bar fills from
-  actual view motion, with a server budget equivalent to about one intense second.
-- Hooks remove one maximum-health container, stopping at one container. World save
-  data retains the debt across logout/dimensions. Successful native totems return
-  three; death or killing a marking caster restores all, including offline victims.
-  Native cancellation, other attribute modifiers and active-effect lifetime remain.
-- Prismmaw damage is 15% lower. Tracking starts at 25% HP. Fixed beams keep their
-  absolute origin/direction from the first damaging pulse, even if the caster moves.
-- Protocol **26** requires matching clients/servers. English/neutral Spanish:
-  **2,261 authored / 2,389 packaged keys**. Existing g3 genetics, source/ritual stock,
-  gray station frames and borderless animal conversations remain. Wing models and
-  textures are still explicitly planned, not added.
-- Java 25 build/model/localization gates and **152 native scenarios** cover every
-  three-block-pillar fight, real water progress, destructive jump/fast stoop,
-  final blast and family-safe fireball, brood throwing/eating, actual totem/death/
-  caster-kill heart restoration, saved debt and one-second stun escape. The inspected
-  art preview uses substitute fonts/equivalent renderer tints. Natural client
-  difficulty, input feel and terrain performance remain play review.
+- The supplied disconnect reports identify a client death-event callback casting
+  ClientLevel to ServerLevel. `ApexPlayerEvents.death` now admits only real server
+  levels before debt/kill work. A logical-client native death-notification case
+  covers both ground/flying Lifebinders; actual server heart repayment still works.
+- Ground Brute is 10% faster and prefers native melee/short approach near a visible
+  target, with variable destructive jumps for more distant/elevated targets.
+  Ground Blastmaw can also jump to approach while its self-explosion is ready,
+  without consuming that charge or acquiring melee damage.
+- All Blastmaw outgoing explosion/fireball damage is 25% lower. Terrain powers,
+  family immunity and 22.5% self-cost remain. Fireballs fire outside burst range
+  even with the burst ready, and a burst resets their full 55-tick delay. Flying
+  normal/final fuses are now sixty/eighty ticks; ground remains thirty/fifty.
+- Brood waves are five, recovery 380 ticks (nineteen seconds), caps ten/twenty.
+  Compared with the prior build, actual health is 10% lower (14.4–36), bite damage
+  15% lower (4.675–10.2). Speed/cadence remain. Brood also swim strongly. Throw
+  recovery halves to forty ticks. Eating has five-tick holds/six-tick recovery;
+  critical callers (≤25%) chain real meals with two-tick holds/no added recovery.
+- Lifebinder anvils now have actual two-by-two body/rendering, a slower native
+  ballistic parabola (16–32 ticks), flying-Brute-equivalent raw damage, doubled
+  fourteen-second recovery and doubled initial delay. Conditional view-motion
+  escape, queued hooks, sevenfold drain income and saved heart debt remain.
+- Only flying fixed Prismmaw beams retain absolute shot origins. Ground fixed
+  origins follow the mouth; their direction still locks, tracking remains ≤25%.
+- Flying Brute clears successive wall layers instead of aborting on the first
+  collision. Speed is now 1.6 versus prior 2.2/original .9. All aerial orbits are
+  slightly closer in height/radius; flying variants still remain airborne.
+- Protocol **27** requires matching clients/servers. Languages remain **2,261
+  authored / 2,389 packaged keys**. Existing g3 genomes, ritual/source stock,
+  heart debt, gray station frames and borderless conversations remain. Actual
+  wing models/textures remain planned. No realm/dungeon content is added.
+- Java 25 build/model/localization gates and **157 native scenarios** cover this
+  revision, including actual logical-client death dispatch, all ten pillar fights,
+  layered destruction, exact blast/fireball reductions, ranged-ready fire/reset,
+  anvil geometry/arc/damage/cooldown, critical eating and ground/winged brood water
+  progress. Anvil preview uses native geometry/equivalent physics and substitute
+  fonts; actual client appearance, input feel and balance remain player review.
 
 ## Direct JAR downloads
 

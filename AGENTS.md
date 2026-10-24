@@ -53,17 +53,22 @@ runtime implementation. Five roles and their five flying variants now ship;
 `docs/APEX_SPECS.md` records actual behavior and evidence. Keep the +60% outgoing
 damage baseline (×1.6 after bounds), base Brute health unchanged, exact focused ritual costs,
 family blast immunity, finite swarms, hook recovery and healing conservation.
-The latest swimming/pillar review supersedes initial role prototypes: specialists
-have no melee; all ten variants swim strongly and counter three-block pillars.
-Brute uses variable destructive jumps; flying Brute has fast destructive stoops.
-Blastmaw retains +20% HP, pays 22.5% backlash, fires family-safe power-four recovery
-fireballs and commits to a longer red power-twenty final blast at lethal self-cost.
-Flying fuses add one second. Brood retains elite speed/cadence/damage but reduced
-health, wave size and spawn rate, and throws/eats actual owned minions. Lifebinder
-uses seven-times accepted drain income (spent once), broad hooks, physical anvil
-stun with a conditional crosshair-motion escape bar, and saved heart-container
-debt repaid by actual totems, death or caster kills. Prismmaw damage is reduced
-15%, tracking starts at 25%, and fixed rays retain their absolute shot origin.
+The latest combat follow-up supersedes earlier values: Brute is 10% faster and
+prefers nearby normal melee; ready ground Blastmaws may approach-jump without
+spending their burst charge. Blastmaw outgoing damage is reduced 25%, firing at
+range even when its burst is ready and resetting the full fireball delay after
+a burst. Flying normal/final fuses are now sixty/eighty ticks. Brood now use five per wave,
+nineteen-second recovery, 15% lower bites/10% lower health, strong swimming and
+much faster throws/meals (critical feeding has no artificial recovery).
+Lifebinder anvils are two-block world-oriented ballistic projectiles with flying
+Brute damage and doubled cooldown. Preserve sevenfold drain income, view-motion
+escape and persistent heart-debt repayment. Only aerial fixed Prismmaw rays keep
+absolute shot origins. Flying Brutes clear successive wall layers at moderated
+stoop speed, and aerial orbits are slightly closer. All ten pillar counters remain.
+Client disconnect review: death notifications also fire on logical clients. Check
+for a real ServerLevel before any debt/caster/player work; never cast a generic
+Level on the assumption that a registered death handler runs only server-side.
+Preserve the actual logical-client notification regression alongside server cases.
 Preserve native protection/cancellation, finite resources and actual save/stock
 ownership. The explicitly requested escape bar is not a return of ambient hints.
 Wings genetics/flight ship; actual wing models/textures are explicitly deferred.

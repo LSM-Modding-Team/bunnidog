@@ -14,6 +14,14 @@ import com.bunnidogs.mod.registry.ModEffects;
 import com.bunnidogs.mod.registry.ModEntities;
 
 final class ApexReviewGameTest {
+    static void clientDeath(GameTestHelper h) {
+        var client=new LogicalClientLevel(h.getLevel());
+        for(boolean flying:new boolean[]{false,true}) {
+            var actor=ModEntities.apex(ApexKind.SUPPORT,flying).create(client,EntitySpawnReason.LOAD);
+            actor.handleEntityEvent((byte)3);
+            h.assertTrue(client.isClientSide() && !actor.isAlive(),"Ground/flying Lifebinder client death notifications must not invoke server-only debt code");
+        }
+    }
     static void pillar(GameTestHelper h,ApexKind kind,boolean flying) {
         ApexTypesGameTest.floor(h);var pos=ApexTypesGameTest.center(h);
         for(int y=180;y<183;y++)h.setBlock(32,y,32,Blocks.STONE);
@@ -31,7 +39,14 @@ final class ApexReviewGameTest {
         for(var kind:ApexKind.values())for(boolean flying:new boolean[]{false,true}) {
             var a=ApexTypesGameTest.apex(h,kind,flying,pos.add(-8,1,kind.ordinal()-2));a.setNoAi(false);a.setTarget(p);list.add(a);
         }
+        var pups=new ArrayList<ApexMinion>();
+        for(boolean flying:new boolean[]{false,true}) {
+            var caller=list.stream().filter(a->a.kind()==ApexKind.BROOD && a.flying()==flying).findFirst().orElseThrow();
+            var pup=ModEntities.APEX_MINION.get().create(h.getLevel(),EntitySpawnReason.COMMAND);pup.caller(caller);pup.snapTo(pos.add(-8,1,flying ? 3 : -3));pup.setTarget(p);h.getLevel().addFreshEntity(pup);pups.add(pup);
+        }
         h.runAfterDelay(40,()->{
+            for(var pup:pups)h.assertTrue(pup.getX()>pos.x-5 || pup.getY()>pos.y+6,"Ground/winged elite brood must also swim strongly under native physics");
+            pups.forEach(net.minecraft.world.entity.Entity::discard);
             for(var a:list)h.assertTrue(a.getX()>pos.x-5 || a.getY()>pos.y+6,"Every Apex must make substantial real progress through water: "+a.kind()+"/"+a.flying()+" at "+a.position());
             list.forEach(Apex::discard);h.succeed();
         });
@@ -50,8 +65,8 @@ final class ApexReviewGameTest {
         h.assertTrue(a.lastStand() && a.fuseLength()==50,"Lethal next self-cost chooses power twenty and a longer red fuse");
         float hp=a.getHealth();for(int t=0;t<49;t++)cast.tick();h.assertTrue(a.isAlive() && a.getHealth()==hp,"Final blast cannot detonate before its full fifty-tick fuse");
         cast.tick();h.assertTrue(!a.isAlive(),"The real power-twenty last stand spends the caster's remaining life");
-        var flying=ApexTypesGameTest.apex(h,ApexKind.BLAST,true,pos.add(0,8,0));h.assertTrue(flying.fuseLength()==50,"An aerial normal fuse adds one second");flying.lastStand(true);
-        h.assertTrue(flying.fuseLength()==70,"Aerial last stand adds both extra seconds");flying.discard();dog.discard();
+        var flying=ApexTypesGameTest.apex(h,ApexKind.BLAST,true,pos.add(0,8,0));h.assertTrue(flying.fuseLength()==60,"An aerial normal fuse adds one and a half seconds");flying.lastStand(true);
+        h.assertTrue(flying.fuseLength()==80,"Aerial last stand retains its extra final-blast second");flying.discard();dog.discard();
     }
     static void support(GameTestHelper h) {
         ApexTypesGameTest.floor(h);var level=h.getLevel();var pos=ApexTypesGameTest.center(h);var a=ApexTypesGameTest.apex(h,ApexKind.SUPPORT,false,pos);
@@ -70,8 +85,8 @@ final class ApexReviewGameTest {
         h.assertTrue(!p.isAlive() && marks.lost(p.getUUID())==0 && p.getMaxHealth()==20,"Actual death restores every lost container");
         var q=ApexTypesGameTest.player(h,pos.add(6,0,0));marks.mark(a,q);a.invulnerableTime=0;a.hurtServer(level,q.damageSources().playerAttack(q),10000);
         h.assertTrue(marks.lost(q.getUUID())==0 && q.getMaxHealth()==20,"Killing the marking Lifebinder restores its victim's containers");
-        var second=ApexTypesGameTest.apex(h,ApexKind.SUPPORT,false,pos);second.setTarget(q);q.invulnerableTime=0;second.skills().anvil(level,q);
-        var anvil=level.getEntitiesOfClass(ApexAnvil.class,second.getBoundingBox().inflate(3)).getFirst();for(int i=0;i<10 && anvil.isAlive();i++)anvil.tick();
+        var second=ApexTypesGameTest.apex(h,ApexKind.SUPPORT,false,pos);second.setTarget(q);q.getAttribute(Attributes.MAX_HEALTH).setBaseValue(512);q.setHealth(512);q.invulnerableTime=0;second.skills().anvil(level,q);
+        var anvil=level.getEntitiesOfClass(ApexAnvil.class,second.getBoundingBox().inflate(3)).getFirst();for(int i=0;i<40 && anvil.isAlive();i++)anvil.tick();
         h.assertTrue(q.hasEffect(ModEffects.ANVIL_DAZE) && q.getAttributeValue(Attributes.MOVEMENT_SPEED)==0,"An actual anvil hit immobilizes the victim");
         int nonce=q.getPersistentData().getCompoundOrEmpty("BunnidogsAnvilDaze").getIntOr("Nonce",0);
         ApexDaze.struggle(q,nonce,Integer.MAX_VALUE);
@@ -83,7 +98,7 @@ final class ApexReviewGameTest {
         ApexTypesGameTest.floor(h);var level=h.getLevel();var pos=ApexTypesGameTest.center(h);var a=ApexTypesGameTest.apex(h,ApexKind.BROOD,false,pos);
         var p=ApexTypesGameTest.player(h,pos.add(10,3,0));p.getAttribute(Attributes.MAX_HEALTH).setBaseValue(512);p.setHealth(512);p.setNoGravity(true);a.setTarget(p);
         a.skills().summon(level);var brood=level.getEntitiesOfClass(ApexMinion.class,a.getBoundingBox().inflate(16),m->m.belongsTo(a));
-        h.assertTrue(brood.size()==6 && brood.stream().allMatch(m->m.getMaxHealth()<=40),"Brood wave/health are moderated while speed and bite stay elite");
+        h.assertTrue(brood.size()==5 && brood.stream().allMatch(m->m.getMaxHealth()<=36),"Brood wave/health are moderated while speed and bite stay elite");
         var meal=brood.getFirst();meal.snapTo(pos.add(1,0,0));meal.setHealth(12);a.setHealth(a.getMaxHealth()*.3F);float hp=a.getHealth();
         h.assertTrue(a.skills().consume(level,meal) && a.getHealth()==hp+12 && meal.isRemoved(),"A wounded caller eats actual remaining minion health once");
         var shot=brood.get(1);shot.snapTo(pos.add(1,1,0));shot.setHealth(20);shot.launchAt(p);float before=p.getHealth();

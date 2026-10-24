@@ -27,13 +27,14 @@ public final class ApexMinion extends Bunnidog implements Enemy {
     private net.minecraft.world.entity.LivingEntity thrownAt;
     public ApexMinion(EntityType<? extends ApexMinion> type,Level level) {
         super(type,level); setGenome(genome()); setHealth(getMaxHealth()); refreshDimensions();
+        getNavigation().setCanFloat(true);setPathfindingMalus(net.minecraft.world.level.pathfinder.PathType.WATER,0);
     }
-    public static AttributeSupplier.Builder createAttributes() { return Bunnidog.createAttributes().add(Attributes.SCALE,1); }
+    public static AttributeSupplier.Builder createAttributes() { return Bunnidog.createAttributes().add(Attributes.SCALE,1).add(net.neoforged.neoforge.common.NeoForgeMod.SWIM_SPEED,3); }
     @Override protected void applyGenetics() {
         float fraction=getMaxHealth()>0 ? getHealth()/getMaxHealth() : 1;
         var traits=genome().traits();var stats=stats();var combat=com.bunnidogs.mod.genetics.Combat.profile(genome(),stats);
-        getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.clamp(.85*8*traits.healthMultiplier()*stats.multiplier(com.bunnidogs.mod.genetics.Stat.VITALITY),16,40));
-        getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.clamp(combat.bite()*1.6,5.5,12));
+        getAttribute(Attributes.MAX_HEALTH).setBaseValue(.9*Math.clamp(.85*8*traits.healthMultiplier()*stats.multiplier(com.bunnidogs.mod.genetics.Stat.VITALITY),16,40));
+        getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(.85*Math.clamp(combat.bite()*1.6,5.5,12));
         getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(Math.clamp(.25*traits.speedMultiplier()*stats.multiplier(com.bunnidogs.mod.genetics.Stat.SWIFTNESS),.4,.65));
         getAttribute(Attributes.ATTACK_SPEED).setBaseValue(20.0/combat.interval());
         getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(40);
@@ -117,7 +118,10 @@ public final class ApexMinion extends Bunnidog implements Enemy {
         if(biteWait>0)biteWait--;
         if(controlled()) {setNoAi(false);if(held || flightDuration>0)setNoGravity(true);}
         super.tick();
-        if(level() instanceof ServerLevel server && controlled())controlledTick(server);
+        if(level() instanceof ServerLevel server) {
+            if(controlled())controlledTick(server);
+            else if(!isNoAi())ApexMobility.swim(this,getTarget(),com.bunnidogs.mod.genetics.Wings.expressed(genome()),false,false);
+        }
         if (level() instanceof ServerLevel server && (--life<=0 || tickCount%10==0 && (caller==null
                 || !(server.getEntity(caller) instanceof Apex apex) || !apex.isAlive() || distanceToSqr(apex)>1600))) discard();
     }

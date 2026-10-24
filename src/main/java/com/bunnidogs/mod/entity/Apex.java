@@ -69,7 +69,7 @@ public final class Apex extends Bunnidog implements Enemy {
         float fraction = oldMax > 0 ? this.getHealth() / oldMax : 1;
         var combat = ApexRules.combat(this.genome(), this.stats(), this.enraged);
         base(Attributes.MAX_HEALTH, combat.health()*(kind==ApexKind.BLAST ? 1.2 : 1));
-        base(Attributes.MOVEMENT_SPEED, combat.speed());
+        base(Attributes.MOVEMENT_SPEED, combat.speed()*(kind==ApexKind.BRUTE ? 1.1 : 1));
         base(Attributes.JUMP_STRENGTH, combat.jump());
         base(Attributes.ATTACK_DAMAGE, combat.damage()*(flying && kind==ApexKind.BRUTE ? 2 : 1));
         base(Attributes.FOLLOW_RANGE, combat.awareness());
@@ -87,8 +87,9 @@ public final class Apex extends Bunnidog implements Enemy {
     public boolean trackingBeam() { return getHealth()<=getMaxHealth()*.25F; }
     public boolean lastStand() { return entityData.get(LAST_STAND); }
     void lastStand(boolean value) { entityData.set(LAST_STAND,value); }
+    boolean inBlastRange(net.minecraft.world.entity.LivingEntity target) {return target!=null && distanceToSqr(target)<=(flying ? 144 : 25);}
     float blastCost() { return getMaxHealth()*.225F; }
-    int fuseLength() { return 30+(flying ? 20 : 0)+(lastStand() ? 20 : 0); }
+    int fuseLength() { return 30+(flying ? 30 : 0)+(lastStand() ? 20 : 0); }
     boolean flightActive() { return flying && isAlive(); }
     int retreatTicks() { return retreat; }
     void retreatFor(int ticks) { retreat=ticks; }

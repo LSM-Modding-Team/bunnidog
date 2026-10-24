@@ -33,7 +33,7 @@ public final class ApexSkills {
     private LivingEntity tether;
     private int tetherTicks;
     private float vitality=8;
-    private int fireWait=30,anvilWait=35,broodWait=40,grabTicks;
+    private int fireWait=30,anvilWait=70,broodWait=20,grabTicks;
     private ApexMinion grabbed;
     private LivingEntity queuedHook;
     private int hookDelay;
@@ -68,7 +68,7 @@ public final class ApexSkills {
         if (!apex.isAlive() || apex.kind()!=ApexKind.BROOD) return 0;
         var alive=level.getEntitiesOfClass(ApexMinion.class,apex.getBoundingBox().inflate(40),Entity::isAlive);
         int room=Math.min(20-alive.size(),10-(int)alive.stream().filter(m->m.belongsTo(apex)).count()), spawned=0;
-        for (int attempt=0;attempt<40 && spawned<Math.min(6,room);attempt++) {
+        for (int attempt=0;attempt<40 && spawned<Math.min(5,room);attempt++) {
             var at=apex.blockPosition().offset(apex.getRandom().nextInt(13)-6,0,apex.getRandom().nextInt(13)-6);
             if (!level.hasChunkAt(at)) continue;
             for (int y=apex.flying() ? 1 : 3;y>= (apex.flying() ? -1 : -5);y--) {
@@ -89,6 +89,7 @@ public final class ApexSkills {
     boolean blast(ServerLevel level,boolean lastStand) {
         if(apex.kind()!=ApexKind.BLAST || !apex.isAlive())return false;
         if(!explosion(level,apex,apex.position(),lastStand ? 20 : 10,false))return false;
+        fireWait=55;
         if(apex.isAlive())apex.hurtServer(level,source("apex_backlash"),lastStand ? apex.getHealth()+apex.getAbsorptionAmount() : apex.blastCost());
         return true;
     }
@@ -100,7 +101,7 @@ public final class ApexSkills {
             @Override public boolean shouldDamageEntity(Explosion explosion,Entity entity) { return !immune(entity); }
             @Override public float getKnockbackMultiplier(Entity entity) { return immune(entity) ? 0 : 1; }
             @Override public float getEntityDamageAmount(Explosion explosion,Entity entity,float exposure) {
-                return (allBunnidogs ? 1 : 1.6F)*super.getEntityDamageAmount(explosion,entity,exposure);
+                return (allBunnidogs ? .75F : 1.2F)*super.getEntityDamageAmount(explosion,entity,exposure);
             }
         };
         boolean grief=net.neoforged.neoforge.event.EventHooks.canEntityGrief(level,caster);
@@ -122,8 +123,7 @@ public final class ApexSkills {
     void queueHook(LivingEntity target) {queuedHook=target;hookDelay=8;}
     public void anvil(ServerLevel level,LivingEntity target) {
         var anvil=ModEntities.APEX_ANVIL.get().create(level,EntitySpawnReason.TRIGGERED);if(anvil==null)return;
-        anvil.setOwner(apex);anvil.setPos(mouth());Vec3 aim=target.getEyePosition().add(0,.3,0).subtract(anvil.position());
-        anvil.shoot(aim.x,aim.y,aim.z,2.4F,0);
+        anvil.setOwner(apex);anvil.setPos(mouth());anvil.aimAt(target.getEyePosition());
         if(!level.addFreshEntity(anvil))anvil.discard();else apex.playSound(SoundEvents.ANVIL_PLACE,.8F,.7F);
     }
     public void hook(ServerLevel level,LivingEntity target) {
@@ -146,14 +146,14 @@ public final class ApexSkills {
     public void tick(ServerLevel level) {
         if(!apex.isAlive())return;
         var target=apex.getTarget();
-        if(!apex.isNoAi() && apex.kind()==ApexKind.BLAST && --fireWait<=0 && apex.abilityWait()>0 && !apex.casting() && target!=null && target.isAlive() && apex.distanceToSqr(target)<=1024 && apex.hasLineOfSight(target)) {fireball(level,target);fireWait=55;}
+        if(!apex.isNoAi() && apex.kind()==ApexKind.BLAST && --fireWait<=0 && target!=null && target.isAlive() && (apex.abilityWait()>0 || !apex.inBlastRange(target)) && (!apex.casting() || !apex.inBlastRange(target)) && apex.distanceToSqr(target)<=1024 && apex.hasLineOfSight(target)) {fireball(level,target);fireWait=55;}
         if(!apex.isNoAi() && apex.kind()==ApexKind.BROOD)brood(level);
         if(apex.kind()!=ApexKind.SUPPORT) {tether=null;return;}
         if(queuedHook!=null && --hookDelay<=0) {
             if(victim(queuedHook) && queuedHook.level()==level && apex.distanceToSqr(queuedHook)<=625)hook(level,queuedHook);
             queuedHook=null;
         }
-        if(!apex.isNoAi() && --anvilWait<=0 && target!=null && target.isAlive() && !apex.casting() && apex.distanceToSqr(target)<=625 && apex.hasLineOfSight(target)) {anvil(level,target);anvilWait=140;}
+        if(!apex.isNoAi() && --anvilWait<=0 && target!=null && target.isAlive() && !apex.casting() && apex.distanceToSqr(target)<=625 && apex.hasLineOfSight(target)) {anvil(level,target);anvilWait=280;}
 
         if (tether!=null) {
             if (!victim(tether) || tether.level()!=level || apex.distanceToSqr(tether)>(tetherTicks<8 ? 400 : 324) || !clearHookPath(level,tether) || ++tetherTicks>40) tether=null;
@@ -184,11 +184,18 @@ public final class ApexSkills {
             if(!grabbed.held()) {
                 if(apex.distanceToSqr(grabbed)<=12.25) {grabbed.hold(apex);grabTicks=0;}return;
             }
-            if(grabTicks<15)return;
-            if(apex.getHealth()<apex.getMaxHealth()*.5F && !lastMeal)lastMeal=consume(level,grabbed);
-            else {if(apex.getTarget()!=null)grabbed.launchAt(apex.getTarget());else grabbed.release();lastMeal=false;}
-            grabbed=null;broodWait=80;return;
+            boolean critical=apex.getHealth()<=apex.getMaxHealth()*.25F;
+            boolean eating=critical || apex.getHealth()<apex.getMaxHealth()*.5F && !lastMeal;
+            if(grabTicks<(eating ? critical ? 2 : 5 : 15))return;
+            if(eating) {
+                lastMeal=consume(level,grabbed);
+                broodWait=apex.getHealth()<=apex.getMaxHealth()*.25F ? 0 : 6;
+            } else {
+                if(apex.getTarget()!=null)grabbed.launchAt(apex.getTarget());else grabbed.release();lastMeal=false;broodWait=40;
+            }
+            grabbed=null;return;
         }
+        if(apex.getHealth()<=apex.getMaxHealth()*.25F)broodWait=0;
         if(--broodWait>0 || apex.casting() || apex.getTarget()==null)return;
         grabbed=level.getEntitiesOfClass(ApexMinion.class,apex.getBoundingBox().inflate(24),m->m.isAlive() && m.belongsTo(apex) && !m.controlled())
                 .stream().min(java.util.Comparator.comparingDouble(apex::distanceToSqr)).orElse(null);

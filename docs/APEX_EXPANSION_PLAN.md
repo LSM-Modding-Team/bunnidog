@@ -13,6 +13,12 @@ moderated elite brood with throws/eating, anvil/heart-debt Lifebinder mechanics,
 and quarter-health tracking/absolute fixed Prism beams. APEX_SPECS gives current
 values; earlier prototype numbers below yield to that play-reviewed behavior.
 
+The later follow-up fixes the logical-client Lifebinder death disconnect and
+updates melee preference, Blastmaw damage/ranged-ready timing/approach jumps,
+brood stats/swimming/meal timing, large ballistic anvils and closer aerial
+spacing. Only flying fixed Prism beams keep world anchors; dives clear layered
+cover at moderated speed. Current numbers are in APEX_SPECS.
+
 AX6 (dimension/ruins/gear), AX7 (dungeon/Crowned Apex), natural wild spawning and
 the lavish expanded loot economy remain **planned**. The design below preserves
 the broader direction; prototype timings/architecture yield to the actual spec.

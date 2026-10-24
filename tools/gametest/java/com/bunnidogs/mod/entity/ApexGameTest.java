@@ -113,7 +113,7 @@ public final class ApexGameTest {
             apex.setNoAi(true);
             h.assertTrue(apex.genome().equals(source.genome()) && apex.stats().equals(source.stats())
                     && apex.getMaxHealth() >= 180 && apex.getMaxHealth() <= 720
-                    && apex.getAttributeValue(Attributes.MOVEMENT_SPEED) <= .42
+                    && apex.getAttributeValue(Attributes.MOVEMENT_SPEED) <= .4621
                     && apex.getBbHeight() > 1.6 && apex.isPersistenceRequired(),
                     "Source data must stay exact while combat attributes, scaled dimensions and persistence apply immediately");
             for (int i = 0; i < 5; i++) pedestals.get(i).setItem(legends[i].copy());
@@ -156,17 +156,14 @@ public final class ApexGameTest {
             apex.load(TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),saved));
             apex.setTarget(player); apex.setOnGround(true);
             player.setPos(apex.position().add(2,0,0));
-            player.setHealth(player.getMaxHealth());
+            player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(512);player.setHealth(512);
             float before = player.getHealth();
-            var stomp = new ApexAbilityGoal(apex);
-            h.assertTrue(stomp.canUse(), "A rested boss must be able to charge: wait=" + apex.abilityWait()
-                    + ", ground=" + apex.onGround() + ", target=" + (apex.getTarget() != null)
-                    + ", distance=" + apex.distanceToSqr(player) + ", sight=" + apex.hasLineOfSight(player));
-            stomp.start();
-            h.assertTrue(player.getHealth() == before, "Starting a charge must give warning before damage");
-            while (stomp.canContinueToUse()) stomp.tick();
-            stomp.stop();
-            h.assertTrue(player.getHealth() < before, "The completed native stomp must damage a visible nearby survival player");
+            var closeAttack=new ApexAbilityGoal(apex);
+            h.assertTrue(!closeAttack.canUse(),"An in-range Brute prefers its ordinary bite over a jump/stomp windup");
+            player.setPos(apex.position().add(1.25,0,0));
+            h.assertTrue(apex.isWithinMeleeAttackRange(player),"The bite recipient is inside the actual native attack box");
+            player.invulnerableTime=0;apex.doHurtTarget(level,player);
+            h.assertTrue(player.getHealth()<before,"The nearby survival player receives the normal native melee attack");
             apex.load(TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),saved));
             apex.setTarget(player); apex.setOnGround(true);
             // Keep both ends of the sight ray inside the eight-block fixture's barrier walls.

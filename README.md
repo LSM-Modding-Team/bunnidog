@@ -90,7 +90,9 @@ for Prismmaw (mouth beam), Broodcaller (swarm), Blastmaw (repeated huge explosio
 or Lifebinder (anvil/hook/drain/healing). All roles counter pillars and swim well;
 flying versions exist for all five. Blastmaw has recovery fireballs and a final
 red blast; Broodcaller throws and eats its own pack. Lifebinder hooks cost heart
-containers, restored by totems, death or defeating its caster.
+containers, restored by totems, death or defeating its caster. The latest follow-up
+fixes its client death disconnect, adds large ballistic anvils, moderates Blastmaw/
+brood damage, and improves melee preference, swimming and layered dive attacks.
 Use the sigil on a Crucible with the actual Tissue Sample in your other hand;
 reviewing is free, and a successful Survival summon spends the sigil alongside
 the existing sample/five offerings. [Actual mechanics](docs/APEX_SPECS.md).

@@ -23,21 +23,27 @@ final class ApexAbilityGoal extends Goal {
     @Override public boolean requiresUpdateEveryTick() { return true; }
     @Override public boolean canUse() {
         var victim = this.apex.getTarget();
-        return apex.kind()==ApexKind.BRUTE && !apex.flying() && this.apex.abilityWait() == 0 && (this.apex.onGround() || this.apex.isInWater()) && victim != null && victim.isAlive()
-                && this.apex.distanceToSqr(victim) <= 2304;
+        return (apex.kind()==ApexKind.BRUTE || apex.kind()==ApexKind.BLAST) && !apex.flying() && this.apex.abilityWait() == 0 && (this.apex.onGround() || this.apex.isInWater()) && victim != null && victim.isAlive()
+                && this.apex.distanceToSqr(victim) <= 2304
+                && (apex.kind()==ApexKind.BLAST ? !apex.inBlastRange(victim) : !bitePossible(victim));
+    }
+    private boolean bitePossible(LivingEntity target) {
+        return apex.hasLineOfSight(target) && (apex.isWithinMeleeAttackRange(target)
+                || apex.distanceToSqr(target)<=6.25 && Math.abs(apex.getY()-target.getY())<1.25);
     }
     @Override public void start() {
         this.target = this.apex.getTarget();
-        this.stomp = this.apex.distanceToSqr(this.target) <= 9 && Math.abs(this.target.getY()-this.apex.getY())<1.25;
+        this.stomp = apex.kind()==ApexKind.BRUTE && this.apex.distanceToSqr(this.target) <= 9 && Math.abs(this.target.getY()-this.apex.getY())<1.25;
         this.charge = this.stomp ? 30 : 20;
         if (this.apex.enraged()) this.charge = this.charge * 2 / 3;
-        this.apex.beginAbility();
+        if(apex.kind()==ApexKind.BRUTE)this.apex.beginAbility();
         this.apex.getNavigation().stop();
         this.apex.charging(true);
         this.apex.playSound(SoundEvents.RAVAGER_ROAR, .8F, this.stomp ? .65F : 1.1F);
     }
     @Override public boolean canContinueToUse() {
-        return (this.charge > 0 || apex.mobility().leaping()) && this.target != null && this.target.isAlive();
+        return (this.charge > 0 || apex.mobility().leaping()) && this.target != null && this.target.isAlive()
+                && (apex.mobility().leaping() || apex.kind()!=ApexKind.BRUTE || !bitePossible(target));
     }
     @Override public void tick() {
         this.apex.getNavigation().stop();

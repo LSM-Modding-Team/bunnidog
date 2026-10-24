@@ -19,7 +19,7 @@ final class ApexSpecialGoal extends Goal {
     @Override public boolean requiresUpdateEveryTick() { return true; }
     @Override public boolean canUse() {
         var victim=apex.getTarget();
-        return apex.kind()!=ApexKind.BRUTE && apex.abilityWait()==0 && victim!=null && victim.isAlive()
+        return apex.kind()!=ApexKind.BRUTE && !apex.mobility().leaping() && apex.abilityWait()==0 && victim!=null && victim.isAlive()
             && apex.distanceToSqr(victim)<=(apex.kind()==ApexKind.BLAST ? apex.flying() ? 144 : 25 : apex.kind()==ApexKind.SUPPORT ? 400 : 1024)
             && (apex.kind()==ApexKind.PRISM || apex.hasLineOfSight(victim));
     }
@@ -44,7 +44,7 @@ final class ApexSpecialGoal extends Goal {
             direction=elapsed==1 ? desired : direction.lerp(desired,elapsed<=30 ? .2 : .12).normalize();
         }
         tracking=tracking || apex.trackingBeam();
-        if(elapsed<=30 || tracking)origin=apex.skills().mouth();
+        if(elapsed<=30 || tracking || !apex.flying())origin=apex.skills().mouth();
         Vec3 look=apex.skills().mouth().add(direction.scale(20));
         apex.getLookControl().setLookAt(look.x,look.y,look.z,30,30);
         if(apex.kind()==ApexKind.PRISM) {
