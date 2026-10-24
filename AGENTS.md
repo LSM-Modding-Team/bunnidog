@@ -60,6 +60,13 @@ This explicit user direction takes priority over unrelated cognition work while
 the Apex expansion is active. Preserve the screenshot-approved vanilla station
 frames and borderless MCA animal conversations.
 
+Download incident: the latest Actions ZIP is blocked by Chrome while the prior
+one is not. See `docs/DOWNLOAD_DIAGNOSTICS.md`. Preserve original hashes during
+investigation; keep browser protection enabled. A direct-JAR draft release is a
+diagnostic route, not proof the block is resolved. The manual workflow only copies
+verified CI bytes to an unpublished draft; publishing needs the user's request.
+Do not claim a packaging defect or confirmed false positive without evidence.
+
 Successful world actions/orders dismiss their actual conversation so animals can
 obey; refused actions and settings/cargo remain open. Do not close a replacement
 menu opened by a native callback. Bond release requires its explicit confirmation.

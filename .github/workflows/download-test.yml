@@ -1,0 +1,48 @@
+name: Prepare download test
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_run_id:
+        description: Successful main-branch Build run containing the original JAR
+        required: true
+        type: string
+      draft_release_id:
+        description: Existing unpublished release targeting that exact commit
+        required: true
+        type: string
+      expected_jar_sha256:
+        description: SHA-256 of the original JAR (not its enclosing ZIP)
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: download-test-${{ inputs.draft_release_id }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BUILD_RUN_ID: ${{ inputs.build_run_id }}
+      DRAFT_RELEASE_ID: ${{ inputs.draft_release_id }}
+      EXPECTED_JAR_SHA256: ${{ inputs.expected_jar_sha256 }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate source build and draft
+        id: validate
+        run: python3 .github/scripts/prepare_download_test.py validate
+      - name: Download original verified build
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ steps.validate.outputs.artifact }}
+          run-id: ${{ inputs.build_run_id }}
+          github-token: ${{ github.token }}
+          path: download-test-input
+      - name: Attach identical JAR and checksum to draft
+        run: python3 .github/scripts/prepare_download_test.py upload

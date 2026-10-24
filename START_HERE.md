@@ -20,6 +20,18 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
+## Active distribution issue — Chrome download block
+
+The user reports only the latest Apex artifact ZIP is blocked. Actual old/new CI
+archives have identical packaging/permissions and expected contents; latest CI
+JAR equals the local build byte-for-byte. The reason for Google's verdict is not
+established. `docs/DOWNLOAD_DIAGNOSTICS.md` records hashes and the diagnostic plan.
+A draft direct-JAR release (`apex-preview-c39c82e`, release ID 422901680) targets
+the original commit. The manual Prepare download test workflow copies/checks the
+original successful build into that unpublished draft, preserving the JAR hash.
+Chrome with protection enabled must be tested before claiming the route is fixed.
+Do not publish the draft or change gameplay merely to try a different hash.
+
 ## Current focus — Apex types implemented (2026-10-24)
 
 The user approved Apex implementation after the planning batch and damage update.
