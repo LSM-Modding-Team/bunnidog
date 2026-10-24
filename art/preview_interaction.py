@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 from preview_bunnidog import ROOT, render, world_faces
-from preview_stations import icon, translator, wrap
+from preview_stations import icon, translator, wrap, panel, PANEL_INK, panel_color
 
 FONT = ImageFont.truetype('DejaVuSans.ttf', 9)
 BOLD = ImageFont.truetype('DejaVuSans-Bold.ttf', 10)
@@ -24,9 +24,13 @@ def frame(view, name, locale, scene):
     painter.text((12, 4), locale+' / '+name, font=BOLD, fill=(245, 238, 211))
     width, height = (214 if animal else 300), 310
     x, y = (600-width-12, 12) if animal else ((600-width)//2, (355-height)//2)
+    if not animal:
+        panel(result, x, y, width, height)
+    label_color = (224, 214, 193) if animal else PANEL_INK
+    shadow = {'stroke_width': 1, 'stroke_fill': (30, 30, 25)} if animal else {}
     title = wrap(text(view['title']), width-24)
     for i, part in enumerate(title):
-        painter.text((x+12, y+10+i*9), part, font=BOLD, fill=(244, 231, 201), stroke_width=1, stroke_fill=(30, 30, 25))
+        painter.text((x+12, y+10+i*9), part, font=BOLD, fill=(244, 231, 201) if animal else PANEL_INK, **shadow)
     viewport_y, visible = y+len(title)*9+18, height-len(title)*9-54
     content = Image.new('RGBA', (width-24, 1600))
     draw, at, text_width = ImageDraw.Draw(content), 0, width-36
@@ -35,7 +39,7 @@ def frame(view, name, locale, scene):
         nonlocal at
         parts = wrap(text(value), text_width)
         for part in parts:
-            draw.text((0, at), part, font=FONT, fill=(230, 226, 217), stroke_width=1, stroke_fill=(30, 30, 25))
+            draw.text((0, at), part, font=FONT, fill=(230, 226, 217) if animal else panel_color(value), **shadow)
             at += 9
         if parts:
             at += 7
@@ -57,7 +61,7 @@ def frame(view, name, locale, scene):
         for i, stock in enumerate(stocks):
             sx, sy = (i%columns)*(sw+8), (i//columns)*61
             for line_no, part in enumerate(wrap(text(stock['label']), sw)[:2]):
-                draw.text((sx+(sw-FONT.getlength(part))/2, sy+2+line_no*9), part, font=FONT, fill=(224, 214, 193))
+                draw.text((sx+(sw-FONT.getlength(part))/2, sy+2+line_no*9), part, font=FONT, fill=label_color)
             sprite = icon(stock['item']) if stock['count'] else None
             if sprite:
                 sprite = sprite.resize((16, 16), Image.Resampling.NEAREST)
@@ -65,7 +69,7 @@ def frame(view, name, locale, scene):
                 if stock['count'] > 1:
                     draw.text((sx+(sw-18)//2+10, sy+40), str(stock['count']), font=FONT, fill='white', stroke_width=1, stroke_fill='black')
             else:
-                draw.text((sx+(sw-18)//2+4, sy+34), '—', font=FONT, fill=(176, 171, 161))
+                draw.text((sx+(sw-18)//2+4, sy+34), '—', font=FONT, fill=(176, 171, 161) if animal else (96, 96, 96))
         at += ((len(stocks)+columns-1)//columns)*61
     lines(view['next'])
     if animal:

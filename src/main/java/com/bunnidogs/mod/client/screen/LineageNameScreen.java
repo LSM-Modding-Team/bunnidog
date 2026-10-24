@@ -49,12 +49,12 @@ public final class LineageNameScreen extends Screen {
     @Override public boolean isPauseScreen() { return false; }
     @Override public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         int left = (this.width-260)/2, top = Math.max(12,(this.height-150)/2);
-        graphics.fill(left-12,top-12,left+272,top+142,0xF0221C16);
+        ContainerBackdrop.draw(graphics,left-12,top-12,284,154);
         super.extractRenderState(graphics,mouseX,mouseY,partialTick);
-        graphics.text(this.font,this.title,left,top,0xFFF4E7C9);
-        graphics.text(this.font,Component.translatable("screen.bunnidogs.lineage.hint"),left,top+23,0xFFD2C5A8);
-        graphics.text(this.font,Component.translatable("screen.bunnidogs.lineage.local"),left,top+72,0xFFD2C5A8);
+        graphics.text(this.font,this.title,left,top,ContainerBackdrop.INK,false);
+        graphics.text(this.font,Component.translatable("screen.bunnidogs.lineage.hint"),left,top+23,ContainerBackdrop.INK,false);
+        graphics.text(this.font,Component.translatable("screen.bunnidogs.lineage.local"),left,top+72,ContainerBackdrop.INK,false);
         if (this.pending || this.refused || LineageNames.clean(this.draft).isEmpty()) graphics.text(this.font,
-                Component.translatable(this.refused ? "screen.bunnidogs.lineage.stale" : this.pending ? "screen.bunnidogs.lineage.saving" : "screen.bunnidogs.lineage.invalid"),left,top+89,0xFFFFC98B);
+                Component.translatable(this.refused ? "screen.bunnidogs.lineage.stale" : this.pending ? "screen.bunnidogs.lineage.saving" : "screen.bunnidogs.lineage.invalid"),left,top+89,this.refused ? 0xFFA02020 : 0xFF604020,false);
     }
 }

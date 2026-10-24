@@ -5,6 +5,7 @@ import json
 import re
 import zipfile
 from io import BytesIO
+from functools import lru_cache
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
@@ -69,6 +70,40 @@ def icon(item):
     return None
 
 
+PANEL_INK = (64, 64, 64)
+
+
+@lru_cache(maxsize=1)
+def container_texture():
+    with zipfile.ZipFile(ROOT/'build/moddev/artifacts/minecraft-patched-26.2.0.88.jar') as archive:
+        return Image.open(BytesIO(archive.read('assets/minecraft/textures/gui/container/crafting_table.png'))).convert('RGBA')
+
+
+def panel(target, x, y, width, height):
+    source = container_texture()
+    for dx, dy, w, h, u, v, sw, sh in [
+        (4, 4, width-8, height-8, 4, 4, 1, 1),
+        (0, 0, 4, 4, 0, 0, 4, 4), (4, 0, width-8, 4, 4, 0, 168, 4),
+        (width-4, 0, 4, 4, 172, 0, 4, 4), (0, 4, 4, height-8, 0, 4, 4, 158),
+        (width-4, 4, 4, height-8, 172, 4, 4, 158),
+        (0, height-4, 4, 4, 0, 162, 4, 4), (4, height-4, width-8, 4, 4, 162, 168, 4),
+        (width-4, height-4, 4, 4, 172, 162, 4, 4),
+    ]:
+        patch = source.crop((u, v, u+sw, v+sh)).resize((w, h), Image.Resampling.NEAREST)
+        target.paste(patch, (x+dx, y+dy), patch)
+
+
+def container_slot(target, x, y):
+    source = container_texture().crop((7, 83, 25, 101))
+    target.paste(source, (x-1, y-1), source)
+
+
+def panel_color(value):
+    named = {'green': (85, 255, 85), 'red': (255, 85, 85), 'gold': (255, 170, 0)}
+    rgb = named.get(value.get('color')) if isinstance(value, dict) else None
+    return tuple(int(c*96/max(rgb)) for c in rgb) if rgb else PANEL_INK
+
+
 BACK = {18, 151, 182, 142}
 SLOT_X = {'TROUGH': [80], 'PEN': [53, 107], 'CRADLE': [80], 'JUICER': [18, 76, 134], 'TABLE': [53, 107], 'JAR': [80], 'PEDESTAL': [80]}
 
@@ -87,9 +122,10 @@ def frame(view, name, locale, size):
     width = min(300, screen_width-(16 if family else 24))
     height = min(224 if family else 310, screen_height-(16 if family else 24))
     x, y = (screen_width-width)//2, (screen_height-height)//2
+    panel(scene, x, y, width, height)
     title = wrap(text(view['title']), width-24)
     for i, part in enumerate(title):
-        draw.text((x+12, y+10+i*9), part, font=BOLD, fill=(244, 231, 201), stroke_width=1, stroke_fill=(25, 25, 20))
+        draw.text((x+12, y+10+i*9), part, font=BOLD, fill=PANEL_INK)
 
     def item(target, painter, stock, sx, sy):
         sprite = icon(stock['item']) if stock['count'] else None
@@ -104,17 +140,15 @@ def frame(view, name, locale, size):
     if storage:
         for slot in view['slots']:
             sx, sy = x+slot['x'], y+slot['y']
-            draw.rectangle((sx-1, sy-1, sx+16, sy+16), fill=(225, 225, 225))
-            draw.rectangle((sx-1, sy-1, sx+15, sy+15), fill=(55, 55, 55))
-            draw.rectangle((sx, sy, sx+15, sy+15), fill=(139, 139, 139))
+            container_slot(scene, sx, sy)
             item(scene, draw, slot, sx, sy)
-        draw.text((x+8, y+93), 'Inventario' if locale == 'es_pe' else 'Inventory', font=FONT, fill=(244, 231, 201), stroke_width=1, stroke_fill=(25, 25, 20))
+        draw.text((x+8, y+93), 'Inventario' if locale == 'es_pe' else 'Inventory', font=FONT, fill=PANEL_INK)
         for i, sx in enumerate(SLOT_X[kind]):
             for line_no, part in enumerate(wrap(text(stocks[i]['label']), 54)[:2]):
-                draw.text((x+sx+8-FONT.getlength(part)/2, y+20+line_no*9), part, font=FONT, fill=(224, 214, 193), stroke_width=1, stroke_fill=(25, 25, 20))
+                draw.text((x+sx+8-FONT.getlength(part)/2, y+20+line_no*9), part, font=FONT, fill=PANEL_INK)
         if kind == 'JUICER':
-            draw.text((x+52, y+48), '+', font=FONT, fill=(224, 214, 193))
-            draw.text((x+110, y+48), '→', font=FONT, fill=(224, 214, 193))
+            draw.text((x+52, y+48), '+', font=FONT, fill=PANEL_INK)
+            draw.text((x+110, y+48), '→', font=FONT, fill=PANEL_INK)
         progress = view['station']['progress']
         if progress >= 0:
             draw.rectangle((x+18, y+73, x+149, y+77), fill=(55, 55, 55))
@@ -123,11 +157,11 @@ def frame(view, name, locale, size):
         if kind == 'TROUGH' and len(stocks) > 1:
             filter_stock = stocks[1]
             for i, part in enumerate(wrap(text(filter_stock['label']), 46)[:2]):
-                draw.text((x+126+(46-FONT.getlength(part))/2, y+20+i*9), part, font=FONT, fill=(224, 214, 193))
+                draw.text((x+126+(46-FONT.getlength(part))/2, y+20+i*9), part, font=FONT, fill=PANEL_INK)
             if filter_stock['count']:
                 item(scene, draw, filter_stock, x+141, y+49)
             else:
-                draw.text((x+143, y+51), '—', font=FONT, fill=(176, 171, 161))
+                draw.text((x+143, y+51), '—', font=FONT, fill=(96, 96, 96))
 
     text_width = 100 if storage else width-36
     content = Image.new('RGBA', (text_width+12, 1600))
@@ -138,15 +172,15 @@ def frame(view, name, locale, size):
         for i, stock in enumerate(stocks):
             sx, sy = (i%columns)*(sw+8), (i//columns)*61
             for line_no, part in enumerate(wrap(text(stock['label']), sw)[:2]):
-                ink.text((sx+(sw-FONT.getlength(part))/2, sy+2+line_no*9), part, font=FONT, fill=(224, 214, 193))
+                ink.text((sx+(sw-FONT.getlength(part))/2, sy+2+line_no*9), part, font=FONT, fill=PANEL_INK)
             item(content, ink, stock, sx+(sw-16)//2, sy+31)
             if not stock['count']:
-                ink.text((sx+(sw-18)//2+4, sy+34), '—', font=FONT, fill=(176, 171, 161))
+                ink.text((sx+(sw-18)//2+4, sy+34), '—', font=FONT, fill=(96, 96, 96))
         at += ((len(stocks)+columns-1)//columns)*61
     for value in [view['next']]+view['rows']:
         parts = wrap(text(value), text_width)
         for part in parts:
-            ink.text((0, at), part, font=FONT, fill=(230, 226, 217), stroke_width=1, stroke_fill=(25, 25, 20))
+            ink.text((0, at), part, font=FONT, fill=panel_color(value))
             at += 9
         if parts:
             at += 7

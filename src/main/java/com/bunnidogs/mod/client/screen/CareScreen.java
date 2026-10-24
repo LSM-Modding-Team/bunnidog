@@ -38,6 +38,7 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
     private boolean storage() { return menu.inventoryVisible(); }
     private boolean storageFamily() { return menu.inventoryKind()!=StationInventory.Kind.NONE; }
     private boolean animal() { return shown!=null && shown.subjectId()>=0; }
+    private Component display(Component text) { return animal() ? text : ContainerBackdrop.text(text); }
     @Override protected boolean hasClickedOutside(double x,double y,int left,int top) {
         return x<left || y<top || x>=left+panelWidth || y>=top+panelHeight;
     }
@@ -68,13 +69,13 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
             int columns=Math.min(3,shown.stock().size()), stockWidth=(textWidth-8*(columns-1))/columns;
             for (int i=0;i<shown.stock().size();i+=columns) {
                 var line=content.addChild(LinearLayout.horizontal().spacing(8));
-                for (int j=i;j<Math.min(i+columns,shown.stock().size());j++) stocks.add(line.addChild(new CareStockWidget(minecraft,stockWidth,shown.stock().get(j))));
+                for (int j=i;j<Math.min(i+columns,shown.stock().size());j++) stocks.add(line.addChild(new CareStockWidget(minecraft,stockWidth,shown.stock().get(j),!animal())));
             }
         }
-        next=new MultiLineTextWidget(shown.next(),font).setMaxWidth(textWidth);
+        next=new MultiLineTextWidget(display(shown.next()),font).setMaxWidth(textWidth);
         if (!shown.next().getString().isEmpty()) content.addChild(next);
         if (animal()) addControls(shown,CareView.Control.PRIMARY,textWidth);
-        for (var row:shown.rows()) rows.add(content.addChild(new MultiLineTextWidget(row,font).setMaxWidth(textWidth)));
+        for (var row:shown.rows()) rows.add(content.addChild(new MultiLineTextWidget(display(row),font).setMaxWidth(textWidth)));
         if (!animal()) addControls(shown,CareView.Control.PRIMARY,textWidth);
         addControls(shown,CareView.Control.DETAIL,textWidth);
         addControls(shown,CareView.Control.CHOICE,textWidth);
@@ -91,7 +92,7 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
         close=addRenderableWidget(Button.builder(AnimalPanels.text("close"),b->onClose())
                 .bounds(leftPos+(storageFamily() ? 188 : 20+footerWidth),topPos+panelHeight-28,footerWidth,20).build());
         if (storage() && menu.inventoryKind()==StationInventory.Kind.TROUGH && shown.stock().size()>1) {
-            var filter=new CareStockWidget(minecraft,46,shown.stock().get(1)); filter.setPosition(leftPos+126,topPos+18); addRenderableWidget(filter);
+            var filter=new CareStockWidget(minecraft,46,shown.stock().get(1),true); filter.setPosition(leftPos+126,topPos+18); addRenderableWidget(filter);
         }
         if (focus==-2 && back!=null) setFocused(back);
         if (focus==-3) setFocused(close);
@@ -138,8 +139,8 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
             }
             build(scroll[0],focus); return;
         }
-        shown=value; next.setMessage(value.next());
-        for (int i=0;i<rows.size();i++) rows.get(i).setMessage(value.rows().get(i));
+        shown=value; next.setMessage(display(value.next()));
+        for (int i=0;i<rows.size();i++) rows.get(i).setMessage(display(value.rows().get(i)));
         for (int i=0;i<controls.size();i++) updateButton(controls.get(i),visible.get(i));
         for (int i=0;i<stocks.size();i++) stocks.get(i).setStock(value.stock().get(i));
         if (back!=null) value.controls().stream().filter(this::backControl).findFirst().ifPresent(c->back.active=c.enabled());
@@ -149,28 +150,26 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
         if (menu.view()!=null) super.extractRenderState(graphics,mouseX,mouseY,partialTick);
     }
     @Override public void extractBackground(GuiGraphicsExtractor graphics,int mouseX,int mouseY,float partialTick) {
-        if (shown!=null && !animal()) graphics.fill(0,0,width,height,0x60000000);
-        if (storage()) for (var slot:menu.slots) if (slot.isActive()) {
-            int x=leftPos+slot.x, y=topPos+slot.y;
-            graphics.fill(x-1,y-1,x+17,y+17,0xFFE1E1E1);
-            graphics.fill(x-1,y-1,x+16,y+16,0xFF373737);
-            graphics.fill(x,y,x+16,y+16,0xFF8B8B8B);
+        if (shown!=null && !animal()) {
+            graphics.fill(0,0,width,height,0x60000000);
+            ContainerBackdrop.draw(graphics,leftPos,topPos,panelWidth,panelHeight);
         }
+        if (storage()) for (var slot:menu.slots) if (slot.isActive()) ContainerBackdrop.slot(graphics,leftPos+slot.x,topPos+slot.y);
     }
     @Override protected void extractLabels(GuiGraphicsExtractor graphics,int x,int y) {
         if (shown==null) return;
         if (storage()) {
-            graphics.text(font,Component.translatable("container.inventory"),8,93,0xFFF4E7C9,true);
+            graphics.text(font,Component.translatable("container.inventory"),8,93,ContainerBackdrop.INK,false);
             for (int i=0;i<menu.inventoryKind().slots && i<shown.stock().size();i++) {
                 int line=0, center=menu.inventoryKind().x(i)+8;
                 for (var part:font.split(shown.stock().get(i).label(),54)) {
                     if (line==2) break;
-                    graphics.text(font,part,center-font.width(part)/2,20+9*line++,0xFFE0D6C1,true);
+                    graphics.text(font,part,center-font.width(part)/2,20+9*line++,ContainerBackdrop.INK,false);
                 }
             }
             if (menu.inventoryKind()==StationInventory.Kind.JUICER) {
-                graphics.text(font,Component.literal("+"),52,48,0xFFE0D6C1,true);
-                graphics.text(font,Component.literal("→"),110,48,0xFFE0D6C1,true);
+                graphics.text(font,Component.literal("+"),52,48,ContainerBackdrop.INK,false);
+                graphics.text(font,Component.literal("→"),110,48,ContainerBackdrop.INK,false);
             }
             if (shown.station().progress()>=0) {
                 graphics.fill(18,73,150,78,0xFF373737);
@@ -178,6 +177,6 @@ public final class CareScreen extends AbstractContainerScreen<CareMenu> {
             }
         }
         int line=0;
-        for (var part:font.split(shown.title(),panelWidth-24)) graphics.text(font,part,12,10+line++*font.lineHeight,0xFFF4E7C9,true);
+        for (var part:font.split(display(shown.title()),panelWidth-24)) graphics.text(font,part,12,10+line++*font.lineHeight,animal() ? 0xFFF4E7C9 : ContainerBackdrop.INK,animal());
     }
 }

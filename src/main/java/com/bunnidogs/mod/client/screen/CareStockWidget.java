@@ -13,8 +13,9 @@ import net.minecraft.network.chat.Component;
 final class CareStockWidget extends AbstractWidget {
     private final Minecraft minecraft;
     private CareView.Stock stock;
-    CareStockWidget(Minecraft minecraft,int width,CareView.Stock stock) {
-        super(0,0,width,54,stock.label()); this.minecraft=minecraft; setStock(stock);
+    private final boolean panel;
+    CareStockWidget(Minecraft minecraft,int width,CareView.Stock stock,boolean panel) {
+        super(0,0,width,54,stock.label()); this.minecraft=minecraft; this.panel=panel; setStock(stock);
     }
     void setStock(CareView.Stock value) {
         stock=value; setMessage(value.label());
@@ -25,14 +26,14 @@ final class CareStockWidget extends AbstractWidget {
         int line=0;
         for (var part:font.split(getMessage(),width)) {
             if (line==2) break;
-            graphics.text(font,part,getX()+(width-font.width(part))/2,getY()+2+line++*font.lineHeight,0xFFE0D6C1,true);
+            graphics.text(font,part,getX()+(width-font.width(part))/2,getY()+2+line++*font.lineHeight,panel ? ContainerBackdrop.INK : 0xFFE0D6C1,!panel);
         }
-        if (isFocused()) graphics.outline(getX(),getY(),width,height,0xFFF4E7C9);
+        if (isFocused()) graphics.outline(getX(),getY(),width,height,panel ? 0xFF505080 : 0xFFF4E7C9);
         if (!stock.item().isEmpty()) {
             graphics.item(stock.item(),slotX+1,slotY+1,0);
             graphics.itemDecorations(font,stock.item(),slotX+1,slotY+1,null);
             if (isHoveredOrFocused()) graphics.setTooltipForNextFrame(font,stock.item(),mouseX,mouseY);
-        } else graphics.text(font,"—",slotX+4,slotY+4,0xFFB0ABA1,true);
+        } else graphics.text(font,"—",slotX+4,slotY+4,panel ? 0xFF666666 : 0xFFB0ABA1,!panel);
     }
     @Override protected void updateWidgetNarration(NarrationElementOutput output) {
         output.add(NarratedElementType.TITLE,stock.label());

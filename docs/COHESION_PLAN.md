@@ -4,6 +4,29 @@ The player should be able to raise a useful companion without reading a manual.
 The Field Guide is an optional reference for exact genetics and advanced systems.
 Adding another chapter does not count as making an interaction discoverable.
 
+## Screenshot review: normal container backgrounds (2026-10-24)
+
+The user likes the native-slot arrangement but rejects its floating appearance.
+Stations now use the normal opaque gray Minecraft container background, with
+native beveled edges and slot artwork. The same treatment covers their nested
+choices, Board/Comparator/Apex preparation, Calipers inspection and the name form.
+Dark labels and status colors stay readable on gray; no setup text or tutorial
+layer is added. MCA animal conversations remain borderless and books retain their
+page presentation. This explicitly supersedes the earlier backgroundless-station
+choice while preserving the interaction and real-stock corrections below.
+
+`ContainerBackdrop` slices only the empty frame/slot art from Minecraft's existing
+crafting texture; it does not stretch a crafting grid into every menu or ship a
+copy of vanilla assets. Existing permissions, focus, Back/Close positions and
+native carried-item behavior are untouched. Protocol/save formats are unchanged.
+English/Spanish previews include the minimum viewport; actual native-font/client
+appearance remains review work. Java 25 build/localization gates pass.
+
+The same request plans future Apex roles, flight, an Apex-populated dimension,
+rich loot and a true final dungeon boss in
+[APEX_EXPANSION_PLAN.md](APEX_EXPANSION_PLAN.md). Those are proposals only in this
+batch, and do not quietly add combat or worldgen while fixing the shown UI.
+
 ## Native station inventories (2026-10-24)
 
 A player with several samples or seed records must be able to choose which one

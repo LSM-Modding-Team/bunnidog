@@ -250,6 +250,22 @@ uses `family_workshop` (17×5×43) for the same reason. Regenerate both with
 `python tools/gametest/generate_fixtures.py`. This fixes a native fixture boundary,
 not a production pathfinding or chunk-loading policy.
 
+### Container presentation (2026-10-24)
+
+`ContainerBackdrop` uses the existing 256×256 vanilla crafting texture. Its
+176×166 frame has an empty four-pixel border: slice corners/edges and stretch
+only the plain pixel at (4,4) across the interior. The actual inventory slot
+is the 18×18 region at (7,83). `GuiGraphicsExtractor.blit` accepts destination
+width/height separately from source width/height; use `RenderPipelines.GUI_TEXTURED`.
+Do not stretch the baked crafting grid or introduce a bundled vanilla asset.
+
+In these 26.2 sources `MultiLineTextWidget` inherits `AbstractStringWidget`, with
+no `setColor`. It emits styled runs through `ActiveTextCollector`. Resolve panel
+Components on the client, preserve each run's hover/click/formatting style, apply
+readable dark colors and `Style.withShadowColor(0)`. The received/server Component
+and all saved names remain unchanged. The direct title/caption draws use dark ink
+without shadows. Animal conversation widgets retain their original presentation.
+
 ### Native care-station slots (2026-10-24)
 
 Protocol **23** appends station kind and bounded visual progress to the existing

@@ -11,7 +11,8 @@ Cargo appears when it carries bundles. Calipers offer **Measure** for genetics;
 crouch-use opens requested health, home, work, field and combat readings. There are no automatic crosshair instructions. Nests work directly
 in the world. Troughs, Pens, Cradles, Juicers, Tables, Jars and Pedestals use
 ordinary inventory slots: place exactly the items you choose or shift-click
-supplies. Work modes and commission choices have separate pages. Cargo uses the bundles’ native hover
+supplies. Stations use the familiar gray container background; work modes and
+commission choices have separate pages. Cargo uses the bundles’ native hover
 contents. Orders and committed care return to the world; settings stay open.
 Plain held materials can inspect stations, with normal crouch-placement preserved.
 Every action uses real supplies.
@@ -79,6 +80,12 @@ Download builds from GitHub **Actions → Build → a successful run → Artifac
 The artifact ZIP contains the installable JAR. The workflow runs on pushes and
 pull requests, and can also be started manually. A green build establishes
 compilation and headless checks; final appearance still needs gameplay review.
+
+## Development plans
+
+[The Apex expansion plan](docs/APEX_EXPANSION_PLAN.md) covers future combat roles,
+flying variants, a rich Apex-populated dimension and a final dungeon boss. The
+current build contains the original ritual Apex; the expansion is not implemented.
 
 ## Working with Codex
 

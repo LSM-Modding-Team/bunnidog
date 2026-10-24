@@ -1,8 +1,14 @@
-# Apex — the culmination of a breeding line
+# Apex — the implemented lineage encounter
+
+The 2026-10-24 player direction treats this existing strength as a vanilla-midgame
+boss / vanilla-endgame ordinary enemy. Future same-band types, flight, the Great
+Warren dimension, lavish loot and the Apex-of-Apexes finale are planned in
+[APEX_EXPANSION_PLAN.md](APEX_EXPANSION_PLAN.md); none of them is implemented by
+the container-background batch. This document describes the current encounter.
 
 The five legendary stat drops now fund a deliberate boss encounter. A Tissue
 Sample supplies the look and original bred points; its living donor is never
-changed or consumed. This completes the endgame idea in DESIGN.md without
+changed or consumed. This implements the original ritual idea in DESIGN.md without
 allowing unbounded breeding points to break boss movement or health.
 
 ## Ritual
@@ -51,16 +57,18 @@ Adventure, blocked space, changed qualifying displays/samples, spawn cancellatio
 recursive entry, replaced stock/ownership, one-item costs from stacked displays,
 exact source stats and creative keeps. The existing real survival encounter case
 retains combat, capabilities, crest and save/load coverage. Actual client feel
-and natural encounter difficulty remain playtests; protocol **17** is current.
+and natural encounter difficulty remain playtests; protocol **23** is current.
 
 ## Encounter
 
-The Apex retains all seven source gene pairs, coat/body proportions and expressed
+The Apex retains the full current source genome (seven body and four mind pairs),
+coat/body proportions and expressed
 environmental adaptations. The existing approved creature mesh is reused with
 native Scale 1.8. Source points are retained separately from bounded boss
 attributes: health 180–720, speed .25–.42, jump .4–.8, damage 8–15 and awareness
 24–64. Build, legs, ears, Vitality, Swiftness, Leap and Senses affect these values.
-Bloom remains an adult breeding stat, with no boss growth effect. A3 also
+Bloom remains an adult breeding stat, with no boss growth effect. Cognitive
+source genes remain recorded; current boss combat does not grant learned jobs. A3 also
 inherits the source's slate armor and stocky/chonker knockback resistance,
 adding to base armor 4/resistance .5. The glow coat remains self-lit.
 
@@ -85,8 +93,9 @@ bunnidog materials or refund the five legends. Mob drops game rule applies.
 The first player victory grants the Apex of the Line advancement (200 XP);
 the boss itself grants 50 XP under native kill-credit rules.
 
-Existing genome, animal saves, pedestal contents, model assets and protocol 6
-remain compatible. The new entity uses existing genome sync and native boss
+The original feature introduced protocol 6. Current matching builds use protocol
+23; existing genome/animal saves, pedestal contents and model assets remain
+compatible. The new entity uses existing genome sync and native boss
 packets; the crest uses the existing tissue component.
 
 ## Evidence

@@ -28,7 +28,31 @@ overrides earlier claims of completed discovery; prioritize usability correction
 over new intelligence features. [COHESION_PLAN.md](docs/COHESION_PLAN.md) records
 the revised design and the old MCA 1.12 interaction reference.
 
-Latest continuation:
+Latest review response (2026-10-24):
+
+- Storage/station menus now have Minecraft's normal opaque gray container frame,
+  using the vanilla crafting texture's empty border and real slot art. Settings,
+  the Board, gene-signal and Apex preparation cards, Calipers purpose/readings
+  and the lineage-name form use the same treatment. Text uses dark readable
+  colors; native item tooltips and actual slot operations remain intact.
+  MCA animal conversations retain their borderless view; book pages stay pages.
+- English/Spanish panel previews are regenerated from existing native snapshots,
+  including the 320×240 viewport. `art/container_panels_preview.png` shows the
+  requested Trough, its nested work choices and Apex preparation. This is layout
+  evidence with substitute fonts, not a new client playtest.
+- `docs/APEX_EXPANSION_PLAN.md` is the new future-content direction. It plans
+  same-band Brute/beam/swarm/blast/support Apexes, all flying variants, the Great
+  Warren realm, lavish loot and the Crowned Apex dungeon finale. It covers native
+  power-10 repeated blasts with family immunity, bounded hook/stun/true drain and
+  healing, wild-vs-ritual persistence, source/save compatibility and phased AX1–AX7
+  implementation. **No new Apex, item, dimension or combat behavior ships now.**
+  Later Apex implementation starts at AX1 when requested. Existing cognition
+  plans remain valid but do not override this explicit steering.
+- Runtime changes are client presentation only. Protocol **23**, authored and
+  packaged language counts, inventories, saved data and the 132 native scenarios
+  are unchanged. Java 25 `build` passes; verify exact pushed CI/artifact as usual.
+
+Previous native-inventory continuation:
 
 - Seven storage stations now expose real Minecraft slots and the player inventory:
   Trough, Pen, Cradle, Juicer, Table, Jar and populated Trophy Pedestal. Players
@@ -106,7 +130,8 @@ Earlier interaction corrections retained:
   lessons show personal practice and live activity, without a theory/setup wall.
   Exact body/mind forecasts remain with the existing tools and stations.
 - Station interaction now uses compact pages over the world, without the large
-  gold/brown enclosing panel or full-screen blur. Troughs, Pens, Cradles, Juicers,
+  gold/brown tutorial panel or full-screen blur. The screenshot review adds the
+  usual gray container frame for stations. Troughs, Pens, Cradles, Juicers,
   Tables, Jars and Pedestals now use real stock slots instead of stock
   paragraphs or automatic transfer buttons. Working stations show state, without
   repeated setup instructions.
@@ -144,7 +169,7 @@ build/artifact as the final delivery gate.
 
 `art/interaction_preview.png`, `art/companion_activity_preview.png`,
 `art/care_readings_preview.png`, `art/station_interactions_preview.png` and
-`art/station_inventory_preview.png` render
+`art/station_inventory_preview.png` and `art/container_panels_preview.png` render
 English/Spanish native snapshots with substitute fonts/backgrounds. They are not
 in-client captures. Actual GUI scales, accessibility, natural discovery and play
 pacing remain human review work. Continue auditing friction found by play before
