@@ -29,7 +29,9 @@ established. `docs/DOWNLOAD_DIAGNOSTICS.md` records hashes and the diagnostic pl
 A draft direct-JAR release (`apex-preview-c39c82e`, release ID 422901680) targets
 the original commit. The manual Prepare download test workflow copies/checks the
 original successful build into that unpublished draft, preserving the JAR hash.
-Chrome with protection enabled must be tested before claiming the route is fixed.
+The user tested the direct JAR with Chrome protection enabled: it downloads
+normally. Prefer direct JAR release assets for sharing; the exact Google ZIP/URL
+verdict is still unknown. The draft remains unpublished pending instruction.
 Do not publish the draft or change gameplay merely to try a different hash.
 
 ## Current focus — Apex types implemented (2026-10-24)

@@ -76,10 +76,13 @@ The head uses continuous UVs and surface-derived normals to avoid horizontal
 texture and lighting bands, preserving the approved Low geometry and nose.
 See [rendering details](docs/GRAPHICS.md).
 
-Download builds from GitHub **Actions → Build → a successful run → Artifacts**.
-The artifact ZIP contains the installable JAR. The workflow runs on pushes and
-pull requests, and can also be started manually. A green build establishes
-compilation and headless checks; final appearance still needs gameplay review.
+For sharing, use the installable **JAR asset from an approved GitHub Release**,
+with its accompanying SHA-256 checksum. Direct JAR downloads have been tested in
+Chrome with download protection enabled. Actions build ZIPs remain available for
+development; Chrome blocked the latest Actions ZIP while accepting the exact
+same JAR from a release. Draft releases are visible only to maintainers.
+A green build establishes compilation and headless checks; final appearance still
+needs gameplay review.
 
 ## Apex encounters
 

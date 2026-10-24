@@ -66,27 +66,33 @@ def main():
     jar = output / f'{source.stem}-mc26.2-neoforge-{sha[:7]}.jar'
     jar.write_bytes(content)
     checksums = output / 'SHA256SUMS.txt'
-    artifacts = api(f'repos/{repo}/actions/runs/{run_id}/artifacts?per_page=100')['artifacts']
-    original = [a for a in artifacts if a['name'] == f'bunnidogs-{sha}' and not a['expired']]
-    require(len(original) == 1, 'Original artifact is missing or expired')
-    try:
-        archive = subprocess.check_output(['gh', 'api', f"repos/{repo}/actions/artifacts/{original[0]['id']}/zip"], stderr=subprocess.PIPE)
-    except subprocess.CalledProcessError:
-        raise SystemExit('Could not retrieve the original artifact ZIP')
-    archive_digest = hashlib.sha256(archive).hexdigest()
-    require(original[0].get('digest') == f'sha256:{archive_digest}', 'Original archive digest differs from GitHub metadata')
-    with ZipFile(BytesIO(archive)) as zipped:
-        require(len(zipped.infolist()) == 1 and zipped.namelist()[0] == source.name, 'Unexpected original ZIP contents')
-        require(zipped.read(source.name) == content, 'ZIP and extracted JAR differ')
-    control = output / f'bunnidogs-{sha}.zip'
-    control.write_bytes(archive)
-    checksums.write_text(f'{expected}  {jar.name}\n{archive_digest}  {control.name}\n')
+    control = None
+    archive_digest = None
+    checksum_text = f'{expected}  {jar.name}\n'
+    if os.environ.get('INCLUDE_ORIGINAL_ZIP', 'false').lower() == 'true':
+        artifacts = api(f'repos/{repo}/actions/runs/{run_id}/artifacts?per_page=100')['artifacts']
+        original = [a for a in artifacts if a['name'] == f'bunnidogs-{sha}' and not a['expired']]
+        require(len(original) == 1, 'Original artifact is missing or expired')
+        try:
+            archive = subprocess.check_output(['gh', 'api', f"repos/{repo}/actions/artifacts/{original[0]['id']}/zip"], stderr=subprocess.PIPE)
+        except subprocess.CalledProcessError:
+            raise SystemExit('Could not retrieve the original artifact ZIP')
+        archive_digest = hashlib.sha256(archive).hexdigest()
+        require(original[0].get('digest') == f'sha256:{archive_digest}', 'Original archive digest differs from GitHub metadata')
+        with ZipFile(BytesIO(archive)) as zipped:
+            require(len(zipped.infolist()) == 1 and zipped.namelist()[0] == source.name, 'Unexpected original ZIP contents')
+            require(zipped.read(source.name) == content, 'ZIP and extracted JAR differ')
+        control = output / f'bunnidogs-{sha}.zip'
+        control.write_bytes(archive)
+        checksum_text += f'{archive_digest}  {control.name}\n'
+    checksums.write_text(checksum_text)
     # Check again immediately before uploading; this workflow never publishes a release.
     fresh = api(f'repos/{repo}/releases/{release_id}')
     require(fresh['draft'] is True, 'Release was published during preparation')
     existing = {a['name']: a for a in fresh['assets']}
     upload = [str(checksums)]
-    for path, digest in [(jar, expected), (control, archive_digest)]:
+    binaries = [(jar, expected)] + ([(control, archive_digest)] if control else [])
+    for path, digest in binaries:
         if path.name in existing:
             require(existing[path.name].get('digest') == f'sha256:{digest}', 'Existing asset differs; refusing to replace it')
         else:
@@ -98,7 +104,8 @@ def main():
     assets = {a['name']: a for a in current['assets']}
     require(jar.name in assets and assets[jar.name]['size'] == len(content), 'Uploaded JAR is missing or has the wrong size')
     require(assets[jar.name].get('digest') == f'sha256:{expected}', 'Uploaded JAR digest differs')
-    require(assets.get(control.name, {}).get('digest') == f'sha256:{archive_digest}', 'Uploaded ZIP digest differs')
+    if control:
+        require(assets.get(control.name, {}).get('digest') == f'sha256:{archive_digest}', 'Uploaded ZIP digest differs')
     with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
         out.write(f"Prepared [unpublished download test]({current['html_url']}) from `{sha}`.\n\nJAR SHA-256: `{expected}`\n")
     print('Draft assets uploaded; original JAR bytes preserved:', expected)

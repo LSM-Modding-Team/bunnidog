@@ -30,8 +30,10 @@ No game code was changed to generate a new hash or try to evade the warning.
 Draft release `apex-preview-c39c82e` targets the exact original commit. The manual
 **Prepare download test** workflow copies the original JAR from successful Build
 run `40118608846`, checks its expected SHA-256, and attaches the identical bytes
-under a descriptive filename, the unchanged original ZIP under its original
-filename, and `SHA256SUMS.txt`. Existing binary asset IDs are retained on reruns. It never publishes a release.
+under a descriptive filename, plus `SHA256SUMS.txt`. The optional
+`include_original_zip` input attaches the unchanged original ZIP as a diagnostic
+control; it defaults to false so normal release preparation provides the JAR only.
+Existing binary asset IDs are retained on reruns. It never publishes a release.
 This is a testable distribution route, not a confirmed fix for Chrome.
 
 Dispatch inputs for this incident:
@@ -66,3 +68,13 @@ platform, with a versioned installable JAR and checksum. A draft is visible only
 to repository maintainers. Publish only when requested; recheck the resulting
 public download with protection enabled. No route is guaranteed unblocked until
 that browser test is performed.
+
+## Browser result
+
+The user tested the draft's direct JAR with Chrome protection enabled and reports
+**Downloads normally**. The same binary is therefore usable on the release route;
+this supports changing the sharing route without changing gameplay or the JAR.
+It does not establish Google's exact reason for blocking the Actions ZIP. The
+optional unchanged-ZIP control was not needed to establish a working JAR download.
+Keep public release assets to the installable JAR and checksum; leave comparison
+ZIPs in diagnostic drafts. Publishing still requires the user's instruction.

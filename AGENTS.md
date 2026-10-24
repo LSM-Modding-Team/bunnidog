@@ -63,8 +63,10 @@ frames and borderless MCA animal conversations.
 Download incident: the latest Actions ZIP is blocked by Chrome while the prior
 one is not. See `docs/DOWNLOAD_DIAGNOSTICS.md`. Preserve original hashes during
 investigation; keep browser protection enabled. A direct-JAR draft release is a
-diagnostic route, not proof the block is resolved. The manual workflow only copies
-verified CI bytes to an unpublished draft; publishing needs the user's request.
+diagnostic route, not proof the block is resolved. The user confirmed the identical direct-release JAR downloads with protection
+enabled. Prefer direct JAR release assets for sharing. The manual workflow copies
+verified CI bytes to an unpublished draft; ZIP controls are optional and off by
+default. Publishing needs the user's request.
 Do not claim a packaging defect or confirmed false positive without evidence.
 
 Successful world actions/orders dismiss their actual conversation so animals can
@@ -190,8 +192,10 @@ skills distinct from stat thresholds when reporting work readiness.
 - Prefer a reviewable workspace diff and concise handoff. Build the JAR in
   `build/libs/`. A source ZIP is optional for transfers (`packageProject`),
   not a requirement for continuing in Codex. Exclude caches, saves and secrets.
-- Delivery preference: the user downloads JARs from GitHub. Do not attach or
-  link JAR downloads in chat; use GitHub Actions build artifacts.
+- Delivery preference: the user downloads JARs from GitHub. For sharing, prefer
+  direct JAR assets on approved Releases (Chrome accepted this route with normal
+  protection). Actions ZIPs remain development artifacts. Do not attach or link
+  local JAR files in chat; do not publish drafts without instruction.
 - Answer in the user's current language; keep code/docs English. Ask only for
   material missing decisions. A request to plan only means plan only; ordinary
   implementation requests authorize implementation without another approval loop.

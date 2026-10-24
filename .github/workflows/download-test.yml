@@ -16,6 +16,12 @@ on:
         required: true
         type: string
 
+      include_original_zip:
+        description: Include the unchanged Actions ZIP for diagnostic comparison only
+        required: false
+        default: false
+        type: boolean
+
 permissions:
   actions: read
   contents: write
@@ -32,6 +38,7 @@ jobs:
       BUILD_RUN_ID: ${{ inputs.build_run_id }}
       DRAFT_RELEASE_ID: ${{ inputs.draft_release_id }}
       EXPECTED_JAR_SHA256: ${{ inputs.expected_jar_sha256 }}
+      INCLUDE_ORIGINAL_ZIP: ${{ inputs.include_original_zip }}
     steps:
       - uses: actions/checkout@v4
       - name: Validate source build and draft
