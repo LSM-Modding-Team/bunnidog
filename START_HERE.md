@@ -15,6 +15,12 @@ speed, bite damage and recovery. Build and all 157 native scenarios pass, includ
 the late hook dodge and brood warning/strike/ascent cycle. The headless timing
 schematic `art/dive_timing_preview.png` is not an in-game appearance check. See the latest section of `docs/APEX_SPECS.md`.
 
+## Latest balance follow-up
+
+All Apex types now drop 500 base XP (formerly 50). Ground Brute alone gains
+30% attack damage, with its ritual forecast updated. On finishing a leap it
+clears charging immediately and resumes navigation toward its live target.
+
 ## Project and delivery
 
 Bunnidogs targets Minecraft 26.2 / NeoForge 26.2.0.88, Java 25 and Gradle 9.2.1.

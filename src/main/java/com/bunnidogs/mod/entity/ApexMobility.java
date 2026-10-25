@@ -21,7 +21,14 @@ final class ApexMobility {
         height=Math.clamp(3.5+distance*.13+Math.max(0,landing.y-launch.y)*.4,3.5,12);
         apex.getNavigation().stop();apex.setOnGround(false);apex.resetFallDistance();
     }
-    void stopLeap() { duration=0;victim=null;apex.setNoGravity(apex.flying()); }
+    void stopLeap() {
+        boolean landed=leaping();duration=0;victim=null;apex.setNoGravity(apex.flying());
+        if(landed && apex.kind()==ApexKind.BRUTE && !apex.flying()) {
+            apex.charging(false);
+            var target=apex.getTarget();
+            if(target!=null && target.isAlive())apex.getNavigation().moveTo(target,1);
+        }
+    }
     void tick(ServerLevel level) {
         if(leaping()) {
             apex.setNoGravity(true);apex.resetFallDistance();

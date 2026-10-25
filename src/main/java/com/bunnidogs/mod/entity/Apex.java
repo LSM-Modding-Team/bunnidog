@@ -71,7 +71,7 @@ public final class Apex extends Bunnidog implements Enemy {
         base(Attributes.MAX_HEALTH, combat.health()*(kind==ApexKind.BLAST ? 1.2 : 1));
         base(Attributes.MOVEMENT_SPEED, combat.speed()*(kind==ApexKind.BRUTE ? 1.1 : 1));
         base(Attributes.JUMP_STRENGTH, combat.jump());
-        base(Attributes.ATTACK_DAMAGE, combat.damage()*(flying && kind==ApexKind.BRUTE ? 2 : 1));
+        base(Attributes.ATTACK_DAMAGE, combat.damage()*(kind==ApexKind.BRUTE ? flying ? 2 : 1.3 : 1));
         base(Attributes.FOLLOW_RANGE, combat.awareness());
         this.applyAdaptations();
         this.setHealth(this.getMaxHealth() * fraction);
@@ -150,7 +150,7 @@ public final class Apex extends Bunnidog implements Enemy {
     @Override public boolean isFood(ItemStack stack) { return false; }
     @Override protected boolean canRide(Entity vehicle) { return false; }
     @Override public boolean canBeLeashed() { return false; }
-    @Override protected int getBaseExperienceReward(ServerLevel level) { return 50; }
+    @Override protected int getBaseExperienceReward(ServerLevel level) { return 500; }
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (!(player.getItemInHand(hand).getItem() instanceof CalipersItem)) return InteractionResult.PASS;

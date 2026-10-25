@@ -43,7 +43,7 @@ final class ApexTypesGameTest {
         for (var kind:ApexKind.values()) for (boolean flying:new boolean[]{false,true}) {
             var a=apex(h,kind,flying,pos);a.setGenome(source.genome());a.setStats(source.stats());a.setHealth(a.getMaxHealth()*.4F);a.tick();a.beginAbility();
             h.assertTrue(a.kind()==kind && a.flying()==flying && a.acceptsCare()==false && a.isPersistenceRequired(),"Every distinct registration has its intended hostile role/movement and persistent ritual behavior");
-            h.assertTrue(a.getAttributeValue(Attributes.ATTACK_DAMAGE)==ApexRules.combat(source.genome(),source.stats(),true).damage()*(flying && kind==ApexKind.BRUTE ? 2 : 1)
+            h.assertTrue(a.getAttributeValue(Attributes.ATTACK_DAMAGE)==ApexRules.combat(source.genome(),source.stats(),true).damage()*(kind==ApexKind.BRUTE ? flying ? 2 : 1.3 : 1)
                     && a.getMaxHealth()==(float)(ApexRules.combat(source.genome(),source.stats(),true).health()*(kind==ApexKind.BLAST ? 1.2 : 1)),"Only Blastmaw gains 20% health; only aerial Brute doubles its bite");
             float fraction=a.getHealth()/a.getMaxHealth();
             var out=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,h.getLevel().registryAccess());a.saveWithoutId(out);

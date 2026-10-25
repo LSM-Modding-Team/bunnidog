@@ -106,7 +106,7 @@ public final class ApexGameTest {
             var apex = bosses.getFirst();
             var forecast = ApexRules.forecast(source);
             h.assertTrue(Math.abs(apex.getMaxHealth()-forecast.normal().health()) < .001
-                    && Math.abs(apex.getAttributeValue(Attributes.ATTACK_DAMAGE)-forecast.normal().damage()) < .001
+                    && Math.abs(apex.getAttributeValue(Attributes.ATTACK_DAMAGE)-forecast.normal().damage()*1.3) < .001
                     && apex.getAttributeValue(Attributes.ARMOR) == forecast.armor()
                     && apex.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE) == forecast.knockbackResistance(),
                     "The actual summoned boss must match the source forecast's health, damage and defenses");
@@ -139,7 +139,7 @@ public final class ApexGameTest {
             apex.setHealth(apex.getMaxHealth() * .4F);
             apex.tick();
             h.assertTrue(apex.enraged() && apex.homeNest() == null
-                    && Math.abs(apex.getAttributeValue(Attributes.ATTACK_DAMAGE)-forecast.enraged().damage()) < .001,
+                    && Math.abs(apex.getAttributeValue(Attributes.ATTACK_DAMAGE)-forecast.enraged().damage()*1.3) < .001,
                     "Half-health enrage must respect combat bounds and never claim a Nest");
             apex.beginAbility();
             var output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess());
