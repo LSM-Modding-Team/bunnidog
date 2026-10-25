@@ -80,8 +80,17 @@ public final class GuavaGameTest extends GameTestInstance {
                 var p=ApexTypesGameTest.player(h,ApexTypesGameTest.center(h));
                 com.bunnidogs.mod.command.KitCommands.apply(p,"vanilla","endgame");
                 h.assertTrue(p.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.CHEST).is(net.minecraft.world.item.Items.NETHERITE_CHESTPLATE),"Vanilla kit equips native armor");
+                var enchantments=p.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);var chest=p.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.CHEST);
+                h.assertTrue(chest.getEnchantmentLevel(enchantments.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.PROTECTION))==4 && chest.getEnchantmentLevel(enchantments.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.FIRE_PROTECTION))==0 && chest.getEnchantmentLevel(enchantments.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.THORNS))==0,"Benchmark armor has real Protection IV, without conflicting protection enchantments or Thorns");
                 com.bunnidogs.mod.command.KitCommands.apply(p,"bunnidog","endgame");
-                boolean flask=false;for(int i=0;i<36;i++) {var stack=p.getInventory().getItem(i);if(stack.is(ModItems.ABYSSAL_FLASK.get()))flask=stack.get(ModItems.FLASK_COUNT.get())==96;}
+                boolean flask=false;for(int i=0;i<36;i++) {var stack=p.getInventory().getItem(i);if(stack.is(ModItems.ABYSSAL_FLASK.get())) {
+                    flask=stack.get(ModItems.FLASK_COUNT.get())==96;
+                    var storage=com.bunnidogs.mod.expedition.FlaskStorage.get(h.getLevel());var id=stack.get(ModItems.FLASK_ID.get());
+                    var combat=com.bunnidogs.mod.item.JuiceItem.read(storage.pop(id)).orElseThrow();var recovery=com.bunnidogs.mod.item.JuiceItem.read(storage.top(id)).orElseThrow();
+                    var strength=com.bunnidogs.mod.genetics.Juice.effects(combat.genome(),combat.stats(),combat.quality()).stream().filter(e->e.id().equals("minecraft:strength")).findFirst().orElseThrow();
+                    var regen=com.bunnidogs.mod.genetics.Juice.effects(recovery.genome(),recovery.stats(),recovery.quality()).stream().filter(e->e.id().equals("minecraft:regeneration")).findFirst().orElseThrow();
+                    h.assertTrue(strength.amplifier()==3 && strength.ticks()>=regen.ticks()*2,"Real elite genes make the combat drink last at least two recovery drinks, matching stock proportions");
+                }}
                 h.assertTrue(flask && p.getMaxHealth()==44,"Upgraded kit creates a real stocked world-backed flask and equipped Sovereign hearts");p.discard();
             }
             case "crown_wings" -> CrownDungeonGameTest.wings(h);
