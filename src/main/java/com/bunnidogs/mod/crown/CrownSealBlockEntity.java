@@ -155,7 +155,10 @@ public final class CrownSealBlockEntity extends BlockEntity {
         if(enemies.isEmpty()) {
             wave++;
             if(wave<2) {if(!spawnWave())reset();}
-            else {active=false;cleared=true;CrownTickets.release(this);if(((ServerLevel)level).getGameRules().get(GameRules.MOB_DROPS))vaults++;state();flushVaults();}
+            else {active=false;cleared=true;
+                var key=new ItemStack(ModItems.CROWN_KEYS.get(wing()).get());key.set(ModItems.CROWN_SITE.get(),site.toString());
+                var reward=new net.minecraft.world.entity.item.ItemEntity((ServerLevel)level,worldPosition.getX()+.5,worldPosition.getY()+1.3,worldPosition.getZ()+.5,key);reward.setGlowingTag(true);((ServerLevel)level).addFreshEntity(reward);
+                CrownTickets.release(this);if(((ServerLevel)level).getGameRules().get(GameRules.MOB_DROPS))vaults++;state();flushVaults();}
         }
         setChanged();
     }

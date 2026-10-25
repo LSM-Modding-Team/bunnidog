@@ -14,7 +14,7 @@ import java.util.Map;
  * <p>The juice is a frozen "liquid pup" ({@link Infusion}): a rolled genome, its bred stat points and the seed's quality.
  * Its EXPRESSED alleles decide which effects it has ({@link #DEFS}); the numbers follow three rules:
  * <ul>
- *   <li><b>Amplifier</b> of an effect that scales: {@code floor(quality / 4)}, at most the effect's own cap
+ *   <li><b>Amplifier</b> of an effect that scales: {@code floor(quality / 4)}, without a mod level cap except for Resistance
  *       ({@link #AMP_STEP}). So plain and golden seeds give level I, a netherite pair level II, nether star level II
  *       and up, only the beacon and dragon egg tiers reach the high levels. Effects that are a drawback or a trick
  *       (Slowness, Levitation, Night Vision ...) never scale.</li>
@@ -75,7 +75,7 @@ public final class Juice {
     }
 
     private static Def d(String id, String name, int base, int max, int maxAmp, Stat stat, Target target) {
-        return new Def("minecraft:" + id, name, base, max, maxAmp, stat, target);
+        return new Def("minecraft:" + id, name, base, max, maxAmp>0 && !id.equals("resistance") ? 255 : maxAmp, stat, target);
     }
 
     private static Def self(String id, String name, int base, int max, int maxAmp, Stat stat) {
@@ -161,7 +161,8 @@ public final class Juice {
 
     /** One def worked out for a quality and a stat block. */
     public static Spec spec(Def def, double quality, Stats stats) {
-        int amp = Math.min(def.maxAmp(), amplifierFor(quality));
+        // Resistance retains its deliberate limit. Other scaling effects use only Minecraft's native amplifier representation.
+        int amp=def.maxAmp()==0 ? 0 : Math.min(def.id().equals("minecraft:resistance") ? def.maxAmp() : 255,amplifierFor(quality));
         int points = def.stat() == null ? 0 : stats.get(def.stat());
         double seconds = Math.min(def.maxSeconds(), def.baseSeconds() * durationFactor(quality, points));
         return new Spec(def.id(), def.name(), amp, (int) Math.round(seconds * 20.0), def.target());

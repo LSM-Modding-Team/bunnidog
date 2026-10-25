@@ -7,6 +7,7 @@ import com.bunnidogs.mod.registry.ModItems;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -17,6 +18,14 @@ import net.minecraft.world.level.Level;
 /** Native bundle interaction/tooltip, with a finite capacity and one real captured animal per cycle. */
 public final class GeneticVacuumItem extends BundleItem {
     public GeneticVacuumItem(Properties properties) {super(properties);}
+    @Override public boolean overrideStackedOnOther(ItemStack stack,net.minecraft.world.inventory.Slot slot,ClickAction action,Player player) {
+        if(!slot.getItem().isEmpty() && !slot.getItem().is(ModItems.SEED.get()))return false;
+        return super.overrideStackedOnOther(stack,slot,action,player);
+    }
+    @Override public boolean overrideOtherStackedOnMe(ItemStack stack,ItemStack other,net.minecraft.world.inventory.Slot slot,ClickAction action,Player player,net.minecraft.world.entity.SlotAccess carried) {
+        if(!other.isEmpty() && !other.is(ModItems.SEED.get()))return false;
+        return super.overrideOtherStackedOnMe(stack,other,slot,action,player,carried);
+    }
     @Override public InteractionResult use(Level level,Player player,InteractionHand hand) {
         if(player.isShiftKeyDown())return super.use(level,player,hand);
         player.startUsingItem(hand);return InteractionResult.CONSUME;

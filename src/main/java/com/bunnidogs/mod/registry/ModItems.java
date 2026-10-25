@@ -83,6 +83,7 @@ public final class ModItems {
     public static final DeferredRegister.DataComponents COMPONENTS =
             DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, BunnidogsMod.MODID);
 
+    public static final DeferredHolder<DataComponentType<?>,DataComponentType<Integer>> TOOL_POWER=COMPONENTS.registerComponentType("tool_power",b->b.persistent(Codec.intRange(1,5)).networkSynchronized(ByteBufCodecs.VAR_INT));
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<String>> FLASK_ID=COMPONENTS.registerComponentType("flask_id",b->b.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<Integer>> FLASK_COUNT=COMPONENTS.registerComponentType("flask_count",b->b.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.VAR_INT));
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<net.minecraft.world.item.ItemStackTemplate>> FLASK_TOP=COMPONENTS.registerComponentType("flask_top",b->b.persistent(net.minecraft.world.item.ItemStackTemplate.CODEC).networkSynchronized(net.minecraft.world.item.ItemStackTemplate.STREAM_CODEC));
@@ -105,7 +106,7 @@ public final class ModItems {
                     .component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.heartbound"))))));
         }
     }
-    public static final DeferredItem<com.bunnidogs.mod.expedition.FireballLauncherItem> FIREBALL_LAUNCHER=ITEMS.registerItem("fireball_launcher",com.bunnidogs.mod.expedition.FireballLauncherItem::new,p->p.durability(768).rarity(Rarity.EPIC).fireResistant().component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.fireball_launcher")))));
+    public static final DeferredItem<com.bunnidogs.mod.expedition.FireballLauncherItem> FIREBALL_LAUNCHER=ITEMS.registerItem("fireball_launcher",com.bunnidogs.mod.expedition.FireballLauncherItem::new,p->p.durability(768).enchantable(15).rarity(Rarity.EPIC).fireResistant().component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.fireball_launcher")))));
     public static final DeferredItem<com.bunnidogs.mod.expedition.AbyssalFlaskItem> ABYSSAL_FLASK=ITEMS.registerItem("abyssal_flask",com.bunnidogs.mod.expedition.AbyssalFlaskItem::new,p->p.stacksTo(1).rarity(Rarity.EPIC).fireResistant().component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.abyssal_flask")))));
     public static final DeferredItem<BlockItem> ROOTSTONE=ITEMS.registerSimpleBlockItem(ModBlocks.ROOTSTONE);
     public static final DeferredItem<BlockItem> WARREN_ANCHOR=ITEMS.registerSimpleBlockItem(ModBlocks.WARREN_ANCHOR);
@@ -129,15 +130,15 @@ public final class ModItems {
                 .add(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS,new net.minecraft.world.entity.ai.attributes.AttributeModifier(Identifier.fromNamespaceAndPath("bunnidogs","elytra_toughness"),3,net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_VALUE),net.minecraft.world.entity.EquipmentSlotGroup.CHEST).build())
             .component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.apex_wing_harness"))))
             .repairable(AERIAL_MEMBRANE.get()));
-    public static final DeferredItem<com.bunnidogs.mod.realm.PrismLanceItem> PRISM_LANCE=ITEMS.registerItem("prism_lance",com.bunnidogs.mod.realm.PrismLanceItem::new,props->props.stacksTo(1).durability(512).rarity(Rarity.EPIC).repairable(PRISM_LENS.get()));
-    public static final DeferredItem<com.bunnidogs.mod.expedition.GeneticVacuumItem> GENETIC_VACUUM=ITEMS.registerItem("genetic_vacuum",com.bunnidogs.mod.expedition.GeneticVacuumItem::new,p->p.durability(1024).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.genetic_vacuum")))).repairable(ModItems.CHORUS_HEART.get()).rarity(Rarity.EPIC).component(DataComponents.BUNDLE_CONTENTS,net.minecraft.world.item.component.BundleContents.EMPTY));
+    public static final DeferredItem<com.bunnidogs.mod.realm.PrismLanceItem> PRISM_LANCE=ITEMS.registerItem("prism_lance",com.bunnidogs.mod.realm.PrismLanceItem::new,props->props.stacksTo(1).durability(512).enchantable(15).rarity(Rarity.EPIC).repairable(PRISM_LENS.get()));
+    public static final DeferredItem<com.bunnidogs.mod.expedition.GeneticVacuumItem> GENETIC_VACUUM=ITEMS.registerItem("genetic_vacuum",com.bunnidogs.mod.expedition.GeneticVacuumItem::new,p->p.durability(1024).enchantable(15).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.genetic_vacuum")))).repairable(ModItems.CHORUS_HEART.get()).rarity(Rarity.EPIC).component(DataComponents.BUNDLE_CONTENTS,net.minecraft.world.item.component.BundleContents.EMPTY));
 
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<String>> CROWN_SITE=COMPONENTS.registerComponentType("crown_site",b->b.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
-    public static final List<DeferredItem<Item>> CROWN_KEYS=java.util.stream.Stream.of("glass_keystone","brood_keystone","heart_keystone").map(id->ITEMS.registerSimpleItem(id,p->p.stacksTo(1).fireResistant().rarity(Rarity.RARE))).toList();
+    public static final List<DeferredItem<Item>> CROWN_KEYS=java.util.stream.Stream.of("glass_keystone","brood_keystone","heart_keystone").map(id->ITEMS.registerSimpleItem(id,p->p.stacksTo(1).fireResistant().rarity(Rarity.RARE).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.crown_key")))))).toList();
     public static final DeferredItem<Item> CROWN_SIGIL=ITEMS.registerSimpleItem("crown_sigil",p->p.rarity(Rarity.EPIC).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.crown_sigil")))));
     public static final DeferredItem<Item> SOVEREIGN_CORE=ITEMS.registerSimpleItem("sovereign_core",p->p.fireResistant().rarity(Rarity.EPIC).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.sovereign_core")))));
     public static final DeferredItem<Item> CROWN_TROPHY=ITEMS.registerSimpleItem("crown_trophy",p->p.stacksTo(1).fireResistant().rarity(Rarity.EPIC));
-    public static final DeferredItem<com.bunnidogs.mod.crown.ConcordStandardItem> CONCORD_STANDARD=ITEMS.registerItem("concord_standard",com.bunnidogs.mod.crown.ConcordStandardItem::new,p->p.durability(1024).rarity(Rarity.EPIC).fireResistant().repairable(ModItems.HEART_SPOOL.get()).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.concord_standard")))));
+    public static final DeferredItem<com.bunnidogs.mod.crown.ConcordStandardItem> CONCORD_STANDARD=ITEMS.registerItem("concord_standard",com.bunnidogs.mod.crown.ConcordStandardItem::new,p->p.durability(1024).enchantable(15).rarity(Rarity.EPIC).fireResistant().repairable(ModItems.HEART_SPOOL.get()).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.concord_standard")))));
     public static final Map<String,DeferredItem<Item>> SOVEREIGN_ARMOR=new LinkedHashMap<>();
     static {
         for(var type:net.minecraft.world.item.equipment.ArmorType.values()) {
@@ -148,7 +149,7 @@ public final class ModItems {
                     .component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.sovereign_armor"))))));
         }
     }
-    public static final DeferredItem<com.bunnidogs.mod.realm.PrismLanceItem> SOVEREIGN_LANCE=ITEMS.registerItem("sovereign_lance",com.bunnidogs.mod.realm.PrismLanceItem::new,p->p.durability(768).rarity(Rarity.EPIC).fireResistant().repairable(ModItems.PRISM_LENS.get()));
+    public static final DeferredItem<com.bunnidogs.mod.realm.PrismLanceItem> SOVEREIGN_LANCE=ITEMS.registerItem("sovereign_lance",com.bunnidogs.mod.realm.PrismLanceItem::new,p->p.durability(768).enchantable(15).rarity(Rarity.EPIC).fireResistant().repairable(ModItems.PRISM_LENS.get()));
     public static final DeferredItem<Item> SOVEREIGN_ELYTRA=ITEMS.registerSimpleItem("sovereign_elytra",p->p.durability(1296).enchantable(15).rarity(Rarity.EPIC).fireResistant()
             .component(DataComponents.GLIDER,net.minecraft.util.Unit.INSTANCE)
             .component(DataComponents.EQUIPPABLE,net.minecraft.world.item.equipment.Equippable.builder(net.minecraft.world.entity.EquipmentSlot.CHEST).setEquipSound(net.minecraft.sounds.SoundEvents.ARMOR_EQUIP_ELYTRA)

@@ -2304,7 +2304,7 @@
   "item.bunnidogs.heartbound_boots": "Heartbound Netherite Boots",
   "tooltip.bunnidogs.heartbound": "+1.5 hearts while worn. Lifebinder losses recover separately: 60s, minus 15s per extra piece.",
   "tooltip.bunnidogs.cataclysm_totem": "On revival: power-20 explosion and 5s stun. You are spared; your surroundings are not.",
-  "tooltip.bunnidogs.fireball_launcher": "Fires power-4 fireballs. Uses Volatile Charges.",
+  "tooltip.bunnidogs.fireball_launcher": "Explosive shots. Each power level costs one Volatile Charge.",
   "tooltip.bunnidogs.genetic_vacuum": "Pulls ordinary bunnidogs into exact-genetics seeds. Uses Prism Cells; stores seeds like a bundle.",
   "tooltip.bunnidogs.abyssal_flask": "Stores drinks without a capacity limit. Insert in inventory; newest drink is on top.",
   "tooltip.bunnidogs.flask.count": "Stored drinks: %s",
@@ -2330,8 +2330,8 @@
   "item.bunnidogs.concord_standard": "Concord Standard",
   "item.bunnidogs.sovereign_lance": "Sovereign Lance",
   "item.bunnidogs.sovereign_elytra": "Sovereign Elytra",
-  "tooltip.bunnidogs.concord_standard": "Consumes a Heart Spool to heal nearby allies and briefly strengthen them.",
-  "tooltip.bunnidogs.sovereign_lance": "Faster piercing charge · 48-block reach · consumes Prism Cells.",
+  "tooltip.bunnidogs.concord_standard": "Heals nearby allies and grants brief protection. Each power level costs one Heart Spool.",
+  "tooltip.bunnidogs.sovereign_lance": "48-block piercing ray. Each power level costs one Prism Cell.",
   "tooltip.bunnidogs.sovereign_armor": "+3 equipped hearts · retains Heartbound recovery.",
   "tooltip.bunnidogs.sovereign_elytra": "Stronger armored flight · more efficient Prism Cell bursts.",
   "advancements.bunnidogs.crown.title": "The Crown Is Yours",
@@ -2358,5 +2358,10 @@
   "item.bunnidogs.crown_archive_seed": "Ancient Bunnidog Seed",
   "tooltip.bunnidogs.sovereign_core": "Smithing catalyst for Heartbound armor, Armored Elytra and Prism Lances.",
   "tooltip.bunnidogs.crown_sigil": "Awakens a defeated Crown Warren.",
-  "message.bunnidogs.kit.replace": "Replace your inventory with /kit %s %s replace."
+  "message.bunnidogs.kit.replace": "Replace your inventory with /kit %s %s replace.",
+  "tooltip.bunnidogs.crown_key": "Fits the matching socket in the golden Crown Seal. Two different keys open the gate.",
+  "message.bunnidogs.crown.no_dungeon": "Stand inside a Crown Warren to repair it.",
+  "message.bunnidogs.crown.repaired": "Repaired %s blocks in loaded dungeon chunks. Saved loot and encounters retained.",
+  "message.bunnidogs.tool.power": "Power %s/5",
+  "tooltip.bunnidogs.tool.power": "Power %s/5 · Sneak-use to change"
 }

@@ -26,7 +26,18 @@ public final class CrownWorldgenGameTest {
             @Override public int getQueueLevel() {return 0;}
         });
         var center=new BlockPos(chunkCenter.getMinBlockX()+8,90,chunkCenter.getMinBlockZ()+8-46);var piece=new CrownWarrenPiece(center.getX(),center.getY(),center.getZ(),981223);
+        var threatened=center.offset(0,1,46);var threatenedChunk=chunks.get(ChunkPos.containing(threatened));
+        threatenedChunk.setBlockState(threatened.above(13),Blocks.BUDDING_AMETHYST.defaultBlockState(),0);
+        threatenedChunk.setBlockState(threatened.above(12),ModBlocks.GUAVA_FRUIT.get().defaultBlockState(),0);
+        threatenedChunk.setBlockState(threatened.below(6),Blocks.DIAMOND_ORE.defaultBlockState(),0);
+        chunks.get(ChunkPos.containing(threatened.offset(10,15,0))).setBlockState(threatened.offset(10,15,0),ModBlocks.GUAVA_LOG.get().defaultBlockState(),0);
         for(var c:chunks.values())place(level,cache,piece,c,center);
+        h.assertTrue(threatenedChunk.getBlockState(threatened.above(12)).isAir() && chunks.get(ChunkPos.containing(threatened.offset(10,15,0))).getBlockState(threatened.offset(10,15,0)).isAir(),"Natural fruit and trees are cleared even outside room floors; buried ore cannot suppress the seal column");
+        var definition=level.registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.STRUCTURE).getOrThrow(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.STRUCTURE,net.minecraft.resources.Identifier.fromNamespaceAndPath("bunnidogs","crown_warren"))).value();
+        var start=new net.minecraft.world.level.levelgen.structure.StructureStart(definition,chunkCenter,0,new net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer(java.util.List.of(piece)));
+        chunks.get(chunkCenter).setStartForStructure(definition,start);for(var c:chunks.values())c.addReferenceForStructure(definition,chunkCenter.pack());
+        var reserved=new WorldGenRegion(level,cache,ChunkPyramid.GENERATION_PYRAMID.getStepTo(ChunkStatus.FEATURES),chunks.get(chunkCenter));
+        h.assertTrue(com.bunnidogs.mod.realm.RealmLandmarkFeature.blockedByDungeon(reserved,threatened.above(9)),"Actual structure references reserve the roof against later vegetation generation");
         var nodePos=center.offset(0,1,46);var node=(CrownSealBlockEntity)chunks.get(ChunkPos.containing(nodePos)).getBlockEntity(nodePos);
         h.assertTrue(node!=null && !node.hasLevel() && node.site()!=null && node.center().equals(center),"The central seal configures and saves safely on a real detached ProtoChunk");
         var copy=(CrownSealBlockEntity)BlockEntity.loadStatic(nodePos,node.getBlockState(),node.saveWithFullMetadata(level.registryAccess()),level.registryAccess());
@@ -38,6 +49,7 @@ public final class CrownWorldgenGameTest {
         // Reachability uses the actual shipped floor/air cells; the protected central gate is deliberately closed.
         var seen=new java.util.HashSet<BlockPos>();var queue=new java.util.ArrayDeque<BlockPos>();queue.add(new BlockPos(0,0,84));
         while(!queue.isEmpty()) {var p=queue.remove();if(!seen.add(p))continue;for(var d:net.minecraft.core.Direction.Plane.HORIZONTAL) {var q=p.relative(d);if(Math.abs(q.getX())>90 || Math.abs(q.getZ())>90 || seen.contains(q))continue;var floor=CrownLayout.cell(q.getX(),0,q.getZ());var air=CrownLayout.cell(q.getX(),2,q.getZ());if(floor!=null && !floor.isAir() && air!=null && air.isAir())queue.add(q);}}
+        for(int z=-68;z<42;z++)h.assertTrue(CrownLayout.cell(0,2,z).isAir(),"The northern colored route passes through the cover openings to the gate");
         for(int i=0;i<4;i++) {var p=CrownLayout.wing(i);h.assertTrue(seen.contains(p),"Every physical wing/central seal is reachable from staging without mining: "+i);}
         var snapshot=new com.google.gson.JsonArray();
         for(int x=-90;x<=90;x++)for(int z=-90;z<=90;z++) {
@@ -45,6 +57,11 @@ public final class CrownWorldgenGameTest {
             var wall=CrownLayout.cell(x,2,z);row.add(wall!=null && !wall.isAir());snapshot.add(row);
         }
         try {java.nio.file.Files.writeString(java.nio.file.Path.of("crown_layout_preview.json"),snapshot.toString());}catch(java.io.IOException e) {throw new RuntimeException(e);}
+        var repairPos=center.offset(0,1,46);level.getChunk(ChunkPos.containing(repairPos).x(),ChunkPos.containing(repairPos).z());
+        level.setBlock(repairPos,ModBlocks.GUAVA_LOG.get().defaultBlockState(),2);var stockPos=repairPos.east(3);level.setBlock(stockPos,Blocks.CHEST.defaultBlockState(),2);
+        var stock=(ChestBlockEntity)level.getBlockEntity(stockPos);stock.setItem(0,new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.DIAMOND,7));
+        CrownRepair.repair(level,piece);var restored=(CrownSealBlockEntity)level.getBlockEntity(repairPos);
+        h.assertTrue(restored!=null && restored.site().equals(node.site()) && stock.getItem(0).getCount()==7,"Explicit repair restores a missing seal with the original site identity and preserves real container contents");
         var pos=h.absolutePos(new BlockPos(3,2,3));level.setBlock(pos,Blocks.CHEST.defaultBlockState(),3);var chest=(ChestBlockEntity)level.getBlockEntity(pos);
         chest.setLootTable(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.LOOT_TABLE,net.minecraft.resources.Identifier.fromNamespaceAndPath("bunnidogs","chests/crown_vault")));chest.setLootTableSeed(1040);chest.unpackLootTable(null);
         int netherite=0,diamonds=0;for(int i=0;i<27;i++) {var s=chest.getItem(i);if(s.is(net.minecraft.world.item.Items.NETHERITE_BLOCK))netherite+=s.getCount();if(s.is(net.minecraft.world.item.Items.DIAMOND_BLOCK))diamonds+=s.getCount();}

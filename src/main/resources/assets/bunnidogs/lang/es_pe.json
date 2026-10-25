@@ -2304,7 +2304,7 @@
   "item.bunnidogs.heartbound_boots": "Botas vitales de netherita",
   "tooltip.bunnidogs.heartbound": "+1.5 corazones al equiparlo. Cada pérdida vital se recupera: 60 s, menos 15 s por pieza adicional.",
   "tooltip.bunnidogs.cataclysm_totem": "Al revivir: explosión de potencia 20 y aturdimiento de 5 s. Tú quedas a salvo; lo que te rodea, no.",
-  "tooltip.bunnidogs.fireball_launcher": "Lanza bolas de fuego de potencia 4. Usa cargas volátiles.",
+  "tooltip.bunnidogs.fireball_launcher": "Disparos explosivos. Cada nivel consume una carga volátil.",
   "tooltip.bunnidogs.genetic_vacuum": "Absorbe bunnidogs comunes en semillas con genes idénticos. Usa celdas prismáticas y almacena como un saco.",
   "tooltip.bunnidogs.abyssal_flask": "Guarda bebidas sin límite de capacidad. Insértalas en el inventario; la última queda arriba.",
   "tooltip.bunnidogs.flask.count": "Bebidas guardadas: %s",
@@ -2330,8 +2330,8 @@
   "item.bunnidogs.concord_standard": "Estandarte de concordia",
   "item.bunnidogs.sovereign_lance": "Lanza soberana",
   "item.bunnidogs.sovereign_elytra": "Élitros soberanos",
-  "tooltip.bunnidogs.concord_standard": "Consume una bobina de corazón para curar y fortalecer brevemente a los aliados cercanos.",
-  "tooltip.bunnidogs.sovereign_lance": "Carga perforante más rápida · alcance de 48 bloques · consume celdas de prisma.",
+  "tooltip.bunnidogs.concord_standard": "Cura y protege brevemente a los aliados cercanos. Cada nivel consume una bobina de corazón.",
+  "tooltip.bunnidogs.sovereign_lance": "Rayo perforante de 48 bloques. Cada nivel consume una celda de prisma.",
   "tooltip.bunnidogs.sovereign_armor": "+3 corazones al equipar · conserva la recuperación vital.",
   "tooltip.bunnidogs.sovereign_elytra": "Vuelo más protegido · impulsos más eficientes con celdas de prisma.",
   "advancements.bunnidogs.crown.title": "La corona es tuya",
@@ -2358,5 +2358,10 @@
   "item.bunnidogs.crown_archive_seed": "Semilla ancestral de bunnidog",
   "tooltip.bunnidogs.sovereign_core": "Catalizador de herrería para armaduras vitales, élitros acorazados y lanzas de prisma.",
   "tooltip.bunnidogs.crown_sigil": "Despierta una Madriguera de la Corona ya derrotada.",
-  "message.bunnidogs.kit.replace": "Reemplaza tu inventario con /kit %s %s replace."
+  "message.bunnidogs.kit.replace": "Reemplaza tu inventario con /kit %s %s replace.",
+  "tooltip.bunnidogs.crown_key": "Encaja en el hueco del mismo color del sello dorado de la corona. Dos llaves distintas abren la puerta.",
+  "message.bunnidogs.crown.no_dungeon": "Debes estar dentro de una Madriguera de la Corona para repararla.",
+  "message.bunnidogs.crown.repaired": "Se repararon %s bloques en los chunks cargados. Se conservaron el botín y los combates guardados.",
+  "message.bunnidogs.tool.power": "Potencia %s/5",
+  "tooltip.bunnidogs.tool.power": "Potencia %s/5 · Usa el objeto agachado para cambiarla"
 }

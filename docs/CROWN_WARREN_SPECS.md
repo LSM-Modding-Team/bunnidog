@@ -36,6 +36,26 @@ offhand keys/sigils work alongside an ordinary main-hand weapon. Keys from anoth
 site or repeated identical keys remain untouched. The optional third key earns
 one frozen genetic archive; it is not a condition of starting the boss.
 
+The cleared hall now drops a glowing key at its seal immediately. Matching
+colored floor routes connect the side halls to staging and a golden route leads
+to the central Crown Seal; tall matching frames distinguish the four seals. The closed gate accepts keys from either side through the same saved seal, so
+returning from the northern hall never requires finding an outside interaction. Key
+hover text explains their socket purpose in one short description. Clicking a
+cleared hall still replaces a lost key without refilling its cache.
+
+Generation clears terrain/decorations across the complete site above its floor,
+including courtyards and roof headroom. Later realm tree/crystal/basalt features
+check actual structure references and reserve the dungeon plus canopy reach.
+Buried ore and natural decorations cannot suppress entire unfinished generation
+columns. Existing containers remain protected; completed chunk replay stays inert.
+
+For an existing obstructed dungeon, an operator can stand inside it and run
+`/bunnidogs dungeon repair`. It clears natural obstructions, restores missing
+seals with the original site identity and adds the physical wayfinding in currently
+loaded chunks. It never regenerates loot or resets existing seals/encounters and
+does not load distant chunks. Move through the site and repeat if its outer
+chunks were unloaded. Repairs are explicit, not an automatic rewrite of old sites.
+
 No tutorial menu, ambient instructions, mandatory guide chapter or automatic
 stat panel is added. Seals use concise feedback only when interacted with.
 Critical gates/seals resist mining, blasts, terrain attacks and piston movement.
@@ -152,9 +172,9 @@ Native smithing preserves names, wear, enchantments and other explicit component
 | Upgrade | Actual benefit |
 | --- | --- |
 | Heartbound piece → Sovereign armor | +3 equipped hearts per piece; retains independent Heartbound 60/45/30/15-second heart recovery. Mixed old/new sets work |
-| Prism Lance → Sovereign Lance | 24-tick charge, 48-block piercing reach, 112 raw damage, 24-tick cooldown; one Prism Cell and two wear per shot |
+| Prism Lance → Sovereign Lance | 24-tick charge, 48-block piercing reach, 24-tick cooldown; powers 1–5 deal 45–225 damage and consume 1–5 Prism Cells/wear |
 | Armored Elytra → Sovereign Elytra | Native glider, 10 armor/4 toughness, durability 1,296; same real cells, three wear and 30-tick burst cooldown |
-| Core + parts → Concord Standard | 30-tick charge; one Heart Spool/wear per cast, heals six HP and grants four-second Resistance I to up to 16 nearby allies; five-second cooldown |
+| Core + parts → Concord Standard | 30-tick charge; powers 1–5 heal 5–25 hearts and grant four-second Resistance I–V to up to 16 allies, spending 1–5 Heart Spools/wear; five-second cooldown |
 
 The Standard supports own living companions, native teammates and engaged
 Crown-party players. It does not replace downed-animal revival or grant free
@@ -162,7 +182,7 @@ healing credit for self-healing. Interrupted charges spend nothing. Native fuel,
 cooldown, permission and whole-item checks remain authoritative.
 
 All new text is English plus the shared neutral Peruvian Spanish source.
-Protocol **30** requires matching client/server content. Original ordinary Apex
+Protocol **31** requires matching client/server content. Original ordinary Apex
 values and old gear IDs/saves remain compatible.
 
 ## Evidence and remaining review

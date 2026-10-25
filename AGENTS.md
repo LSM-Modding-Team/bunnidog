@@ -48,6 +48,17 @@ pages. Keep dark readable panel text and native slots; preserve borderless MCA
 animal conversations. This supersedes the earlier backgroundless-station choice,
 without restoring tutorial panels. The book/reader keeps its deliberate pages.
 
+Latest play-review follow-up: preserve the Crown site clearing and later-feature
+exclusion, matching physical wayfinding, immediate glowing keys and closed-gate
+interaction from either side. `/bunnidogs dungeon repair` explicitly repairs only
+loaded terrain/markers/missing seals; retain original site identities, stock and
+existing encounter state. Durable gear must support native Mending. Gene Siphon
+insertion is seed-only. Sneak-use selects persistent power 1–5 on Launcher,
+Sovereign Lance and Standard; costs/wear scale, with native explosion power 4×N,
+Lance damage 45×N, Standard healing five hearts×N and four-second Resistance N.
+Other scaling juice levels have no mod balance cap except Resistance, within
+native engine representation. Endgame kit Strength XXX is a baseline, not a cap.
+
 Latest rewards steering supersedes the conservative initial realm rewards:
 `docs/APEX_REWARDS_SPECS.md` is authoritative. Preserve native smithing item
 components, independent Heartbound timers, successful-pop-only explosive Totems,

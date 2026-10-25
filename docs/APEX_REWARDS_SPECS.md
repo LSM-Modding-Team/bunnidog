@@ -5,6 +5,37 @@ a well-equipped vanilla endgame player survives only minutes. Rewards now suppor
 substantial power progression. Enemy combat values are unchanged. This revision
 supersedes the initial loot/equipment numbers in GREAT_WARREN_SPECS.md.
 
+## Current follow-up: selectable power and unrestricted scaling levels
+
+Sneak-use cycles persistent item power **1–5**, with a brief action confirmation
+and the current mode in the tooltip. Configuration spends no resources. Costs
+span inventory stacks and respect Creative mode; interrupted charges pay nothing.
+
+| Tool | Power 1 → 5 | Cost and wear |
+| --- | --- | --- |
+| Blastmaw Launcher | Native explosion strength 4, 8, 12, 16, 20 | 1–5 Volatile Charges and wear |
+| Sovereign Lance | 45, 90, 135, 180, 225 raw piercing damage | 1–5 Prism Cells and wear; 24-tick charge/recovery, 48-block reach |
+| Concord Standard | 5, 10, 15, 20, 25 hearts; Resistance I–V for four seconds | 1–5 Heart Spools and wear; existing 30-tick charge/five-second recovery |
+
+The old fixed 112-damage Sovereign configuration is retired. The ordinary Prism
+Lance retains 64 damage. Resistance V is available briefly through Standard power
+five; ordinary gene juices retain their Resistance limit. Other scaling juice
+levels no longer have mod balance caps (Minecraft's native amplifier range still
+applies). Non-scaling utility effects retain their normal behavior.
+
+The operator Bunnidog endgame kit uses quality **116** elite infusions for a
+Strength XXX baseline, with two shorter regeneration drinks per combat drink.
+The kit equips actual Mending and Unbreaking where supported. Missing armor
+entries in the durability-enchantment tags were fixed; durable tools also expose
+normal enchantability. Book/anvil and XP repair use ordinary Minecraft behavior.
+Gene Siphon insertion accepts **Bunnidog Seeds only** through both native bundle
+click paths; extraction remains available for legacy contents. Capture still
+creates the same exact one-pup seed.
+
+Protocol **31** requires updated client/server content. Native cases exercise all
+five actual weapon/support modes, proportional split-stack costs, configuration
+without firing, the real power-20 projectile, seed filtering and kit Mending.
+
 ## Parts from enemies; bulk materials from ruins
 
 Player-credited **wild and ritual** Apex kills provide 4–8 role parts and 2–4 Apex

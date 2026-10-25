@@ -7,6 +7,14 @@
     "bunnidogs:genetic_vacuum",
     "bunnidogs:sovereign_elytra",
     "bunnidogs:sovereign_lance",
-    "bunnidogs:concord_standard"
+    "bunnidogs:concord_standard",
+    "bunnidogs:heartbound_helmet",
+    "bunnidogs:heartbound_chestplate",
+    "bunnidogs:heartbound_leggings",
+    "bunnidogs:heartbound_boots",
+    "bunnidogs:sovereign_helmet",
+    "bunnidogs:sovereign_chestplate",
+    "bunnidogs:sovereign_leggings",
+    "bunnidogs:sovereign_boots"
   ]
 }

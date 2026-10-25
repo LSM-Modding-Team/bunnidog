@@ -23,6 +23,7 @@ if p.exists():
  image=Image.new('RGB',(1100,880),'#252f34');d=ImageDraw.Draw(image);scale=4;ox=380;oz=425
  for x,z,name,wall in json.loads(p.read_text()):
   c='#6c9686' if name.endswith('moss_block') else '#d1cbc0' if name.endswith('calcite') else '#626168' if name.endswith('basalt') else '#607772'
+  c={'minecraft:light_blue_concrete':'#77bfdd','minecraft:lime_concrete':'#9ec95f','minecraft:red_concrete':'#d7786b','minecraft:gold_block':'#ead287'}.get(name,c)
   if wall:c='#ad9b78'
   d.rectangle((ox+x*scale,oz+z*scale,ox+(x+1)*scale,oz+(z+1)*scale),fill=c)
  for x,z,name in [(-70,0,'Glass Gallery'),(70,0,'Brood Vaults'),(0,-70,'Heart Furnace'),(0,65,'Preparation court')]:

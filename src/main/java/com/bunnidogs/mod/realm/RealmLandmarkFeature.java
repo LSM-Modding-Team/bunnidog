@@ -16,8 +16,19 @@ public final class RealmLandmarkFeature extends Feature<NoneFeatureConfiguration
     private static void put(WorldGenLevel world,BlockPos pos,BlockState state) {
         if(world.ensureCanWrite(pos) && world.getBlockState(pos).isAir())world.setBlock(pos,state,2);
     }
+    /** Structures precede vegetation: reserve their entire clearing, including neighboring canopy reach. */
+    public static boolean blockedByDungeon(WorldGenLevel world,BlockPos pos) {
+        var manager=world.getLevel().structureManager();
+        if(world instanceof net.minecraft.server.level.WorldGenRegion region)manager=manager.forWorldGenRegion(region);
+        var chunk=net.minecraft.world.level.ChunkPos.containing(pos);
+        var growth=new net.minecraft.world.level.levelgen.structure.BoundingBox(pos.getX()-9,world.getMinY(),pos.getZ()-9,pos.getX()+9,world.getMaxY()-1,pos.getZ()+9);
+        for(int x=-1;x<=1;x++)for(int z=-1;z<=1;z++)for(var start:manager.startsForStructure(new net.minecraft.world.level.ChunkPos(chunk.x()+x,chunk.z()+z),s->s instanceof com.bunnidogs.mod.crown.CrownWarrenStructure))
+            if(start.isValid() && start.getBoundingBox().intersects(growth))return true;
+        return false;
+    }
     @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> ctx) {
         var world=ctx.level();var pos=ctx.origin();var rng=ctx.random();
+        if(blockedByDungeon(world,pos))return false;
         if(pos.getY()<42 || !world.getFluidState(pos.below()).isEmpty() || !world.getBlockState(pos.below()).isSolidRender())return false;
         String biome=world.getBiome(pos).unwrapKey().map(k->k.identifier().getPath()).orElse("");
         if(biome.equals("crownroot_groves")) {

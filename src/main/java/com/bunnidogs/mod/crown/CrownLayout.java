@@ -21,6 +21,11 @@ public final class CrownLayout {
         if(y<-2) return null;
         if(y<0)return ModBlocks.ROOTSTONE.get().defaultBlockState();
         if(y==0) {
+            if(path && (Math.abs(x)+Math.abs(z))%16==0)return Blocks.SEA_LANTERN.defaultBlockState();
+            if((Math.abs(x+70)<=1 && z>=0 && z<=67) || (Math.abs(z-67)<=1 && x<-3))return Blocks.CONCRETE.pick(net.minecraft.world.item.DyeColor.LIGHT_BLUE).defaultBlockState();
+            if((Math.abs(x-70)<=1 && z>=0 && z<=67) || (Math.abs(z-67)<=1 && x>3))return Blocks.CONCRETE.pick(net.minecraft.world.item.DyeColor.LIME).defaultBlockState();
+            if(Math.abs(x)<=1 && z<42)return Blocks.CONCRETE.pick(net.minecraft.world.item.DyeColor.RED).defaultBlockState();
+            if(Math.abs(x)<=1 && z>=42 && z<=67)return Blocks.GOLD_BLOCK.defaultBlockState();
             if(arena && (Math.abs(x)%10==0 || Math.abs(z)%10==0))return Blocks.CHISELED_TUFF_BRICKS.defaultBlockState();
             if(room==2 && Math.abs(rx)==11 && Math.abs(rz)>3 && Math.abs(rz)<13)return Blocks.MAGMA_BLOCK.defaultBlockState();
             if(room>=0)return (room==0 ? Blocks.CALCITE : room==1 ? Blocks.MOSS_BLOCK : Blocks.POLISHED_BASALT).defaultBlockState();
@@ -30,6 +35,11 @@ public final class CrownLayout {
             for(int i=0;i<4;i++) {var p=wing(i);if(x==p.getX() && z==p.getZ())return ModBlocks.CROWN_SEAL.get().defaultBlockState().setValue(CrownSealBlock.WING,i);}
             if(hub && x==0 && z==76)return ModBlocks.WARREN_WARD.get().defaultBlockState();
         }
+        for(int i=0;i<4;i++) {
+            var seal=wing(i);int sx=x-seal.getX(),sz=z-seal.getZ();
+            if(sz==0 && (Math.abs(sx)==2 && y<=4 || Math.abs(sx)<=2 && y==5))return (i==0 ? Blocks.STAINED_GLASS.pick(net.minecraft.world.item.DyeColor.LIGHT_BLUE) : i==1 ? Blocks.STAINED_GLASS.pick(net.minecraft.world.item.DyeColor.LIME) : i==2 ? Blocks.STAINED_GLASS.pick(net.minecraft.world.item.DyeColor.RED) : Blocks.GOLD_BLOCK).defaultBlockState();
+            if(y==1 && sz==-2 && sx==0)return Blocks.SEA_LANTERN.defaultBlockState();
+        }
         if(arena) {
             boolean door=(Math.abs(x)<=4 && Math.abs(z)==42) || (Math.abs(z)<=4 && Math.abs(x)==42);
             if(z==42 && Math.abs(x)<=3 && y<=6)return ModBlocks.CROWN_GATE.get().defaultBlockState();
@@ -38,7 +48,7 @@ public final class CrownLayout {
             // Real cover with gaps and raised firing positions. Breakable outer ribs leave the safe core intact.
             if((Math.abs(x)==23 && Math.abs(z)==23) && y<=8)return ModBlocks.ROOTSTONE.get().defaultBlockState();
             if((Math.abs(x)>=22 && Math.abs(x)<=24 && Math.abs(z)>=22 && Math.abs(z)<=24) && y<=4)return Blocks.TUFF_BRICKS.defaultBlockState();
-            if((Math.abs(x)==34 && Math.abs(z)<=8 || Math.abs(z)==34 && Math.abs(x)<=8) && y<=2)return Blocks.TUFF_BRICKS.defaultBlockState();
+            if((Math.abs(x)==34 && Math.abs(z)<=8 || Math.abs(z)==34 && Math.abs(x)<=8) && y<=2 && Math.abs(x)>1 && Math.abs(z)>1)return Blocks.TUFF_BRICKS.defaultBlockState();
             if(Math.abs(x)<=2 && Math.abs(z)<=2 && y<=1)return Blocks.CHISELED_TUFF_BRICKS.defaultBlockState();
         }
         if(room>=0) {
@@ -62,7 +72,7 @@ public final class CrownLayout {
             if(y==1 && z==66 && x==-6)return Blocks.SMITHING_TABLE.defaultBlockState();
             if(y==1 && z==66 && x==8)return Blocks.ENDER_CHEST.defaultBlockState();
         }
-        if(y==1 && ((arena && Math.abs(x)==40 && Math.abs(z)%12==0) || (path && y==1 && (Math.abs(x)+Math.abs(z))%16==0)))return Blocks.SEA_LANTERN.defaultBlockState();
+        if(y==1 && ((arena && Math.abs(x)==40 && Math.abs(z)%12==0)))return Blocks.SEA_LANTERN.defaultBlockState();
         int ceiling=arena ? 31 : room>=0 ? 15 : hub ? 9 : 7;
         return y<ceiling ? Blocks.AIR.defaultBlockState() : null;
     }

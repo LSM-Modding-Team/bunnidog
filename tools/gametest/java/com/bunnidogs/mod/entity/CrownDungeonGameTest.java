@@ -62,7 +62,9 @@ final class CrownDungeonGameTest {
         p.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(Items.DIAMOND_SWORD));
         p.setItemInHand(InteractionHand.OFF_HAND,key(0,UUID.randomUUID()));be.use(p,InteractionHand.MAIN_HAND);
         h.assertTrue(be.sockets()==0 && p.getOffhandItem().getCount()==1,"Keys from another site remain in the actual offered hand");
-        p.setItemInHand(InteractionHand.OFF_HAND,key(0,be.site()));be.use(p,InteractionHand.MAIN_HAND);
+        p.setItemInHand(InteractionHand.OFF_HAND,key(0,be.site()));p.snapTo(Vec3.atBottomCenterOf(c.offset(0,1,41)));
+        var gate=c.offset(0,2,42);p.gameMode.useItemOn(p,h.getLevel(),p.getMainHandItem(),InteractionHand.MAIN_HAND,new net.minecraft.world.phys.BlockHitResult(Vec3.atCenterOf(gate),net.minecraft.core.Direction.NORTH,gate,false));
+        p.snapTo(Vec3.atBottomCenterOf(be.getBlockPos().east()));
         h.assertTrue(be.sockets()==1 && p.getOffhandItem().isEmpty() && h.getLevel().getBlockState(c.offset(0,2,42)).is(ModBlocks.CROWN_GATE.get()),"One real key leaves the protected gate shut");
         be=copy(h,be);p.setItemInHand(InteractionHand.OFF_HAND,key(0,be.site()));be.use(p,InteractionHand.MAIN_HAND);
         h.assertTrue(p.getOffhandItem().getCount()==1 && be.sockets()==1,"Repeated identical keys cannot substitute for a different wing");
@@ -158,7 +160,7 @@ final class CrownDungeonGameTest {
         floor(h);var c=origin(h);var be=seal(h,3,c.offset(0,1,46),c,UUID.randomUUID());var p=ApexTypesGameTest.player(h,Vec3.atBottomCenterOf(be.getBlockPos().east()));var ally=ApexTypesGameTest.player(h,Vec3.atBottomCenterOf(c.offset(15,1,15)));unlock(h,be,p);be.begin(p,InteractionHand.MAIN_HAND);
         ((Apex)h.getLevel().getEntity(be.enemies().iterator().next())).setNoAi(true);p.snapTo(ally.position().add(2,0,0));ally.setHealth(4);
         var tool=new ItemStack(ModItems.CONCORD_STANDARD.get());p.setItemInHand(InteractionHand.MAIN_HAND,tool);p.setItemInHand(InteractionHand.OFF_HAND,new ItemStack(ModItems.HEART_SPOOL.get(),2));ModItems.CONCORD_STANDARD.get().use(h.getLevel(),p,InteractionHand.MAIN_HAND);ModItems.CONCORD_STANDARD.get().finishUsingItem(tool,h.getLevel(),p);
-        h.assertTrue(ally.getHealth()==10 && p.getOffhandItem().getCount()==1 && tool.getDamageValue()==1 && ally.hasEffect(net.minecraft.world.effect.MobEffects.RESISTANCE),"The Standard heals another actual engaged player and pays real spool/wear costs");
-        h.assertTrue(be.contribution(p.getUUID())==6 && be.contribution(ally.getUUID())==0,"Only accepted other-player healing earns support contribution; receiving healing does not");be.reset();p.discard();ally.discard();
+        h.assertTrue(ally.getHealth()==14 && p.getOffhandItem().getCount()==1 && tool.getDamageValue()==1 && ally.hasEffect(net.minecraft.world.effect.MobEffects.RESISTANCE),"The Standard heals another actual engaged player and pays real spool/wear costs");
+        h.assertTrue(be.contribution(p.getUUID())==10 && be.contribution(ally.getUUID())==0,"Only accepted other-player healing earns support contribution; receiving healing does not");be.reset();p.discard();ally.discard();
     }
 }

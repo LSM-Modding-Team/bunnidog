@@ -5,6 +5,27 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current gear follow-up
+
+Sneak-use cycles persistent power 1–5 on the Launcher, Sovereign Lance and
+Concord Standard. Launcher uses explosion strength 4×power; Lance deals 45×power;
+Standard heals five hearts×power and gives Resistance level=power for four
+seconds. Fuel and wear scale per level. Native armor durability tags and tool
+enchantability now support Mending; Gene Siphon inventory accepts only Bunnidog
+Seeds. Scaling juice levels have no mod balance cap except Resistance; native
+engine bounds remain. Endgame kits carry Strength XXX infusions and power-five
+gear. Read `docs/APEX_REWARDS_SPECS.md` for current values.
+
+## Current dungeon usability fix
+
+Fresh Crown Warrens clear terrain/features throughout their footprint and reserve
+that space against later realm landmarks. Cleared halls visibly drop their keys;
+matching colored routes/frames lead back to the golden Crown Seal. Two distinct
+site-bound keys open the gate. For old obstructed sites, an operator may use
+`/bunnidogs dungeon repair` inside the dungeon: loaded chunks only, preserving
+container stock and existing seal/encounter state. It restores missing seals with
+the original identity, so already collected keys remain valid.
+
 ## Operator testing kits
 
 `/kit vanilla|bunnidog early|mid|late|endgame replace` explicitly replaces the
@@ -13,7 +34,7 @@ omitting `replace` prints the exact command first. Endgame supplies enchanted
 armor/tools/weapons (no Thorns/curses), pearls, gliding rockets, blocks, stocked
 Shulker and Totems. Bunnidog tiers upgrade actual gear and provide a world-backed
 Flask: one long combat blend to two shorter regeneration blends, with genuine
-elite genes/points and quality 16 at endgame. Native loadout coverage verifies
+elite genes/points and quality 116 (Strength XXX) at endgame. Native loadout coverage verifies
 replacement, real Flask contents and equipped max health.
 
 ## Current — Crown Warren finale (AX7)
@@ -26,8 +47,8 @@ frozen genetic archives. Sovereign smithing upgrades extend Heartbound armor,
 Lance and Armored Elytra; the Concord Standard adds paid party healing. Existing
 ordinary Apex tuning stays accepted. No new tutorial/menu layer.
 
-Protocol **30**, **2,360 authored / 2,488 packaged** language keys, English/shared
-neutral Spanish. The native suite now has **179 scenarios**, alongside actual
+Protocol **31**, **2,365 authored / 2,493 packaged** language keys, English/shared
+neutral Spanish. The native suite now has **181 scenarios**, alongside actual
 model/localization/build gates. Save/kill-payment ordering, native health above
 1,024, short chunk leases, finite actors, exact smithing components and separate
 core/trophy delivery retries are invariants. Native and inspected preview evidence
