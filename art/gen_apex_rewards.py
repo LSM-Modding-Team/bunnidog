@@ -70,3 +70,7 @@ for i,part in enumerate(['helmet','chestplate','leggings','boots']):
  icon=Image.open(A/'textures/item'/('heartbound_'+part+'.png')).convert('RGBA').resize((80,80),Image.Resampling.NEAREST)
  contact.paste(icon,(20+i*175,330),icon);cd.text((20+i*175,420),'Heartbound '+part,fill='white')
 contact.save(ROOT/'art/apex_rewards_preview.png')
+
+# Crown finale assets extend these rewards without changing the accepted ordinary Apex gear.
+import runpy
+runpy.run_path(str(ROOT/"art/gen_crown.py"))

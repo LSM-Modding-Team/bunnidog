@@ -29,7 +29,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
 /** A summoned combat copy of a line, using the ordinary genome renderer and saves. */
-public final class Apex extends Bunnidog implements Enemy {
+public class Apex extends Bunnidog implements Enemy {
     private final ServerBossEvent boss = new ServerBossEvent(this.getUUID(), this.getDisplayName(),
             BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS);
     private ApexKind kind=ApexKind.BRUTE;
@@ -169,7 +169,7 @@ public final class Apex extends Bunnidog implements Enemy {
     @Override public boolean isFood(ItemStack stack) { return false; }
     @Override protected boolean canRide(Entity vehicle) { return false; }
     @Override public boolean canBeLeashed() { return false; }
-    @Override protected int getBaseExperienceReward(ServerLevel level) { return 500; }
+    @Override protected int getBaseExperienceReward(ServerLevel level) { return com.bunnidogs.mod.crown.CrownEncounter.member(this) ? 0 : 500; }
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (!(player.getItemInHand(hand).getItem() instanceof CalipersItem)) return InteractionResult.PASS;
@@ -180,12 +180,16 @@ public final class Apex extends Bunnidog implements Enemy {
     @Override
     public void startSeenByPlayer(ServerPlayer player) {
         super.startSeenByPlayer(player);
-        if(!wild)this.boss.addPlayer(player);
+        if(!wild && !com.bunnidogs.mod.crown.CrownEncounter.member(this))this.boss.addPlayer(player);
     }
     @Override
     public void stopSeenByPlayer(ServerPlayer player) {
         super.stopSeenByPlayer(player);
         this.boss.removePlayer(player);
+    }
+    @Override public void die(net.minecraft.world.damagesource.DamageSource source) {
+        super.die(source);
+        if(dead && level() instanceof ServerLevel && com.bunnidogs.mod.crown.CrownEncounter.member(this))com.bunnidogs.mod.crown.CrownEncounter.death(this);
     }
     @Override
     public void addAdditionalSaveData(ValueOutput output) {

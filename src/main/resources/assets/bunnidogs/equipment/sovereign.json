@@ -1,0 +1,20 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "minecraft:netherite"
+      },
+      {
+        "texture": "bunnidogs:sovereign"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "minecraft:netherite"
+      },
+      {
+        "texture": "bunnidogs:sovereign"
+      }
+    ]
+  }
+}

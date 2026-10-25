@@ -143,5 +143,6 @@ Art: `art/gen_apex_rewards.py` runs at the end of `art/gen_realm.py`, authoring
 icons, armor inlay/equipment resources, stun icon, recipes/unlocks and loot.
 `art/apex_rewards_preview.png` is inspected. Model/localization checks pass;
 these are headless checks, not a graphical client playtest or proof of final
-natural encounter balance. The Crown Warren/final boss and unrelated roadmaps
-remain paused for the player's review.
+natural encounter balance. The later continuation resumes the roadmap and implements the initial
+Crown Warren/final boss in `CROWN_WARREN_SPECS.md`. Ordinary enemy tuning stays
+accepted; the new finale still needs its own actual play evidence.

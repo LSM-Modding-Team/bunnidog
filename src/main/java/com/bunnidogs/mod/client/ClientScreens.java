@@ -32,7 +32,7 @@ public final class ClientScreens {
     public static void apexBeam(com.bunnidogs.mod.network.ApexBeamPayload payload) {
         var level=Minecraft.getInstance().level;
         var from=payload.from(); var to=payload.to();
-        if (level==null || !Double.isFinite(from.lengthSqr()) || !Double.isFinite(to.lengthSqr()) || from.distanceToSqr(to)>1089) return;
+        if (level==null || !Double.isFinite(from.lengthSqr()) || !Double.isFinite(to.lengthSqr()) || from.distanceToSqr(to)>4225) return;
         int color=switch (payload.style()) { case 1 -> 0xFFC65A; case 2 -> 0xE34A92; case 3 -> 0x63E89A; case 4 -> 0x8BD7DF; default -> 0xBF7DFF; };
         var dust=new net.minecraft.core.particles.DustParticleOptions(color,payload.style()==0 || payload.style()==4 ? 4 : .8F);
         int count=Math.min(128,Math.max(1,(int)(from.distanceTo(to)*4)));

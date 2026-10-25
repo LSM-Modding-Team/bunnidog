@@ -132,6 +132,32 @@ public final class ModItems {
     public static final DeferredItem<com.bunnidogs.mod.realm.PrismLanceItem> PRISM_LANCE=ITEMS.registerItem("prism_lance",com.bunnidogs.mod.realm.PrismLanceItem::new,props->props.stacksTo(1).durability(512).rarity(Rarity.EPIC).repairable(PRISM_LENS.get()));
     public static final DeferredItem<com.bunnidogs.mod.expedition.GeneticVacuumItem> GENETIC_VACUUM=ITEMS.registerItem("genetic_vacuum",com.bunnidogs.mod.expedition.GeneticVacuumItem::new,p->p.durability(1024).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.genetic_vacuum")))).repairable(ModItems.CHORUS_HEART.get()).rarity(Rarity.EPIC).component(DataComponents.BUNDLE_CONTENTS,net.minecraft.world.item.component.BundleContents.EMPTY));
 
+    public static final DeferredHolder<DataComponentType<?>,DataComponentType<String>> CROWN_SITE=COMPONENTS.registerComponentType("crown_site",b->b.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
+    public static final List<DeferredItem<Item>> CROWN_KEYS=java.util.stream.Stream.of("glass_keystone","brood_keystone","heart_keystone").map(id->ITEMS.registerSimpleItem(id,p->p.stacksTo(1).fireResistant().rarity(Rarity.RARE))).toList();
+    public static final DeferredItem<Item> CROWN_SIGIL=ITEMS.registerSimpleItem("crown_sigil",p->p.rarity(Rarity.EPIC).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.crown_sigil")))));
+    public static final DeferredItem<Item> SOVEREIGN_CORE=ITEMS.registerSimpleItem("sovereign_core",p->p.fireResistant().rarity(Rarity.EPIC).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.sovereign_core")))));
+    public static final DeferredItem<Item> CROWN_TROPHY=ITEMS.registerSimpleItem("crown_trophy",p->p.stacksTo(1).fireResistant().rarity(Rarity.EPIC));
+    public static final DeferredItem<com.bunnidogs.mod.crown.ConcordStandardItem> CONCORD_STANDARD=ITEMS.registerItem("concord_standard",com.bunnidogs.mod.crown.ConcordStandardItem::new,p->p.durability(1024).rarity(Rarity.EPIC).fireResistant().repairable(ModItems.HEART_SPOOL.get()).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.concord_standard")))));
+    public static final Map<String,DeferredItem<Item>> SOVEREIGN_ARMOR=new LinkedHashMap<>();
+    static {
+        for(var type:net.minecraft.world.item.equipment.ArmorType.values()) {
+            if(type==net.minecraft.world.item.equipment.ArmorType.BODY)continue;
+            SOVEREIGN_ARMOR.put(type.getName(),ITEMS.registerSimpleItem("sovereign_"+type.getName(),p->p.humanoidArmor(net.minecraft.world.item.equipment.ArmorMaterials.NETHERITE,type).fireResistant().rarity(Rarity.EPIC)
+                    .component(DataComponents.EQUIPPABLE,net.minecraft.world.item.equipment.Equippable.builder(type.getSlot()).setEquipSound(net.minecraft.sounds.SoundEvents.ARMOR_EQUIP_NETHERITE)
+                    .setAsset(net.minecraft.resources.ResourceKey.create(net.minecraft.world.item.equipment.EquipmentAssets.ROOT_ID,Identifier.fromNamespaceAndPath("bunnidogs","sovereign"))).build())
+                    .component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.sovereign_armor"))))));
+        }
+    }
+    public static final DeferredItem<com.bunnidogs.mod.realm.PrismLanceItem> SOVEREIGN_LANCE=ITEMS.registerItem("sovereign_lance",com.bunnidogs.mod.realm.PrismLanceItem::new,p->p.durability(768).rarity(Rarity.EPIC).fireResistant().repairable(ModItems.PRISM_LENS.get()));
+    public static final DeferredItem<Item> SOVEREIGN_ELYTRA=ITEMS.registerSimpleItem("sovereign_elytra",p->p.durability(1296).enchantable(15).rarity(Rarity.EPIC).fireResistant()
+            .component(DataComponents.GLIDER,net.minecraft.util.Unit.INSTANCE)
+            .component(DataComponents.EQUIPPABLE,net.minecraft.world.item.equipment.Equippable.builder(net.minecraft.world.entity.EquipmentSlot.CHEST).setEquipSound(net.minecraft.sounds.SoundEvents.ARMOR_EQUIP_ELYTRA)
+            .setAsset(net.minecraft.resources.ResourceKey.create(net.minecraft.world.item.equipment.EquipmentAssets.ROOT_ID,Identifier.fromNamespaceAndPath("bunnidogs","sovereign_elytra"))).setDamageOnHurt(false).build())
+            .attributes(net.minecraft.world.item.component.ItemAttributeModifiers.builder()
+                .add(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR,new net.minecraft.world.entity.ai.attributes.AttributeModifier(Identifier.fromNamespaceAndPath("bunnidogs","armored_elytra"),10,net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_VALUE),net.minecraft.world.entity.EquipmentSlotGroup.CHEST)
+                .add(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS,new net.minecraft.world.entity.ai.attributes.AttributeModifier(Identifier.fromNamespaceAndPath("bunnidogs","elytra_toughness"),4,net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_VALUE),net.minecraft.world.entity.EquipmentSlotGroup.CHEST).build())
+            .repairable(ModItems.AERIAL_MEMBRANE.get()).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.sovereign_elytra")))));
+
     public static final Map<String,DeferredItem<com.bunnidogs.mod.item.ApexSigilItem>> APEX_SIGILS=new LinkedHashMap<>();
     static {
         for (var kind:com.bunnidogs.mod.entity.ApexKind.values()) for (boolean flying:new boolean[]{false,true}) {
@@ -500,6 +526,8 @@ public final class ModItems {
             event.accept(LISTENING_SHELL.get());
             event.accept(EVERBLOOM.get());
             HEARTBOUND_ARMOR.values().forEach(item->event.accept(item.get()));
+            SOVEREIGN_ARMOR.values().forEach(item->event.accept(item.get()));CROWN_KEYS.forEach(item->event.accept(item.get()));
+            for(var item:List.of(SOVEREIGN_CORE.get(),SOVEREIGN_LANCE.get(),SOVEREIGN_ELYTRA.get(),CONCORD_STANDARD.get(),CROWN_SIGIL.get(),CROWN_TROPHY.get()))event.accept(item);
             for(var item:java.util.List.of(APEX_FANG.get(),VITALITY_ARTIFACT.get(),AERIAL_ARTIFACT.get(),CATACLYSM_CORE.get(),VOLATILE_CHARGE.get(),CATACLYSM_TOTEM.get(),FIREBALL_LAUNCHER.get(),GENETIC_VACUUM.get(),ABYSSAL_FLASK.get()))event.accept(item);
             for(var item:java.util.List.of(ROOTSTONE.get(),WARREN_ANCHOR.get(),WARREN_WARD.get(),RESONANT_EYE.get(),APEX_MARROW.get(),PRISM_LENS.get(),CHORUS_HEART.get(),VOLATILE_HEART.get(),HEART_SPOOL.get(),AERIAL_MEMBRANE.get(),PRISM_CELL.get(),PRISM_LANCE.get(),APEX_WING_HARNESS.get()))event.accept(item);
             event.accept(APEX_CREST.get());

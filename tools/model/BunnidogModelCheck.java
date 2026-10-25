@@ -188,6 +188,14 @@ public class BunnidogModelCheck {
             state.winged=false;wings.setupAnim(state);before=rendered[0];wingRoot.render(new PoseStack(),consumer,0xF000F0,0);
             require(rendered[0]==before,"Non-winged animals must not retain another entity's wings");
         }
+        var crownRoot=com.bunnidogs.mod.client.model.CrownModelLayer.createLayer().bakeRoot();
+        var crown=new com.bunnidogs.mod.client.model.CrownModel(crownRoot);
+        crownRoot.visit(new PoseStack(),(pose,path,index,cube)->{for(var poly:cube.polygons)for(var v:poly.vertices())require(v.u()>=0 && v.u()<=1 && v.v()>=0 && v.v()<=1,"Crown UV stays inside its independent atlas");});
+        state.isBaby=false;state.crowned=true;state.crownWarning=0;state.xRot=18;state.yRot=-35;state.legScale=1.2F;state.buildScale=1.3F;
+        model.setupAnim(state);crown.setupAnim(state);
+        require(root.getChild("head").storePose().equals(crownRoot.getChild("head").storePose()) && root.getChild("body").storePose().equals(crownRoot.getChild("body").storePose()),"Five crests follow the actual head and body transforms");
+        int beforeCrown=rendered[0];crownRoot.render(new PoseStack(),consumer,0xF000F0,0);require(rendered[0]>beforeCrown,"Crown submits real geometry");
+        state.crowned=false;crown.setupAnim(state);beforeCrown=rendered[0];crownRoot.render(new PoseStack(),consumer,0xF000F0,0);require(rendered[0]==beforeCrown,"No Crown geometry leaks into ordinary animal draws");
         System.out.println("Model OK: " + faces + " stored faces, " + vertices + " vertices; ordinary 2172 faces, webbed +72, fertility +0/40/18/120/38, separate packs +0/78/96/114/132; winding, head UVs/normals, smooth rendering, equipment/body pose, variants, ground contact and baby reset passed.");
     }
 }

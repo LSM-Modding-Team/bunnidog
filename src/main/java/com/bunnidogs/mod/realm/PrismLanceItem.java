@@ -29,7 +29,7 @@ public final class PrismLanceItem extends Item {
         for(int i=0;i<player.getInventory().getContainerSize();i++)if(player.getInventory().getItem(i).is(ModItems.PRISM_CELL.get()))return player.getInventory().getItem(i);
         return ItemStack.EMPTY;
     }
-    @Override public int getUseDuration(ItemStack stack,LivingEntity user) {return 32;}
+    @Override public int getUseDuration(ItemStack stack,LivingEntity user) {return stack.is(ModItems.SOVEREIGN_LANCE.get()) ? 24 : 32;}
     @Override public ItemUseAnimation getUseAnimation(ItemStack stack) {return ItemUseAnimation.BOW;}
     @Override public InteractionResult use(Level level,Player player,InteractionHand hand) {
         if(player.isSpectator() || !player.isAlive() || !player.hasInfiniteMaterials() && cell(player).isEmpty())return InteractionResult.FAIL;
@@ -38,20 +38,21 @@ public final class PrismLanceItem extends Item {
     @Override public ItemStack finishUsingItem(ItemStack stack,Level level,LivingEntity user) {
         if(!(level instanceof ServerLevel server) || !(user instanceof Player player) || !player.isAlive() || player.getUseItem()!=stack || player.getItemInHand(player.getUsedItemHand())!=stack || player.getCooldowns().isOnCooldown(stack))return stack;
         var ammo=cell(player);if(!player.hasInfiniteMaterials() && ammo.isEmpty())return stack;
-        var start=player.getEyePosition();var end=start.add(player.getLookAngle().scale(32));
-        if(!server.hasChunksAt(net.minecraft.core.BlockPos.containing(start).offset(-1,-1,-1),net.minecraft.core.BlockPos.containing(end).offset(1,1,1)))return stack;
+        var start=player.getEyePosition();var end=start.add(player.getLookAngle().scale(stack.is(ModItems.SOVEREIGN_LANCE.get()) ? 48 : 32));
+        var bounds=new AABB(start,end).inflate(.75);
+        if(!server.hasChunksAt(net.minecraft.core.BlockPos.containing(bounds.minX,bounds.minY,bounds.minZ),net.minecraft.core.BlockPos.containing(bounds.maxX,bounds.maxY,bounds.maxZ)))return stack;
         ammo.consume(1,player);
         var key=ResourceKey.create(Registries.DAMAGE_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","prism_lance"));
         var source=new DamageSource(server.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(key),player);
         for(var enemy:server.getEntitiesOfClass(LivingEntity.class,new AABB(start,end).inflate(.75),e->e!=player && e.isAlive() && !e.isSpectator()))
-            if(enemy.getBoundingBox().inflate(.75).clip(start,end).isPresent())enemy.hurtServer(server,source,64);
+            if(enemy.getBoundingBox().inflate(.75).clip(start,end).isPresent())enemy.hurtServer(server,source,stack.is(ModItems.SOVEREIGN_LANCE.get()) ? 112 : 64);
         PacketDistributor.sendToPlayersNear(server,null,start.x,start.y,start.z,80,new ApexBeamPayload(start,end,4));
         server.playSound(null,player.blockPosition(),net.minecraft.sounds.SoundEvents.BEACON_ACTIVATE,net.minecraft.sounds.SoundSource.PLAYERS,1,1.5F);
-        player.getCooldowns().addCooldown(stack,30);stack.hurtAndBreak(1,player,player.getUsedItemHand());
+        player.getCooldowns().addCooldown(stack,stack.is(ModItems.SOVEREIGN_LANCE.get()) ? 24 : 30);stack.hurtAndBreak(stack.is(ModItems.SOVEREIGN_LANCE.get()) ? 2 : 1,player,player.getUsedItemHand());
         return stack;
     }
     @Override public void appendHoverText(ItemStack stack,TooltipContext context,TooltipDisplay display,Consumer<Component> lines,TooltipFlag flag) {
         super.appendHoverText(stack,context,display,lines,flag);
-        lines.accept(Component.translatable("tooltip.bunnidogs.prism_lance").withStyle(net.minecraft.ChatFormatting.GRAY));
+        lines.accept(Component.translatable(stack.is(ModItems.SOVEREIGN_LANCE.get()) ? "tooltip.bunnidogs.sovereign_lance" : "tooltip.bunnidogs.prism_lance").withStyle(net.minecraft.ChatFormatting.GRAY));
     }
 }

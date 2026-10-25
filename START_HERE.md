@@ -5,7 +5,30 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
-## Current player review — substantial Apex rewards
+## Current — Crown Warren finale (AX7)
+
+The latest continuation resumes the accepted roadmap. Read
+`docs/CROWN_WARREN_SPECS.md`: three branching halls with site-bound keys, an
+optional third-key archive, saved central gate and paid rematches, a three-phase
+Crowned Apex, personal Core/trophy entitlements, lavish physical vaults and
+frozen genetic archives. Sovereign smithing upgrades extend Heartbound armor,
+Lance and Armored Elytra; the Concord Standard adds paid party healing. Existing
+ordinary Apex tuning stays accepted. No new tutorial/menu layer.
+
+Protocol **30**, **2,359 authored / 2,487 packaged** language keys, English/shared
+neutral Spanish. The native suite now has **178 scenarios**, alongside actual
+model/localization/build gates. Save/kill-payment ordering, native health above
+1,024, short chunk leases, finite actors, exact smithing components and separate
+core/trophy delivery retries are invariants. Native and inspected preview evidence
+remain distinct from graphical client play, natural chunk order/performance and
+full solo/co-op boss pacing. See the current spec for those practical limits.
+
+Next major unfinished roadmap: observed learning/routes and remaining work
+integration in I2/I3, then professions and civilization. Address any newly reported
+expedition issues first; do not rebalance the accepted ordinary Apex fights
+without player feedback. Further realm regions/gear are optional extensions.
+
+## Previous player review — substantial Apex rewards
 
 Read `docs/APEX_REWARDS_SPECS.md` before the original realm specs. Latest steering
 calls for powerful multipart gear and much more generic ruin stock, with unique
@@ -21,15 +44,14 @@ Native smithing preserves wear, names and enchantments. The old wing-harness ID
 stays compatible, now acquired by upgrading Elytra. Existing enemy fight values
 stay accepted. Protocol **29**, English/shared neutral Spanish; native suite
 **169 cases** plus model/localization/build gates. Runtime/client appearance and
-natural economy still need actual play evidence. Roadmap/Crown/civilization work
-remains paused while the player reviews this reward revision.
+natural economy still need actual play evidence. The subsequent continuation resumes the Crown finale; civilization remains
+queued behind the existing intelligence stages.
 
 ## Anchor Crest compatibility fix
 
 Attunement accepts the Apex Crest item, including Creative/menu Crests without
 a genetic record. Full recorded Crests retain their exact source data. Native
-travel coverage exercises both plain and recorded Crests. Roadmap development
-is paused for the user’s review.
+travel coverage exercises both plain and recorded Crests. The later continuation supersedes that review-time roadmap pause.
 
 ## Wing art (2026-10-25)
 
@@ -107,7 +129,7 @@ ships; see [GREAT_WARREN_SPECS.md](docs/GREAT_WARREN_SPECS.md) for actual rules.
   studies; client appearance, first-trip latency and broad multiplayer population
   performance still need gameplay evidence.
 
-Next content stage is AX7: the Crown Warren, Crowned Apex and Sovereign rewards
+AX7 now ships: the Crown Warren, Crowned Apex and initial Sovereign rewards
 remain planned in `docs/APEX_EXPANSION_PLAN.md`. More regions/gear branches remain
 optional AX6 expansion. Resolve observed realm issues before the next large stage.
 The intelligence/civilization plan stays queued behind this accepted expansion.

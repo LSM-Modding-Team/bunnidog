@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "bunnidogs:block/crown_seal_3_0_1"
+  }
+}

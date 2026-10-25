@@ -114,8 +114,10 @@ drink flask. Ruins supply bulk ingredients. [Current rewards](docs/APEX_REWARDS_
 ## Development plans
 
 [The Apex expansion plan](docs/APEX_EXPANSION_PLAN.md) tracks the implemented
-combat roles, flight and initial Great Warren. The Crown Warren dungeon,
-Apex-of-Apexes and Sovereign upgrade rewards remain the next major stage.
+combat roles, flight and initial Great Warren. The Crown Warren now adds three
+branching halls, the Crowned Apex finale and Sovereign smithing upgrades.
+[Finale rules and evidence](docs/CROWN_WARREN_SPECS.md). Gene-driven learning,
+professions and civilization remain the next major unfinished direction.
 
 ## Working with Codex
 

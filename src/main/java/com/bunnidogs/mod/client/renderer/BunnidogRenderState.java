@@ -14,7 +14,8 @@ public class BunnidogRenderState extends LivingEntityRenderState {
     public int coat;
     public boolean winged,wingFlying,wingDiving;
     public float swelling;
-    public boolean redFuse;
+    public boolean redFuse,crowned;
+    public int crownWarning;
     /** Ear length multiplier (Ears gene). */
     public float earScale = 1.0F;
     /** Leg length multiplier (Legs gene). */

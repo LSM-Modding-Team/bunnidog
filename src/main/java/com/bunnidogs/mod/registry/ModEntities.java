@@ -44,6 +44,8 @@ public final class ModEntities {
                 .sized(.6F,.9F).clientTrackingRange(12).notInPeaceful().noLootTable()
                 .build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs",id))));
     }
+    public static final DeferredHolder<EntityType<?>,EntityType<com.bunnidogs.mod.entity.CrownedApex>> CROWNED_APEX=ENTITIES.register("crowned_apex",()->EntityType.Builder.<com.bunnidogs.mod.entity.CrownedApex>of(com.bunnidogs.mod.entity.CrownedApex::new,MobCategory.MONSTER)
+            .sized(.6F,.9F).clientTrackingRange(16).notInPeaceful().noLootTable().build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","crowned_apex"))));
     public static final DeferredHolder<EntityType<?>,EntityType<Apex>> PRISMMAW=apex("prismmaw",com.bunnidogs.mod.entity.ApexKind.PRISM,false);
     public static final DeferredHolder<EntityType<?>,EntityType<Apex>> BROODCALLER=apex("broodcaller",com.bunnidogs.mod.entity.ApexKind.BROOD,false);
     public static final DeferredHolder<EntityType<?>,EntityType<Apex>> BLASTMAW=apex("blastmaw",com.bunnidogs.mod.entity.ApexKind.BLAST,false);
@@ -84,6 +86,7 @@ public final class ModEntities {
     /** Registered on the mod event bus from {@link BunnidogsMod}. */
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(BUNNIDOG.get(), Bunnidog.createAttributes().build());
+        event.put(CROWNED_APEX.get(),com.bunnidogs.mod.entity.CrownedApex.createAttributes().build());
         GROUND_APEX.forEach(type->event.put(type.get(),Apex.createAttributes().build()));
         FLYING_APEX.forEach(type->event.put(type.get(),Apex.createAttributes().build()));
         event.put(APEX_MINION.get(),com.bunnidogs.mod.entity.ApexMinion.createAttributes().build());

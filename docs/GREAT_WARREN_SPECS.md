@@ -7,7 +7,8 @@
 The first Great Warren expedition loop now ships. The 2026-10-25 user review
 closed Apex balancing and resumed autonomous development. This content builds on
 those accepted fights; their damage, health, timings, XP and minion limits stay.
-The Crown Warren dungeon, Crowned Apex and Sovereign upgrades remain future AX7.
+The initial Crown Warren dungeon, Crowned Apex and Sovereign upgrades now ship
+as AX7; see [CROWN_WARREN_SPECS.md](CROWN_WARREN_SPECS.md).
 
 ## Enter, explore, return
 
@@ -185,5 +186,6 @@ normal client/dedicated-server loader owns the dimension in ordinary play.
 These are headless geometry/texture studies, not graphical client or performance
 captures. Natural broad biome distribution, first-trip latency, mixed-pack client
 performance and long multiplayer expedition pacing still need gameplay evidence.
-The other two proposed regions, additional gear branches and the Crown Warren
-finale remain planned; the initial realm is playable without them.
+The other two proposed regions and additional gear branches remain candidates.
+The initial Crown Warren finale now ships; its separate spec records the new
+encounters, Sovereign rewards and remaining natural/client play evidence.

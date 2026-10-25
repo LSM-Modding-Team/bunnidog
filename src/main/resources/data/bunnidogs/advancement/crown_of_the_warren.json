@@ -1,0 +1,23 @@
+{
+  "parent": "bunnidogs:apex_of_the_line",
+  "display": {
+    "icon": {
+      "id": "bunnidogs:crown_trophy"
+    },
+    "title": {
+      "translate": "advancements.bunnidogs.crown.title"
+    },
+    "description": {
+      "translate": "advancements.bunnidogs.crown.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "defeated": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

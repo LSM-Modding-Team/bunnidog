@@ -23,3 +23,7 @@ save(ROOT/'tools/gametest/resources/data/bunnidogs/structure/apex_arena.nbt',
 # Power twenty needs its actual forty-block victim/terrain bounds loaded.
 save(ROOT/'tools/gametest/resources/data/bunnidogs/structure/apex_blast_arena.nbt',
      {(0, 0, 0): ('minecraft:air', {}, None)}, (112, 8, 112), version=4903)
+
+# The Crown arena includes its physical south seal and the entire 64-block ray neighborhood.
+save(ROOT/'tools/gametest/resources/data/bunnidogs/structure/crown_arena.nbt',
+     {(0, 0, 0): ('minecraft:air', {}, None)}, (128, 8, 128), version=4903)

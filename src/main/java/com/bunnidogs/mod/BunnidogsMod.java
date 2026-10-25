@@ -31,6 +31,8 @@ public class BunnidogsMod {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public BunnidogsMod(IEventBus modEventBus) {
+        com.bunnidogs.mod.registry.ModAttributes.ATTRIBUTES.register(modEventBus);
+        com.bunnidogs.mod.crown.CrownTickets.TYPES.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
         modEventBus.addListener(ModEntities::registerAttributes);
         modEventBus.addListener(ModEntities::registerSpawnPlacements);

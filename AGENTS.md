@@ -57,8 +57,16 @@ Vacuum weapons must bypass animal cargo-bundle equipment; other keepers' pets,
 leashes and cargo remain protected. User explicitly authorizes brood-to-seed
 capture, superseding the earlier no-permanent-brood-products restriction for this
 paid tool only. Keep no ordinary death drops/XP from brood. Unique parts come
-from wild/ritual kills; ruins provide generous bulk materials. Roadmap expansion
-remains pinned during this player review. Enemy balancing stays unchanged.
+from actual wild/ritual/finale kills; ruins provide generous bulk materials.
+The subsequent "continue" requests resume the accepted roadmap. Preserve accepted
+ordinary enemy balancing. AX7 now ships the initial Crown Warren finale; read
+`docs/CROWN_WARREN_SPECS.md`. Preserve native max-health mapping, confirmed-death
+wave advancement, post-damage killing-hit eligibility, physical site-bound keys,
+paid offered-hand rematches, finite packs, short nonpersistent chunk leases,
+separate/retryable personal core/trophy rewards and exact frozen archives. Lease
+simulation cannot load an outer ring; only a saved nearby actor may recover its
+one known controller chunk on reload. Generated seals must configure safely on
+detached ProtoChunks. No permanent chunk forcing or tutorial screens.
 
 Apex expansion steering: the later "implement the apex types" request authorizes
 runtime implementation. Five roles and their five flying variants now ship;
@@ -92,9 +100,10 @@ ships the Great Warren dimension, paired portals/refuges, wild Apex ecology,
 Wards/Rootstone, rich ruins/frozen archives, Prism Lance and Wing Harness. Read
 `docs/GREAT_WARREN_SPECS.md`. Preserve normal wild despawning/no boss bars versus
 persistent ritual encounters, protected returns, finite loaded-area spawning,
-exact saved loot, real ammo/boost costs and English/shared Spanish. The remaining
-Crown Warren/Apex-of-Apexes/Sovereign finale in `docs/APEX_EXPANSION_PLAN.md` is AX7
-and is not implemented. Prioritize reported realm issues, then that planned stage.
+exact saved loot, real ammo/boost costs and English/shared Spanish. The initial
+Crown Warren/Apex-of-Apexes/Sovereign finale in `docs/APEX_EXPANSION_PLAN.md` now
+ships as AX7; full natural/client/co-op evidence remains player review. Prioritize
+reported realm issues, then unfinished intelligence plans over extra QoL controls.
 This explicit user direction takes priority over unrelated cognition work while
 the Apex expansion is active. Preserve the screenshot-approved vanilla station
 frames and borderless MCA animal conversations.

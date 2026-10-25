@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "bunnidogs:heartbound_boots",
+  "addition": "bunnidogs:sovereign_core",
+  "result": {
+    "id": "bunnidogs:sovereign_boots"
+  }
+}

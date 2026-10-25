@@ -19,8 +19,11 @@ brood stats/swimming/meal timing, large ballistic anvils and closer aerial
 spacing. Only flying fixed Prism beams keep world anchors; dives clear layered
 cover at moderated speed. Current numbers are in APEX_SPECS.
 
-AX6 (dimension/ruins/gear), AX7 (dungeon/Crowned Apex), natural wild spawning and
-the lavish expanded loot economy remain **planned**. The design below preserves
+Initial AX6 (dimension/ruins/gear), AX7 (dungeon/Crowned Apex/Sovereign upgrades),
+natural wild spawning and the expanded loot economy now ship. See
+[GREAT_WARREN_SPECS.md](GREAT_WARREN_SPECS.md),
+[APEX_REWARDS_SPECS.md](APEX_REWARDS_SPECS.md) and
+[CROWN_WARREN_SPECS.md](CROWN_WARREN_SPECS.md) for actual behavior and evidence. The design below preserves
 the broader direction; prototype timings/architecture yield to the actual spec.
 The current shared `Apex` implementation uses role/type factories as its family
 contract rather than duplicating subclasses. Flight currently uses bounded direct
@@ -295,7 +298,8 @@ Glassbloom Flats and Thunder Hollows, natural wild Apex ecology, rich ruins and
 frozen archives, Wards/Rootstone, Prism Lance and Apex Wing Harness. See
 `GREAT_WARREN_SPECS.md` for exact shipped rules and evidence. The remainder below
 continues to describe the broader target, not a claim all proposed systems ship.
-The Crown Warren/Crowned Apex/Sovereign finale remains AX7. Existing accepted
+The initial Crown Warren/Crowned Apex/Sovereign finale now ships as AX7; its
+current spec records implementation versus later expansion concepts. Existing accepted
 Apex combat values are preserved.
 
 ## The dimension: the Great Warren
@@ -391,8 +395,9 @@ The separation below makes each activity worthwhile rather than reducing rewards
 
 ### Reagents lead to recognizable equipment
 
-Initial Lens/Lance, Membrane/Harness, cells, reagents and Wards now ship; the
-remaining support, siege and Sovereign branches below are future concepts:
+Lens/Lance, armored Elytra, cells, reagents, Wards, the requested multipart gear
+and initial Sovereign/Concord branches now ship. The three current specs above
+identify implemented behavior; other branch concepts below remain candidates:
 
 - **Prism Lens → Prism Lance.** A charged mouth-beam-inspired ranged weapon,
   strong against a line of enemies. Its windup, cell supply and exposed firing
@@ -670,7 +675,7 @@ pipeline and actual client review; none are generated in this planning batch.
 | AX4 — Lifebinder | Physical hook, bounded stun, true drain and actual healing | Miss/cover/collision, two-caster anti-chain, armor bypass, cancelled damage and healing-conservation case; solo/coop play |
 | AX5 — flight | Flying Brute and all four role variants | Continuous altitude, Brute-only dives, wing art and each role's cast positions; melee/ranged access in actual terrain |
 | AX6 — Great Warren | Returnable portal, natural Apex ecology and first rich ruins/gear | Real generation-stage and endpoint/save cases; loaded population/performance and endgame expeditions |
-| AX7 — Crown Warren | Branching wings, Crowned Apex, core upgrades and lavish vault | Real bounded encounter/reset/reward cases, generation safety and full solo/coop dungeon play |
+| AX7 — Crown Warren (initial runtime shipped) | Branching wings, Crowned Apex, core upgrades and lavish vault | Real bounded encounter/reset/reward cases, generation safety and full solo/coop dungeon play |
 
 The first Apex implementation started at **AX1**, not by shipping
 an empty dimension, all ten placeholder entities or a final boss without its

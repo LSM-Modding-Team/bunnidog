@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "bunnidogs:apex_wing_harness",
+  "addition": "bunnidogs:sovereign_core",
+  "result": {
+    "id": "bunnidogs:sovereign_elytra"
+  }
+}

@@ -55,6 +55,7 @@ final class RealmGameTest {
         var realm=source.getServer().getLevel(GreatWarren.LEVEL);
         h.assertTrue(realm!=null && p.level()==realm && anchor.linked() && p.getMainHandItem().getCount()==1 && ItemStack.matches(original,p.getOffhandItem()),"Real paid entry preserves the source Crest and crosses into the registered realm: realm="+realm+", player="+p.level().dimension()+", linked="+anchor.linked()+", eye="+p.getMainHandItem()+", endpoint="+anchor.endpoint());
         naturalRuin(h,realm);
+        com.bunnidogs.mod.worldgen.CrownWorldgenGameTest.natural(h,realm);
         var back=(WarrenAnchorBlockEntity)realm.getBlockEntity(anchor.endpoint());
         h.assertTrue(back!=null && back.endpoint().equals(pos) && back.destination().equals(source.dimension()) && back.getBlockState().getValue(WarrenAnchorBlock.RETURN),"The created return anchor must preserve the actual source dimension and position");
         h.assertTrue(!realm.getBlockState(back.getBlockPos().below()).canEntityDestroy(realm,back.getBlockPos().below(),p),"Refuge foundations withstand destructive Apex jumps as well as explosions");

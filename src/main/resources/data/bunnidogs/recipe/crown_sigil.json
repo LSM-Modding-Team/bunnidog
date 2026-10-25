@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "LPV",
+    "SHS",
+    "FPM"
+  ],
+  "key": {
+    "L": "bunnidogs:prism_lens",
+    "P": "bunnidogs:apex_marrow",
+    "V": "bunnidogs:volatile_heart",
+    "S": "bunnidogs:heart_spool",
+    "H": "bunnidogs:chorus_heart",
+    "F": "bunnidogs:apex_fang",
+    "M": "bunnidogs:aerial_membrane"
+  },
+  "result": {
+    "id": "bunnidogs:crown_sigil"
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "variants": {
+    "wing=0,state=0": {
+      "model": "bunnidogs:block/crown_seal_0_0_0"
+    },
+    "wing=0,state=1": {
+      "model": "bunnidogs:block/crown_seal_0_1_0"
+    },
+    "wing=0,state=2": {
+      "model": "bunnidogs:block/crown_seal_0_2_0"
+    },
+    "wing=1,state=0": {
+      "model": "bunnidogs:block/crown_seal_1_0_0"
+    },
+    "wing=1,state=1": {
+      "model": "bunnidogs:block/crown_seal_1_1_0"
+    },
+    "wing=1,state=2": {
+      "model": "bunnidogs:block/crown_seal_1_2_0"
+    },
+    "wing=2,state=0": {
+      "model": "bunnidogs:block/crown_seal_2_0_0"
+    },
+    "wing=2,state=1": {
+      "model": "bunnidogs:block/crown_seal_2_1_0"
+    },
+    "wing=2,state=2": {
+      "model": "bunnidogs:block/crown_seal_2_2_0"
+    },
+    "wing=3,state=0,sockets=0": {
+      "model": "bunnidogs:block/crown_seal_3_0_0"
+    },
+    "wing=3,state=0,sockets=1": {
+      "model": "bunnidogs:block/crown_seal_3_0_1"
+    },
+    "wing=3,state=0,sockets=2": {
+      "model": "bunnidogs:block/crown_seal_3_0_2"
+    },
+    "wing=3,state=0,sockets=3": {
+      "model": "bunnidogs:block/crown_seal_3_0_3"
+    },
+    "wing=3,state=0,sockets=4": {
+      "model": "bunnidogs:block/crown_seal_3_0_4"
+    },
+    "wing=3,state=0,sockets=5": {
+      "model": "bunnidogs:block/crown_seal_3_0_5"
+    },
+    "wing=3,state=0,sockets=6": {
+      "model": "bunnidogs:block/crown_seal_3_0_6"
+    },
+    "wing=3,state=0,sockets=7": {
+      "model": "bunnidogs:block/crown_seal_3_0_7"
+    },
+    "wing=3,state=1,sockets=0": {
+      "model": "bunnidogs:block/crown_seal_3_1_0"
+    },
+    "wing=3,state=1,sockets=1": {
+      "model": "bunnidogs:block/crown_seal_3_1_1"
+    },
+    "wing=3,state=1,sockets=2": {
+      "model": "bunnidogs:block/crown_seal_3_1_2"
+    },
+    "wing=3,state=1,sockets=3": {
+      "model": "bunnidogs:block/crown_seal_3_1_3"
+    },
+    "wing=3,state=1,sockets=4": {
+      "model": "bunnidogs:block/crown_seal_3_1_4"
+    },
+    "wing=3,state=1,sockets=5": {
+      "model": "bunnidogs:block/crown_seal_3_1_5"
+    },
+    "wing=3,state=1,sockets=6": {
+      "model": "bunnidogs:block/crown_seal_3_1_6"
+    },
+    "wing=3,state=1,sockets=7": {
+      "model": "bunnidogs:block/crown_seal_3_1_7"
+    },
+    "wing=3,state=2,sockets=0": {
+      "model": "bunnidogs:block/crown_seal_3_2_0"
+    },
+    "wing=3,state=2,sockets=1": {
+      "model": "bunnidogs:block/crown_seal_3_2_1"
+    },
+    "wing=3,state=2,sockets=2": {
+      "model": "bunnidogs:block/crown_seal_3_2_2"
+    },
+    "wing=3,state=2,sockets=3": {
+      "model": "bunnidogs:block/crown_seal_3_2_3"
+    },
+    "wing=3,state=2,sockets=4": {
+      "model": "bunnidogs:block/crown_seal_3_2_4"
+    },
+    "wing=3,state=2,sockets=5": {
+      "model": "bunnidogs:block/crown_seal_3_2_5"
+    },
+    "wing=3,state=2,sockets=6": {
+      "model": "bunnidogs:block/crown_seal_3_2_6"
+    },
+    "wing=3,state=2,sockets=7": {
+      "model": "bunnidogs:block/crown_seal_3_2_7"
+    }
+  }
+}

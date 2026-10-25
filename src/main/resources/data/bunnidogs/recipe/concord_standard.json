@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "SCS",
+    " H ",
+    " N "
+  ],
+  "key": {
+    "S": "bunnidogs:heart_spool",
+    "C": "bunnidogs:sovereign_core",
+    "H": "bunnidogs:chorus_heart",
+    "N": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "id": "bunnidogs:concord_standard"
+  }
+}

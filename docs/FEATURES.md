@@ -142,5 +142,11 @@ realm. The Crest is retained, and its paired return costs nothing. Root groves,
 crystal flats and basalt hollows contain wild Apexes and generous ruins. Archives
 preserve real high-quality seeds and tissue. Wards protect an outpost from new
 natural monsters; Rootstone withstands Apex terrain attacks. A Prism Lance and
-Wing Harness share Prism Cells for shooting and climbing glides. The Crowned
-Apex dungeon remains future content. [Actual expedition rules](GREAT_WARREN_SPECS.md).
+Armored Elytra share Prism Cells for shooting and climbing glides.
+[Actual expedition rules](GREAT_WARREN_SPECS.md).
+
+The Crown Warren has three branching halls and a central Crowned Apex fight.
+Two matching keystones open its gate; the optional third earns an archive.
+Victories pay personal Sovereign Cores, a trophy, rich vaults and frozen breeding
+records. Cores upgrade existing armor, Elytra and Lances or craft a party-healing
+Concord Standard. [Finale rules](CROWN_WARREN_SPECS.md).

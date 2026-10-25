@@ -15,7 +15,10 @@ final class ApexMobility {
     ApexMobility(Apex apex) { this.apex=apex; }
     boolean leaping() { return duration>0; }
     void leap(LivingEntity target) {
-        launch=apex.position();landing=target.position();victim=target;elapsed=0;
+        leap(target,target.position());
+    }
+    void leap(LivingEntity target,Vec3 fixedLanding) {
+        launch=apex.position();landing=fixedLanding;victim=target;elapsed=0;
         double distance=launch.distanceTo(landing);
         duration=Math.clamp((int)Math.ceil(distance*.7),18,40);
         height=Math.clamp(3.5+distance*.13+Math.max(0,landing.y-launch.y)*.4,3.5,12);

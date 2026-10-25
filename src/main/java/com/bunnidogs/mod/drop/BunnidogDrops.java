@@ -49,7 +49,12 @@ public final class BunnidogDrops {
         if (!(event.getEntity() instanceof Bunnidog dog) || !(dog.level() instanceof ServerLevel level)) {
             return;                                                  // only bunnidogs, and only on the server
         }
-        if (dog instanceof com.bunnidogs.mod.entity.ApexMinion) return;
+        if(dog instanceof com.bunnidogs.mod.entity.CrownedApex && com.bunnidogs.mod.crown.CrownEncounter.member(dog)) {
+            var seal=com.bunnidogs.mod.crown.CrownEncounter.controller(dog);
+            if(seal!=null && seal.active() && !seal.spawning() && event.isRecentlyHit() && level.getGameRules().get(GameRules.MOB_DROPS))for(var item:java.util.List.of(ModItems.APEX_FANG.get(),ModItems.PRISM_LENS.get(),ModItems.CHORUS_HEART.get(),ModItems.VOLATILE_HEART.get(),ModItems.HEART_SPOOL.get(),ModItems.APEX_MARROW.get(),ModItems.AERIAL_MEMBRANE.get()))event.getDrops().add(new ItemEntity(level,dog.getX(),dog.getY(),dog.getZ(),new ItemStack(item,16+level.getRandom().nextInt(9))));
+            return;
+        }
+        if (dog instanceof com.bunnidogs.mod.entity.ApexMinion || com.bunnidogs.mod.crown.CrownEncounter.member(dog) || dog instanceof com.bunnidogs.mod.entity.CrownedApex) return;
         if (dog instanceof Apex apex) {
             if(apex.wild()) {com.bunnidogs.mod.realm.RealmLoot.drops(event,apex,level);return;}
             com.bunnidogs.mod.realm.RealmLoot.parts(event,apex,level);

@@ -85,6 +85,9 @@ public final class ModBlocks {
 
     public static final DeferredBlock<com.bunnidogs.mod.realm.WarrenAnchorBlock> WARREN_ANCHOR=BLOCKS.registerBlock("warren_anchor",com.bunnidogs.mod.realm.WarrenAnchorBlock::new,
             props->props.strength(5,3600000).lightLevel(state->state.getValue(com.bunnidogs.mod.realm.WarrenAnchorBlock.ACTIVE) ? 14 : 3).noOcclusion());
+    public static final DeferredBlock<com.bunnidogs.mod.crown.CrownSealBlock> CROWN_SEAL=BLOCKS.registerBlock("crown_seal",com.bunnidogs.mod.crown.CrownSealBlock::new,p->p.strength(-1,3600000).lightLevel(s->s.getValue(com.bunnidogs.mod.crown.CrownSealBlock.STATE)==0 ? 7 : 13).pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK));
+    public static final DeferredBlock<com.bunnidogs.mod.realm.RootstoneBlock> CROWN_GATE=BLOCKS.registerBlock("crown_gate",com.bunnidogs.mod.realm.RootstoneBlock::new,p->p.strength(-1,3600000).pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK));
+    public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<com.bunnidogs.mod.crown.CrownSealBlockEntity>> CROWN_SEAL_BE=BLOCK_ENTITIES.register("crown_seal",()->new BlockEntityType<>(com.bunnidogs.mod.crown.CrownSealBlockEntity::new,CROWN_SEAL.get()));
     public static final DeferredBlock<com.bunnidogs.mod.realm.RootstoneBlock> ROOTSTONE=BLOCKS.registerBlock("rootstone",com.bunnidogs.mod.realm.RootstoneBlock::new,props->props.strength(3.5F,3600000));
     public static final DeferredBlock<Block> WARREN_WARD=BLOCKS.registerSimpleBlock("warren_ward",props->props.strength(4,1200).lightLevel(state->14));
     public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<com.bunnidogs.mod.realm.WarrenAnchorBlockEntity>> WARREN_ANCHOR_BE=

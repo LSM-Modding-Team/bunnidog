@@ -60,7 +60,8 @@ final class ApexFlightGoal extends Goal {
     }
     static void fly(Bunnidog mob,Vec3 point,double speed) {
         Vec3 towards=point.subtract(mob.position());
-        if(!mob.level().hasChunksAt(BlockPos.containing(mob.position()).offset(-2,-2,-2),BlockPos.containing(point).offset(2,2,2))) { mob.setDeltaMovement(mob.getDeltaMovement().scale(.5));return; }
+        var span=new net.minecraft.world.phys.AABB(mob.position(),point).inflate(2);
+        if(!mob.level().hasChunksAt(BlockPos.containing(span.minX,span.minY,span.minZ),BlockPos.containing(span.maxX,span.maxY,span.maxZ))) { mob.setDeltaMovement(mob.getDeltaMovement().scale(.5));return; }
         Vec3 desired=towards.normalize().scale(Math.min(speed,towards.length()*.08));
         if(!mob.level().noCollision(mob,mob.getBoundingBox().move(desired.scale(2)))) {
             // Rise around an obstruction, never drop deliberately or force an unloaded chunk.

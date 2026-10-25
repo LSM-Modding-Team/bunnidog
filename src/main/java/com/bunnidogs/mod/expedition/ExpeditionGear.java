@@ -13,13 +13,15 @@ public final class ExpeditionGear {
     private static final Identifier HEARTS=Identifier.fromNamespaceAndPath("bunnidogs","heartbound_armor");
     public static int pieces(LivingEntity player) {
         int count=0;for(var slot:EquipmentSlot.values())if(slot.isArmor()) {
-            var item=player.getItemBySlot(slot).getItem();if(ModItems.HEARTBOUND_ARMOR.values().stream().anyMatch(entry->entry.get()==item))count++;
+            var item=player.getItemBySlot(slot).getItem();if(heartbound(item))count++;
         }return count;
     }
+    private static boolean sovereign(net.minecraft.world.item.Item item) {return ModItems.SOVEREIGN_ARMOR.values().stream().anyMatch(e->e.get()==item);}
+    private static boolean heartbound(net.minecraft.world.item.Item item) {return sovereign(item) || ModItems.HEARTBOUND_ARMOR.values().stream().anyMatch(e->e.get()==item);}
     public static void armor(ServerPlayer player) {
-        var attr=player.getAttribute(Attributes.MAX_HEALTH);int count=pieces(player);var old=attr.getModifier(HEARTS);
-        if(old!=null && old.amount()==count*3)return;
-        attr.removeModifier(HEARTS);if(count>0)attr.addPermanentModifier(new AttributeModifier(HEARTS,count*3,AttributeModifier.Operation.ADD_VALUE));
+        var attr=player.getAttribute(Attributes.MAX_HEALTH);int hearts=0;for(var slot:EquipmentSlot.values())if(slot.isArmor()) {var item=player.getItemBySlot(slot).getItem();if(heartbound(item))hearts+=sovereign(item) ? 6 : 3;}var old=attr.getModifier(HEARTS);
+        if(old!=null && old.amount()==hearts)return;
+        attr.removeModifier(HEARTS);if(hearts>0)attr.addPermanentModifier(new AttributeModifier(HEARTS,hearts,AttributeModifier.Operation.ADD_VALUE));
         if(player.getHealth()>player.getMaxHealth())player.setHealth(player.getMaxHealth());
     }
     public static void detonate(ServerPlayer player) {
