@@ -427,7 +427,7 @@
   "message.bunnidogs.scouting.traits": "Necesita orejas de murciélago expresadas y al menos +10 en Sentidos; las copias ocultas no cuentan.",
   "message.bunnidogs.scouting.combat": "Exploración en pausa por combate o refugio.",
   "message.bunnidogs.scouting.wait": "Recuperación de exploración: faltan %s s.",
-  "message.bunnidogs.scouting.ready": "listo; usa una brújula agachado para buscar mineral. Con Sentidos +20, sostén un mineral en la otra mano para enfocar.",
+  "message.bunnidogs.scouting.ready": "Listo para explorar.",
   "message.bunnidogs.scouting.none": "No hay %s cargado a %s bloques. Descanso de exploración: 30 segundos; la brújula no cambia.",
   "message.bunnidogs.scouting.marked": "La brújula marcó %s en %s, %s, %s. El lugar seguirá marcado después de minarlo.",
   "guide.bunnidogs.page.47.title": "Exploradores de minerales",
@@ -2465,5 +2465,14 @@
   "care.bunnidogs.delivery.reason.senses": "Necesita orientarse mejor.",
   "care.bunnidogs.delivery.reason.complex": "Esta entrega es demasiado compleja.",
   "care.bunnidogs.delivery.reason.ready": "Espera a que esté cerca, descansado y a salvo.",
-  "care.bunnidogs.delivery.parcel": "Envío: %s"
+  "care.bunnidogs.delivery.parcel": "Envío: %s",
+  "message.bunnidogs.scouting.limited": "Esta exploración es demasiado compleja para este bunnidog.",
+  "message.bunnidogs.scouting.lesson": "Todavía está aprendiendo a reconocer minerales.",
+  "message.bunnidogs.scouting.guidance": "Necesita a su guía de exploración cerca.",
+  "message.bunnidogs.scouting.paused": "Exploración pausada.",
+  "interaction.bunnidogs.practice.watching": "Observando %s",
+  "text.bunnidogs.df9dc4c7e7984874": "Exploración",
+  "text.bunnidogs.b1211b3c2ce3511c": "%s solo; %s con guía",
+  "text.bunnidogs.c6359b03f1068ef8": "Enseña %s en Trabajo → Lecciones.",
+  "care.bunnidogs.scouting.senses": "Necesita un oído más fino para los minerales."
 }

@@ -73,6 +73,7 @@ public final class MineralScouting {
     public static InteractionResult use(Bunnidog dog, Player player, InteractionHand hand) {
         if (!player.mayBuild()) return InteractionResult.PASS;
         if (!(dog.level() instanceof ServerLevel level)) return InteractionResult.SUCCESS;
+        if(!dog.learning().authorized(player)) {player.sendOverlayMessage(Component.translatable("interaction.bunnidogs.keeper_only"));return InteractionResult.SUCCESS;}
         var status = dog.scoutingStatus();
         if (status != Scouting.Status.READY) {
             Component reason = status == Scouting.Status.RESTING

@@ -78,8 +78,11 @@ public final class NurseryCradleBlockEntity extends net.minecraft.world.level.bl
     }
     public boolean growFromPlayer(net.minecraft.world.entity.player.Player player,ItemStack actual) {
         if (!(level instanceof ServerLevel server) || !attached(server) || hatching || seed().isEmpty() || age>=SeedCropBlock.MAX_AGE
-                || !actual.is(net.minecraft.world.item.Items.BONE_MEAL)) return false;
-        actual.consume(1,player); return grow(false);
+                || !(actual.is(net.minecraft.world.item.Items.BONE_MEAL) || actual.is(ModItems.STARLIT_DUST.get()))) return false;
+        var litter=stored.copy();int previousAge=age;boolean instant=actual.is(ModItems.STARLIT_DUST.get());
+        actual.consume(1,player);boolean changed=grow(instant);
+        if(changed)com.bunnidogs.mod.entity.WorkObservation.nurtured(player,this,litter,previousAge);
+        return changed;
     }
     /** A resident pays for one exact stage, never rerolling or replacing the saved litter. */
     public boolean nurture(ItemStack expected, int expectedAge) {

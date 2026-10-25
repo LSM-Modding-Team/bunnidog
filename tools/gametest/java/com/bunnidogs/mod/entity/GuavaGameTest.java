@@ -55,6 +55,7 @@ public final class GuavaGameTest extends GameTestInstance {
     @SubscribeEvent
     public static void registerTests(RegisterGameTestsEvent event) {
         var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.AllOf());
+        for(String name:new String[]{"field_harvest","field_garden","field_nursery","field_safety","field_scout","field_gathering"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),160,0,true)));
         for(var kind:ApexKind.values())for(boolean flying:new boolean[]{false,true}) {
             String name="apex_pillar_"+(flying ? "flying_" : "")+kind.id;
             event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("apex_arena"),260,0,true)));
@@ -76,6 +77,12 @@ public final class GuavaGameTest extends GameTestInstance {
             for(var kind:ApexKind.values())if(kind.id.equals(type)) {ApexReviewGameTest.pillar(h,kind,flying);return;}
         }
         switch (this.scenario) {
+            case "field_harvest" -> {FieldLearningGameTest.harvest(h);return;}
+            case "field_garden" -> {FieldLearningGameTest.garden(h);return;}
+            case "field_nursery" -> {FieldLearningGameTest.nursery(h);return;}
+            case "field_safety" -> {FieldLearningGameTest.safety(h);return;}
+            case "field_scout" -> {FieldLearningGameTest.scout(h);return;}
+            case "field_gathering" -> {FieldLearningGameTest.gathering(h);return;}
             case "equipment_modes" -> EquipmentModesGameTest.weapons(h);
             case "equipment_support" -> EquipmentModesGameTest.support(h);
             case "route_watch_safety" -> DeliveryGameTest.watchSafety(h);

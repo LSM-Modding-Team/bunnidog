@@ -66,7 +66,7 @@ public final class SocietyWork {
         boolean grow=knows(Learning.Routine.HARVEST),garden=gardener(),nurse=Gardening.nurses(dog.stats()) && knows(Learning.Routine.NURSERY);
         if(CapabilityRules.potential(dog.mind(),CapabilityRules.Task.TEACHING)==CapabilityRules.Potential.INDEPENDENT && workSinceMeal<6)
             for(var pupil:h.residents())if(pupil!=dog && !pupil.isBaby() && pupil.society().calm())for(var r:Learning.Routine.values())
-                if(dog.learning().knowledge().independent(dog.mind(),r) && pupil.learning().physicallyReady(r) && !pupil.learning().knowledge().knows(r) && CapabilityRules.potential(pupil.mind(),r.task())!=CapabilityRules.Potential.LIMITED)return at(Kind.TEACH,pupil.blockPosition());
+                if(r!=Learning.Routine.SCOUT && dog.learning().knowledge().independent(dog.mind(),r) && pupil.learning().physicallyReady(r) && !pupil.learning().knowledge().knows(r) && CapabilityRules.potential(pupil.mind(),r.task())!=CapabilityRules.Potential.LIMITED)return at(Kind.TEACH,pupil.blockPosition());
         if(nurse)for(var p:h.sites())if(l.hasChunkAt(p) && l.getBlockEntity(p) instanceof NurseryCradleBlockEntity c && !c.manualHatchOnly()) {
             if(c.seed().isPresent() && c.age()==SeedCropBlock.MAX_AGE)return at(Kind.HATCH,p);
             if(c.seed().isPresent() && c.age()<SeedCropBlock.MAX_AGE && h.count(ModItems.GUAVA.get())>8)return at(Kind.NURTURE,p);

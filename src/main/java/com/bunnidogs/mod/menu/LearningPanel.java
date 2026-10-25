@@ -12,6 +12,8 @@ public final class LearningPanel {
     private LearningPanel() {}
     public static final int OPEN = 220, TEACH = 221, STOP = 225;
     public static final int WATCH=236,STOP_WATCH=237,SHOW_ROUTE=238,PAUSE_ROUTE=239,CLEAR_ROUTE=240,UNLOAD_ROUTE=241;
+    public static int teachId(Learning.Routine routine) {return routine==Learning.Routine.SCOUT ? 242 : TEACH+routine.ordinal();}
+    public static Learning.Routine routine(int id) {for(var routine:Learning.Routine.values())if(teachId(routine)==id)return routine;return null;}
     private static Component name(Learning.Routine routine) { return TextComponents.t(routine.task().displayName()); }
     public static Component status(Bunnidog dog, Learning.Routine routine) {
         var potential = CapabilityRules.potential(dog.mind(), routine.task());
@@ -25,7 +27,7 @@ public final class LearningPanel {
         for (var routine : Learning.Routine.values()) {
             boolean known = dog.learning().knowledge().knows(routine);
             boolean learned=known && CapabilityRules.potential(dog.mind(),routine.task())==CapabilityRules.Potential.INDEPENDENT;
-            controls.add(new CareView.Control(TEACH + routine.ordinal(), learned ? AnimalPanels.text("learned_label",name(routine)) : TextComponents.t(known ? "Guide %s" : "Teach %s", name(routine)),
+            controls.add(new CareView.Control(teachId(routine), learned ? AnimalPanels.text("learned_label",name(routine)) : TextComponents.t(known ? "Guide %s" : "Teach %s", name(routine)),
                     dog.learning().canBegin(player, routine) && dog.learning().lesson() != routine,CareView.Control.PRIMARY,lessonReason(player,dog,routine)));
         }
         var delivery=dog.deliveries();
@@ -54,6 +56,7 @@ public final class LearningPanel {
     public static Component activity(Bunnidog dog) {
         var lesson=dog.learning().lesson();
         if (lesson==null) return blocker(dog);
+        if(lesson==Learning.Routine.SCOUT)return AnimalPanels.text("practice."+dog.learning().activity().name().toLowerCase(java.util.Locale.ROOT),name(lesson));
         var status=dog.gardeningStatus();
         if (status!=Gardening.Status.READY && status!=Gardening.Status.RESTING) return blocker(dog);
         return AnimalPanels.text("practice."+dog.learning().activity().name().toLowerCase(java.util.Locale.ROOT),name(lesson));
@@ -83,6 +86,15 @@ public final class LearningPanel {
         if (dog.learning().lesson()==routine) return activity(dog);
         if (dog.learning().knowledge().independent(dog.mind(),routine)) return AnimalPanels.text("already_learned");
         if (!player.hasLineOfSight(dog)) return AnimalPanels.text("guide_out_of_sight");
+        if(routine==Learning.Routine.SCOUT) {
+            if(CapabilityRules.potential(dog.mind(),routine.task())==CapabilityRules.Potential.LIMITED)return Component.translatable("message.bunnidogs.scouting.limited");
+            return switch(dog.scoutingBodyStatus()) {
+                case ADULT -> AnimalPanels.text("still_growing");case HEALTH -> AnimalPanels.text("injured");
+                case TRAITS -> Component.translatable("care.bunnidogs.scouting.senses");case COMBAT -> AnimalPanels.text("alarmed");
+                case RESTING -> AnimalPanels.text("resting");case PAUSED -> Component.translatable("message.bunnidogs.scouting.paused");
+                default -> AnimalPanels.text("lesson_unavailable");
+            };
+        }
         if (dog.gardeningStatus()==Gardening.Status.RESTING) return AnimalPanels.text("lesson_unavailable");
         var blocker=blocker(dog);
         return blocker.getString().isEmpty() ? AnimalPanels.text("lesson_unavailable") : blocker;

@@ -11,7 +11,8 @@ public final class CapabilityRules {
         NURSERY("Nursery", new MindProfile(1.5, 1.25, 1.25, 1.5), new MindProfile(2, 1.75, 1.5, 2)),
         BUILDING("Building", new MindProfile(2, 1.75, 2, 1.5), new MindProfile(2.75, 2.75, 2.75, 2)),
         TEACHING("Teaching", new MindProfile(2, 1.5, 1, 2), new MindProfile(2.75, 2.5, 1.5, 2.75)),
-        PLANNING("Planning", new MindProfile(2.5, 2.75, 1.5, 2.25), new MindProfile(3, 3.25, 1.75, 2.75));
+        PLANNING("Planning", new MindProfile(2.5, 2.75, 1.5, 2.25), new MindProfile(3, 3.25, 1.75, 2.75)),
+        SCOUTING("Scouting", new MindProfile(1, .75, .5, .75), new MindProfile(1.75, 1.5, .75, 1.25));
         private final String label;
         private final MindProfile supported, independent;
         Task(String label, MindProfile supported, MindProfile independent) {

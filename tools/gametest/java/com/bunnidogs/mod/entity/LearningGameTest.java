@@ -221,6 +221,10 @@ public final class LearningGameTest {
         old.putInt("Age", -24000);
         dog.load(TagValueInput.create(ProblemReporter.DISCARDING, h.getLevel().registryAccess(), old));
         h.assertTrue(dog.isBaby() && dog.learning().knowledge().equals(Learning.EMPTY), "Legacy pups do not receive adult work experience");
+        old.putString("Learning","l1.1-2-3-4");dog.load(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),old));
+        h.assertTrue(dog.learning().knowledge().progress(Learning.Routine.GARDEN)==3 && !dog.learning().knowledge().knows(Learning.Routine.SCOUT),"Old pups retain exact saved practice without adult surveying experience");
+        old.putInt("Age",0);dog.load(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),old));
+        h.assertTrue(dog.learning().knowledge().progress(Learning.Routine.NURSERY)==4 && dog.learning().knowledge().knows(Learning.Routine.SCOUT),"Old adults preserve both their exact work progress and previously familiar surveying");
         var child = ModEntities.BUNNIDOG.get().create(h.getLevel(), EntitySpawnReason.BREEDING);
         child.setGenome(Genome.DEFAULT); child.setParents(Genome.DEFAULT, Genome.DEFAULT); child.setBaby(true);
         h.assertTrue(child.learning().knowledge().equals(Learning.EMPTY), "Newborns inherit potential, never parental work lessons");

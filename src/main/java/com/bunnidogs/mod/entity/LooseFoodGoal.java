@@ -7,6 +7,7 @@ import com.bunnidogs.mod.block.FeedingTroughBlock;
 import com.bunnidogs.mod.block.FeedingTroughBlockEntity;
 import com.bunnidogs.mod.genetics.Foraging;
 import com.bunnidogs.mod.genetics.Gardening;
+import com.bunnidogs.mod.genetics.Learning;
 import com.bunnidogs.mod.genetics.Scavenging;
 import com.bunnidogs.mod.genetics.TroughWork;
 import com.bunnidogs.mod.registry.ModBlocks;
@@ -40,7 +41,7 @@ final class LooseFoodGoal extends Goal {
         this.dog = dog; this.gathering = gathering; this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK));
     }
     private boolean wanted() {
-        return this.gathering ? this.dog.gardeningStatus() == Gardening.Status.READY && Scavenging.gathers(this.dog.stats()) : this.dog.canForage();
+        return this.gathering ? this.dog.gardeningStatus() == Gardening.Status.READY && Scavenging.gathers(this.dog.stats()) && this.dog.learning().canWork(Learning.Routine.HARVEST) : this.dog.canForage();
     }
     private FeedingTroughBlockEntity trough(BlockPos pos) {
         var level = this.dog.level();
@@ -92,9 +93,9 @@ final class LooseFoodGoal extends Goal {
                 || this.ticks >= Scavenging.MAX_VISIT || !HomeRoutes.standing(this.dog,this.stand) || !HomeRoutes.safe(this.dog,this.path,null)
                 || Vec3.atBottomCenterOf(this.stand).distanceToSqr(this.item.position()) > 2.25) return false;
         var stock = this.gathering ? trough(this.troughPos) : null;
-        return !this.gathering || stock != null && stock.canInsert(this.expected) && nearTrough(this.item,this.troughPos);
+        return !this.gathering || stock != null && stock.canInsert(this.expected) && nearTrough(this.item,this.troughPos) && this.dog.learning().witnesses(this.item.blockPosition(),this.troughPos);
     }
-    @Override public void start() { this.ticks = 0; this.working = 0; this.dog.getNavigation().moveTo(this.path,1); }
+    @Override public void start() { this.ticks = 0; this.working = 0; if(gathering)dog.learning().observe(Learning.Routine.HARVEST,BunnidogLearning.Activity.WALKING);this.dog.getNavigation().moveTo(this.path,1); }
     @Override public boolean requiresUpdateEveryTick() { return true; }
     private boolean sightOfTrough() {
         var hit = this.dog.level().clip(new ClipContext(this.dog.getEyePosition(),Vec3.atCenterOf(this.troughPos),
@@ -115,17 +116,19 @@ final class LooseFoodGoal extends Goal {
         }
         this.dog.getNavigation().stop();
         if (!HomeRoutes.visible(this.dog,this.item) || this.gathering && !sightOfTrough()) { this.working = 0; return; }
+        if(gathering)dog.learning().observe(Learning.Routine.HARVEST,BunnidogLearning.Activity.WORKING);
         if (++this.working < (this.gathering ? Gardening.WORK_TICKS : Foraging.GRAZE_TICKS)) return;
         var level = (ServerLevel)this.dog.level();
         if (!EventHooks.canEntityGrief(level,this.dog) || !canContinueToUse()) { this.ticks = Scavenging.MAX_VISIT; return; }
         var stock = this.gathering ? trough(this.troughPos) : null;
         if (this.gathering && stock == null) { this.ticks = Scavenging.MAX_VISIT; return; }
         if (LooseFood.take(this.dog,this.item,stock,this.expected)) {
-            if (this.gathering) this.dog.finishedGardening(); else this.dog.ateForage(Foraging.HEAL);
+            if (this.gathering) {this.dog.finishedGardening();this.dog.learning().completed(Learning.Routine.HARVEST);} else this.dog.ateForage(Foraging.HEAL);
         }
         this.ticks = Scavenging.MAX_VISIT;
     }
     @Override public void stop() {
+        if(gathering)dog.learning().observe(Learning.Routine.HARVEST,BunnidogLearning.Activity.SEARCHING);
         this.dog.getNavigation().stop(); this.item = null; this.expected = ItemStack.EMPTY;
         this.troughPos = null; this.stand = null; this.path = null;
     }

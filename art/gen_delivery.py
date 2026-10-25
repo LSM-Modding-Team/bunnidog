@@ -10,3 +10,6 @@ for key,pair in states.items():
 for key,pair in {'young':('Wait until adulthood.','Espera hasta que sea adulto.'),'parcel':('Finish or unload the current parcel.','Termina la entrega o recupera la carga actual.'),'senses':('Needs a sharper sense of direction.','Necesita orientarse mejor.'),'complex':('This delivery is too complex.','Esta entrega es demasiado compleja.'),'ready':('Wait until rested, nearby and safe.','Espera a que esté cerca, descansado y a salvo.')}.items():rows['care.bunnidogs.delivery.reason.'+key]=pair
 for index,locale in enumerate(['en_us','es_pe']):
  p=root/(locale+'.json');data=json.loads(p.read_text());data.update({key:pair[index] for key,pair in rows.items()});p.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n')
+
+import runpy
+runpy.run_path(str(Path(__file__).resolve().with_name('gen_field_learning.py')))

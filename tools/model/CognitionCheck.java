@@ -20,7 +20,7 @@ public final class CognitionCheck {
         require(body.bodyCode().equals("33-22-33-33-33-33-00-00") && body.mindPacked() == CognitiveGene.LEGACY_HELPER,
                 "Six-pair migration must retain every body copy and add the uniform helper mind");
         require(Genome.parse(body.bodyCode()).orElseThrow().equals(body), "Seven-pair migration must agree with six-pair migration");
-        for (var task : List.of(CapabilityRules.Task.HARVEST, CapabilityRules.Task.DELIVERY, CapabilityRules.Task.PLANTING, CapabilityRules.Task.NURSERY))
+        for (var task : List.of(CapabilityRules.Task.HARVEST, CapabilityRules.Task.DELIVERY, CapabilityRules.Task.PLANTING, CapabilityRules.Task.NURSERY,CapabilityRules.Task.SCOUTING))
             require(CapabilityRules.potential(body.mind(), task) == CapabilityRules.Potential.INDEPENDENT, "Legacy helper must retain familiar work: " + task);
         require(CapabilityRules.potential(body.mind(), CapabilityRules.Task.PLANNING) == CapabilityRules.Potential.LIMITED, "Migration must not grant a civic planner");
         require(fixedMind(0).mind().equals(new MindProfile(.25, .25, .25, .25)), "Lowest genotype must impose real limits");
@@ -119,7 +119,10 @@ public final class CognitionCheck {
         }
         require(Learning.parse(Learning.EMPTY.toString()).orElseThrow().equals(Learning.EMPTY)
                 && Learning.parse(Learning.LEGACY_FAMILIAR.toString()).orElseThrow().equals(Learning.LEGACY_FAMILIAR), "Personal knowledge has its own bounded schema");
-        require(Learning.parse("l2.6-6-6-6").isEmpty() && Learning.parse("l1.7-0-0-0").isEmpty(), "Unknown or out-of-range lessons must not become mastery");
+        require(Learning.parse("l3.6-6-6-6-6").isEmpty() && Learning.parse("l2.6-6-6-6").isEmpty() && Learning.parse("l1.7-0-0-0").isEmpty(), "Unknown, incomplete or out-of-range lessons must not become mastery");
+        var familiar=Learning.parse("l1.1-2-3-4").orElseThrow();
+        require(familiar.progress(Learning.Routine.HARVEST)==1 && familiar.progress(Learning.Routine.DELIVERY)==2 && familiar.progress(Learning.Routine.GARDEN)==3 && familiar.progress(Learning.Routine.NURSERY)==4 && familiar.knows(Learning.Routine.SCOUT),"Old learned work retains exact progress and familiar surveying");
+        require(Learning.EMPTY.progress(Learning.Routine.SCOUT)==0 && Learning.EMPTY.practice(fixedMind(3).mind(),Learning.Routine.SCOUT).knows(Learning.Routine.SCOUT),"New scouts need personal experience under the same hereditary learning rules");
         var practice = Learning.EMPTY.practice(Genome.DEFAULT.mind(), Learning.Routine.HARVEST);
         require(practice.progress(Learning.Routine.HARVEST) == 5 && !practice.knows(Learning.Routine.HARVEST), "A practical helper needs real repeated practice");
         practice = practice.practice(Genome.DEFAULT.mind(), Learning.Routine.HARVEST);

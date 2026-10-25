@@ -110,7 +110,8 @@ parcel recovery. The full prior society/ritual/hunt/worldgen suites stay active.
 First-person lesson discovery, natural pacing and long-lived mixed workloads
 remain player review; native fixtures are not evidence of those.
 
-Remaining work includes general observed harvest/care demonstrations, the rest of
-I3's gather/scout/care/tactics integration, shared route teaching/culture, longer
+Watched farming/nursery examples and learned gathering/scouting now ship in
+[FIELD_LEARNING_SPECS.md](FIELD_LEARNING_SPECS.md). Remaining work includes the rest
+of I3's care/tactics integration, shared route teaching/culture, longer
 or multi-stop courier programs, profession coordination and broader autonomous
 civilization. This release does not mark all of I2–I10 complete.

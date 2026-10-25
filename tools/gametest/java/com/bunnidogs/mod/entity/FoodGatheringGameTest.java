@@ -33,7 +33,7 @@ public final class FoodGatheringGameTest {
         var stock = (FeedingTroughBlockEntity)level.getBlockEntity(pos);
         var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),3.5F,1,3.5F); dog.setAge(0);
         int forager = Gene.DIET.alleleNamed("forager").id(); dog.setGenome(Genome.DEFAULT.with(Gene.DIET,0,forager).with(Gene.DIET,1,forager));
-        dog.setStats(Stats.of(0,0,0,9,0)); dog.setHealth(dog.getMaxHealth());
+        dog.setStats(Stats.of(0,0,0,9,0)); dog.setHealth(dog.getMaxHealth());WorkerFixture.familiar(dog);
         var original = new ItemStack(Items.CARROT,3); original.set(DataComponents.CUSTOM_NAME,Component.literal("Market carrots"));
         var item = LooseFoodGameTest.food(h,original.copy());
         h.runAfterDelay(2,() -> {

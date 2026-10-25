@@ -93,7 +93,9 @@ every region; neither a biome nor a body color determines intelligence.
 Building, teaching and planning predicates are reserved foundation rules;
 they do not implement those professions or appear as available jobs.
 
-Personal `Learning` stores four bounded practice values, 0–6. One completed
+Personal `Learning` now stores five bounded practice values, 0–6, including
+Scouting; [FIELD_LEARNING_SPECS.md](FIELD_LEARNING_SPECS.md) describes actual
+watched field work and the additional I3 gates. One completed
 guided operation gains `clamp(1 + floor(memory + communication), 1, 6)` units.
 A practical helper needs two successful operations; the strongest retention
 and communication can learn in one. These are prototype pacing values, not
@@ -133,7 +135,7 @@ Canonical genotype text is `g3.<eight body pairs>.<four mind pairs>`, for exampl
 existing Seed/Tissue/Infusion/Pedigree/LineageNames delimiters. Full equality
 includes both words; `.packed()` deliberately remains only the body word.
 Entities sync three integers and invalidate capacity caches on either word.
-Required client/server protocol is **25** after the complete body-word update.
+Required client/server protocol is now **35**; the body-word update remains unchanged.
 
 Valid old six/seven-pair genomes resolve to the same fixed, heritable helper
 mind `11-11-11-11`: capacities 2.25/2.00/1.75/2.00. Six-pair forms also retain
@@ -142,7 +144,9 @@ Samples, parent snapshots, seeds and old names agree on that same full identity.
 
 An old adult with a legacy genome and no `Learning` field receives familiar
 current routines once. Personal state is then always saved as
-`Learning:"l1.h-d-g-n"`, with four decimal 0–6 values. An explicit empty schema
+`Learning:"l2.h-d-g-n-s"`, with five decimal 0–6 values. Existing l1 adult records
+retain exact first-four progress and familiar surveying; old pups retain their
+four values without adult Scouting experience. An explicit empty current schema
 does not receive free lessons on later loads. Pups and newly created animals
 start without those adult routines. Basket save/release carries the individual
 state; tissue, offspring parents, trophies and frozen juice carry genetics,
@@ -168,14 +172,12 @@ reload and legacy migration, and ordinary low-capacity
 attachment/Whistle recall. Localization checks include the separate mind pages
 in the shared Spanish translation.
 
-The initial foundation below has since gained the concrete watched-delivery
-journey in [DELIVERY_LEARNING_SPECS.md](DELIVERY_LEARNING_SPECS.md), plus the
-Hearth teaching/household loop. The earlier checkpoint was **initial I2**, with
-some garden/nursery integration from I3. These are
-attended practice sessions around existing local actions, not observed player
-demonstrations or saved courier programs. Learned source/destination routes, native delivery observation and route-specific
-interruption feedback now ship in that current spec. Continue general observed
-lessons and remaining gather/scouting/care/tactics without bypassing taught limitations.
-NPC teachers, shared culture, professions, commons, construction, independent
-family continuity and autonomous civilization remain I4–I10 work. No client/GPU
+The original attended-practice checkpoint has since gained actual watched
+deliveries/remembered routes in [DELIVERY_LEARNING_SPECS.md](DELIVERY_LEARNING_SPECS.md),
+plus watched field work and learned gathering/scouting in
+[FIELD_LEARNING_SPECS.md](FIELD_LEARNING_SPECS.md). The Hearth spec records the
+focused household, resident instruction, paid shelter and family continuity.
+Continue remaining I3 care/tactics and shared procedures without bypassing taught
+limitations. Expanded professions, shared culture, construction planning and
+fully autonomous wild civilization remain broader I4–I10 work. No client/GPU
 playtest, long-term colony simulation or natural multiplayer balance is claimed.

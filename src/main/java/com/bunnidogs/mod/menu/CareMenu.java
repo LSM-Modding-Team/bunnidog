@@ -384,8 +384,8 @@ public final class CareMenu extends AbstractContainerMenu {
             else if (id==CarePanels.CARGO) navigate(Mode.CARGO);
             else if (id==CarePanels.ROLES) navigate(Mode.ROLES);
             else if (id==LearningPanel.OPEN && dog!=null) navigate(Mode.LEARNING);
-            else if (id>=LearningPanel.TEACH && id<LearningPanel.TEACH+com.bunnidogs.mod.genetics.Learning.Routine.values().length && dog!=null) {
-                if (dog.learning().begin(player,com.bunnidogs.mod.genetics.Learning.Routine.values()[id-LearningPanel.TEACH]) && player.containerMenu==this)
+            else if (LearningPanel.routine(id)!=null && dog!=null) {
+                if (dog.learning().begin(player,LearningPanel.routine(id)) && player.containerMenu==this)
                     player.closeContainer();
             }
             else if(id==LearningPanel.WATCH && dog!=null) {if(dog.deliveries().begin(player) && player.containerMenu==this)player.closeContainer();}

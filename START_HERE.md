@@ -5,6 +5,17 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — watched field lessons and learned scouting
+
+Read `docs/FIELD_LEARNING_SPECS.md`. Existing lessons now recognize actual player
+harvesting, planting, bone-meal growth, composting and paid Cradle care. Healthy
+loose-food collection uses Harvest learning instead of its old stat-only bypass;
+injured meals remain instinctive. Scouting is a fifth personally taught routine:
+mine visible ore during its field lesson, then use the existing compass survey.
+Field lessons need no Nest/daylight; supported minds still require their guide.
+Old adult l1 records keep exact progress/familiar surveying; old pups gain no
+adult scouting experience. Current practice uses l2, without changing DNA.
+
 ## Current — watched deliveries and remembered routes
 
 Read `docs/DELIVERY_LEARNING_SPECS.md`. Lessons now include Watch a delivery:
@@ -87,16 +98,16 @@ frozen genetic archives. Sovereign smithing upgrades extend Heartbound armor,
 Lance and Armored Elytra; the Concord Standard adds paid party healing. Existing
 ordinary Apex tuning stays accepted. No new tutorial/menu layer.
 
-Protocol **34**, **2,467 authored / 2,595 packaged** language keys, English/shared
-neutral Spanish. The native suite now has **197 scenarios**, alongside actual
+Protocol **35**, **2,476 authored / 2,604 packaged** language keys, English/shared
+neutral Spanish. The native suite now has **203 scenarios**, alongside actual
 model/localization/build gates. Save/kill-payment ordering, native health above
 1,024, short chunk leases, finite actors, exact smithing components and separate
 core/trophy delivery retries are invariants. Native and inspected preview evidence
 remain distinct from graphical client play, natural chunk order/performance and
 full solo/co-op boss pacing. See the current spec for those practical limits.
 
-Remaining broader roadmap: general observed harvest/care lessons, remaining I3
-work integration and expanded professions/construction/civilization. The new
+Remaining broader roadmap: remaining I3 care/tactics integration, shared
+procedures/route teaching and expanded professions/construction/civilization. The
 Hearth household implements a focused cross-stage journey through those systems. Address any newly reported
 expedition issues first; do not rebalance the accepted ordinary Apex fights
 without player feedback. Further realm regions/gear are optional extensions.

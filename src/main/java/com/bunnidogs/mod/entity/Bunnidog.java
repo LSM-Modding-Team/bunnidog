@@ -1038,13 +1038,21 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         return (int)Math.clamp(this.nextScoutTick-this.level().getGameTime(),0L,(long)Scouting.RECOVERY_TICKS);
     }
     public void beginScoutingRecovery() { this.nextScoutTick = this.level().getGameTime()+Scouting.RECOVERY_TICKS; }
-    public Scouting.Status scoutingStatus() {
+    public Scouting.Status scoutingBodyStatus() {
         if (!this.acceptsCare() || !this.isAlive() || !(this.level() instanceof ServerLevel)) return Scouting.Status.UNAVAILABLE;
         if (this.isBaby()) return Scouting.Status.ADULT;
         if (!Sampling.healthy(this.getHealth(),this.getMaxHealth())) return Scouting.Status.HEALTH;
         if (!Scouting.qualified(this.genome(),this.stats())) return Scouting.Status.TRAITS;
-        if (this.getTarget() != null || this.seekingRefuge()) return Scouting.Status.COMBAT;
+        if (this.getTarget() != null || this.seekingRefuge() || this.combat().danger() || this.combat().downed() || this.isOnFire()) return Scouting.Status.COMBAT;
+        if (this.workPaused() || this.trail().ordered() || this.isPassenger() || this.isVehicle()) return Scouting.Status.PAUSED;
         return this.scoutingWait() > 0 ? Scouting.Status.RESTING : Scouting.Status.READY;
+    }
+    public Scouting.Status scoutingStatus() {
+        var physical=scoutingBodyStatus();if(physical!=Scouting.Status.READY)return physical;
+        var routine=com.bunnidogs.mod.genetics.Learning.Routine.SCOUT;
+        if(com.bunnidogs.mod.genetics.CapabilityRules.potential(this.mind(),routine.task())==com.bunnidogs.mod.genetics.CapabilityRules.Potential.LIMITED)return Scouting.Status.LIMITED;
+        if(!this.learning().knowledge().knows(routine))return Scouting.Status.LESSON;
+        return this.learning().canWork(routine) ? Scouting.Status.READY : Scouting.Status.GUIDANCE;
     }
     public void beginSamplingRecovery() {
         this.nextSampleTick = this.level().getGameTime()+Sampling.RECOVERY_TICKS;

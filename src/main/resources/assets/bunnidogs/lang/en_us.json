@@ -427,7 +427,7 @@
   "message.bunnidogs.scouting.traits": "Needs expressed bat ears and at least +10 bred Senses; hidden copies do not qualify.",
   "message.bunnidogs.scouting.combat": "Survey paused during combat or refuge.",
   "message.bunnidogs.scouting.wait": "Survey recovery: %ss remaining.",
-  "message.bunnidogs.scouting.ready": "ready; sneak-use a compass for nearby ore. At Senses +20, hold a mineral in the other hand to focus.",
+  "message.bunnidogs.scouting.ready": "Ready to survey.",
   "message.bunnidogs.scouting.none": "No loaded %s within %s blocks. Survey rests 30 seconds; compass unchanged.",
   "message.bunnidogs.scouting.marked": "Compass marked %s at %s, %s, %s. The place remains marked after mining.",
   "guide.bunnidogs.page.47.title": "Mineral scouts",
@@ -2465,5 +2465,14 @@
   "care.bunnidogs.delivery.reason.senses": "Needs a sharper sense of direction.",
   "care.bunnidogs.delivery.reason.complex": "This delivery is too complex.",
   "care.bunnidogs.delivery.reason.ready": "Wait until rested, nearby and safe.",
-  "care.bunnidogs.delivery.parcel": "Shipment: %s"
+  "care.bunnidogs.delivery.parcel": "Shipment: %s",
+  "message.bunnidogs.scouting.limited": "This survey is too complex for this bunnidog.",
+  "message.bunnidogs.scouting.lesson": "Still learning to recognize minerals.",
+  "message.bunnidogs.scouting.guidance": "Needs its scouting guide nearby.",
+  "message.bunnidogs.scouting.paused": "Scouting is paused.",
+  "interaction.bunnidogs.practice.watching": "Watching %s",
+  "text.bunnidogs.df9dc4c7e7984874": "Scouting",
+  "text.bunnidogs.b1211b3c2ce3511c": "%s alone; %s guided",
+  "text.bunnidogs.c6359b03f1068ef8": "Teach %s through Work → Lessons.",
+  "care.bunnidogs.scouting.senses": "Needs a sharper ear for minerals."
 }

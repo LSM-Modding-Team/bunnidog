@@ -79,9 +79,8 @@ public final class NurseryCradleBlock extends Block implements EntityBlock, Bone
         if (!seed && !dust && !meal) return super.useItemOn(stack,state,level,pos,player,hand,hit);
         if (!level.isClientSide()) {
             var actual = player.getItemInHand(hand);
-            boolean changed = seed ? cradle.insertFromPlayer(player,actual) : cradle.grow(dust);
+            boolean changed = seed ? cradle.insertFromPlayer(player,actual) : cradle.growFromPlayer(player,actual);
             if (changed) {
-                if (!seed) actual.consume(1,player);
                 if (!seed) level.levelEvent(2005,pos.above(),15);
             }
             player.sendOverlayMessage(status(cradle));

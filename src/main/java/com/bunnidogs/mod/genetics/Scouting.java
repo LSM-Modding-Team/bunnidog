@@ -7,7 +7,7 @@ public final class Scouting {
     public static final int MIN_FOCUSED_SENSES = 20;
     public static final int RADIUS = 6;
     public static final int RECOVERY_TICKS = 30*20;
-    public enum Status { UNAVAILABLE, ADULT, HEALTH, TRAITS, COMBAT, RESTING, READY }
+    public enum Status { UNAVAILABLE, ADULT, HEALTH, TRAITS, COMBAT, RESTING, LIMITED, LESSON, GUIDANCE, PAUSED, READY }
     public static boolean qualified(Genome genome, Stats stats) {
         return genome.expressed(Gene.EARS).name().equals("bat") && stats.get(Stat.SENSES) >= MIN_SENSES;
     }

@@ -35,7 +35,7 @@ public final class ScoutingGameTest {
         var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),1.5F,1,3.5F);
         int bat = Gene.EARS.alleleNamed("bat").id(), huge = Gene.EARS.alleleNamed("huge").id();
         var genome = Genome.DEFAULT.with(Gene.EARS,0,bat).with(Gene.EARS,1,bat);
-        dog.setGenome(genome); dog.setAge(0); dog.setStats(Stats.ZERO.with(Stat.SENSES,9));
+        dog.setGenome(genome); dog.setAge(0); dog.setStats(Stats.ZERO.with(Stat.SENSES,9));WorkerFixture.familiar(dog);
         var player = h.makeMockServerPlayerInLevel();
         player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL); player.setShiftKeyDown(true);
         var compasses = new ItemStack(Items.COMPASS,3);

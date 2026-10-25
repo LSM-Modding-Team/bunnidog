@@ -64,16 +64,15 @@ public final class WorkCensus {
                 : mode == TroughWork.SUPPLY ? com.bunnidogs.mod.genetics.Learning.Routine.DELIVERY
                 : mode == TroughWork.COMPOST ? com.bunnidogs.mod.genetics.Learning.Routine.GARDEN
                 : com.bunnidogs.mod.genetics.Learning.Routine.HARVEST;
-        boolean possible = mode == TroughWork.GATHER
-                || dog.learning().canWork(routine)
+        boolean possible = dog.learning().canWork(routine)
                 || (mode == TroughWork.GARDEN || mode == TroughWork.MIXED) && (Gardening.cultivates(dog.stats())
-                    && dog.learning().canWork(com.bunnidogs.mod.genetics.Learning.Routine.GARDEN) || Scavenging.gathers(dog.stats()));
+                    && dog.learning().canWork(com.bunnidogs.mod.genetics.Learning.Routine.GARDEN));
         if (!possible) {
             var potential = com.bunnidogs.mod.genetics.CapabilityRules.potential(dog.mind(), routine.task());
             Component reason = com.bunnidogs.mod.network.TextComponents.t(
                     potential == com.bunnidogs.mod.genetics.CapabilityRules.Potential.LIMITED ? "%s is too complex; care and cargo remain useful."
                     : dog.learning().knowledge().knows(routine) ? "%s needs nearby guidance."
-                    : "Teach %s through Skills and roles → Lessons.", com.bunnidogs.mod.network.TextComponents.t(routine.task().displayName()));
+                    : "Teach %s through Work → Lessons.", com.bunnidogs.mod.network.TextComponents.t(routine.task().displayName()));
             return new Worker(dog,false,reason);
         }
         return new Worker(dog,true,Component.translatable("message.bunnidogs.work.ready"));

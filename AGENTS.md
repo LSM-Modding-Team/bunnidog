@@ -77,6 +77,14 @@ reserves, filters, locks, Tending disable and redstone remain meaningful. A taug
 route is personal knowledge; inherited limits and owner authority still apply.
 Keep the concise Lessons controls/feedback, without a route setup screen or HUD.
 
+Watched field work and learned scouting now ship; read `docs/FIELD_LEARNING_SPECS.md`.
+Preserve confirmed native player outcomes, local sight/authority and transient
+bounded examples. Gathering uses Harvest learning; injured foraging stays
+instinctive. Scouting is the fifth personal routine, with field lessons that do
+not require a Nest/daylight. Keep l1 adult/pup migration and exact l2 practice,
+matching genetic limits/forecasts, compass components and normal survey recovery.
+Player demonstrations cannot award independent Hearth work/generation receipts.
+
 Society-first progression now supersedes the legendary-offering ritual and
 single-Crest entry. Read `docs/HEARTH_PROGRESSION_SPECS.md`. Preserve actual paid
 Hearth work, authorized plots, owned cargo, resident-taught independent offspring,

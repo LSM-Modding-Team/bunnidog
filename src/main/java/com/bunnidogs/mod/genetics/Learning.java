@@ -6,10 +6,11 @@ import java.util.Optional;
 public record Learning(int packed) {
     public static final int MASTERED = 6;
     public static final Learning EMPTY = new Learning(0);
-    public static final Learning LEGACY_FAMILIAR = new Learning(0x6666);
+    public static final Learning LEGACY_FAMILIAR = new Learning(0x66666);
     public enum Routine {
         HARVEST("harvest", CapabilityRules.Task.HARVEST), DELIVERY("delivery", CapabilityRules.Task.DELIVERY),
-        GARDEN("garden", CapabilityRules.Task.PLANTING), NURSERY("nursery", CapabilityRules.Task.NURSERY);
+        GARDEN("garden", CapabilityRules.Task.PLANTING), NURSERY("nursery", CapabilityRules.Task.NURSERY),
+        SCOUT("scout", CapabilityRules.Task.SCOUTING);
         private final String key;
         private final CapabilityRules.Task task;
         Routine(String key, CapabilityRules.Task task) { this.key = key; this.task = task; }
@@ -34,12 +35,14 @@ public record Learning(int packed) {
         return new Learning((packed & ~(15 << shift)) | (Math.min(MASTERED, progress(routine) + gain) << shift));
     }
     @Override public String toString() {
-        return "l1." + progress(Routine.HARVEST) + "-" + progress(Routine.DELIVERY) + "-" + progress(Routine.GARDEN) + "-" + progress(Routine.NURSERY);
+        return "l2." + progress(Routine.HARVEST) + "-" + progress(Routine.DELIVERY) + "-" + progress(Routine.GARDEN) + "-" + progress(Routine.NURSERY) + "-" + progress(Routine.SCOUT);
     }
     public static Optional<Learning> parse(String text) {
-        if (text == null || !text.matches("l1\\.[0-6]-[0-6]-[0-6]-[0-6]")) return Optional.empty();
+        if (text == null) return Optional.empty();
+        boolean legacy=text.matches("l1\\.[0-6]-[0-6]-[0-6]-[0-6]");
+        if (!legacy && !text.matches("l2\\.[0-6]-[0-6]-[0-6]-[0-6]-[0-6]")) return Optional.empty();
         int packed = 0;
-        for (var routine : Routine.values()) packed |= (text.charAt(3 + routine.ordinal() * 2) - '0') << (routine.ordinal() * 4);
+        for (var routine : Routine.values()) packed |= (legacy && routine==Routine.SCOUT ? MASTERED : text.charAt(3 + routine.ordinal() * 2) - '0') << (routine.ordinal() * 4);
         return Optional.of(new Learning(packed));
     }
 }
