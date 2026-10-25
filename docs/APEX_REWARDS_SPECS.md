@@ -1,5 +1,9 @@
 # Apex ingredients and expedition equipment
 
+> Latest terrain/tier request: [ASTRALITE_AND_SKY_SPECS.md](ASTRALITE_AND_SKY_SPECS.md)
+> supersedes the initial Overworld terrain and Netherite artifact bases below.
+> Astralite is obtained before the dungeon; artifact armor keeps its new material.
+
 The player's October 25 review found the initial realm rewards too conservative:
 a well-equipped vanilla endgame player survives only minutes. Rewards now support
 substantial power progression. Enemy combat values are unchanged. This revision

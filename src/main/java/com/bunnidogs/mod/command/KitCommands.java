@@ -35,6 +35,10 @@ public final class KitCommands {
             if(java.util.Set.of("thorns","blast_protection","fire_protection","projectile_protection","breach","binding_curse","vanishing_curse","silk_touch","frost_walker","smite","bane_of_arthropods","infinity","multishot","riptide").contains(id))continue;
             if(entry.value().isSupportedItem(stack))stack.enchant(entry,entry.value().getMaxLevel());
         }
+        if(stack.isDamageableItem()) {
+            stack.enchant(registry.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.UNBREAKING),3);
+            stack.enchant(registry.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.MENDING),1);
+        }
         return stack;
     }
     public static void apply(net.minecraft.server.level.ServerPlayer p,String family,String tier) {
@@ -47,7 +51,7 @@ public final class KitCommands {
             Item item=mod&&late ? (end ? ModItems.SOVEREIGN_ARMOR : ModItems.HEARTBOUND_ARMOR).get(part).get() : net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(Identifier.withDefaultNamespace(material+"_"+part));
             p.setItemSlot(slot,enchanted(p,item,late));
         }
-        for(String tool:new String[]{"sword","pickaxe","axe","shovel","hoe"})items.add(enchanted(p,net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(Identifier.withDefaultNamespace(material+"_"+tool)),late));
+        for(String tool:new String[]{"sword","pickaxe","axe","shovel","hoe"})items.add(enchanted(p,mod&&late ? ModItems.ASTRALITE_TOOLS.get(tool).get() : net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(Identifier.withDefaultNamespace(material+"_"+tool)),late));
         items.add(enchanted(p,Items.BOW,late));items.add(new ItemStack(Items.ARROW,64));items.add(new ItemStack(Items.COOKED_BEEF,64));items.add(enchanted(p,Items.SHIELD,late));
         if(mid) {items.add(new ItemStack(Items.GOLDEN_APPLE,32));for(int i=0;i<4;i++)items.add(new ItemStack(Items.ENDER_PEARL,16));}
         if(late) {

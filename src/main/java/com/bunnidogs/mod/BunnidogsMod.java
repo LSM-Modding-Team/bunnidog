@@ -40,6 +40,7 @@ public class BunnidogsMod {
         ModPoi.POI_TYPES.register(modEventBus);
         ModVillagers.PROFESSIONS.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
+        ModFeatures.GENERATORS.register(modEventBus);
         ModStructures.STRUCTURE_TYPES.register(modEventBus);
         ModStructures.PIECE_TYPES.register(modEventBus);
         ModStructures.PROCESSORS.register(modEventBus);

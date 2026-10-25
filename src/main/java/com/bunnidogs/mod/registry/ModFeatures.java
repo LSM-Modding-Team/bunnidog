@@ -15,6 +15,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
  */
 public final class ModFeatures {
     private ModFeatures() {}
+    public static final DeferredRegister<com.mojang.serialization.MapCodec<? extends net.minecraft.world.level.chunk.ChunkGenerator>> GENERATORS=DeferredRegister.create(Registries.CHUNK_GENERATOR,BunnidogsMod.MODID);
+    public static final DeferredHolder<com.mojang.serialization.MapCodec<? extends net.minecraft.world.level.chunk.ChunkGenerator>,com.mojang.serialization.MapCodec<com.bunnidogs.mod.realm.RealmChunkGenerator>> REALM_GENERATOR=GENERATORS.register("realm_islands",()->com.bunnidogs.mod.realm.RealmChunkGenerator.CODEC);
 
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, BunnidogsMod.MODID);
 

@@ -2,7 +2,7 @@
   "layers": {
     "humanoid": [
       {
-        "texture": "minecraft:netherite"
+        "texture": "bunnidogs:astralite"
       },
       {
         "texture": "bunnidogs:heartbound"
@@ -10,7 +10,7 @@
     ],
     "humanoid_leggings": [
       {
-        "texture": "minecraft:netherite"
+        "texture": "bunnidogs:astralite"
       },
       {
         "texture": "bunnidogs:heartbound"

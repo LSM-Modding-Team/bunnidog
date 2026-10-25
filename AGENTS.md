@@ -59,6 +59,16 @@ Lance damage 45×N, Standard healing five hearts×N and four-second Resistance N
 Other scaling juice levels have no mod balance cap except Resistance, within
 native engine representation. Endgame kit Strength XXX is a baseline, not a cap.
 
+Latest Astralite/terrain steering: `docs/ASTRALITE_AND_SKY_SPECS.md` supersedes
+Overworld-density realm generation and Netherite artifact bases. Keep the actual
+seeded island/moon generator, shared Crown placement, connected local minimum
+spanning causeways, rich unique moon ores and Blastmaw-only high-sky spawn table.
+Astralite smithing must be fully available before dungeon access. Armor has 3x
+Netherite durability/toughness 5; tools improve modestly. Armor artifacts require
+Astralite; retain old Heartbound/Sovereign IDs and native smithing components.
+Durable late/endgame kit gear must carry Mending I and Unbreaking III. Preserve
+old generated chunks, stock, builds and exact paired returns.
+
 Latest rewards steering supersedes the conservative initial realm rewards:
 `docs/APEX_REWARDS_SPECS.md` is authoritative. Preserve native smithing item
 components, independent Heartbound timers, successful-pop-only explosive Totems,

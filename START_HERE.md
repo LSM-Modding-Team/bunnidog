@@ -5,6 +5,17 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — Astralite and sky archipelago
+
+Read `docs/ASTRALITE_AND_SKY_SPECS.md`. The Great Warren now generates real void
+islands, dungeon-connected minimum-spanning causeways and ore-rich Blastmaw moons
+around Y244. Two realm ores and wild Apex drops craft Astralite smithing upgrades,
+fully obtainable before the dungeon. Armor has triple Netherite durability and
+toughness 5; tools gain modest durability, faster mining and higher attack.
+Heartbound artifacts now require Astralite armor. Existing artifact IDs and
+paired anchors survive, and generated chunks are not rewritten. Kits explicitly
+include Unbreaking III and Mending I on durable late/endgame gear.
+
 ## Current gear follow-up
 
 Sneak-use cycles persistent power 1–5 on the Launcher, Sovereign Lance and
@@ -47,8 +58,8 @@ frozen genetic archives. Sovereign smithing upgrades extend Heartbound armor,
 Lance and Armored Elytra; the Concord Standard adds paid party healing. Existing
 ordinary Apex tuning stays accepted. No new tutorial/menu layer.
 
-Protocol **31**, **2,365 authored / 2,493 packaged** language keys, English/shared
-neutral Spanish. The native suite now has **181 scenarios**, alongside actual
+Protocol **32**, **2,383 authored / 2,511 packaged** language keys, English/shared
+neutral Spanish. The native suite now has **182 scenarios**, alongside actual
 model/localization/build gates. Save/kill-payment ordering, native health above
 1,024, short chunk leases, finite actors, exact smithing components and separate
 core/trophy delivery retries are invariants. Native and inspected preview evidence

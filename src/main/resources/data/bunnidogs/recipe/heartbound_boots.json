@@ -1,6 +1,6 @@
 {
   "type": "minecraft:smithing_transform",
-  "base": "minecraft:netherite_boots",
+  "base": "bunnidogs:astralite_boots",
   "addition": "bunnidogs:vitality_artifact",
   "result": {
     "id": "bunnidogs:heartbound_boots"

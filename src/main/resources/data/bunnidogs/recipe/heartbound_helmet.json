@@ -1,6 +1,6 @@
 {
   "type": "minecraft:smithing_transform",
-  "base": "minecraft:netherite_helmet",
+  "base": "bunnidogs:astralite_helmet",
   "addition": "bunnidogs:vitality_artifact",
   "result": {
     "id": "bunnidogs:heartbound_helmet"

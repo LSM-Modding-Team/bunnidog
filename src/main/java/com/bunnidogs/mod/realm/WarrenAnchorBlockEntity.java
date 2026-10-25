@@ -52,6 +52,7 @@ public final class WarrenAnchorBlockEntity extends BlockEntity {
     }
     /** Generate only the bounded arrival neighborhood, then build into air above existing terrain. */
     public static BlockPos buildRefuge(ServerLevel realm,BlockPos near) {
+        if(realm.getChunkSource().getGenerator() instanceof RealmChunkGenerator islands) {var site=islands.terrain().nearest(near.getX(),near.getZ());near=new BlockPos(site.x()+165,80,site.z());}
         int cx=(near.getX()>>4)*16+8,cz=(near.getZ()>>4)*16+8;
         if(!realm.getWorldBorder().isWithinBounds(new BlockPos(cx,80,cz)))return null;
         for(int x=-1;x<=1;x++)for(int z=-1;z<=1;z++)realm.getChunk((cx>>4)+x,(cz>>4)+z);

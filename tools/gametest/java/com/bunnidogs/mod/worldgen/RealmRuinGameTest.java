@@ -69,7 +69,7 @@ public final class RealmRuinGameTest {
         for(int n=0;n<biomes.length;n++) {
             var biome=level.registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.BIOME).getOrThrow(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.BIOME,net.minecraft.resources.Identifier.fromNamespaceAndPath("bunnidogs",biomes[n])));
             for(var chunk:chunks.values())chunk.fillBiomesFromNoise((x,y,z,sampler)->biome,level.getChunkSource().randomState().sampler());
-            var region=new WorldGenRegion(level,cache,ChunkPyramid.GENERATION_PYRAMID.getStepTo(ChunkStatus.FEATURES),chunks.get(center));var at=origin.above(40+n*50);
+            var region=new WorldGenRegion(level,cache,ChunkPyramid.GENERATION_PYRAMID.getStepTo(ChunkStatus.FEATURES),chunks.get(center));var at=origin.above(40+n*15);
             for(int x=-6;x<=6;x++)for(int z=-6;z<=6;z++)region.setBlock(at.offset(x,-1,z),(n==0 ? Blocks.MOSS_BLOCK : n==1 ? Blocks.CALCITE : Blocks.POLISHED_BASALT).defaultBlockState(),2);
             h.assertTrue(new com.bunnidogs.mod.realm.RealmLandmarkFeature().place(net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration.INSTANCE,region,level.getChunkSource().getGenerator(),RandomSource.create(0),at),"A real detached generation region must build its "+biomes[n]+" landmark");
             if(n==0) {

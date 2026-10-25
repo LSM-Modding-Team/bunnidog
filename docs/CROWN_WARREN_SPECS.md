@@ -1,5 +1,9 @@
 # Crown Warren and Sovereign rewards
 
+> Latest terrain/tier request: [ASTRALITE_AND_SKY_SPECS.md](ASTRALITE_AND_SKY_SPECS.md)
+> supersedes the initial Overworld terrain and Netherite artifact bases below.
+> Astralite is obtained before the dungeon; artifact armor keeps its new material.
+
 Implemented 2026-10-25, continuing the accepted AX7 plan. Ordinary Apex combat
 numbers remain those accepted in `APEX_SPECS.md`. This is a separate finale;
 headless evidence does not establish its natural Survival balance or appearance.

@@ -1,5 +1,5 @@
 """Crown Warren masonry, five-organ crown and Sovereign smithing assets.
-Runs last in the realm art pipeline so earlier generators cannot restore old recipes.
+Finishes the realm art pipeline with Astralite so older generators cannot restore old bases.
 """
 from pathlib import Path
 import json,random
@@ -95,7 +95,7 @@ for i,name in enumerate(icons):
  im.save(A/'textures/item'/f'{name}.png');model(name,'minecraft:item/handheld' if name in ['sovereign_lance','concord_standard'] else 'minecraft:item/generated')
 for layer in ['humanoid','humanoid_leggings']:
  im=Image.new('RGBA',(64,32));d=ImageDraw.Draw(im);d.polygon([(20,21),(24,23),(28,21),(27,27),(21,27)],fill='#f4ce85',outline='#fff0c8');d.ellipse((23,24,25,26),fill='#8de0ce');im.save(A/'textures/entity/equipment'/layer/'sovereign.png')
-write(A,Path('equipment/sovereign.json'),{'layers':{layer:[{'texture':'minecraft:netherite'},{'texture':'bunnidogs:sovereign'}] for layer in ['humanoid','humanoid_leggings']}})
+write(A,Path('equipment/sovereign.json'),{'layers':{layer:[{'texture':'bunnidogs:astralite'},{'texture':'bunnidogs:sovereign'}] for layer in ['humanoid','humanoid_leggings']}})
 im=Image.open(A/'textures/entity/equipment/wings/apex_wing_harness.png').convert('RGBA');d=ImageDraw.Draw(im)
 for x in range(0,64,8):d.line((x,3,x+4,25),fill='#b4f3da',width=2)
 im.save(A/'textures/entity/equipment/wings/sovereign_elytra.png');write(A,Path('equipment/sovereign_elytra.json'),{'layers':{'wings':[{'texture':'bunnidogs:sovereign_elytra','use_player_texture':False}]}})
@@ -125,6 +125,9 @@ en.update({'message.bunnidogs.tool.power':'Power %s/5','tooltip.bunnidogs.tool.p
 es.update({'message.bunnidogs.tool.power':'Potencia %s/5','tooltip.bunnidogs.tool.power':'Potencia %s/5 · Usa el objeto agachado para cambiarla','tooltip.bunnidogs.fireball_launcher':'Disparos explosivos. Cada nivel consume una carga volátil.','message.bunnidogs.crown.no_dungeon':'Debes estar dentro de una Madriguera de la Corona para repararla.','message.bunnidogs.crown.repaired':'Se repararon %s bloques en los chunks cargados. Se conservaron el botín y los combates guardados.','tooltip.bunnidogs.crown_key':'Encaja en el hueco del mismo color del sello dorado de la corona. Dos llaves distintas abren la puerta.','item.bunnidogs.crown_archive_seed':'Semilla ancestral de bunnidog','tooltip.bunnidogs.sovereign_core':'Catalizador de herrería para armaduras vitales, élitros acorazados y lanzas de prisma.','tooltip.bunnidogs.crown_sigil':'Despierta una Madriguera de la Corona ya derrotada.'})
 for locale,new in [('en_us',en),('es_pe',es)]:
  p=A/'lang'/f'{locale}.json';obj=json.loads(p.read_text());obj.update(new);p.write_text(json.dumps(obj,indent=2,ensure_ascii=False)+'\n')
+# The current material tier overrides armor icons/layers and pre-Crown bases before previews.
+import runpy
+runpy.run_path(str(ROOT/'art/gen_astralite.py'))
 preview=Image.new('RGB',(1050,480),'#252f34');d=ImageDraw.Draw(preview);d.text((22,15),'Crown Warren - Sovereign gear and physical seals',fill='white')
 for i,name in enumerate(icons):
  icon=Image.open(A/'textures/item'/f'{name}.png');x=25+i%7*145;y=50+i//7*150;preview.paste(icon.resize((96,96),Image.Resampling.NEAREST),(x,y),icon.resize((96,96),Image.Resampling.NEAREST));d.text((x,y+99),name.replace('_',' '),fill='white')

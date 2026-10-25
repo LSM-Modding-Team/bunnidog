@@ -54,6 +54,7 @@ final class RealmGameTest {
         var original=crest.copy();anchor.attune(p,InteractionHand.MAIN_HAND);
         var realm=source.getServer().getLevel(GreatWarren.LEVEL);
         h.assertTrue(realm!=null && p.level()==realm && anchor.linked() && p.getMainHandItem().getCount()==1 && ItemStack.matches(original,p.getOffhandItem()),"Real paid entry preserves the source Crest and crosses into the registered realm: realm="+realm+", player="+p.level().dimension()+", linked="+anchor.linked()+", eye="+p.getMainHandItem()+", endpoint="+anchor.endpoint());
+        com.bunnidogs.mod.worldgen.RealmTerrainGameTest.run(h,realm);
         naturalRuin(h,realm);
         com.bunnidogs.mod.worldgen.CrownWorldgenGameTest.natural(h,realm);
         var back=(WarrenAnchorBlockEntity)realm.getBlockEntity(anchor.endpoint());

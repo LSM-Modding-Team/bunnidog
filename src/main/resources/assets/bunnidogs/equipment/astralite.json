@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "bunnidogs:astralite"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "bunnidogs:astralite"
+      }
+    ]
+  }
+}

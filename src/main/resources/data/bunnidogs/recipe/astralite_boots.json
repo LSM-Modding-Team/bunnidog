@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "bunnidogs:astralite_upgrade",
+  "base": "minecraft:netherite_boots",
+  "addition": "bunnidogs:astralite_ingot",
+  "result": {
+    "id": "bunnidogs:astralite_boots"
+  }
+}

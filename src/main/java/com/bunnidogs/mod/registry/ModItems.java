@@ -94,12 +94,32 @@ public final class ModItems {
     public static final DeferredItem<Item> CATACLYSM_CORE=ITEMS.registerSimpleItem("cataclysm_core",p->p.rarity(Rarity.EPIC).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.cataclysm_core")))));
     public static final DeferredItem<Item> CATACLYSM_TOTEM=ITEMS.registerSimpleItem("cataclysm_totem",p->p.stacksTo(1).rarity(Rarity.EPIC).fireResistant().component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.cataclysm_totem"))))
             .component(DataComponents.DEATH_PROTECTION,net.minecraft.world.item.component.DeathProtection.TOTEM_OF_UNDYING));
+    public static final DeferredItem<BlockItem> MOONSTONE=ITEMS.registerSimpleBlockItem(ModBlocks.MOONSTONE);
+    public static final DeferredItem<BlockItem> ASTRALITE_ORE=ITEMS.registerSimpleBlockItem(ModBlocks.ASTRALITE_ORE);
+    public static final DeferredItem<BlockItem> CINDERITE_ORE=ITEMS.registerSimpleBlockItem(ModBlocks.CINDERITE_ORE);
+    public static final DeferredItem<Item> ASTRALITE_SHARD=ITEMS.registerSimpleItem("astralite_shard",p->p.fireResistant().rarity(Rarity.RARE));
+    public static final DeferredItem<Item> RAW_CINDERITE=ITEMS.registerSimpleItem("raw_cinderite",p->p.fireResistant());
+    public static final DeferredItem<Item> CINDERITE_INGOT=ITEMS.registerSimpleItem("cinderite_ingot",p->p.fireResistant());
+    public static final DeferredItem<Item> ASTRALITE_INGOT=ITEMS.registerSimpleItem("astralite_ingot",p->p.fireResistant().rarity(Rarity.EPIC));
+    public static final DeferredItem<Item> ASTRALITE_UPGRADE=ITEMS.registerSimpleItem("astralite_upgrade",p->p.rarity(Rarity.EPIC).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.astralite_upgrade")))));
+    public static final Map<String,DeferredItem<Item>> ASTRALITE_ARMOR=new LinkedHashMap<>();
+    public static final Map<String,DeferredItem<Item>> ASTRALITE_TOOLS=new LinkedHashMap<>();
+    static {
+        for(var type:net.minecraft.world.item.equipment.ArmorType.values())if(type!=net.minecraft.world.item.equipment.ArmorType.BODY)ASTRALITE_ARMOR.put(type.getName(),ITEMS.registerSimpleItem("astralite_"+type.getName(),p->p.humanoidArmor(com.bunnidogs.mod.expedition.AstraliteMaterial.ARMOR,type).fireResistant().rarity(Rarity.EPIC)));
+        for(String tool:List.of("sword","pickaxe","axe","shovel","hoe"))ASTRALITE_TOOLS.put(tool,ITEMS.registerSimpleItem("astralite_"+tool,p->{var m=com.bunnidogs.mod.expedition.AstraliteMaterial.TOOLS;return switch(tool) {
+            case "sword"->p.sword(m,3,-2.4F).fireResistant().rarity(Rarity.EPIC);
+            case "pickaxe"->p.pickaxe(m,1,-2.8F).fireResistant().rarity(Rarity.EPIC);
+            case "axe"->p.axe(m,5,-3).fireResistant().rarity(Rarity.EPIC);
+            case "shovel"->p.shovel(m,1.5F,-3).fireResistant().rarity(Rarity.EPIC);
+            default->p.hoe(m,-6,0).fireResistant().rarity(Rarity.EPIC);
+        };}));
+    }
     public static final Map<String,DeferredItem<Item>> HEARTBOUND_ARMOR=new LinkedHashMap<>();
     static {
         for(var type:net.minecraft.world.item.equipment.ArmorType.values()) {
             if(type==net.minecraft.world.item.equipment.ArmorType.BODY)continue;
             String name="heartbound_"+type.getName();
-            HEARTBOUND_ARMOR.put(type.getName(),ITEMS.registerSimpleItem(name,p->p.humanoidArmor(net.minecraft.world.item.equipment.ArmorMaterials.NETHERITE,type).fireResistant().rarity(Rarity.EPIC)
+            HEARTBOUND_ARMOR.put(type.getName(),ITEMS.registerSimpleItem(name,p->p.humanoidArmor(com.bunnidogs.mod.expedition.AstraliteMaterial.ARMOR,type).fireResistant().rarity(Rarity.EPIC)
                     .component(DataComponents.EQUIPPABLE,net.minecraft.world.item.equipment.Equippable.builder(type.getSlot())
                         .setEquipSound(net.minecraft.sounds.SoundEvents.ARMOR_EQUIP_NETHERITE)
                         .setAsset(net.minecraft.resources.ResourceKey.create(net.minecraft.world.item.equipment.EquipmentAssets.ROOT_ID,Identifier.fromNamespaceAndPath("bunnidogs","heartbound"))).build())
@@ -143,7 +163,7 @@ public final class ModItems {
     static {
         for(var type:net.minecraft.world.item.equipment.ArmorType.values()) {
             if(type==net.minecraft.world.item.equipment.ArmorType.BODY)continue;
-            SOVEREIGN_ARMOR.put(type.getName(),ITEMS.registerSimpleItem("sovereign_"+type.getName(),p->p.humanoidArmor(net.minecraft.world.item.equipment.ArmorMaterials.NETHERITE,type).fireResistant().rarity(Rarity.EPIC)
+            SOVEREIGN_ARMOR.put(type.getName(),ITEMS.registerSimpleItem("sovereign_"+type.getName(),p->p.humanoidArmor(com.bunnidogs.mod.expedition.AstraliteMaterial.ARMOR,type).fireResistant().rarity(Rarity.EPIC)
                     .component(DataComponents.EQUIPPABLE,net.minecraft.world.item.equipment.Equippable.builder(type.getSlot()).setEquipSound(net.minecraft.sounds.SoundEvents.ARMOR_EQUIP_NETHERITE)
                     .setAsset(net.minecraft.resources.ResourceKey.create(net.minecraft.world.item.equipment.EquipmentAssets.ROOT_ID,Identifier.fromNamespaceAndPath("bunnidogs","sovereign"))).build())
                     .component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.sovereign_armor"))))));
@@ -526,6 +546,8 @@ public final class ModItems {
             event.accept(MOON_SINEW.get());
             event.accept(LISTENING_SHELL.get());
             event.accept(EVERBLOOM.get());
+            ASTRALITE_ARMOR.values().forEach(item->event.accept(item.get()));ASTRALITE_TOOLS.values().forEach(item->event.accept(item.get()));
+            for(var item:List.of(MOONSTONE.get(),ASTRALITE_ORE.get(),CINDERITE_ORE.get(),ASTRALITE_SHARD.get(),RAW_CINDERITE.get(),CINDERITE_INGOT.get(),ASTRALITE_INGOT.get(),ASTRALITE_UPGRADE.get()))event.accept(item);
             HEARTBOUND_ARMOR.values().forEach(item->event.accept(item.get()));
             SOVEREIGN_ARMOR.values().forEach(item->event.accept(item.get()));CROWN_KEYS.forEach(item->event.accept(item.get()));
             for(var item:List.of(SOVEREIGN_CORE.get(),SOVEREIGN_LANCE.get(),SOVEREIGN_ELYTRA.get(),CONCORD_STANDARD.get(),CROWN_SIGIL.get(),CROWN_TROPHY.get()))event.accept(item);

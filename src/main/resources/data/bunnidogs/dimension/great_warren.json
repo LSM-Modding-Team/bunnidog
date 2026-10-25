@@ -1,7 +1,7 @@
 {
   "type": "bunnidogs:great_warren",
   "generator": {
-    "type": "minecraft:noise",
+    "type": "bunnidogs:realm_islands",
     "settings": "bunnidogs:great_warren",
     "biome_source": {
       "type": "minecraft:multi_noise",

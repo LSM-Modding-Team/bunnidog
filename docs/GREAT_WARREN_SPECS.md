@@ -1,5 +1,9 @@
 # The Great Warren — AX6 implementation
 
+> Latest terrain/tier request: [ASTRALITE_AND_SKY_SPECS.md](ASTRALITE_AND_SKY_SPECS.md)
+> supersedes the initial Overworld terrain and Netherite artifact bases below.
+> Astralite is obtained before the dungeon; artifact armor keeps its new material.
+
 > The player’s later loot review supersedes the initial rewards and equipment
 > values below. See [APEX_REWARDS_SPECS.md](APEX_REWARDS_SPECS.md) for current
 > parts, upgraded vanilla gear, weapon/container behavior and generous caches.

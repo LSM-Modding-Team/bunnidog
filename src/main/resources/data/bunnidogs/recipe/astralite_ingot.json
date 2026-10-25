@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "SCS",
+    "CMC",
+    "SCS"
+  ],
+  "key": {
+    "S": "bunnidogs:astralite_shard",
+    "C": "bunnidogs:cinderite_ingot",
+    "M": "bunnidogs:apex_marrow"
+  },
+  "result": {
+    "id": "bunnidogs:astralite_ingot",
+    "count": 1
+  }
+}

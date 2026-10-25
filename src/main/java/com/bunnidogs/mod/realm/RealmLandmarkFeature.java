@@ -29,7 +29,7 @@ public final class RealmLandmarkFeature extends Feature<NoneFeatureConfiguration
     @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> ctx) {
         var world=ctx.level();var pos=ctx.origin();var rng=ctx.random();
         if(blockedByDungeon(world,pos))return false;
-        if(pos.getY()<42 || !world.getFluidState(pos.below()).isEmpty() || !world.getBlockState(pos.below()).isSolidRender())return false;
+        if(world.getBlockState(pos.below()).is(Blocks.END_STONE_BRICKS) || world.getBlockState(pos.below()).is(Blocks.SEA_LANTERN) || pos.getY()>170 || pos.getY()<42 || !world.getFluidState(pos.below()).isEmpty() || !world.getBlockState(pos.below()).isSolidRender())return false;
         String biome=world.getBiome(pos).unwrapKey().map(k->k.identifier().getPath()).orElse("");
         if(biome.equals("crownroot_groves")) {
             if(rng.nextInt(3)!=0)return false;

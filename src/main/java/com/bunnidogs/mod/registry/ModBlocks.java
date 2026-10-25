@@ -83,6 +83,9 @@ public final class ModBlocks {
         return java.util.Collections.unmodifiableMap(rugs);
     }
 
+    public static final DeferredBlock<Block> MOONSTONE=BLOCKS.registerBlock("moonstone",Block::new,p->p.strength(4,30).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE));
+    public static final DeferredBlock<Block> ASTRALITE_ORE=BLOCKS.registerBlock("astralite_ore",Block::new,p->p.strength(6,30).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE));
+    public static final DeferredBlock<Block> CINDERITE_ORE=BLOCKS.registerBlock("cinderite_ore",Block::new,p->p.strength(6,30).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE));
     public static final DeferredBlock<com.bunnidogs.mod.realm.WarrenAnchorBlock> WARREN_ANCHOR=BLOCKS.registerBlock("warren_anchor",com.bunnidogs.mod.realm.WarrenAnchorBlock::new,
             props->props.strength(5,3600000).lightLevel(state->state.getValue(com.bunnidogs.mod.realm.WarrenAnchorBlock.ACTIVE) ? 14 : 3).noOcclusion());
     public static final DeferredBlock<com.bunnidogs.mod.crown.CrownSealBlock> CROWN_SEAL=BLOCKS.registerBlock("crown_seal",com.bunnidogs.mod.crown.CrownSealBlock::new,p->p.strength(-1,3600000).lightLevel(s->s.getValue(com.bunnidogs.mod.crown.CrownSealBlock.STATE)==0 ? 7 : 13).pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK));

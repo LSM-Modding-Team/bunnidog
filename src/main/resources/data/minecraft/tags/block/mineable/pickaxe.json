@@ -6,6 +6,9 @@
     "bunnidogs:pedigree_comparator",
     "bunnidogs:warren_anchor",
     "bunnidogs:warren_ward",
-    "bunnidogs:rootstone"
+    "bunnidogs:rootstone",
+    "bunnidogs:moonstone",
+    "bunnidogs:astralite_ore",
+    "bunnidogs:cinderite_ore"
   ]
 }

@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "bunnidogs:apex_crucible"
+    "bunnidogs:apex_crucible",
+    "bunnidogs:astralite_ore",
+    "bunnidogs:cinderite_ore"
   ]
 }
