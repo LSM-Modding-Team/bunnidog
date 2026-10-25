@@ -5,6 +5,17 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Operator testing kits
+
+`/kit vanilla|bunnidog early|mid|late|endgame replace` explicitly replaces the
+executing operator's inventory and equipment. Tab completion exposes all choices;
+omitting `replace` prints the exact command first. Endgame supplies enchanted
+armor/tools/weapons (no Thorns/curses), pearls, gliding rockets, blocks, stocked
+Shulker and Totems. Bunnidog tiers upgrade actual gear and provide a world-backed
+Flask: one long combat blend to two shorter regeneration blends, with genuine
+elite genes/points and quality 16 at endgame. Native loadout coverage verifies
+replacement, real Flask contents and equipped max health.
+
 ## Current — Crown Warren finale (AX7)
 
 The latest continuation resumes the accepted roadmap. Read
@@ -15,8 +26,8 @@ frozen genetic archives. Sovereign smithing upgrades extend Heartbound armor,
 Lance and Armored Elytra; the Concord Standard adds paid party healing. Existing
 ordinary Apex tuning stays accepted. No new tutorial/menu layer.
 
-Protocol **30**, **2,359 authored / 2,487 packaged** language keys, English/shared
-neutral Spanish. The native suite now has **178 scenarios**, alongside actual
+Protocol **30**, **2,360 authored / 2,488 packaged** language keys, English/shared
+neutral Spanish. The native suite now has **179 scenarios**, alongside actual
 model/localization/build gates. Save/kill-payment ordering, native health above
 1,024, short chunk leases, finite actors, exact smithing components and separate
 core/trophy delivery retries are invariants. Native and inspected preview evidence

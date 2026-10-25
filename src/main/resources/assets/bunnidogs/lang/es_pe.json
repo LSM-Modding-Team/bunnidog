@@ -2357,5 +2357,6 @@
   "message.bunnidogs.crown.victory": "La corona es tuya. Tu núcleo te espera en el sello.",
   "item.bunnidogs.crown_archive_seed": "Semilla ancestral de bunnidog",
   "tooltip.bunnidogs.sovereign_core": "Catalizador de herrería para armaduras vitales, élitros acorazados y lanzas de prisma.",
-  "tooltip.bunnidogs.crown_sigil": "Despierta una Madriguera de la Corona ya derrotada."
+  "tooltip.bunnidogs.crown_sigil": "Despierta una Madriguera de la Corona ya derrotada.",
+  "message.bunnidogs.kit.replace": "Reemplaza tu inventario con /kit %s %s replace."
 }

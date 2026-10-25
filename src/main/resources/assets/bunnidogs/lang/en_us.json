@@ -2357,5 +2357,6 @@
   "message.bunnidogs.crown.victory": "The crown is yours. Your core awaits at the seal.",
   "item.bunnidogs.crown_archive_seed": "Ancient Bunnidog Seed",
   "tooltip.bunnidogs.sovereign_core": "Smithing catalyst for Heartbound armor, Armored Elytra and Prism Lances.",
-  "tooltip.bunnidogs.crown_sigil": "Awakens a defeated Crown Warren."
+  "tooltip.bunnidogs.crown_sigil": "Awakens a defeated Crown Warren.",
+  "message.bunnidogs.kit.replace": "Replace your inventory with /kit %s %s replace."
 }
