@@ -36,7 +36,7 @@ public final class WarrenAnchorBlockEntity extends BlockEntity {
     public void attune(Player player,InteractionHand hand) {
         if(busy || !StationUse.editable(player,this) || linked())return;
         var eye=player.getItemInHand(hand);var crest=player.getItemInHand(hand==InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
-        if(!eye.is(ModItems.RESONANT_EYE.get()) || ApexCrestItem.read(crest).isEmpty()) {message(player,"crest");return;}
+        if(!eye.is(ModItems.RESONANT_EYE.get()) || !crest.is(ModItems.APEX_CREST.get())) {message(player,"crest");return;}
         if(!(level instanceof ServerLevel source) || GreatWarren.isRealm(source)) {message(player,"entry");return;}
         var realm=source.getServer().getLevel(GreatWarren.LEVEL);if(realm==null) {message(player,"unavailable");return;}
         var expectedEye=eye.copy();var expectedCrest=crest.copy();

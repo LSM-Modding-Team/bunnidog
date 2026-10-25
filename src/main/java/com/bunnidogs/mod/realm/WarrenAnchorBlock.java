@@ -40,7 +40,7 @@ public final class WarrenAnchorBlock extends BaseEntityBlock {
     }
     @Override protected InteractionResult useItemOn(ItemStack stack,BlockState state,Level level,BlockPos pos,Player player,InteractionHand hand,BlockHitResult hit) {
         if(state.getValue(ACTIVE))return useWithoutItem(state,level,pos,player,hit);
-        if(ApexCrestItem.read(stack).isPresent() && player.getItemInHand(hand==InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND).is(ModItems.RESONANT_EYE.get())) {
+        if(stack.is(ModItems.APEX_CREST.get()) && player.getItemInHand(hand==InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND).is(ModItems.RESONANT_EYE.get())) {
             if(!level.isClientSide() && level.getBlockEntity(pos) instanceof WarrenAnchorBlockEntity anchor)anchor.attune(player,hand==InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
             return InteractionResult.SUCCESS;
         }

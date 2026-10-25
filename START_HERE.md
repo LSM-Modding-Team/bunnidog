@@ -5,6 +5,13 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Anchor Crest compatibility fix
+
+Attunement accepts the Apex Crest item, including Creative/menu Crests without
+a genetic record. Full recorded Crests retain their exact source data. Native
+travel coverage exercises both plain and recorded Crests. Roadmap development
+is paused for the user’s review.
+
 ## Wing art (2026-10-25)
 
 Flying Apexes and genetically winged bunnidogs now render paired feathered wings
