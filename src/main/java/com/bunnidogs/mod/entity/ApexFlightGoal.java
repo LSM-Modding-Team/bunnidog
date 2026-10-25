@@ -9,7 +9,7 @@ import net.minecraft.world.phys.Vec3;
 /** Continuous aerial orbit. Only the Brute dives, once per ascent/strike/recovery cycle. */
 final class ApexFlightGoal extends Goal {
     private final Apex apex;
-    private int orbit=80,diveTicks;
+    private int orbit=80,diveTicks,warning;
     private boolean diving;
     ApexFlightGoal(Apex apex) { this.apex=apex;setFlags(EnumSet.of(Flag.MOVE)); }
     @Override public boolean canUse() { return apex.flightActive(); }
@@ -19,7 +19,13 @@ final class ApexFlightGoal extends Goal {
         var target=apex.getTarget();
         if(target==null || !target.isAlive()) { apex.setDeltaMovement(apex.getDeltaMovement().scale(.8).add(0,apex.onGround() ? .12 : 0,0));return; }
         boolean brute=apex.kind()==ApexKind.BRUTE;
-        if(brute && !diving && --orbit<=0 && apex.getY()>=target.getY()+5 && apex.hasLineOfSight(target)) { diving=true;diveTicks=0; }
+        if(brute && !diving && --orbit<=0 && apex.getY()>=target.getY()+5 && apex.hasLineOfSight(target)) { warning=8;orbit=80; }
+        if(warning>0) {
+            if(warning==8)((ServerLevel)apex.level()).sendParticles(net.minecraft.core.particles.ParticleTypes.CRIT,apex.getX(),apex.getY()+apex.getBbHeight(),apex.getZ(),4,.2,.15,.2,0);
+            apex.setDeltaMovement(apex.getDeltaMovement().scale(.6));
+            if(--warning==0) {diving=true;diveTicks=0;}
+            else return;
+        }
         double radius=apex.kind()==ApexKind.PRISM ? 16 : apex.kind()==ApexKind.BLAST && apex.retreatTicks()==0 && (apex.abilityWait()==0 || apex.casting()) ? 2.5 : 9;
         double angle=apex.tickCount*.012;
         Vec3 point=diving ? target.position().add(0,.5,0) : target.position().add(Math.cos(angle)*radius,apex.kind()==ApexKind.BLAST ? 6 : 8,Math.sin(angle)*radius);
@@ -29,7 +35,7 @@ final class ApexFlightGoal extends Goal {
             diving=false;orbit=80;point=target.position().add(0,9,0);
         }
         if(diving) {
-            Vec3 step=point.subtract(apex.position()).normalize().scale(1.6);
+            Vec3 step=point.subtract(apex.position()).normalize().scale(1.35);
             Vec3 velocity=apex.getDeltaMovement().lerp(step,.7);
             // Previous contact is not a reason to abandon a destructive dive: clear each swept layer.
             if(ApexTerrain.clear((ServerLevel)apex.level(),apex,apex.position(),apex.position().add(velocity),apex.getBbWidth()/2+.2,apex.getBbHeight()+.1))

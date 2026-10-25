@@ -138,7 +138,7 @@ final class ApexTypesGameTest {
         h.assertTrue(Math.abs(before-a.getHealth()-a.getMaxHealth()*.225)<.001,"Backlash is reduced by one quarter to 22.5 percent");
         a.invulnerableTime=0;h.assertTrue(a.skills().blast(level) && a.isAlive(),"The caster can detonate again without creeper death");
         a.setHealth(a.getMaxHealth()*.1F);a.setTarget(p);var desperate=new ApexSpecialGoal(a);desperate.start();
-        h.assertTrue(a.lastStand() && a.fuseLength()==50,"A lethal next self-cost starts the longer red last-stand fuse");desperate.stop();a.discard();ally.discard();
+        h.assertTrue(a.lastStand() && a.fuseLength()==60,"A lethal next self-cost starts the longer red last-stand fuse");desperate.stop();a.discard();ally.discard();
     }
     static void support(GameTestHelper h) {
         floor(h);var level=h.getLevel();var a=apex(h,ApexKind.SUPPORT,false,center(h));var p=player(h,center(h).add(8,0,0));

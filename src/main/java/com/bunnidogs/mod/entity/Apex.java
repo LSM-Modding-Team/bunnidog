@@ -89,7 +89,7 @@ public final class Apex extends Bunnidog implements Enemy {
     void lastStand(boolean value) { entityData.set(LAST_STAND,value); }
     boolean inBlastRange(net.minecraft.world.entity.LivingEntity target) {return target!=null && distanceToSqr(target)<=(flying ? 144 : 25);}
     float blastCost() { return getMaxHealth()*.225F; }
-    int fuseLength() { return 30+(flying ? 30 : 0)+(lastStand() ? 20 : 0); }
+    int fuseLength() { return 40+(flying ? 30 : 0)+(lastStand() ? 20 : 0); }
     boolean flightActive() { return flying && isAlive(); }
     int retreatTicks() { return retreat; }
     void retreatFor(int ticks) { retreat=ticks; }

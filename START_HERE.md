@@ -5,6 +5,16 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Latest combat timing follow-up (2026-10-25)
+
+Hook aim now locks half a second before firing. Blastmaws stack another 20%
+outgoing damage reduction, add ten fuse ticks and twenty fireball cooldown ticks,
+and cannot fire during leaps/fuses. Flying Brute dives slow to 1.35 with an
+eight-tick particle warning; winged brood now orbit/dive/ascend using genetic
+speed, bite damage and recovery. Build and all 157 native scenarios pass, including
+the late hook dodge and brood warning/strike/ascent cycle. The headless timing
+schematic `art/dive_timing_preview.png` is not an in-game appearance check. See the latest section of `docs/APEX_SPECS.md`.
+
 ## Project and delivery
 
 Bunnidogs targets Minecraft 26.2 / NeoForge 26.2.0.88, Java 25 and Gradle 9.2.1.

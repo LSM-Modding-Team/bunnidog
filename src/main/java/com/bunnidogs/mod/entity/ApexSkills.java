@@ -33,10 +33,11 @@ public final class ApexSkills {
     private LivingEntity tether;
     private int tetherTicks;
     private float vitality=8;
-    private int fireWait=30,anvilWait=70,broodWait=20,grabTicks;
+    private int fireWait=50,anvilWait=70,broodWait=20,grabTicks;
     private ApexMinion grabbed;
     private LivingEntity queuedHook;
     private int hookDelay;
+    private Vec3 queuedAim;
     private boolean lastMeal;
     ApexSkills(Apex apex) { this.apex=apex; }
     public float vitality() { return vitality; }
@@ -89,7 +90,7 @@ public final class ApexSkills {
     boolean blast(ServerLevel level,boolean lastStand) {
         if(apex.kind()!=ApexKind.BLAST || !apex.isAlive())return false;
         if(!explosion(level,apex,apex.position(),lastStand ? 20 : 10,false))return false;
-        fireWait=55;
+        fireWait=75;
         if(apex.isAlive())apex.hurtServer(level,source("apex_backlash"),lastStand ? apex.getHealth()+apex.getAbsorptionAmount() : apex.blastCost());
         return true;
     }
@@ -101,7 +102,7 @@ public final class ApexSkills {
             @Override public boolean shouldDamageEntity(Explosion explosion,Entity entity) { return !immune(entity); }
             @Override public float getKnockbackMultiplier(Entity entity) { return immune(entity) ? 0 : 1; }
             @Override public float getEntityDamageAmount(Explosion explosion,Entity entity,float exposure) {
-                return (allBunnidogs ? .75F : 1.2F)*super.getEntityDamageAmount(explosion,entity,exposure);
+                return (allBunnidogs ? .6F : .96F)*super.getEntityDamageAmount(explosion,entity,exposure);
             }
         };
         boolean grief=net.neoforged.neoforge.event.EventHooks.canEntityGrief(level,caster);
@@ -120,17 +121,20 @@ public final class ApexSkills {
         fire.setOwner(apex);fire.setPos(mouth());fire.setDeltaMovement(target.getEyePosition().subtract(fire.position()).normalize().scale(1.1));
         if(!level.addFreshEntity(fire))fire.discard();else apex.playSound(SoundEvents.GHAST_SHOOT,1,.8F);
     }
-    void queueHook(LivingEntity target) {queuedHook=target;hookDelay=8;}
+    void queueHook(LivingEntity target) {queuedHook=target;hookDelay=18;queuedAim=null;}
     public void anvil(ServerLevel level,LivingEntity target) {
         var anvil=ModEntities.APEX_ANVIL.get().create(level,EntitySpawnReason.TRIGGERED);if(anvil==null)return;
         anvil.setOwner(apex);anvil.setPos(mouth());anvil.aimAt(target.getEyePosition());
         if(!level.addFreshEntity(anvil))anvil.discard();else apex.playSound(SoundEvents.ANVIL_PLACE,.8F,.7F);
     }
     public void hook(ServerLevel level,LivingEntity target) {
+        hook(level,target.getEyePosition().subtract(mouth()).normalize());
+    }
+    public void hook(ServerLevel level,Vec3 direction) {
         var hook=ModEntities.APEX_HOOK.get().create(level,EntitySpawnReason.TRIGGERED);
         if (hook==null) return;
         hook.setOwner(apex); hook.setPos(mouth());
-        Vec3 aim=target.getEyePosition().subtract(hook.position()); hook.shoot(aim.x,aim.y,aim.z,4F,0);
+        hook.shoot(direction.x,direction.y,direction.z,4F,0);
         if (!level.addFreshEntity(hook)) hook.discard();
     }
     public boolean hookHit(LivingEntity target) {
@@ -146,11 +150,12 @@ public final class ApexSkills {
     public void tick(ServerLevel level) {
         if(!apex.isAlive())return;
         var target=apex.getTarget();
-        if(!apex.isNoAi() && apex.kind()==ApexKind.BLAST && --fireWait<=0 && target!=null && target.isAlive() && (apex.abilityWait()>0 || !apex.inBlastRange(target)) && (!apex.casting() || !apex.inBlastRange(target)) && apex.distanceToSqr(target)<=1024 && apex.hasLineOfSight(target)) {fireball(level,target);fireWait=55;}
+        if(!apex.isNoAi() && apex.kind()==ApexKind.BLAST && --fireWait<=0 && target!=null && target.isAlive() && (apex.abilityWait()>0 || !apex.inBlastRange(target)) && !apex.casting() && !apex.mobility().leaping() && apex.distanceToSqr(target)<=1024 && apex.hasLineOfSight(target)) {fireball(level,target);fireWait=75;}
         if(!apex.isNoAi() && apex.kind()==ApexKind.BROOD)brood(level);
         if(apex.kind()!=ApexKind.SUPPORT) {tether=null;return;}
+        if(queuedHook!=null && hookDelay==10)queuedAim=queuedHook.getEyePosition().subtract(mouth()).normalize();
         if(queuedHook!=null && --hookDelay<=0) {
-            if(victim(queuedHook) && queuedHook.level()==level && apex.distanceToSqr(queuedHook)<=625)hook(level,queuedHook);
+            if(victim(queuedHook) && queuedHook.level()==level && apex.distanceToSqr(queuedHook)<=625)hook(level,queuedAim==null ? queuedHook.getEyePosition().subtract(mouth()).normalize() : queuedAim);
             queuedHook=null;
         }
         if(!apex.isNoAi() && --anvilWait<=0 && target!=null && target.isAlive() && !apex.casting() && apex.distanceToSqr(target)<=625 && apex.hasLineOfSight(target)) {anvil(level,target);anvilWait=280;}

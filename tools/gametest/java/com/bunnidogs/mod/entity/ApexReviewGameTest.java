@@ -62,11 +62,11 @@ final class ApexReviewGameTest {
         h.assertTrue(dog.getHealth()==dogHp,"Power-four fireballs spare ordinary bunnidogs too");
         h.assertTrue(p.getHealth()<1024,"The real power-four fireball reaches an elevated player");
         a.setHealth(a.blastCost()*.5F);var cast=new ApexSpecialGoal(a);cast.start();
-        h.assertTrue(a.lastStand() && a.fuseLength()==50,"Lethal next self-cost chooses power twenty and a longer red fuse");
-        float hp=a.getHealth();for(int t=0;t<49;t++)cast.tick();h.assertTrue(a.isAlive() && a.getHealth()==hp,"Final blast cannot detonate before its full fifty-tick fuse");
+        h.assertTrue(a.lastStand() && a.fuseLength()==60,"Lethal next self-cost chooses power twenty and a longer red fuse");
+        float hp=a.getHealth();for(int t=0;t<a.fuseLength()-1;t++)cast.tick();h.assertTrue(a.isAlive() && a.getHealth()==hp,"Final blast cannot detonate before its full configured fuse");
         cast.tick();h.assertTrue(!a.isAlive(),"The real power-twenty last stand spends the caster's remaining life");
-        var flying=ApexTypesGameTest.apex(h,ApexKind.BLAST,true,pos.add(0,8,0));h.assertTrue(flying.fuseLength()==60,"An aerial normal fuse adds one and a half seconds");flying.lastStand(true);
-        h.assertTrue(flying.fuseLength()==80,"Aerial last stand retains its extra final-blast second");flying.discard();dog.discard();
+        var flying=ApexTypesGameTest.apex(h,ApexKind.BLAST,true,pos.add(0,8,0));h.assertTrue(flying.fuseLength()==70,"An aerial normal fuse adds one and a half seconds");flying.lastStand(true);
+        h.assertTrue(flying.fuseLength()==90,"Aerial last stand retains its extra final-blast second");flying.discard();dog.discard();
     }
     static void support(GameTestHelper h) {
         ApexTypesGameTest.floor(h);var level=h.getLevel();var pos=ApexTypesGameTest.center(h);var a=ApexTypesGameTest.apex(h,ApexKind.SUPPORT,false,pos);

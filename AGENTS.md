@@ -55,9 +55,9 @@ damage baseline (×1.6 after bounds), base Brute health unchanged, exact focused
 family blast immunity, finite swarms, hook recovery and healing conservation.
 The latest combat follow-up supersedes earlier values: Brute is 10% faster and
 prefers nearby normal melee; ready ground Blastmaws may approach-jump without
-spending their burst charge. Blastmaw outgoing damage is reduced 25%, firing at
+spending their burst charge. Blastmaw outgoing damage is reduced 25% then another 20%, firing at
 range even when its burst is ready and resetting the full fireball delay after
-a burst. Flying normal/final fuses are now sixty/eighty ticks. Brood now use five per wave,
+a burst. Flying normal/final fuses are now seventy/ninety ticks. Brood now use five per wave,
 nineteen-second recovery, 15% lower bites/10% lower health, strong swimming and
 much faster throws/meals (critical feeding has no artificial recovery).
 Lifebinder anvils are two-block world-oriented ballistic projectiles with flying

@@ -24,7 +24,7 @@ menu-replacement protections remain.
 | `apex` | Ground Brute moves 10% faster and prefers a normal bite/short approach when close and visible; otherwise it keeps warned stomp/melee and chooses a destructive colliding jump arc to its target, up to 48 blocks within awareness/loaded bounds. |
 | `prismmaw` | No melee. Holds 16–24 blocks on the ground. Thirty-tick aim warning, then sixty ticks of damaging beam (six pulses), followed by 160 ticks of recovery. Above 25% health the firing direction locks; below 25% it follows the target. Only flying fixed beams keep their absolute world origin. Ground beam origins follow the mouth; firing direction still locks. |
 | `broodcaller` | No melee. Holds 10–16 blocks. Thirty-tick call, then up to five elite brood, capped at ten per caller and twenty locally, followed by 380 ticks of recovery. Recalled pack members become thrown body projectiles or meals. |
-| `blastmaw` | No melee. Rushes into a five-block fuse range, arms for thirty ticks, explodes and backs away for eighty ticks during its 280-tick recovery, shooting power-four fireballs. Outside self-explosion range it fires even when that charge is ready, and ground variants can leap into range without spending it. A lethal next self-cost starts a longer red power-twenty final blast. |
+| `blastmaw` | No melee. Rushes into a five-block fuse range, arms for forty ticks, explodes and backs away for eighty ticks during its 280-tick recovery, shooting power-four fireballs. Outside self-explosion range it fires even when that charge is ready, and ground variants can leap into range without spending it. A lethal next self-cost starts a longer red power-twenty final blast. |
 | `lifebinder` | No melee. Holds 10–16 blocks. Thrown anvils start the look-to-escape stun and queue a hook eight ticks after impact. Regular hooks retain their thirty-tick windup/160-tick recovery. Hooks remove one heart container; drains convert damage into seven-times healing. |
 
 The base Apex health band is 180–720; Blastmaw is **216–864**. Normal Brute bites
@@ -58,27 +58,27 @@ converted income twice. A green beam identifies allied healing.
 
 ## Blastmaw terrain, fireballs and final blast
 
-Normal fuse is thirty ticks / 1.5 seconds on the ground and sixty ticks / 3
+Normal fuse is forty ticks / 2 seconds on the ground and seventy ticks / 3.5
 seconds in the air. White flashing/swelling uses vanilla creeper curves. Normal
 power-ten blasts use native exposure, drops/fire, mob griefing and explosion
-start/detonate events, with 1.2× native victim damage (25% below the previous 1.6×) and family Apex/brood immunity.
+start/detonate events, with .96× native victim damage (another 20% below the previous 1.2×) and family Apex/brood immunity.
 Self-cost is now **22.5% maximum health**, a 25% reduction from the former 30%.
 
 If that cost would kill it, including damage received during an existing fuse,
 Blastmaw commits to a **power-twenty final explosion**, flashes **red** and adds
-another twenty ticks / one second to the fuse. Ground final fuse is fifty ticks;
-aerial final fuse is eighty. A resolved final blast consumes the caster's
+another twenty ticks / one second to the fuse. Ground final fuse is sixty ticks;
+aerial final fuse is ninety. A resolved final blast consumes the caster's
 remaining life. Native cancellation pays no self-cost. Healing does not undo a
 committed final blast. Its full forty-block blast area must already be loaded;
 normal terrain/protection hooks remain authoritative.
 
-Power-four fireballs launch roughly every 55 ticks at a valid target within
+Power-four fireballs launch roughly every 75 ticks at a valid target within
 thirty-two blocks whenever the self-explosion is recovering **or** the target
 is outside its range. A ready Blastmaw continues charging/approach-jumping rather
 than settling into ranged kiting. A resolved self-explosion resets the entire
-55-tick fireball delay, preventing an immediate follow-up shot. They use native fireball flight and
+75-tick fireball delay, preventing an immediate follow-up shot. They use native fireball flight and
 mob terrain policy, with 75% of their prior victim damage. Both ordinary and
-final self-explosion victim damage are reduced 25%; radius, terrain power and
+final self-explosion victim damage are reduced 25% then another 20%; radius, terrain power and
 22.5% self-cost are preserved. Their damage and knockback spare **all bunnidogs**, including
 ordinary player companions; they cannot directly hit that family either.
 Fireballs have bounded loaded-world lifetime and no material drops.
@@ -118,7 +118,7 @@ Prismmaw uses sixteen horizontal blocks. Blastmaw uses six blocks of height and
 2.5 horizontally when approaching its explosion (nine horizontally in recovery). Flying Blastmaw moves overhead to fuse and detonate in the
 air. Only the flying Brute descends: orbit/ascent, one dive strike, then climb and
 eighty-tick recovery before another dive. Its orbit is now seven blocks wide and
-nine high. Stoops accelerate toward 1.6 blocks/tick, between the original .9 and
+nine high. Stoops accelerate toward 1.35 blocks/tick, between the original .9 and
 previous 2.2. A previous collision no longer abandons the dive: it clears every
 newly swept layer until reaching the target. Actual unbreakable/protected blocks
 or unloaded bounds abort it safely. Collision avoidance rises around local
@@ -319,3 +319,18 @@ with no spawned entity; the later real boss matches forecast health, damage,
 armor/resistance and enraged attack values. Existing partial/blocked/active
 refusals, kill reward and persistence still pass. The expanded guide preview
 was inspected; actual client message layout and hand use remain gameplay review.
+
+## Dodge timing follow-up (2026-10-25)
+
+Lifebinder normal hook aim locks ten ticks before launch. Anvil follow-up hooks
+also lock for the final ten ticks of their eighteen-tick preparation.
+Blastmaw outgoing explosion/fireball damage stacks another ×.8 reduction;
+fireball damage is now .6× native explosion damage. Initial fireball delay is
+50 ticks, repeat and post-explosion delay 75 ticks. Neither leaps nor fusing
+allow fireballs. Terrain powers and self-cost remain unchanged.
+Flying Brutes show four small crit particles during an eight-tick pause before
+diving at 1.35 blocks/tick. Winged hostile brood use the same circle, warning,
+dive, ascent pattern at smaller scale: five blocks high, four-block orbit,
+genetic movement speed ×1.6 for dives, ordinary gene-derived bite damage and
+recovery of at least thirty ticks or twice their genetic bite interval. They
+do not inherit the boss's terrain destruction. Companion wing flight is unchanged.

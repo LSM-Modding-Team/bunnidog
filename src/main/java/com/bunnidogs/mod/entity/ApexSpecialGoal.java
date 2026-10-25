@@ -39,7 +39,7 @@ final class ApexSpecialGoal extends Goal {
             lastStand=true;apex.lastStand(true);duration=apex.fuseLength();
         }
         if(!apex.flying())apex.getNavigation().stop();
-        if(apex.kind()!=ApexKind.PRISM || elapsed<=30 || tracking || apex.trackingBeam()) {
+        if((apex.kind()!=ApexKind.SUPPORT || elapsed<=20) && (apex.kind()!=ApexKind.PRISM || elapsed<=30 || tracking || apex.trackingBeam())) {
             Vec3 desired=target.getEyePosition().subtract(apex.skills().mouth()).normalize();
             direction=elapsed==1 ? desired : direction.lerp(desired,elapsed<=30 ? .2 : .12).normalize();
         }
@@ -59,7 +59,7 @@ final class ApexSpecialGoal extends Goal {
         switch(apex.kind()) {
             case BROOD -> apex.skills().summon(level);
             case BLAST -> { apex.skills().blast(level,lastStand);apex.retreatFor(80); }
-            case SUPPORT -> apex.skills().hook(level,target);
+            case SUPPORT -> apex.skills().hook(level,direction);
             default -> {}
         }
         apex.beginAbility();apex.charging(false);apex.fuse(0);apex.lastStand(false);
