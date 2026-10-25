@@ -334,3 +334,13 @@ dive, ascent pattern at smaller scale: five blocks high, four-block orbit,
 genetic movement speed ×1.6 for dives, ordinary gene-derived bite damage and
 recovery of at least thirty ticks or twice their genetic bite interval. They
 do not inherit the boss's terrain destruction. Companion wing flight is unchanged.
+
+## Wing art
+
+All flying Apex types and genetically winged brood/companions now have articulated
+feathered wings: folded rest, rhythmic flapping and a swept dive pose. A separate
+128×64 cream/brown atlas and generated layer preserve the approved animal sculpt.
+Shoulder positions follow build/leg/pup poses; Apex scale applies to wings too.
+Ground Apex forms remain wingless. The model gate checks actual baked wing UVs,
+attachment, opening and hidden-state reset. Top-view preview was inspected; no
+graphical client review was available.

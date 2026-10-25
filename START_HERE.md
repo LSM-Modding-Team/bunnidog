@@ -5,6 +5,15 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Wing art (2026-10-25)
+
+Flying Apexes and genetically winged bunnidogs now render paired feathered wings
+with shoulder/outer-wing joints, overlapping flight feathers and a dedicated
+cream/brown atlas. Rest folds, flight flaps and descending dive sweeps use render
+snapshots. Wings share the exact gene/body/pup pose and Apex renderer scale.
+Ground Apex forms remain wingless. Source: `art/gen_wings.py`; top-view geometry
+preview: `art/wings_preview.png`. Headless previews do not establish in-game appearance.
+
 ## Latest combat timing follow-up (2026-10-25)
 
 Hook aim now locks half a second before firing. Blastmaws stack another 20%

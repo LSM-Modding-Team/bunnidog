@@ -71,7 +71,9 @@ Level on the assumption that a registered death handler runs only server-side.
 Preserve the actual logical-client notification regression alongside server cases.
 Preserve native protection/cancellation, finite resources and actual save/stock
 ownership. The explicitly requested escape bar is not a return of ambient hints.
-Wings genetics/flight ship; actual wing models/textures are explicitly deferred.
+Wings genetics/flight and feathered models/textures now ship. Preserve the separate
+wing layer, shoulder/hand animation and shared body/pup transforms; regenerate
+`art/gen_wings.py` assets together when changing geometry or atlas.
 `docs/APEX_EXPANSION_PLAN.md` retains the future dimension, extravagant loot and
 Apex-of-Apexes dungeon boss; those systems are not implemented. Prioritize actual
 Apex play feedback and remaining integration before starting that larger realm.

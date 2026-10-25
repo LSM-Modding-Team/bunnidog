@@ -41,6 +41,7 @@ public final class BunnidogsClient {
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(BunnidogRenderer.LAYER, BunnidogModelLayer::createBodyLayer);
+        event.registerLayerDefinition(com.bunnidogs.mod.client.renderer.BunnidogWingLayer.LAYER,com.bunnidogs.mod.client.model.BunnidogWingModelLayer::createLayer);
         event.registerLayerDefinition(BunnidogPackLayer.LAYER,BunnidogPackModelLayer::createLayer);
         event.registerLayerDefinition(GUAVA_BOAT_LAYER, BoatModel::createBoatModel);
         event.registerLayerDefinition(GUAVA_CHEST_BOAT_LAYER, BoatModel::createChestBoatModel);

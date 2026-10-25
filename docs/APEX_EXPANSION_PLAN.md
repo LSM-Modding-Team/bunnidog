@@ -260,11 +260,11 @@ and during attacks. Flying Blastmaw detonates overhead. Flying Broodcaller makes
 winged elite brood with actual inherited flight. The runtime now implements this
 movement; client terrain/pack balance remains a playtest.
 
-**Art follow-up, explicitly deferred by the user:** add actual wings and appropriate
+**Art follow-up, implemented after user authorization (2026-10-25):** add actual wings and appropriate
 textures/flight poses to every flying Apex and genetically winged bunnidog. Preserve
 the approved face/body; attachment, folded/extended silhouettes, flight animation
 and the inherited Wings signal must agree. Do not use particles as the final wing
-silhouette. This batch adds neither wing geometry nor textures.
+silhouette. Wing geometry, textured feather layers, rest folds, flaps and dive sweeps now ship. Source and preview: `art/gen_wings.py`, `art/wings_preview.png`.
 
 Loaded bounds, native collision and block-protection hooks remain authoritative.
 The previous landing/ground-recovery requirement is superseded by player feedback.

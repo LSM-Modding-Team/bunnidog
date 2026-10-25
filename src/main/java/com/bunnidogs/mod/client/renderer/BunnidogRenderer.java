@@ -33,6 +33,7 @@ public class BunnidogRenderer extends MobRenderer<Bunnidog, BunnidogRenderState,
 
     public BunnidogRenderer(EntityRendererProvider.Context context) {
         super(context, new BunnidogModel(BunnidogModelLayer.sculpt(context.bakeLayer(LAYER))), 0.35F);
+        this.addLayer(new BunnidogWingLayer(this,context.bakeLayer(BunnidogWingLayer.LAYER)));
         this.addLayer(new BunnidogPackLayer(this,context.bakeLayer(BunnidogPackLayer.LAYER)));
     }
 
@@ -51,6 +52,9 @@ public class BunnidogRenderer extends MobRenderer<Bunnidog, BunnidogRenderState,
         super.extractRenderState(entity, state, partialTicks);
         state.swelling=entity instanceof com.bunnidogs.mod.entity.Apex apex ? apex.swelling(partialTicks) : 0;
         state.redFuse=entity instanceof com.bunnidogs.mod.entity.Apex apex && apex.lastStand();
+        state.winged=entity instanceof com.bunnidogs.mod.entity.Apex a ? a.flying() : com.bunnidogs.mod.genetics.Wings.expressed(entity.genome());
+        state.wingFlying=state.winged && !entity.onGround() && !entity.isInWater() && entity.combatState()!=3;
+        state.wingDiving=state.wingFlying && entity.getDeltaMovement().y<-.35;
         Traits traits = entity.traits();
         state.coat = traits.coat();
         state.earScale = traits.earScale();

@@ -170,6 +170,24 @@ public class BunnidogModelCheck {
                 require(rendered[0]-before == (count == 0 ? 0 : 4*(60+18*count)),"Shared equipment models must reset every bag and add no faces when empty");
             }
         }
+        var wingRoot=com.bunnidogs.mod.client.model.BunnidogWingModelLayer.createLayer().bakeRoot();
+        var wings=new com.bunnidogs.mod.client.model.BunnidogWingModel(wingRoot);
+        wingRoot.visit(new PoseStack(),(pose,path,index,cube)->{
+            for(var poly:cube.polygons)for(var v:poly.vertices())
+                require(v.u()>=0 && v.u()<=1 && v.v()>=0 && v.v()<=1,"Wing UV must remain inside its atlas");
+        });
+        for(boolean baby:new boolean[]{false,true})for(float build:new float[]{.7F,1.6F}) {
+            state.isBaby=baby;state.buildScale=build;state.winged=true;state.wingFlying=false;state.wingDiving=false;
+            model.setupAnim(state);wings.setupAnim(state);
+            require(root.getChild("body").storePose().equals(wingRoot.getChild("body").storePose()),"Wings must attach to the actual gene-adjusted shoulders");
+            float folded=wingRoot.getChild("body").getChild("left").yRot;
+            state.wingFlying=true;state.ageInTicks=4;wings.setupAnim(state);
+            require(Math.abs(wingRoot.getChild("body").getChild("left").yRot)<Math.abs(folded),"Flying wings must open from the resting fold");
+            int before=rendered[0];wingRoot.render(new PoseStack(),consumer,0xF000F0,0);
+            require(rendered[0]>before,"Expressed wings must submit real geometry");
+            state.winged=false;wings.setupAnim(state);before=rendered[0];wingRoot.render(new PoseStack(),consumer,0xF000F0,0);
+            require(rendered[0]==before,"Non-winged animals must not retain another entity's wings");
+        }
         System.out.println("Model OK: " + faces + " stored faces, " + vertices + " vertices; ordinary 2172 faces, webbed +72, fertility +0/40/18/120/38, separate packs +0/78/96/114/132; winding, head UVs/normals, smooth rendering, equipment/body pose, variants, ground contact and baby reset passed.");
     }
 }
