@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "HLH",
+    "SBS",
+    "HMH"
+  ],
+  "key": {
+    "H": "bunnidogs:chorus_heart",
+    "L": "bunnidogs:prism_lens",
+    "S": "bunnidogs:heart_spool",
+    "B": "minecraft:glass_bottle",
+    "M": "bunnidogs:aerial_membrane"
+  },
+  "result": {
+    "id": "bunnidogs:abyssal_flask",
+    "count": 1
+  }
+}

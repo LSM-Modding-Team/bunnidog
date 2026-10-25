@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "artifact": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "bunnidogs:vitality_artifact"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "artifact"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:heartbound_leggings"
+    ]
+  }
+}

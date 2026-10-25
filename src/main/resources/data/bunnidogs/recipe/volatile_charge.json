@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "GFG",
+    "GHG",
+    "GFG"
+  ],
+  "key": {
+    "G": "minecraft:gunpowder",
+    "F": "minecraft:fire_charge",
+    "H": "bunnidogs:volatile_heart"
+  },
+  "result": {
+    "id": "bunnidogs:volatile_charge",
+    "count": 16
+  }
+}

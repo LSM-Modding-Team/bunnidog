@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "VVF",
+    "MNB",
+    "VVF"
+  ],
+  "key": {
+    "V": "bunnidogs:volatile_heart",
+    "F": "bunnidogs:apex_fang",
+    "M": "bunnidogs:apex_marrow",
+    "N": "minecraft:netherite_ingot",
+    "B": "minecraft:blaze_rod"
+  },
+  "result": {
+    "id": "bunnidogs:fireball_launcher",
+    "count": 1
+  }
+}

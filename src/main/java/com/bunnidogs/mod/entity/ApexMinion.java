@@ -115,6 +115,7 @@ public final class ApexMinion extends Bunnidog implements Enemy {
         targetSelector.addGoal(1,new NearestAttackableTargetGoal<>(this,Player.class,true));
     }
     @Override public void tick() {
+        if(hasEffect(com.bunnidogs.mod.registry.ModEffects.RESONANT_STUN)) {super.tick();return;}
         if(biteWait>0)biteWait--;
         if(controlled()) {setNoAi(false);if(held || flightDuration>0)setNoGravity(true);}
         super.tick();

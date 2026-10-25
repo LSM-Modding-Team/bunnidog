@@ -1,5 +1,9 @@
 # The Great Warren — AX6 implementation
 
+> The player’s later loot review supersedes the initial rewards and equipment
+> values below. See [APEX_REWARDS_SPECS.md](APEX_REWARDS_SPECS.md) for current
+> parts, upgraded vanilla gear, weapon/container behavior and generous caches.
+
 The first Great Warren expedition loop now ships. The 2026-10-25 user review
 closed Apex balancing and resumed autonomous development. This content builds on
 those accepted fights; their damage, health, timings, XP and minion limits stay.

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "SGS",
+    "MHM",
+    "SGS"
+  ],
+  "key": {
+    "S": "bunnidogs:heart_spool",
+    "G": "minecraft:enchanted_golden_apple",
+    "M": "bunnidogs:apex_marrow",
+    "H": "bunnidogs:chorus_heart"
+  },
+  "result": {
+    "id": "bunnidogs:vitality_artifact",
+    "count": 1
+  }
+}

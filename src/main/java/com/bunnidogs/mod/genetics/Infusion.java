@@ -30,6 +30,7 @@ public record Infusion(Genome genome, Stats stats, double quality) {
      * the crowding limit, which a bottle does not have). Fortune does not apply: nobody harvests a bottle.
      */
     public static Infusion roll(Seed seed, RandomGenerator rng) {
+        if(seed.captured())return new Infusion(seed.mother(),seed.motherStats(),seed.quality());
         double[] drift = Drift.drift(seed.mother(), seed.father(), seed.quality());
         Genome.Offspring child = Genome.breed(seed.mother(), seed.father(), rng, seed.mutationChance(), seed.legacyMutation());
         Stats stats = Drift.inherit(seed.motherStats(), seed.fatherStats(), drift, rng);

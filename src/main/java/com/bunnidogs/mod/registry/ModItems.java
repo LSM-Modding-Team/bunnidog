@@ -83,6 +83,30 @@ public final class ModItems {
     public static final DeferredRegister.DataComponents COMPONENTS =
             DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, BunnidogsMod.MODID);
 
+    public static final DeferredHolder<DataComponentType<?>,DataComponentType<String>> FLASK_ID=COMPONENTS.registerComponentType("flask_id",b->b.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
+    public static final DeferredHolder<DataComponentType<?>,DataComponentType<Integer>> FLASK_COUNT=COMPONENTS.registerComponentType("flask_count",b->b.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.VAR_INT));
+    public static final DeferredHolder<DataComponentType<?>,DataComponentType<net.minecraft.world.item.ItemStackTemplate>> FLASK_TOP=COMPONENTS.registerComponentType("flask_top",b->b.persistent(net.minecraft.world.item.ItemStackTemplate.CODEC).networkSynchronized(net.minecraft.world.item.ItemStackTemplate.STREAM_CODEC));
+    public static final DeferredItem<Item> APEX_FANG=ITEMS.registerSimpleItem("apex_fang",p->p.rarity(Rarity.RARE));
+    public static final DeferredItem<Item> VITALITY_ARTIFACT=ITEMS.registerSimpleItem("vitality_artifact",p->p.rarity(Rarity.EPIC).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.vitality_artifact")))));
+    public static final DeferredItem<Item> AERIAL_ARTIFACT=ITEMS.registerSimpleItem("aerial_artifact",p->p.rarity(Rarity.EPIC).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.aerial_artifact")))));
+    public static final DeferredItem<Item> VOLATILE_CHARGE=ITEMS.registerSimpleItem("volatile_charge");
+    public static final DeferredItem<Item> CATACLYSM_CORE=ITEMS.registerSimpleItem("cataclysm_core",p->p.rarity(Rarity.EPIC).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.cataclysm_core")))));
+    public static final DeferredItem<Item> CATACLYSM_TOTEM=ITEMS.registerSimpleItem("cataclysm_totem",p->p.stacksTo(1).rarity(Rarity.EPIC).fireResistant().component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.cataclysm_totem"))))
+            .component(DataComponents.DEATH_PROTECTION,net.minecraft.world.item.component.DeathProtection.TOTEM_OF_UNDYING));
+    public static final Map<String,DeferredItem<Item>> HEARTBOUND_ARMOR=new LinkedHashMap<>();
+    static {
+        for(var type:net.minecraft.world.item.equipment.ArmorType.values()) {
+            if(type==net.minecraft.world.item.equipment.ArmorType.BODY)continue;
+            String name="heartbound_"+type.getName();
+            HEARTBOUND_ARMOR.put(type.getName(),ITEMS.registerSimpleItem(name,p->p.humanoidArmor(net.minecraft.world.item.equipment.ArmorMaterials.NETHERITE,type).fireResistant().rarity(Rarity.EPIC)
+                    .component(DataComponents.EQUIPPABLE,net.minecraft.world.item.equipment.Equippable.builder(type.getSlot())
+                        .setEquipSound(net.minecraft.sounds.SoundEvents.ARMOR_EQUIP_NETHERITE)
+                        .setAsset(net.minecraft.resources.ResourceKey.create(net.minecraft.world.item.equipment.EquipmentAssets.ROOT_ID,Identifier.fromNamespaceAndPath("bunnidogs","heartbound"))).build())
+                    .component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.heartbound"))))));
+        }
+    }
+    public static final DeferredItem<com.bunnidogs.mod.expedition.FireballLauncherItem> FIREBALL_LAUNCHER=ITEMS.registerItem("fireball_launcher",com.bunnidogs.mod.expedition.FireballLauncherItem::new,p->p.durability(768).rarity(Rarity.EPIC).fireResistant().component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.fireball_launcher")))));
+    public static final DeferredItem<com.bunnidogs.mod.expedition.AbyssalFlaskItem> ABYSSAL_FLASK=ITEMS.registerItem("abyssal_flask",com.bunnidogs.mod.expedition.AbyssalFlaskItem::new,p->p.stacksTo(1).rarity(Rarity.EPIC).fireResistant().component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.abyssal_flask")))));
     public static final DeferredItem<BlockItem> ROOTSTONE=ITEMS.registerSimpleBlockItem(ModBlocks.ROOTSTONE);
     public static final DeferredItem<BlockItem> WARREN_ANCHOR=ITEMS.registerSimpleBlockItem(ModBlocks.WARREN_ANCHOR);
     public static final DeferredItem<BlockItem> WARREN_WARD=ITEMS.registerSimpleBlockItem(ModBlocks.WARREN_WARD);
@@ -94,15 +118,19 @@ public final class ModItems {
     public static final DeferredItem<Item> HEART_SPOOL=ITEMS.registerSimpleItem("heart_spool",props->props.rarity(Rarity.RARE));
     public static final DeferredItem<Item> AERIAL_MEMBRANE=ITEMS.registerSimpleItem("aerial_membrane",props->props.rarity(Rarity.RARE));
     public static final DeferredItem<com.bunnidogs.mod.realm.PrismCellItem> PRISM_CELL=ITEMS.registerItem("prism_cell",com.bunnidogs.mod.realm.PrismCellItem::new);
-    public static final DeferredItem<Item> APEX_WING_HARNESS=ITEMS.registerSimpleItem("apex_wing_harness",props->props.durability(864).rarity(Rarity.EPIC)
+    public static final DeferredItem<Item> APEX_WING_HARNESS=ITEMS.registerSimpleItem("apex_wing_harness",props->props.durability(864).enchantable(15).rarity(Rarity.EPIC)
             .component(DataComponents.GLIDER,net.minecraft.util.Unit.INSTANCE)
             .component(DataComponents.EQUIPPABLE,net.minecraft.world.item.equipment.Equippable.builder(net.minecraft.world.entity.EquipmentSlot.CHEST)
                     .setEquipSound(net.minecraft.sounds.SoundEvents.ARMOR_EQUIP_ELYTRA)
                     .setAsset(net.minecraft.resources.ResourceKey.create(net.minecraft.world.item.equipment.EquipmentAssets.ROOT_ID,Identifier.fromNamespaceAndPath("bunnidogs","apex_wing_harness")))
                     .setDamageOnHurt(false).build())
+            .attributes(net.minecraft.world.item.component.ItemAttributeModifiers.builder()
+                .add(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR,new net.minecraft.world.entity.ai.attributes.AttributeModifier(Identifier.fromNamespaceAndPath("bunnidogs","armored_elytra"),8,net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_VALUE),net.minecraft.world.entity.EquipmentSlotGroup.CHEST)
+                .add(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS,new net.minecraft.world.entity.ai.attributes.AttributeModifier(Identifier.fromNamespaceAndPath("bunnidogs","elytra_toughness"),3,net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_VALUE),net.minecraft.world.entity.EquipmentSlotGroup.CHEST).build())
             .component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.apex_wing_harness"))))
             .repairable(AERIAL_MEMBRANE.get()));
     public static final DeferredItem<com.bunnidogs.mod.realm.PrismLanceItem> PRISM_LANCE=ITEMS.registerItem("prism_lance",com.bunnidogs.mod.realm.PrismLanceItem::new,props->props.stacksTo(1).durability(512).rarity(Rarity.EPIC).repairable(PRISM_LENS.get()));
+    public static final DeferredItem<com.bunnidogs.mod.expedition.GeneticVacuumItem> GENETIC_VACUUM=ITEMS.registerItem("genetic_vacuum",com.bunnidogs.mod.expedition.GeneticVacuumItem::new,p->p.durability(1024).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.genetic_vacuum")))).repairable(ModItems.CHORUS_HEART.get()).rarity(Rarity.EPIC).component(DataComponents.BUNDLE_CONTENTS,net.minecraft.world.item.component.BundleContents.EMPTY));
 
     public static final Map<String,DeferredItem<com.bunnidogs.mod.item.ApexSigilItem>> APEX_SIGILS=new LinkedHashMap<>();
     static {
@@ -471,6 +499,8 @@ public final class ModItems {
             event.accept(MOON_SINEW.get());
             event.accept(LISTENING_SHELL.get());
             event.accept(EVERBLOOM.get());
+            HEARTBOUND_ARMOR.values().forEach(item->event.accept(item.get()));
+            for(var item:java.util.List.of(APEX_FANG.get(),VITALITY_ARTIFACT.get(),AERIAL_ARTIFACT.get(),CATACLYSM_CORE.get(),VOLATILE_CHARGE.get(),CATACLYSM_TOTEM.get(),FIREBALL_LAUNCHER.get(),GENETIC_VACUUM.get(),ABYSSAL_FLASK.get()))event.accept(item);
             for(var item:java.util.List.of(ROOTSTONE.get(),WARREN_ANCHOR.get(),WARREN_WARD.get(),RESONANT_EYE.get(),APEX_MARROW.get(),PRISM_LENS.get(),CHORUS_HEART.get(),VOLATILE_HEART.get(),HEART_SPOOL.get(),AERIAL_MEMBRANE.get(),PRISM_CELL.get(),PRISM_LANCE.get(),APEX_WING_HARNESS.get()))event.accept(item);
             event.accept(APEX_CREST.get());
             APEX_SIGILS.values().forEach(item->event.accept(item.get()));

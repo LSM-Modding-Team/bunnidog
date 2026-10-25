@@ -171,6 +171,7 @@ public class SeedItem extends Item {
             lines.accept(TextComponents.t("Empty: holds no genes").withStyle(ChatFormatting.GRAY));
             return;
         }
+        if(seed.get().captured())lines.accept(Component.translatable("tooltip.bunnidogs.captured_seed").withStyle(ChatFormatting.LIGHT_PURPLE));
         lines.accept(Component.translatable("care.bunnidogs.seed.use").withStyle(ChatFormatting.YELLOW));
         var summary=TextComponents.localized(() -> seed.get().summary());
         for (int i=0;i<(flag.isAdvanced() ? summary.size() : 0);i++) lines.accept(Component.literal(summary.get(i)).withStyle(ChatFormatting.GRAY));

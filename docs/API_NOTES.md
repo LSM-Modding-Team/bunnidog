@@ -776,3 +776,22 @@ Client/GPU and natural encounter/co-op balance remain unverified.
 
 Actual scope/limits: [COGNITION_SPECS.md](COGNITION_SPECS.md). Separate native
 integration evidence from substitute-font page previews and natural client play.
+
+## Apex rewards native APIs
+
+- SmithingTransformRecipe has optional template/addition ingredients. Its native
+  assemble uses TransmuteRecipe.createWithOriginalComponents, preserving input
+  enchantments, wear, custom names/trims while adopting the new item's defaults.
+- BundleItem supplies real native inventory click/selection/tooltip behavior;
+  BundleContents.Mutable.tryInsert returns inserted count. Its immutable items
+  are ItemStackTemplate values; call create() to obtain a working ItemStack.
+  A BundleItem subclass weapon must bypass Bunnidog's cargo equip dispatch.
+- Custom data components must be immutable and implement value equality/hash.
+  ItemStack is unsuitable; ItemStackTemplate.CODEC/STREAM_CODEC is the immutable
+  top-drink preview. Arbitrary actual drink lists live in registry-aware SavedData.
+- EntityTickEvent.Pre (not a nested LivingTickEvent) can lease Mob NoAI without
+  canceling effect ticks; restore only the state owned by that lease. Incoming
+  damage cancellation handles stunned attackers; Apex custom skills also gate.
+- Native DeathProtection handles custom Totems. LivingUseTotemEvent is an attempt;
+  confirm ITEM_USED stat increment on the player tick before retaliating. Mock
+  server players require explicit PlayerTickEvent.Post in native tests.

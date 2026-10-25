@@ -47,7 +47,7 @@ public final class MindSheets {
     }
 
     public static Page.Spread forecast(Cross cross, Metrics metrics) {
-        var forecast = new CapabilityForecast(cross.a().genome(), cross.b().genome());
+        var forecast = new CapabilityForecast(cross);
         var left = new Page(); var right = new Page();
         left.text(0, 0, Texts.t("MIND FORECAST"), Page.Tone.HEAD);
         line(left, 9, cross.actualSeed().isPresent() ? Texts.t("actual seed") : Texts.t("sample A x B"), Page.Tone.MUTED, metrics);

@@ -636,6 +636,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             com.bunnidogs.mod.menu.CareMenu.openGuava(player,this,hand);
             return InteractionResult.SUCCESS;
         }
+        if (held.getItem() instanceof com.bunnidogs.mod.expedition.GeneticVacuumItem) return InteractionResult.PASS;
         if (held.getItem() instanceof net.minecraft.world.item.BundleItem) return this.packs.equip(player,held);
         if (held.isEmpty() && player.getMainHandItem().isEmpty() && player.getOffhandItem().isEmpty() && this.acceptsCare() && this.isAlive()) {
             if (player.isShiftKeyDown() && this.carriedBundleCount()>0) return this.packs.emptyHands(player);
@@ -738,7 +739,9 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private boolean directCareItem(ItemStack stack) {
         if (stack.isEmpty()) return false;
         var item=stack.getItem();
-        return this.canEat(stack) || isBunnidogFood(stack) || item instanceof net.minecraft.world.item.BundleItem
+        return item instanceof com.bunnidogs.mod.expedition.FireballLauncherItem || item instanceof com.bunnidogs.mod.realm.PrismLanceItem
+                || item instanceof com.bunnidogs.mod.expedition.AbyssalFlaskItem || item instanceof com.bunnidogs.mod.realm.PrismCellItem
+                || this.canEat(stack) || isBunnidogFood(stack) || item instanceof net.minecraft.world.item.BundleItem
                 || item instanceof net.minecraft.world.item.ShearsItem || item instanceof net.minecraft.world.item.DyeItem
                 || item instanceof net.minecraft.world.item.SpawnEggItem || stack.is(Items.LEAD) || stack.is(Items.NAME_TAG)
                 || item instanceof CalipersItem || item instanceof EarTagItem || item instanceof PedigreeBookItem

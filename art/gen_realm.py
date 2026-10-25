@@ -82,3 +82,7 @@ for x in range(64):
 for x in range(0,64,3):wd.line((x,2,x+1,22),fill='#9d876e');wd.line((x+1,3,x+2,18),fill='#eee2c5')
 wp=A/'textures/entity/equipment/wings/apex_wing_harness.png';wp.parent.mkdir(parents=True,exist_ok=True);wings.save(wp)
 write(A,Path('equipment/apex_wing_harness.json'),{'layers':{'wings':[{'texture':'bunnidogs:apex_wing_harness','use_player_texture':False}]}})
+
+# The current rewards extension overrides the initial expedition recipes and stock.
+import runpy
+runpy.run_path(str(ROOT/"art/gen_apex_rewards.py"))

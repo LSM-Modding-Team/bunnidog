@@ -2,7 +2,7 @@
 
 A NeoForge mod for Minecraft 26.2: baby-faced creatures, living warrens and
 inherited traits that shape companions, gardens and breeding lines. Client and
-server both need the current mod (network **28**).
+server both need the current mod (network **29**).
 
 Interact with a bunnidog to choose **Care, Orders or Work** beside the visible
 animal. Calm animals stay and face you while you interact. Ordinary held items
@@ -106,7 +106,10 @@ platform and ladder; crossing back costs nothing.
 
 Rich ruins hold diamonds, netherite, enchanted apples and high-quality genetic
 finds. Apex reagents craft a piercing Prism Lance, a gliding Wing Harness and
-Wards for an outpost. Both gear pieces use real Prism Cells. [Expedition rules](docs/GREAT_WARREN_SPECS.md).
+Wards for an outpost. Both gear pieces use real Prism Cells. Netherite armor now upgrades into Heartbound
+pieces with extra hearts and timed Lifebinder recovery. Apex parts also craft a
+fireball launcher, explosive rescue Totem, genetic vacuum and bottomless ordered
+drink flask. Ruins supply bulk ingredients. [Current rewards](docs/APEX_REWARDS_SPECS.md). [Expedition rules](docs/GREAT_WARREN_SPECS.md).
 
 ## Development plans
 

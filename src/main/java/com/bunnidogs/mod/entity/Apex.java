@@ -132,6 +132,7 @@ public final class Apex extends Bunnidog implements Enemy {
         if (this.abilityWait > 0) this.abilityWait--;
         if (retreat>0) retreat--;
         setNoGravity(flying);
+        if(hasEffect(com.bunnidogs.mod.registry.ModEffects.RESONANT_STUN))return;
         skills.tick((ServerLevel)level());
         mobility.tick((ServerLevel)level());
         if (flying && flightActive() && tickCount%12==0) ((ServerLevel)level()).sendParticles(net.minecraft.core.particles.ParticleTypes.END_ROD,

@@ -11,6 +11,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public final class ModEffects {
     private ModEffects() {}
     public static final DeferredRegister<MobEffect> EFFECTS=DeferredRegister.create(Registries.MOB_EFFECT,"bunnidogs");
+    public static final net.neoforged.neoforge.registries.DeferredHolder<MobEffect,MobEffect> RESONANT_STUN=EFFECTS.register("resonant_stun",()->new MobEffect(MobEffectCategory.HARMFUL,0xF0BE69) {}
+        .addAttributeModifier(Attributes.MOVEMENT_SPEED,Identifier.fromNamespaceAndPath("bunnidogs","resonant_stun"),-1,AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+        .addAttributeModifier(Attributes.JUMP_STRENGTH,Identifier.fromNamespaceAndPath("bunnidogs","resonant_jump"),-1,AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
     public static final net.neoforged.neoforge.registries.DeferredHolder<MobEffect,MobEffect> ANVIL_DAZE=EFFECTS.register("anvil_daze",()->
             new MobEffect(MobEffectCategory.HARMFUL,0x867F78) {}
                 .addAttributeModifier(Attributes.MOVEMENT_SPEED,Identifier.fromNamespaceAndPath("bunnidogs","anvil_walk"),-1,AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)

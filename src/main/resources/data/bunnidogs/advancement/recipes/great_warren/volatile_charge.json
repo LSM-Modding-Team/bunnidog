@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "part": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:gunpowder"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "part"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:volatile_charge"
+    ]
+  }
+}

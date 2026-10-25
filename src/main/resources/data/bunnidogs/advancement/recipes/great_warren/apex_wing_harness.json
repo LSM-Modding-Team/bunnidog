@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_material": {
+    "artifact": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": "bunnidogs:aerial_membrane"
+            "items": "bunnidogs:aerial_artifact"
           }
         ]
       }
@@ -14,7 +14,7 @@
   },
   "requirements": [
     [
-      "has_material"
+      "artifact"
     ]
   ],
   "rewards": {

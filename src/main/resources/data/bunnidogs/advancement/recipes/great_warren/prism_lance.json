@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_material": {
+    "part": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
@@ -14,7 +14,7 @@
   },
   "requirements": [
     [
-      "has_material"
+      "part"
     ]
   ],
   "rewards": {

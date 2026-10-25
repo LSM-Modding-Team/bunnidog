@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "HLS",
+    "MNB",
+    "HLS"
+  ],
+  "key": {
+    "H": "bunnidogs:chorus_heart",
+    "L": "bunnidogs:prism_lens",
+    "S": "bunnidogs:heart_spool",
+    "M": "bunnidogs:apex_marrow",
+    "N": "minecraft:netherite_ingot",
+    "B": "minecraft:bundle"
+  },
+  "result": {
+    "id": "bunnidogs:genetic_vacuum",
+    "count": 1
+  }
+}

@@ -12,6 +12,11 @@ public final class GoalForecast {
     private final double genes,points;
     public GoalForecast(Cross cross,Commissions.Request goal) {
         this.cross=cross; this.goal=goal;
+        if(cross.seed().captured()) {
+            var checks=goal.checks(cross.seed().mother(),cross.seed().motherStats(),0);
+            this.genes=checks.stream().filter(c->c.failure()==Commissions.Status.GENES).allMatch(Commissions.Check::met) ? 1 : 0;
+            this.points=checks.stream().filter(c->c.failure()==Commissions.Status.STATS).allMatch(Commissions.Check::met) ? 1 : 0;return;
+        }
         var checks=goal.checks(Genome.DEFAULT,Stats.ZERO,0);
         var relevant=EnumSet.noneOf(Gene.class);
         for (var check:checks) if (check.failure()==Commissions.Status.GENES) {

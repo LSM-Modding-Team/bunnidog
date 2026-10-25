@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "part": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "bunnidogs:chorus_heart"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "part"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:genetic_vacuum"
+    ]
+  }
+}

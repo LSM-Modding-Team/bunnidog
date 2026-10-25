@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "bunnidogs:heartbound_helmet",
+    "bunnidogs:heartbound_chestplate",
+    "bunnidogs:heartbound_leggings",
+    "bunnidogs:heartbound_boots",
+    "bunnidogs:apex_wing_harness"
+  ]
+}

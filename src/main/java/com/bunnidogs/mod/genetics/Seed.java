@@ -27,7 +27,7 @@ import java.util.random.RandomGenerator;
  * body-only mutation law when an old seed is rewritten with full g3 parents; new seeds use all twelve loci. Treatment
  * raises each pup's mutation chance to at least {@link #MUTAGEN_MUTATION_FLOOR}, without changing the saved target law.
  */
-public record Seed(Genome mother, Stats motherStats, Genome father, Stats fatherStats, double quality, boolean mutagen, boolean legacyMutation) {
+public record Seed(Genome mother, Stats motherStats, Genome father, Stats fatherStats, double quality, boolean mutagen, boolean legacyMutation, boolean captured) {
     /** Quality is clamped to this range only so that maths on it can never overflow (like {@link Stats#LIMIT}). */
     public static final double QUALITY_LIMIT = 1_000_000.0;
 
@@ -45,6 +45,10 @@ public record Seed(Genome mother, Stats motherStats, Genome father, Stats father
         quality = Double.isNaN(quality) ? 0.0 : Math.max(0.0, Math.min(QUALITY_LIMIT, quality));
     }
 
+    public Seed(Genome mother,Stats motherStats,Genome father,Stats fatherStats,double quality,boolean mutagen,boolean legacyMutation) {
+        this(mother,motherStats,father,fatherStats,quality,mutagen,legacyMutation,false);
+    }
+    public static Seed captured(Genome genome,Stats stats) {return new Seed(genome,stats,genome,stats,0,false,false,true);}
     /** An untreated seed (the form every seed had before the Mutagen existed). */
     public Seed(Genome mother, Stats motherStats, Genome father, Stats fatherStats, double quality) {
         this(mother, motherStats, father, fatherStats, quality, false, false);
@@ -56,7 +60,7 @@ public record Seed(Genome mother, Stats motherStats, Genome father, Stats father
 
     /** The same seed treated with a Mutagen (the same seed again if it already was: a seed carries one). */
     public Seed withMutagen() {
-        return mutagen ? this : new Seed(mother, motherStats, father, fatherStats, quality, true, legacyMutation);
+        return mutagen ? this : new Seed(mother, motherStats, father, fatherStats, quality, true, legacyMutation, captured);
     }
 
     /**
@@ -92,6 +96,7 @@ public record Seed(Genome mother, Stats motherStats, Genome father, Stats father
         if (litter <= 0) {
             return out;
         }
+        if(captured)return List.of(new Pup(mother,motherStats,null));
         double[] drift = Drift.drift(mother, father, effectiveQuality(extraQuality));
         for (int i = 0; i < litter; i++) {
             Genome.Offspring child = Genome.breed(mother, father, rng, mutationChance(), legacyMutation);
@@ -117,18 +122,19 @@ public record Seed(Genome mother, Stats motherStats, Genome father, Stats father
 
     /** Mean litter size of this seed, before crowding. */
     public double expectedLitter() {
-        return Breeding.expectedLitter(mother, father);
+        return captured ? 1 : Breeding.expectedLitter(mother, father);
     }
 
     /** Chance that a pup of this seed mutates: the parents' own chance, or at least {@link #MUTAGEN_MUTATION_FLOOR} when treated with a Mutagen. */
     public double mutationChance() {
+        if(captured)return 0;
         double natural = Genome.mutationChance(mother, father);
         return mutagen ? Math.max(natural, MUTAGEN_MUTATION_FLOOR) : natural;
     }
 
     /** What the pups' stats will move by, on average, at this seed's quality plus {@code extraQuality}. */
     public double[] drift(double extraQuality) {
-        return Drift.drift(mother, father, effectiveQuality(extraQuality));
+        return captured ? new double[Stat.values().length] : Drift.drift(mother, father, effectiveQuality(extraQuality));
     }
 
     /** "Vitality +1.0, Speed -1.0", or "none" when nothing moves. */
@@ -166,7 +172,7 @@ public record Seed(Genome mother, Stats motherStats, Genome father, Stats father
     @Override
     public String toString() {
         return mother + "/" + motherStats + "|" + father + "/" + fatherStats + "|" + Double.toString(quality)
-                + (mutagen ? "|" + MUTAGEN_WORD : "") + (legacyMutation ? "|body_mutation" : "");
+                + (mutagen ? "|" + MUTAGEN_WORD : "") + (legacyMutation ? "|body_mutation" : "") + (captured ? "|captured" : "");
     }
 
     public String mutationScope() {
@@ -184,15 +190,16 @@ public record Seed(Genome mother, Stats motherStats, Genome father, Stats father
             return Optional.empty();
         }
         String[] parts = text.trim().split("\\|", -1);
-        if (parts.length < 2 || parts.length > 5) {
+        if (parts.length < 2 || parts.length > 6) {
             return Optional.empty();
         }
         boolean treated = false, bodyMutation = !Genome.isFullCode(parts[0]) && !Genome.isFullCode(parts[1]);
-        boolean markedBody = false;
+        boolean markedBody = false, captured = false;
         for (int i = 3; i < parts.length; i++) {
             String marker = parts[i].trim();
             if (marker.equals(MUTAGEN_WORD) && !treated) treated = true;
             else if (marker.equals("body_mutation") && !markedBody) { bodyMutation = true; markedBody = true; }
+            else if(marker.equals("captured") && !captured)captured=true;
             else return Optional.empty();
         }
         Optional<Parent> mother = parseParent(parts[0]);
@@ -212,7 +219,7 @@ public record Seed(Genome mother, Stats motherStats, Genome father, Stats father
             }
         }
         return Optional.of(new Seed(mother.get().genome(), mother.get().stats(),
-                father.get().genome(), father.get().stats(), quality, treated, bodyMutation));
+                father.get().genome(), father.get().stats(), quality, treated, bodyMutation, captured));
     }
 
     private record Parent(Genome genome, Stats stats) {}

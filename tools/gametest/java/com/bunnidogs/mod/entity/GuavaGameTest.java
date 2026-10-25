@@ -59,8 +59,8 @@ public final class GuavaGameTest extends GameTestInstance {
             String name="apex_pillar_"+(flying ? "flying_" : "")+kind.id;
             event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("apex_arena"),260,0,true)));
         }
-        for(String name:new String[]{"realm_travel","realm_harness","realm_ecology","realm_ward","realm_lance","realm_ruin","apex_followup_blast","apex_anvil_arc","apex_critical_meals","apex_multilayer_dive","apex_client_death","apex_swimming","apex_final_blast","apex_debts","apex_brood_tools"})
-            event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id(name.equals("apex_final_blast") ? "apex_blast_arena" : "apex_arena"),name.equals("apex_multilayer_dive") ? 260 : 100,0,true)));
+        for(String name:new String[]{"exp_armor","exp_smith","exp_vacuum","exp_flask","exp_launcher","exp_totem","realm_travel","realm_harness","realm_ecology","realm_ward","realm_lance","realm_ruin","apex_followup_blast","apex_anvil_arc","apex_critical_meals","apex_multilayer_dive","apex_client_death","apex_swimming","apex_final_blast","apex_debts","apex_brood_tools"})
+            event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id(name.equals("apex_final_blast") || name.equals("exp_totem") ? "apex_blast_arena" : "apex_arena"),name.equals("apex_multilayer_dive") ? 260 : name.equals("exp_totem") ? 200 : 100,0,true)));
         for (String name : new String[]{"apex_tactics", "apex_variants", "apex_attacks", "apex_blast", "apex_support", "apex_focus", "boats", "signs", "transport", "rehoming", "wayfinding", "worldgen_signs", "interaction_discovery", "interaction_conversation", "interaction_commands", "interaction_stations", "station_hands", "station_inventory", "station_inventory_machines", "calipers_readings", "entrance_trails", "sampling", "adaptations", "camouflage", "camouflage_sculk", "breeder", "breeding_barn", "breeder_venues", "island_refuge", "island_noise", "coastal_traits", "kelp_gardening", "shore_meals", "cave_sight", "genetic_discoveries", "trail_training", "trail_walking", "pedigree_comparator", "bundle_packs", "bundle_travel", "phasing", "swimming", "snow_routes", "fleece", "splicing", "registry", "lineage_names", "table_planning", "table_automation", "juicer", "breeding_pen", "pen_safety", "pen_callbacks", "pelt_rugs", "specimen_jar", "show", "grooming", "cold_care", "settlement", "apex", "fixtures", "regional_farms", "orchard", "orchard_picking", "sapling_station", "gardening", "cactus_gardening", "mushroom_gardening", "melon_gardening", "fruit_foraging", "regional_meals", "loose_food", "food_gathering", "pantry", "fishing", "hunt_safety", "chorus_care", "refuge", "guarding", "scouting", "resident_finder", "storm_shelter", "recovery_rest", "trough_automation", "bell_calls", "trough_filters", "care_dispensers", "basket", "basket_dispenser", "basket_callbacks", "cultivation", "nest_markers", "nest_signals", "night_meals", "nursery", "seed_recovery", "cradle_storage", "cradle_hatching", "cradle_spawn_refusal", "crop_harvest", "composting", "work_modes", "work_pause", "hand_care", "cradle_controls", "work_census", "trough_supply", "supply_callbacks", "garden_restoration", "nursery_workers", "nursery_treatment"}) {
             event.registerTest(id(name), new GuavaGameTest(name, new TestData<>(environment, id(name.startsWith("apex_") ? "apex_arena" : name.equals("trail_walking") ? "trail_corridor" : "empty"), name.equals("apex_tactics") ? 260 : name.equals("nest_signals") || name.equals("juicer") || name.equals("breeding_pen") || name.equals("trail_walking") ? 180 : 100, 0, true)));
         }
@@ -75,6 +75,12 @@ public final class GuavaGameTest extends GameTestInstance {
             for(var kind:ApexKind.values())if(kind.id.equals(type)) {ApexReviewGameTest.pillar(h,kind,flying);return;}
         }
         switch (this.scenario) {
+            case "exp_armor" -> {ExpeditionRewardsGameTest.armor(h);return;}
+            case "exp_smith" -> ExpeditionRewardsGameTest.smith(h);
+            case "exp_vacuum" -> ExpeditionRewardsGameTest.vacuum(h);
+            case "exp_flask" -> ExpeditionRewardsGameTest.flask(h);
+            case "exp_launcher" -> ExpeditionRewardsGameTest.launcher(h);
+            case "exp_totem" -> {ExpeditionRewardsGameTest.totem(h);return;}
             case "realm_travel" -> {RealmGameTest.travel(h);return;}
             case "realm_ecology" -> RealmGameTest.ecology(h);
             case "realm_ward" -> {RealmGameTest.ward(h);return;}

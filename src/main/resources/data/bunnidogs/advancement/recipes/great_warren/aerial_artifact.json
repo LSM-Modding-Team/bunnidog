@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "part": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "bunnidogs:aerial_membrane"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "part"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:aerial_artifact"
+    ]
+  }
+}

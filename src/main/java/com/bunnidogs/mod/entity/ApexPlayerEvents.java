@@ -35,9 +35,14 @@ public final class ApexPlayerEvents {
         var pending=TOTEMS.remove(p.getUUID());
         if(pending!=null) {
             int used=p.getStats().getValue(Stats.ITEM_USED.get(pending.item))-pending.before;
-            if(used>0)LifebinderMarks.get(p.level()).restore(p,3*used);
+            if(used>0) {
+                LifebinderMarks.get(p.level()).restore(p,3*used);
+                if(pending.item==com.bunnidogs.mod.registry.ModItems.CATACLYSM_TOTEM.get())com.bunnidogs.mod.expedition.ExpeditionGear.detonate(p);
+            }
         }
-        if(p.tickCount%20==0)LifebinderMarks.get(p.level()).sync(p);
+        if(p.tickCount%10==0) {
+            com.bunnidogs.mod.expedition.ExpeditionGear.armor(p);LifebinderMarks.get(p.level()).expire(p,p.level().getGameTime());
+        }
         ApexDaze.tick(p);
     }
 }

@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "artifact": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "bunnidogs:cataclysm_core"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "artifact"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:cataclysm_totem"
+    ]
+  }
+}

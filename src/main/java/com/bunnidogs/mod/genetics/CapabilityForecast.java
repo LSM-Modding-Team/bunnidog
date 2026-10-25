@@ -7,7 +7,10 @@ import java.util.List;
 public final class CapabilityForecast {
     public record Outcome(int mindPacked, MindProfile mind, double chance) {}
     private final List<Outcome> outcomes;
-    public CapabilityForecast(Genome mother, Genome father) {
+    public CapabilityForecast(Genome mother,Genome father) {this(mother,father,false);}
+    public CapabilityForecast(Cross cross) {this(cross.a().genome(),cross.b().genome(),cross.seed().captured());}
+    private CapabilityForecast(Genome mother, Genome father,boolean captured) {
+        if(captured) {outcomes=List.of(new Outcome(mother.mindPacked(),mother.mind(),1));return;}
         var counts = new LinkedHashMap<Integer, Integer>();
         for (int roll = 0; roll < 256; roll++) {
             Genome child = new Genome(0, 0);

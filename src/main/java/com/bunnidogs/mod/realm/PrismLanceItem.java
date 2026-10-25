@@ -44,7 +44,7 @@ public final class PrismLanceItem extends Item {
         var key=ResourceKey.create(Registries.DAMAGE_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","prism_lance"));
         var source=new DamageSource(server.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(key),player);
         for(var enemy:server.getEntitiesOfClass(LivingEntity.class,new AABB(start,end).inflate(.75),e->e!=player && e.isAlive() && !e.isSpectator()))
-            if(enemy.getBoundingBox().inflate(.75).clip(start,end).isPresent())enemy.hurtServer(server,source,24);
+            if(enemy.getBoundingBox().inflate(.75).clip(start,end).isPresent())enemy.hurtServer(server,source,64);
         PacketDistributor.sendToPlayersNear(server,null,start.x,start.y,start.z,80,new ApexBeamPayload(start,end,4));
         server.playSound(null,player.blockPosition(),net.minecraft.sounds.SoundEvents.BEACON_ACTIVATE,net.minecraft.sounds.SoundSource.PLAYERS,1,1.5F);
         player.getCooldowns().addCooldown(stack,30);stack.hurtAndBreak(1,player,player.getUsedItemHand());

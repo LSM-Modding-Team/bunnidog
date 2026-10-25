@@ -48,6 +48,18 @@ pages. Keep dark readable panel text and native slots; preserve borderless MCA
 animal conversations. This supersedes the earlier backgroundless-station choice,
 without restoring tutorial panels. The book/reader keeps its deliberate pages.
 
+Latest rewards steering supersedes the conservative initial realm rewards:
+`docs/APEX_REWARDS_SPECS.md` is authoritative. Preserve native smithing item
+components, independent Heartbound timers, successful-pop-only explosive Totems,
+real vanilla BundleContents capture storage, one exact pup per captured seed,
+and world-owned unbounded FlaskStorage with immutable read-only previews.
+Vacuum weapons must bypass animal cargo-bundle equipment; other keepers' pets,
+leashes and cargo remain protected. User explicitly authorizes brood-to-seed
+capture, superseding the earlier no-permanent-brood-products restriction for this
+paid tool only. Keep no ordinary death drops/XP from brood. Unique parts come
+from wild/ritual kills; ruins provide generous bulk materials. Roadmap expansion
+remains pinned during this player review. Enemy balancing stays unchanged.
+
 Apex expansion steering: the later "implement the apex types" request authorizes
 runtime implementation. Five roles and their five flying variants now ship;
 `docs/APEX_SPECS.md` records actual behavior and evidence. Keep the +60% outgoing

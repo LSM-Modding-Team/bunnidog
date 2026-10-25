@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "VMV",
+    "SFS",
+    "VMV"
+  ],
+  "key": {
+    "V": "bunnidogs:volatile_heart",
+    "M": "bunnidogs:apex_marrow",
+    "S": "bunnidogs:heart_spool",
+    "F": "bunnidogs:apex_fang"
+  },
+  "result": {
+    "id": "bunnidogs:cataclysm_core",
+    "count": 1
+  }
+}

@@ -55,6 +55,7 @@ public record Cross(Tissue a, Tissue b, BreedingPlan plan,Optional<Seed> actualS
      * The chances add up to 1; at most three alleles appear.
      */
     public List<Outcome> looks(Gene gene) {
+        if(seed().captured())return List.of(new Outcome(seed().mother().expressed(gene),1));
         Map<Integer, Integer> counts = new LinkedHashMap<>();
         Map<Integer, Allele> alleles = new LinkedHashMap<>();
         for (int i = 0; i < 2; i++) {
@@ -76,6 +77,10 @@ public record Cross(Tissue a, Tissue b, BreedingPlan plan,Optional<Seed> actualS
 
     /** All alleles a pup can inherit, including recessive copies hidden by its look. */
     public List<Inherited> inherited(Gene gene) {
+        if(seed().captured()) {
+            var g=seed().mother();int first=g.alleleId(gene,0),second=g.alleleId(gene,1);
+            return gene.alleles().stream().filter(a->a.id()==first || a.id()==second).map(a->new Inherited(a,1,first==second ? 1 : 0)).toList();
+        }
         Map<Integer, Integer> carried = new LinkedHashMap<>();
         Map<Integer, Integer> fixed = new LinkedHashMap<>();
         for (int i = 0; i < 2; i++) {
@@ -113,12 +118,12 @@ public record Cross(Tissue a, Tissue b, BreedingPlan plan,Optional<Seed> actualS
     }
 
     public double fullFixedPupChance() {
-        return fixedPupChance() * new CapabilityForecast(a.genome(), b.genome()).fixedMindChance();
+        return fixedPupChance() * new CapabilityForecast(this).fixedMindChance();
     }
 
     /** Mean litter size before crowding ({@link Breeding#expectedLitter}). */
     public double litter() {
-        return Breeding.expectedLitter(this.a.genome(), this.b.genome());
+        return seed().expectedLitter();
     }
 
     /** The smallest litter that can be rolled: the whole part of the mean, at least 1 and at most {@link Breeding#MAX_LITTER}. */

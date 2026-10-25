@@ -5,6 +5,25 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current player review — substantial Apex rewards
+
+Read `docs/APEX_REWARDS_SPECS.md` before the original realm specs. Latest steering
+calls for powerful multipart gear and much more generic ruin stock, with unique
+parts from Apex kills. All seven requested directions now ship: Heartbound
+Netherite with +1.5 equipped hearts/piece and independent 60/45/30/15s heart-loss
+recovery; an Elytra smithing upgrade with actual armor/Protection; native power-4
+launcher; power-20 rescue Totem with owner immunity/5s stun; stronger armor-piercing
+Lance; native-bundle genetic vacuum/exact-copy seeds; ordered world-backed
+unbounded potion/juice flask. Rituals also pay parts for pre-realm preparation.
+
+New ruins add a third bulk-supply chest. Existing stock/structures stay untouched.
+Native smithing preserves wear, names and enchantments. The old wing-harness ID
+stays compatible, now acquired by upgrading Elytra. Existing enemy fight values
+stay accepted. Protocol **29**, English/shared neutral Spanish; native suite
+**169 cases** plus model/localization/build gates. Runtime/client appearance and
+natural economy still need actual play evidence. Roadmap/Crown/civilization work
+remains paused while the player reviews this reward revision.
+
 ## Anchor Crest compatibility fix
 
 Attunement accepts the Apex Crest item, including Creative/menu Crests without

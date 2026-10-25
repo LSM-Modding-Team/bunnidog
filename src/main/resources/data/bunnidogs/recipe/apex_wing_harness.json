@@ -1,18 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "equipment",
-  "pattern": [
-    "M M",
-    "NSN",
-    "M M"
-  ],
-  "key": {
-    "M": "bunnidogs:aerial_membrane",
-    "N": "minecraft:netherite_ingot",
-    "S": "bunnidogs:heart_spool"
-  },
+  "type": "minecraft:smithing_transform",
+  "base": "minecraft:elytra",
+  "addition": "bunnidogs:aerial_artifact",
   "result": {
-    "id": "bunnidogs:apex_wing_harness",
-    "count": 1
+    "id": "bunnidogs:apex_wing_harness"
   }
 }

@@ -71,7 +71,7 @@ public final class GreatRuinPiece extends StructurePiece {
                     if(state.is(Blocks.CHEST) && world.getBlockEntity(pos) instanceof ChestBlockEntity chest) {
                         if(dx<0)archive(chest,seed^pos.asLong());
                         else {
-                            chest.setLootTable(ResourceKey.create(Registries.LOOT_TABLE,Identifier.fromNamespaceAndPath("bunnidogs","chests/great_ruin")));
+                            chest.setLootTable(ResourceKey.create(Registries.LOOT_TABLE,Identifier.fromNamespaceAndPath("bunnidogs",dx==0 ? "chests/warren_supplies" : "chests/great_ruin")));
                             chest.setLootTableSeed(seed^pos.asLong());
                         }
                         chest.setChanged();
@@ -97,7 +97,7 @@ public final class GreatRuinPiece extends StructurePiece {
         if(pillar && y<=8)return (y==8 ? Blocks.CHISELED_TUFF_BRICKS : Blocks.TUFF_BRICKS).defaultBlockState();
         if(y==9 && (x==0 && Math.abs(z)<=8 || z==0 && Math.abs(x)<=8 || Math.abs(x)==8 && Math.abs(z)<=8 || Math.abs(z)==8 && Math.abs(x)<=8))return Blocks.POLISHED_TUFF.defaultBlockState();
         if(y==10 && (x*x+z*z<25))return (x*x+z*z<8 ? Blocks.SEA_LANTERN : Blocks.TINTED_GLASS).defaultBlockState();
-        if(y==1 && Math.abs(x)==5 && z==5)return Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING,Direction.NORTH);
+        if(y==1 && (Math.abs(x)==5 && z==5 || x==0 && z==-5))return Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING,Direction.NORTH);
         if(edge==11 && y<=2 && !(Math.abs(x)<3 || Math.abs(z)<3) && Math.floorMod(x*31+z*19+seed,7)!=0)return Blocks.TUFF_BRICK_WALL.defaultBlockState();
         if(y<9 && edge<11)return Blocks.AIR.defaultBlockState();
         return null;
@@ -109,7 +109,7 @@ public final class GreatRuinPiece extends StructurePiece {
         chest.setItem(11,SeedItem.create(new Seed(a,stats,b,stats,20+random.nextInt(14))));
         chest.setItem(13,TissueSampleItem.create(a,stats));
         chest.setItem(15,new ItemStack(ModItems.MUTAGEN.get(),8+random.nextInt(9)));
-        chest.setItem(20,new ItemStack(ModItems.PRISM_CELL.get(),16));
+        chest.setItem(20,new ItemStack(net.minecraft.world.item.Items.AMETHYST_SHARD,64));
         chest.setItem(24,new ItemStack(ModItems.STARLIT_DUST.get(),16));
     }
 }

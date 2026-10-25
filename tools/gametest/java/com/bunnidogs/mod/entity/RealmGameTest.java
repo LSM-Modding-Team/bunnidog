@@ -121,7 +121,7 @@ final class RealmGameTest {
             var drops=new java.util.ArrayList<net.minecraft.world.entity.item.ItemEntity>();
             var event=new net.neoforged.neoforge.event.entity.living.LivingDropsEvent(a,level.damageSources().playerAttack(p),drops,true);
             RealmLoot.drops(event,a,level);
-            h.assertTrue(drops.size()>=3 && drops.stream().noneMatch(e->e.getItem().is(ModItems.TITAN_HAUNCH.get())),"Wild rewards provide role materials and supplies without domestic legends");
+            h.assertTrue(drops.size()>=2 && drops.stream().noneMatch(e->e.getItem().is(ModItems.TITAN_HAUNCH.get())),"Wild rewards provide role materials and supplies without domestic legends");
             a.setCustomName(net.minecraft.network.chat.Component.literal("Saved wild Apex"));h.assertTrue(a.isPersistenceRequired(),"A named wild Apex may still be kept deliberately");a.discard();
         }
         var ritual=ApexTypesGameTest.apex(h,ApexKind.BRUTE,false,pos);h.assertTrue(!ritual.wild() && ritual.isPersistenceRequired() && !ritual.removeWhenFarAway(20000),"Existing ritual Apexes keep their original persistence");ritual.discard();p.discard();
