@@ -5,6 +5,17 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — watched deliveries and remembered routes
+
+Read `docs/DELIVERY_LEARNING_SPECS.md`. Lessons now include Watch a delivery:
+an eligible adult accompanies a player and observes real native storage pickup
+and deposit gestures. It remembers one exact item/filter and two authorized
+stores, then walks actual saved parcels between them. Independent learned minds
+work alone; supported minds retain their guide requirement. Food reserves,
+filters, locks, pauses, store replacement, cargo recovery and safety remain real.
+No added tool, route-configuration menu or permanent HUD. The native animal
+menu, native container demonstration and unsupervised walking all have coverage.
+
 ## Current — society-first Apex progression
 
 Read `docs/HEARTH_PROGRESSION_SPECS.md`. A Hearth household now performs real
@@ -76,15 +87,15 @@ frozen genetic archives. Sovereign smithing upgrades extend Heartbound armor,
 Lance and Armored Elytra; the Concord Standard adds paid party healing. Existing
 ordinary Apex tuning stays accepted. No new tutorial/menu layer.
 
-Protocol **33**, **2,420 authored / 2,548 packaged** language keys, English/shared
-neutral Spanish. The native suite now has **188 scenarios**, alongside actual
+Protocol **34**, **2,467 authored / 2,595 packaged** language keys, English/shared
+neutral Spanish. The native suite now has **197 scenarios**, alongside actual
 model/localization/build gates. Save/kill-payment ordering, native health above
 1,024, short chunk leases, finite actors, exact smithing components and separate
 core/trophy delivery retries are invariants. Native and inspected preview evidence
 remain distinct from graphical client play, natural chunk order/performance and
 full solo/co-op boss pacing. See the current spec for those practical limits.
 
-Remaining broader roadmap: observed player demonstrations/routes, remaining I3
+Remaining broader roadmap: general observed harvest/care lessons, remaining I3
 work integration and expanded professions/construction/civilization. The new
 Hearth household implements a focused cross-stage journey through those systems. Address any newly reported
 expedition issues first; do not rebalance the accepted ordinary Apex fights

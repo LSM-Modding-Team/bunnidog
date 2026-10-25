@@ -100,3 +100,7 @@ for i,name in enumerate(['living_keystone','grafting_frame','hearth_incense','st
  im=Image.open(A/'textures/item'/f'{name}.png').resize((128,128),Image.Resampling.NEAREST);sheet.paste(im,(20+i*190,55),im);d.text((20+i*190,190),name.replace('_',' '),fill='white')
 for i,mask in enumerate([0,1,7,31,63]):sheet.paste(Image.open(A/'textures/block'/f'anchor_1_{mask}.png').resize((96,96),Image.Resampling.NEAREST),(35+i*190,250))
 sheet.save(ROOT/'art/society_preview.png')
+
+# Personal delivery lessons extend the household without rewriting its original progression.
+import runpy
+runpy.run_path(str(ROOT/"art/gen_delivery.py"))

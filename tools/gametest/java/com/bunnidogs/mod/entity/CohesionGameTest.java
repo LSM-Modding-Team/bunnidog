@@ -289,8 +289,11 @@ public final class CohesionGameTest {
         candidate.setGenome(genes); candidate.setStats(Stats.of(0,0,0,10,0)); candidate.setAge(0); candidate.setParents(Genome.DEFAULT,Genome.DEFAULT); candidate.setHealth(candidate.getMaxHealth()); candidate.setOnGround(true);
         var breeder=h.spawnWithNoFreeWill(EntityTypes.VILLAGER,4.5F,y+1,8.5F); breeder.setVillagerData(breeder.getVillagerData().withProfession(ModVillagers.BREEDER));
         player.getInventory().setItem(20,new ItemStack(Items.PAPER,3)); var commissions=CareMenuGameTest.open(h,player,boardPos);
-        h.assertTrue(board.read().status()==Commissions.Status.GENES && !commissions.clickMenuButton(player,commissions.buttonId(CarePanels.SUBMIT)) && count(player,Items.PAPER)==3,
-                "A partially inherited commission shows actual missing requirements and keeps its paper");
+        var partial=board.read();
+        h.assertTrue(partial.status()==Commissions.Status.GENES,
+                "A partially inherited commission reports missing genes: "+partial.status()+", request="+board.request()+", condition="+com.bunnidogs.mod.entity.CommissionCandidate.condition(candidate)+", position="+candidate.position());
+        h.assertTrue(!commissions.clickMenuButton(player,commissions.buttonId(CarePanels.SUBMIT)) && count(player,Items.PAPER)==3,
+                "A partially inherited commission keeps its paper");
         preview("Commission progress",commissions);
         candidate.setGenome(fixed(fixed(fixed(genes,Gene.COAT,"pale"),Gene.LEGS,"hoofed"),Gene.BUILD,"stocky")); candidate.setStats(Stats.of(0,10,20,20,0));
         player.closeContainer(); player.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(Items.BUNDLE)); player.snapTo(candidate.position().add(1,0,0));

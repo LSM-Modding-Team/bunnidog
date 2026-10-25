@@ -168,11 +168,14 @@ reload and legacy migration, and ordinary low-capacity
 attachment/Whistle recall. Localization checks include the separate mind pages
 in the shared Spanish translation.
 
-This is **initial I2**, with some garden/nursery integration from I3. These are
+The initial foundation below has since gained the concrete watched-delivery
+journey in [DELIVERY_LEARNING_SPECS.md](DELIVERY_LEARNING_SPECS.md), plus the
+Hearth teaching/household loop. The earlier checkpoint was **initial I2**, with
+some garden/nursery integration from I3. These are
 attended practice sessions around existing local actions, not observed player
-demonstrations or saved courier programs. Finish discovery/observation, learned
-source/destination routes and route-specific interruption feedback next, then integrate
-remaining gather/scouting/care/tactics without bypassing taught limitations.
+demonstrations or saved courier programs. Learned source/destination routes, native delivery observation and route-specific
+interruption feedback now ship in that current spec. Continue general observed
+lessons and remaining gather/scouting/care/tactics without bypassing taught limitations.
 NPC teachers, shared culture, professions, commons, construction, independent
 family continuity and autonomous civilization remain I4–I10 work. No client/GPU
 playtest, long-term colony simulation or natural multiplayer balance is claimed.

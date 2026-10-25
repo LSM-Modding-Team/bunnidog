@@ -131,6 +131,7 @@ public final class TrailCompanion {
         if (!player.mayBuild() || !dog.acceptsCare() || !dog.isAlive() || dog.level()!=player.level()
                 || local && dog.distanceToSqr(player)>36) return Trail.Status.UNAVAILABLE;
         if (training) return Trail.Status.BUSY;
+        if(!dog.society().authorized(player) || !dog.deliveries().authorized(player))return Trail.Status.OTHER_KEEPER;
         if (keeper!=null && !belongsTo(player)) return Trail.Status.OTHER_KEEPER;
         if (dog.isBaby()) return Trail.Status.ADULT;
         if (!Trail.qualified(dog.genome())) return Trail.Status.TEMPERAMENT;

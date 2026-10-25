@@ -44,7 +44,7 @@ public final class BunnidogLearning {
                 && dog.level().getGameTime() < until && dog.distanceToSqr(player) <= GUIDE_RANGE * GUIDE_RANGE;
     }
     public boolean authorized(Player player) {
-        return player.mayBuild() && player.level() == dog.level() && !player.isSpectator()
+        return player.mayBuild() && dog.society().authorized(player) && player.level() == dog.level() && !player.isSpectator()
                 && (dog.trail().keeper() == null || dog.trail().belongsTo(player));
     }
     public boolean physicallyReady(Learning.Routine routine) {
@@ -57,7 +57,7 @@ public final class BunnidogLearning {
         };
     }
     public boolean canBegin(Player player, Learning.Routine routine) {
-        return opaqueKnowledge == null && authorized(player) && dog.distanceToSqr(player) <= GUIDE_RANGE * GUIDE_RANGE
+        return opaqueKnowledge == null && !dog.deliveries().watching() && authorized(player) && dog.distanceToSqr(player) <= GUIDE_RANGE * GUIDE_RANGE
                 && player.hasLineOfSight(dog) && physicallyReady(routine)
                 && CapabilityRules.potential(dog.mind(), routine.task()) != CapabilityRules.Potential.LIMITED
                 && !knowledge.independent(dog.mind(), routine);
@@ -77,7 +77,7 @@ public final class BunnidogLearning {
                 && player.hasLineOfSight(dog) && !dog.trail().ordered() && !dog.workPaused();
     }
     public boolean canWork(Learning.Routine routine) {
-        if (opaqueKnowledge != null) return false;
+        if (opaqueKnowledge != null || dog.deliveries().watching() || !dog.deliveries().cargo().isEmpty()) return false;
         // A lesson focuses one routine, so other chores cannot consume its shared work/rest window.
         if (lesson != null) return lesson == routine && guided()
                 && CapabilityRules.potential(dog.mind(), routine.task()) != CapabilityRules.Potential.LIMITED;
@@ -118,6 +118,9 @@ public final class BunnidogLearning {
                     dog.getDisplayName(),TextComponents.t(routine.task().displayName())));
         }
         if (knowledge.independent(dog.mind(), routine)) cancel();
+    }
+    void deliveryPractice() {
+        if(opaqueKnowledge==null && !dog.level().isClientSide() && CapabilityRules.potential(dog.mind(),Learning.Routine.DELIVERY.task())!=CapabilityRules.Potential.LIMITED)knowledge=knowledge.practice(dog.mind(),Learning.Routine.DELIVERY);
     }
     public void cancel() { lesson = null; teacher = null; until = 0; observed=Activity.SEARCHING; }
     void tick() {

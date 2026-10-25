@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 public final class LearningPanel {
     private LearningPanel() {}
     public static final int OPEN = 220, TEACH = 221, STOP = 225;
+    public static final int WATCH=236,STOP_WATCH=237,SHOW_ROUTE=238,PAUSE_ROUTE=239,CLEAR_ROUTE=240,UNLOAD_ROUTE=241;
     private static Component name(Learning.Routine routine) { return TextComponents.t(routine.task().displayName()); }
     public static Component status(Bunnidog dog, Learning.Routine routine) {
         var potential = CapabilityRules.potential(dog.mind(), routine.task());
@@ -27,11 +28,28 @@ public final class LearningPanel {
             controls.add(new CareView.Control(TEACH + routine.ordinal(), learned ? AnimalPanels.text("learned_label",name(routine)) : TextComponents.t(known ? "Guide %s" : "Teach %s", name(routine)),
                     dog.learning().canBegin(player, routine) && dog.learning().lesson() != routine,CareView.Control.PRIMARY,lessonReason(player,dog,routine)));
         }
+        var delivery=dog.deliveries();
+        if(delivery.watching())controls.add(new CareView.Control(STOP_WATCH,Component.translatable("care.bunnidogs.delivery.stop"),delivery.authorized(player)));
+        else controls.add(new CareView.Control(WATCH,Component.translatable("care.bunnidogs.delivery.watch"),delivery.canObserve(player),CareView.Control.PRIMARY,deliveryReason(player,dog)));
+        if(delivery.route()!=null) {
+            rows.add(Component.translatable("care.bunnidogs.delivery.parcel",delivery.route().filter().getHoverName()));
+            rows.add(Component.translatable("care.bunnidogs.delivery.state."+delivery.state().name().toLowerCase(java.util.Locale.ROOT)));
+            controls.add(new CareView.Control(SHOW_ROUTE,Component.translatable("care.bunnidogs.delivery.show"),delivery.authorized(player),CareView.Control.DETAIL));
+            controls.add(new CareView.Control(PAUSE_ROUTE,Component.translatable(delivery.paused() ? "care.bunnidogs.delivery.resume" : "care.bunnidogs.delivery.pause"),delivery.authorized(player),CareView.Control.DETAIL));
+            controls.add(new CareView.Control(CLEAR_ROUTE,Component.translatable("care.bunnidogs.delivery.clear"),delivery.authorized(player) && delivery.cargo().isEmpty(),CareView.Control.DETAIL));
+        }
+        if(!delivery.cargo().isEmpty())controls.add(new CareView.Control(UNLOAD_ROUTE,Component.translatable("care.bunnidogs.delivery.unload"),delivery.authorized(player)));
         var lesson = dog.learning().lesson();
         if (lesson!=null) controls.add(new CareView.Control(STOP, TextComponents.t("Stop lesson"), dog.learning().authorized(player)));
         controls.add(new CareView.Control(CarePanels.BACK, Component.translatable("care.bunnidogs.button.back"), true));
-        Component next=lesson==null ? blocker(dog) : activity(dog);
+        Component next=delivery.watching() ? Component.translatable("care.bunnidogs.delivery.watching") : lesson==null ? blocker(dog) : activity(dog);
         return new CareView(TextComponents.t("Learning: %s", dog.getDisplayName()), next, rows, controls);
+    }
+    private static Component deliveryReason(Player p,Bunnidog dog) {
+        if(dog.deliveries().canObserve(p))return Component.empty();
+        if(!dog.deliveries().authorized(p))return AnimalPanels.text("keeper_only");
+        String key=dog.isBaby() ? "young" : !dog.deliveries().cargo().isEmpty() ? "parcel" : !Supplying.qualified(dog.stats()) ? "senses" : CapabilityRules.potential(dog.mind(),CapabilityRules.Task.DELIVERY)==CapabilityRules.Potential.LIMITED ? "complex" : "ready";
+        return Component.translatable("care.bunnidogs.delivery.reason."+key);
     }
     public static Component activity(Bunnidog dog) {
         var lesson=dog.learning().lesson();

@@ -35,9 +35,11 @@ public final class SocietyWork {
         var l=dog.level();return home!=null && site!=null && home.dimension().equals(l.dimension()) && l.hasChunkAt(home.pos()) && l.getBlockEntity(home.pos()) instanceof HearthTreeBlockEntity h && site.equals(h.site()) ? h : null;
     }
     public boolean belongs(HearthTreeBlockEntity h) {return home!=null && home.dimension().equals(dog.level().dimension()) && home.pos().equals(h.getBlockPos()) && h.site().equals(site);}
+    public boolean authorized(Player p) {var h=hearth();return home==null || h!=null && (h.owner()==null || h.owner().equals(p.getUUID()));}
+    public boolean cargoEmpty() {return cargo.isEmpty();}
     public boolean child() {return child;}
     public boolean invite(Player player,HearthTreeBlockEntity h,boolean leave) {
-        if(!h.permitted(player) || !dog.isAlive() || !dog.acceptsCare() || dog.isBaby() || dog.level()!=h.getLevel() || dog.distanceToSqr(Vec3.atCenterOf(h.getBlockPos()))>24*24 || dog.trail().keeper()!=null && !dog.trail().belongsTo(player))return false;
+        if(!h.permitted(player) || !dog.deliveries().authorized(player) || !dog.isAlive() || !dog.acceptsCare() || dog.isBaby() || dog.level()!=h.getLevel() || dog.distanceToSqr(Vec3.atCenterOf(h.getBlockPos()))>24*24 || dog.trail().keeper()!=null && !dog.trail().belongsTo(player))return false;
         if(leave) {if(!belongs(h))return false;returnCargo();home=null;site=null;child=false;return true;}
         if(home!=null && !belongs(h) || !belongs(h) && h.residents().size()>=16)return false;
         if(dog.trail().ordered() && !dog.trail().command(player,Trail.Order.RESIDENT))return false;
@@ -58,7 +60,7 @@ public final class SocietyWork {
     private Job at(Kind k,BlockPos p) {return new Job(k,p.immutable(),-1,dog.level().getBlockState(p));}
     private boolean gardener() {return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.GARDEN);}
     public Job plan() {
-        if(!ready())return null;var h=hearth();var l=(ServerLevel)dog.level();var at=h.getBlockPos();
+        if(!ready() || dog.deliveries().watching() || !dog.deliveries().cargo().isEmpty())return null;var h=hearth();var l=(ServerLevel)dog.level();var at=h.getBlockPos();
         if(!cargo.isEmpty())return at(Kind.DELIVER,destination!=null && l.hasChunkAt(destination) && (destination.equals(at) || l.getBlockEntity(destination) instanceof FeedingTroughBlockEntity || l.getBlockEntity(destination) instanceof NurseryCradleBlockEntity) ? destination : at);
         if(workSinceMeal>=6)return h.count(ModItems.GUAVA.get())>0 && dog.canEat(new ItemStack(ModItems.GUAVA.get())) ? at(Kind.MEAL,at) : null;
         boolean grow=knows(Learning.Routine.HARVEST),garden=gardener(),nurse=Gardening.nurses(dog.stats()) && knows(Learning.Routine.NURSERY);

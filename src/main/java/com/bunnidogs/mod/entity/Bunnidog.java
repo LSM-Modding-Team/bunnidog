@@ -194,6 +194,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private final CaveGuiding caveGuiding = new CaveGuiding(this);
     private final TrailCompanion trailCompanion = new TrailCompanion(this);
     private final CompanionCombat companionCombat = new CompanionCombat(this);
+    private final DeliveryMemory deliveries=new DeliveryMemory(this);
+    public DeliveryMemory deliveries() {return deliveries;}
     private final SocietyWork society=new SocietyWork(this);
     public SocietyWork society() {return society;}
     private final BunnidogLearning learning = new BunnidogLearning(this);
@@ -386,6 +388,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             if (this.biteWait>0) this.biteWait--;
             this.companionCombat.tick();
             this.learning.tick();
+            this.deliveries.tick();
             if (!this.entityData.get(DATA_FLEECE_READY) && this.level().getGameTime() >= this.nextFleeceTick) {
                 this.entityData.set(DATA_FLEECE_READY,true);
             }
@@ -416,7 +419,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     // ------------------------------------------------------------------ breeding (Phase 2)
 
     boolean readyForPen() {
-        return this.isAlive() && this.acceptsCare() && !this.combat().recovering() && this.getAge() == 0 && !this.isInLove() && !this.guavaMemory.active()
+        return this.isAlive() && this.acceptsCare() && !this.deliveries().watching() && this.deliveries().cargo().isEmpty() && !this.combat().recovering() && this.getAge() == 0 && !this.isInLove() && !this.guavaMemory.active()
                 && this.getHealth() >= this.getMaxHealth() && !this.beingTransported() && !this.isVehicle()
                 && this.getTarget() == null && !this.seekingRefuge() && !this.isInWater() && !this.isInLava() && !this.isOnFire();
     }
@@ -1085,6 +1088,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.companionCombat.save(output);
         this.learning.save(output);
         this.society.save(output);
+        this.deliveries.save(output);
         if (this.biteWait>0) output.putInt("CombatBiteWait",this.biteWait);
         output.putString(TAG_GENOME, this.genome().toString());
         output.putString(TAG_STATS, this.stats().toString());
@@ -1142,6 +1146,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.biteWait=Math.clamp(input.getIntOr("CombatBiteWait",0),0,28);
         this.packs.load(input);
         this.society.load(input);
+        this.deliveries.load(input);
         this.learning.restore(input, decodedGenome.isPresent() && !Genome.isFullCode(savedGenome));
         if (!this.level().isClientSide()) this.applyAdaptations();
         this.highestShowAward = Math.max(0, input.getIntOr("ShowAward", 0));
@@ -1234,8 +1239,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.goalSelector.addGoal(4, new TrailGoal(this));
         this.goalSelector.addGoal(4, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new TemptGoal(this, 1.1D, this::canEat, false) {
-            @Override public boolean canUse() { return Bunnidog.this.learning().lesson() == null && super.canUse(); }
-            @Override public boolean canContinueToUse() { return Bunnidog.this.learning().lesson() == null && super.canContinueToUse(); }
+            @Override public boolean canUse() { return Bunnidog.this.learning().lesson() == null && !Bunnidog.this.deliveries().watching() && super.canUse(); }
+            @Override public boolean canContinueToUse() { return Bunnidog.this.learning().lesson() == null && !Bunnidog.this.deliveries().watching() && super.canContinueToUse(); }
         });
         this.goalSelector.addGoal(6, new FollowParentGoal(this, 1.1D));
         // H2: a dog with a home (a claimed Nest, see NestHome and docs/HOME_SPECS.md) walks back once something (a guava, a scare, a
@@ -1243,6 +1248,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         // H4: at night an adult with a home walks to it and stays within 2 blocks until dawn (docs/HOME_SPECS.md R8). Registered BEFORE
         // GoHomeGoal (same priority: the first one in the list wins a tie) and above the stroll, which it keeps from running all night.
         // A short healing meal near the Nest can interrupt night waiting; player control remains above it.
+        this.goalSelector.addGoal(6,new DeliveryObservationGoal(this));
+        this.goalSelector.addGoal(6,new DeliveryGoal(this));
         this.goalSelector.addGoal(6, new TroughGoal(this));
         this.goalSelector.addGoal(7, new NightHomeGoal(this));
         this.goalSelector.addGoal(7, new GoHomeGoal(this));

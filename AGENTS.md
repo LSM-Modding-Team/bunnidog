@@ -69,6 +69,14 @@ Astralite; retain old Heartbound/Sovereign IDs and native smithing components.
 Durable late/endgame kit gear must carry Mending I and Unbreaking III. Preserve
 old generated chunks, stock, builds and exact paired returns.
 
+Personal watched deliveries now ship; read `docs/DELIVERY_LEARNING_SPECS.md`.
+Preserve actual native-menu observation, both walking legs, original shared stock
+journals, exact parcel components and store identities (including chest halves).
+Pause rather than force-load, teleport goods or erase a stranded parcel. Food
+reserves, filters, locks, Tending disable and redstone remain meaningful. A taught
+route is personal knowledge; inherited limits and owner authority still apply.
+Keep the concise Lessons controls/feedback, without a route setup screen or HUD.
+
 Society-first progression now supersedes the legendary-offering ritual and
 single-Crest entry. Read `docs/HEARTH_PROGRESSION_SPECS.md`. Preserve actual paid
 Hearth work, authorized plots, owned cargo, resident-taught independent offspring,

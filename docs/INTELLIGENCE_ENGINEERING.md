@@ -28,9 +28,10 @@ values require play/profile evidence, not only passing tests.
   capacity and personal knowledge with existing physical/world checks. Instructor
   sessions are local and transient; practice survives reload/travel/splicing.
 - This first teaching model is **attended practice**, using existing safe paid
-  actions. Watched player demonstrations, remembered source/destination routes,
-  remaining I3 work/tactics, NPC teaching/culture, shared jobs and civilization
-  remain unfinished. Do not treat local trough transfer as a long-range courier.
+  actions. A later concrete watched-delivery/remembered-route journey now ships; see
+  `docs/DELIVERY_LEARNING_SPECS.md`. General demonstrations beyond delivery,
+  remaining I3 work/tactics, shared culture/jobs and broader civilization remain
+  unfinished. Hearth resident teaching is recorded in the current Hearth spec. Do not treat local trough transfer as a long-range courier.
 
 ## 1. Engineering principles
 

@@ -100,6 +100,7 @@ public final class CareMenu extends AbstractContainerMenu {
         this.station=pos==null ? null : level.getBlockEntity(pos);
         if (station!=null) addStorageSlots(inventory,station);
     }
+    public net.minecraft.world.level.block.entity.BlockEntity deliveryStation() {return inventoryVisible() ? station : null;}
     public StationInventory.Kind inventoryKind() { return inventoryKind; }
     public boolean inventoryVisible() {
         return inventoryKind!=StationInventory.Kind.NONE && (station!=null ? mode==Mode.MAIN : view!=null && (view.page()&255)==0);
@@ -280,7 +281,7 @@ public final class CareMenu extends AbstractContainerMenu {
             facts.add(dog.combat().selected()); facts.add(dog.combat().downed()); facts.add(dog.combat().recovering());
             facts.add(dog.combat().partyState());
             facts.add(Optional.ofNullable(dog.homeNest()));
-            facts.add(dog.genome()); facts.add(dog.stats()); facts.add(dog.learning().knowledge());
+            facts.add(dog.genome()); facts.add(dog.stats()); facts.add(dog.learning().knowledge());facts.add(dog.deliveries().state());stock.add(dog.deliveries().cargo());facts.add(Optional.ofNullable(dog.deliveries().route()));
             facts.add(Optional.ofNullable(dog.learning().lesson())); facts.add(Optional.ofNullable(dog.learning().teacher()));
             facts.add(FamilyPanels.hasCalipers(owner));
             stock.addAll(dog.carriedBundles());
@@ -387,6 +388,12 @@ public final class CareMenu extends AbstractContainerMenu {
                 if (dog.learning().begin(player,com.bunnidogs.mod.genetics.Learning.Routine.values()[id-LearningPanel.TEACH]) && player.containerMenu==this)
                     player.closeContainer();
             }
+            else if(id==LearningPanel.WATCH && dog!=null) {if(dog.deliveries().begin(player) && player.containerMenu==this)player.closeContainer();}
+            else if(id==LearningPanel.STOP_WATCH && dog!=null && dog.deliveries().authorized(player))dog.deliveries().stopWatching();
+            else if(id==LearningPanel.SHOW_ROUTE && dog!=null)dog.deliveries().show(player);
+            else if(id==LearningPanel.PAUSE_ROUTE && dog!=null)dog.deliveries().setPaused(player,!dog.deliveries().paused());
+            else if(id==LearningPanel.CLEAR_ROUTE && dog!=null)dog.deliveries().clear(player);
+            else if(id==LearningPanel.UNLOAD_ROUTE && dog!=null)dog.deliveries().unload(player);
             else if (id==LearningPanel.STOP && dog!=null && dog.learning().authorized(player)) dog.learning().cancel();
             else if (id==CombatPanel.OPEN) navigate(Mode.COMBAT);
             else if (id==PartyPanel.OPEN) navigate(Mode.PARTY);
