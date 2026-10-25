@@ -11,13 +11,27 @@ final class ApexFlightGoal extends Goal {
     private final Apex apex;
     private int orbit=80,diveTicks,warning;
     private boolean diving;
+    private Vec3 idleOrigin;
     ApexFlightGoal(Apex apex) { this.apex=apex;setFlags(EnumSet.of(Flag.MOVE)); }
     @Override public boolean canUse() { return apex.flightActive(); }
     @Override public boolean requiresUpdateEveryTick() { return true; }
     @Override public void tick() {
         apex.getNavigation().stop();apex.setNoGravity(true);apex.resetFallDistance();
         var target=apex.getTarget();
-        if(target==null || !target.isAlive()) { apex.setDeltaMovement(apex.getDeltaMovement().scale(.8).add(0,apex.onGround() ? .12 : 0,0));return; }
+        if(target==null || !target.isAlive()) {
+            if(apex.wild()) {
+                if(idleOrigin==null)idleOrigin=apex.position();
+                double angle=apex.tickCount*.012;
+                Vec3 point=idleOrigin.add(Math.cos(angle)*6,6,Math.sin(angle)*6);
+                var at=BlockPos.containing(point);
+                if(apex.level().hasChunkAt(at)) {
+                    int floor=apex.level().getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,at.getX(),at.getZ());
+                    point=new Vec3(point.x,Math.min(apex.level().getMaxY()-4,Math.max(point.y,floor+6)),point.z);fly(apex,point,.35);
+                } else apex.setDeltaMovement(apex.getDeltaMovement().scale(.8));
+            } else apex.setDeltaMovement(apex.getDeltaMovement().scale(.8).add(0,apex.onGround() ? .12 : 0,0));
+            return;
+        }
+        idleOrigin=null;
         boolean brute=apex.kind()==ApexKind.BRUTE;
         if(brute && !diving && --orbit<=0 && apex.getY()>=target.getY()+5 && apex.hasLineOfSight(target)) { warning=8;orbit=80; }
         if(warning>0) {

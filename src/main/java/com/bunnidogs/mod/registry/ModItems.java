@@ -83,6 +83,27 @@ public final class ModItems {
     public static final DeferredRegister.DataComponents COMPONENTS =
             DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, BunnidogsMod.MODID);
 
+    public static final DeferredItem<BlockItem> ROOTSTONE=ITEMS.registerSimpleBlockItem(ModBlocks.ROOTSTONE);
+    public static final DeferredItem<BlockItem> WARREN_ANCHOR=ITEMS.registerSimpleBlockItem(ModBlocks.WARREN_ANCHOR);
+    public static final DeferredItem<BlockItem> WARREN_WARD=ITEMS.registerSimpleBlockItem(ModBlocks.WARREN_WARD);
+    public static final DeferredItem<Item> RESONANT_EYE=ITEMS.registerSimpleItem("resonant_eye",props->props.rarity(Rarity.RARE).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.resonant_eye")))));
+    public static final DeferredItem<Item> APEX_MARROW=ITEMS.registerSimpleItem("apex_marrow",props->props.rarity(Rarity.RARE));
+    public static final DeferredItem<Item> PRISM_LENS=ITEMS.registerSimpleItem("prism_lens",props->props.rarity(Rarity.RARE));
+    public static final DeferredItem<Item> CHORUS_HEART=ITEMS.registerSimpleItem("chorus_heart",props->props.rarity(Rarity.RARE));
+    public static final DeferredItem<Item> VOLATILE_HEART=ITEMS.registerSimpleItem("volatile_heart",props->props.rarity(Rarity.RARE));
+    public static final DeferredItem<Item> HEART_SPOOL=ITEMS.registerSimpleItem("heart_spool",props->props.rarity(Rarity.RARE));
+    public static final DeferredItem<Item> AERIAL_MEMBRANE=ITEMS.registerSimpleItem("aerial_membrane",props->props.rarity(Rarity.RARE));
+    public static final DeferredItem<com.bunnidogs.mod.realm.PrismCellItem> PRISM_CELL=ITEMS.registerItem("prism_cell",com.bunnidogs.mod.realm.PrismCellItem::new);
+    public static final DeferredItem<Item> APEX_WING_HARNESS=ITEMS.registerSimpleItem("apex_wing_harness",props->props.durability(864).rarity(Rarity.EPIC)
+            .component(DataComponents.GLIDER,net.minecraft.util.Unit.INSTANCE)
+            .component(DataComponents.EQUIPPABLE,net.minecraft.world.item.equipment.Equippable.builder(net.minecraft.world.entity.EquipmentSlot.CHEST)
+                    .setEquipSound(net.minecraft.sounds.SoundEvents.ARMOR_EQUIP_ELYTRA)
+                    .setAsset(net.minecraft.resources.ResourceKey.create(net.minecraft.world.item.equipment.EquipmentAssets.ROOT_ID,Identifier.fromNamespaceAndPath("bunnidogs","apex_wing_harness")))
+                    .setDamageOnHurt(false).build())
+            .component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.apex_wing_harness"))))
+            .repairable(AERIAL_MEMBRANE.get()));
+    public static final DeferredItem<com.bunnidogs.mod.realm.PrismLanceItem> PRISM_LANCE=ITEMS.registerItem("prism_lance",com.bunnidogs.mod.realm.PrismLanceItem::new,props->props.stacksTo(1).durability(512).rarity(Rarity.EPIC).repairable(PRISM_LENS.get()));
+
     public static final Map<String,DeferredItem<com.bunnidogs.mod.item.ApexSigilItem>> APEX_SIGILS=new LinkedHashMap<>();
     static {
         for (var kind:com.bunnidogs.mod.entity.ApexKind.values()) for (boolean flying:new boolean[]{false,true}) {
@@ -450,6 +471,7 @@ public final class ModItems {
             event.accept(MOON_SINEW.get());
             event.accept(LISTENING_SHELL.get());
             event.accept(EVERBLOOM.get());
+            for(var item:java.util.List.of(ROOTSTONE.get(),WARREN_ANCHOR.get(),WARREN_WARD.get(),RESONANT_EYE.get(),APEX_MARROW.get(),PRISM_LENS.get(),CHORUS_HEART.get(),VOLATILE_HEART.get(),HEART_SPOOL.get(),AERIAL_MEMBRANE.get(),PRISM_CELL.get(),PRISM_LANCE.get(),APEX_WING_HARNESS.get()))event.accept(item);
             event.accept(APEX_CREST.get());
             APEX_SIGILS.values().forEach(item->event.accept(item.get()));
             // One plain sample (the default genome, no bred points) so a sample can be had in creative mode.

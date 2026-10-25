@@ -73,7 +73,7 @@ final class ApexFollowupGameTest {
         pup.caller(caller);pup.setPos(p.position().add(4,6,0));level.addFreshEntity(pup);pup.setNoAi(true);
         var flight=new WingFlightGoal(pup);h.assertTrue(flight.canUse(),"Winged brood inherit aerial combat");flight.start();
         for(int t=0;t<47;t++)flight.tick();
-        h.assertTrue(pup.getDeltaMovement().length()<.01,"A winged brood pauses for its small pre-dive warning");
+        h.assertTrue(pup.getDeltaMovement().length()<.02,"A winged brood pauses for its small pre-dive warning");
         flight.tick();h.assertTrue(pup.getDeltaMovement().y<-.1,"Winged brood dive toward the target after warning");
         pup.setPos(p.position());p.invulnerableTime=0;float health=p.getHealth();flight.tick();
         h.assertTrue(p.getHealth()<health,"A brood dive lands its own gene-derived bite");

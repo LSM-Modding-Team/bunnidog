@@ -287,6 +287,17 @@ Multiple players and companions can divide pressure. Shared stun recovery is
 per victim, so several supports cannot take turns removing all player agency.
 Do not solve hard combinations by doubling every enemy's health.
 
+## Initial AX6 delivery (2026-10-25)
+
+The user completed balance review and resumed autonomous development. The initial
+Great Warren now implements paired returnable anchors/refuges, Crownroot Groves,
+Glassbloom Flats and Thunder Hollows, natural wild Apex ecology, rich ruins and
+frozen archives, Wards/Rootstone, Prism Lance and Apex Wing Harness. See
+`GREAT_WARREN_SPECS.md` for exact shipped rules and evidence. The remainder below
+continues to describe the broader target, not a claim all proposed systems ship.
+The Crown Warren/Crowned Apex/Sovereign finale remains AX7. Existing accepted
+Apex combat values are preserved.
+
 ## The dimension: the Great Warren
 
 Working name: **the Great Warren**, a whole realm shaped by enormous burrows,
@@ -380,7 +391,8 @@ The separation below makes each activity worthwhile rather than reducing rewards
 
 ### Reagents lead to recognizable equipment
 
-Working item concepts, not implemented recipes or registered IDs:
+Initial Lens/Lance, Membrane/Harness, cells, reagents and Wards now ship; the
+remaining support, siege and Sovereign branches below are future concepts:
 
 - **Prism Lens → Prism Lance.** A charged mouth-beam-inspired ranged weapon,
   strong against a line of enemies. Its windup, cell supply and exposed firing

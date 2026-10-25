@@ -45,46 +45,46 @@ is not exposed in this session: use available work budget without inventing quot
 Reported percentages are sustained-run targets, including 100%; continue across
 checkpoints/compaction and reserve only the capacity needed to deliver safely.
 
-## Current focus — Apex disconnect fix and combat follow-up (2026-10-24)
+## Current focus — Great Warren expeditions (AX6, 2026-10-25)
 
-[APEX_SPECS.md](docs/APEX_SPECS.md) records the current values and evidence.
+The user has finished Apex balance review and resumed substantial autonomous
+continuations. Keep the accepted combat numbers. The first Great Warren now
+ships; see [GREAT_WARREN_SPECS.md](docs/GREAT_WARREN_SPECS.md) for actual rules.
 
-- The supplied disconnect reports identify a client death-event callback casting
-  ClientLevel to ServerLevel. `ApexPlayerEvents.death` now admits only real server
-  levels before debt/kill work. A logical-client native death-notification case
-  covers both ground/flying Lifebinders; actual server heart repayment still works.
-- Ground Brute is 10% faster and prefers native melee/short approach near a visible
-  target, with variable destructive jumps for more distant/elevated targets.
-  Ground Blastmaw can also jump to approach while its self-explosion is ready,
-  without consuming that charge or acquiring melee damage.
-- All Blastmaw outgoing explosion/fireball damage is 25% lower. Terrain powers,
-  family immunity and 22.5% self-cost remain. Fireballs fire outside burst range
-  even with the burst ready, and a burst resets their full 55-tick delay. Flying
-  normal/final fuses are now sixty/eighty ticks; ground remains thirty/fifty.
-- Brood waves are five, recovery 380 ticks (nineteen seconds), caps ten/twenty.
-  Compared with the prior build, actual health is 10% lower (14.4–36), bite damage
-  15% lower (4.675–10.2). Speed/cadence remain. Brood also swim strongly. Throw
-  recovery halves to forty ticks. Eating has five-tick holds/six-tick recovery;
-  critical callers (≤25%) chain real meals with two-tick holds/no added recovery.
-- Lifebinder anvils now have actual two-by-two body/rendering, a slower native
-  ballistic parabola (16–32 ticks), flying-Brute-equivalent raw damage, doubled
-  fourteen-second recovery and doubled initial delay. Conditional view-motion
-  escape, queued hooks, sevenfold drain income and saved heart debt remain.
-- Only flying fixed Prismmaw beams retain absolute shot origins. Ground fixed
-  origins follow the mouth; their direction still locks, tracking remains ≤25%.
-- Flying Brute clears successive wall layers instead of aborting on the first
-  collision. Speed is now 1.6 versus prior 2.2/original .9. All aerial orbits are
-  slightly closer in height/radius; flying variants still remain airborne.
-- Protocol **27** requires matching clients/servers. Languages remain **2,261
-  authored / 2,389 packaged keys**. Existing g3 genomes, ritual/source stock,
-  heart debt, gray station frames and borderless conversations remain. Actual
-  wing models/textures remain planned. No realm/dungeon content is added.
-- Java 25 build/model/localization gates and **157 native scenarios** cover this
-  revision, including actual logical-client death dispatch, all ten pillar fights,
-  layered destruction, exact blast/fireball reductions, ranged-ready fire/reset,
-  anvil geometry/arc/damage/cooldown, critical eating and ground/winged brood water
-  progress. Anvil preview uses native geometry/equivalent physics and substitute
-  fonts; actual client appearance, input feel and balance remain player review.
+- A new namespaced noise dimension has Crownroot Groves, Glassbloom Flats and
+  Thunder Hollows, giant roots/guava growth, crystals and basalt landmarks.
+- Crafted Warren Anchors attune with one Resonant Eye and a shown, retained Apex
+  Crest. Saved paired returns support independent players, empty-handed return
+  and source-block loss. New refuges use protected Rootstone and a real ladder.
+  Travel uses bounded endpoint neighborhoods and standing collision checks.
+- All ten natural Apex forms use normal wild despawning and no boss bars;
+  their frozen genomes/stats save. Ritual encounters retain their old profile.
+  Wards suppress only new natural monsters in 24 blocks, including Endermen;
+  they do not erase enemies or suppress scripts/brood. Wild flyers cruise at idle.
+- Native rich ruins carry additive diamonds/netherite/enchanted apples and exact
+  quality-20–33 genetic archives. Chunk ownership/saves prevent refills/rerolls.
+- Role reagents and aerial Membranes craft a charged Prism Lance, native-gliding
+  Apex Wing Harness, shared Prism Cell ammunition, Wards and Rootstone. Gear
+  uses real fuel/durability/cooldowns and vanilla repair/durability enchantments.
+- Protocol **28**; **2,290 authored / 2,418 packaged** language keys. English and
+  shared neutral Spanish ship together. Existing source records, genomes,
+  inventories, heart debt, gray station menus and MCA conversations remain.
+- Native tests mount the shipped dimension definition because GameTestServer
+  deliberately omits datapack dimensions. Production uses the normal loader.
+  Current evidence: Java 25 build/model/localization gates and 163 native cases,
+  including two portal pairs, real terrain/ward events, wild saves/rewards,
+  detached ProtoChunk archives/all three landmark generators, native ruin placement
+  and loot, paid lance and last-cell flight boost.
+- Art sources: `art/gen_realm.py`, `art/gen_realm_worldgen.py`; actual native
+  geometry/terrain snapshots produce `art/realm_world_preview.png`. Original
+  gear/block art is inspected in `art/realm_items_preview.png`. These are headless
+  studies; client appearance, first-trip latency and broad multiplayer population
+  performance still need gameplay evidence.
+
+Next content stage is AX7: the Crown Warren, Crowned Apex and Sovereign rewards
+remain planned in `docs/APEX_EXPANSION_PLAN.md`. More regions/gear branches remain
+optional AX6 expansion. Resolve observed realm issues before the next large stage.
+The intelligence/civilization plan stays queued behind this accepted expansion.
 
 ## Direct JAR downloads
 

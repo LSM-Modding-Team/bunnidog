@@ -20,6 +20,11 @@ public final class ModPoi {
 
     public static final DeferredRegister<PoiType> POI_TYPES = DeferredRegister.create(Registries.POINT_OF_INTEREST_TYPE, BunnidogsMod.MODID);
 
+    public static final DeferredHolder<PoiType,PoiType> WARREN_WARD=POI_TYPES.register("warren_ward",()->{
+        var states=new java.util.HashSet<>(ModBlocks.WARREN_WARD.get().getStateDefinition().getPossibleStates());
+        states.addAll(ModBlocks.WARREN_ANCHOR.get().getStateDefinition().getPossibleStates());
+        return new PoiType(states,1,1);
+    });
     /** Every state of the Nest block, {@link Home#NEST_TICKETS} ticket(s), {@link Home#NEST_RANGE} block of valid range. */
     public static final DeferredHolder<PoiType, PoiType> NEST = POI_TYPES.register("nest",
             () -> new PoiType(Set.copyOf(ModBlocks.NEST.get().getStateDefinition().getPossibleStates()), Home.NEST_TICKETS, Home.NEST_RANGE));

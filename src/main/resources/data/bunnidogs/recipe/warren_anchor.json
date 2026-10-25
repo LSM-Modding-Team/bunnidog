@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "OCO",
+    "CEC",
+    "OCO"
+  ],
+  "key": {
+    "O": "minecraft:crying_obsidian",
+    "C": "minecraft:copper_block",
+    "E": "minecraft:ender_pearl"
+  },
+  "result": {
+    "id": "bunnidogs:warren_anchor",
+    "count": 1
+  }
+}

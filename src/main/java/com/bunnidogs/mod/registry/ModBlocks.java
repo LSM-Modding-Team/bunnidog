@@ -83,6 +83,13 @@ public final class ModBlocks {
         return java.util.Collections.unmodifiableMap(rugs);
     }
 
+    public static final DeferredBlock<com.bunnidogs.mod.realm.WarrenAnchorBlock> WARREN_ANCHOR=BLOCKS.registerBlock("warren_anchor",com.bunnidogs.mod.realm.WarrenAnchorBlock::new,
+            props->props.strength(5,3600000).lightLevel(state->state.getValue(com.bunnidogs.mod.realm.WarrenAnchorBlock.ACTIVE) ? 14 : 3).noOcclusion());
+    public static final DeferredBlock<com.bunnidogs.mod.realm.RootstoneBlock> ROOTSTONE=BLOCKS.registerBlock("rootstone",com.bunnidogs.mod.realm.RootstoneBlock::new,props->props.strength(3.5F,3600000));
+    public static final DeferredBlock<Block> WARREN_WARD=BLOCKS.registerSimpleBlock("warren_ward",props->props.strength(4,1200).lightLevel(state->14));
+    public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<com.bunnidogs.mod.realm.WarrenAnchorBlockEntity>> WARREN_ANCHOR_BE=
+            BLOCK_ENTITIES.register("warren_anchor",()->new BlockEntityType<>(com.bunnidogs.mod.realm.WarrenAnchorBlockEntity::new,WARREN_ANCHOR.get()));
+
     /** Namespaced so the native sign editors resolve our GUI textures; interaction sounds remain oak's. */
     public static final WoodType GUAVA_WOOD_TYPE = WoodType.register(new WoodType(BunnidogsMod.MODID + ":guava", BlockSetType.OAK));
 

@@ -28,6 +28,11 @@ public final class ModStructures {
     public static final DeferredHolder<MapCodec<? extends StructureProcessor>,MapCodec<BarnPreservation>> BARN_PRESERVATION =
             PROCESSORS.register("barn_preservation",() -> BarnPreservation.CODEC);
 
+    public static final DeferredHolder<StructureType<?>,StructureType<com.bunnidogs.mod.realm.GreatRuinStructure>> GREAT_RUIN=
+            STRUCTURE_TYPES.register("great_ruin",()->()->com.bunnidogs.mod.realm.GreatRuinStructure.CODEC);
+    public static final DeferredHolder<StructurePieceType,StructurePieceType> GREAT_RUIN_PIECE=
+            PIECE_TYPES.register("great_ruin_piece",()->(StructurePieceType.ContextlessType)com.bunnidogs.mod.realm.GreatRuinPiece::new);
+
     public static final DeferredHolder<StructureType<?>, StructureType<WarrenStructure>> WARREN_VILLAGE =
             STRUCTURE_TYPES.register("warren_village", () -> () -> WarrenStructure.CODEC);
     public static final DeferredHolder<StructureType<?>, StructureType<BreedingBarnStructure>> BREEDING_BARN =

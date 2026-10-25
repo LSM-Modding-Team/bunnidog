@@ -4,7 +4,22 @@ The user requests substantial continuations, prioritizing unfinished planned
 features over more quality-of-life controls. Historical per-turn chunk limits
 do not apply. Verify old completion claims against code before choosing work.
 
-## Current priority — intelligence and living civilization
+## Current priority — Great Warren and the Apex finale
+
+The 2026-10-25 user review marks Apex balancing complete and resumes autonomous
+roadmap development. AX1–AX5 and the first AX6 expedition loop now ship. Read
+[GREAT_WARREN_SPECS.md](GREAT_WARREN_SPECS.md): paired returnable anchors, three
+regions, natural wild Apexes, fortification/Wards, rich ruins and frozen genetic
+archives, Prism Lance and Wing Harness. Keep the accepted combat tuning.
+
+Next is the Crown Warren/AX7 in [APEX_EXPANSION_PLAN.md](APEX_EXPANSION_PLAN.md):
+branching dungeon, saved encounters/keys, Crowned Apex, Sovereign branches and
+lavish vault. Existing dimension mechanics need natural client/multiplayer
+expedition evidence; manual review is separate from missing implementation.
+More regions and support/siege gear remain AX6 expansion candidates. Address
+reported issues before starting the next major system.
+
+## Queued — intelligence and living civilization
 
 The 2026-10-21 user request is a substantial intelligence redesign: a spectrum
 inherited through several genes, with limited animals, useful learners and

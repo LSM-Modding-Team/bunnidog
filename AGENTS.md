@@ -74,9 +74,15 @@ ownership. The explicitly requested escape bar is not a return of ambient hints.
 Wings genetics/flight and feathered models/textures now ship. Preserve the separate
 wing layer, shoulder/hand animation and shared body/pup transforms; regenerate
 `art/gen_wings.py` assets together when changing geometry or atlas.
-`docs/APEX_EXPANSION_PLAN.md` retains the future dimension, extravagant loot and
-Apex-of-Apexes dungeon boss; those systems are not implemented. Prioritize actual
-Apex play feedback and remaining integration before starting that larger realm.
+The user closed Apex balancing on 2026-10-25 and resumed autonomous development.
+Keep those accepted fight numbers unless new feedback supersedes them. AX6 now
+ships the Great Warren dimension, paired portals/refuges, wild Apex ecology,
+Wards/Rootstone, rich ruins/frozen archives, Prism Lance and Wing Harness. Read
+`docs/GREAT_WARREN_SPECS.md`. Preserve normal wild despawning/no boss bars versus
+persistent ritual encounters, protected returns, finite loaded-area spawning,
+exact saved loot, real ammo/boost costs and English/shared Spanish. The remaining
+Crown Warren/Apex-of-Apexes/Sovereign finale in `docs/APEX_EXPANSION_PLAN.md` is AX7
+and is not implemented. Prioritize reported realm issues, then that planned stage.
 This explicit user direction takes priority over unrelated cognition work while
 the Apex expansion is active. Preserve the screenshot-approved vanilla station
 frames and borderless MCA animal conversations.

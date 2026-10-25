@@ -1,0 +1,7 @@
+{
+  "type": "bunnidogs:great_ruin",
+  "biomes": "#bunnidogs:great_warren",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

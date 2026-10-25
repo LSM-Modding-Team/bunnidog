@@ -1,0 +1,40 @@
+{
+  "parent": "bunnidogs:apex_of_the_line",
+  "criteria": {
+    "entered": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "bunnidogs:great_warren"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "entered"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:prism_lance",
+      "bunnidogs:prism_cell",
+      "bunnidogs:warren_ward",
+      "bunnidogs:rootstone",
+      "bunnidogs:apex_wing_harness"
+    ]
+  },
+  "display": {
+    "icon": {
+      "id": "bunnidogs:warren_anchor"
+    },
+    "title": {
+      "translate": "advancement.bunnidogs.great_warren.title"
+    },
+    "description": {
+      "translate": "advancement.bunnidogs.great_warren.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  }
+}

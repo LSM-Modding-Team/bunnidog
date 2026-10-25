@@ -95,6 +95,10 @@ public final class ModEntities {
      * ({@link com.bunnidogs.mod.worldgen.WarrenFeature}); this rule only matters if a data pack adds a spawner. Registered on the mod event bus from {@link BunnidogsMod}.
      */
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
+        for(var list:java.util.List.of(GROUND_APEX,FLYING_APEX))for(var type:list)
+            event.register(type.get(),SpawnPlacementTypes.ON_GROUND,Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                    (entity,world,reason,pos,random)->com.bunnidogs.mod.realm.GreatWarren.isRealm(world.getLevel()) && world.getBrightness(net.minecraft.world.level.LightLayer.BLOCK,pos)<=7 && !com.bunnidogs.mod.realm.GreatWarren.warded(world.getLevel(),pos),RegisterSpawnPlacementsEvent.Operation.REPLACE);
+
         event.register(BUNNIDOG.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 (type, level, reason, pos, random) -> ModBiomeTags.canSpawnNaturally(level, pos),
                 RegisterSpawnPlacementsEvent.Operation.REPLACE);

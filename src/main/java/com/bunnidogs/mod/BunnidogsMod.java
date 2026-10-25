@@ -51,6 +51,7 @@ public class BunnidogsMod {
         modEventBus.addListener(ModItems::addToCreativeTabs);
         modEventBus.addListener(ModNetwork::register);
         modEventBus.addListener(ModDispensers::setup);
+        NeoForge.EVENT_BUS.addListener(com.bunnidogs.mod.realm.GreatWarren::spawn);
         NeoForge.EVENT_BUS.addListener(ResidentBellCalls::onGameEvent);
         NeoForge.EVENT_BUS.addListener(CoatCamouflage::onGameEvent);
         NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.LOWEST,com.bunnidogs.mod.entity.ApexPlayerEvents::death);

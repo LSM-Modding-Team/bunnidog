@@ -34,6 +34,7 @@ public final class Apex extends Bunnidog implements Enemy {
             BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS);
     private ApexKind kind=ApexKind.BRUTE;
     private boolean flying;
+    private boolean wild;
     private int retreat;
     private static final net.minecraft.network.syncher.EntityDataAccessor<Integer> FUSE = net.minecraft.network.syncher.SynchedEntityData.defineId(Apex.class,net.minecraft.network.syncher.EntityDataSerializers.INT);
     private final ApexSkills skills=new ApexSkills(this);
@@ -80,6 +81,23 @@ public final class Apex extends Bunnidog implements Enemy {
         var instance = this.getAttribute(attribute);
         if (instance != null) instance.setBaseValue(value);
     }
+    public boolean wild() {return wild;}
+    public void makeWild() {
+        wild=true;boss.removeAllPlayers();
+        var rng=new java.util.Random(getRandom().nextLong());
+        var line=switch(kind) {case PRISM->com.bunnidogs.mod.genetics.Lineage.CAVE;case BLAST->com.bunnidogs.mod.genetics.Lineage.NETHER;case SUPPORT->com.bunnidogs.mod.genetics.Lineage.SWAMP;default->com.bunnidogs.mod.genetics.Lineage.MEADOW;};
+        var genes=com.bunnidogs.mod.genetics.Genome.randomFounder(line,rng);
+        if(flying)genes=com.bunnidogs.mod.genetics.Wings.winged(genes);
+        setGenome(genes);setStats(com.bunnidogs.mod.genetics.Stats.of(25+rng.nextInt(31),25+rng.nextInt(31),25+rng.nextInt(31),25+rng.nextInt(31),10+rng.nextInt(21)));
+        setAge(0);setHealth(getMaxHealth());
+    }
+    @Override public net.minecraft.world.entity.SpawnGroupData finalizeSpawn(net.minecraft.world.level.ServerLevelAccessor level,net.minecraft.world.DifficultyInstance difficulty,net.minecraft.world.entity.EntitySpawnReason reason,net.minecraft.world.entity.SpawnGroupData group) {
+        var result=super.finalizeSpawn(level,difficulty,reason,group);
+        if((reason==net.minecraft.world.entity.EntitySpawnReason.NATURAL || reason==net.minecraft.world.entity.EntitySpawnReason.CHUNK_GENERATION) && com.bunnidogs.mod.realm.GreatWarren.isRealm(level.getLevel()))makeWild();
+        return result;
+    }
+    @Override public boolean isPersistenceRequired() {return !wild || hasCustomName();}
+    @Override public boolean removeWhenFarAway(double distance) {return wild;}
     public ApexKind kind() { return kind; }
     public boolean flying() { return flying; }
     public ApexSkills skills() { return skills; }
@@ -161,7 +179,7 @@ public final class Apex extends Bunnidog implements Enemy {
     @Override
     public void startSeenByPlayer(ServerPlayer player) {
         super.startSeenByPlayer(player);
-        this.boss.addPlayer(player);
+        if(!wild)this.boss.addPlayer(player);
     }
     @Override
     public void stopSeenByPlayer(ServerPlayer player) {
@@ -171,6 +189,7 @@ public final class Apex extends Bunnidog implements Enemy {
     @Override
     public void addAdditionalSaveData(ValueOutput output) {
         super.addAdditionalSaveData(output);
+        output.putBoolean("ApexWild",wild);
         output.putInt("ApexAbilityWait", this.abilityWait);
         output.putInt("ApexRetreat",retreat);
         output.putFloat("ApexVitality",skills.vitality());
@@ -178,6 +197,7 @@ public final class Apex extends Bunnidog implements Enemy {
     @Override
     public void readAdditionalSaveData(ValueInput input) {
         super.readAdditionalSaveData(input);
+        wild=input.getBooleanOr("ApexWild",false);
         this.abilityWait = Math.clamp(input.getIntOr("ApexAbilityWait", 60), 0, kind.recovery);
         retreat=Math.clamp(input.getIntOr("ApexRetreat",0),0,100);
         fuse(0);lastStand(false);mobility.stopLeap();

@@ -40,6 +40,7 @@ public final class ApexCrestItem extends Item {
         super.appendHoverText(stack, context, display, lines, flag);
         lines.accept(Component.translatable("tooltip.bunnidogs.apex_crest.source").withStyle(ChatFormatting.GOLD));
         read(stack).ifPresent(tissue -> lines.accept(TextComponents.look(tissue.genome()).withStyle(ChatFormatting.GRAY)));
+        lines.accept(Component.translatable("tooltip.bunnidogs.apex_crest.anchor").withStyle(ChatFormatting.DARK_PURPLE));
         lines.accept(Component.translatable("tooltip.bunnidogs.apex_crest.use").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

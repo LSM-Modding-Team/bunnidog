@@ -1,0 +1,10 @@
+{
+  "layers": {
+    "wings": [
+      {
+        "texture": "bunnidogs:apex_wing_harness",
+        "use_player_texture": false
+      }
+    ]
+  }
+}

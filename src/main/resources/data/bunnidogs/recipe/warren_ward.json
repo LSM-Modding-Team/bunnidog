@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "OHO",
+    "CMS",
+    "OAO"
+  ],
+  "key": {
+    "O": "minecraft:crying_obsidian",
+    "H": "bunnidogs:chorus_heart",
+    "C": "bunnidogs:heart_spool",
+    "M": "bunnidogs:apex_marrow",
+    "S": "bunnidogs:aerial_membrane",
+    "A": "minecraft:amethyst_block"
+  },
+  "result": {
+    "id": "bunnidogs:warren_ward",
+    "count": 1
+  }
+}

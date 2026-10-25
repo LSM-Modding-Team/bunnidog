@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "bunnidogs:block/warren_anchor"
+    },
+    "active=true": {
+      "model": "bunnidogs:block/warren_anchor_active"
+    }
+  }
+}

@@ -13,6 +13,33 @@ history; this index is the map. `grep -n "name" docs/API_NOTES.md` finds any nam
 Status words: **COMPILED** = the user's compile accepted it (names and types are right; runtime behaviour may still be open). **SOURCE** = seen in the real NeoForge sources/data, not compiled yet.
 **ASSUMED** = written from memory of 1.21.x, nothing confirms it. **AVOIDED** = never seen anywhere, so our code does not use it.
 
+### Great Warren / AX6 (2026-10-25)
+
+- `TeleportTransition(ServerLevel, Vec3, Vec3, yaw, pitch, PostTeleportTransition)`
+  and `ServerPlayer.teleport` support authoritative cross-dimension travel;
+  `PLAY_PORTAL_SOUND.then(PLACE_PORTAL_TICKET)` supplies native effects/tickets.
+  Standing `EntityDimensions.makeBoundingBox(Vec3)` validates arrival posture.
+- Native biome/dimension data use environment `attributes` in 26.2; region JSON
+  is generated from resolved defaults. `LevelStem.CODEC` parses the actual
+  shipped definition against registry serialization context. GameTestServer
+  intentionally bakes `noDatapackDimensions`; the test-only `RealmFixture`
+  mounts a real ServerLevel through Forge's world map, marks worlds dirty and
+  closes its own temporary storage. Production uses normal dimension loading.
+- `MobSpawnEvent.PositionCheck` exposes `getSpawnType`, `getLevel` and
+  `setResult(Result.FAIL)` for natural-only wards. RegisterSpawnPlacements
+  predicates can read block light separately from sky light. POI searches check
+  actual loaded block state before suppressing a spawn.
+- Native `DataComponents.GLIDER` plus chest `Equippable`/equipment asset supplies
+  normal player gliding and wing rendering. Equipment JSON uses `layers.wings`
+  and `textures/entity/equipment/wings/...png`. Repairable components and the
+  `minecraft:enchantable/durability` item tag preserve ordinary repair/Mending.
+  Add an ItemStack cooldown before consuming its last item, while its item ID
+  still exists. Proven by actual last-cell boost/replacement-fuel case.
+- Detached native ChestBlockEntity setters/save/loot-table seeds work on actual
+  unfinished ProtoChunks; do not substitute live Level tests for this stage.
+  `ChunkPos.containing(BlockPos)` and `StructurePieceSerializationContext.fromLevel`
+  are the current factory methods. GreatRuinPiece serializes chunk completion.
+
 ### Research playbook (in this order)
 1. Grep this file. 2. If it is not here, sparse-clone NeoForge 26.2.x (about 30 s, 33 MB; bash can reach github.com in most sessions, check first):
    `mkdir nf && cd nf && git init -q && git remote add origin https://github.com/neoforged/NeoForge && git config core.sparseCheckout true && printf 'tests\npatches\nsrc\n' > .git/info/sparse-checkout && git fetch -q --depth 1 origin 26.2.x && git checkout -q FETCH_HEAD`

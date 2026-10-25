@@ -2,7 +2,7 @@
 
 A NeoForge mod for Minecraft 26.2: baby-faced creatures, living warrens and
 inherited traits that shape companions, gardens and breeding lines. Client and
-server both need the current mod (network **24**).
+server both need the current mod (network **28**).
 
 Interact with a bunnidog to choose **Care, Orders or Work** beside the visible
 animal. Calm animals stay and face you while you interact. Ordinary held items
@@ -97,12 +97,22 @@ Use the sigil on a Crucible with the actual Tissue Sample in your other hand;
 reviewing is free, and a successful Survival summon spends the sigil alongside
 the existing sample/five offerings. [Actual mechanics](docs/APEX_SPECS.md).
 
+## The Great Warren
+
+Attune a crafted Warren Anchor with a Resonant Eye while showing an Apex Crest
+in the other hand. The Crest stays yours. The new realm has giant root groves,
+crystal flats, basalt hollows and wild Apex packs. Its return refuge has a safe
+platform and ladder; crossing back costs nothing.
+
+Rich ruins hold diamonds, netherite, enchanted apples and high-quality genetic
+finds. Apex reagents craft a piercing Prism Lance, a gliding Wing Harness and
+Wards for an outpost. Both gear pieces use real Prism Cells. [Expedition rules](docs/GREAT_WARREN_SPECS.md).
+
 ## Development plans
 
-[The Apex expansion plan](docs/APEX_EXPANSION_PLAN.md) tracks the combat roles and
-flying variants, plus the future rich Apex-populated realm and final dungeon boss. The
-combat roles and flying types are implemented; the realm, expanded equipment/loot
-and final dungeon remain planned.
+[The Apex expansion plan](docs/APEX_EXPANSION_PLAN.md) tracks the implemented
+combat roles, flight and initial Great Warren. The Crown Warren dungeon,
+Apex-of-Apexes and Sovereign upgrade rewards remain the next major stage.
 
 ## Working with Codex
 

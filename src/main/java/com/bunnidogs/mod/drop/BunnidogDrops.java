@@ -51,6 +51,7 @@ public final class BunnidogDrops {
         }
         if (dog instanceof com.bunnidogs.mod.entity.ApexMinion) return;
         if (dog instanceof Apex apex) {
+            if(apex.wild()) {com.bunnidogs.mod.realm.RealmLoot.drops(event,apex,level);return;}
             if (event.isRecentlyHit() && level.getGameRules().get(GameRules.MOB_DROPS)) {
                 var crest=ApexCrestItem.create(new Tissue(dog.genome(),dog.stats()));
                 if (apex.kind()!=com.bunnidogs.mod.entity.ApexKind.BRUTE || apex.flying()) crest.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME,

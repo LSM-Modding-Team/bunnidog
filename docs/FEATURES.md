@@ -1,8 +1,8 @@
 # Playing Bunnidogs
 
 Start with empty hands on an animal or care station. The live panel shows the
-current needs, a useful next step and named controls. Crosshair hints explain
-what a held item will do. Detailed genetics and the Field Guide are optional.
+current stock, needs and named controls. There are no automatic crosshair
+hints. Exact genetics use real instruments; the Field Guide is optional.
 
 Minecraft's language setting selects the mod text too. All Spanish variants use
 the same neutral Peruvian Spanish. Guide pages show short previews; hover a
@@ -134,3 +134,13 @@ formats and allele order are preserved. Compilation and native tests establish
 mechanics; natural-world pacing and client rendering/controls still need play.
 The old session-by-session feature ledger is retained in
 [history](history/FEATURES_PRE_COHESION.md), not used as a current player manual.
+
+## Explore the Great Warren
+
+A Warren Anchor attuned with a Resonant Eye and a shown Apex Crest opens the
+realm. The Crest is retained, and its paired return costs nothing. Root groves,
+crystal flats and basalt hollows contain wild Apexes and generous ruins. Archives
+preserve real high-quality seeds and tissue. Wards protect an outpost from new
+natural monsters; Rootstone withstands Apex terrain attacks. A Prism Lance and
+Wing Harness share Prism Cells for shooting and climbing glides. The Crowned
+Apex dungeon remains future content. [Actual expedition rules](GREAT_WARREN_SPECS.md).

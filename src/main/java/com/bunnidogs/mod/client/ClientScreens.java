@@ -33,19 +33,19 @@ public final class ClientScreens {
         var level=Minecraft.getInstance().level;
         var from=payload.from(); var to=payload.to();
         if (level==null || !Double.isFinite(from.lengthSqr()) || !Double.isFinite(to.lengthSqr()) || from.distanceToSqr(to)>1089) return;
-        int color=switch (payload.style()) { case 1 -> 0xFFC65A; case 2 -> 0xE34A92; case 3 -> 0x63E89A; default -> 0xBF7DFF; };
-        var dust=new net.minecraft.core.particles.DustParticleOptions(color,payload.style()==0 ? 4 : .8F);
+        int color=switch (payload.style()) { case 1 -> 0xFFC65A; case 2 -> 0xE34A92; case 3 -> 0x63E89A; case 4 -> 0x8BD7DF; default -> 0xBF7DFF; };
+        var dust=new net.minecraft.core.particles.DustParticleOptions(color,payload.style()==0 || payload.style()==4 ? 4 : .8F);
         int count=Math.min(128,Math.max(1,(int)(from.distanceTo(to)*4)));
         for (int i=0;i<=count;i++) {
             var p=from.lerp(to,(double)i/count);
             level.addParticle(dust,p.x,p.y,p.z,0,0,0);
-            if (payload.style()==0) {
+            if (payload.style()==0 || payload.style()==4) {
                 level.addParticle(net.minecraft.core.particles.ParticleTypes.ELECTRIC_SPARK,p.x,p.y,p.z,0,0,0);
                 // A broad cylinder, matching the damaging ray's increased radius.
                 var axis=to.subtract(from).normalize();var side=axis.cross(new net.minecraft.world.phys.Vec3(0,1,0));
                 if(side.lengthSqr()<.01)side=new net.minecraft.world.phys.Vec3(1,0,0);
                 side=side.normalize();var up=axis.cross(side).normalize();
-                double angle=i*2.4;var edge=p.add(side.scale(Math.cos(angle)*1.1)).add(up.scale(Math.sin(angle)*1.1));
+                double angle=i*2.4;var edge=p.add(side.scale(Math.cos(angle)*(payload.style()==4 ? .65 : 1.1))).add(up.scale(Math.sin(angle)*(payload.style()==4 ? .65 : 1.1)));
                 level.addParticle(dust,edge.x,edge.y,edge.z,0,0,0);
             }
         }

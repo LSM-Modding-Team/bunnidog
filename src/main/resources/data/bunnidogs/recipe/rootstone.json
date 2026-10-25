@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "TTT",
+    "TMT",
+    "TTT"
+  ],
+  "key": {
+    "T": "minecraft:tuff",
+    "M": "bunnidogs:apex_marrow"
+  },
+  "result": {
+    "id": "bunnidogs:rootstone",
+    "count": 8
+  }
+}
