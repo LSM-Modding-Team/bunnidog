@@ -321,7 +321,8 @@ public final class CareMenu extends AbstractContainerMenu {
                 stock.add(ritualSigil); facts.add(ritualSigil.isEmpty() || StationUse.owns(owner,ritualSigil));
                 var reading=com.bunnidogs.mod.entity.ApexRitual.inspect(owner,pos,source);
                 facts.add(level.getDifficulty()); facts.add(reading.status());
-                for (var slot:reading.slots()) { facts.add(slot.pos()); facts.add(Optional.ofNullable(slot.pedestal())); stock.add(slot.stock()); }
+                if(station instanceof com.bunnidogs.mod.society.CrucibleHeartBlockEntity heart)stock.add(heart.key());
+                facts.add(com.bunnidogs.mod.expedition.PowerModes.available(owner,com.bunnidogs.mod.registry.ModItems.HEARTH_INCENSE.get(),1));
             }
         }
         return new Context(facts,stock);

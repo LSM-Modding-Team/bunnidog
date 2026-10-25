@@ -128,6 +128,7 @@ for locale,new in [('en_us',en),('es_pe',es)]:
 # The current material tier overrides armor icons/layers and pre-Crown bases before previews.
 import runpy
 runpy.run_path(str(ROOT/'art/gen_astralite.py'))
+runpy.run_path(str(ROOT/'art/gen_society.py'))
 preview=Image.new('RGB',(1050,480),'#252f34');d=ImageDraw.Draw(preview);d.text((22,15),'Crown Warren - Sovereign gear and physical seals',fill='white')
 for i,name in enumerate(icons):
  icon=Image.open(A/'textures/item'/f'{name}.png');x=25+i%7*145;y=50+i//7*150;preview.paste(icon.resize((96,96),Image.Resampling.NEAREST),(x,y),icon.resize((96,96),Image.Resampling.NEAREST));d.text((x,y+99),name.replace('_',' '),fill='white')

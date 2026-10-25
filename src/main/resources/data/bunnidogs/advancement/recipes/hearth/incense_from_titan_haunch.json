@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "legend": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "bunnidogs:titan_haunch"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "legend"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:incense_from_titan_haunch"
+    ]
+  }
+}

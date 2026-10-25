@@ -1,5 +1,9 @@
 # The Great Warren — AX6 implementation
 
+> Latest implemented progression: [HEARTH_PROGRESSION_SPECS.md](HEARTH_PROGRESSION_SPECS.md)
+> supersedes the old offering/entry rules and adds a focused sustainable household,
+> resident teaching and paid construction. Broader civilization stages remain open.
+
 > Latest terrain/tier request: [ASTRALITE_AND_SKY_SPECS.md](ASTRALITE_AND_SKY_SPECS.md)
 > supersedes the initial Overworld terrain and Netherite artifact bases below.
 > Astralite is obtained before the dungeon; artifact armor keeps its new material.

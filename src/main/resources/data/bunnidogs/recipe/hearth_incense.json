@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GG",
+    "GP"
+  ],
+  "key": {
+    "G": "bunnidogs:guava",
+    "P": "#minecraft:planks"
+  },
+  "result": {
+    "id": "bunnidogs:hearth_incense",
+    "count": 4
+  }
+}

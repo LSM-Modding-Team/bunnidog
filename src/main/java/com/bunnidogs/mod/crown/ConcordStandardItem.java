@@ -37,6 +37,7 @@ public final class ConcordStandardItem extends Item {
             float before=ally.getHealth();ally.heal(10*power);float paid=Math.clamp(ally.getHealth()-before,0,10*power);
             ally.addEffect(new MobEffectInstance(MobEffects.RESISTANCE,80,power-1,false,true,true));
             server.sendParticles(ParticleTypes.HEART,ally.getX(),ally.getEyeY(),ally.getZ(),4,.25,.2,.25,0);
+            if(p instanceof net.minecraft.server.level.ServerPlayer healer)com.bunnidogs.mod.society.HuntProgress.support(healer,ally,paid);
             if(ally!=p && paid>0)for(var seal:encounters)if(seal.contains(ally.position(),7))seal.credit(p.getUUID(),paid);
         }
         server.playSound(null,p.blockPosition(),net.minecraft.sounds.SoundEvents.BEACON_ACTIVATE,net.minecraft.sounds.SoundSource.PLAYERS,1,1.25F);

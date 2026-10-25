@@ -81,7 +81,7 @@ public final class BunnidogLearning {
         // A lesson focuses one routine, so other chores cannot consume its shared work/rest window.
         if (lesson != null) return lesson == routine && guided()
                 && CapabilityRules.potential(dog.mind(), routine.task()) != CapabilityRules.Potential.LIMITED;
-        return knowledge.independent(dog.mind(), routine);
+        return knowledge.independent(dog.mind(), routine) || dog.society().guided(routine);
     }
     public boolean witnesses(BlockPos first, BlockPos second) {
         if (lesson == null) return true;
@@ -97,7 +97,14 @@ public final class BunnidogLearning {
     }
     /** Called only after the native crop edit/resource transaction actually succeeded. */
     void completed(Learning.Routine routine) {
-        if (lesson != routine || !canWork(routine) || !physicallyReady(routine) || !(dog.level() instanceof ServerLevel level)) return;
+        if (!(dog.level() instanceof ServerLevel level) || !canWork(routine)) return;
+        boolean independent=knowledge.independent(dog.mind(),routine);
+        dog.society().completed(routine,independent);
+        if(lesson==null) {
+            if(!independent && dog.society().guided(routine)) {knowledge=knowledge.practice(dog.mind(),routine);if(knowledge.knows(routine))dog.society().taught(routine);level.sendParticles(ParticleTypes.HAPPY_VILLAGER,dog.getX(),dog.getY()+.6,dog.getZ(),4,.2,.2,.2,0); }
+            return;
+        }
+        if(lesson!=routine || !physicallyReady(routine))return;
         var player = level.getPlayerByUUID(teacher);
         boolean knew = knowledge.knows(routine);
         knowledge = knowledge.practice(dog.mind(), routine);

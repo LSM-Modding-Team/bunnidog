@@ -38,6 +38,7 @@ public final class WarrenAnchorBlockEntity extends BlockEntity {
         var eye=player.getItemInHand(hand);var crest=player.getItemInHand(hand==InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
         if(!eye.is(ModItems.RESONANT_EYE.get()) || !crest.is(ModItems.APEX_CREST.get())) {message(player,"crest");return;}
         if(!(level instanceof ServerLevel source) || GreatWarren.isRealm(source)) {message(player,"entry");return;}
+        if(player instanceof ServerPlayer p && !com.bunnidogs.mod.society.HuntProgress.get(source).qualified(p.getUUID())) {p.sendOverlayMessage(com.bunnidogs.mod.society.HuntProgress.summary(p));return;}
         var realm=source.getServer().getLevel(GreatWarren.LEVEL);if(realm==null) {message(player,"unavailable");return;}
         var expectedEye=eye.copy();var expectedCrest=crest.copy();
         busy=true;
@@ -101,6 +102,7 @@ public final class WarrenAnchorBlockEntity extends BlockEntity {
     public void cross(Player player) {
         if(!(player instanceof ServerPlayer server) || !linked() || player.isPassenger() || player.isVehicle() || !player.isAlive() || player.isSpectator() || player.level()!=level || isRemoved() || level.getBlockEntity(worldPosition)!=this
                 || !level.mayInteract(player,worldPosition) || player.distanceToSqr(worldPosition.getX()+.5,worldPosition.getY()+.5,worldPosition.getZ()+.5)>36)return;
+        if(destination.equals(GreatWarren.LEVEL) && !GreatWarren.isRealm(server.level()) && !com.bunnidogs.mod.society.HuntProgress.get(server.level()).qualified(server.getUUID())) {server.sendOverlayMessage(com.bunnidogs.mod.society.HuntProgress.summary(server));return;}
         long now=server.level().getGameTime();long until=server.getPersistentData().getLongOr("WarrenCrossUntil",0);
         if(until>now && until<=now+40)return;
         var target=server.level().getServer().getLevel(destination);if(target==null) {message(player,"unavailable");return;}

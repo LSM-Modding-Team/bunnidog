@@ -194,6 +194,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private final CaveGuiding caveGuiding = new CaveGuiding(this);
     private final TrailCompanion trailCompanion = new TrailCompanion(this);
     private final CompanionCombat companionCombat = new CompanionCombat(this);
+    private final SocietyWork society=new SocietyWork(this);
+    public SocietyWork society() {return society;}
     private final BunnidogLearning learning = new BunnidogLearning(this);
     private final BunnidogConversation conversation = new BunnidogConversation(this);
     private int biteWait;
@@ -636,7 +638,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             com.bunnidogs.mod.menu.CareMenu.openGuava(player,this,hand);
             return InteractionResult.SUCCESS;
         }
-        if (held.getItem() instanceof com.bunnidogs.mod.expedition.GeneticVacuumItem) return InteractionResult.PASS;
+        if (held.getItem() instanceof com.bunnidogs.mod.expedition.GeneticVacuumItem || held.getItem() instanceof com.bunnidogs.mod.society.StewardStaffItem || held.getItem() instanceof com.bunnidogs.mod.society.HearthPoulticeItem) return InteractionResult.PASS;
         if (held.getItem() instanceof net.minecraft.world.item.BundleItem) return this.packs.equip(player,held);
         if (held.isEmpty() && player.getMainHandItem().isEmpty() && player.getOffhandItem().isEmpty() && this.acceptsCare() && this.isAlive()) {
             if (player.isShiftKeyDown() && this.carriedBundleCount()>0) return this.packs.emptyHands(player);
@@ -773,7 +775,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         // Phase 4e: the guava part of the quality is the average of the tiers the two parents were fed.
         double guavaQuality = GuavaTier.average(this.guavaMemory.tier(), other.guavaMemory.tier());
         Seed seed = Seed.of(this.genome(), this.stats(), other.genome(), other.stats(), guavaQuality);
-        var dropped=this.spawnAtLocation(level, SeedItem.create(seed), 0.5F);
+        var litterItem=SeedItem.create(seed);
+        var dropped=SocietyWork.litter(this,other,litterItem) ? null : this.spawnAtLocation(level,litterItem,0.5F);
         if (dropped!=null) {
             var first=this.getLoveCause(); var second=other.getLoveCause();
             if (com.bunnidogs.mod.item.JourneyProgress.award(first,"seed")) first.sendOverlayMessage(Component.translatable("care.bunnidogs.feedback.seed"));
@@ -1081,6 +1084,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.trailCompanion.save(output);
         this.companionCombat.save(output);
         this.learning.save(output);
+        this.society.save(output);
         if (this.biteWait>0) output.putInt("CombatBiteWait",this.biteWait);
         output.putString(TAG_GENOME, this.genome().toString());
         output.putString(TAG_STATS, this.stats().toString());
@@ -1137,6 +1141,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.companionCombat.restore(input);
         this.biteWait=Math.clamp(input.getIntOr("CombatBiteWait",0),0,28);
         this.packs.load(input);
+        this.society.load(input);
         this.learning.restore(input, decodedGenome.isPresent() && !Genome.isFullCode(savedGenome));
         if (!this.level().isClientSide()) this.applyAdaptations();
         this.highestShowAward = Math.max(0, input.getIntOr("ShowAward", 0));
@@ -1244,6 +1249,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.goalSelector.addGoal(7, new HuntGoal(this));
         this.goalSelector.addGoal(7, new GrazeGoal(this));
         this.goalSelector.addGoal(7, new LooseFoodGoal(this,false));
+        this.goalSelector.addGoal(7, new SocietyGoal(this));
         this.goalSelector.addGoal(7, new GardenGoal(this));
         this.goalSelector.addGoal(7, new SupplyGoal(this));
         this.goalSelector.addGoal(7, new LooseFoodGoal(this,true));

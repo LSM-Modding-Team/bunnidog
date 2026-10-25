@@ -109,7 +109,7 @@ public final class NurseryCradleBlockEntity extends net.minecraft.world.level.bl
         var seed = seed().orElseThrow(); var reserved = this.stored;
         this.hatching = true; this.stored = ItemStack.EMPTY;
         NurseryHatching.Outcome outcome;
-        try { outcome = NurseryHatching.hatch(server,this.worldPosition,getBlockState().getValue(NurseryCradleBlock.FACING),seed); }
+        try {var hearth=com.bunnidogs.mod.entity.SocietyWork.seedHome(server,reserved);outcome=NurseryHatching.hatch(server,this.worldPosition,getBlockState().getValue(NurseryCradleBlock.FACING),seed,pup->{if(hearth!=null)pup.society().born(hearth);});if(hearth!=null && outcome.status()==NurseryHatching.Status.HATCHED)hearth.evidence("birth",1); }
         finally { this.hatching = false; }
         if (outcome.status() == NurseryHatching.Status.HATCHED) resetGrowth();
         else if (attached(server)) this.stored = reserved;

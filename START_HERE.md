@@ -5,6 +5,24 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — society-first Apex progression
+
+Read `docs/HEARTH_PROGRESSION_SPECS.md`. A Hearth household now performs real
+renewable harvesting, hauling, crafting, authorized shelter building, meals,
+courtship/nursery work and resident-to-offspring instruction. An offspring must
+repeat a resident-taught routine independently before the paid Living Keystone
+cultivation can finish. The Keystone installs once in a Crucible; repeat fights
+use renewable incense, a source sample and optional role sigil. The old five rare
+offerings are optional incense ingredients/keepsakes, no longer required kills.
+
+Five distinct ground Apex hunts and any one flying hunt are personal saved
+receipts. Meaningful damage, companion contributions, blocking and actual ally
+healing count; idling/borrowing a Crest does not. First activation and already
+linked entry both check qualification. Return travel always remains available.
+Hearth supplies use vanilla chest UI, the Staff uses explicit local gestures,
+and Anchor inlays/Crest inspection expose progress without an ambient HUD.
+The initial sustainable household is not the entire civilization roadmap.
+
 ## Current — Astralite and sky archipelago
 
 Read `docs/ASTRALITE_AND_SKY_SPECS.md`. The Great Warren now generates real void
@@ -58,16 +76,17 @@ frozen genetic archives. Sovereign smithing upgrades extend Heartbound armor,
 Lance and Armored Elytra; the Concord Standard adds paid party healing. Existing
 ordinary Apex tuning stays accepted. No new tutorial/menu layer.
 
-Protocol **32**, **2,383 authored / 2,511 packaged** language keys, English/shared
-neutral Spanish. The native suite now has **182 scenarios**, alongside actual
+Protocol **33**, **2,420 authored / 2,548 packaged** language keys, English/shared
+neutral Spanish. The native suite now has **188 scenarios**, alongside actual
 model/localization/build gates. Save/kill-payment ordering, native health above
 1,024, short chunk leases, finite actors, exact smithing components and separate
 core/trophy delivery retries are invariants. Native and inspected preview evidence
 remain distinct from graphical client play, natural chunk order/performance and
 full solo/co-op boss pacing. See the current spec for those practical limits.
 
-Next major unfinished roadmap: observed learning/routes and remaining work
-integration in I2/I3, then professions and civilization. Address any newly reported
+Remaining broader roadmap: observed player demonstrations/routes, remaining I3
+work integration and expanded professions/construction/civilization. The new
+Hearth household implements a focused cross-stage journey through those systems. Address any newly reported
 expedition issues first; do not rebalance the accepted ordinary Apex fights
 without player feedback. Further realm regions/gear are optional extensions.
 

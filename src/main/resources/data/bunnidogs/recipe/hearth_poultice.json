@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " G ",
+    "BPH"
+  ],
+  "key": {
+    "G": "bunnidogs:guava",
+    "B": "minecraft:bone_meal",
+    "P": "minecraft:paper",
+    "H": "minecraft:honeycomb"
+  },
+  "result": {
+    "id": "bunnidogs:hearth_poultice",
+    "count": 4
+  }
+}

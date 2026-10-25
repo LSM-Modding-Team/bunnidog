@@ -1,5 +1,9 @@
 # Intelligence, learning and living civilizations
 
+> Latest implemented progression: [HEARTH_PROGRESSION_SPECS.md](HEARTH_PROGRESSION_SPECS.md)
+> supersedes the old offering/entry rules and adds a focused sustainable household,
+> resident teaching and paid construction. Broader civilization stages remain open.
+
 Design direction, 2026-10-21, originally planned against `0c92ded`.
 **I1 and initial I2 are now implemented**: full cognitive genetics, migration,
 mind inspection/forecasts and attended practical learning. Actual behavior and

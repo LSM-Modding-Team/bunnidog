@@ -83,6 +83,7 @@ public final class ApexGameTest {
             h.assertTrue(sample.getCount() == 2 && pedestals.getFirst().item().is(legends[0].getItem()),
                     "Missing offerings must preserve the sample and completed displays");
             pedestals.get(4).setItem(legends[4].copy());
+            SocietyGameTest.root(h,player,absolute);
             player.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY);
             player.setItemInHand(InteractionHand.OFF_HAND,sample);
             h.useBlock(center,player);
@@ -101,8 +102,8 @@ public final class ApexGameTest {
             ritual(h,player,absolute);
             var bosses = level.getEntitiesOfClass(Apex.class,new AABB(absolute).inflate(5));
             h.assertTrue(bosses.size() == 1 && sample.getCount() == 1
-                    && pedestals.stream().allMatch(TrophyPedestalBlockEntity::isEmpty),
-                    "A valid native ritual must create one boss and spend exactly five legends and one sample");
+                    && pedestals.stream().noneMatch(TrophyPedestalBlockEntity::isEmpty),
+                    "A valid native ritual must create one boss and spend only incense and one sample, retaining the heart and old trophies");
             var apex = bosses.getFirst();
             var forecast = ApexRules.forecast(source);
             h.assertTrue(Math.abs(apex.getMaxHealth()-forecast.normal().health()) < .001

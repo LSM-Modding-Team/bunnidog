@@ -40,14 +40,12 @@ public final class ApexPanel {
             rows.add(Component.translatable("message.bunnidogs.apex.forecast_defense",number(plan.armor()),Math.round(plan.knockbackResistance()*100),number(plan.normal().awareness())));
             rows.add(Component.translatable("message.bunnidogs.apex.forecast_motion",Math.round((plan.enraged().speed()/plan.normal().speed()-1)*100),number(Units.jumpHeight(plan.normal().jump()))));
         });
-        for (var legend:ApexRitual.legends()) rows.add(t("apex.offering",new ItemStack(legend).getHoverName(),t(reading.missing().contains(legend) ? "apex.missing" : "apex.ready"))
-                .copy().withStyle(reading.missing().contains(legend) ? ChatFormatting.RED : ChatFormatting.GREEN));
+        rows.add(Component.translatable("care.bunnidogs.apex.hearth",t(reading.status()==ApexRitual.Status.KEYSTONE ? "apex.missing" : "apex.ready")));
         rows.add(t(focus==null ? "apex.cost" : "apex.focus_cost"));
         boolean ready=(sigil.isEmpty() || StationUse.owns(player,sigil)) && StationUse.editable(player,pos) && reading.status()==ApexRitual.Status.READY;
         var controls=new ArrayList<CareView.Control>();
         if (armed) { controls.add(button(SUMMON,"summon",ready)); controls.add(button(CANCEL,"cancel_ritual",true)); }
         else controls.add(button(PREPARE,"prepare_ritual",ready));
-        controls.add(new CareView.Control(SHOW_RING,t("button.show_ring"),true,CareView.Control.DETAIL));
         return new CareView(ModBlocks.APEX_CRUCIBLE.get().getName(),armed ? t("apex.confirm") : reading.status()==ApexRitual.Status.READY ? Component.empty() : t("apex.next."+reading.status().name().toLowerCase(Locale.ROOT)),rows,controls);
     }
 }

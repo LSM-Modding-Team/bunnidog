@@ -1,4 +1,8 @@
 > Apex play-review integration: canonical genomes are now g3 with an appended
+
+> Latest implemented progression: [HEARTH_PROGRESSION_SPECS.md](HEARTH_PROGRESSION_SPECS.md)
+> supersedes the old offering/entry rules and adds a focused sustainable household,
+> resident teaching and paid construction. Broader civilization stages remain open.
 > Wings body locus; legacy/g2 minds and their locus IDs remain unchanged. New seeds
 > include twelve loci; original body-only mutation seeds retain their seven targets.
 > See [APEX_SPECS.md](APEX_SPECS.md) for actual flight and migration behavior.

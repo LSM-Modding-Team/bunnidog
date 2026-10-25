@@ -187,6 +187,7 @@ public class Apex extends Bunnidog implements Enemy {
         super.stopSeenByPlayer(player);
         this.boss.removePlayer(player);
     }
+    public boolean huntDeathConfirmed() {return dead;}
     @Override public void die(net.minecraft.world.damagesource.DamageSource source) {
         super.die(source);
         if(dead && level() instanceof ServerLevel && com.bunnidogs.mod.crown.CrownEncounter.member(this))com.bunnidogs.mod.crown.CrownEncounter.death(this);

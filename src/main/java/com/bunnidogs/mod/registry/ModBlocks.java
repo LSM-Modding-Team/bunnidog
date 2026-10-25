@@ -83,6 +83,10 @@ public final class ModBlocks {
         return java.util.Collections.unmodifiableMap(rugs);
     }
 
+    public static final DeferredBlock<com.bunnidogs.mod.society.HearthTreeBlock> HEARTH_TREE=BLOCKS.registerBlock("hearth_tree",com.bunnidogs.mod.society.HearthTreeBlock::new,p->p.strength(3).sound(SoundType.WOOD).noOcclusion().lightLevel(state->state.getValue(com.bunnidogs.mod.society.HearthTreeBlock.STAGE)*3));
+    public static final DeferredBlock<com.bunnidogs.mod.society.CoppiceBlock> GUAVA_COPPICE=BLOCKS.registerBlock("guava_coppice",com.bunnidogs.mod.society.CoppiceBlock::new,p->p.strength(.8F).randomTicks().noOcclusion().noCollision().sound(SoundType.AZALEA));
+    public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<com.bunnidogs.mod.society.HearthTreeBlockEntity>> HEARTH_TREE_BE=BLOCK_ENTITIES.register("hearth_tree",()->new BlockEntityType<>(com.bunnidogs.mod.society.HearthTreeBlockEntity::new,HEARTH_TREE.get()));
+    public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<com.bunnidogs.mod.society.CrucibleHeartBlockEntity>> CRUCIBLE_HEART_BE=BLOCK_ENTITIES.register("crucible_heart",()->new BlockEntityType<>(com.bunnidogs.mod.society.CrucibleHeartBlockEntity::new,ModBlocks.APEX_CRUCIBLE.get()));
     public static final DeferredBlock<Block> MOONSTONE=BLOCKS.registerBlock("moonstone",Block::new,p->p.strength(4,30).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE));
     public static final DeferredBlock<Block> ASTRALITE_ORE=BLOCKS.registerBlock("astralite_ore",Block::new,p->p.strength(6,30).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE));
     public static final DeferredBlock<Block> CINDERITE_ORE=BLOCKS.registerBlock("cinderite_ore",Block::new,p->p.strength(6,30).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE));

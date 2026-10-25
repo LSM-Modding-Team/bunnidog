@@ -69,6 +69,16 @@ Astralite; retain old Heartbound/Sovereign IDs and native smithing components.
 Durable late/endgame kit gear must carry Mending I and Unbreaking III. Preserve
 old generated chunks, stock, builds and exact paired returns.
 
+Society-first progression now supersedes the legendary-offering ritual and
+single-Crest entry. Read `docs/HEARTH_PROGRESSION_SPECS.md`. Preserve actual paid
+Hearth work, authorized plots, owned cargo, resident-taught independent offspring,
+reusable installed Keystones and six per-player hunt records. NPC instruction
+must not bypass inherited limits or become inherited knowledge. Neither a full
+chest nor a borrowed Crest grants progression. Entry through linked portals also
+checks hunts; empty-handed emergency return remains unconditional. Preserve old
+legend IDs/displays, paired endpoints, stock and accepted combat balancing.
+The small household is not the complete I2–I10 civilization roadmap.
+
 Latest rewards steering supersedes the conservative initial realm rewards:
 `docs/APEX_REWARDS_SPECS.md` is authoritative. Preserve native smithing item
 components, independent Heartbound timers, successful-pop-only explosive Totems,

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "bunnidogs:listening_shell"
+  ],
+  "result": {
+    "id": "bunnidogs:hearth_incense",
+    "count": 64
+  }
+}

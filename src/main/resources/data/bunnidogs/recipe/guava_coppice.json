@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BS"
+  ],
+  "key": {
+    "B": "minecraft:bone_meal",
+    "S": "bunnidogs:guava_sapling"
+  },
+  "result": {
+    "id": "bunnidogs:guava_coppice",
+    "count": 2
+  }
+}

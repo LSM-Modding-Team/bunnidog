@@ -1,5 +1,9 @@
 # Apex — lineage encounters and combat roles
 
+> Latest implemented progression: [HEARTH_PROGRESSION_SPECS.md](HEARTH_PROGRESSION_SPECS.md)
+> supersedes the old offering/entry rules and adds a focused sustainable household,
+> resident teaching and paid construction. Broader civilization stages remain open.
+
 All five ground roles and their flying variants ship. Protocol **27** requires
 matching clients/servers. The +60% outgoing baseline remains; the player's latest
 combat review adds **20% Blastmaw health** and **double flying-Brute bite damage**.

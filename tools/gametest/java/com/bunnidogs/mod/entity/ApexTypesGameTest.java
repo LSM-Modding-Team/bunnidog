@@ -168,6 +168,7 @@ final class ApexTypesGameTest {
             var pos=BlockPos.containing(center(h));level.setBlock(pos,ModBlocks.APEX_CRUCIBLE.get().defaultBlockState(),3);
             var p=player(h,center(h).add(0,0,3));var sample=TissueSampleItem.create(Genome.DEFAULT,Stats.of(1,2,3,4,5));sample.setCount(2);
             var sigil=new ItemStack(ModItems.APEX_SIGILS.get("flying_prismmaw_sigil").get(),2);
+            SocietyGameTest.root(h,p,pos);
             p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND,sigil);p.setItemInHand(net.minecraft.world.InteractionHand.OFF_HAND,sample);
             for(int i=0;i<5;i++){var at=pos.offset(ApexCrucibleBlock.RING.get(i));level.setBlock(at,ModBlocks.TROPHY_PEDESTAL.get().defaultBlockState(),3);((TrophyPedestalBlockEntity)level.getBlockEntity(at)).setItem(new ItemStack(ApexRitual.legends().get(i)));}
             p.gameMode.useItemOn(p,level,sigil,net.minecraft.world.InteractionHand.MAIN_HAND,new net.minecraft.world.phys.BlockHitResult(Vec3.atCenterOf(pos),net.minecraft.core.Direction.UP,pos,false));

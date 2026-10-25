@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " L ",
+    "CSC",
+    "PPP"
+  ],
+  "key": {
+    "L": "bunnidogs:guava_sapling",
+    "C": "minecraft:copper_ingot",
+    "S": "minecraft:amethyst_shard",
+    "P": "#minecraft:planks"
+  },
+  "result": {
+    "id": "bunnidogs:hearth_tree",
+    "count": 1
+  }
+}

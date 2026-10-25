@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "rooted=false": {
       "model": "bunnidogs:block/apex_crucible"
+    },
+    "rooted=true": {
+      "model": "bunnidogs:block/apex_crucible_rooted"
     }
   }
 }

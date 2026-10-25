@@ -16,15 +16,23 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 /** The optional encounter starts from an explicit, sample-bound preparation and summon menu. */
-public final class ApexCrucibleBlock extends Block {
+public final class ApexCrucibleBlock extends Block implements net.minecraft.world.level.block.EntityBlock {
     public static final List<BlockPos> RING=List.of(new BlockPos(0,0,-3),new BlockPos(3,0,0),new BlockPos(0,0,3),new BlockPos(-3,0,0),
             new BlockPos(2,0,-2),new BlockPos(2,0,2),new BlockPos(-2,0,2),new BlockPos(-2,0,-2));
-    public ApexCrucibleBlock(Properties properties) { super(properties); }
+    public static final net.minecraft.world.level.block.state.properties.BooleanProperty ROOTED=net.minecraft.world.level.block.state.properties.BooleanProperty.create("rooted");
+    public ApexCrucibleBlock(Properties properties) {super(properties);registerDefaultState(stateDefinition.any().setValue(ROOTED,false));}
+    @Override protected void createBlockStateDefinition(net.minecraft.world.level.block.state.StateDefinition.Builder<Block,BlockState> b) {b.add(ROOTED);}
+    @Override public net.minecraft.world.level.block.entity.BlockEntity newBlockEntity(BlockPos pos,BlockState state) {return new com.bunnidogs.mod.society.CrucibleHeartBlockEntity(pos,state);}
+
     @Override protected InteractionResult useWithoutItem(BlockState state,Level level,BlockPos pos,Player player,BlockHitResult hit) {
         if (!player.getMainHandItem().isEmpty() || !player.getOffhandItem().isEmpty()) return InteractionResult.PASS;
         CareMenu.open(player,pos); return InteractionResult.SUCCESS;
     }
     @Override protected InteractionResult useItemOn(ItemStack stack,BlockState state,Level level,BlockPos pos,Player player,InteractionHand hand,BlockHitResult hit) {
+        if(stack.is(ModItems.LIVING_KEYSTONE.get())) {
+            if(!level.isClientSide() && level.getBlockEntity(pos) instanceof com.bunnidogs.mod.society.CrucibleHeartBlockEntity heart)heart.install(player,player.getItemInHand(hand));
+            return InteractionResult.SUCCESS;
+        }
         if (stack.getItem() instanceof com.bunnidogs.mod.item.ApexSigilItem) {
             var sample=player.getItemInHand(hand==InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
             if (com.bunnidogs.mod.item.TissueSampleItem.read(sample).isEmpty()) {

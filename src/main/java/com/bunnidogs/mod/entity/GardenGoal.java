@@ -237,6 +237,7 @@ final class GardenGoal extends Goal {
         if (level.setBlock(this.crop,this.reset,3)) {
             var stock = trough(this.trough);
             boolean harvest = this.task == Task.HARVEST;
+            if(harvest)this.dog.society().harvested(this.trough);
             if (harvest && (stock == null || stock.insert(this.produce) != 1)) Block.popResource(level,this.crop,this.produce.copy());
             level.levelEvent(harvest ? 2001 : 2005,this.crop,harvest ? Block.getId(this.mature) : 15);
             this.dog.finishedGardening();

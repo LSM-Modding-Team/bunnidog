@@ -47,7 +47,8 @@ public final class NurseryHatching {
         if (!level.noCollision(null,area,true)) return new PadCheck(Status.BLOCKED,center,nearby);
         return new PadCheck(nearby >= Breeding.CROWD_LIMIT ? Status.CROWDED : Status.READY,null,nearby);
     }
-    public static Outcome hatch(ServerLevel level, BlockPos cradle, Direction facing, Seed seed) {
+    public static Outcome hatch(ServerLevel level, BlockPos cradle, Direction facing, Seed seed) {return hatch(level,cradle,facing,seed,p->{});}
+    public static Outcome hatch(ServerLevel level, BlockPos cradle, Direction facing, Seed seed, java.util.function.Consumer<Bunnidog> prepare) {
         var check = inspect(level,cradle,facing);
         if (check.status() != Status.READY) return refused(check.status());
         var slots = pad(cradle,facing);
@@ -59,6 +60,7 @@ public final class NurseryHatching {
             for (int index = 0; index < litter.size(); index++) {
                 var pup = Bunnidog.createPup(level,seed,litter.get(index));
                 if (pup == null) return refused(Status.REFUSED);
+                prepare.accept(pup);
                 pup.snapTo(Vec3.atBottomCenterOf(slots.get(index)),rng.nextFloat()*360,0);
                 if (!level.noCollision(pup,pup.getBoundingBox(),true)) return refused(Status.BLOCKED);
                 prepared.add(pup);

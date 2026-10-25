@@ -1,5 +1,9 @@
 # Intelligence update: implementation design and delivery
 
+> Latest implemented progression: [HEARTH_PROGRESSION_SPECS.md](HEARTH_PROGRESSION_SPECS.md)
+> supersedes the old offering/entry rules and adds a focused sustainable household,
+> resident teaching and paid construction. Broader civilization stages remain open.
+
 Engineering direction, originally planned 2026-10-21 against `0c92ded`.
 The following implementation checkpoint supersedes proposals where explicitly
 resolved; later architecture remains future work. Read with

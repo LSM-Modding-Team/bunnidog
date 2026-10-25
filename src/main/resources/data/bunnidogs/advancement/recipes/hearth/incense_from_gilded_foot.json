@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "legend": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "bunnidogs:gilded_foot"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "legend"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bunnidogs:incense_from_gilded_foot"
+    ]
+  }
+}
