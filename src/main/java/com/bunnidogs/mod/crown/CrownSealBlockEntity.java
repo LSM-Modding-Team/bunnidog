@@ -222,8 +222,9 @@ public final class CrownSealBlockEntity extends BlockEntity {
     }
     private void flushVaults() {
         if(!(level instanceof ServerLevel server) || vaults<=0 && archives<=0)return;
-        // Finished rooms pay into empty plinths only. Player containers are never replaced/refilled.
-        var root=wing()==3 ? center.offset(0,1,31) : worldPosition;
+        // Final vault plinths sit beside the entrance seal, outside the rematch arena.
+        // Player containers are never replaced/refilled.
+        var root=wing()==3 ? center.offset(0,1,48) : worldPosition;
         for(int i=0;i<6 && (vaults>0 || archives>0);i++) {
             var pos=root.offset(-6+i*2,0,wing()==3 ? 2 : -12);
             if(!server.hasChunkAt(pos) || !server.getBlockState(pos).isAir())continue;

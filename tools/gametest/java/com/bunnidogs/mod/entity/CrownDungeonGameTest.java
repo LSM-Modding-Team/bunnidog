@@ -69,10 +69,10 @@ final class CrownDungeonGameTest {
         p.setItemInHand(InteractionHand.OFF_HAND,key(2,be.site()));be.use(p,InteractionHand.OFF_HAND);
         h.assertTrue(Integer.bitCount(be.sockets())==2 && h.getLevel().getBlockState(c.offset(0,2,42)).isAir(),"Any two distinct matching-site keys open the actual saved central gate");
         p.setItemInHand(InteractionHand.OFF_HAND,key(1,be.site()));be.use(p,InteractionHand.MAIN_HAND);
-        var optional=(ChestBlockEntity)h.getLevel().getBlockEntity(c.offset(-6,1,33));
+        var optional=(ChestBlockEntity)h.getLevel().getBlockEntity(c.offset(-6,1,50));
         h.assertTrue(Integer.bitCount(be.sockets())==3 && optional!=null && com.bunnidogs.mod.item.SeedItem.read(optional.getItem(10)).orElseThrow().quality()>=36,"The optional third matching keystone pays a frozen genetic archive without being required by the gate");
         var frozen=optional.getItem(10).copy();be=copy(h,be);p.setItemInHand(InteractionHand.OFF_HAND,key(1,be.site()));be.use(p,InteractionHand.MAIN_HAND);
-        h.assertTrue(ItemStack.matches(optional.getItem(10),frozen) && !h.getLevel().getBlockState(c.offset(-4,1,33)).is(Blocks.CHEST),"Saved optional-key progress cannot duplicate or reroll an archive");
+        h.assertTrue(ItemStack.matches(optional.getItem(10),frozen) && !h.getLevel().getBlockState(c.offset(-4,1,50)).is(Blocks.CHEST),"Saved optional-key progress cannot duplicate or reroll an archive");
         h.assertTrue(be.getBlockState().getDestroyProgress(p,h.getLevel(),be.getBlockPos())==0 && !be.getBlockState().canEntityDestroy(h.getLevel(),be.getBlockPos(),p),"Critical encounter machinery survives mining and Apex terrain attacks");p.discard();
     }
     static void boss(GameTestHelper h) {
@@ -90,7 +90,9 @@ final class CrownDungeonGameTest {
         boss.setHealth(1000);boss.tick();h.assertTrue(boss.phase()==3 && boss.flying(),"The last third becomes an actual aerial finale");
         kill(h,boss,p);
         h.assertTrue(!be.active() && be.pending(p.getUUID())==1 && be.pending(idle.getUUID())==0,"Accepted lethal participation earns one saved core; an idle scaling visitor earns none");
-        var cache=(ChestBlockEntity)h.getLevel().getBlockEntity(c.offset(-6,1,33));var archive=(ChestBlockEntity)h.getLevel().getBlockEntity(c.offset(-4,1,33));
+        var cache=(ChestBlockEntity)h.getLevel().getBlockEntity(c.offset(-6,1,50));var archive=(ChestBlockEntity)h.getLevel().getBlockEntity(c.offset(-4,1,50));
+        h.assertTrue(ApexSkills.explosion(h.getLevel(),boss,net.minecraft.world.phys.Vec3.atBottomCenterOf(c.offset(0,1,22)),9,false),"A real full-power finale blast must execute in the loaded native arena");
+        h.assertTrue(h.getLevel().getBlockEntity(cache.getBlockPos())==cache && h.getLevel().getBlockEntity(archive.getBlockPos())==archive,"Earned vault/archive chests sit outside the next rematch's actual explosion reach");
         var seed=com.bunnidogs.mod.item.SeedItem.read(archive.getItem(10)).orElseThrow();
         h.assertTrue(cache.getLootTable()!=null && archive.getLootTable()==null && com.bunnidogs.mod.genetics.Wings.expressed(seed.mother()) && com.bunnidogs.mod.genetics.Wings.expressed(seed.father()),"An actual boss victory pays generic wealth and a separately frozen winged breeding archive");
         var tissue=com.bunnidogs.mod.item.TissueSampleItem.read(archive.getItem(12)).orElseThrow();h.assertTrue(tissue.genome().equals(seed.mother()) && tissue.stats().equals(seed.motherStats()),"The archive's reusable tissue is the exact saved parent, not a separate roll");
@@ -145,7 +147,10 @@ final class CrownDungeonGameTest {
         floor(h);var c=origin(h);var be=seal(h,3,c.offset(0,1,46),c,UUID.randomUUID());var p=ApexTypesGameTest.player(h,Vec3.atBottomCenterOf(be.getBlockPos().east()));unlock(h,be,p);be.begin(p,InteractionHand.MAIN_HAND);
         var boss=(CrownedApex)h.getLevel().getEntity(be.enemies().iterator().next());boss.setNoAi(true);
         var storage=h.getLevel().getDataStorage().computeIfAbsent(net.minecraft.world.level.TicketStorage.TYPE);long home=net.minecraft.world.level.ChunkPos.containing(be.getBlockPos()).pack();
-        h.assertTrue(storage.getTickets(home).stream().anyMatch(t->t.getType().equals(CrownTickets.loading(3))) && !CrownTickets.SIMULATION.get().doesLoad() && !CrownTickets.loading(3).persist(),"Native nonpersistent tickets retain the actual controller while simulation cannot generate an outer ring");
+        h.assertTrue(storage.getTickets(home).stream().anyMatch(t->t.getType().equals(CrownTickets.loading(3))) && !CrownTickets.SIMULATION.get().doesLoad() && !CrownTickets.loading(3).persist(),"Native nonpersistent tickets retain the actual controller while simulation cannot generate an outer ring: home="+be.getBlockPos()+", tickets="+storage.getTickets(home));
+        h.assertTrue(!CrownTickets.loading(0).equals(CrownTickets.loading(3)),"Different wing leases must remain distinct native TicketType values despite identical loading flags");
+        var overlapping=seal(h,0,c.offset(0,1,44),c,UUID.randomUUID());CrownTickets.hold(overlapping);CrownTickets.release(overlapping);
+        h.assertTrue(storage.getTickets(home).stream().anyMatch(t->t.getType().equals(CrownTickets.loading(3))),"Releasing an overlapping wing cannot cancel the central controller's chunk lease");
         var dropped=new net.minecraft.world.entity.item.ItemEntity(h.getLevel(),c.getX(),c.getY()+1,c.getZ(),new ItemStack(Items.DIAMOND_SWORD));h.getLevel().addFreshEntity(dropped);p.discard();
         h.runAfterDelay(220,()->{h.assertTrue(!be.active() && boss.isRemoved() && be.pending(p.getUUID())==0,"Ten seconds without a valid participant resets and cleans the abandoned encounter");h.assertTrue(dropped.isAlive(),"Encounter reset preserves actual dropped player equipment");h.assertTrue(storage.getTickets(home).stream().noneMatch(t->t.getType().equals(CrownTickets.loading(3))),"Abandonment releases its native loading lease rather than permanently forcing dungeon chunks");dropped.discard();h.succeed();});
     }

@@ -91,11 +91,12 @@ ranged attacks, building and combat companions retain their normal uses.
 Each controller stores its site/run identity, confirmed enemy UUIDs, sockets,
 completion, frozen contribution roster and pending rewards. Only an explicit
 start loads its finite known encounter neighborhood. Short nonpersistent native
-leases retain that already-loaded footprint and its controller at low render
+leases retain that already-loaded footprint and its actual controller chunk at low render
 distance. Loading and simulation are separate: simulation cannot generate a new
 outer ring. On reload, a saved nearby actor can recover its one known controller
 chunk for up to three seconds; it never searches distant chunks. Reset/victory
-release the leases, and unreached leases expire automatically. Rejected/changed native spawns remove the unpaid pack and spend nothing.
+release the leases, and unreached leases expire automatically. Wing ticket values
+remain distinct, so one hall cannot cancel another overlapping hall's lease. Rejected/changed native spawns remove the unpaid pack and spend nothing.
 A rematch consumes one **actually offered Crown Sigil**, after successful native
 spawn/payment revalidation. Its recipe uses existing realm parts, not the five
 original legendary offerings. Saved active rematches remain already paid.
@@ -137,7 +138,8 @@ Wing caches contain generic wealth and bulk reagents. Temporary dungeon enemies
 and boss adds do not provide ordinary ritual Crests, role parts or XP. Paid genetic
 vacuum capture retains the user's existing exception for brood-to-seed capture.
 
-Reward chests use empty physical plinths only; existing containers are never
+Final reward plinths sit beside the entrance seal, outside rematch blasts and
+in the same generated chunk as their ledger. Chests use empty plinths only; existing containers are never
 replaced/refilled. Blocked vault/archive deliveries remain saved until space is
 available. Archives store their exact whole seed/sample items once; they never
 combine deferred loot tables with inventory contents or reroll on inspection.
