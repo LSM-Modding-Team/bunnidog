@@ -135,7 +135,7 @@ Canonical genotype text is `g3.<eight body pairs>.<four mind pairs>`, for exampl
 existing Seed/Tissue/Infusion/Pedigree/LineageNames delimiters. Full equality
 includes both words; `.packed()` deliberately remains only the body word.
 Entities sync three integers and invalidate capacity caches on either word.
-Required client/server protocol is now **35**; the body-word update remains unchanged.
+Required client/server protocol is now **36**; the body-word update remains unchanged.
 
 Valid old six/seven-pair genomes resolve to the same fixed, heritable helper
 mind `11-11-11-11`: capacities 2.25/2.00/1.75/2.00. Six-pair forms also retain
@@ -177,7 +177,8 @@ deliveries/remembered routes in [DELIVERY_LEARNING_SPECS.md](DELIVERY_LEARNING_S
 plus watched field work and learned gathering/scouting in
 [FIELD_LEARNING_SPECS.md](FIELD_LEARNING_SPECS.md). The Hearth spec records the
 focused household, resident instruction, paid shelter and family continuity.
-Continue remaining I3 care/tactics and shared procedures without bypassing taught
-limitations. Expanded professions, shared culture, construction planning and
+Paid household wound care and learned group tactics now ship in
+[CARE_AND_TACTICS_SPECS.md](CARE_AND_TACTICS_SPECS.md). Continue shared procedures
+without bypassing taught limitations. Expanded professions, shared culture, construction planning and
 fully autonomous wild civilization remain broader I4–I10 work. No client/GPU
 playtest, long-term colony simulation or natural multiplayer balance is claimed.

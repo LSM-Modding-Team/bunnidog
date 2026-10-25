@@ -36,6 +36,7 @@ public final class CareReadingPanel {
             if (dog.isBaby()) rows.add(AnimalPanels.text("still_growing"));
         }
         if (page==4 && dog.combat().recovering()) rows.add(Component.translatable("care.bunnidogs.combat.recovery",(dog.combat().recoveryLeft()+19)/20));
+        if (page==4 && dog.combat().bonded())rows.add(dog.combat().tactics().status());
         if (page==2) workRows(dog,rows);
         else for (var reading:readings(player,dog)) if (reading.group()==page) rows.add(reading.line());
         controls.add(AnimalPanels.back());

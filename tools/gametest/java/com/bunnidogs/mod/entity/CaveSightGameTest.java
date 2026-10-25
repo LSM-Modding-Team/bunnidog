@@ -80,7 +80,8 @@ public final class CaveSightGameTest {
             h.assertTrue(returned.getCount()==2&&player.hasEffect(MobEffects.NIGHT_VISION)&&dog.caveSightWait()>0,
                     "Creative guidance retains its actual fruit while still recording source recovery");
             player.removeEffect(MobEffects.NIGHT_VISION); dog.load(TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),saved));
-            h.setBlock(3,floor+2,4,Blocks.SEA_LANTERN);
+            // Keep the source in the player's chunk column; cross-border lighting can lag during the large native batch.
+            h.setBlock(3,floor+4,2,Blocks.SEA_LANTERN);
             h.succeedWhen(()->{
                 h.assertTrue(dog.caveSightStatus(player)==CaveSight.Status.BRIGHT,"A real nearby light prevents redundant cave guidance: "
                         +dog.caveSightStatus(player)+", light="+level.getMaxLocalRawBrightness(player.blockPosition()));

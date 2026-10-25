@@ -2474,5 +2474,17 @@
   "text.bunnidogs.df9dc4c7e7984874": "Scouting",
   "text.bunnidogs.b1211b3c2ce3511c": "%s alone; %s guided",
   "text.bunnidogs.c6359b03f1068ef8": "Teach %s through Work → Lessons.",
-  "care.bunnidogs.scouting.senses": "Needs a sharper ear for minerals."
+  "care.bunnidogs.scouting.senses": "Needs a sharper ear for minerals.",
+  "message.bunnidogs.clinic.treated": "%s is recovering.",
+  "message.bunnidogs.clinic.wait": "Needs quiet, dry recovery and time between dressings.",
+  "care.bunnidogs.clinic.take": "Take supplies",
+  "care.bunnidogs.clinic.supplies": "Dressing",
+  "care.bunnidogs.clinic.carrying": "Carrying care supplies",
+  "message.bunnidogs.tactics.learned": "%s has learned to coordinate in combat.",
+  "care.bunnidogs.tactics.instinct": "Fights by instinct",
+  "care.bunnidogs.tactics.learning": "Learning group combat",
+  "care.bunnidogs.tactics.guided": "Coordinates with guidance",
+  "care.bunnidogs.tactics.coordinated": "Coordinates the group",
+  "text.bunnidogs.f0f17954728a2981": "Group tactics",
+  "text.bunnidogs.00bc9f3cf5a96d21": "Family care"
 }

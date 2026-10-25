@@ -54,7 +54,7 @@ public final class DeliveryMemory {
     void walking() {activity=cargo.isEmpty() ? State.WALKING : State.CARRYING;}
     private void say(Player p,String key) {p.sendOverlayMessage(Component.translatable("message.bunnidogs.delivery."+key,dog.getDisplayName()));}
     public boolean authorized(Player p) {return dog.learning().authorized(p) && (route==null || route.owner.equals(p.getUUID()) || dog.trail().belongsTo(p));}
-    public boolean canObserve(Player p) {return authorized(p) && cargo.isEmpty() && !busy && readyBody() && p.distanceToSqr(dog)<=36 && p.hasLineOfSight(dog) && CapabilityRules.potential(dog.mind(),CapabilityRules.Task.DELIVERY)!=CapabilityRules.Potential.LIMITED && Supplying.qualified(dog.stats());}
+    public boolean canObserve(Player p) {return authorized(p) && cargo.isEmpty() && dog.society().cargoEmpty() && !busy && readyBody() && p.distanceToSqr(dog)<=36 && p.hasLineOfSight(dog) && CapabilityRules.potential(dog.mind(),CapabilityRules.Task.DELIVERY)!=CapabilityRules.Potential.LIMITED && Supplying.qualified(dog.stats());}
     public boolean begin(Player p) {
         if(!canObserve(p) || dog.level().isClientSide())return false;
         dog.learning().cancel();teacher=p.getUUID();until=dog.level().getGameTime()+2400;clicked=null;watching=null;pickup=null;shown=ItemStack.EMPTY;shownCount=0;dog.setPersistenceRequired();say(p,"watching");return true;

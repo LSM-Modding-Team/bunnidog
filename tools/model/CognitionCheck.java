@@ -20,7 +20,7 @@ public final class CognitionCheck {
         require(body.bodyCode().equals("33-22-33-33-33-33-00-00") && body.mindPacked() == CognitiveGene.LEGACY_HELPER,
                 "Six-pair migration must retain every body copy and add the uniform helper mind");
         require(Genome.parse(body.bodyCode()).orElseThrow().equals(body), "Seven-pair migration must agree with six-pair migration");
-        for (var task : List.of(CapabilityRules.Task.HARVEST, CapabilityRules.Task.DELIVERY, CapabilityRules.Task.PLANTING, CapabilityRules.Task.NURSERY,CapabilityRules.Task.SCOUTING))
+        for (var task : List.of(CapabilityRules.Task.HARVEST, CapabilityRules.Task.DELIVERY, CapabilityRules.Task.PLANTING, CapabilityRules.Task.NURSERY,CapabilityRules.Task.SCOUTING,CapabilityRules.Task.TACTICS))
             require(CapabilityRules.potential(body.mind(), task) == CapabilityRules.Potential.INDEPENDENT, "Legacy helper must retain familiar work: " + task);
         require(CapabilityRules.potential(body.mind(), CapabilityRules.Task.PLANNING) == CapabilityRules.Potential.LIMITED, "Migration must not grant a civic planner");
         require(fixedMind(0).mind().equals(new MindProfile(.25, .25, .25, .25)), "Lowest genotype must impose real limits");

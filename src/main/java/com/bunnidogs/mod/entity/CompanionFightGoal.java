@@ -24,7 +24,8 @@ final class CompanionFightGoal extends Goal {
             dog.getNavigation().stop();
             if (bite==0) {
                 dog.swing(net.minecraft.world.InteractionHand.MAIN_HAND);
-                if (dog.doHurtTarget((ServerLevel)dog.level(),enemy)) dog.combat().skirmishDone();
+                float before=enemy.getHealth();
+                if (dog.doHurtTarget((ServerLevel)dog.level(),enemy)) {if(enemy.getHealth()<before || !enemy.isAlive())dog.combat().tactics().practiced(enemy);dog.combat().skirmishDone();}
                 bite=Combat.profile(dog.genome(),dog.stats()).interval();
             }
         } else if (--repath<=0) {

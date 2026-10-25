@@ -120,4 +120,9 @@ public final class WorkObservation {
         var pos=cradle.getBlockPos().immutable();
         for(var dog:pupils(p))dog.learning().observation().watch(p,Learning.Routine.NURSERY,pos,()->p.level().getBlockEntity(pos)==cradle && cradle.age()>age && ItemStack.matches(cradle.storedSeed(),litter));
     }
+    /** Real manual treatment can demonstrate the existing Nursery/care routine, never a production receipt. */
+    public static void cared(net.minecraft.world.entity.player.Player player,Bunnidog patient,float before) {
+        if(!(player instanceof ServerPlayer p) || patient.getHealth()<=before)return;var at=patient.blockPosition().immutable();
+        for(var dog:pupils(p))if(dog!=patient)dog.learning().observation().watch(p,Learning.Routine.NURSERY,at,()->patient.isAlive() && patient.level()==p.level() && patient.getHealth()>before && patient.blockPosition().distSqr(at)<=4);
+    }
 }

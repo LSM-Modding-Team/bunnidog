@@ -31,8 +31,9 @@ values require play/profile evidence, not only passing tests.
   actions. A later concrete watched-delivery/remembered-route journey now ships; see
   `docs/DELIVERY_LEARNING_SPECS.md`. Actual watched farming/nursery work, learned
   gathering and field scouting now ship in `docs/FIELD_LEARNING_SPECS.md`.
-  Remaining I3 care/tactics, shared culture/jobs and broader civilization remain
-  unfinished. Hearth resident teaching is recorded in the current Hearth spec.
+  Paid wound care and learned group tactics now ship in `docs/CARE_AND_TACTICS_SPECS.md`.
+  Shared culture/jobs, full civic rescue and broader civilization remain unfinished.
+  Hearth resident teaching is recorded in the current Hearth spec.
   Do not treat local trough transfer as a long-range courier.
 
 ## 1. Engineering principles

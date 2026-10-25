@@ -31,6 +31,7 @@ public final class CarePanels {
     public static final int TENDING=10, TAKE_FOOD=11, CLEAR_FILTER=12, MODE=20;
     public static final int ADD_FOOD=13, TRAIN=14, RELEASE=15, GROOM=16;
     public static final int CARGO=17, BACK=18;
+    public static final int TAKE_SUPPLIES=243;
     public static final int ROLES=19;
     public static final int PAIR=30, TAKE_LEFT=31, TAKE_RIGHT=32, ADD_LEFT=33, ADD_RIGHT=34;
     public static final int HATCH=40, TAKE_SEED=41, AUTO_HATCH=42, ADD_SEED=43, GROW=44;
@@ -69,12 +70,16 @@ public final class CarePanels {
     }
     public static CareView cargo(Player player,Bunnidog dog) {
         var bags=dog.carriedBundles(); var rows=new ArrayList<Component>();
-        rows.add(t("animal.cargo",bags.size(),dog.bundleCapacity()));
+        if(!bags.isEmpty())rows.add(t("animal.cargo",bags.size(),dog.bundleCapacity()));
         if (bags.size()>6) rows.add(t("cargo.more_bags",bags.size()-6));
+        var controls=new ArrayList<CareView.Control>();controls.add(control(BACK,"back",true));
+        if(!bags.isEmpty())controls.add(control(TAKE_BUNDLE,"take_bundle",editable(player,null)));
+        if(!dog.society().medicalSupplies().isEmpty())controls.add(new CareView.Control(TAKE_SUPPLIES,Component.translatable("care.bunnidogs.clinic.take"),dog.society().mayTakeSupplies(player)));
         var view=new CareView(t("cargo.title",dog.getDisplayName()),Component.empty(),rows,
-                List.of(control(BACK,"back",true),control(TAKE_BUNDLE,"take_bundle",editable(player,null) && !bags.isEmpty())));
+                controls);
         // Show the newest six, including the actual next bag returned by Retrieve.
         var stock=new ArrayList<CareView.Stock>();
+        if(!dog.society().medicalSupplies().isEmpty())stock.add(new CareView.Stock(Component.translatable("care.bunnidogs.clinic.supplies"),dog.society().medicalSupplies()));
         for (int i=Math.max(0,bags.size()-6);i<bags.size();i++) stock.add(new CareView.Stock(t("display.bundle",i+1),bags.get(i)));
         return view.withStock(stock.toArray(CareView.Stock[]::new));
     }

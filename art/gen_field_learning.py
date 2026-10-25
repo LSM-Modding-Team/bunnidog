@@ -15,3 +15,6 @@ for en,es in [('Scouting','Exploración'),('%s alone; %s guided','%s solo; %s co
  rows['text.bunnidogs.'+hashlib.sha256(en.encode()).hexdigest()[:16]]=(en,es)
 for index,locale in enumerate(['en_us','es_pe']):
  p=root/(locale+'.json');data=json.loads(p.read_text());data.update({key:pair[index] for key,pair in rows.items()});p.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n')
+
+import runpy
+runpy.run_path(str(Path(__file__).resolve().with_name('gen_care_tactics.py')))

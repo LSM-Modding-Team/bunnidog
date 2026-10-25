@@ -10,7 +10,7 @@ Minecraft Spanish choices (`es_ar`, `es_cl`, `es_ec`, `es_es`, `es_mx`, `es_uy`,
 not separate authored translations. No custom Peru entry is added to Minecraft's
 language picker, since the vanilla game does not currently supply that locale.
 
-The authored catalog contains 2,476 keys in both languages (2,604 packaged after
+The authored catalog contains 2,488 keys in both languages (2,616 packaged after
 generated guide previews). Cognitive copies, capacity/learning feedback and
 separate mind forecasts share the same regional Spanish aliases. Items, blocks,
 advancements, subtitles, feedback, care/combat/workshop screens and the optional

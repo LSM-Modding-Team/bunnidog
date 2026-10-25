@@ -14,6 +14,8 @@ public final class HearthPoulticeItem extends Item {
         if(p.level().isClientSide())return InteractionResult.SUCCESS;
         boolean creative=p.hasInfiniteMaterials();var paid=stack.copyWithCount(1);stack.consume(1,p);float before=ally.getHealth();ally.heal(6);float actual=Math.clamp(ally.getHealth()-before,0,6);
         if(actual<=0) {if(!creative && !p.getInventory().add(paid))p.drop(paid,false);return InteractionResult.FAIL;}
-        p.getCooldowns().addCooldown(p.getCooldowns().getCooldownGroup(paid),100);if(p instanceof ServerPlayer server)HuntProgress.support(server,ally,actual);return InteractionResult.SUCCESS;
+        p.getCooldowns().addCooldown(p.getCooldowns().getCooldownGroup(paid),100);if(p instanceof ServerPlayer server)HuntProgress.support(server,ally,actual);
+        if(ally instanceof com.bunnidogs.mod.entity.Bunnidog patient)com.bunnidogs.mod.entity.WorkObservation.cared(p,patient,before);
+        return InteractionResult.SUCCESS;
     }
 }

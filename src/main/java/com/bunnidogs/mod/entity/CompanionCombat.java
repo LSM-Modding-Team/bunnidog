@@ -36,11 +36,13 @@ public final class CompanionCombat {
     private BlockPos hold;
     private final CompanionWarnings warnings;
     private long nextSearch;
-    CompanionCombat(Bunnidog dog) { this.dog=dog; warnings=new CompanionWarnings(dog); }
+    CompanionCombat(Bunnidog dog) {this.tactics=new CombatTactics(dog); this.dog=dog; warnings=new CompanionWarnings(dog); }
     public boolean bonded() { return dog.acceptsCare() && dog.trail().keeper()!=null; }
     public boolean recovering() { return injured; }
     public boolean downed() { return downed; }
     public boolean receivingAid() { return aiding; }
+    private final CombatTactics tactics;
+    public CombatTactics tactics() {return tactics;}
     public boolean danger() { return danger>0 || target!=null; }
     public int recoveryLeft() { return injured ? Math.max(0,Combat.recoveryTicks(dog.stats())-recovery) : 0; }
     public boolean selected() {
@@ -172,8 +174,13 @@ public final class CompanionCombat {
                     candidates.putIfAbsent(mob,3);
             }
         }
+        if(!tactics.coordinates())return candidates.keySet().stream().min(Comparator.comparingInt((Mob enemy)->candidates.get(enemy)).thenComparingDouble(dog::distanceToSqr)).orElse(null);
         var partners=dog.level().getEntitiesOfClass(Bunnidog.class,dog.getBoundingBox().inflate(leash()*2),
-                other->other!=dog && other.combat().selected() && dog.trail().keeper().equals(other.trail().keeper()) && other.combat().fighting());
+                other->other!=dog && other.combat().selected() && dog.trail().keeper().equals(other.trail().keeper()) && HomeRoutes.visible(dog,other)).stream().limit(2).toList();
+        if(dog.temperament()!=Temperament.FERAL && dog.temperament()!=Temperament.SKITTISH)for(var partner:partners) {
+            var threat=recent(partner.getLastHurtByMob(),partner.tickCount-partner.getLastHurtByMobTimestamp());
+            if(threat!=null)candidates.putIfAbsent(threat,3);
+        }
         return candidates.keySet().stream().filter(enemy->partners.stream().filter(other->other.getTarget()==enemy).count()<2)
                 .min(Comparator.comparingInt((Mob enemy)->10*(int)partners.stream().filter(other->other.getTarget()==enemy).count()+candidates.get(enemy))
                         .thenComparingDouble(dog::distanceToSqr)).orElse(null);
@@ -333,6 +340,7 @@ public final class CompanionCombat {
         if (regrouping) out.putBoolean("CombatRegroup",true);
         if (hold!=null) out.store("CombatHold",BlockPos.CODEC,hold);
         warnings.save(out);
+        tactics.save(out);
     }
     void restore(ValueInput in) {
         enabled=in.getBooleanOr("CombatAssist",false); downed=in.getBooleanOr("CombatDowned",false);
@@ -343,6 +351,7 @@ public final class CompanionCombat {
         target=null; focus=null; retreatFrom=null; quiet=0; pursuit=0; aiding=false; nextSearch=0;
         hold=in.read("CombatHold",BlockPos.CODEC).orElse(null);
         warnings.restore(in);
+        tactics.load(in,enabled);
         if (downed) { dog.setHealth(Math.max(1,dog.getHealth())); dog.syncCombatState(3); }
         else dog.syncCombatState(injured ? 4 : 0);
     }

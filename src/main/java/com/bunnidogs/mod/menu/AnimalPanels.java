@@ -33,7 +33,7 @@ public final class AnimalPanels {
         buttons.add(action(CARE_MENU,"care",true,Component.empty()));
         buttons.add(action(ORDERS,"orders",true,Component.empty()));
         buttons.add(action(CarePanels.ROLES,"work",true,Component.empty()));
-        if (dog.carriedBundleCount()>0) buttons.add(action(CarePanels.CARGO,"cargo",true,Component.empty()));
+        if (dog.carriedBundleCount()>0 || !dog.society().medicalSupplies().isEmpty()) buttons.add(action(CarePanels.CARGO,"cargo",true,Component.empty()));
         if (FamilyPanels.hasCalipers(player)) buttons.add(action(CarePanels.GENETICS,"measure",true,Component.empty()));
         return new CareView(dog.getDisplayName(),condition(dog),List.of(),buttons);
     }

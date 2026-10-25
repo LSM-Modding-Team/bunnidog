@@ -55,6 +55,7 @@ public final class GuavaGameTest extends GameTestInstance {
     @SubscribeEvent
     public static void registerTests(RegisterGameTestsEvent event) {
         var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.AllOf());
+        for(String name:new String[]{"clinic_ai","clinic_stock","clinic_callbacks","clinic_lesson","clinic_limits","clinic_craft","tactics_learning","tactics_coordination"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),320,0,true)));
         for(String name:new String[]{"field_harvest","field_garden","field_nursery","field_safety","field_scout","field_gathering"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),160,0,true)));
         for(var kind:ApexKind.values())for(boolean flying:new boolean[]{false,true}) {
             String name="apex_pillar_"+(flying ? "flying_" : "")+kind.id;
@@ -64,7 +65,7 @@ public final class GuavaGameTest extends GameTestInstance {
         for(String name:new String[]{"exp_armor","exp_smith","exp_vacuum","exp_flask","exp_launcher","exp_totem","realm_travel","realm_harness","realm_ecology","realm_ward","realm_lance","realm_ruin","apex_followup_blast","apex_anvil_arc","apex_critical_meals","apex_multilayer_dive","apex_client_death","apex_swimming","apex_final_blast","apex_debts","apex_brood_tools"})
             event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id(name.equals("apex_final_blast") || name.equals("exp_totem") ? "apex_blast_arena" : "apex_arena"),name.equals("apex_multilayer_dive") ? 260 : name.equals("exp_totem") ? 200 : 100,0,true)));
         for (String name : new String[]{"apex_tactics", "apex_variants", "apex_attacks", "apex_blast", "apex_support", "apex_focus", "boats", "signs", "transport", "rehoming", "wayfinding", "worldgen_signs", "interaction_discovery", "interaction_conversation", "interaction_commands", "interaction_stations", "station_hands", "station_inventory", "station_inventory_machines", "calipers_readings", "entrance_trails", "sampling", "adaptations", "camouflage", "camouflage_sculk", "breeder", "breeding_barn", "breeder_venues", "island_refuge", "island_noise", "coastal_traits", "kelp_gardening", "shore_meals", "cave_sight", "genetic_discoveries", "trail_training", "trail_walking", "pedigree_comparator", "bundle_packs", "bundle_travel", "phasing", "swimming", "snow_routes", "fleece", "splicing", "registry", "lineage_names", "table_planning", "table_automation", "juicer", "breeding_pen", "pen_safety", "pen_callbacks", "pelt_rugs", "specimen_jar", "show", "grooming", "cold_care", "settlement", "apex", "fixtures", "regional_farms", "orchard", "orchard_picking", "sapling_station", "gardening", "cactus_gardening", "mushroom_gardening", "melon_gardening", "fruit_foraging", "regional_meals", "loose_food", "food_gathering", "pantry", "fishing", "hunt_safety", "chorus_care", "refuge", "guarding", "scouting", "resident_finder", "storm_shelter", "recovery_rest", "trough_automation", "bell_calls", "trough_filters", "care_dispensers", "basket", "basket_dispenser", "basket_callbacks", "cultivation", "nest_markers", "nest_signals", "night_meals", "nursery", "seed_recovery", "cradle_storage", "cradle_hatching", "cradle_spawn_refusal", "crop_harvest", "composting", "work_modes", "work_pause", "hand_care", "cradle_controls", "work_census", "trough_supply", "supply_callbacks", "garden_restoration", "nursery_workers", "nursery_treatment"}) {
-            event.registerTest(id(name), new GuavaGameTest(name, new TestData<>(environment, id(name.startsWith("apex_") ? "apex_arena" : name.equals("trail_walking") ? "trail_corridor" : "empty"), name.equals("apex_tactics") ? 260 : name.equals("nest_signals") || name.equals("juicer") || name.equals("breeding_pen") || name.equals("trail_walking") ? 180 : 100, 0, true)));
+            event.registerTest(id(name), new GuavaGameTest(name, new TestData<>(environment, id(name.startsWith("apex_") ? "apex_arena" : name.equals("trail_walking") ? "trail_corridor" : "empty"), name.equals("apex_tactics") ? 260 : name.equals("cave_sight") ? 240 : name.equals("nest_signals") || name.equals("juicer") || name.equals("breeding_pen") || name.equals("trail_walking") ? 180 : 100, 0, true)));
         }
         for (String name:new String[]{"learning_ai","learning_feedback","learning_harvest","learning_delivery","learning_limits","learning_legacy","cognitive_genetics","commissions","commission_callbacks","trail_provisions","care_menus","care_stations","first_litter","workshop_controls","signal_controls","apex_preparation","family_goals","companion_fight","companion_rescue","companion_roster","companion_crossfire","companion_genetics","companion_focus","companion_lookout","companion_hold","companion_party"})
             event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id(name.equals("family_goals") ? "family_workshop" : "empty"),name.equals("learning_ai") ? com.bunnidogs.mod.genetics.Gardening.SEARCH_INTERVAL + com.bunnidogs.mod.genetics.Gardening.MAX_VISIT + 40 : name.equals("companion_roster") ? 260 : name.equals("first_litter") ? 180 : name.equals("companion_party") ? 120 : 100,0,true)));
@@ -77,6 +78,14 @@ public final class GuavaGameTest extends GameTestInstance {
             for(var kind:ApexKind.values())if(kind.id.equals(type)) {ApexReviewGameTest.pillar(h,kind,flying);return;}
         }
         switch (this.scenario) {
+            case "clinic_ai" -> {ClinicGameTest.ai(h);return;}
+            case "clinic_stock" -> {ClinicGameTest.stock(h);return;}
+            case "clinic_callbacks" -> {ClinicGameTest.callbacks(h);return;}
+            case "clinic_lesson" -> {ClinicGameTest.lesson(h);return;}
+            case "clinic_limits" -> {ClinicGameTest.limits(h);return;}
+            case "clinic_craft" -> {ClinicGameTest.craft(h);return;}
+            case "tactics_learning" -> {TacticsGameTest.learning(h);return;}
+            case "tactics_coordination" -> {TacticsGameTest.coordination(h);return;}
             case "field_harvest" -> {FieldLearningGameTest.harvest(h);return;}
             case "field_garden" -> {FieldLearningGameTest.garden(h);return;}
             case "field_nursery" -> {FieldLearningGameTest.nursery(h);return;}

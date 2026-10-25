@@ -282,7 +282,7 @@ public final class CareMenu extends AbstractContainerMenu {
             facts.add(dog.combat().partyState());
             facts.add(Optional.ofNullable(dog.homeNest()));
             facts.add(dog.genome()); facts.add(dog.stats()); facts.add(dog.learning().knowledge());facts.add(dog.deliveries().state());stock.add(dog.deliveries().cargo());facts.add(Optional.ofNullable(dog.deliveries().route()));
-            facts.add(Optional.ofNullable(dog.learning().lesson())); facts.add(Optional.ofNullable(dog.learning().teacher()));
+            facts.add(Optional.ofNullable(dog.learning().lesson())); facts.add(Optional.ofNullable(dog.learning().teacher()));stock.add(dog.society().medicalSupplies());facts.add(dog.society().mayTakeSupplies(owner));
             facts.add(FamilyPanels.hasCalipers(owner));
             stock.addAll(dog.carriedBundles());
             if (mode==Mode.FIT || mode==Mode.FIT_CHOICES || mode==Mode.ROLES) facts.add(FamilyPanels.hasCalipers(owner));
@@ -382,6 +382,7 @@ public final class CareMenu extends AbstractContainerMenu {
             else if (id==AnimalPanels.ORDERS && dog!=null) navigate(Mode.ORDERS);
             else if (id==CarePanels.RELEASE && dog!=null) navigate(Mode.RELEASE_BOND);
             else if (id==CarePanels.CARGO) navigate(Mode.CARGO);
+            else if (id==CarePanels.TAKE_SUPPLIES && dog!=null)dog.society().takeSupplies(player);
             else if (id==CarePanels.ROLES) navigate(Mode.ROLES);
             else if (id==LearningPanel.OPEN && dog!=null) navigate(Mode.LEARNING);
             else if (LearningPanel.routine(id)!=null && dog!=null) {

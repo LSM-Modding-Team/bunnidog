@@ -2474,5 +2474,17 @@
   "text.bunnidogs.df9dc4c7e7984874": "Exploración",
   "text.bunnidogs.b1211b3c2ce3511c": "%s solo; %s con guía",
   "text.bunnidogs.c6359b03f1068ef8": "Enseña %s en Trabajo → Lecciones.",
-  "care.bunnidogs.scouting.senses": "Necesita un oído más fino para los minerales."
+  "care.bunnidogs.scouting.senses": "Necesita un oído más fino para los minerales.",
+  "message.bunnidogs.clinic.treated": "%s se está recuperando.",
+  "message.bunnidogs.clinic.wait": "Necesita recuperarse en un lugar seco y tranquilo, y esperar entre curaciones.",
+  "care.bunnidogs.clinic.take": "Recuperar suministros",
+  "care.bunnidogs.clinic.supplies": "Apósito",
+  "care.bunnidogs.clinic.carrying": "Llevando suministros de curación",
+  "message.bunnidogs.tactics.learned": "%s aprendió a coordinarse en combate.",
+  "care.bunnidogs.tactics.instinct": "Combate por instinto",
+  "care.bunnidogs.tactics.learning": "Aprendiendo combate en grupo",
+  "care.bunnidogs.tactics.guided": "Se coordina con ayuda",
+  "care.bunnidogs.tactics.coordinated": "Coordina el grupo",
+  "text.bunnidogs.f0f17954728a2981": "Tácticas de grupo",
+  "text.bunnidogs.00bc9f3cf5a96d21": "Cuidados familiares"
 }

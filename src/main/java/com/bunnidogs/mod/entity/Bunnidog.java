@@ -194,6 +194,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private final CaveGuiding caveGuiding = new CaveGuiding(this);
     private final TrailCompanion trailCompanion = new TrailCompanion(this);
     private final CompanionCombat companionCombat = new CompanionCombat(this);
+    private final ClinicCare clinic=new ClinicCare(this);
+    public ClinicCare clinic() {return clinic;}
     private final DeliveryMemory deliveries=new DeliveryMemory(this);
     public DeliveryMemory deliveries() {return deliveries;}
     private final SocietyWork society=new SocietyWork(this);
@@ -450,7 +452,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         } finally { handCaring=false; }
     }
     public boolean handCareReady() {
-        return !handCaring && !this.combat().receivingAid() && !this.combat().downed() && (this.isBaby()
+        return !handCaring && !this.clinic().busy() && !this.combat().receivingAid() && !this.combat().downed() && (this.isBaby()
                 || !this.combat().danger() && this.getTarget()==null && !this.seekingRefuge());
     }
     public boolean readyForCareCourtship() {
@@ -1094,6 +1096,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.packs.save(output);
         this.trailCompanion.save(output);
         this.companionCombat.save(output);
+        this.clinic.save(output);
         this.learning.save(output);
         this.society.save(output);
         this.deliveries.save(output);
@@ -1151,6 +1154,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         super.readAdditionalSaveData(input);
         this.trailCompanion.restore(input);
         this.companionCombat.restore(input);
+        this.clinic.load(input);
         this.biteWait=Math.clamp(input.getIntOr("CombatBiteWait",0),0,28);
         this.packs.load(input);
         this.society.load(input);

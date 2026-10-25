@@ -91,6 +91,7 @@ The ordinary cognition/localization gates cover schema, inheritance and expanded
 mind-page bounds. First-person discovery, graphical appearance and natural pacing
 remain player review.
 
-Next: remaining I3 care/tactics integration, shared procedures/route teaching and
-professions. Arbitrary machines, multi-stop programs, citizen clinics and a fully
-autonomous wild society are not supplied by this checkpoint.
+Paid household wound care and learned group tactics now ship in
+[CARE_AND_TACTICS_SPECS.md](CARE_AND_TACTICS_SPECS.md). Next: shared procedures/
+route teaching and professions. Arbitrary machines, multi-stop programs, full
+civic downed rescue and a fully autonomous wild society remain unfinished.

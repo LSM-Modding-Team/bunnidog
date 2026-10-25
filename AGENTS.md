@@ -85,6 +85,17 @@ not require a Nest/daylight. Keep l1 adult/pup migration and exact l2 practice,
 matching genetic limits/forecasts, compass components and normal survey recovery.
 Player demonstrations cannot award independent Hearth work/generation receipts.
 
+Household wound care and learned group tactics now ship; read
+`docs/CARE_AND_TACTICS_SPECS.md`. Nursery learning covers paid dressing care;
+preserve native healing permission before payment, real two-leg Society cargo,
+patient UUID/Nest/household references, safe quiet recovery and original-owner cargo
+recovery. No free revives or injury-timer resets. Combat experience belongs to
+the individual; actual successful keeper-involved exchanges teach coordination,
+within existing three-partner/visibility/hearing/legal-target bounds and multiple
+gene limits. Instinct, direct orders, first aid and recall remain dependable.
+Keep old active-fighter migration and explicit beginner saves; no inherited
+experience, basic damage/cadence change, ambient stats or training menu.
+
 Society-first progression now supersedes the legendary-offering ritual and
 single-Crest entry. Read `docs/HEARTH_PROGRESSION_SPECS.md`. Preserve actual paid
 Hearth work, authorized plots, owned cargo, resident-taught independent offspring,
