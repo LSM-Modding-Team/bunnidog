@@ -2,9 +2,9 @@
 
 This continuation integrates two remaining I3 journeys with the focused Hearth
 household and chosen combat party. It adds actual paid treatment, personal combat
-experience and gene-dependent coordination. Full citizen downed rescue, clinics,
-public records, broader professions and autonomous wild civilization remain
-future work. Ordinary Apex combat numbers are unchanged.
+experience and gene-dependent coordination. Shared records, finite public plans and local professions now ship in
+[HOUSEHOLD_COMMONS_SPECS.md](HOUSEHOLD_COMMONS_SPECS.md). Full citizen pickup/transport
+rescue, broader clinics and autonomous wild civilization remain future work. Ordinary Apex combat numbers are unchanged.
 
 ## Supplies, a resting friend and an actual carer
 
@@ -14,12 +14,12 @@ actual treatment. It restores four HP (two hearts), subject to the native healin
 event, and starts a saved ten-second interval for that patient. Manual poultices
 retain their existing six-HP ally heal, five-second player cooldown and successful
 hunt-support credit. Observation attaches to that actual accepted manual heal.
-There is no breeding, forced growth, injury reset or instant revive. Ordinary
+Dressing care introduces no breeding, forced growth, injury reset or revive. Ordinary
 hand food, bonded first aid and recall retain their contracts for every mind.
 
 The patient must be alive, on safe dry ground, outside combat/refuge/transport,
 free of explicit travel orders and sufficiently quiet after recent attacks. A
-downed bonded companion still needs its original guava first aid. Dressing care
+downed bonded companion needs guava first aid, including the paid resident path below. Dressing care
 does not clear the companion's existing recovery time. Refusals keep the supplies.
 Repeated clicking, a cancelled native heal and stale callbacks grant no benefit.
 
@@ -56,6 +56,33 @@ meal, paper and honeycomb. At least eight guavas remain. Those inputs must reall
 be present; this is no automatic honey/paper farm. Care and essential crafting
 preempt expansion work, within the existing work/meal budget.
 
+## Paid first aid at home
+
+A Family care resident can now notice a quiet, downed housemate resting within
+three blocks of its original claimed Nest. The patient must share the actual
+Hearth and the Hearth owner's keeper bond. This deliberately covers a companion
+brought home; it does not change ordinary civilian death policy or perform a
+pickup/transport from a battlefield.
+
+The carer checks both walking legs, collects one real ordinary guava from the
+Hearth journal and carries the saved ration to the patient's actual location.
+Exact components, patient UUID, original Nest and source owner remain saved.
+Another carer cannot reserve a second ration for an already supplied patient.
+Native protection and Hearth redstone can pause both collection and treatment.
+
+Treatment requires a dry, grounded, quiet, nearby visible patient. Native healing
+permission runs before payment; the same body, location, authority, supplies and
+health must still be valid after callbacks. Cancellation, reentrant retrieval or
+manual first aid, patient movement and actor loss spend nothing. Unsupported
+minds retain their real mentor requirement; a limiting splice returns unused
+supplies through the normal physical recovery path.
+
+One successful payment restores mobility using the existing first-aid healing
+amount. Injury and its remaining recovery time stay intact; normal ration rest
+and a ten-second dressing interval apply. There is no free resurrection, full
+heal or reset of aftercare. Original manual guava first aid and rescue baskets
+keep their accepted behavior.
+
 ## Fighting experience above a reliable baseline
 
 Fresh fighters retain basic Assist, direct focus, held defense, the normal heard
@@ -88,9 +115,9 @@ persistent tutorial is added.
 
 ## Saves and evidence
 
-Protocol **36** requires matching clients and servers. Genome/seed and `l2`
+Protocol **39** requires matching clients and servers. Genome/seed and `l2`
 practice formats remain unchanged. Saves add bounded patient `ClinicRest`,
-medical parcel patient/bed/owner references and bounded `CombatTactics` practice.
+medical parcel patient/bed/owner/purpose references and bounded `CombatTactics` practice.
 Old active Assist records without tactical practice retain familiar tactics
 once; explicit saved beginner values do not repeatedly gain free mastery.
 
@@ -102,6 +129,9 @@ The full previous route, field-learning, household, realm and Apex suites remain
 active. These checks do not establish graphical presentation, natural first-session
 discovery, long-term economy or solo/co-op pacing.
 
-Next: shared procedures, route instruction and deeper professions. An extended
-civic rescue contract still needs actual downed-state policy, safe transport and
-quiet recovery sites; wound treatment alone does not implement that rescue.
+Shared routes, records and finite household planning now ship. Native first-aid
+coverage adds actual walking ration delivery and native heal veto/reentry/patient
+movement, including real farm-provenance components. The full suite has 234
+scenarios. Primitive wild bootstrap and full civic rescue remain unfinished: the
+latter still needs civilian downed policy and actual safe pickup/transport.
+Wound treatment and at-home first aid do not replace those missing stages.

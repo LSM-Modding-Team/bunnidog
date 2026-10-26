@@ -13,6 +13,7 @@ rows={
  'care.bunnidogs.commons.carrying':('Carrying household supplies','Llevando suministros del hogar'),
 }
 jobs={
+ 'fetch_aid':('Bringing first aid','Llevando primeros auxilios'),
  'plan':('Planning household work','Organizando el trabajo del hogar'),
  'fetch_seed':('Collecting crop seed','Recogiendo semillas de cultivo'),
  'sow_field':('Sowing a field','Sembrando un terreno'),

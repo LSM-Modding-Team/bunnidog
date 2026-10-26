@@ -56,6 +56,11 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
   output. See [HOUSEHOLD_COMMONS_SPECS.md](HOUSEHOLD_COMMONS_SPECS.md). These close
   concrete I4/I5/I6/I7 gaps; the original table remains a dated baseline.
 
+- Resident first aid now pays one real carried guava to restore a quiet downed
+  same-owner housemate's mobility at its claimed Nest, retaining injury recovery.
+  Native protection/heal cancellation and callback mutation keep the original
+  ration intact. Full citizen downed policy and safe pickup/transport remain open.
+
 ## Remaining acceptance criteria for full completion
 
 The latest user request makes full completion the target. These are finite gaps

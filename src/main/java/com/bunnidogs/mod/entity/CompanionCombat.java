@@ -279,7 +279,7 @@ public final class CompanionCombat {
         return false;
     }
     boolean safeRest() {
-        return danger==0 && dog.isAlive() && dog.onGround() && !dog.beingTransported() && !dog.isVehicle()
+        return danger==0 && dog.isAlive() && dog.getTarget()==null && !dog.seekingRefuge() && dog.onGround() && !dog.beingTransported() && !dog.isVehicle()
                 && !dog.isInWater() && !dog.isInLava() && !dog.isOnFire() && dog.getTarget()==null
                 && !dog.seekingRefuge() && HomeRoutes.dryCell(dog,dog.blockPosition());
     }
@@ -331,6 +331,20 @@ public final class CompanionCombat {
             guava.consume(1,player); downed=false; dog.syncCombatState(4);
             dog.ateForage(Combat.mealHealing(dog.getMaxHealth())); say(player,"first_aid"); return true;
         } finally { aiding=false; }
+    }
+    public boolean canResidentAid() {
+        return downed && !aiding && dog.level() instanceof ServerLevel && dog.isAlive() && !dog.isRemoved() && dog.acceptsCare() && !danger()
+                && dog.getTarget()==null && !dog.seekingRefuge() && dog.onGround() && !dog.beingTransported() && !dog.isVehicle() && !dog.isOnFire() && !dog.isInWater() && !dog.isInLava()
+                && HomeRoutes.dryCell(dog,dog.blockPosition());
+    }
+    /** A present household carer pays only after the native heal and original patient/location revalidate. */
+    boolean residentAid(java.util.function.BooleanSupplier valid,Runnable spend) {
+        if(!canResidentAid() || !valid.getAsBoolean())return false;aiding=true;
+        try {
+            float before=dog.getHealth();float heal=net.neoforged.neoforge.event.EventHooks.onLivingHeal(dog,Combat.mealHealing(dog.getMaxHealth()));
+            if(!Float.isFinite(heal) || heal<=0 || !downed || !dog.isAlive() || dog.isRemoved() || danger() || dog.getHealth()!=before || !valid.getAsBoolean())return false;
+            spend.run();downed=false;dog.syncCombatState(4);dog.setHealth(before+heal);dog.assistedRationCommitted();dog.clinic().aided();return true;
+        } finally {aiding=false;}
     }
     void save(ValueOutput out) {
         if (enabled) out.putBoolean("CombatAssist",true);

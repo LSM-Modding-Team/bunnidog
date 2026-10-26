@@ -564,6 +564,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.heal(healing>0 ? Math.max(healing,com.bunnidogs.mod.genetics.Combat.mealHealing(this.getMaxHealth())) : 0);
         this.playEatingSound();
     }
+    void assistedRationCommitted() {this.nextForageTick=this.level().getGameTime()+Foraging.MEAL_COOLDOWN;this.playEatingSound();}
 
     public int gardeningWait() {
         return (int)Math.clamp(this.nextGardenTick-this.level().getGameTime(),0L,

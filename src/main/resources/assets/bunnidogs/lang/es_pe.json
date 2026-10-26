@@ -2524,5 +2524,6 @@
   "care.bunnidogs.commons.working.sow_field": "Sembrando un terreno",
   "care.bunnidogs.commons.working.harvest_field": "Cosechando un terreno",
   "care.bunnidogs.commons.working.gather_field": "Recogiendo una cosecha",
-  "care.bunnidogs.commons.working.plan": "Organizando el trabajo del hogar"
+  "care.bunnidogs.commons.working.plan": "Organizando el trabajo del hogar",
+  "care.bunnidogs.commons.working.fetch_aid": "Llevando primeros auxilios"
 }

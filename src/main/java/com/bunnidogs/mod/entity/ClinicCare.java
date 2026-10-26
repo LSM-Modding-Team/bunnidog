@@ -30,6 +30,7 @@ public final class ClinicCare {
                 && patient.onGround() && HomeRoutes.dryCell(patient,patient.blockPosition());
     }
     public boolean ready() {return !treating && condition();}
+    void aided() {until=patient.level().getGameTime()+REST;}
     static boolean restingAtHome(HearthTreeBlockEntity home,Bunnidog patient) {
         if(!home.attached() || patient==null || !patient.society().belongs(home) || !patient.clinic().condition()
                 || patient.trail().keeper()!=null && !patient.trail().keeper().equals(home.owner()))return false;

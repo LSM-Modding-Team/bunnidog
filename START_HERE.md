@@ -5,6 +5,16 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — paid resident first aid
+
+A Family care resident can walk a real guava ration from the Hearth to a quiet,
+downed, same-owner companion resting at its original claimed Nest. Actual native
+healing permission and callback revalidation precede payment. Mobility returns;
+injury recovery remains. Saved ration/patient/owner references, native inventory
+journals, inherited limits and original-owner recovery stay authoritative.
+Read `docs/CARE_AND_TACTICS_SPECS.md`. Full civic pickup/transport and ordinary
+citizen downed policy remain unfinished; this covers paid first aid at home.
+
 ## Current — shared professions, public plans and physical crews
 
 Read `docs/HOUSEHOLD_COMMONS_SPECS.md`. Residents now choose from bounded useful
@@ -158,8 +168,8 @@ frozen genetic archives. Sovereign smithing upgrades extend Heartbound armor,
 Lance and Armored Elytra; the Concord Standard adds paid party healing. Existing
 ordinary Apex tuning stays accepted. No new tutorial/menu layer.
 
-Protocol **38**, **2,526 authored / 2,654 packaged** language keys, English/shared
-neutral Spanish. The native suite now has **232 scenarios**, alongside actual
+Protocol **39**, **2,527 authored / 2,655 packaged** language keys, English/shared
+neutral Spanish. The native suite now has **234 scenarios**, alongside actual
 model/localization/build gates. Save/kill-payment ordering, native health above
 1,024, short chunk leases, finite actors, exact smithing components and separate
 core/trophy delivery retries are invariants. Native and inspected preview evidence

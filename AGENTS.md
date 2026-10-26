@@ -121,6 +121,13 @@ gene limits. Instinct, direct orders, first aid and recall remain dependable.
 Keep old active-fighter migration and explicit beginner saves; no inherited
 experience, basic damage/cadence change, ambient stats or training menu.
 
+Resident guava first aid now ships for quiet downed same-owner housemates at
+claimed Nests; see the updated care spec. Preserve real two-leg saved ration
+cargo, exact original patient/Nest/owner, native healing permission before
+payment, callback revalidation and existing injury recovery. Manual first aid
+and basket rescue remain intact. This does not implement civilian downed policy
+or pickup/transport from danger; full civic rescue remains unfinished.
+
 Society-first progression now supersedes the legendary-offering ritual and
 single-Crest entry. Read `docs/HEARTH_PROGRESSION_SPECS.md`. Preserve actual paid
 Hearth work, authorized plots, owned cargo, resident-taught independent offspring,

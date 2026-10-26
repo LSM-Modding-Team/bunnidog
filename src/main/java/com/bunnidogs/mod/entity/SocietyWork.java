@@ -31,9 +31,9 @@ public final class SocietyWork {
     private UUID aidPatient,aidOwner;
     private BlockPos aidBed;
     private boolean medicalBusy,operating;
-    private boolean buildingCargo,fieldCargo;
+    private boolean buildingCargo,fieldCargo,firstAidCargo;
     private UUID parcelOwner;
-    public enum Kind { MEAL, CRAFT, BUILD, PLANT, PRUNE, HAUL, SUPPLY, DELIVER, COMPOST, COURT, SEED, NURTURE, HATCH, TEND, TEACH, MEDICINE, CARE, RECORD_ROUTE, STUDY_ROUTE, FETCH_BUILD, FETCH_SEED, SOW_FIELD, HARVEST_FIELD, GATHER_FIELD, PLAN }
+    public enum Kind { MEAL, CRAFT, BUILD, PLANT, PRUNE, HAUL, SUPPLY, DELIVER, COMPOST, COURT, SEED, NURTURE, HATCH, TEND, TEACH, MEDICINE, CARE, RECORD_ROUTE, STUDY_ROUTE, FETCH_BUILD, FETCH_SEED, SOW_FIELD, HARVEST_FIELD, GATHER_FIELD, PLAN, FETCH_AID }
     public record Patient(UUID id,BlockPos bed) {}
     public record Job(Kind kind,BlockPos target,int index,BlockState expected,Patient patient,BlockPos destination) {
         public Job(Kind kind,BlockPos target,int index,BlockState expected) {this(kind,target,index,expected,null,null);}
@@ -50,6 +50,7 @@ public final class SocietyWork {
     public ItemStack workSupplies() {return cargo.copy();}
     public BlockPos buildTarget() {return buildingCargo && !cargo.isEmpty() ? destination : null;}
     public BlockPos fieldTarget() {return fieldCargo && !cargo.isEmpty() ? destination : null;}
+    public UUID treatingPatient() {return !cargo.isEmpty() ? aidPatient : null;}
     public boolean child() {return child;}
     public boolean invite(Player player,HearthTreeBlockEntity h,boolean leave) {
         if(operating || medicalBusy || leave && aidPatient!=null && !cargo.isEmpty() || !h.permitted(player) || !dog.deliveries().authorized(player) || !dog.isAlive() || !dog.acceptsCare() || dog.isBaby() || dog.level()!=h.getLevel() || dog.distanceToSqr(Vec3.atCenterOf(h.getBlockPos()))>24*24 || dog.trail().keeper()!=null && !dog.trail().belongsTo(player))return false;
@@ -94,7 +95,7 @@ public final class SocietyWork {
             return List.of(cell!=null && buildingReady() && h.construction().canBuild(cell) && cargo.is(cell.item()) && Objects.equals(parcelOwner,h.owner()) ? at(Kind.BUILD,destination) : at(Kind.DELIVER,at));
         }
         if(!cargo.isEmpty() && aidPatient!=null) {
-            if(!Objects.equals(aidOwner,h.owner()))return List.of();var patient=medicalPatient(new Patient(aidPatient,aidBed));
+            if(!Objects.equals(aidOwner,h.owner()))return List.of();var patient=firstAidCargo ? rescuePatient(new Patient(aidPatient,aidBed),false) : medicalPatient(new Patient(aidPatient,aidBed));
             jobs.add(nurse() && patient!=null ? new Job(Kind.CARE,patient.blockPosition().immutable(),-1,l.getBlockState(patient.blockPosition()),new Patient(patient.getUUID(),patient.homeNest())) : at(Kind.DELIVER,at));return jobs;
         }
         if(!cargo.isEmpty())return List.of(at(Kind.DELIVER,destination!=null && l.hasChunkAt(destination) && (destination.equals(at) || l.getBlockEntity(destination) instanceof FeedingTroughBlockEntity || l.getBlockEntity(destination) instanceof NurseryCradleBlockEntity) ? destination : at));
@@ -104,6 +105,8 @@ public final class SocietyWork {
         boolean craft=garden && dog.mind().handling()>=1.5 && dog.mind().reasoning()>=1.5;
         if(!hungry) {
             if(dog.learning().knowledge().independent(dog.mind(),Learning.Routine.GARDEN) && CapabilityRules.potential(dog.mind(),CapabilityRules.Task.PLANNING)==CapabilityRules.Potential.INDEPENDENT && h.agenda().wantsPlan())jobs.add(at(Kind.PLAN,at));
+            if(nurse && h.count(ModItems.GUAVA.get())>0 && !l.hasNeighborSignal(at))for(var patient:h.residents())
+                if(patient!=dog && rescuePatient(new Patient(patient.getUUID(),patient.homeNest()),false)!=null && HomeRoutes.visible(dog,patient))jobs.add(new Job(Kind.FETCH_AID,at,-1,l.getBlockState(at),new Patient(patient.getUUID(),patient.homeNest())));
             if(nurse && h.count(ModItems.HEARTH_POULTICE.get())>0 && !l.hasNeighborSignal(at))
                 for(var patient:h.residents())if(patient!=dog && patient.clinic().ready() && ClinicCare.restingAtHome(h,patient) && HomeRoutes.visible(dog,patient))
                     jobs.add(new Job(Kind.MEDICINE,at,-1,l.getBlockState(at),new Patient(patient.getUUID(),patient.homeNest())));
@@ -154,13 +157,13 @@ public final class SocietyWork {
         case PLAN -> WorkSpecialty.PLANNER;
         case CRAFT -> WorkSpecialty.CRAFTSPERSON;
         case HAUL,SUPPLY,DELIVER,SEED,GATHER_FIELD -> WorkSpecialty.COURIER;
-        case MEDICINE,CARE,COURT,NURTURE,HATCH -> WorkSpecialty.CARER;
+        case MEDICINE,CARE,FETCH_AID,COURT,NURTURE,HATCH -> WorkSpecialty.CARER;
         case TEACH,RECORD_ROUTE,STUDY_ROUTE -> WorkSpecialty.TEACHER;
         default -> WorkSpecialty.GROWER;
     };}
     private double priority(HearthTreeBlockEntity h,Job job) {
         boolean scarce=h.count(ModItems.GUAVA.get())<16;int urgency=switch(job.kind()) {
-            case CARE,MEDICINE -> 150;
+            case FETCH_AID -> 175;case CARE,MEDICINE -> 150;
             case PLAN -> 105;case HATCH -> 120;case NURTURE,SEED -> 95;
             case HAUL -> scarce ? 135 : 70;case SUPPLY -> 100;
             case PRUNE -> scarce ? 130 : 75;case GATHER_FIELD -> 105;case HARVEST_FIELD -> h.count(Items.WHEAT)<12 ? 110 : 75;case FETCH_SEED,SOW_FIELD -> 90;case PLANT -> 85;
@@ -264,8 +267,9 @@ public final class SocietyWork {
         switch(job.kind()) {
             case RECORD_ROUTE -> {ok=dog.courierLore().record(h,job.index());}
             case STUDY_ROUTE -> {ok=dog.courierLore().study(h,job.index());}
+            case FETCH_AID -> {ok=collectAid(job);}
             case MEDICINE -> {ok=collectMedicine(job);}
-            case CARE -> {ok=treatResident(job);learned=Learning.Routine.NURSERY;}
+            case CARE -> {ok=firstAidCargo ? aidResident(job) : treatResident(job);learned=Learning.Routine.NURSERY;}
             case TEACH -> {ok=CapabilityRules.potential(dog.mind(),CapabilityRules.Task.TEACHING)==CapabilityRules.Potential.INDEPENDENT;}
             case MEAL -> {int slot=mealSlot(h);if(slot>=0) {h.takeExact(slot,1);dog.heal(2);workSinceMeal=0;h.evidence("meal",1);ok=true;}}
             case CRAFT -> {ok=craft(h,job.index());learned=Learning.Routine.GARDEN;}
@@ -307,6 +311,30 @@ public final class SocietyWork {
         var h=hearth();if(ref==null || ref.bed()==null || h==null || !(dog.level() instanceof ServerLevel l) || !(l.getEntity(ref.id()) instanceof Bunnidog patient))return null;
         return patient!=dog && ref.bed().equals(patient.homeNest()) && ClinicCare.restingAtHome(h,patient) ? patient : null;
     }
+    Bunnidog carePatient(Job job) {return job.kind()==Kind.FETCH_AID ? rescuePatient(job.patient(),false) : medicalPatient(job.patient());}
+    private Bunnidog rescuePatient(Patient ref,boolean receiving) {
+        var h=hearth();if(h==null || ref==null || ref.bed()==null || !(dog.level() instanceof ServerLevel l) || !(l.getEntity(ref.id()) instanceof Bunnidog patient) || patient==dog || !patient.society().belongs(h))return null;
+        if(!Objects.equals(patient.trail().keeper(),h.owner()) || !ref.bed().equals(patient.homeNest()) || !l.hasChunkAt(ref.bed()) || !l.getBlockState(ref.bed()).is(ModBlocks.NEST.get()) || !NestBlock.claimed(l,ref.bed()) || ref.bed().distSqr(h.getBlockPos())>24*24 || patient.distanceToSqr(Vec3.atCenterOf(ref.bed()))>9)return null;
+        return (receiving ? patient.combat().downed() && patient.combat().receivingAid() && !patient.combat().danger() && patient.getTarget()==null && !patient.seekingRefuge() && patient.onGround() && !patient.beingTransported() && !patient.isVehicle() && !patient.isOnFire() && !patient.isInWater() && !patient.isInLava() && HomeRoutes.dryCell(patient,patient.blockPosition()) : patient.combat().canResidentAid()) ? patient : null;
+    }
+    private boolean collectAid(Job job) {
+        var h=hearth();var l=(ServerLevel)dog.level();if(!cargo.isEmpty() || !nurse() || !job.target().equals(h.getBlockPos()) || l.hasNeighborSignal(h.getBlockPos()))return false;
+        if(!EventHooks.canEntityGrief(l,dog) || !ready() || hearth()!=h)return false;var patient=rescuePatient(job.patient(),false);if(patient==null || !HomeRoutes.visible(dog,patient))return false;
+        for(int slot=0;slot<h.getContainerSize();slot++)if(h.getItem(slot).is(ModItems.GUAVA.get()) && CivicRecipes.ordinary(h.getItem(slot))) {
+            var exact=h.getItem(slot).copyWithCount(1);
+            try(var tx=net.neoforged.neoforge.transfer.transaction.Transaction.openRoot()) {
+                if(net.neoforged.neoforge.transfer.item.VanillaContainerWrapper.of(h).extract(slot,net.neoforged.neoforge.transfer.item.ItemResource.of(exact),1,tx)!=1 || !h.attached() || rescuePatient(job.patient(),false)!=patient)return false;
+                cargo=exact;aidPatient=patient.getUUID();aidBed=job.patient().bed();aidOwner=parcelOwner=h.owner();destination=aidBed;firstAidCargo=true;grownCargo=false;tx.commit();return true;
+            }
+        }return false;
+    }
+    private boolean aidResident(Job job) {
+        var h=hearth();var patient=rescuePatient(job.patient(),false);if(patient==null || !firstAidCargo || !patient.getUUID().equals(aidPatient) || !cargo.is(ModItems.GUAVA.get()) || cargo.getCount()!=1 || !Objects.equals(aidOwner,h.owner()) || !nurse() || dog.distanceToSqr(patient)>6.25 || !HomeRoutes.visible(dog,patient) || dog.level().hasNeighborSignal(h.getBlockPos()))return false;
+        var original=cargo.copy();
+        if(!EventHooks.canEntityGrief((ServerLevel)dog.level(),dog) || !ready() || hearth()!=h)return false;
+        boolean healed=patient.combat().residentAid(()->dog.isAlive() && !dog.isRemoved() && ready() && nurse() && hearth()==h && h.attached() && Objects.equals(aidOwner,h.owner()) && !dog.level().hasNeighborSignal(h.getBlockPos()) && rescuePatient(job.patient(),patient.combat().receivingAid())==patient && dog.distanceToSqr(patient)<=6.25 && HomeRoutes.visible(dog,patient) && ItemStack.matches(original,cargo),()->cargo.shrink(1));
+        if(healed && cargo.isEmpty())clearMedicine();return healed;
+    }
     private boolean collectMedicine(Job job) {
         var h=hearth();var l=(ServerLevel)dog.level();if(!cargo.isEmpty() || !job.target().equals(h.getBlockPos()) || !nurse() || l.hasNeighborSignal(h.getBlockPos()))return false;
         medicalBusy=true;
@@ -335,7 +363,7 @@ public final class SocietyWork {
             if(ok && cargo.isEmpty())clearMedicine();return ok;
         } finally {medicalBusy=false;}
     }
-    private void clearMedicine() {buildingCargo=fieldCargo=false;parcelOwner=null;aidPatient=null;aidBed=null;aidOwner=null;destination=null;grownCargo=false;}
+    private void clearMedicine() {buildingCargo=fieldCargo=firstAidCargo=false;parcelOwner=null;aidPatient=null;aidBed=null;aidOwner=null;destination=null;grownCargo=false;}
     private boolean returnSupplies() {
         var h=hearth();if(h==null || parcelOwner!=null && !parcelOwner.equals(h.owner()))return false;var original=cargo.copy();boolean grown=grownCargo;
         if(!EventHooks.canEntityGrief((ServerLevel)dog.level(),dog) || !ready() || hearth()!=h || !ItemStack.matches(cargo,original))return false;
@@ -380,6 +408,6 @@ public final class SocietyWork {
     }
     public static HearthTreeBlockEntity seedHome(ServerLevel l,ItemStack seed) {var p=seed.get(ModItems.HEARTH_LINK.get());return p!=null && p.dimension().equals(l.dimension()) && l.hasChunkAt(p.pos()) && l.getBlockEntity(p.pos()) instanceof HearthTreeBlockEntity h && communitySeed(seed,h) ? h : null;}
     public void returnCargo() {if(cargo.isEmpty())return;var h=hearth();if(h==null || !h.put(cargo))dog.spawnAtLocation((ServerLevel)dog.level(),cargo);cargo=ItemStack.EMPTY;destination=null;grownCargo=false;buildingCargo=fieldCargo=false;parcelOwner=null;}
-    public void save(ValueOutput o) {o.putBoolean("SocietyFieldParcel",fieldCargo);o.putBoolean("SocietyBuildParcel",buildingCargo);if(parcelOwner!=null)o.putString("SocietyParcelOwner",parcelOwner.toString());if(lastSpecialty!=null)o.putString("SocietySpecialty",lastSpecialty.name());if(aidPatient!=null) {o.putString("SocietyAidPatient",aidPatient.toString());if(aidBed!=null)o.store("SocietyAidBed",BlockPos.CODEC,aidBed);if(aidOwner!=null)o.putString("SocietyAidOwner",aidOwner.toString());}if(home!=null && site!=null) {o.store("SocietyHome",GlobalPos.CODEC,home);o.putString("SocietySite",site.toString());o.putBoolean("SocietyBorn",child);o.putInt("SocietyTeaching",residentLessons);o.putInt("SocietyMeals",workSinceMeal);o.putInt("SocietyWait",(int)Math.clamp(nextWork-dog.level().getGameTime(),0L,80L));}if(!cargo.isEmpty()) {o.store("SocietyCargo",ItemStack.CODEC,cargo);if(destination!=null)o.store("SocietyDestination",BlockPos.CODEC,destination);o.putBoolean("SocietyGrownCargo",grownCargo);}}
-    public void load(ValueInput i) {release();try {lastSpecialty=WorkSpecialty.valueOf(i.getStringOr("SocietySpecialty",""));}catch(IllegalArgumentException e){lastSpecialty=null;}buildingCargo=i.getBooleanOr("SocietyBuildParcel",false);fieldCargo=!buildingCargo && i.getBooleanOr("SocietyFieldParcel",false);try {parcelOwner=UUID.fromString(i.getStringOr("SocietyParcelOwner",""));}catch(IllegalArgumentException e){parcelOwner=null;}medicalBusy=false;aidBed=i.read("SocietyAidBed",BlockPos.CODEC).orElse(null);try {aidPatient=UUID.fromString(i.getStringOr("SocietyAidPatient",""));}catch(IllegalArgumentException e){aidPatient=null;}try {aidOwner=UUID.fromString(i.getStringOr("SocietyAidOwner",""));}catch(IllegalArgumentException e){aidOwner=null;}home=i.read("SocietyHome",GlobalPos.CODEC).orElse(null);try {site=UUID.fromString(i.getStringOr("SocietySite",""));}catch(IllegalArgumentException e) {site=null;home=null;}child=i.getBooleanOr("SocietyBorn",false);residentLessons=i.getIntOr("SocietyTeaching",0)&((1<<Learning.Routine.values().length)-1);workSinceMeal=Math.clamp(i.getIntOr("SocietyMeals",0),0,6);cargo=i.read("SocietyCargo",ItemStack.CODEC).orElse(ItemStack.EMPTY);destination=i.read("SocietyDestination",BlockPos.CODEC).orElse(null);grownCargo=i.getBooleanOr("SocietyGrownCargo",false);nextWork=dog.level().getGameTime()+Math.clamp(i.getIntOr("SocietyWait",0),0,80);}
+    public void save(ValueOutput o) {o.putBoolean("SocietyFirstAidParcel",firstAidCargo);o.putBoolean("SocietyFieldParcel",fieldCargo);o.putBoolean("SocietyBuildParcel",buildingCargo);if(parcelOwner!=null)o.putString("SocietyParcelOwner",parcelOwner.toString());if(lastSpecialty!=null)o.putString("SocietySpecialty",lastSpecialty.name());if(aidPatient!=null) {o.putString("SocietyAidPatient",aidPatient.toString());if(aidBed!=null)o.store("SocietyAidBed",BlockPos.CODEC,aidBed);if(aidOwner!=null)o.putString("SocietyAidOwner",aidOwner.toString());}if(home!=null && site!=null) {o.store("SocietyHome",GlobalPos.CODEC,home);o.putString("SocietySite",site.toString());o.putBoolean("SocietyBorn",child);o.putInt("SocietyTeaching",residentLessons);o.putInt("SocietyMeals",workSinceMeal);o.putInt("SocietyWait",(int)Math.clamp(nextWork-dog.level().getGameTime(),0L,80L));}if(!cargo.isEmpty()) {o.store("SocietyCargo",ItemStack.CODEC,cargo);if(destination!=null)o.store("SocietyDestination",BlockPos.CODEC,destination);o.putBoolean("SocietyGrownCargo",grownCargo);}}
+    public void load(ValueInput i) {release();try {lastSpecialty=WorkSpecialty.valueOf(i.getStringOr("SocietySpecialty",""));}catch(IllegalArgumentException e){lastSpecialty=null;}buildingCargo=i.getBooleanOr("SocietyBuildParcel",false);fieldCargo=!buildingCargo && i.getBooleanOr("SocietyFieldParcel",false);firstAidCargo=!buildingCargo && !fieldCargo && i.getBooleanOr("SocietyFirstAidParcel",false);try {parcelOwner=UUID.fromString(i.getStringOr("SocietyParcelOwner",""));}catch(IllegalArgumentException e){parcelOwner=null;}medicalBusy=false;aidBed=i.read("SocietyAidBed",BlockPos.CODEC).orElse(null);try {aidPatient=UUID.fromString(i.getStringOr("SocietyAidPatient",""));}catch(IllegalArgumentException e){aidPatient=null;}try {aidOwner=UUID.fromString(i.getStringOr("SocietyAidOwner",""));}catch(IllegalArgumentException e){aidOwner=null;}home=i.read("SocietyHome",GlobalPos.CODEC).orElse(null);try {site=UUID.fromString(i.getStringOr("SocietySite",""));}catch(IllegalArgumentException e) {site=null;home=null;}child=i.getBooleanOr("SocietyBorn",false);residentLessons=i.getIntOr("SocietyTeaching",0)&((1<<Learning.Routine.values().length)-1);workSinceMeal=Math.clamp(i.getIntOr("SocietyMeals",0),0,6);cargo=i.read("SocietyCargo",ItemStack.CODEC).orElse(ItemStack.EMPTY);destination=i.read("SocietyDestination",BlockPos.CODEC).orElse(null);grownCargo=i.getBooleanOr("SocietyGrownCargo",false);nextWork=dog.level().getGameTime()+Math.clamp(i.getIntOr("SocietyWait",0),0,80);}
 }

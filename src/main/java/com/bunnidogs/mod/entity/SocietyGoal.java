@@ -16,7 +16,7 @@ final class SocietyGoal extends Goal {
         if(dog.level().getGameTime()<search)return false;search=dog.level().getGameTime()+40;
         for(var offer:dog.society().offers()) {
             job=offer;
-            if(job.kind()==SocietyWork.Kind.MEDICINE) {var patient=dog.society().medicalPatient(job.patient());if(patient==null || !reachable(patient.blockPosition())) {dog.society().hearth().jobs().unreachable(dog,job);continue;}}
+            if(job.kind()==SocietyWork.Kind.MEDICINE || job.kind()==SocietyWork.Kind.FETCH_AID) {var patient=dog.society().carePatient(job);if(patient==null || !reachable(patient.blockPosition())) {dog.society().hearth().jobs().unreachable(dog,job);continue;}}
             if(job.destination()!=null && !reachable(job.destination())) {dog.society().hearth().jobs().unreachable(dog,job);continue;}
             for(var dir:Direction.Plane.HORIZONTAL)for(int dy:new int[]{0,-1,1,-2,-3}) {var p=job.target().relative(dir).offset(0,dy,0);if(!HomeRoutes.trailStanding(dog,p))continue;var route=dog.getNavigation().createPath(p,0);if(route!=null && route.canReach() && HomeRoutes.trailSafe(dog,route)) {path=route;stand=p;return true;}}
             dog.society().hearth().jobs().unreachable(dog,job);

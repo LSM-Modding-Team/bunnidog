@@ -27,7 +27,7 @@ public final class HearthAgenda {
     }
     private Need scanNeed() {
         if(home.count(ModItems.GUAVA.get())<16)return Need.FOOD;
-        if(home.residents().stream().anyMatch(d->d.clinic().ready() && d.homeNest()!=null && d.homeNest().distSqr(d.blockPosition())<=9))return Need.CARE;
+        if(home.residents().stream().anyMatch(d->(d.clinic().ready() || d.combat().canResidentAid()) && d.homeNest()!=null && d.homeNest().distSqr(d.blockPosition())<=9))return Need.CARE;
         if(home.count(Items.WOODEN_AXE)==0)return Need.TOOL;
         if(home.construction().cells().stream().anyMatch(home.construction()::canBuild))return Need.HOUSING;
         if(home.sites().stream().anyMatch(at->home.getLevel().hasChunkAt(at) && home.getLevel().getBlockEntity(at) instanceof com.bunnidogs.mod.block.NurseryCradleBlockEntity cradle && cradle.seed().isPresent()))return Need.FAMILY;
@@ -76,7 +76,7 @@ public final class HearthAgenda {
         }
         return switch(need) {
             case FOOD -> switch(job.kind()) {case PRUNE,HAUL -> 30;default -> 0;};
-            case CARE -> switch(job.kind()) {case CARE,MEDICINE -> 35;default -> 0;};
+            case CARE -> switch(job.kind()) {case CARE,MEDICINE,FETCH_AID -> 35;default -> 0;};
             case HOUSING -> switch(job.kind()) {case FETCH_BUILD,BUILD,HARVEST_FIELD,GATHER_FIELD,FETCH_SEED,SOW_FIELD -> 25;default -> 0;};
             case FAMILY -> switch(job.kind()) {case SEED,NURTURE,HATCH -> 25;default -> 0;};
             case ROOTS -> switch(job.kind()) {case TEND,COMPOST -> 25;default -> 0;};

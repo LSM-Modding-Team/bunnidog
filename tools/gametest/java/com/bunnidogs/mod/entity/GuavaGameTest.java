@@ -59,7 +59,7 @@ public final class GuavaGameTest extends GameTestInstance {
         for(String name:new String[]{"fields_coppice","fields_journey","fields_protection","fields_ownership","fields_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("fields_ai") ? 760 : 160,0,true)));
         for(String name:new String[]{"commons_planning","commons_planning_limits","commons_claims","commons_recipes","commons_scarcity","construction_parcel","construction_fitting","construction_repair","construction_helper","construction_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("construction_ai") ? 760 : 160,0,true)));
         for(String name:new String[]{"culture_ai","culture_archive","culture_books","culture_interruptions","culture_limits","culture_stale"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("culture_ai") ? 760 : 160,0,true)));
-        for(String name:new String[]{"clinic_ai","clinic_stock","clinic_callbacks","clinic_lesson","clinic_limits","clinic_craft","tactics_learning","tactics_coordination"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),320,0,true)));
+        for(String name:new String[]{"clinic_first_aid","clinic_first_aid_callbacks","clinic_ai","clinic_stock","clinic_callbacks","clinic_lesson","clinic_limits","clinic_craft","tactics_learning","tactics_coordination"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),320,0,true)));
         for(String name:new String[]{"field_harvest","field_garden","field_nursery","field_safety","field_scout","field_gathering"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),160,0,true)));
         for(var kind:ApexKind.values())for(boolean flying:new boolean[]{false,true}) {
             String name="apex_pillar_"+(flying ? "flying_" : "")+kind.id;
@@ -103,6 +103,8 @@ public final class GuavaGameTest extends GameTestInstance {
             case "culture_interruptions" -> {CourierCultureGameTest.interruptions(h);return;}
             case "culture_limits" -> {CourierCultureGameTest.limits(h);return;}
             case "culture_stale" -> {CourierCultureGameTest.stale(h);return;}
+            case "clinic_first_aid" -> {ClinicGameTest.firstAid(h);return;}
+            case "clinic_first_aid_callbacks" -> {ClinicGameTest.firstAidCallbacks(h);return;}
             case "clinic_ai" -> {ClinicGameTest.ai(h);return;}
             case "clinic_stock" -> {ClinicGameTest.stock(h);return;}
             case "clinic_callbacks" -> {ClinicGameTest.callbacks(h);return;}
