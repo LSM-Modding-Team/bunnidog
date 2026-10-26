@@ -88,6 +88,20 @@ container/record filters, forced chunks or inherited education. Continue with
 complementary professions/dependency coordination and flexible construction,
 then wild bootstrap. These courier records are not the complete I6 system.
 
+Shared work, public need/dependency plans, physical building crews and material
+fields now ship; read `docs/HOUSEHOLD_COMMONS_SPECS.md`. Preserve started-only
+bounded claims, actual recipe-manager inputs/results/native inventory journals,
+keepsake exclusions, scarcity recovery, real saved construction/planting cargo,
+genetically supported builders, surveyed cardinal rooms and conservative repair
+receipts. Never auto-rebuild player-removed walls. Farmers may grow material crops
+outside their personal Diet; meals still honor it. Field/Coppice output is actual
+household-marked ground stock that haulers must walk home, with normal lifetime
+and native merge isolation. Public plans grant no skills, materials or receipts.
+The user's latest goal is full completion of the accepted roadmap. Continue
+closing implementation/evidence gaps across batches; do not declare 100% from
+partial systems or native test counts. Prioritize primitive wild bootstrap and
+remaining professions/construction/rescue before inter-community civilization.
+
 Watched field work and learned scouting now ship; read `docs/FIELD_LEARNING_SPECS.md`.
 Preserve confirmed native player outcomes, local sight/authority and transient
 bounded examples. Gathering uses Harvest learning; injured foraging stays

@@ -21,7 +21,7 @@ public final class RolePanel {
         controls.add(new CareView.Control(LearningPanel.OPEN,TextComponents.t("Lessons"),true));
         controls.add(new CareView.Control(CarePanels.WORK,t(dog.workPaused() ? "button.work_on" : "button.work_off"),player.mayBuild()));
         if (FamilyPanels.hasCalipers(player)) controls.add(new CareView.Control(FamilyPanels.COMPARE,t("button.compare_goal"),true));
-        if (dog.carriedBundleCount()>0 || !dog.society().medicalSupplies().isEmpty()) controls.add(new CareView.Control(CarePanels.CARGO,t("button.cargo"),true));
-        return new CareView(AnimalPanels.text("work"),dog.courierLore().apprenticing() ? Component.translatable("care.bunnidogs.courier.apprentice") : dog.society().medicalSupplies().isEmpty() ? LearningPanel.activity(dog) : Component.translatable("care.bunnidogs.clinic.carrying"),rows,controls);
+        if (dog.carriedBundleCount()>0 || !dog.society().workSupplies().isEmpty()) controls.add(new CareView.Control(CarePanels.CARGO,t("button.cargo"),true));
+        return new CareView(AnimalPanels.text("work"),dog.courierLore().apprenticing() ? Component.translatable("care.bunnidogs.courier.apprentice") : dog.society().active()!=null ? Component.translatable("care.bunnidogs.commons.working."+dog.society().active().kind().name().toLowerCase(java.util.Locale.ROOT)) : dog.society().workSupplies().isEmpty() ? LearningPanel.activity(dog) : Component.translatable("care.bunnidogs.commons.carrying"),rows,controls);
     }
 }

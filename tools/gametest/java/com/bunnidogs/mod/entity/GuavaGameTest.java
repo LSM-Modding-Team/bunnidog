@@ -56,6 +56,8 @@ public final class GuavaGameTest extends GameTestInstance {
     public static void registerTests(RegisterGameTestsEvent event) {
         // Work scenarios require daytime even when the development world is reused between runs.
         var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.Functions(java.util.Optional.of(id("test_setup")),java.util.Optional.empty()));
+        for(String name:new String[]{"fields_coppice","fields_journey","fields_protection","fields_ownership","fields_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("fields_ai") ? 760 : 160,0,true)));
+        for(String name:new String[]{"commons_planning","commons_planning_limits","commons_claims","commons_recipes","commons_scarcity","construction_parcel","construction_fitting","construction_repair","construction_helper","construction_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("construction_ai") ? 760 : 160,0,true)));
         for(String name:new String[]{"culture_ai","culture_archive","culture_books","culture_interruptions","culture_limits","culture_stale"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("culture_ai") ? 760 : 160,0,true)));
         for(String name:new String[]{"clinic_ai","clinic_stock","clinic_callbacks","clinic_lesson","clinic_limits","clinic_craft","tactics_learning","tactics_coordination"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),320,0,true)));
         for(String name:new String[]{"field_harvest","field_garden","field_nursery","field_safety","field_scout","field_gathering"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),160,0,true)));
@@ -80,6 +82,21 @@ public final class GuavaGameTest extends GameTestInstance {
             for(var kind:ApexKind.values())if(kind.id.equals(type)) {ApexReviewGameTest.pillar(h,kind,flying);return;}
         }
         switch (this.scenario) {
+            case "fields_coppice" -> {CivicFieldsGameTest.coppice(h);return;}
+            case "fields_journey" -> {CivicFieldsGameTest.journey(h);return;}
+            case "fields_protection" -> {CivicFieldsGameTest.protection(h);return;}
+            case "fields_ownership" -> {CivicFieldsGameTest.ownership(h);return;}
+            case "fields_ai" -> {CivicFieldsGameTest.ai(h);return;}
+            case "commons_planning" -> {CommonsGameTest.planning(h);return;}
+            case "commons_planning_limits" -> {CommonsGameTest.planningLimits(h);return;}
+            case "commons_claims" -> {CommonsGameTest.claims(h);return;}
+            case "commons_recipes" -> {CommonsGameTest.recipes(h);return;}
+            case "commons_scarcity" -> {CommonsGameTest.scarcity(h);return;}
+            case "construction_parcel" -> {CommonsGameTest.parcel(h);return;}
+            case "construction_fitting" -> {CommonsGameTest.fitting(h);return;}
+            case "construction_repair" -> {CommonsGameTest.repair(h);return;}
+            case "construction_helper" -> {CommonsGameTest.helper(h);return;}
+            case "construction_ai" -> {CommonsGameTest.ai(h);return;}
             case "culture_ai" -> {CourierCultureGameTest.ai(h);return;}
             case "culture_archive" -> {CourierCultureGameTest.archive(h);return;}
             case "culture_books" -> {CourierCultureGameTest.books(h);return;}

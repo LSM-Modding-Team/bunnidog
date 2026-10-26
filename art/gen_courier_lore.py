@@ -15,3 +15,6 @@ rows={
 }
 for index,locale in enumerate(['en_us','es_pe']):
  p=root/'lang'/(locale+'.json');data=json.loads(p.read_text());data.update({key:pair[index] for key,pair in rows.items()});p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
+
+import runpy
+runpy.run_path(str(Path(__file__).resolve().with_name('gen_household_commons.py')))

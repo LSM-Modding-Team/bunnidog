@@ -74,12 +74,12 @@ public final class CarePanels {
         if (bags.size()>6) rows.add(t("cargo.more_bags",bags.size()-6));
         var controls=new ArrayList<CareView.Control>();controls.add(control(BACK,"back",true));
         if(!bags.isEmpty())controls.add(control(TAKE_BUNDLE,"take_bundle",editable(player,null)));
-        if(!dog.society().medicalSupplies().isEmpty())controls.add(new CareView.Control(TAKE_SUPPLIES,Component.translatable("care.bunnidogs.clinic.take"),dog.society().mayTakeSupplies(player)));
+        if(!dog.society().workSupplies().isEmpty())controls.add(new CareView.Control(TAKE_SUPPLIES,Component.translatable("care.bunnidogs.commons.take"),dog.society().mayTakeSupplies(player)));
         var view=new CareView(t("cargo.title",dog.getDisplayName()),Component.empty(),rows,
                 controls);
         // Show the newest six, including the actual next bag returned by Retrieve.
         var stock=new ArrayList<CareView.Stock>();
-        if(!dog.society().medicalSupplies().isEmpty())stock.add(new CareView.Stock(Component.translatable("care.bunnidogs.clinic.supplies"),dog.society().medicalSupplies()));
+        if(!dog.society().workSupplies().isEmpty())stock.add(new CareView.Stock(Component.translatable("care.bunnidogs.commons.supplies"),dog.society().workSupplies()));
         for (int i=Math.max(0,bags.size()-6);i<bags.size();i++) stock.add(new CareView.Stock(t("display.bundle",i+1),bags.get(i)));
         return view.withStock(stock.toArray(CareView.Stock[]::new));
     }

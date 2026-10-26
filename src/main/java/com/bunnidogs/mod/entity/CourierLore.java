@@ -48,7 +48,7 @@ public final class CourierLore {
         if(!(dog.level() instanceof ServerLevel level))return;
         if(atDesk)return;
         if(apprenticing()) {if(!receptive() || dog.deliveries().route()!=null || instructor()==null)cancel();return;}
-        if(level.getGameTime()<search || !receptive() || dog.deliveries().route()!=null)return;search=level.getGameTime()+60;
+        if(level.getGameTime()<search || dog.society().active()!=null || !receptive() || dog.deliveries().route()!=null)return;search=level.getGameTime()+60;
         var home=dog.society().hearth();if(home==null)return;
         if(dog.learning().knowledge().knows(Learning.Routine.DELIVERY) && archiveJob(home)!=null)return;
         for(var mentor:home.residents())if(mentor!=dog && dog.distanceToSqr(mentor)<=64 && HomeRoutes.visible(dog,mentor) && expert(mentor,home)

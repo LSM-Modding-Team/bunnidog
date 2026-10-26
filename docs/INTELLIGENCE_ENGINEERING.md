@@ -8,6 +8,9 @@
 > implements real courier apprenticeship and physical route records, without
 > granting skill from books. [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md) records
 > the accepted gap priorities. General planning/professions remain unfinished.
+> [HOUSEHOLD_COMMONS_SPECS.md](HOUSEHOLD_COMMONS_SPECS.md) now implements shared
+> job claims, finite public dependency plans, fitted construction crews/repair
+> and material fields. Primitive wild bootstrap and broader civilization remain.
 
 Engineering direction, originally planned 2026-10-21 against `0c92ded`.
 The following implementation checkpoint supersedes proposals where explicitly

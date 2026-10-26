@@ -48,3 +48,33 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
   can study after a teacher is gone. See [COURIER_CULTURE_SPECS.md](COURIER_CULTURE_SPECS.md).
   This advances I4/I6; it is not a general culture/planning system. The baseline
   percentages above are retained rather than silently recalculated per feature.
+
+- Shared household commons now adds started-only job claims, real recipe-manager
+  crafting, scarcity recovery, saved need/dependency instructions, supported
+  builders, fitted additional rooms, physical construction/planting parcels,
+  deliberate versus explosion repair, material fields and actual hauled orchard
+  output. See [HOUSEHOLD_COMMONS_SPECS.md](HOUSEHOLD_COMMONS_SPECS.md). These close
+  concrete I4/I5/I6/I7 gaps; the original table remains a dated baseline.
+
+## Remaining acceptance criteria for full completion
+
+The latest user request makes full completion the target. These are finite gaps
+from the accepted plans, not optional feature-count goals or automatic percentage
+increments. Newly reported regressions still take priority.
+
+| Area | Evidence still needed before claiming complete |
+| --- | --- |
+| Existing-work integration / professions | Finish clear practical craft/build education and forecasts, broader actual workshop operation and specialist handoffs; preserve useful limited animals. |
+| Construction | More plan composition than cardinal rooms; safe durable repair/revision under interference; reconcile cross-chunk hard-crash receipts without duplicating/refunding unrelated stock. |
+| Planning / culture | Broader bounded dependency coordination and discovery, construction/recipe knowledge handoffs and essential-role replacement beyond the current finite recipes/routes. |
+| Wild family bootstrap | A new family must obtain natural food/wood/seeds, make a primitive cache/tools, use actual crops/furnace/light and finish a real next generation without player provisioning or inherited skills. Avoid the metal-Hearth/glass-Cradle/teacher circular dependencies. |
+| Living settlements | Fresh qualified wilderness sites, explicit finite reserves, actual resident-led infrastructure, missing-specialist recovery, relationships and protected player adoption; never activate old builds implicitly. |
+| Communities | Two independently functioning households must negotiate and physically exchange real goods/knowledge with bounded loaded routes and actual return/ownership behavior. |
+| Civic rescue | Actual safe pickup/transport/care of an incapacitated citizen, with paid materials, original authority and interruption/death/unload recovery. Existing wound care remains distinct. |
+| Companion breeding / signatures | Finish purposeful combat offspring/seed comparisons and a bounded useful set of physical signature moves/encounter integration; keep accepted Apex tuning. |
+| Advanced expression / tuning | Useful advanced public works and cultural differences, plus measured loaded-area CPU/entity budgets and actual natural/client/multiplayer acceptance. |
+
+Next implementation: close primitive bootstrap and workshop dependencies before
+spawning supposedly autonomous towns or implementing trade. The current household
+still begins with player-established stores, permission, skills and nursery
+infrastructure; fields and saved plans alone do not satisfy the wild-family story.

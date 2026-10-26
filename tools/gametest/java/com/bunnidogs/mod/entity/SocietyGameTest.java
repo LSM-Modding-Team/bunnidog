@@ -18,16 +18,18 @@ public final class SocietyGameTest {
     static void root(GameTestHelper h,ServerPlayer p,BlockPos pos) {var old=p.position();p.snapTo(Vec3.atBottomCenterOf(pos.east(2)));p.getInventory().setItem(8,new ItemStack(ModItems.LIVING_KEYSTONE.get()));h.assertTrue(((CrucibleHeartBlockEntity)h.getLevel().getBlockEntity(pos)).install(p,p.getInventory().getItem(8)),"A real held Keystone installs once");p.getInventory().setItem(7,new ItemStack(ModItems.HEARTH_INCENSE.get(),8));p.snapTo(old);}
     private static net.minecraft.nbt.CompoundTag save(Bunnidog d) {var o=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,d.level().registryAccess());d.saveWithoutId(o);return o.buildResult();}
     // Fast-forward only the personal work rest in a save fixture, never fake successful work/evidence.
-    private static void rest(Bunnidog d) {var tag=save(d);tag.putInt("SocietyWait",0);tag.putInt("GardenWait",0);d.load(TagValueInput.create(ProblemReporter.DISCARDING,d.level().registryAccess(),tag));}
-    private static Genome bright() {var g=Genome.DEFAULT;for(var c:CognitiveGene.values())for(int i=0;i<2;i++)g=g.with(c,i,3);return g;}
-    private record Context(GameTestHelper h,HearthTreeBlockEntity tree,ServerPlayer p,Bunnidog worker) {}
-    private static Context setup(GameTestHelper h) {
+    static void rest(Bunnidog d) {var tag=save(d);tag.putInt("SocietyWait",0);tag.putInt("GardenWait",0);d.load(TagValueInput.create(ProblemReporter.DISCARDING,d.level().registryAccess(),tag));}
+    static Genome bright() {var g=Genome.DEFAULT;for(var c:CognitiveGene.values())for(int i=0;i<2;i++)g=g.with(c,i,3);return g;}
+    record Context(GameTestHelper h,HearthTreeBlockEntity tree,ServerPlayer p,Bunnidog worker) {}
+    static Context setup(GameTestHelper h) {
         var l=h.getLevel();var pos=h.absolutePos(new BlockPos(32,180,32));
         for(int x=20;x<45;x++)for(int z=20;z<46;z++) {h.setBlock(x,179,z,Blocks.DIRT);for(int y=180;y<187;y++)h.setBlock(x,y,z,Blocks.AIR);}
         l.setBlock(pos,ModBlocks.HEARTH_TREE.get().defaultBlockState(),3);var tree=(HearthTreeBlockEntity)l.getBlockEntity(pos);var p=ApexTypesGameTest.player(h,Vec3.atBottomCenterOf(pos.east(2)));tree.found(p);tree.survey(p);tree.survey(p);h.assertTrue(tree.authorized(),"A real clear surveyed plot requires the second explicit authorization");
         var d=ModEntities.BUNNIDOG.get().create(l,EntitySpawnReason.COMMAND);d.setGenome(bright());d.setStats(Stats.of(0,0,0,40,40));d.setAge(0);d.setHealth(d.getMaxHealth());d.setNoAi(true);d.snapTo(Vec3.atBottomCenterOf(pos.east(2)));l.addFreshEntity(d);var t=save(d);t.putString("Learning",Learning.LEGACY_FAMILIAR.toString());d.load(TagValueInput.create(ProblemReporter.DISCARDING,l.registryAccess(),t));h.assertTrue(d.society().invite(p,tree,false),"Explicit invitation enrolls the founder");return new Context(h,tree,p,d);
     }
-    private static boolean act(Context c,SocietyWork.Kind k,BlockPos pos) {rest(c.worker);c.worker.snapTo(Vec3.atBottomCenterOf(pos.east()));return c.worker.society().perform(new SocietyWork.Job(k,pos,-1,c.h.getLevel().getBlockState(pos)));}
+    static boolean act(Context c,SocietyWork.Kind k,BlockPos pos) {
+        if(k==SocietyWork.Kind.BUILD) {rest(c.worker);c.worker.snapTo(Vec3.atBottomCenterOf(c.tree.getBlockPos().east()));if(!c.worker.society().perform(new SocietyWork.Job(SocietyWork.Kind.FETCH_BUILD,c.tree.getBlockPos(),-1,c.tree.getBlockState(),null,pos)))return false;}
+        rest(c.worker);c.worker.snapTo(Vec3.atBottomCenterOf(pos.east()));return c.worker.society().perform(new SocietyWork.Job(k,pos,-1,c.h.getLevel().getBlockState(pos)));}
     public static void household(GameTestHelper h) {
         var c=setup(h);var l=h.getLevel();var t=c.tree;var d=c.worker;t.put(new ItemStack(ModItems.GUAVA.get(),64));t.put(new ItemStack(ModItems.GUAVA_LOG.get(),32));t.put(new ItemStack(Items.WHEAT,32));t.put(new ItemStack(Items.BONE_MEAL,64));t.put(new ItemStack(ModItems.GUAVA_COPPICE.get(),4));
         h.assertTrue(!t.ripe() && !t.tend(),"A stocked chest and gifted founder alone cannot produce a Keystone");
@@ -75,7 +77,8 @@ public final class SocietyGameTest {
         var c=setup(h);var t=c.tree;var l=h.getLevel();t.put(new ItemStack(ModItems.GUAVA_PLANKS.get(),16));
         java.util.function.Consumer<net.neoforged.neoforge.event.level.BlockEvent.EntityPlaceEvent> reject=e->{if(e.getEntity()==c.worker)e.setCanceled(true);};
         var cell=t.shelter().getFirst();net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(reject);try {h.assertTrue(!act(c,SocietyWork.Kind.BUILD,cell.pos()),"Protection can veto a planned resident block placement");}finally {net.neoforged.neoforge.common.NeoForge.EVENT_BUS.unregister(reject);}
-        h.assertTrue(l.getBlockState(cell.pos()).isAir() && t.count(ModItems.GUAVA_PLANKS.get())==16,"Canceled construction returns the exact escrowed material");
+        h.assertTrue(l.getBlockState(cell.pos()).isAir() && t.count(ModItems.GUAVA_PLANKS.get())+c.worker.society().workSupplies().getCount()==16,"Canceled construction preserves the real parcel and common stock");
+        h.assertTrue(act(c,SocietyWork.Kind.DELIVER,t.getBlockPos()) && t.count(ModItems.GUAVA_PLANKS.get())==16,"The carrier walks the refused material back to its original common store");
         var p=t.getBlockPos().west(3);l.setBlock(p,ModBlocks.FEEDING_TROUGH.get().defaultBlockState(),3);t.link(p);var trough=(com.bunnidogs.mod.block.FeedingTroughBlockEntity)l.getBlockEntity(p);var food=new ItemStack(ModItems.GUAVA.get(),16);food.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME,net.minecraft.network.chat.Component.literal("Exact supplies"));trough.insert(food);
         h.assertTrue(act(c,SocietyWork.Kind.HAUL,p) && trough.food().getCount()==15,"Native hauling removes one real surplus item");
         var event=new net.neoforged.neoforge.event.entity.living.LivingDropsEvent(c.worker,l.damageSources().generic(),new java.util.ArrayList<>(),true);SocietyEvents.drops(event);h.assertTrue(event.getDrops().size()==1 && event.getDrops().iterator().next().getItem().getHoverName().equals(food.getHoverName()),"A carrying worker's actual death inventory preserves exact item components");SocietyEvents.drops(event);h.assertTrue(event.getDrops().size()==1,"Repeated death notifications cannot duplicate cargo");l.setBlock(p,trough.getBlockState().setValue(com.bunnidogs.mod.block.FeedingTroughBlock.TENDING,false),3);h.assertTrue(!act(c,SocietyWork.Kind.HAUL,p) && trough.food().getCount()==15,"Manually disabling a linked trough pauses communal hauling too");

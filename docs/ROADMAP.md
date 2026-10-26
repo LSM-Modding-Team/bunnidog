@@ -44,9 +44,10 @@ paid physical route notes. These records outlast a teacher without uploading
 skills or generating stock. They are a focused I4/I6 slice, not a general school.
 
 Use [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md) as the accepted gap reference.
-Continue complementary professions/dependency coordination, flexible live
-construction/repair and wild-family bootstrap before broader settlements and
-inter-community exchange. Keep low-end animals useful, old working families,
+Shared job claims, finite public dependency plans, fitted construction crews and
+material fields now ship in [HOUSEHOLD_COMMONS_SPECS.md](HOUSEHOLD_COMMONS_SPECS.md).
+Continue primitive wild bootstrap and remaining workshop/construction/rescue
+dependencies before broader settlements and inter-community exchange. Keep low-end animals useful, old working families,
 trusted recall and real materials/permissions. Do not substitute a job menu,
 extra templates or QoL work for these unfinished core experiences.
 

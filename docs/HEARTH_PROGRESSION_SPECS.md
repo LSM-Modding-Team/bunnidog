@@ -5,6 +5,13 @@ the five-legendary-offering ritual and the single-Crest Great Warren entry rule.
 It implements a small working household, not the entire civilization roadmap.
 No ordinary Apex combat values change.
 
+Current local-commons extension: [HOUSEHOLD_COMMONS_SPECS.md](HOUSEHOLD_COMMONS_SPECS.md)
+adds shared claims/plans, real recipe crafting, fitted surveyed rooms, physical
+building/seed parcels and material fields. Coppice outputs now await actual
+hauling at the orchard, superseding the original direct-store credit. Crafting
+uses shipped recipe ingredients, including native sticks/axes and incense costs.
+The existing progression evidence and original site identities remain intact.
+
 ## Complete player journey
 
 Raise useful adults, teach initial work through existing Lessons, and breed

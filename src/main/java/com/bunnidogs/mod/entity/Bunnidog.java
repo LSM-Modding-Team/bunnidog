@@ -1255,8 +1255,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.goalSelector.addGoal(4, new TrailGoal(this));
         this.goalSelector.addGoal(4, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new TemptGoal(this, 1.1D, this::canEat, false) {
-            @Override public boolean canUse() { return !Bunnidog.this.courierLore().occupied() && Bunnidog.this.learning().lesson() == null && !Bunnidog.this.deliveries().watching() && super.canUse(); }
-            @Override public boolean canContinueToUse() { return !Bunnidog.this.courierLore().occupied() && Bunnidog.this.learning().lesson() == null && !Bunnidog.this.deliveries().watching() && super.canContinueToUse(); }
+            @Override public boolean canUse() { return Bunnidog.this.society().active()==null && !Bunnidog.this.courierLore().occupied() && Bunnidog.this.learning().lesson() == null && !Bunnidog.this.deliveries().watching() && super.canUse(); }
+            @Override public boolean canContinueToUse() { return Bunnidog.this.society().active()==null && !Bunnidog.this.courierLore().occupied() && Bunnidog.this.learning().lesson() == null && !Bunnidog.this.deliveries().watching() && super.canContinueToUse(); }
         });
         this.goalSelector.addGoal(6, new FollowParentGoal(this, 1.1D));
         // H2: a dog with a home (a claimed Nest, see NestHome and docs/HOME_SPECS.md) walks back once something (a guava, a scare, a
