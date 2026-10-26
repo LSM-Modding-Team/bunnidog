@@ -23,6 +23,8 @@ public final class ModFeatures {
     public static final DeferredHolder<Feature<?>,com.bunnidogs.mod.realm.RealmLandmarkFeature> REALM_LANDMARKS=
             FEATURES.register("realm_landmarks",()->new com.bunnidogs.mod.realm.RealmLandmarkFeature());
 
+    public static final DeferredHolder<Feature<?>,com.bunnidogs.mod.worldgen.WildFamilyFeature> WILD_FAMILY=FEATURES.register("wild_family",com.bunnidogs.mod.worldgen.WildFamilyFeature::new);
+
     /** A warren: a guava tree, burrows and wild bunnidogs. No configuration. This kind searches down for a floor (caves, the nether). */
     public static final DeferredHolder<Feature<?>, WarrenFeature> WARREN =
             FEATURES.register("warren", () -> new WarrenFeature(NoneFeatureConfiguration.CODEC, false));

@@ -61,6 +61,12 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
   Native protection/heal cancellation and callback mutation keep the original
   ration intact. Full citizen downed policy and safe pickup/transport remain open.
 
+- Wild family glades now provide finite natural starting infrastructure, ordinary
+  frozen genomes, empty education, gene-limited primitive discovery, physical
+  wood/food/material hauling and native parental-seed soil nurseries. See
+  [WILD_FAMILY_SPECS.md](WILD_FAMILY_SPECS.md). This advances I7/I8 without claiming
+  resident-made initial caches, furnace/light workshops or complete civilization.
+
 ## Remaining acceptance criteria for full completion
 
 The latest user request makes full completion the target. These are finite gaps
@@ -79,7 +85,9 @@ increments. Newly reported regressions still take priority.
 | Companion breeding / signatures | Finish purposeful combat offspring/seed comparisons and a bounded useful set of physical signature moves/encounter integration; keep accepted Apex tuning. |
 | Advanced expression / tuning | Useful advanced public works and cultural differences, plus measured loaded-area CPU/entity budgets and actual natural/client/multiplayer acceptance. |
 
-Next implementation: close primitive bootstrap and workshop dependencies before
-spawning supposedly autonomous towns or implementing trade. The current household
-still begins with player-established stores, permission, skills and nursery
-infrastructure; fields and saved plans alone do not satisfy the wild-family story.
+The first wild glade now closes the player-supplied food/wood, taught primitive
+routine and glass-Cradle circles through actual work and a soil nursery. Its
+initial empty root cache/Nests remain generated infrastructure. Next: finish the
+self-made cache and actual stone/furnace/light workshop dependencies, then
+specialist replacement and protected adoption before inter-community trade.
+Natural multi-generation/client evidence remains outstanding.

@@ -13,6 +13,9 @@ rows={
  'care.bunnidogs.commons.carrying':('Carrying household supplies','Llevando suministros del hogar'),
 }
 jobs={
+ 'clip_wood':('Collecting fallen wood','Recogiendo madera caída'),
+ 'pick_fruit':('Picking fruit','Recogiendo fruta'),
+ 'hatch_soil':('Helping a litter hatch','Ayudando a nacer a una camada'),
  'fetch_aid':('Bringing first aid','Llevando primeros auxilios'),
  'plan':('Planning household work','Organizando el trabajo del hogar'),
  'fetch_seed':('Collecting crop seed','Recogiendo semillas de cultivo'),

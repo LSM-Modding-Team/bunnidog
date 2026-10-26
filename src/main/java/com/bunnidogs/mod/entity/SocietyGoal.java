@@ -39,7 +39,7 @@ final class SocietyGoal extends Goal {
         dog.getLookControl().setLookAt(Vec3.atCenterOf(job.target()));
         var hit=dog.level().clip(new ClipContext(dog.getEyePosition(),Vec3.atCenterOf(job.target()),ClipContext.Block.COLLIDER,ClipContext.Fluid.NONE,dog));
         if(dog.distanceToSqr(Vec3.atCenterOf(job.target()))>(job.kind()==SocietyWork.Kind.CARE ? 6.25 : 16) || hit.getType()!=HitResult.Type.MISS && !hit.getBlockPos().equals(job.target())) {work=0;if(ticks%20==0)dog.getNavigation().moveTo(stand.getX()+.5,stand.getY(),stand.getZ()+.5,1);return;}
-        dog.getNavigation().stop();if(++work>=(job.kind()==SocietyWork.Kind.TEACH ? 180 : 40)) {dog.society().perform(job);ticks=240;}
+        dog.getNavigation().stop();if(++work>=(job.kind()==SocietyWork.Kind.TEACH ? 180 : job.kind()==SocietyWork.Kind.CLIP_WOOD ? 100 : 40)) {dog.society().perform(job);ticks=240;}
     }
     @Override public void stop() {dog.society().release();dog.courierLore().desk(false);dog.getNavigation().stop();job=null;path=null;stand=null;}
 }

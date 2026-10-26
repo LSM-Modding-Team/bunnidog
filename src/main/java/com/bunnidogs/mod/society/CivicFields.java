@@ -48,6 +48,7 @@ public final class CivicFields {
     private static boolean nearWorkPlot(HearthTreeBlockEntity home,BlockPos item) {
         var level=home.getLevel();
         if(home.sites().stream().anyMatch(pos->pos.distSqr(item)<=9 && level.hasChunkAt(pos) && level.getBlockState(pos).is(Blocks.FARMLAND) && !level.hasNeighborSignal(pos)))return true;
+        if(home.wild().natural() && java.util.stream.Stream.concat(home.wild().timber().stream(),home.wild().fruit().stream()).anyMatch(pos->pos.distSqr(item)<=9 && level.hasChunksAt(pos.offset(-1,-1,-1),pos.offset(1,1,1)) && !level.hasNeighborSignal(pos)))return true;
         return home.authorized() && home.orchard().stream().anyMatch(pos->pos.distSqr(item)<=9 && level.hasChunkAt(pos) && level.getBlockState(pos).is(ModBlocks.GUAVA_COPPICE.get()) && !level.hasNeighborSignal(pos));
     }
     public static boolean available(HearthTreeBlockEntity home,ItemEntity item) {
@@ -66,8 +67,8 @@ public final class CivicFields {
         return dog.level().clip(new net.minecraft.world.level.ClipContext(dog.getEyePosition(),item.getBoundingBox().getCenter(),net.minecraft.world.level.ClipContext.Block.COLLIDER,net.minecraft.world.level.ClipContext.Fluid.NONE,dog)).getType()==net.minecraft.world.phys.HitResult.Type.MISS;
     }
     public static ItemStack collect(Bunnidog dog,HearthTreeBlockEntity home,ItemEntity item) {
-        if(!available(home,item) || dog.distanceToSqr(item)>9 || !visible(dog,item) || !EventHooks.canEntityGrief((ServerLevel)dog.level(),dog) || !available(home,item) || dog.distanceToSqr(item)>9 || !visible(dog,item) || !dog.society().ready())return ItemStack.EMPTY;
-        var exact=item.getItem().copyWithCount(Math.min(8,item.getItem().getCount()));
+        if(!dog.society().gathers() || !available(home,item) || dog.distanceToSqr(item)>9 || !visible(dog,item) || !EventHooks.canEntityGrief((ServerLevel)dog.level(),dog) || !available(home,item) || dog.distanceToSqr(item)>9 || !visible(dog,item) || !dog.society().ready())return ItemStack.EMPTY;
+        var exact=item.getItem().copyWithCount(Math.min(dog.society().gatheringLimit(),item.getItem().getCount()));
         try(var tx=Transaction.openRoot()) {
             if(new Ground(item).extract(ItemResource.of(exact),exact.getCount(),tx)!=exact.getCount() || !home.attached() || dog.society().hearth()!=home)return ItemStack.EMPTY;tx.commit();
         }

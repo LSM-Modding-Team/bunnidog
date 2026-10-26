@@ -21,7 +21,7 @@ public final class HearthConstruction {
     private UUID surveyor;private int pending=-1,pendingRadius=2;private boolean repairSurvey;private long until;
     public HearthConstruction(HearthTreeBlockEntity home) {this.home=home;}
     public List<HearthTreeBlockEntity.Cell> room(int rotation) {
-        return CivicAnnex.cells(rotation,radii[rotation]).stream().map(c->{boolean nest=c.material()==CivicAnnex.Material.NEST;return new HearthTreeBlockEntity.Cell(home.getBlockPos().offset(c.x(),c.y(),c.z()),nest ? ModBlocks.NEST.get().defaultBlockState() : ModBlocks.GUAVA_PLANKS.get().defaultBlockState(),nest ? ModItems.NEST.get() : ModItems.GUAVA_PLANKS.get());}).toList();
+        return CivicAnnex.cells(rotation,radii[rotation],home.wild().doorHalf()).stream().map(c->{boolean nest=c.material()==CivicAnnex.Material.NEST;return new HearthTreeBlockEntity.Cell(home.getBlockPos().offset(c.x(),c.y(),c.z()),nest ? ModBlocks.NEST.get().defaultBlockState() : ModBlocks.GUAVA_PLANKS.get().defaultBlockState(),nest ? ModItems.NEST.get() : ModItems.GUAVA_PLANKS.get());}).toList();
     }
     public List<HearthTreeBlockEntity.Cell> base() {return room(base);}
     public List<HearthTreeBlockEntity.Cell> cells() {var result=new ArrayList<HearthTreeBlockEntity.Cell>();for(int r=0;r<4;r++)if((approved&(1<<r))!=0)result.addAll(room(r));return List.copyOf(result);}
@@ -36,6 +36,10 @@ public final class HearthConstruction {
         for(int step=radius+1;step<=7;step++) {var p=CivicAnnex.turn(0,0,8-step,CivicAnnex.Material.PLANK,rotation);var stand=home.getBlockPos().offset(p.x(),0,p.z());
             if(!level.hasChunkAt(stand) || !level.getWorldBorder().isWithinBounds(stand) || !level.getBlockState(stand).isAir() || !level.getBlockState(stand.above()).isAir() || !level.getBlockState(stand.below()).isFaceSturdy(level,stand.below(),Direction.UP))return false;
         }return true;
+    }
+    void wildSurvey() {
+        if(!home.attached() || !home.wild().natural() || home.authorized() || !home.orchardSafe())return;
+        if(fits(0,2)) {base=0;approved=1;radii[0]=2;home.authorize();}
     }
     public boolean chooseBase(Player player) {
         if(!home.attached() || !home.permitted(player))return false;long now=home.getLevel().getGameTime();

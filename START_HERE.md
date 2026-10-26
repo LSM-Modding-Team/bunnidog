@@ -5,6 +5,24 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — wild family glades
+
+Read `docs/WILD_FAMILY_SPECS.md`. New qualifying Plains/Sunflower Plains glades
+have an empty root cache, finite natural resources and three ordinary frozen
+genomes. Founders start with zero bred points and no learned skills. Genetically
+capable residents can discover slow primitive harvesting, one-item hauling,
+paid native tools, material crops and a soil nursery through actual work. Broad
+founder bodies change the room entrance. No tutorial HUD or new setup menu.
+
+Actual parental seeds travel to farmland, grow normally and hatch through native
+safe-pad/spawn checks. Pups inherit membership and genes, not education. Native
+saves retain exact cargo, finite founder attempts and the site's own identity;
+old sites/player households keep their existing gates. The starting cache/Nests
+are natural infrastructure, not resident-crafted achievements. Primitive cache
+construction, stone/furnace/light, specialist replacement, adoption and trade
+remain unfinished. This advances the original Generations direction without
+claiming a complete autonomous civilization.
+
 ## Current — paid resident first aid
 
 A Family care resident can walk a real guava ration from the Hearth to a quiet,
@@ -31,10 +49,9 @@ Farmland can be linked with the existing Staff. Farmers grow material crops
 outside their own Diet; native crop loot and Coppice wood/food remain physical
 household-marked drops until haulers walk them home. No new setup menu or HUD.
 
-The latest goal is to close the entire accepted roadmap, not merely polish
-existing features. Primitive wild bootstrap, broader workshops, civic downed
-rescue, wild settlements/trade and advanced public works remain major unfinished
-sections. `docs/COMPLETION_AUDIT.md` keeps the baseline and concrete remaining
+The latest goal is to close the entire accepted roadmap. The first wild
+bootstrap now ships as described above; broader workshops, civic downed rescue,
+living settlements/trade and advanced public works remain unfinished. `docs/COMPLETION_AUDIT.md` keeps the baseline and concrete remaining
 acceptance criteria. Native validation does not replace natural/client/co-op
 pacing and performance evidence.
 
@@ -168,8 +185,8 @@ frozen genetic archives. Sovereign smithing upgrades extend Heartbound armor,
 Lance and Armored Elytra; the Concord Standard adds paid party healing. Existing
 ordinary Apex tuning stays accepted. No new tutorial/menu layer.
 
-Protocol **39**, **2,527 authored / 2,655 packaged** language keys, English/shared
-neutral Spanish. The native suite now has **234 scenarios**, alongside actual
+Protocol **40**, **2,530 authored / 2,658 packaged** language keys, English/shared
+neutral Spanish. The native suite now has **242 scenarios**, alongside actual
 model/localization/build gates. Save/kill-payment ordering, native health above
 1,024, short chunk leases, finite actors, exact smithing components and separate
 core/trophy delivery retries are invariants. Native and inspected preview evidence

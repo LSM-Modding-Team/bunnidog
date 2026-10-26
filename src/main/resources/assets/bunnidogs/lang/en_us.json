@@ -2525,5 +2525,8 @@
   "care.bunnidogs.commons.working.harvest_field": "Harvesting a field",
   "care.bunnidogs.commons.working.gather_field": "Collecting a harvest",
   "care.bunnidogs.commons.working.plan": "Planning household work",
-  "care.bunnidogs.commons.working.fetch_aid": "Bringing first aid"
+  "care.bunnidogs.commons.working.fetch_aid": "Bringing first aid",
+  "care.bunnidogs.commons.working.clip_wood": "Collecting fallen wood",
+  "care.bunnidogs.commons.working.pick_fruit": "Picking fruit",
+  "care.bunnidogs.commons.working.hatch_soil": "Helping a litter hatch"
 }

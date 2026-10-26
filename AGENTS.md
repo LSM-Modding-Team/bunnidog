@@ -102,6 +102,18 @@ closing implementation/evidence gaps across batches; do not declare 100% from
 partial systems or native test counts. Prioritize primitive wild bootstrap and
 remaining professions/construction/rescue before inter-community civilization.
 
+Wild family glades now begin the natural bootstrap; read
+`docs/WILD_FAMILY_SPECS.md`. Preserve detached worldgen configuration, ordinary
+frozen founder genomes/zero bred points/empty learning, finite saved spawn
+attempts, the site's own authority and the original glade-only room permission.
+Primitive discovery is natural-membership- and independent-capacity-limited;
+real successful chores earn practice. Keep finite fallen-wood receipts, actual
+marked one-item hauling, native recipe payments and the exact parental soil
+seed/pad/spawn-refund path. Do not grant inherited skills or bypass old/player
+Hearth gates. Generated empty caches/starting Nests are infrastructure, not
+proof that residents built their first cache. Continue stone/furnace/light,
+missing-specialist recovery and adoption before calling civilization complete.
+
 Watched field work and learned scouting now ship; read `docs/FIELD_LEARNING_SPECS.md`.
 Preserve confirmed native player outcomes, local sight/authority and transient
 bounded examples. Gathering uses Harvest learning; injured foraging stays

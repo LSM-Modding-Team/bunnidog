@@ -56,6 +56,7 @@ public final class GuavaGameTest extends GameTestInstance {
     public static void registerTests(RegisterGameTestsEvent event) {
         // Work scenarios require daytime even when the development world is reused between runs.
         var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.Functions(java.util.Optional.of(id("test_setup")),java.util.Optional.empty()));
+        for(String name:new String[]{"wild_genesis","wild_founder_veto","wild_materials","wild_nursery","wild_nursery_veto","wild_limits","wild_worldgen","wild_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("wild_ai") ? 2240 : 180,0,true)));
         for(String name:new String[]{"fields_coppice","fields_journey","fields_protection","fields_ownership","fields_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("fields_ai") ? 760 : 160,0,true)));
         for(String name:new String[]{"commons_planning","commons_planning_limits","commons_claims","commons_recipes","commons_scarcity","construction_parcel","construction_fitting","construction_repair","construction_helper","construction_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("construction_ai") ? 760 : 160,0,true)));
         for(String name:new String[]{"culture_ai","culture_archive","culture_books","culture_interruptions","culture_limits","culture_stale"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("culture_ai") ? 760 : 160,0,true)));
@@ -130,6 +131,14 @@ public final class GuavaGameTest extends GameTestInstance {
             case "route_changes" -> DeliveryGameTest.changes(h);
             case "route_limits" -> DeliveryGameTest.limits(h);
             case "route_ai" -> {DeliveryGameTest.ai(h);return;}
+            case "wild_founder_veto" -> {WildFamilyGameTest.founderVeto(h);return;}
+            case "wild_genesis" -> {WildFamilyGameTest.genesis(h);return;}
+            case "wild_materials" -> {WildFamilyGameTest.materials(h);return;}
+            case "wild_nursery" -> {WildFamilyGameTest.nursery(h,false);return;}
+            case "wild_nursery_veto" -> {WildFamilyGameTest.nursery(h,true);return;}
+            case "wild_limits" -> {WildFamilyGameTest.limits(h);return;}
+            case "wild_ai" -> {WildFamilyGameTest.ai(h);return;}
+            case "wild_worldgen" -> {com.bunnidogs.mod.worldgen.WildFamilyWorldgenGameTest.run(h);return;}
             case "hearth_conservation" -> SocietyGameTest.conservation(h);
             case "hearth_gestures" -> SocietyGameTest.gestures(h);
             case "hearth_ai" -> {SocietyGameTest.ai(h);return;}

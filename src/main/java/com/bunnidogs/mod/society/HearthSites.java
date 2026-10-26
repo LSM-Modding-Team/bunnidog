@@ -42,6 +42,6 @@ public final class HearthSites {
         if(level.getGameTime()%100!=0)return;var sites=LOADED.get(level);if(sites==null)return;
         // Rotate a bounded share: more loaded Hearths do not multiply this tick's world work.
         var keys=sites.keySet().stream().limit(16).toList();
-        for(var key:keys) {var ref=sites.remove(key);var home=ref.get();if(home!=null && home.attached()) {home.construction().observe();sites.put(key,ref);}}
+        for(var key:keys) {var ref=sites.remove(key);var home=ref.get();if(home!=null && home.attached()) {home.wild().tick();home.construction().observe();sites.put(key,ref);}}
     }
 }

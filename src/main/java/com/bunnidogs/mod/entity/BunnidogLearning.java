@@ -141,6 +141,11 @@ public final class BunnidogLearning {
     void demonstrated(Player player,Learning.Routine routine,BlockPos pos) {
         if(opaqueKnowledge==null && acceptsExample(player,routine,pos))practice(routine);
     }
+    boolean canDiscover() {return opaqueKnowledge==null && lesson==null;}
+    /** Only a successful primitive household chore calls this; capacity alone gives no skill. */
+    void pioneerPractice(Learning.Routine routine) {
+        if(opaqueKnowledge==null && !dog.level().isClientSide() && dog.society().pioneer(routine))knowledge=knowledge.practice(dog.mind(),routine);
+    }
     void deliveryPractice() {
         if(opaqueKnowledge==null && !dog.level().isClientSide() && CapabilityRules.potential(dog.mind(),Learning.Routine.DELIVERY.task())!=CapabilityRules.Potential.LIMITED)knowledge=knowledge.practice(dog.mind(),Learning.Routine.DELIVERY);
     }
