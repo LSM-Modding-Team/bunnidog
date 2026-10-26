@@ -21,7 +21,7 @@ final class SocietyGoal extends Goal {
     }
     private boolean reachable(BlockPos target) {for(var dir:Direction.Plane.HORIZONTAL)for(int dy:new int[]{0,-1,1}) {var at=target.relative(dir).offset(0,dy,0);if(!HomeRoutes.trailStanding(dog,at))continue;var path=dog.getNavigation().createPath(at,0);if(path!=null && path.canReach() && HomeRoutes.trailSafe(dog,path))return true;}return false;}
     @Override public boolean canContinueToUse() {return job!=null && dog.society().ready() && ticks<240 && HomeRoutes.trailStanding(dog,stand) && HomeRoutes.trailSafe(dog,path);}
-    @Override public void start() {ticks=work=0;dog.getNavigation().moveTo(path,1);}
+    @Override public void start() {ticks=work=0;dog.courierLore().desk(job.kind()==SocietyWork.Kind.RECORD_ROUTE || job.kind()==SocietyWork.Kind.STUDY_ROUTE);dog.getNavigation().moveTo(path,1);}
     @Override public boolean requiresUpdateEveryTick() {return true;}
     @Override public void tick() {
         if(!canContinueToUse())return;ticks++;dog.getLookControl().setLookAt(Vec3.atCenterOf(job.target()));
@@ -29,5 +29,5 @@ final class SocietyGoal extends Goal {
         if(dog.distanceToSqr(Vec3.atCenterOf(job.target()))>(job.kind()==SocietyWork.Kind.CARE ? 6.25 : 16) || hit.getType()!=HitResult.Type.MISS && !hit.getBlockPos().equals(job.target())) {work=0;if(ticks%20==0)dog.getNavigation().moveTo(stand.getX()+.5,stand.getY(),stand.getZ()+.5,1);return;}
         dog.getNavigation().stop();if(++work>=(job.kind()==SocietyWork.Kind.TEACH ? 180 : 40)) {dog.society().perform(job);ticks=240;}
     }
-    @Override public void stop() {dog.getNavigation().stop();job=null;path=null;stand=null;}
+    @Override public void stop() {dog.courierLore().desk(false);dog.getNavigation().stop();job=null;path=null;stand=null;}
 }

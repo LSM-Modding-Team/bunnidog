@@ -5,6 +5,26 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — courier apprentices and household route notes
+
+Read `docs/COURIER_CULTURE_SPECS.md` and the accepted reference in
+`docs/COMPLETION_AUDIT.md`. A skilled resident courier can take one walking
+pupil, teaching only through actual witnessed pickup and arrival. Mastered
+pupils remember the procedure and perform real deliveries themselves. Supported
+couriers retain a nearby qualified guide requirement; knowledge is not inherited.
+
+After its own successful delivery, an expert can turn a blank Book and Quill
+from the Hearth store into physical readable Route Notes. Skilled residents can
+study them after the teacher is gone. Books preserve exact authorized endpoints
+and item components, not skill or stock. Private journals, original site/store
+identities, protection vetoes and unknown future records stay safe. No new HUD,
+configuration menu, remote transfer or forced chunk loading.
+
+This advances local logistics/culture, not the whole I6 stage. Next: broader
+complementary professions and dependency coordination, flexible construction and
+real wild-family bootstrap. The audit's baseline percentages are reference
+estimates, not automatically raised each batch.
+
 ## Current — household carers and learned group tactics
 
 Read `docs/CARE_AND_TACTICS_SPECS.md`. Hearth residents can notice a visible
@@ -115,15 +135,15 @@ frozen genetic archives. Sovereign smithing upgrades extend Heartbound armor,
 Lance and Armored Elytra; the Concord Standard adds paid party healing. Existing
 ordinary Apex tuning stays accepted. No new tutorial/menu layer.
 
-Protocol **36**, **2,488 authored / 2,616 packaged** language keys, English/shared
-neutral Spanish. The native suite now has **211 scenarios**, alongside actual
+Protocol **37**, **2,493 authored / 2,621 packaged** language keys, English/shared
+neutral Spanish. The native suite now has **217 scenarios**, alongside actual
 model/localization/build gates. Save/kill-payment ordering, native health above
 1,024, short chunk leases, finite actors, exact smithing components and separate
 core/trophy delivery retries are invariants. Native and inspected preview evidence
 remain distinct from graphical client play, natural chunk order/performance and
 full solo/co-op boss pacing. See the current spec for those practical limits.
 
-Remaining broader roadmap: shared procedures/route teaching and expanded
+Remaining broader roadmap: general shared procedures/plans, expanded
 professions/construction/civilization, including full civic downed rescue. The
 Hearth household implements a focused cross-stage journey through those systems. Address any newly reported
 expedition issues first; do not rebalance the accepted ordinary Apex fights

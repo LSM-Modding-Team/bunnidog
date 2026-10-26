@@ -31,7 +31,7 @@ public final class SocietyWork {
     private UUID aidPatient,aidOwner;
     private BlockPos aidBed;
     private boolean medicalBusy;
-    public enum Kind { MEAL, CRAFT, BUILD, PLANT, PRUNE, HAUL, SUPPLY, DELIVER, COMPOST, COURT, SEED, NURTURE, HATCH, TEND, TEACH, MEDICINE, CARE }
+    public enum Kind { MEAL, CRAFT, BUILD, PLANT, PRUNE, HAUL, SUPPLY, DELIVER, COMPOST, COURT, SEED, NURTURE, HATCH, TEND, TEACH, MEDICINE, CARE, RECORD_ROUTE, STUDY_ROUTE }
     public record Patient(UUID id,BlockPos bed) {}
     public record Job(Kind kind,BlockPos target,int index,BlockState expected,Patient patient) {
         public Job(Kind kind,BlockPos target,int index,BlockState expected) {this(kind,target,index,expected,null);}
@@ -67,7 +67,7 @@ public final class SocietyWork {
     private Job at(Kind k,BlockPos p) {return new Job(k,p.immutable(),-1,dog.level().getBlockState(p));}
     private boolean gardener() {return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.GARDEN);}
     public Job plan() {
-        if(!ready() || dog.deliveries().watching() || !dog.deliveries().cargo().isEmpty())return null;var h=hearth();var l=(ServerLevel)dog.level();var at=h.getBlockPos();
+        if(!ready() || dog.courierLore().apprenticing() || dog.deliveries().watching() || !dog.deliveries().cargo().isEmpty())return null;var h=hearth();var l=(ServerLevel)dog.level();var at=h.getBlockPos();
         if(!cargo.isEmpty() && aidPatient!=null) {
             if(!Objects.equals(aidOwner,h.owner()))return null;
             var patient=medicalPatient(new Patient(aidPatient,aidBed));
@@ -81,6 +81,7 @@ public final class SocietyWork {
         if(nurse && h.count(ModItems.HEARTH_POULTICE.get())>0 && !l.hasNeighborSignal(at))
             for(var patient:h.residents())if(patient!=dog && patient.clinic().ready() && ClinicCare.restingAtHome(h,patient) && HomeRoutes.visible(dog,patient))
                 return new Job(Kind.MEDICINE,at,-1,l.getBlockState(at),new Patient(patient.getUUID(),patient.homeNest()));
+        var archive=dog.courierLore().archiveJob(h);if(archive!=null)return archive;
         if(CapabilityRules.potential(dog.mind(),CapabilityRules.Task.TEACHING)==CapabilityRules.Potential.INDEPENDENT && workSinceMeal<6)
             for(var pupil:h.residents())if(pupil!=dog && !pupil.isBaby() && pupil.society().calm())for(var r:Learning.Routine.values())
                 if(r!=Learning.Routine.SCOUT && dog.learning().knowledge().independent(dog.mind(),r) && pupil.learning().physicallyReady(r) && !pupil.learning().knowledge().knows(r) && CapabilityRules.potential(pupil.mind(),r.task())!=CapabilityRules.Potential.LIMITED)return at(Kind.TEACH,pupil.blockPosition());
@@ -130,6 +131,8 @@ public final class SocietyWork {
         var h=hearth();var l=(ServerLevel)dog.level();boolean ok=false;Learning.Routine learned=null;
         if(job.kind()!=Kind.DELIVER && !l.getBlockState(job.target()).equals(job.expected()))return false;
         switch(job.kind()) {
+            case RECORD_ROUTE -> {ok=dog.courierLore().record(h,job.index());}
+            case STUDY_ROUTE -> {ok=dog.courierLore().study(h,job.index());}
             case MEDICINE -> {ok=collectMedicine(job);}
             case CARE -> {ok=treatResident(job);learned=Learning.Routine.NURSERY;}
             case TEACH -> {ok=CapabilityRules.potential(dog.mind(),CapabilityRules.Task.TEACHING)==CapabilityRules.Potential.INDEPENDENT;}

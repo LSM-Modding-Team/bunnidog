@@ -93,6 +93,8 @@ public final class ModItems {
     public static final DeferredItem<Item> HEARTH_INCENSE=ITEMS.registerSimpleItem("hearth_incense");
     public static final DeferredItem<com.bunnidogs.mod.society.StewardStaffItem> STEWARD_STAFF=ITEMS.registerItem("steward_staff",com.bunnidogs.mod.society.StewardStaffItem::new,p->p.stacksTo(1).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.steward_staff")))));
     public static final DeferredItem<com.bunnidogs.mod.society.HearthPoulticeItem> HEARTH_POULTICE=ITEMS.registerItem("hearth_poultice",com.bunnidogs.mod.society.HearthPoulticeItem::new,p->p.stacksTo(16));
+    public static final DeferredHolder<DataComponentType<?>,DataComponentType<String>> ROUTE_NOTES_DATA=COMPONENTS.registerComponentType("route_notes",b->b.persistent(Codec.string(0,32768)).networkSynchronized(ByteBufCodecs.stringUtf8(32768)));
+    public static final DeferredItem<net.minecraft.world.item.WrittenBookItem> ROUTE_NOTES=ITEMS.registerItem("route_notes",net.minecraft.world.item.WrittenBookItem::new,p->p.stacksTo(1).component(net.minecraft.core.component.DataComponents.WRITTEN_BOOK_CONTENT,net.minecraft.world.item.component.WrittenBookContent.EMPTY));
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<Integer>> TOOL_POWER=COMPONENTS.registerComponentType("tool_power",b->b.persistent(Codec.intRange(1,5)).networkSynchronized(ByteBufCodecs.VAR_INT));
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<String>> FLASK_ID=COMPONENTS.registerComponentType("flask_id",b->b.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<Integer>> FLASK_COUNT=COMPONENTS.registerComponentType("flask_count",b->b.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.VAR_INT));
@@ -563,7 +565,7 @@ public final class ModItems {
             for(var item:List.of(SOVEREIGN_CORE.get(),SOVEREIGN_LANCE.get(),SOVEREIGN_ELYTRA.get(),CONCORD_STANDARD.get(),CROWN_SIGIL.get(),CROWN_TROPHY.get()))event.accept(item);
             for(var item:java.util.List.of(APEX_FANG.get(),VITALITY_ARTIFACT.get(),AERIAL_ARTIFACT.get(),CATACLYSM_CORE.get(),VOLATILE_CHARGE.get(),CATACLYSM_TOTEM.get(),FIREBALL_LAUNCHER.get(),GENETIC_VACUUM.get(),ABYSSAL_FLASK.get()))event.accept(item);
             for(var item:java.util.List.of(ROOTSTONE.get(),WARREN_ANCHOR.get(),WARREN_WARD.get(),RESONANT_EYE.get(),APEX_MARROW.get(),PRISM_LENS.get(),CHORUS_HEART.get(),VOLATILE_HEART.get(),HEART_SPOOL.get(),AERIAL_MEMBRANE.get(),PRISM_CELL.get(),PRISM_LANCE.get(),APEX_WING_HARNESS.get()))event.accept(item);
-            for(var item:List.of(HEARTH_TREE.get(),GUAVA_COPPICE.get(),LIVING_KEYSTONE.get(),GRAFTING_FRAME.get(),HEARTH_INCENSE.get(),STEWARD_STAFF.get(),HEARTH_POULTICE.get()))event.accept(item);
+            for(var item:List.of(HEARTH_TREE.get(),GUAVA_COPPICE.get(),LIVING_KEYSTONE.get(),GRAFTING_FRAME.get(),HEARTH_INCENSE.get(),STEWARD_STAFF.get(),HEARTH_POULTICE.get(),ROUTE_NOTES.get()))event.accept(item);
             event.accept(APEX_CREST.get());
             APEX_SIGILS.values().forEach(item->event.accept(item.get()));
             // One plain sample (the default genome, no bred points) so a sample can be had in creative mode.

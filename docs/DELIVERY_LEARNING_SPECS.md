@@ -94,7 +94,7 @@ route payload.
 
 ## Compatibility, scope and evidence
 
-Protocol **34** requires matching clients/servers. Existing genome/seed allele
+Protocol **37** requires matching clients/servers. Existing genome/seed allele
 orders, cognition practice strings and old learned routines do not change.
 Missing route fields mean no assigned route; legacy animals keep their existing
 work. Transient player observation sessions are not restored after reconnect.
@@ -112,6 +112,9 @@ remain player review; native fixtures are not evidence of those.
 
 Watched farming/nursery examples and learned gathering/scouting now ship in
 [FIELD_LEARNING_SPECS.md](FIELD_LEARNING_SPECS.md). Remaining work includes the rest
-of I3's care/tactics integration, shared route teaching/culture, longer
-or multi-stop courier programs, profession coordination and broader autonomous
-civilization. This release does not mark all of I2–I10 complete.
+of general shared procedures, longer or multi-stop courier programs, profession
+coordination and broader autonomous civilization. Household care/tactics now ship
+in [CARE_AND_TACTICS_SPECS.md](CARE_AND_TACTICS_SPECS.md). Resident route
+apprenticeship and paid physical records now ship in
+[COURIER_CULTURE_SPECS.md](COURIER_CULTURE_SPECS.md). They retain personal learning,
+original authorization and actual walking parcels, without marking all I2–I10 complete.

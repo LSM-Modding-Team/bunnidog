@@ -2486,5 +2486,10 @@
   "care.bunnidogs.tactics.guided": "Coordinates with guidance",
   "care.bunnidogs.tactics.coordinated": "Coordinates the group",
   "text.bunnidogs.f0f17954728a2981": "Group tactics",
-  "text.bunnidogs.00bc9f3cf5a96d21": "Family care"
+  "text.bunnidogs.00bc9f3cf5a96d21": "Family care",
+  "item.bunnidogs.route_notes": "Route Notes",
+  "item.bunnidogs.route_notes.named": "Route: %s",
+  "book.bunnidogs.route_notes.route": "%s\n\nFrom: %s, %s, %s\nTo: %s, %s, %s",
+  "message.bunnidogs.courier.taught": "%s learned a delivery from %s.",
+  "care.bunnidogs.courier.apprentice": "Learning a courier route"
 }

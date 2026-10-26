@@ -77,6 +77,17 @@ reserves, filters, locks, Tending disable and redstone remain meaningful. A taug
 route is personal knowledge; inherited limits and owner authority still apply.
 Keep the concise Lessons controls/feedback, without a route setup screen or HUD.
 
+The accepted completeness reference is `docs/COMPLETION_AUDIT.md`. Prioritize
+unfinished intelligence/civilization, not another convenience or Apex-balancing
+pass. Household courier culture now ships; read `docs/COURIER_CULTURE_SPECS.md`.
+Preserve real witnessed pickup/arrival, one walking pupil per actual expert,
+inherited supported/limited minds, original Hearth/store identities and paid
+blank-book writing in the original inventory journal. Books preserve procedures,
+not skills or stock. Unknown future records remain opaque items; no recursive
+container/record filters, forced chunks or inherited education. Continue with
+complementary professions/dependency coordination and flexible construction,
+then wild bootstrap. These courier records are not the complete I6 system.
+
 Watched field work and learned scouting now ship; read `docs/FIELD_LEARNING_SPECS.md`.
 Preserve confirmed native player outcomes, local sight/authority and transient
 bounded examples. Gathering uses Harvest learning; injured foraging stays
@@ -193,11 +204,12 @@ skills distinct from stat thresholds when reporting work readiness.
   gene-driven intelligence/civilization update in `docs/INTELLIGENCE_PLAN.md`,
   `docs/INTELLIGENCE_ENGINEERING.md` and `docs/INTELLIGENCE_SCENARIOS.md`. The
   2026-10-21 planning request was followed by explicit implementation approval.
-  I1 and initial I2 are now implemented; `docs/COGNITION_SPECS.md` records actual
-  genetics, migration and attended practice. Continue I2 with observed lessons,
-  learned source/destination routes and interruption feedback, then finish I3's
-  remaining work integration before professions/civilization. Preserve the
-  implemented Garden/Supply learning gates and old adults' familiar routines.
+  I1/I2 now ship; `docs/COGNITION_SPECS.md` records genetics/migration/practice,
+  with watched routes, field lessons, learned care/tactics and household courier
+  culture in their current specs above. Use `docs/COMPLETION_AUDIT.md` for
+  remaining work instead of redoing implemented I2/I3 slices. Continue professions,
+  dependency coordination, flexible construction and wild bootstrap. Preserve the
+  implemented work learning gates and old adults' familiar routines.
   Multiple genes must create real limits and complementary minds, reaching
   independent professions and functioning autonomous communities. Separate
   inherited capacity, personal learning, shared culture and actual opportunity;

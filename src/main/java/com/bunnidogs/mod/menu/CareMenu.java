@@ -282,7 +282,7 @@ public final class CareMenu extends AbstractContainerMenu {
             facts.add(dog.combat().partyState());
             facts.add(Optional.ofNullable(dog.homeNest()));
             facts.add(dog.genome()); facts.add(dog.stats()); facts.add(dog.learning().knowledge());facts.add(dog.deliveries().state());stock.add(dog.deliveries().cargo());facts.add(Optional.ofNullable(dog.deliveries().route()));
-            facts.add(Optional.ofNullable(dog.learning().lesson())); facts.add(Optional.ofNullable(dog.learning().teacher()));stock.add(dog.society().medicalSupplies());facts.add(dog.society().mayTakeSupplies(owner));
+            facts.add(Optional.ofNullable(dog.learning().lesson())); facts.add(Optional.ofNullable(dog.learning().teacher()));facts.add(Optional.ofNullable(dog.courierLore().teacher()));stock.add(dog.society().medicalSupplies());facts.add(dog.society().mayTakeSupplies(owner));
             facts.add(FamilyPanels.hasCalipers(owner));
             stock.addAll(dog.carriedBundles());
             if (mode==Mode.FIT || mode==Mode.FIT_CHOICES || mode==Mode.ROLES) facts.add(FamilyPanels.hasCalipers(owner));

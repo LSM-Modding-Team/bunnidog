@@ -4,7 +4,7 @@ The user requests substantial continuations, prioritizing unfinished planned
 features over more quality-of-life controls. Historical per-turn chunk limits
 do not apply. Verify old completion claims against code before choosing work.
 
-## Current priority — Great Warren and the Apex finale
+## Implemented expedition foundation — Great Warren and the Apex finale
 
 The 2026-10-25 user review marks Apex balancing complete and resumes autonomous
 roadmap development. AX1–AX5, the first AX6 expedition loop and the initial AX7 finale now ship. Read
@@ -36,14 +36,19 @@ I1 and initial I2 now ship cognitive genes and practical learning. See
   I0–I10 implementation/evidence sequence.
 - [INTELLIGENCE_SCENARIOS.md](INTELLIGENCE_SCENARIOS.md): 24 concrete experiences.
 
-The complete save/genetic foundation and attended harvest/garden/nursery/local
-transfer lessons are implemented. Continue I2 with observed demonstrations,
-remembered source/destination routes and clear interruption feedback, then finish
-I3's remaining gather/scouting/care/tactics. Keep actual low-end work limits with
-lessons/alternatives, preserve old working families and trusted recall, and prove
-independent building/cultural continuity with real items and residents. Exact
-alleles, thresholds and budgets are prototype choices. Do not substitute a job
-menu, new templates or QoL work for these unfinished core experiences.
+The save/genetic foundation, watched harvest/garden/nursery/delivery examples,
+remembered two-stop routes, learned gathering/scouting, household wound care and
+group tactics now ship. [COURIER_CULTURE_SPECS.md](COURIER_CULTURE_SPECS.md) adds
+witnessed resident-to-resident route apprenticeship, local expert guidance and
+paid physical route notes. These records outlast a teacher without uploading
+skills or generating stock. They are a focused I4/I6 slice, not a general school.
+
+Use [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md) as the accepted gap reference.
+Continue complementary professions/dependency coordination, flexible live
+construction/repair and wild-family bootstrap before broader settlements and
+inter-community exchange. Keep low-end animals useful, old working families,
+trusted recall and real materials/permissions. Do not substitute a job menu,
+extra templates or QoL work for these unfinished core experiences.
 
 ## Implemented foundation — gene-driven combat companions
 

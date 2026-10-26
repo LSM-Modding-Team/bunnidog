@@ -54,7 +54,9 @@ public final class GuavaGameTest extends GameTestInstance {
     }
     @SubscribeEvent
     public static void registerTests(RegisterGameTestsEvent event) {
-        var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.AllOf());
+        // Work scenarios require daytime even when the development world is reused between runs.
+        var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.Functions(java.util.Optional.of(id("test_setup")),java.util.Optional.empty()));
+        for(String name:new String[]{"culture_ai","culture_archive","culture_books","culture_interruptions","culture_limits","culture_stale"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("culture_ai") ? 760 : 160,0,true)));
         for(String name:new String[]{"clinic_ai","clinic_stock","clinic_callbacks","clinic_lesson","clinic_limits","clinic_craft","tactics_learning","tactics_coordination"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),320,0,true)));
         for(String name:new String[]{"field_harvest","field_garden","field_nursery","field_safety","field_scout","field_gathering"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),160,0,true)));
         for(var kind:ApexKind.values())for(boolean flying:new boolean[]{false,true}) {
@@ -78,6 +80,12 @@ public final class GuavaGameTest extends GameTestInstance {
             for(var kind:ApexKind.values())if(kind.id.equals(type)) {ApexReviewGameTest.pillar(h,kind,flying);return;}
         }
         switch (this.scenario) {
+            case "culture_ai" -> {CourierCultureGameTest.ai(h);return;}
+            case "culture_archive" -> {CourierCultureGameTest.archive(h);return;}
+            case "culture_books" -> {CourierCultureGameTest.books(h);return;}
+            case "culture_interruptions" -> {CourierCultureGameTest.interruptions(h);return;}
+            case "culture_limits" -> {CourierCultureGameTest.limits(h);return;}
+            case "culture_stale" -> {CourierCultureGameTest.stale(h);return;}
             case "clinic_ai" -> {ClinicGameTest.ai(h);return;}
             case "clinic_stock" -> {ClinicGameTest.stock(h);return;}
             case "clinic_callbacks" -> {ClinicGameTest.callbacks(h);return;}

@@ -3,6 +3,11 @@
 > Latest implemented progression: [HEARTH_PROGRESSION_SPECS.md](HEARTH_PROGRESSION_SPECS.md)
 > supersedes the old offering/entry rules and adds a focused sustainable household,
 > resident teaching and paid construction. Broader civilization stages remain open.
+>
+> Current continuation: [COURIER_CULTURE_SPECS.md](COURIER_CULTURE_SPECS.md)
+> implements real courier apprenticeship and physical route records, without
+> granting skill from books. [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md) records
+> the accepted gap priorities. General planning/professions remain unfinished.
 
 Design direction, 2026-10-21, originally planned against `0c92ded`.
 **I1 and initial I2 are now implemented**: full cognitive genetics, migration,

@@ -28,6 +28,14 @@ public final class DeliveryMemory {
     private Route route;
     private ItemStack cargo=ItemStack.EMPTY;
     private boolean busy,paused;
+    private boolean proven;
+    public boolean proven() {return proven;}
+    public static boolean sameProcedure(Route a,Route b) {return a!=null && b!=null && a.owner.equals(b.owner) && a.source.equals(b.source) && a.target.equals(b.target) && ItemStack.isSameItemSameComponents(a.filter,b.filter);}
+    public static boolean sameRoute(Route a,Route b) {return sameProcedure(a,b) && a.batch==b.batch;}
+    boolean learnHousehold(Route learned) {
+        if(route!=null || busy || !cargo.isEmpty() || watching())return false;
+        route=new Route(learned.source,learned.target,learned.filter,learned.batch,learned.owner);proven=false;paused=false;activity=State.READY;dog.setPersistenceRequired();return true;
+    }
     private long rest;
     private State activity=State.NONE,reported=State.NONE;
     private UUID teacher;
@@ -57,12 +65,12 @@ public final class DeliveryMemory {
     public boolean canObserve(Player p) {return authorized(p) && cargo.isEmpty() && dog.society().cargoEmpty() && !busy && readyBody() && p.distanceToSqr(dog)<=36 && p.hasLineOfSight(dog) && CapabilityRules.potential(dog.mind(),CapabilityRules.Task.DELIVERY)!=CapabilityRules.Potential.LIMITED && Supplying.qualified(dog.stats());}
     public boolean begin(Player p) {
         if(!canObserve(p) || dog.level().isClientSide())return false;
-        dog.learning().cancel();teacher=p.getUUID();until=dog.level().getGameTime()+2400;clicked=null;watching=null;pickup=null;shown=ItemStack.EMPTY;shownCount=0;dog.setPersistenceRequired();say(p,"watching");return true;
+        dog.learning().cancel();dog.courierLore().cancel();teacher=p.getUUID();until=dog.level().getGameTime()+2400;clicked=null;watching=null;pickup=null;shown=ItemStack.EMPTY;shownCount=0;dog.setPersistenceRequired();say(p,"watching");return true;
     }
     public void stopWatching() {teacher=null;watching=null;clicked=null;pickup=null;shown=ItemStack.EMPTY;until=0;}
     public boolean setPaused(Player p,boolean value) {if(!authorized(p) || route==null || busy)return false;paused=value;return true;}
     public boolean clear(Player p) {
-        if(!authorized(p) || busy || !cargo.isEmpty())return false;route=null;paused=false;activity=State.NONE;stopWatching();return true;
+        if(!authorized(p) || busy || !cargo.isEmpty())return false;route=null;proven=false;paused=false;activity=State.NONE;stopWatching();return true;
     }
     boolean readyBody() {return dog.acceptsCare() && dog.isAlive() && !dog.isBaby() && !dog.homeNight() && !dog.workPaused() && !dog.trail().ordered() && !dog.beingTransported() && !dog.isVehicle() && !dog.combat().danger() && !dog.combat().downed() && dog.getTarget()==null && !dog.seekingRefuge() && !dog.isInLove() && !dog.isOnFire() && !dog.isInWater() && dog.getHealth()>=dog.getMaxHealth()*.8F;}
     public boolean observes(Player p) {return watching() && teacher.equals(p.getUUID()) && p.level()==dog.level() && p.isAlive() && authorized(p) && readyBody() && dog.distanceToSqr(p)<=144 && dog.getSensing().hasLineOfSight(p);}
@@ -82,7 +90,7 @@ public final class DeliveryMemory {
         if(added.isEmpty() || !ItemStack.isSameItemSameComponents(added,shown) || count(seen.player,shown)-count(playerAfter,shown)!=added.getCount() || pickup.overlaps(seen.store.stop()) || !pickup.at().dimension().equals(seen.store.stop().at().dimension()) || pickup.at().pos().distSqr(seen.store.stop().at().pos())>32*32)return;
         var source=DeliveryStores.resolve(p.level(),pickup);
         if(source==null || !DeliveryStores.allowed(p.level(),source,p.getUUID()) || !DeliveryStores.allowed(p.level(),seen.store,p.getUUID()))return;
-        route=new Route(pickup,seen.store.stop(),shown,Math.min(shownCount,added.getCount()),p.getUUID());paused=false;activity=State.READY;dog.learning().deliveryPractice();say(p,"learned");stopWatching();
+        route=new Route(pickup,seen.store.stop(),shown,Math.min(shownCount,added.getCount()),p.getUUID());proven=false;paused=false;activity=State.READY;dog.learning().deliveryPractice();say(p,"learned");stopWatching();
     }
     private boolean sees(BlockPos at) {
         var from=dog.blockPosition();if(!dog.level().hasChunksAt(new BlockPos(Math.min(from.getX(),at.getX()),from.getY(),Math.min(from.getZ(),at.getZ())),new BlockPos(Math.max(from.getX(),at.getX()),from.getY(),Math.max(from.getZ(),at.getZ()))))return false;
@@ -96,8 +104,8 @@ public final class DeliveryMemory {
         ItemStack result=ItemStack.EMPTY;for(var key:keys) {int delta=count(after,key)-count(before,key);if(delta==0)continue;if(!result.isEmpty() || added && delta<0 || !added && delta>0)return ItemStack.EMPTY;result=key.copyWithCount(Math.abs(delta));}return result;
     }
     boolean guided() {if(route==null || !(dog.level() instanceof ServerLevel l))return false;var p=l.getPlayerByUUID(route.owner);return p!=null && p.isAlive() && authorized(p) && dog.distanceToSqr(p)<=144 && dog.getSensing().hasLineOfSight(p);}
-    boolean capable() {return CapabilityRules.potential(dog.mind(),CapabilityRules.Task.DELIVERY)!=CapabilityRules.Potential.LIMITED && Supplying.qualified(dog.stats()) && (dog.learning().knowledge().independent(dog.mind(),Learning.Routine.DELIVERY) || guided());}
-    boolean canWork() {return route!=null && (dog.trail().keeper()==null || dog.trail().keeper().equals(route.owner)) && !paused && !watching() && readyBody() && capable() && dog.level().getGameTime()>=rest && dog.society().cargoEmpty() && dog.level() instanceof ServerLevel l && l.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.MOB_GRIEFING);}
+    boolean capable() {return CapabilityRules.potential(dog.mind(),CapabilityRules.Task.DELIVERY)!=CapabilityRules.Potential.LIMITED && Supplying.qualified(dog.stats()) && (dog.learning().knowledge().independent(dog.mind(),Learning.Routine.DELIVERY) || guided() || dog.courierLore().guided(route));}
+    boolean canWork() {return route!=null && !dog.courierLore().occupied() && (dog.trail().keeper()==null || dog.trail().keeper().equals(route.owner)) && !paused && !watching() && readyBody() && capable() && dog.level().getGameTime()>=rest && dog.society().cargoEmpty() && dog.level() instanceof ServerLevel l && l.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.MOB_GRIEFING);}
     DeliveryStores.Live endpoint(boolean source) {return route==null || !(dog.level() instanceof ServerLevel l) ? null : DeliveryStores.resolve(l,source ? route.source : route.target);}
     boolean allowed(DeliveryStores.Live live) {return route!=null && dog.level() instanceof ServerLevel l && DeliveryStores.allowed(l,live,route.owner);}
     public boolean unload(Player p) {
@@ -123,7 +131,7 @@ public final class DeliveryMemory {
             try(var tx=Transaction.openRoot()) {
                 int n=src.items().extract(resource,amount,tx);
                 if(n<=0 || !src.current(l) || !dst.current(l) || !allowed(src) || !allowed(dst) || !canWork())return false;
-                cargo=route.filter.copyWithCount(n);tx.commit();activity=State.CARRYING;return true;
+                var teaching=route;cargo=route.filter.copyWithCount(n);tx.commit();activity=State.CARRYING;CourierLore.pickedUp(dog,teaching,n);return true;
             }
         } finally {busy=false;}
     }
@@ -139,8 +147,9 @@ public final class DeliveryMemory {
                 int n=dst.items().insert(ItemResource.of(original),original.getCount(),tx);
                 if(n<=0) {report(State.FULL_TARGET);return false;}
                 if(!dst.current(l) || !allowed(dst) || !ItemStack.matches(cargo,original) || !canWork())return false;
-                cargo.shrink(n);tx.commit();
-                if(cargo.isEmpty()) {dog.society().completed(Learning.Routine.DELIVERY,independent);dog.learning().deliveryPractice();rest=l.getGameTime()+100;activity=State.RESTING;reported=State.NONE;}
+                var teaching=route;cargo.shrink(n);tx.commit();
+                if(cargo.isEmpty()) {proven=true;dog.society().completed(Learning.Routine.DELIVERY,independent);dog.learning().deliveryPractice();rest=l.getGameTime()+100;activity=State.RESTING;reported=State.NONE;}
+                CourierLore.delivered(dog,teaching,n);
                 return true;
             }
         } finally {busy=false;}
@@ -150,6 +159,6 @@ public final class DeliveryMemory {
     void tick() {if(teacher!=null && (!watching() || !readyBody()))stopWatching();}
     public boolean show(Player p) {if(!authorized(p) || route==null || !(dog.level() instanceof ServerLevel l))return false;for(var stop:List.of(route.source,route.target))if(stop.at().dimension().equals(l.dimension()) && l.hasChunkAt(stop.at().pos())) {var at=stop.at().pos();l.sendParticles(net.minecraft.core.particles.ParticleTypes.END_ROD,at.getX()+.5,at.getY()+1.2,at.getZ()+.5,18,.2,.2,.2,0);}return true;}
     public ItemStack deathCargo() {var out=cargo;cargo=ItemStack.EMPTY;return out;}
-    void save(ValueOutput out) {if(route!=null)out.store("DeliveryRoute",Route.CODEC,route);if(!cargo.isEmpty())out.store("DeliveryCargo",ItemStack.CODEC,cargo);out.putBoolean("DeliveryPaused",paused);out.putInt("DeliveryRest",(int)Math.clamp(rest-dog.level().getGameTime(),0L,100L));}
-    void load(ValueInput in) {stopWatching();route=in.read("DeliveryRoute",Route.CODEC).orElse(null);cargo=in.read("DeliveryCargo",ItemStack.CODEC).orElse(ItemStack.EMPTY);paused=in.getBooleanOr("DeliveryPaused",false);rest=dog.level().getGameTime()+Math.clamp(in.getIntOr("DeliveryRest",0),0,100);busy=false;activity=route==null ? State.NONE : State.READY;reported=State.NONE;}
+    void save(ValueOutput out) {if(route!=null)out.store("DeliveryRoute",Route.CODEC,route);if(!cargo.isEmpty())out.store("DeliveryCargo",ItemStack.CODEC,cargo);out.putBoolean("DeliveryProven",proven);out.putBoolean("DeliveryPaused",paused);out.putInt("DeliveryRest",(int)Math.clamp(rest-dog.level().getGameTime(),0L,100L));}
+    void load(ValueInput in) {stopWatching();route=in.read("DeliveryRoute",Route.CODEC).orElse(null);cargo=in.read("DeliveryCargo",ItemStack.CODEC).orElse(ItemStack.EMPTY);proven=route!=null && in.getBooleanOr("DeliveryProven",false);paused=in.getBooleanOr("DeliveryPaused",false);rest=dog.level().getGameTime()+Math.clamp(in.getIntOr("DeliveryRest",0),0,100);busy=false;activity=route==null ? State.NONE : State.READY;reported=State.NONE;}
 }

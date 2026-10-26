@@ -44,7 +44,7 @@ public final class LearningPanel {
         var lesson = dog.learning().lesson();
         if (lesson!=null) controls.add(new CareView.Control(STOP, TextComponents.t("Stop lesson"), dog.learning().authorized(player)));
         controls.add(new CareView.Control(CarePanels.BACK, Component.translatable("care.bunnidogs.button.back"), true));
-        Component next=delivery.watching() ? Component.translatable("care.bunnidogs.delivery.watching") : lesson==null ? blocker(dog) : activity(dog);
+        Component next=delivery.watching() ? Component.translatable("care.bunnidogs.delivery.watching") : dog.courierLore().apprenticing() ? Component.translatable("care.bunnidogs.courier.apprentice") : lesson==null ? blocker(dog) : activity(dog);
         return new CareView(TextComponents.t("Learning: %s", dog.getDisplayName()), next, rows, controls);
     }
     private static Component deliveryReason(Player p,Bunnidog dog) {
