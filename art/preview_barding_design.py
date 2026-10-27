@@ -68,16 +68,17 @@ def study(tier, build=1):
                 plates.append(face(points, 2 if edge else slot))
 
     if tier >= 2:
-        # Upper tiers are an enclosed suit, with narrow articulated seams rather
-        # than large areas of exposed fur/leather. The helmet and limbs below
-        # make the coverage visible from every approach, not just the flank.
+        # Diamond closes the torso with lighter plates and flexible joints.
+        # Netherite/Astralite then add complete enclosing helmets/ear guards,
+        # deeper pauldrons, hip guards and heavier reinforcement.
         for side in (-1,1):
             for t0,t1 in [(0.90,2.0),(2.04,3.25),(3.29,4.6),(4.64,5.8),(5.84,6.6),(6.64,7.94)]:
-                shell(t0,t1,side*.015,side*(math.pi-.015),0,.34+.06*(tier-2))
+                shell(t0,t1,side*.015,side*(math.pi-.015),0,.29+.075*(tier-2))
             # Raised overlapping pauldrons, cuisses and a rolled lower skirt.
-            shell(1.1,2.25,side*.64,side*2.35,0,.58+.05*(tier-2))
-            shell(5.15,6.48,side*.65,side*2.3,0,.56)
-            shell(1.04,6.5,side*2.26,side*2.4,2,.48,False)
+            raised=.39 if tier==2 else .58+.05*(tier-3)
+            shell(1.1,2.25,side*.64,side*2.35,0,raised)
+            shell(5.15,6.48,side*.65,side*2.3,0,raised-.02)
+            shell(1.04,6.5,side*2.26,side*2.4,5 if tier==2 else 2,raised-.08,False)
             if tier==4:
                 shell(2.5,4.5,side*1.28,side*1.38,1,.50,False)
             for t in (1.35,2.45,3.7,5.35,6.15):
@@ -85,7 +86,14 @@ def study(tier, build=1):
                     shell(t-.045,t+.045,side*(angle-.05),side*(angle+.05),4,.68,False)
         # A separate raised gorget meets the helmet without moving the jaw.
         shell(.65,1.1,-math.pi,math.pi,2,.38,False)
-        plates += heavy_extremities(tier,build)
+        if tier==4:
+            # The final upgrade reinforces an already complete Netherite suit.
+            # Raised spine lames and a double gorget add shape as well as colour.
+            shell(.58,1.22,-math.pi,math.pi,0,.53)
+            for t0,t1 in [(2.3,3.2),(3.3,4.4),(4.5,5.5)]:
+                shell(t0,t1,-.28,.28,0,.62)
+            shell(2.6,5.2,-.07,.07,1,.65,False)
+        plates += extremities(tier,build)
         return original + plates
 
     for side in (-1,1):
@@ -95,24 +103,23 @@ def study(tier, build=1):
             shell(t,t+.16,side*.2,side*3.0,3,.16,False)
         # Shoulder guards stay below the wing root. Flank panels overlap like lames.
         shell(1.0,1.6,side*.85,side*2.3,0,.23)
-        if tier > 0:
-            runs = [(1.85,2.9),(3.08,4.2)]
-            if tier >= 2:
-                runs.append((4.4,5.55))
+        if tier == 1:
+            # Iron already has a breast/belly plate, a small rear plate, an open
+            # helm and greaves. Diamond extends this existing equipment rather
+            # than suddenly introducing a helmet and all four armoured limbs.
+            shell(1.1,4.3,side*1.9,side*(math.pi-.03),0,.22)
+            runs = [(1.65,2.9),(3.08,4.2),(4.4,5.4)]
             for t0,t1 in runs:
-                shell(t0,t1,side*.98,side*1.98,0,.30)
+                shell(t0,t1,side*.82,side*2.05,0,.27)
                 # Paired small fasteners on each independent plate.
                 for t in (t0+.15,t1-.15):
                     for angle in (1.16,1.80):
-                        shell(t-.035,t+.035,side*(angle-.045),side*(angle+.045),4 if tier==4 else 1,.36,False)
-            if tier >= 3:
-                shell(5.62,6.12,side*1.0,side*1.85,0,.27)
-        if tier == 4:
-            # A restrained inset follows the side of the middle plate.
-            shell(3.55,3.72,side*1.15,side*1.78,1,.32,False)
-    if tier > 0:
-        for t0,t1 in [(3.2,3.85),(4.02,4.65),(4.82,5.45)][:1 if tier==1 else 3]:
-            shell(t0,t1,-.48,.48,0,.23)
+                        shell(t-.035,t+.035,side*(angle-.045),side*(angle+.045),1,.33,False)
+    if tier == 1:
+        for t0,t1 in [(3.1,4.15),(4.3,5.4)]:
+            shell(t0,t1,-.6,.6,0,.23)
+    else:
+        shell(2.8,5.4,-.5,.5,0,.12,False)
     # Split breastplate leaves the face clear and gives a visible frontal buckle.
     for side in (-1,1):
         points = [(side*.12, 4.2, -3.85), (side*2.0, 4.65, -3.1),
@@ -122,14 +129,15 @@ def study(tier, build=1):
         plates.append(face(points, 0))
     plates.append(face([(-.36, 4.15, -3.99), (-.36, 3.65, -3.99),
                         (.36, 3.65, -3.99), (.36, 4.15, -3.99)], 1))
-    return original + plates
+    return original + plates + extremities(tier,build)
 
 
-def heavy_extremities(tier,build):
-    """Concept-only closed helm, ear lames, limb shells and paw sabatons.
+def extremities(tier,build):
+    """Concept-only padding, open helm/greaves, then closed plate equipment.
 
     Fits the actual sculpt surfaces; does not recolour or replace the animal.
-    Tiny openings retain eyes, breathing/bite clearance, joints and claw tips.
+    Each tier extends coverage of the previous tier; upper-tier openings retain
+    eyes, breathing/bite clearance, joints and claw tips.
     """
     result=[]
     bones={p['name']:p for p in PARTS}
@@ -137,10 +145,12 @@ def heavy_extremities(tier,build):
         name,parent=tile['name'],tile['parent']
         points=np.asarray(tile['corners'],dtype=float)
         normals=np.asarray(tile['normals'],dtype=float)
-        slot,offset=0,.25+.05*(tier-2)
+        slot,offset=0,.12+.05*tier
         visor=False
         if parent=='head':
             if name.startswith(('human_ear_','helix_edge_')):
+                if tier==0:
+                    continue
                 slot=2
             elif not name.startswith('face_'):
                 continue
@@ -149,11 +159,16 @@ def heavy_extremities(tier,build):
                 paint=np.asarray(tile['paint_corners']).mean(axis=0)
                 px,py=181-paint[0]/SCALE,(Y_ORIGIN-paint[1])/SCALE
                 front=normals.mean(axis=0)[2]<-.32
-                eye=front and 212<py<244 and (84<px<137 or 204<px<259)
-                mouth=front and 319<py<335 and 139<px<205
+                if tier==0 and py>175:
+                    continue  # soft crown cap, with the face and ears free
+                if tier==1 and not (py<210 or (not front and py<315)
+                        or (front and 200<py<300 and abs(px-174)<10)):
+                    continue  # open helmet with temple and nasal protection
+                eye=front and (210<py<252 if tier==2 else 212<py<244) and (84<px<137 or 204<px<259)
+                mouth=front and (306<py<346 and 126<px<218 if tier==2 else 319<py<335 and 139<px<205)
                 if eye or mouth:
                     continue
-                visor=True
+                visor=tier>=1
                 if front and 195<py<214:
                     slot=2  # brow rim over the eye openings
                 if front and 258<py<310 and abs(px-174)<14:
@@ -161,26 +176,40 @@ def heavy_extremities(tier,build):
                 if tier==4 and 139<py<158:
                     slot=1
         elif parent in ('ear_r','ear_l'):
+            if tier==0:
+                continue
             if not (name.startswith('rabbit_') or name.startswith('ear_rim_')):
                 continue
             # Tapered articulated ear sleeves keep the rabbit silhouette.
-            j=int(name.split('_')[-2]) if name.startswith('rabbit_') else 0
+            j=int(name.split('_')[-2 if name.startswith('rabbit_') else -1])
+            if (tier==1 and j>1) or (tier==2 and j>5):
+                continue
             slot=2 if j in (1,4,6) else 0
             offset=.12
         elif parent.startswith('leg_') and not parent.endswith('_web'):
             if '_nail_' in name or '_toe_' in name:
                 continue
             if '_paw_' in name:
+                if tier<2:
+                    continue
                 if points.mean(axis=0)[1]<.22 or normals.mean(axis=0)[1]<-.1:
                     continue
                 offset=.19;slot=2 if tier==3 else 0
             else:
                 j=int(name.split('_')[-2])
-                offset=.25 if j not in (2,4) else .12
-                slot=2 if j in (2,4) else 0
+                if (tier==0 and j!=5) or (tier==1 and j<4 and j!=2):
+                    continue
+                offset=.09 if tier==0 else .25 if j not in (2,4) else .12
+                slot=(5 if tier==2 else 2) if tier>0 and j in (2,4,5) else 0
+                if tier==0 and int(name.split('_')[-1])==2:
+                    slot=1
                 if tier==4 and j==5:
                     slot=1
         elif parent=='tail' and name.startswith('tail_'):
+            if tier<2:
+                continue
+            if tier==2 and int(name.split('_')[1])>1:
+                continue
             slot=2 if int(name.split('_')[1])%2 else 0
             offset=.12
         else:
@@ -208,8 +237,10 @@ def main():
     sheet = Image.new('RGB', (width * 3, height * 3 + 130), BG)
     draw = ImageDraw.Draw(sheet)
     draw.text((26, 18), 'BUNNIDOG BARDING — DESIGN STUDY', font=font(27), fill=(43, 42, 38))
-    draw.text((26, 55), 'One wearable item · light lower tiers / enclosed full plate from Diamond upward', font=font(18), fill=(94, 89, 82))
-    cases = [(i, -55, 1, TIERS[i][0]) for i in range(5)]
+    draw.text((26, 55), 'One wearable item · padding → partial plate → fitted armour → full plate → reinforced plate', font=font(18), fill=(94, 89, 82))
+    captions=['Leather — padded','Iron — partial plate','Diamond — fitted armour',
+              'Netherite — full plate','Astralite — reinforced plate']
+    cases = [(i, -55, 1, captions[i]) for i in range(5)]
     cases += [(4,0,1,'Astralite — front / visor'),
               (4,-145,1.3,'Astralite — heavy build / rear'),
               (4,-85,.8,'Astralite — slim build / side'),
@@ -219,7 +250,7 @@ def main():
         texture.paste(fur, (0, 0))
         tex_draw = ImageDraw.Draw(texture)
         palette = (*TIERS[tier][1:], tuple(int(c*.65) for c in TIERS[tier][1]),
-                   (93, 58, 39), (196, 143, 99))
+                   (93, 58, 39), (196, 143, 99), (76, 83, 92))
         for slot, colour in enumerate(palette):
             tex_draw.rectangle((slot*12, 512, slot*12+11, 527), fill=colour)
         image = render(study(tier, build), np.asarray(texture, dtype=float),

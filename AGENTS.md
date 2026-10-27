@@ -84,9 +84,12 @@ planning-only surface study in `art/preview_barding_design.py`. It is not shippe
 equipment. The requested future replacement is one visible tiered barding item
 for ordinary bunnidogs and Apexes, with actual Astralite gear on dungeon Apexes
 instead of enhanced dungeon genetics. The player rejected light high-tier
-clothing: Diamond and above must be complete heavy plate with helmet/visor,
-ear guards, enclosed torso/belly/rump, armoured limbs/paws and a tail guard.
-Keep partial harness coverage only for the lower tiers. It is still one item.
+clothing and then requested smoother coverage between tiers: Leather padding/
+cap/wraps, Iron open helmet/partial plates/greaves, Diamond enclosed body with
+broader visor and limb/paw guards, Netherite full plate, Astralite reinforced
+full plate. The top tiers protect head/ears, torso/belly/rump, limbs/paws and tail.
+Do not jump directly from a bare-limbed harness to a recoloured complete suit.
+It is still one item.
 When implementing it, remove those genetic
 and champion bonuses rather than stacking both systems; rebase Crowned values,
 preserve existing active fights and retain actual equipment ownership.

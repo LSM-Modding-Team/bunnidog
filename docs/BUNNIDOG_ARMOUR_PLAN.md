@@ -1,8 +1,10 @@
 # Bunnidog barding — one visible equipment item
 
 Design proposal following the player's request for tiered, whole-animal armour.
-Revised after the player rejected the initial high-tier harness as light clothing:
-Diamond, Netherite and Astralite are **complete articulated plate suits**.
+Revised after the player rejected light high-tier clothing and then asked for a
+smoother progression: padding → partial plate → fitted armour → full plate →
+reinforced full plate. Each upgrade visibly extends the previous suit. Netherite
+and Astralite retain **complete articulated plate coverage**.
 **Not implemented yet.** The current release still uses the dungeon champion
 profiles described in `CROWN_WARREN_SPECS.md`. This design replaces those profiles
 when the equipment system is implemented; it does not add another bonus on top.
@@ -40,11 +42,14 @@ or explicit administrative commands. Shears retain their existing use.
 
 ## Shape and material language
 
-The upper tiers must immediately read as **fully armoured creatures**, with
+The top tiers must immediately read as **fully armoured creatures**, with
 substantial metal volume and a complete silhouette from front, side and rear.
-The first concept's flank panels/leather straps remain appropriate only to the
-lower tiers. Full plate is not that harness recoloured or given more statistics.
+The lower and middle tiers build towards this through incremental coverage:
+Iron introduces the open helmet and greaves that Diamond subsequently encloses,
+rather than Diamond suddenly introducing head and leg armour from nothing.
 Fit the approved anatomy rather than putting a rectangular box around the body.
+The complete suit consists of the following components; the tier table below
+specifies when each becomes padded, partly plated or fully enclosed.
 
 - A full domed helmet with brow rim, reinforced cheeks, rigid nasal/face guard,
   narrow eye openings and a breathing/bite grille. No exposed forehead or large
@@ -70,11 +75,19 @@ a frontal encounter, rather than relying on a small buckle below the face.
 
 | Tier | Visible construction |
 | --- | --- |
-| Leather | Warm brown quilted harness, broad chest panel, stitching and brass buckle; most flank remains uncovered. |
-| Iron | A transitional plated harness with rolled silver shoulder guards, two flank plates, dark seams and rivets; partial coverage is deliberate at this lower tier. |
-| Diamond | First complete suit: blue-cyan helmet/visor and ear sleeves, enclosed torso and belly, raised shoulder/hip guards, all four armoured legs and paws, and a tail guard. Faceted plates and bright rolled edges. |
-| Netherite | Complete heavy siege armour in charcoal-violet: a deeper reinforced visor, thick gorget, overlapping cuirass, broad pauldrons and plated limbs. Pale edges expose the thickness; dark articulated joints replace exposed leather panels. |
-| Astralite | Complete elite plate armour, with an indigo-grey helmet, enclosed body and fully protected limbs/ears/tail. Copper fasteners, reinforced shoulders, a distinct chest crest and restrained turquoise inlays follow existing Astralite equipment. Refined fit must still look solid and heavily armoured. |
+| Leather | Warm brown padded chest/flank harness and back strip, soft crown cap and narrow leather wrist/hock wraps. Face, ears, paws and most limbs remain free. Stitching and small brass fasteners establish the suit's common construction. |
+| Iron | Adds a silver open-face helmet with temple/nasal guards, short ear-base collars, shoulder plates, three flank panels, a partial breast/belly plate and two back plates. All four legs gain greaves and small knee/hock guards; exposed upper limbs, face, ear tips, paws and rump still distinguish it from the next tier. |
+| Diamond | Blue-cyan fitted armour closes the chest/back/belly/rump and adds a broad-opening visor, longer ear sleeves, upper-leg protection, paw sabatons and a tail-base guard. Modest shoulder/hip plates and dark flexible mail at the joints keep it visibly lighter than Netherite. The muzzle and ear/tail tips are still freer. |
+| Netherite | Completes heavy coverage in charcoal-violet: closed visor with small eye/breathing openings, full ear sleeves and tail guard, thick gorget, overlapping cuirass, broad raised pauldrons and fully articulated plated limbs. Closes the remaining Diamond openings and replaces its flexible sections with overlapping protective lames. Pale edges reveal thickness. |
+| Astralite | Reinforces that complete suit: indigo-grey plate, doubled gorget, raised overlapping spine lames, strengthened shoulder/joint guards and copper fasteners. A distinct chest crest and restrained turquoise inlays match existing Astralite equipment. Extra fitted reinforcement visibly distinguishes it from Netherite without returning to light coverage. |
+
+The progression is anatomical as well as material: a leather crown cap becomes
+an open Iron helmet, then a broad-opening Diamond visor, then a closed Netherite
+helmet and reinforced Astralite helm. Leg wraps become greaves, then upper-leg
+and paw armour, then full articulated protection. Body padding acquires separate
+metal panels before becoming an enclosed cuirass, then receives thicker overlap
+and reinforcement. Do not collapse these intermediate stages into two repeated
+meshes (one harness and one recoloured complete suit).
 
 Shape changes as well as colour distinguish the tiers. Astralite inlays must read
 in ordinary light; they do not create a bright aura or hide attack particles.
