@@ -5,6 +5,18 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — combat kit inventory corrections
+
+Both endgame families now carry XP bottles, crystals and wind charges, with
+optional tools/weapons boxed and Riptide III tridents. Late/endgame bows use
+Infinity, one shared arrow stack and three Flight-1 rocket stacks. Earlier kits
+keep ordinary food/blocks and gain staged bucket/web utility; vanilla late kits
+also have Speed II and long Fire Resistance. Existing apple totals, mod equipment,
+ammo and elite flask stock remain. Inventory capacity is explicit rather than
+silently truncating additions. See `docs/KIT_LOADOUTS.md` for exact stock,
+researched PvP references and further suggestions. These apply on the next `/kit`
+invocation, not automatically to a player's existing items.
+
 ## Planned — visible whole-animal equipment
 
 `docs/BUNNIDOG_ARMOUR_PLAN.md` designs one barding item in Leather, Iron,

@@ -1,5 +1,12 @@
 # Codex working instructions
 
+Latest kit changes are recorded in `docs/KIT_LOADOUTS.md`: preserve both endgame
+families' XP/crystal/wind stock, boxed secondary equipment, compatible Riptide III
+tridents, Infinity bows, reduced arrow/rocket stock and existing apple/flask
+totals. Earlier kits retain stage-appropriate food/building supplies. Preserve
+explicit inventory capacity checks and native components; do not silently lose
+supplies or turn optional PvP suggestions into new defaults without task context.
+
 Work in this checkout. Read `START_HERE.md` for current status, then only the
 specifications and source relevant to the request. Historical documents preserve
 past decisions; their Claude sandbox, chunk-size, upload and approval routines
@@ -119,7 +126,8 @@ spanning causeways, rich unique moon ores and Blastmaw-only high-sky spawn table
 Astralite smithing must be fully available before dungeon access. Armor has 3x
 Netherite durability/toughness 5; tools improve modestly. Armor artifacts require
 Astralite; retain old Heartbound/Sovereign IDs and native smithing components.
-Durable late/endgame kit gear must carry Mending I and Unbreaking III. Preserve
+Durable late/endgame kit gear must carry Mending I and Unbreaking III, except the
+explicitly requested Infinity bows, which must not also carry Mending. Preserve
 old generated chunks, stock, builds and exact paired returns.
 
 Personal watched deliveries now ship; read `docs/DELIVERY_LEARNING_SPECS.md`.

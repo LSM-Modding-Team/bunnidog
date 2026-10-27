@@ -34,12 +34,34 @@ final class RealmProgressionGameTest {
     }
     static void kits(GameTestHelper h) {
         var p=ApexTypesGameTest.player(h,ApexTypesGameTest.center(h));
-        for(String family:new String[]{"vanilla","bunnidog"})for(String tier:new String[]{"late","endgame"}) {
+        for(String family:new String[]{"vanilla","bunnidog"})for(String tier:new String[]{"early","mid","late","endgame"}) {
             com.bunnidogs.mod.command.KitCommands.apply(p,family,tier);var all=contents(p);boolean end=tier.equals("endgame");
+            boolean late=end || tier.equals("late");var ench=p.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+            if(!late) {
+                h.assertTrue(count(all,Items.COOKED_BEEF)==64 && count(all,Items.END_CRYSTAL)==0 && count(all,Items.LAVA_BUCKET)==1,"Earlier kits keep normal food/building supplies and gain a real lava bucket");
+                h.assertTrue(count(all,Items.COBWEB)==(tier.equals("mid") ? 8 : 0),"Diamond progression adds a modest web supply, without giving early kits endgame stock");continue;
+            }
             h.assertTrue(all.stream().filter(s->s.is(Items.GOLDEN_APPLE)).mapToInt(ItemStack::getCount).sum()==(end ? 256 : 64) && all.stream().filter(s->s.is(Items.ENCHANTED_GOLDEN_APPLE)).mapToInt(ItemStack::getCount).sum()==(end ? 20 : 5),"The actual inventory and Shulker together have exact requested apple totals: "+family+" "+tier);
             h.assertTrue(all.stream().anyMatch(s->s.is(Items.FIREWORK_ROCKET)) && all.stream().filter(s->s.is(Items.FIREWORK_ROCKET)).allMatch(s->s.get(DataComponents.FIREWORKS).flightDuration()==1),"Every carried and boxed rocket uses native Flight 1");
+            h.assertTrue(count(all,Items.FIREWORK_ROCKET)==192 && count(all,Items.ARROW)==64,"Late/endgame kits carry three rocket stacks and one shared arrow stack");
+            var bow=all.stream().filter(s->s.is(Items.BOW)).findFirst().orElseThrow();
+            h.assertTrue(bow.getEnchantmentLevel(ench.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.INFINITY))==1 && bow.getEnchantmentLevel(ench.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.MENDING))==0,"Infinity bows never also carry incompatible Mending");
+            if(end) {
+                h.assertTrue(count(all,Items.COOKED_BEEF)==0 && count(all,Items.EXPERIENCE_BOTTLE)==128 && count(all,Items.END_CRYSTAL)==128 && count(all,Items.WIND_CHARGE)==128,"Both endgame families have exact XP/crystal/wind supplies and no steak");
+                h.assertTrue(count(all,Items.COBBLESTONE)==0 && count(all,Items.OAK_PLANKS)==0 && count(all,Items.OBSIDIAN)==192,"Endgame replaces ordinary blocks but retains all three stacks of crystal bases");
+                var main=new ArrayList<ItemStack>();for(int i=0;i<36;i++)main.add(p.getInventory().getItem(i));
+                var trident=all.stream().filter(s->s.is(Items.TRIDENT)).findFirst().orElseThrow();
+                h.assertTrue(trident.getEnchantmentLevel(ench.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.RIPTIDE))==3 && trident.getEnchantmentLevel(ench.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.CHANNELING))==0 && trident.getEnchantmentLevel(ench.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.LOYALTY))==0,"Riptide III tridents exclude both incompatible throwing enchantments");
+                for(String tool:List.of("axe","shovel","hoe")) {
+                    var item=family.equals("bunnidog") ? ModItems.ASTRALITE_TOOLS.get(tool).get() : net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(Identifier.withDefaultNamespace("netherite_"+tool));
+                    h.assertTrue(count(main,item)==0 && count(all,item)==1,"Secondary tools are preserved exactly once inside the real Shulker");
+                }
+                h.assertTrue(count(main,Items.TRIDENT)==0 && count(main,Items.CROSSBOW)==0 && count(all,Items.TRIDENT)==1 && count(all,Items.CROSSBOW)==1 && count(main,Items.OBSIDIAN)==64,"Optional weapons are boxed and crystal bases are directly accessible");
+            }
+            h.assertTrue(all.stream().filter(ItemStack::isDamageableItem).allMatch(s->s.getEnchantmentLevel(ench.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.UNBREAKING))==3 && (s.is(Items.BOW) || s.getEnchantmentLevel(ench.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.MENDING))==1)),"Every durable carried or boxed late-game item retains Unbreaking III and Mending, except the deliberate Infinity bow");
         }p.discard();
     }
+    private static int count(List<ItemStack> stacks,Item item) {return stacks.stream().filter(s->s.is(item)).mapToInt(ItemStack::getCount).sum();}
     static void mining(GameTestHelper h) {
         var level=h.getLevel();var center=ApexTypesGameTest.center(h);var origin=BlockPos.containing(center);var blast=ApexTypesGameTest.apex(h,ApexKind.BLAST,false,center);
         var ore=ModBlocks.ASTRALITE_ORE.get().defaultBlockState();var stone=ModBlocks.MOONSTONE.get().defaultBlockState();var cinder=ModBlocks.CINDERITE_ORE.get().defaultBlockState();
