@@ -32,7 +32,7 @@ public final class ApexCrestItem extends Item {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if(player.isShiftKeyDown()) {if(level.isClientSide())read(player.getItemInHand(hand)).ifPresent(ClientScreens::openCrest);}
-        else if(player instanceof net.minecraft.server.level.ServerPlayer p) {com.bunnidogs.mod.society.HuntProgress.refresh(p);p.sendSystemMessage(com.bunnidogs.mod.society.HuntProgress.get(p.level()).qualified(p.getUUID()) ? Component.translatable("message.bunnidogs.hunt.complete") : com.bunnidogs.mod.society.HuntProgress.missing(p));}
+        else if(level.isClientSide())read(player.getItemInHand(hand)).ifPresent(ClientScreens::openCrest);
         return InteractionResult.SUCCESS;
     }
     @Override
@@ -40,8 +40,6 @@ public final class ApexCrestItem extends Item {
             Consumer<Component> lines, TooltipFlag flag) {
         super.appendHoverText(stack, context, display, lines, flag);
         lines.accept(Component.translatable("tooltip.bunnidogs.apex_crest.source").withStyle(ChatFormatting.GOLD));
-        int marks=stack.getOrDefault(ModItems.HUNT_MARKS.get(),0);
-        lines.accept(Component.translatable("tooltip.bunnidogs.hunt_marks",Integer.bitCount(marks&31),(marks&32)!=0 ? Component.translatable("care.bunnidogs.apex.ready") : Component.translatable("care.bunnidogs.apex.missing")).withStyle(ChatFormatting.GRAY));
         read(stack).ifPresent(tissue -> lines.accept(TextComponents.look(tissue.genome()).withStyle(ChatFormatting.GRAY)));
         lines.accept(Component.translatable("tooltip.bunnidogs.apex_crest.anchor").withStyle(ChatFormatting.DARK_PURPLE));
         lines.accept(Component.translatable("tooltip.bunnidogs.apex_crest.use").withStyle(ChatFormatting.DARK_GRAY));

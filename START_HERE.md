@@ -5,6 +5,25 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — expedition play-review corrections
+
+Entry is now gated by physical ingredients: fresh ground-role drops mark their
+actual origin, and all five plus an Aerial Membrane craft the Resonant Eye.
+Anchors consume the Eye/preserve the Crest; linked portals have no personal hunt
+check. Historical hunt data and existing items/links are preserved.
+
+Late kits contain 64 golden/5 enchanted golden apples; endgame contains 256/20,
+counting the Shulker. All carried/boxed rockets are Flight 1. Moonstone and both
+ore blocks require Astralite tools, resist TNT, and can be broken by actual
+Blastmaw self-explosions for the first upgrade. Lunar item drops resist fire/blasts.
+Blastmaws are rare singles on ordinary land and remain the exclusive moon mobs.
+
+New realm terrain has independent irregular islands, layered hills/hollows and
+height-graded routes through intermediate islands. Crown candidates are 9× rarer
+by area; only their actual footprint is flat. Fresh arrivals are at least 700
+blocks from a Crown. Old chunks/paired returns remain intact. Read the updated
+`docs/ASTRALITE_AND_SKY_SPECS.md` and `docs/HEARTH_PROGRESSION_SPECS.md`.
+
 ## Current — wild family glades
 
 Read `docs/WILD_FAMILY_SPECS.md`. New qualifying Plains/Sunflower Plains glades
@@ -124,13 +143,10 @@ cultivation can finish. The Keystone installs once in a Crucible; repeat fights
 use renewable incense, a source sample and optional role sigil. The old five rare
 offerings are optional incense ingredients/keepsakes, no longer required kills.
 
-Five distinct ground Apex hunts and any one flying hunt are personal saved
-receipts. Meaningful damage, companion contributions, blocking and actual ally
-healing count; idling/borrowing a Crest does not. First activation and already
-linked entry both check qualification. Return travel always remains available.
-Hearth supplies use vanilla chest UI, the Staff uses explicit local gestures,
-and Anchor inlays/Crest inspection expose progress without an ambient HUD.
-The initial sustainable household is not the entire civilization roadmap.
+Five actual ground-role remnants and an Aerial Membrane now craft the Eye.
+Anchor activation/linked travel use physical resources, with no personal hunt
+check. Return travel remains unconditional. Hearth supplies keep vanilla chest
+UI and the Staff keeps its existing explicit local gestures. The initial sustainable household is not the entire civilization roadmap.
 
 ## Current — Astralite and sky archipelago
 
@@ -185,8 +201,8 @@ frozen genetic archives. Sovereign smithing upgrades extend Heartbound armor,
 Lance and Armored Elytra; the Concord Standard adds paid party healing. Existing
 ordinary Apex tuning stays accepted. No new tutorial/menu layer.
 
-Protocol **40**, **2,530 authored / 2,658 packaged** language keys, English/shared
-neutral Spanish. The native suite now has **242 scenarios**, alongside actual
+Protocol **41**, **2,531 authored / 2,659 packaged** language keys, English/shared
+neutral Spanish. The native suite now has **245 scenarios**, alongside actual
 model/localization/build gates. Save/kill-payment ordering, native health above
 1,024, short chunk leases, finite actors, exact smithing components and separate
 core/trophy delivery retries are invariants. Native and inspected preview evidence

@@ -795,3 +795,13 @@ integration evidence from substitute-font page previews and natural client play.
 - Native DeathProtection handles custom Totems. LivingUseTotemEvent is an attempt;
   confirm ITEM_USED stat increment on the player tick before retaliating. Mock
   server players require explicit PlayerTickEvent.Post in native tests.
+
+### Expedition review API notes (26.2)
+
+NeoForge component ingredients dispatch with `neoforge:ingredient_type`, not
+`type`. `neoforge:components` accepts `items`, a component patch and optional
+`strict`; native recipe previews preserve that patch. Item damage resistance
+uses a `HolderSet<DamageType>` supplied through `Properties.delayedComponent`,
+so a union fire/explosion tag resolves after dynamic registries are loaded.
+`ItemContainerContents.nonEmptyItems()` yields immutable templates; use `create()`
+for an actual copied stack.

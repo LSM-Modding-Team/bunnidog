@@ -56,9 +56,7 @@ public final class HuntProgress extends SavedData {
             if(scores.getFloatOr(key,0)<Math.max(6,apex.getMaxHealth()*.02F))continue;
             UUID id;try {id=UUID.fromString(key);}catch(IllegalArgumentException ignored) {continue;}
             // Only this encounter's contributors count. Distance is not an independent entitlement.
-            int before=get(level).marks(id);get(level).award(id,apex.kind(),apex.flying());
-            var player=level.getServer().getPlayerList().getPlayer(id);
-            if(player!=null && before!=get(level).marks(id)) {player.sendOverlayMessage(Component.translatable("message.bunnidogs.hunt.earned",apex.getType().getDescription()));refresh(player);}
+            get(level).award(id,apex.kind(),apex.flying());
         }
     }
     public static void refresh(ServerPlayer p) {
@@ -67,6 +65,5 @@ public final class HuntProgress extends SavedData {
     public static int marksFor(ServerPlayer p) {return get(p.level()).marks(p.getUUID());}
     @SubscribeEvent public static void tick(EntityTickEvent.Post event) {
         if(event.getEntity() instanceof Apex apex && !apex.level().isClientSide())finish(apex);
-        if(event.getEntity() instanceof ServerPlayer p && p.tickCount%40==0)refresh(p);
     }
 }

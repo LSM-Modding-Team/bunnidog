@@ -51,7 +51,7 @@ final class RealmGameTest {
         anchor.attune(p,InteractionHand.MAIN_HAND);
         h.assertTrue(!anchor.linked() && p.getMainHandItem().getCount()==2,"A source Crest must be shown before any activation payment or realm changes");
         var crest=new ItemStack(ModItems.APEX_CREST.get());p.setItemInHand(InteractionHand.OFF_HAND,crest);
-        var original=crest.copy();for(var kind:ApexKind.values())com.bunnidogs.mod.society.HuntProgress.get(source).award(p.getUUID(),kind,false);com.bunnidogs.mod.society.HuntProgress.get(source).award(p.getUUID(),ApexKind.BRUTE,true);anchor.attune(p,InteractionHand.MAIN_HAND);
+        var original=crest.copy();anchor.attune(p,InteractionHand.MAIN_HAND);
         var realm=source.getServer().getLevel(GreatWarren.LEVEL);
         h.assertTrue(realm!=null && p.level()==realm && anchor.linked() && p.getMainHandItem().getCount()==1 && ItemStack.matches(original,p.getOffhandItem()),"Real paid entry preserves the source Crest and crosses into the registered realm: realm="+realm+", player="+p.level().dimension()+", linked="+anchor.linked()+", eye="+p.getMainHandItem()+", endpoint="+anchor.endpoint());
         com.bunnidogs.mod.worldgen.RealmTerrainGameTest.run(h,realm);
@@ -67,11 +67,11 @@ final class RealmGameTest {
         for(int dx=-2;dx<=2;dx++)for(int dz=-2;dz<=2;dz++)source.setBlock(otherPos.offset(dx,-1,dz),Blocks.STONE.defaultBlockState(),3);
         source.setBlock(otherPos,ModBlocks.WARREN_ANCHOR.get().defaultBlockState(),3);
         var other=(WarrenAnchorBlockEntity)source.getBlockEntity(otherPos);var guest=ApexTypesGameTest.player(h,Vec3.atBottomCenterOf(otherPos.east()));
-        guest.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(ModItems.RESONANT_EYE.get()));guest.setItemInHand(InteractionHand.OFF_HAND,ApexCrestItem.create(new Tissue(Genome.DEFAULT,Stats.ZERO)));for(var kind:ApexKind.values())com.bunnidogs.mod.society.HuntProgress.get(source).award(guest.getUUID(),kind,false);com.bunnidogs.mod.society.HuntProgress.get(source).award(guest.getUUID(),ApexKind.BRUTE,true);other.attune(guest,InteractionHand.MAIN_HAND);
+        guest.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(ModItems.RESONANT_EYE.get()));guest.setItemInHand(InteractionHand.OFF_HAND,ApexCrestItem.create(new Tissue(Genome.DEFAULT,Stats.ZERO)));other.attune(guest,InteractionHand.MAIN_HAND);
         h.assertTrue(guest.level()==realm && other.linked() && !other.endpoint().equals(anchor.endpoint()),"Separate entry anchors create distinct paired returns for multiple players");
         var guestReturn=(WarrenAnchorBlockEntity)realm.getBlockEntity(other.endpoint());
         var visitor=ApexTypesGameTest.player(h,Vec3.atBottomCenterOf(otherPos.east()));other.cross(visitor);
-        h.assertTrue(visitor.level()==source,"An unqualified visitor cannot borrow an already linked entry");
+        h.assertTrue(visitor.level()==realm,"An already paid portal is shared naturally, without consulting a visitor hunt ledger");visitor.getPersistentData().remove("WarrenCrossUntil");
         var destination=Vec3.atBottomCenterOf(guestReturn.getBlockPos().east());visitor.teleport(new net.minecraft.world.level.portal.TeleportTransition(realm,destination,Vec3.ZERO,0,0,net.minecraft.world.level.portal.TeleportTransition.DO_NOTHING));guestReturn.cross(visitor);
         h.assertTrue(visitor.level()==source && com.bunnidogs.mod.society.HuntProgress.get(source).marks(visitor.getUUID())==0,"An unqualified stranded visitor always retains empty-handed return travel");visitor.discard();
 guest.getInventory().clearContent();guest.getPersistentData().remove("WarrenCrossUntil");guestReturn.cross(guest);

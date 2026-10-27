@@ -2,14 +2,49 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "pattern": [
-    "ADA",
-    "DED",
-    "ASA"
+    "FPL",
+    "BEH",
+    "ADS"
   ],
   "key": {
-    "A": "minecraft:amethyst_shard",
-    "D": "bunnidogs:starlit_dust",
+    "F": {
+      "items": "bunnidogs:apex_fang",
+      "components": {
+        "bunnidogs:ground_remnant": true
+      },
+      "neoforge:ingredient_type": "neoforge:components"
+    },
+    "P": {
+      "items": "bunnidogs:prism_lens",
+      "components": {
+        "bunnidogs:ground_remnant": true
+      },
+      "neoforge:ingredient_type": "neoforge:components"
+    },
+    "L": {
+      "items": "bunnidogs:chorus_heart",
+      "components": {
+        "bunnidogs:ground_remnant": true
+      },
+      "neoforge:ingredient_type": "neoforge:components"
+    },
+    "B": {
+      "items": "bunnidogs:volatile_heart",
+      "components": {
+        "bunnidogs:ground_remnant": true
+      },
+      "neoforge:ingredient_type": "neoforge:components"
+    },
+    "H": {
+      "items": "bunnidogs:heart_spool",
+      "components": {
+        "bunnidogs:ground_remnant": true
+      },
+      "neoforge:ingredient_type": "neoforge:components"
+    },
     "E": "minecraft:ender_eye",
+    "A": "bunnidogs:aerial_membrane",
+    "D": "bunnidogs:starlit_dust",
     "S": "minecraft:netherite_scrap"
   },
   "result": {

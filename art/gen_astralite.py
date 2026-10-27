@@ -50,6 +50,12 @@ for name in ['moonstone','astralite_ore','cinderite_ore']:
   drop='astralite_shard' if name=='astralite_ore' else 'raw_cinderite'
   pools=[{'rolls':1,'entries':[{'type':'minecraft:alternatives','children':[{'type':'minecraft:item','name':'bunnidogs:'+name,'conditions':[{'condition':'minecraft:match_tool','predicate':{'predicates':{'minecraft:enchantments':[{'enchantments':'minecraft:silk_touch','levels':{'min':1}}]}}}]},{'type':'minecraft:item','name':'bunnidogs:'+drop,'functions':[{'function':'minecraft:apply_bonus','enchantment':'minecraft:fortune','formula':'minecraft:ore_drops'},{'function':'minecraft:explosion_decay'}]}]}]}]
  write(D,Path('loot_table/blocks')/(name+'.json'),{'type':'minecraft:block','pools':pools})
+# Moon mining: native tool gates and dropped-item resistance, shared with Blastmaw's narrow calculator exception.
+write(D,Path('tags/block/needs_astralite_tool.json'),{'values':['bunnidogs:'+i for i in ['moonstone','astralite_ore','cinderite_ore']]})
+write(D,Path('tags/block/incorrect_for_astralite_tool.json'),{'values':[]})
+write(D,Path('tags/damage_type/moon_material_hazards.json'),{'values':['#minecraft:is_fire','#minecraft:is_explosion']})
+for tier in ['wooden','gold','stone','iron','diamond','netherite']:
+ path=RES/'data/minecraft/tags/block'/('incorrect_for_'+tier+'_tool.json');obj=json.loads(path.read_text()) if path.exists() else {'replace':False,'values':[]};obj['values']=list(dict.fromkeys(obj['values']+['#bunnidogs:needs_astralite_tool']));write(RES,path.relative_to(RES),obj)
 # Blue-black metallic surfaces with copper seams and pale crystalline studs; native armor UVs.
 for layer in ['humanoid','humanoid_leggings']:
  base=Image.open(io.BytesIO(z.read('assets/minecraft/textures/entity/equipment/'+layer+'/netherite.png'))).convert('RGBA')

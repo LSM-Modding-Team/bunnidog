@@ -53,14 +53,20 @@ public final class KitCommands {
         }
         for(String tool:new String[]{"sword","pickaxe","axe","shovel","hoe"})items.add(enchanted(p,mod&&late ? ModItems.ASTRALITE_TOOLS.get(tool).get() : net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(Identifier.withDefaultNamespace(material+"_"+tool)),late));
         items.add(enchanted(p,Items.BOW,late));items.add(new ItemStack(Items.ARROW,64));items.add(new ItemStack(Items.COOKED_BEEF,64));items.add(enchanted(p,Items.SHIELD,late));
-        if(mid) {items.add(new ItemStack(Items.GOLDEN_APPLE,32));for(int i=0;i<4;i++)items.add(new ItemStack(Items.ENDER_PEARL,16));}
+        if(mid) {items.add(new ItemStack(Items.GOLDEN_APPLE,late ? 64 : 32));for(int i=0;i<4;i++)items.add(new ItemStack(Items.ENDER_PEARL,16));}
         if(late) {
             items.add(enchanted(p,mod ? end ? ModItems.SOVEREIGN_ELYTRA.get() : ModItems.APEX_WING_HARNESS.get() : Items.ELYTRA,true));
-            var rockets=new ItemStack(Items.FIREWORK_ROCKET,64);rockets.set(DataComponents.FIREWORKS,new net.minecraft.world.item.component.Fireworks(3,java.util.List.of()));items.add(rockets);
-            items.add(new ItemStack(Items.ENCHANTED_GOLDEN_APPLE,32));
+            var rockets=new ItemStack(Items.FIREWORK_ROCKET,64);rockets.set(DataComponents.FIREWORKS,new net.minecraft.world.item.component.Fireworks(1,java.util.List.of()));items.add(rockets);
+            items.add(new ItemStack(Items.ENCHANTED_GOLDEN_APPLE,end ? 20 : 5));
             for(var weapon:end ? java.util.List.of(Items.CROSSBOW,Items.TRIDENT,Items.MACE) : java.util.List.of(Items.CROSSBOW))items.add(enchanted(p,weapon,true));
             var reserve=new java.util.ArrayList<ItemStack>();
-            for(int i=0;i<27;i++)reserve.add(mod && i<4 ? new ItemStack(ModItems.PRISM_CELL.get(),64) : mod && i<8 ? new ItemStack(ModItems.VOLATILE_CHARGE.get(),64) : i<8 ? rockets.copy() : i<12 ? new ItemStack(Items.ENDER_PEARL,16) : i<16 ? new ItemStack(Items.OBSIDIAN,64) : i<20 ? new ItemStack(Items.ENCHANTED_GOLDEN_APPLE,64) : new ItemStack(Items.TOTEM_OF_UNDYING));
+            if(end)for(int i=0;i<3;i++)reserve.add(new ItemStack(Items.GOLDEN_APPLE,64));
+            for(int i=0;i<3;i++)reserve.add(rockets.copy());
+            for(int i=0;i<4;i++)reserve.add(new ItemStack(Items.ENDER_PEARL,16));
+            for(int i=0;i<3;i++)reserve.add(new ItemStack(Items.OBSIDIAN,64));
+            reserve.add(new ItemStack(Items.COOKED_BEEF,64));reserve.add(new ItemStack(Items.ARROW,64));
+            if(mod)for(int i=0;i<4;i++) {reserve.add(new ItemStack(ModItems.PRISM_CELL.get(),64));reserve.add(new ItemStack(ModItems.VOLATILE_CHARGE.get(),64));}
+            while(reserve.size()<27)reserve.add(new ItemStack(mod ? ModItems.CATACLYSM_TOTEM.get() : Items.TOTEM_OF_UNDYING));
             var box=new ItemStack(Items.SHULKER_BOX);box.set(DataComponents.CONTAINER,ItemContainerContents.fromItems(reserve));items.add(box);
         }
         items.add(new ItemStack(Items.COBBLESTONE,64));items.add(new ItemStack(Items.OAK_PLANKS,64));items.add(new ItemStack(Items.WATER_BUCKET));

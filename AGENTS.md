@@ -59,6 +59,20 @@ Lance damage 45×N, Standard healing five hearts×N and four-second Resistance N
 Other scaling juice levels have no mod balance cap except Resistance, within
 native engine representation. Endgame kit Strength XXX is a baseline, not a cap.
 
+Latest expedition play review supersedes personal hunt locks and the first flat
+archipelago. Preserve physical ground-remnant recipe inputs for the Resonant Eye,
+all five roles plus an aerial drop, native component ingredient displays, and
+shared paid portals with unconditional returns. No player hunt-data checks or
+Crest hunt popups; preserve historical saves/items/paired links. Late/endgame kit
+apple totals are 64/5 and 256/20 regular/enchanted, including boxed stock; every
+rocket is Flight 1. Lunar rock/ores require Astralite, resist TNT (1,200), and only
+Blastmaw self-blasts get their narrow mining exception. Real lunar item entities
+resist fire/blasts. Land Blastmaws are rare singles. Keep the shared 192/96 Crown
+placement, varied independent islands/hills/hollows, bounded shortest routes via
+intermediate islands and arrivals away from dungeons. Do not flatten entire
+islands, restore direct straight Crown-to-Crown causeways, rewrite old chunks or
+silently move saved returns. See the updated Astralite/Hearth specs.
+
 Latest Astralite/terrain steering: `docs/ASTRALITE_AND_SKY_SPECS.md` supersedes
 Overworld-density realm generation and Netherite artifact bases. Keep the actual
 seeded island/moon generator, shared Crown placement, connected local minimum
@@ -143,10 +157,10 @@ or pickup/transport from danger; full civic rescue remains unfinished.
 Society-first progression now supersedes the legendary-offering ritual and
 single-Crest entry. Read `docs/HEARTH_PROGRESSION_SPECS.md`. Preserve actual paid
 Hearth work, authorized plots, owned cargo, resident-taught independent offspring,
-reusable installed Keystones and six per-player hunt records. NPC instruction
-must not bypass inherited limits or become inherited knowledge. Neither a full
-chest nor a borrowed Crest grants progression. Entry through linked portals also
-checks hunts; empty-handed emergency return remains unconditional. Preserve old
+reusable installed Keystones and physical hunt materials. NPC instruction
+must not bypass inherited limits or become inherited knowledge. A full chest alone cannot grant the Keystone. The Eye recipe supplies the
+material hunt gate; paid linked portals serve the party naturally. Empty-handed
+emergency return remains unconditional. Preserve old
 legend IDs/displays, paired endpoints, stock and accepted combat balancing.
 The small household is not the complete I2–I10 civilization roadmap.
 

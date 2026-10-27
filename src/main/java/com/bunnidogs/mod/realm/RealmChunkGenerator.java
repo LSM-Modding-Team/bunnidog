@@ -25,7 +25,8 @@ public final class RealmChunkGenerator extends NoiseBasedChunkGenerator {
     public BlockState state(int x,int y,int z,RealmTerrain.Column c) {
         boolean moon=y>=c.moonBottom() && y<=c.moonTop();boolean land=y>=c.bottom() && y<=c.top();
         if(!moon && !land)return Blocks.AIR.defaultBlockState();
-        if(!moon && c.bridge() && y>=78)return (y==80 && Math.floorMod(x+z,16)==0 ? Blocks.SEA_LANTERN : Blocks.END_STONE_BRICKS).defaultBlockState();
+        if(!moon && c.bridge() && y>=c.top()-2)return (y==c.top() && Math.floorMod(x+z,16)==0 ? Blocks.SEA_LANTERN : Blocks.END_STONE_BRICKS).defaultBlockState();
+        if(!moon && terrain.hollow(x,y,z,c))return Blocks.AIR.defaultBlockState();
         long chance=Math.floorMod(terrain.hash(x,y,z),10000);
         if(chance<(moon ? 240 : 16))return ModBlocks.ASTRALITE_ORE.get().defaultBlockState();
         if(chance<(moon ? 560 : 40))return ModBlocks.CINDERITE_ORE.get().defaultBlockState();

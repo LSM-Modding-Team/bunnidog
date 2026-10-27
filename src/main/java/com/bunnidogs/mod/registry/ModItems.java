@@ -85,6 +85,7 @@ public final class ModItems {
 
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<net.minecraft.core.GlobalPos>> HEARTH_LINK=COMPONENTS.registerComponentType("hearth_link",b->b.persistent(net.minecraft.core.GlobalPos.CODEC).networkSynchronized(net.minecraft.core.GlobalPos.STREAM_CODEC));
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<String>> HEARTH_SITE=COMPONENTS.registerComponentType("hearth_site",b->b.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
+    public static final DeferredHolder<DataComponentType<?>,DataComponentType<Boolean>> GROUND_REMNANT=COMPONENTS.registerComponentType("ground_remnant",b->b.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL));
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<Integer>> HUNT_MARKS=COMPONENTS.registerComponentType("hunt_marks",b->b.persistent(Codec.intRange(0,63)).networkSynchronized(ByteBufCodecs.VAR_INT));
     public static final DeferredItem<BlockItem> HEARTH_TREE=ITEMS.registerSimpleBlockItem(ModBlocks.HEARTH_TREE);
     public static final DeferredItem<BlockItem> GUAVA_COPPICE=ITEMS.registerSimpleBlockItem(ModBlocks.GUAVA_COPPICE);
@@ -100,20 +101,20 @@ public final class ModItems {
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<String>> FLASK_ID=COMPONENTS.registerComponentType("flask_id",b->b.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<Integer>> FLASK_COUNT=COMPONENTS.registerComponentType("flask_count",b->b.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.VAR_INT));
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<net.minecraft.world.item.ItemStackTemplate>> FLASK_TOP=COMPONENTS.registerComponentType("flask_top",b->b.persistent(net.minecraft.world.item.ItemStackTemplate.CODEC).networkSynchronized(net.minecraft.world.item.ItemStackTemplate.STREAM_CODEC));
-    public static final DeferredItem<Item> APEX_FANG=ITEMS.registerSimpleItem("apex_fang",p->p.rarity(Rarity.RARE));
+    public static final DeferredItem<com.bunnidogs.mod.item.ApexRemnantItem> APEX_FANG=ITEMS.registerItem("apex_fang",com.bunnidogs.mod.item.ApexRemnantItem::new,p->p.rarity(Rarity.RARE));
     public static final DeferredItem<Item> VITALITY_ARTIFACT=ITEMS.registerSimpleItem("vitality_artifact",p->p.rarity(Rarity.EPIC).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.vitality_artifact")))));
     public static final DeferredItem<Item> AERIAL_ARTIFACT=ITEMS.registerSimpleItem("aerial_artifact",p->p.rarity(Rarity.EPIC).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.aerial_artifact")))));
     public static final DeferredItem<Item> VOLATILE_CHARGE=ITEMS.registerSimpleItem("volatile_charge");
     public static final DeferredItem<Item> CATACLYSM_CORE=ITEMS.registerSimpleItem("cataclysm_core",p->p.rarity(Rarity.EPIC).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.cataclysm_core")))));
     public static final DeferredItem<Item> CATACLYSM_TOTEM=ITEMS.registerSimpleItem("cataclysm_totem",p->p.stacksTo(1).rarity(Rarity.EPIC).fireResistant().component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.cataclysm_totem"))))
             .component(DataComponents.DEATH_PROTECTION,net.minecraft.world.item.component.DeathProtection.TOTEM_OF_UNDYING));
-    public static final DeferredItem<BlockItem> MOONSTONE=ITEMS.registerSimpleBlockItem(ModBlocks.MOONSTONE);
-    public static final DeferredItem<BlockItem> ASTRALITE_ORE=ITEMS.registerSimpleBlockItem(ModBlocks.ASTRALITE_ORE);
-    public static final DeferredItem<BlockItem> CINDERITE_ORE=ITEMS.registerSimpleBlockItem(ModBlocks.CINDERITE_ORE);
-    public static final DeferredItem<Item> ASTRALITE_SHARD=ITEMS.registerSimpleItem("astralite_shard",p->p.fireResistant().rarity(Rarity.RARE));
-    public static final DeferredItem<Item> RAW_CINDERITE=ITEMS.registerSimpleItem("raw_cinderite",p->p.fireResistant());
-    public static final DeferredItem<Item> CINDERITE_INGOT=ITEMS.registerSimpleItem("cinderite_ingot",p->p.fireResistant());
-    public static final DeferredItem<Item> ASTRALITE_INGOT=ITEMS.registerSimpleItem("astralite_ingot",p->p.fireResistant().rarity(Rarity.EPIC));
+    public static final DeferredItem<BlockItem> MOONSTONE=ITEMS.registerSimpleBlockItem(ModBlocks.MOONSTONE,com.bunnidogs.mod.expedition.MoonMining::material);
+    public static final DeferredItem<BlockItem> ASTRALITE_ORE=ITEMS.registerSimpleBlockItem(ModBlocks.ASTRALITE_ORE,com.bunnidogs.mod.expedition.MoonMining::material);
+    public static final DeferredItem<BlockItem> CINDERITE_ORE=ITEMS.registerSimpleBlockItem(ModBlocks.CINDERITE_ORE,com.bunnidogs.mod.expedition.MoonMining::material);
+    public static final DeferredItem<Item> ASTRALITE_SHARD=ITEMS.registerSimpleItem("astralite_shard",p->com.bunnidogs.mod.expedition.MoonMining.material(p).rarity(Rarity.RARE));
+    public static final DeferredItem<Item> RAW_CINDERITE=ITEMS.registerSimpleItem("raw_cinderite",p->com.bunnidogs.mod.expedition.MoonMining.material(p));
+    public static final DeferredItem<Item> CINDERITE_INGOT=ITEMS.registerSimpleItem("cinderite_ingot",p->com.bunnidogs.mod.expedition.MoonMining.material(p));
+    public static final DeferredItem<Item> ASTRALITE_INGOT=ITEMS.registerSimpleItem("astralite_ingot",p->com.bunnidogs.mod.expedition.MoonMining.material(p).rarity(Rarity.EPIC));
     public static final DeferredItem<Item> ASTRALITE_UPGRADE=ITEMS.registerSimpleItem("astralite_upgrade",p->p.rarity(Rarity.EPIC).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.astralite_upgrade")))));
     public static final Map<String,DeferredItem<Item>> ASTRALITE_ARMOR=new LinkedHashMap<>();
     public static final Map<String,DeferredItem<Item>> ASTRALITE_TOOLS=new LinkedHashMap<>();
@@ -146,10 +147,10 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> WARREN_WARD=ITEMS.registerSimpleBlockItem(ModBlocks.WARREN_WARD);
     public static final DeferredItem<Item> RESONANT_EYE=ITEMS.registerSimpleItem("resonant_eye",props->props.rarity(Rarity.RARE).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.resonant_eye")))));
     public static final DeferredItem<Item> APEX_MARROW=ITEMS.registerSimpleItem("apex_marrow",props->props.rarity(Rarity.RARE));
-    public static final DeferredItem<Item> PRISM_LENS=ITEMS.registerSimpleItem("prism_lens",props->props.rarity(Rarity.RARE));
-    public static final DeferredItem<Item> CHORUS_HEART=ITEMS.registerSimpleItem("chorus_heart",props->props.rarity(Rarity.RARE));
-    public static final DeferredItem<Item> VOLATILE_HEART=ITEMS.registerSimpleItem("volatile_heart",props->props.rarity(Rarity.RARE));
-    public static final DeferredItem<Item> HEART_SPOOL=ITEMS.registerSimpleItem("heart_spool",props->props.rarity(Rarity.RARE));
+    public static final DeferredItem<com.bunnidogs.mod.item.ApexRemnantItem> PRISM_LENS=ITEMS.registerItem("prism_lens",com.bunnidogs.mod.item.ApexRemnantItem::new,props->props.rarity(Rarity.RARE));
+    public static final DeferredItem<com.bunnidogs.mod.item.ApexRemnantItem> CHORUS_HEART=ITEMS.registerItem("chorus_heart",com.bunnidogs.mod.item.ApexRemnantItem::new,props->props.rarity(Rarity.RARE));
+    public static final DeferredItem<com.bunnidogs.mod.item.ApexRemnantItem> VOLATILE_HEART=ITEMS.registerItem("volatile_heart",com.bunnidogs.mod.item.ApexRemnantItem::new,props->props.rarity(Rarity.RARE));
+    public static final DeferredItem<com.bunnidogs.mod.item.ApexRemnantItem> HEART_SPOOL=ITEMS.registerItem("heart_spool",com.bunnidogs.mod.item.ApexRemnantItem::new,props->props.rarity(Rarity.RARE));
     public static final DeferredItem<Item> AERIAL_MEMBRANE=ITEMS.registerSimpleItem("aerial_membrane",props->props.rarity(Rarity.RARE));
     public static final DeferredItem<com.bunnidogs.mod.realm.PrismCellItem> PRISM_CELL=ITEMS.registerItem("prism_cell",com.bunnidogs.mod.realm.PrismCellItem::new);
     public static final DeferredItem<Item> APEX_WING_HARNESS=ITEMS.registerSimpleItem("apex_wing_harness",props->props.durability(864).enchantable(15).rarity(Rarity.EPIC)

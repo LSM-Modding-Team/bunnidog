@@ -1,5 +1,13 @@
 # The Great Warren — AX6 implementation
 
+Current play-review corrections are authoritative in
+[ASTRALITE_AND_SKY_SPECS.md](ASTRALITE_AND_SKY_SPECS.md) and
+[HEARTH_PROGRESSION_SPECS.md](HEARTH_PROGRESSION_SPECS.md): the Eye uses exclusive
+physical hunt ingredients, paid portals are shared, moons require Blastmaw mining
+before Astralite, and new terrain uses sparse Crown routes through varied islands.
+Existing chunks, items, stock and paired returns are retained.
+
+
 > Latest implemented progression: [HEARTH_PROGRESSION_SPECS.md](HEARTH_PROGRESSION_SPECS.md)
 > supersedes the old offering/entry rules and adds a focused sustainable household,
 > resident teaching and paid construction. Broader civilization stages remain open.

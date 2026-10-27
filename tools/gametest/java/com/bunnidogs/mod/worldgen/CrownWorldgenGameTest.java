@@ -73,7 +73,7 @@ public final class CrownWorldgenGameTest {
         var structure=(CrownWarrenStructure)r.lookupOrThrow(net.minecraft.core.registries.Registries.STRUCTURE).getOrThrow(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.STRUCTURE,net.minecraft.resources.Identifier.fromNamespaceAndPath("bunnidogs","crown_warren"))).value();
         var state=generator.createState(r.lookupOrThrow(net.minecraft.core.registries.Registries.STRUCTURE_SET),random,realm.getSeed());
         for(int x=-3;x<=3;x++)for(int z=-3;z<=3;z++) {
-            var chunk=placement.getPotentialStructureChunk(realm.getSeed(),x*64,z*64);if(!placement.isStructureChunk(state,chunk.x(),chunk.z()))continue;
+            var chunk=placement.getPotentialStructureChunk(realm.getSeed(),x*com.bunnidogs.mod.realm.RealmTerrain.CROWN_SPACING,z*com.bunnidogs.mod.realm.RealmTerrain.CROWN_SPACING);if(!placement.isStructureChunk(state,chunk.x(),chunk.z()))continue;
             var context=new net.minecraft.world.level.levelgen.structure.Structure.GenerationContext(r,generator,generator.getBiomeSource(),random,realm.getServer().getStructureManager(),realm.getSeed(),chunk,realm,b->true);
             var point=structure.findGenerationPoint(context);if(point.isPresent()) {h.assertTrue(point.get().getPiecesBuilder().build().pieces().size()==1,"Actual shipped realm terrain admits a naturally fitted Crown Warren");return;}
         }

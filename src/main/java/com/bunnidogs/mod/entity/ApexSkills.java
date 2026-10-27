@@ -98,6 +98,10 @@ public final class ApexSkills {
         var pos=BlockPos.containing(center);int bound=power*2+2;
         if(!level.hasChunksAt(pos.offset(-bound,-bound,-bound),pos.offset(bound,bound,bound)))return false;
         var calculator=new ExplosionDamageCalculator() {
+            @Override public java.util.Optional<Float> getBlockExplosionResistance(Explosion explosion,net.minecraft.world.level.BlockGetter world,BlockPos at,net.minecraft.world.level.block.state.BlockState state,net.minecraft.world.level.material.FluidState fluid) {
+                if(!allBunnidogs && caster.kind()==ApexKind.BLAST && state.is(com.bunnidogs.mod.expedition.MoonMining.STONE))return java.util.Optional.of(1.5F);
+                return super.getBlockExplosionResistance(explosion,world,at,state,fluid);
+            }
             private boolean immune(Entity entity) { return allBunnidogs ? entity instanceof Bunnidog : family(entity); }
             @Override public boolean shouldDamageEntity(Explosion explosion,Entity entity) { return !immune(entity); }
             @Override public float getKnockbackMultiplier(Entity entity) { return immune(entity) ? 0 : 1; }

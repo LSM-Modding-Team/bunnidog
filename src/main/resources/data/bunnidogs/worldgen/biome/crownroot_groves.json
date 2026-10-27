@@ -56,9 +56,9 @@
       },
       {
         "type": "bunnidogs:blastmaw",
-        "weight": 10,
-        "minCount": 2,
-        "maxCount": 3
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 1
       },
       {
         "type": "bunnidogs:lifebinder",
@@ -86,7 +86,7 @@
       },
       {
         "type": "bunnidogs:flying_blastmaw",
-        "weight": 2,
+        "weight": 1,
         "minCount": 1,
         "maxCount": 1
       },

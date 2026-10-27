@@ -52,11 +52,13 @@ for name in ['warren_anchor','warren_ward','rootstone']:
  write(D,Path('loot_table/blocks')/(name+'.json'),{'type':'minecraft:block','pools':[{'rolls':1,'entries':[{'type':'minecraft:item','name':'bunnidogs:'+name}],'conditions':[{'condition':'minecraft:survives_explosion'}]}]})
 def recipe(name,pattern,key,result,count=1):
  write(D,Path('recipe')/(name+'.json'),{'type':'minecraft:crafting_shaped','category':'equipment','pattern':pattern,'key':key,'result':{'id':result,'count':count}})
- ingredients=[v for v in key.values() if not v.startswith('#')]
+ ingredients=[v if isinstance(v,str) else v['items'] for v in key.values() if not isinstance(v,str) or not v.startswith('#')]
  write(D,Path('advancement/recipes/great_warren')/(name+'.json'),{'parent':'minecraft:recipes/root','criteria':{'has_material':{'trigger':'minecraft:inventory_changed','conditions':{'items':[{'items':ingredients[0]}]}}},'requirements':[['has_material']],'rewards':{'recipes':['bunnidogs:'+name]}})
 recipe('rootstone',['TTT','TMT','TTT'],{'T':'minecraft:tuff','M':'bunnidogs:apex_marrow'},'bunnidogs:rootstone',8)
 recipe('warren_anchor',['OCO','CEC','OCO'],{'O':'minecraft:crying_obsidian','C':'minecraft:copper_block','E':'minecraft:ender_pearl'},'bunnidogs:warren_anchor')
-recipe('resonant_eye',['ADA','DED','ASA'],{'A':'minecraft:amethyst_shard','D':'bunnidogs:starlit_dust','E':'minecraft:ender_eye','S':'minecraft:netherite_scrap'},'bunnidogs:resonant_eye')
+ground_parts={letter:{'neoforge:ingredient_type':'neoforge:components','items':'bunnidogs:'+item,'components':{'bunnidogs:ground_remnant':True}} for letter,item in zip('FPLBH',['apex_fang','prism_lens','chorus_heart','volatile_heart','heart_spool'])}
+ground_parts.update({'E':'minecraft:ender_eye','A':'bunnidogs:aerial_membrane','D':'bunnidogs:starlit_dust','S':'minecraft:netherite_scrap'})
+recipe('resonant_eye',['FPL','BEH','ADS'],ground_parts,'bunnidogs:resonant_eye')
 recipe('warren_ward',['OHO','CMS','OAO'],{'O':'minecraft:crying_obsidian','H':'bunnidogs:chorus_heart','C':'bunnidogs:heart_spool','M':'bunnidogs:apex_marrow','S':'bunnidogs:aerial_membrane','A':'minecraft:amethyst_block'},'bunnidogs:warren_ward')
 recipe('apex_wing_harness',['M M','NSN','M M'],{'M':'bunnidogs:aerial_membrane','N':'minecraft:netherite_ingot','S':'bunnidogs:heart_spool'},'bunnidogs:apex_wing_harness')
 recipe('prism_lance',['  L',' M ','N  '],{'L':'bunnidogs:prism_lens','M':'bunnidogs:aerial_membrane','N':'minecraft:netherite_ingot'},'bunnidogs:prism_lance')

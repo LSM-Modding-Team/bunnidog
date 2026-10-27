@@ -14,7 +14,15 @@ Every item consumes one template and one Astralite Ingot in a normal Smithing
 Table, upgrading the corresponding Netherite item. Templates are deliberately
 crafted from repeatable wild-Apex drops rather than requiring dungeon access.
 All recipes unlock from their ingredients. Ore drops support native Fortune,
-Silk Touch and explosion decay; ores require diamond-tier mining or better.
+Silk Touch and explosion decay. Moonstone and both ores require **Astralite**
+tools for mined drops; Netherite and every lower vanilla tier are insufficient.
+The first Astralite is obtained by baiting actual Blastmaw self-explosions into
+lunar rock, then collecting the real ore drops. This deliberate first-tool loop
+uses no dungeon item. Their resistance is 1,200 (TNT and player launchers cannot
+mine it); only the Blastmaw self-blast calculator treats lunar rock as resistance
+1.5. Mob-griefing, explosion cancellation and protection still apply. Blastmaw
+fireballs have no such exception. Moonstone, ore blocks, shards, raw Cinderite
+and both refined ingots resist native fire and explosion damage as items.
 
 The four-piece set therefore requires sixteen shards, sixteen refined Cinderite,
 four Marrow, eight Membranes, eight Lenses, sixteen diamonds and four additional
@@ -31,7 +39,7 @@ applicable native enchantments work through ordinary tags, books and enchanting.
 
 Tools: sword, pickaxe, axe, shovel and hoe; durability **2,437** (about +20%),
 mining speed **12** against Netherite's 9, material attack bonus **6** against 4,
-enchantability **18**, fire resistance and the same native mining tier. The sword
+enchantability **18**, fire resistance and the unique Astralite mining tier. The sword
 has total base damage **10**, before enchantments/effects. No tripled tool wear.
 
 Vitality Artifacts now smith **Astralite** armor into Heartbound Astralite;
@@ -56,30 +64,42 @@ Void is real air down through minimum Y. Decoration cannot reintroduce vanilla
 Overworld caves, geodes or ore generation. Vegetation is restricted to low island
 surfaces and excluded from bridges and Crown footprints.
 
-Dungeon random-spread candidates and the terrain share spacing 64, separation
-24 and salt 926481503. Each candidate gets a large tapered island with a flat
-125-block-radius plateau at Y80; Crown placement uses Y81. Main islands extend
-roughly 190–238 blocks with irregular shorelines and tapered undersides, and
-smaller disconnected islands supply outlying exploration. The site layout uses
-the actual world seed, negative-coordinate floor division and no live world
-queries. Every neighboring group of four Crown sites uses its Euclidean minimum
-spanning tree; their union connects the archipelago with shortest straight local
-routes, rather than building every diagonal. Seven-block-wide, lit End-stone-brick
-causeways cross the void at Y80. This describes local minimum spanning routes,
-not a claim of one global minimum spanning tree for an infinite world.
+Dungeon placement and foundations share spacing **192 chunks**, separation **96**
+and salt 926481503: one ninth the former candidate density. Only the actual
+192×192 footprint around each Crown is flat at Y80, with its dungeon at Y81;
+approaches blend into the surrounding hills. It no longer flattens the entire
+island. Ordinary islands are independent of dungeon placement.
 
-Floating Moonstone ellipsoids sit around Y237–251, radii34–42 horizontally with
-slightly flattened poles. They contain both unique ores: Astralite **2.4%**,
-Cinderite **3.2%** of their rock, versus **0.16% / 0.24%** on lower islands.
-Ore locations use a world-seeded coordinate hash, independent of chunk order.
-The native monster spawn table above Y170 is exclusively Blastmaws and flying
-Blastmaws (3:2 weight); ordinary loaded-area monster caps, native spawn checks,
-ward protection and wild despawning still apply. No force-loaded spawn loop.
+The resolved 26.2 `DensityFunctions.EndIslandDensityFunction` and native End
+noise settings were inspected. The design uses the End's seeded Simplex candidate
+field, varying island sizes and density variation as its reference, without its
+central-island/1,000-block-ring layout. Independent irregular elongated landforms,
+small fragments, coast warping, layered mountain/ridge relief and three-dimensional
+rock hollows replace disks. Existing climate biomes and their landmarks/ruins
+supply ordinary exploration islands. Void remains real air; there are no
+Overworld oceans or continuous underground floor. Land peaks stay below moons.
 
-New unlinked arrivals choose a nearby dungeon-bearing island's outer ledge,
-outside its 181-block dungeon footprint, before the existing bounded refuge
-construction. A paired return retains its exact original endpoint. Construction
-still preserves existing blocks and must produce a real ladder/safe landing.
+Neighboring Crown groups retain their local minimum trees, but each link now
+uses bounded Dijkstra routes through intermediate island candidates. Actual
+travel distance, climbs and missing-land costs select a chain of islands. Only
+selected missing waypoints become stepping islands; many unrelated islands remain
+unconnected. Seeded triangulation avoids crossing incompatible diagonal spans.
+Seven-block-wide roads/bridges follow varying heights, grade their narrow island
+approaches and join Crown plateaus. This is a bounded local network, not one
+global minimum tree over an infinite world. Tile/route caches are bounded; no
+world access, chunk loading or search proportional to explored territory occurs.
+
+Moonstone ellipsoids sit around Y235–253, horizontal radii42–64. They contain
+Astralite **2.4%**, Cinderite **3.2%** of their rock, versus **0.16% / 0.24%** on
+lower islands. Coordinate hashing preserves chunk-order-independent ore placement.
+Above Y170 the native monster table remains exclusively Blastmaws/flying
+Blastmaws (3:2). Both have ground-biome weight **1**, single-actor groups, so they
+are rare on ordinary land. Native caps, wards, despawning and spawn checks remain.
+
+Fresh portal arrivals choose an ordinary island at least **700 blocks** from the
+nearest Crown, outside overhead moons. They no longer start beside a dungeon.
+The refuge still has its original bounded construction, ward, real ladder and
+safe landing. Existing paired endpoints and generated builds remain intact.
 
 ## Compatibility and evidence
 
@@ -94,4 +114,6 @@ heightmap/base-column queries, moon spawn tables, seed variation, actual Crown
 candidates, ordinary ruins, all nine native smithing upgrades, artifact-base
 rejection and exact enchantment/name/wear preservation. Geometry/texture previews
 are headless evidence; first-person appearance, natural encounter density and
-Survival acquisition pacing still need player review.
+Survival acquisition pacing still need player review. The maintained native
+sample map and height study are `art/realm_islands_preview.png`; they are not
+a graphical client capture.

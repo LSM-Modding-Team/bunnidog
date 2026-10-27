@@ -104,40 +104,33 @@ into sixty-four incense. Existing displays/stock are untouched. Old Crucibles
 can receive a new heart. No command, recipe or chest grants a free Survival
 Keystone. The first household uses no Apex/dimension/dungeon ingredient.
 
-## Six personal hunt resonances
+## Physical hunt materials and shared realm entry
 
-Every ground role is distinct: Brute, Prismmaw, Broodcaller, Blastmaw and Lifebinder.
-A flying kill earns only the sixth aerial mark, regardless of its role. Duplicate
-roles do not replace missing ground marks. Records are world-owned by player
-UUID and survive death, reconnects and dimension travel. No inventory item loan
-or editable tooltip is authorization. Existing history without distinct evidence
-is not silently treated as all six hunts.
+The latest player correction supersedes personal hunt authorization. A Resonant
+Eye is crafted from one **ground remnant** of each ordinary role: Apex Fang,
+Prism Lens, Chorus Heart, Volatile Heart and Heart Spool, plus one Aerial Membrane,
+Ender Eye, Starlit Dust and Netherite Scrap. The actual shaped recipe and its
+native recipe-book ingredient previews carry the ground-remnant component.
+Ground drops show one concise identifying tooltip. Flying parts remain useful
+for equipment but cannot replace a missing ground-role remnant in this recipe.
+Aerial Membranes require a flying kill. Crown/brood actors do not supply ground
+qualification. These physical drops can be stored, traded or shared naturally.
 
-Each ordinary Apex saves bounded contribution scores (up to 32 players). Actual
-post-damage health damage, a keeper's companion damage and blocked incoming
-Apex damage contribute. Actual healing of another engaged contributor earns
-support. The pre-Apex Hearth Poultice provides six accepted HP of ally healing
-with a five-second cooldown; canceled healing refunds it. Concord Standards
-also credit accepted support when later available. Self-healing, idle proximity
-and merely dealing the final hit are not independent entitlements. At a confirmed
-uncanceled death, contributors with at least max(6 HP, 2% boss max health) earn
-the mark. Killing-hit contribution is included. Crown encounters/brood are
-excluded. Native post-death/tick resolution is idempotent.
+An Anchor consumes the crafted Eye while preserving the shown source Crest.
+Neither activation nor later crossing consults a player's kill ledger. Once
+paid, a linked portal serves other players normally. Empty-handed return and
+exact paired endpoints remain unconditional. Old material stacks remain valid
+for their original equipment recipes; old Eyes, Crests and linked anchors are
+preserved. Fresh ground drops supply the new component-bearing recipe inputs.
 
-A Crest reads the holder's authoritative hunt history on normal use; sneak-use
-retains its existing source inspection. Its tooltip carries a small synced
-summary. Using an Anchor lights the six physical colored inlays for that
-interacting player. The Anchor reports a short count; deliberate Crest inspection names the missing
-roles in naturally wrapped chat, avoiding an overflowing action-bar list.
-
-Both first attunement and using an already linked entry require all six personal
-marks. A Crest and Eye are still the physical activation items. Empty-handed
-return travel from the Great Warren is always available, including for an
-unqualified stranded player; saved counterpart positions remain unchanged.
+The old personal hunt data is retained for save compatibility and its historical
+receipts. It no longer drives Anchor inlays, Crest requirements or hunt popups.
+The six Anchor inlays now light with actual portal activation. The Crest keeps
+its frozen source-sheet inspection. There is no new setup menu or tutorial HUD.
 
 ## Scope and verification
 
-This delivers the society-to-first-Apex-to-six-hunts-to-realm loop. It does not
+This delivers the society-to-first-Apex-to-materials-to-realm loop. It does not
 claim arbitrary building plans, universal professions, general observed player
 demonstrations, long-distance taught courier programs, independent wild-town
 bootstrap, inter-town trade or the complete I2–I10 roadmap. The household uses
