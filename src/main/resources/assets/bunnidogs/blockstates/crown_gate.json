@@ -1,6 +1,12 @@
 {
   "variants": {
-    "": {
+    "gate_kind=0": {
+      "model": "bunnidogs:block/crown_gate"
+    },
+    "gate_kind=1": {
+      "model": "bunnidogs:block/crown_gate"
+    },
+    "gate_kind=2": {
       "model": "bunnidogs:block/crown_gate"
     }
   }

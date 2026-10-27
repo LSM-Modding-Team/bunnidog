@@ -18,12 +18,11 @@ public final class CrownTickets {
             .mapToObj(i->TYPES.register("crown_"+ROLES[i],()->new TicketType(60+i,TicketType.FLAG_LOADING|TicketType.FLAG_KEEP_DIMENSION_ACTIVE))).toList();
     public static final DeferredHolder<TicketType,TicketType> SIMULATION=TYPES.register("crown_simulation",()->new TicketType(60,TicketType.FLAG_SIMULATION|TicketType.FLAG_KEEP_DIMENSION_ACTIVE));
     public static TicketType loading(int wing) {return LOAD.get(Math.clamp(wing,0,3)).get();}
-    private static int radius(CrownSealBlockEntity seal) {return seal.wing()==3 ? 43 : 19;}
     private static int simulationRadius(CrownSealBlockEntity seal) {return seal.wing()==3 ? 5 : 4;}
     public static void hold(CrownSealBlockEntity seal) {
         if(!(seal.getLevel() instanceof ServerLevel level))return;
-        var center=BlockPos.containing(seal.encounterCenter());int r=radius(seal);var source=level.getChunkSource();
-        for(int x=(center.getX()-r)>>4;x<=((center.getX()+r)>>4);x++)for(int z=(center.getZ()-r)>>4;z<=((center.getZ()+r)>>4);z++)
+        var center=BlockPos.containing(seal.encounterCenter());var b=seal.leaseBounds();var source=level.getChunkSource();
+        for(int x=b.minX()>>4;x<=(b.maxX()>>4);x++)for(int z=b.minZ()>>4;z<=(b.maxZ()>>4);z++)
             if(source.hasChunk(x,z))source.addTicketWithRadius(loading(seal.wing()),new ChunkPos(x,z),0);
         // The seal can straddle the footprint's last chunk; retain its actual loaded chunk explicitly.
         var home=ChunkPos.containing(seal.getBlockPos());if(source.hasChunk(home.x(),home.z()))source.addTicketWithRadius(loading(seal.wing()),home,0);
@@ -32,8 +31,8 @@ public final class CrownTickets {
     }
     public static void release(CrownSealBlockEntity seal) {
         if(!(seal.getLevel() instanceof ServerLevel level))return;
-        var center=BlockPos.containing(seal.encounterCenter());int r=radius(seal);var source=level.getChunkSource();
-        for(int x=(center.getX()-r)>>4;x<=((center.getX()+r)>>4);x++)for(int z=(center.getZ()-r)>>4;z<=((center.getZ()+r)>>4);z++)source.removeTicketWithRadius(loading(seal.wing()),new ChunkPos(x,z),0);
+        var center=BlockPos.containing(seal.encounterCenter());var b=seal.leaseBounds();var source=level.getChunkSource();
+        for(int x=b.minX()>>4;x<=(b.maxX()>>4);x++)for(int z=b.minZ()>>4;z<=(b.maxZ()>>4);z++)source.removeTicketWithRadius(loading(seal.wing()),new ChunkPos(x,z),0);
         source.removeTicketWithRadius(loading(seal.wing()),ChunkPos.containing(seal.getBlockPos()),0);
         source.removeTicketWithRadius(SIMULATION.get(),ChunkPos.containing(center),simulationRadius(seal));
     }

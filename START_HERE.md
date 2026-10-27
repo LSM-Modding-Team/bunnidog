@@ -5,6 +5,28 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — authored Crown citadel
+
+Fresh Crown Warrens use the architectural redesign in
+`docs/CROWN_WARREN_REDESIGN_PLAN.md`: a gatehouse with unequal stair towers,
+furnished wayhouse/granary, inner court, vaulted keep, two-storey library and
+octagonal observatory, terraced nurseries, and a workshop above the lower Heart
+Furnace. Independent walking routes reach every wing before the boss gate.
+Two actual key seats open that gate; the optional third opens a separate archive.
+Accepted Apex/finale values, personal rewards and replacement keys are retained.
+
+`art/crown_citadel.py` authors reusable room/bay/arch/stair/tower/roof modules and
+bakes 188 native chunk-sized templates. Controls save explicit world-space
+encounter/reward/door geometry and finite one-attempt guards. Old dungeons retain
+V1 geometry and progress; loaded-only repair dispatches by saved revision and
+never refills containers. Local root feet meet terrain without grading the island.
+
+Final native-template previews are in `art/citadel/`; render provenance records
+the exact template hashes. These are headless Blender inspections, with neutral
+ambient fill and approximate minor block shapes, not Minecraft client captures.
+Native traversal/spawn/stock/save evidence and natural solo/co-op visual review
+are separate. See the Crown spec for validation and remaining manual review.
+
 ## Current — expedition play-review corrections
 
 Entry is now gated by physical ingredients: fresh ground-role drops mark their
@@ -201,8 +223,8 @@ frozen genetic archives. Sovereign smithing upgrades extend Heartbound armor,
 Lance and Armored Elytra; the Concord Standard adds paid party healing. Existing
 ordinary Apex tuning stays accepted. No new tutorial/menu layer.
 
-Protocol **41**, **2,531 authored / 2,659 packaged** language keys, English/shared
-neutral Spanish. The native suite now has **245 scenarios**, alongside actual
+Protocol **42**, **2,535 authored / 2,663 packaged** language keys, English/shared
+neutral Spanish. The native suite now has **247 scenarios**, alongside actual
 model/localization/build gates. Save/kill-payment ordering, native health above
 1,024, short chunk leases, finite actors, exact smithing components and separate
 core/trophy delivery retries are invariants. Native and inspected preview evidence

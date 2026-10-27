@@ -27,6 +27,7 @@ public final class CrownRepair {
         }))));
     }
     public static int repair(net.minecraft.server.level.ServerLevel level,CrownWarrenPiece piece) {
+        if(piece.layoutVersion()==2)return CrownCitadelPlacement.repair(level,piece);
         var center=piece.center();int changed=0;
         for(int x=-90;x<=90;x++)for(int z=-90;z<=90;z++) {
             if(!level.hasChunkAt(center.offset(x,0,z)))continue;

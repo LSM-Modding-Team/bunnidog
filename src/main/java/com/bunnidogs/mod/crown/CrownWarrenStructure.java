@@ -13,7 +13,7 @@ public final class CrownWarrenStructure extends Structure {
     @Override public Optional<GenerationStub> findGenerationPoint(GenerationContext c) {
         if(c.chunkGenerator() instanceof com.bunnidogs.mod.realm.RealmChunkGenerator) {
             int x=c.chunkPos().getMiddleBlockX(),z=c.chunkPos().getMiddleBlockZ();long seed=c.random().nextLong();
-            return Optional.of(new GenerationStub(new BlockPos(x,81,z),b->b.addPiece(new CrownWarrenPiece(x,81,z,seed))));
+            return Optional.of(new GenerationStub(new BlockPos(x,81,z),b->b.addPiece(CrownWarrenPiece.citadel(x,81,z,seed))));
         }
         int x=c.chunkPos().getMiddleBlockX(),z=c.chunkPos().getMiddleBlockZ(),high=-64,low=320;
         for(int dx:new int[]{-70,0,70})for(int dz:new int[]{-70,0,70}) {

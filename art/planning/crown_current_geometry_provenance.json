@@ -1,0 +1,15 @@
+{
+  "commit": "2aa300a1d4ea8e5166188f91550c321356c0c11a",
+  "source": "src/main/java/com/bunnidogs/mod/crown/CrownLayout.java",
+  "source_sha256": "d791412e28d02c69cec106cc8f1c88a1a2c882590fde5758f6cb3170ac4a03cd",
+  "method": "Existing Java cell function evaluated unchanged with symbolic block APIs; ID/property abstraction, no game implementation edits. Ray-cast solid cells using resolved textures.",
+  "native_floor_wall_samples_matched": 14463,
+  "solid_cells": 72057,
+  "limitations": [
+    "not a running graphical client",
+    "stair sub-block shapes approximated as full cells",
+    "glass treated opaque for geometry inspection",
+    "neutral shading rather than Minecraft light transport",
+    "terrain and supporting roots outside CrownLayout omitted"
+  ]
+}

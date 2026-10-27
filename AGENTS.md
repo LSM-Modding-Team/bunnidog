@@ -59,6 +59,18 @@ Lance damage 45×N, Standard healing five hearts×N and four-second Resistance N
 Other scaling juice levels have no mod balance cap except Resistance, within
 native engine representation. Endgame kit Strength XXX is a baseline, not a cap.
 
+Latest Crown architecture implementation supersedes the planning-only pause: read
+`docs/CROWN_WARREN_REDESIGN_PLAN.md` and `docs/CROWN_WARREN_SPECS.md`. Fresh realm
+sites use the authored root-built citadel in `art/crown_citadel.py`, baked into
+chunk-sized native templates. Preserve usable stairs/galleries, independent wing
+approaches, furnished support rooms, two physical throne seats and a separate
+third-key archive. Each controller saves resolved bounds, pads, door/reward
+positions and finite patrol attempts. Missing layout revision/geometry means V1;
+never convert old sites during repair or refill stock. Keep accepted fight values,
+protected fighting floors and detached ProtoChunk safety. Inspect final shipped
+NBT through `art/render_citadel.py` after visual edits; the Blender previews are
+headless geometry evidence, not live client/shader/performance evidence.
+
 Latest expedition play review supersedes personal hunt locks and the first flat
 archipelago. Preserve physical ground-remnant recipe inputs for the Resonant Eye,
 all five roles plus an aerial drop, native component ingredient displays, and

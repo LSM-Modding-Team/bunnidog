@@ -67,6 +67,26 @@ public final class CrownWorldgenGameTest {
         int netherite=0,diamonds=0;for(int i=0;i<27;i++) {var s=chest.getItem(i);if(s.is(net.minecraft.world.item.Items.NETHERITE_BLOCK))netherite+=s.getCount();if(s.is(net.minecraft.world.item.Items.DIAMOND_BLOCK))diamonds+=s.getCount();}
         h.assertTrue(netherite>=8 && diamonds>=24,"The actual final vault resolves generous generic wealth, not a token stack");
     }
+    public static void citadel(GameTestHelper h) {
+        var level=h.getLevel();var center=new BlockPos(28008,95,28008);var piece=CrownWarrenPiece.citadel(center.getX(),center.getY(),center.getZ(),6728163);
+        for(int wing=0;wing<4;wing++) {
+            var sealPos=CrownSitePlan.seal(center,wing);var chunkCenter=ChunkPos.containing(sealPos);var chunks=new java.util.HashMap<ChunkPos,ProtoChunk>();
+            for(int dx=-1;dx<=1;dx++)for(int dz=-1;dz<=1;dz++) {var pos=new ChunkPos(chunkCenter.x()+dx,chunkCenter.z()+dz);var c=new ProtoChunk(pos,UpgradeData.EMPTY,level,PalettedContainerFactory.create(level.registryAccess()),null);c.setPersistedStatus(ChunkStatus.CARVERS);chunks.put(pos,c);}
+            var cache=StaticCache2D.<GenerationChunkHolder>create(chunkCenter.x(),chunkCenter.z(),1,(x,z)->new GenerationChunkHolder(new ChunkPos(x,z)) {
+                @Override public ChunkAccess getChunkIfPresentUnchecked(ChunkStatus status) {return chunks.get(new ChunkPos(x,z));}
+                @Override protected void addSaveDependency(CompletableFuture<?> sync) {}
+                @Override public int getTicketLevel() {return 0;}
+                @Override public int getQueueLevel() {return 0;}
+            });
+            place(level,cache,piece,chunks.get(chunkCenter),center);
+            var seal=(CrownSealBlockEntity)chunks.get(chunkCenter).getBlockEntity(sealPos);
+            h.assertTrue(seal!=null && !seal.hasLevel() && seal.citadel() && seal.site().equals(piece.site()),"The authored template configures a real detached ProtoChunk seal, wing "+wing);
+            var restored=(CrownSealBlockEntity)BlockEntity.loadStatic(sealPos,seal.getBlockState(),seal.saveWithFullMetadata(level.registryAccess()),level.registryAccess());
+            h.assertTrue(restored!=null && restored.citadel() && restored.encounterCenter().equals(seal.encounterCenter()),"Detached saves retain explicit raised/lowered encounter geometry");
+        }
+        var old=new CrownWarrenPiece(center.getX(),center.getY(),center.getZ(),3457);var tag=old.createTag(StructurePieceSerializationContext.fromLevel(level));tag.remove("LayoutVersion");
+        h.assertTrue(new CrownWarrenPiece(tag).layoutVersion()==1,"Missing revision in an old save always means the original geometry");
+    }
     public static void natural(GameTestHelper h,ServerLevel realm) {
         var r=realm.registryAccess();var generator=realm.getChunkSource().getGenerator();var random=realm.getChunkSource().randomState();
         var placement=(net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement)r.lookupOrThrow(net.minecraft.core.registries.Registries.STRUCTURE_SET).getOrThrow(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.STRUCTURE_SET,net.minecraft.resources.Identifier.fromNamespaceAndPath("bunnidogs","crown_warrens"))).value().placement();

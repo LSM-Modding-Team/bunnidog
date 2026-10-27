@@ -51,7 +51,11 @@ public final class CivicFieldsGameTest {
         h.runAfterDelay(45,()->{h.assertTrue(own.isAlive() && other.isAlive() && own.getItem().getCount()==1 && other.getItem().getCount()==1,"Native ground-item merging cannot collapse different household receipts even under the same keeper");finish(c);});
     }
     public static void ai(GameTestHelper h) {
-        var c=SocietyGameTest.setup(h);var plot=field(c,true);c.worker().setNoAi(false);c.p().snapTo(c.p().position().add(18,0,0));
+        var c=SocietyGameTest.setup(h);var plot=field(c,true);
+        // Cover the fixture's one-block-thick platform irrigation. Otherwise random crop velocity
+        // can fall down its water shaft, testing an unreachable void drop instead of field hauling.
+        h.getLevel().setBlock(plot.below().north(),Blocks.OAK_SLAB.defaultBlockState().setValue(SlabBlock.TYPE,net.minecraft.world.level.block.state.properties.SlabType.TOP).setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED,true),3);
+        c.worker().setNoAi(false);c.p().snapTo(c.p().position().add(18,0,0));
         h.succeedWhen(()->{h.assertTrue(c.tree().count(Items.WHEAT)>0,"Native farmer/hauler AI must harvest a real field and walk its actual grain home: job="+c.worker().society().active()+", cargo="+c.worker().society().workSupplies()+", at="+c.worker().position()+", ready="+c.worker().society().ready()+", offers="+c.worker().society().offers()+", field="+h.getLevel().getBlockState(plot)+", drops="+CivicFields.drops(c.tree()).stream().map(item->item.getItem()+" at "+item.position()+" seen="+CivicFields.visible(c.worker(),item)).toList());c.worker().discard();c.p().discard();});
     }
 }

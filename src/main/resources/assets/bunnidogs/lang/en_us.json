@@ -2359,7 +2359,7 @@
   "tooltip.bunnidogs.sovereign_core": "Smithing catalyst for Heartbound armor, Armored Elytra and Prism Lances.",
   "tooltip.bunnidogs.crown_sigil": "Awakens a defeated Crown Warren.",
   "message.bunnidogs.kit.replace": "Replace your inventory with /kit %s %s replace.",
-  "tooltip.bunnidogs.crown_key": "Fits the matching socket in the golden Crown Seal. Two different keys open the gate.",
+  "tooltip.bunnidogs.crown_key": "Two different keystones open this citadel’s Crown Gate. The third opens its archive.",
   "message.bunnidogs.crown.no_dungeon": "Stand inside a Crown Warren to repair it.",
   "message.bunnidogs.crown.repaired": "Repaired %s blocks in loaded dungeon chunks. Saved loot and encounters retained.",
   "message.bunnidogs.tool.power": "Power %s/5",
@@ -2529,5 +2529,9 @@
   "care.bunnidogs.commons.working.clip_wood": "Collecting fallen wood",
   "care.bunnidogs.commons.working.pick_fruit": "Picking fruit",
   "care.bunnidogs.commons.working.hatch_soil": "Helping a litter hatch",
-  "tooltip.bunnidogs.ground_remnant": "Ground apex remnant"
+  "tooltip.bunnidogs.ground_remnant": "Ground apex remnant",
+  "block.bunnidogs.crown_socket": "Keystone Seat",
+  "message.bunnidogs.crown.archive_locked": "The archive has one empty keystone seat.",
+  "message.bunnidogs.crown.vault_locked": "The treasury is sealed by the living crown.",
+  "block.bunnidogs.crown_rootlight": "Luminous Rootstone"
 }

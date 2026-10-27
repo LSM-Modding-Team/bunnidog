@@ -1,5 +1,9 @@
 # Crown Warren and Sovereign rewards
 
+> The architectural redesign now ships for fresh sites. The accepted design and
+> implementation record are in [CROWN_WARREN_REDESIGN_PLAN.md](CROWN_WARREN_REDESIGN_PLAN.md).
+> Old sites retain their original geometry and progress; they are not converted.
+
 > Latest terrain/tier request: [ASTRALITE_AND_SKY_SPECS.md](ASTRALITE_AND_SKY_SPECS.md)
 > supersedes the initial Overworld terrain and Netherite artifact bases below.
 > Astralite is obtained before the dungeon; artifact armor keeps its new material.
@@ -11,54 +15,79 @@ headless evidence does not establish its natural Survival balance or appearance.
 ## Finding and entering
 
 Crown Warrens generate in **new Great Warren terrain**, through their own native
-random-spread structure set: spacing 64 chunks, separation 24. A bounded nine-point
+random-spread structure set: spacing 192 chunks, separation 96 (latest expedition correction). A bounded nine-point
 terrain fit rejects submerged, excessively uneven or ceiling-clipped sites.
 `/locate structure bunnidogs:crown_warren` uses the normal structure registry.
 Existing generated terrain, homes and stock are not retroactively rebuilt.
 
-The layout occupies at most 181 × 181 blocks. Three halls branch around an
-85-block central arena with a 31-block roof. A sheltered preparation court has
-crafting/smithing, an Ender Chest and a real Warren Ward. Outer routes connect
-both side halls to staging; the northern hall connects through the arena. The
-existing paired Warren Anchor remains the expedition's return route.
+Fresh sites use **layout revision 2**, a bounded 240 × 240-block root-built
+citadel with local foundation feet. The vaulted keep retains an approximately
+85 × 85 playable boss floor and 32 clear vertical blocks, with side galleries
+outside that envelope. The highest crown is at relative +67 (Y148 at the realm
+floor), below the Y170 moon ecology band. Root feet extend down only where
+authored supports need them, capped at 24 additional blocks. The island outside
+the occupied buildings retains its terrain; existing paired returns never move.
 
-| Wing | Terrain | Two finite waves |
+A gatehouse with unequal stair towers leads through a furnished courtyard.
+The wayhouse retains crafting, smithing, an Ender Chest and a Warren Ward.
+Library, nursery and workshop approaches are independent of the sealed boss hall.
+Store thresholds, stairs, gallery landings and returns form real walking routes;
+no obligatory wing approach passes through the arena. The keep's side galleries
+have stairs inside the hall, while the observatory roofwalk ends outside its wall.
+
+| Wing | Architecture | Accepted two finite waves |
 | --- | --- | --- |
-| Glass Gallery | Calcite, quartz balconies/stairs, amethyst cover, glass roof | Prismmaw + Brute; then two Prismmaws, one flying |
-| Brood Vaults | Moss, low divided pens, open center and cover | Broodcaller; then Broodcaller + Brute |
-| Heart Furnace | Basalt, blackstone forges, visible magma channels | Lifebinder + Brute; then Blastmaw |
+| Glass Gallery | Two-storey furnished library, atrium and two stairs; raised octagonal observatory beneath a ribbed glass dome | Prismmaw + Brute; then two Prismmaws, one flying |
+| Brood Vaults | Granary, seed kitchen, open nesting court and four terraced nursery rooms with a service return | Broodcaller; then Broodcaller + Brute |
+| Heart Furnace | Upper loading/workshop hall, freight stair, lower cooling gallery and vaulted chained-heart chamber with copper-banded vents | Lifebinder + Brute; then Blastmaw |
 
-A normal click on a hall's physical seal starts it, including while holding a
-weapon. Existing enemy fight values apply. Confirmed deaths advance waves;
-unloading, discarding or losing an actor never counts as victory. Finished halls
-pay a generic supply chest and provide their own site-bound keystone. Lost keys
-can be replaced from a cleared seal without refilling its one-time cache.
+Occupied room geometry, details and furnishing come from reusable authored
+modules baked into **188 native StructureTemplates**, owned by horizontal chunks.
+Only authored interiors/headroom are cleared. Wall bays, deep arches, pitched
+and vaulted roofs, stairs and foundations are actual blocks, not renderer-only
+geometry. Rootstone fighting floors withstand Apex terrain attacks; small warm
+recessed Rootstone lights and ordinary lanterns illuminate rooms without a
+colored floor runway. Supply barrels/chests have finite generic expedition loot;
+there are no stock-refilling room spawners or free exclusive Apex parts.
 
-The central seal accepts **any two different matching-site keystones**. Its
-three colored sockets and physical Crown Gate preserve opening in saves. Shown
-offhand keys/sigils work alongside an ordinary main-hand weapon. Keys from another
-site or repeated identical keys remain untouched. The optional third key earns
-one frozen genetic archive; it is not a condition of starting the boss.
+There is one finite saved guard attempt in each wing's approach room and the
+entry precinct. It wakes only near a living Survival visitor, with its known
+bounded room already loaded. It shares that controller's actor slot with the
+trial, grants no wing key/cache, and never rearms after death, reset or reload.
+Approach guards do not create a boss encounter. A normal click on a hall's
+physical seal starts the existing trial, including while holding a weapon.
+Confirmed deaths advance waves; unload/removal never counts as victory.
+Completed halls drop a glowing, site-bound key immediately, pay their original
+one-time generic cache and replace lost keys on later use without refilling it.
 
-The cleared hall now drops a glowing key at its seal immediately. Matching
-colored floor routes connect the side halls to staging and a golden route leads
-to the central Crown Seal; tall matching frames distinguish the four seals. The closed gate accepts keys from either side through the same saved seal, so
-returning from the northern hall never requires finding an outside interaction. Key
-hover text explains their socket purpose in one short description. Clicking a
-cleared hall still replaces a lost key without refilling its cache.
+**Two distinct matching-site keys** fit two actual seats beside the throne gate.
+They preserve insertion order and open that gate permanently. The optional third
+key fits a separate seat on the archive door, opens only that archive and earns
+one frozen genetic archive. The treasury opens on boss victory. Shown offhand
+keys/sigils retain priority alongside a main-hand weapon. Wrong-site/duplicate
+keys are not consumed. Direct gate/seat interaction checks permission and reach
+at the touched block, revalidates its controlling seal, and cannot accidentally
+start a boss through the optional archive. Concise key feedback appears on use.
 
-Generation clears terrain/decorations across the complete site above its floor,
-including courtyards and roof headroom. Later realm tree/crystal/basalt features
-check actual structure references and reserve the dungeon plus canopy reach.
-Buried ore and natural decorations cannot suppress entire unfinished generation
-columns. Existing containers remain protected; completed chunk replay stays inert.
+New seals save resolved world-space floors, room bounds, legal spawn pads,
+patrol coordinates, gates, seats and reward niches. This prevents raised/lowered
+rooms being interpreted as the old one-floor encounter radius. Placement configures
+seals safely on detached ProtoChunks. A chunk completion journal and container
+protection preserve interrupted generation/replay. Short encounter leases retain
+only known already-loaded room chunks; simulation never loads an outer ring.
 
-For an existing obstructed dungeon, an operator can stand inside it and run
-`/bunnidogs dungeon repair`. It clears natural obstructions, restores missing
-seals with the original site identity and adds the physical wayfinding in currently
-loaded chunks. It never regenerates loot or resets existing seals/encounters and
-does not load distant chunks. Move through the site and repeat if its outer
-chunks were unloaded. Repairs are explicit, not an automatic rewrite of old sites.
+**Legacy layout V1** remains supported. Missing saved piece revision or controller
+geometry always means the original 181 × 181 layout, with its old offsets,
+wayfinding, three-seat control texture, 31-block arena roof, stock and keys. New
+castle geometry never replaces it during load or repair. The latest rare Crown
+placement and island journey are unchanged.
+
+An operator standing inside a dungeon may run `/bunnidogs dungeon repair`.
+It dispatches by the actual saved piece revision and touches loaded chunks only.
+V1 keeps its original obstruction/marker repair. V2 clears natural obstructions
+from authored air, restores missing controls/physical seats and only still-closed
+saved gates. Existing containers, artificial player blocks and all stock/journals
+are preserved; opened paid gates are never rebuilt. It never force-loads the site.
 
 No tutorial menu, ambient instructions, mandatory guide chapter or automatic
 stat panel is added. Seals use concise feedback only when interacted with.
@@ -162,8 +191,9 @@ Wing caches contain generic wealth and bulk reagents. Temporary dungeon enemies
 and boss adds do not provide ordinary ritual Crests, role parts or XP. Paid genetic
 vacuum capture retains the user's existing exception for brood-to-seed capture.
 
-Final reward plinths sit beside the entrance seal, outside rematch blasts and
-in the same generated chunk as their ledger. Chests use empty plinths only; existing containers are never
+V2 rewards sit in their respective wing niches or the gated treasury/archive,
+outside the rematch arena. V1 reward plinths retain their original positions.
+Pending deliveries remain in the original controller until their actual niche is loaded. Chests use empty plinths only; existing containers are never
 replaced/refilled. Blocked vault/archive deliveries remain saved until space is
 available. Archives store their exact whole seed/sample items once; they never
 combine deferred loot tables with inventory contents or reroll on inspection.
@@ -186,7 +216,7 @@ healing credit for self-healing. Interrupted charges spend nothing. Native fuel,
 cooldown, permission and whole-item checks remain authoritative.
 
 All new text is English plus the shared neutral Peruvian Spanish source.
-Protocol **31** requires matching client/server content. Original ordinary Apex
+Protocol **42** requires matching client/server content. Original ordinary Apex
 values and old gear IDs/saves remain compatible.
 
 ## Evidence and remaining review
@@ -198,10 +228,24 @@ multiplayer scaling, killing-hit contribution, cancelled spawns, paid rematches,
 blocked/retried core and trophy delivery, smithing/equipment/fuel/support behavior,
 and real detached `WorldGenRegion`/`ProtoChunk` placement/replay. Shipped realm
 terrain admits an actual random-spread dungeon candidate in the native fixture.
-The native structure cells also produce the layout preview.
+The V2 native fixture places the complete furnished citadel and exercises all
+four actual approach guards, all three trials, remote protected seats, ordered
+keys, the archive/treasury, final reward, native saves and generation/repair stock
+preservation. A separate unfinished-ProtoChunk fixture covers all four V2 seals;
+missing-revision V1 saves remain covered. The shipped-NBT walking audit proves
+independent closed-gate wing routes, legal pads/jambs and the clear Crown volume.
+The full suite contains 247 scenarios; build/model/localization gates also run.
+A repeat run exposed the pre-existing field test's open irrigation shaft under
+a one-block-thick platform; that fixture now uses a real waterlogged cover so
+random crop velocity cannot turn its hauling assertion into an unreachable void drop.
 
 Model checks exercise actual crown geometry, UV bounds, head/body transforms and
-visibility reset. Generated crown, gear and layout previews are inspected.
+visibility reset. Generated crown/gear previews remain covered. Final V2 architectural previews
+in `art/citadel/` are rendered through Blender from the shipped native NBTs, with
+per-template SHA-256 provenance. Exterior, gatehouse/court, library, stair/gallery,
+observatory, Brood court/nursery, furnace and Crown hall are inspected. Neutral
+ambient fill and approximate minor block shapes make this headless geometry
+evidence; terrain, actual actors and native client lighting are not simulated.
 These checks do not establish graphical lighting/animation, natural chunk-order
 performance, full solo/co-op fight pacing or the new economy. Those need player
 review. Additional rooms, regrowing cover, other Sovereign branches and the two

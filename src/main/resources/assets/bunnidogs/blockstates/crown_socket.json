@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "gate_kind=0,key=0": {
+      "model": "bunnidogs:block/crown_socket_0"
+    },
+    "gate_kind=1,key=0": {
+      "model": "bunnidogs:block/crown_socket_0"
+    },
+    "gate_kind=2,key=0": {
+      "model": "bunnidogs:block/crown_socket_0"
+    },
+    "gate_kind=0,key=1": {
+      "model": "bunnidogs:block/crown_socket_1"
+    },
+    "gate_kind=1,key=1": {
+      "model": "bunnidogs:block/crown_socket_1"
+    },
+    "gate_kind=2,key=1": {
+      "model": "bunnidogs:block/crown_socket_1"
+    },
+    "gate_kind=0,key=2": {
+      "model": "bunnidogs:block/crown_socket_2"
+    },
+    "gate_kind=1,key=2": {
+      "model": "bunnidogs:block/crown_socket_2"
+    },
+    "gate_kind=2,key=2": {
+      "model": "bunnidogs:block/crown_socket_2"
+    },
+    "gate_kind=0,key=3": {
+      "model": "bunnidogs:block/crown_socket_3"
+    },
+    "gate_kind=1,key=3": {
+      "model": "bunnidogs:block/crown_socket_3"
+    },
+    "gate_kind=2,key=3": {
+      "model": "bunnidogs:block/crown_socket_3"
+    }
+  }
+}

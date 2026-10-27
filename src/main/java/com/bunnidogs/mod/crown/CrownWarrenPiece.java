@@ -18,25 +18,33 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSeriali
 public final class CrownWarrenPiece extends StructurePiece {
     private final BlockPos center;
     private final UUID site;
+    private final int layoutVersion;
     private final Set<Long> done=ConcurrentHashMap.newKeySet(),working=ConcurrentHashMap.newKeySet();
     public CrownWarrenPiece(int x,int y,int z,long seed) {
-        super(ModStructures.CROWN_WARREN_PIECE.get(),0,new BoundingBox(x-90,y-12,z-90,x+90,y+64,z+90));
+        this(x,y,z,seed,1);
+    }
+    public static CrownWarrenPiece citadel(int x,int y,int z,long seed) {return new CrownWarrenPiece(x,y,z,seed,2);}
+    private CrownWarrenPiece(int x,int y,int z,long seed,int revision) {
+        super(ModStructures.CROWN_WARREN_PIECE.get(),0,revision==1 ? new BoundingBox(x-90,y-12,z-90,x+90,y+64,z+90) : new BoundingBox(x-120,y-36,z-120,x+119,y+70,z+119));
+        layoutVersion=revision;
         center=new BlockPos(x,y,z);site=new UUID(seed,center.asLong());
     }
     public CrownWarrenPiece(CompoundTag t) {
-        super(ModStructures.CROWN_WARREN_PIECE.get(),t);center=new BlockPos(t.getIntOr("CX",0),t.getIntOr("CY",80),t.getIntOr("CZ",0));
+        super(ModStructures.CROWN_WARREN_PIECE.get(),t);layoutVersion=t.getIntOr("LayoutVersion",1);center=new BlockPos(t.getIntOr("CX",0),t.getIntOr("CY",80),t.getIntOr("CZ",0));
         site=new UUID(t.getLongOr("SiteHigh",0),t.getLongOr("SiteLow",center.asLong()));
         for(long n:t.getLongArray("Done").orElse(new long[0]))done.add(n);
     }
+    public int layoutVersion() {return layoutVersion;}
     public BlockPos center() {return center;}
     public UUID site() {return site;}
     @Override protected void addAdditionalSaveData(StructurePieceSerializationContext c,CompoundTag t) {
-        t.putInt("CX",center.getX());t.putInt("CY",center.getY());t.putInt("CZ",center.getZ());t.putLong("SiteHigh",site.getMostSignificantBits());t.putLong("SiteLow",site.getLeastSignificantBits());t.putLongArray("Done",done.stream().mapToLong(Long::longValue).toArray());
+        t.putInt("LayoutVersion",layoutVersion);t.putInt("CX",center.getX());t.putInt("CY",center.getY());t.putInt("CZ",center.getZ());t.putLong("SiteHigh",site.getMostSignificantBits());t.putLong("SiteLow",site.getLeastSignificantBits());t.putLongArray("Done",done.stream().mapToLong(Long::longValue).toArray());
     }
     @Override public void postProcess(WorldGenLevel world,StructureManager manager,ChunkGenerator generator,RandomSource random,BoundingBox box,ChunkPos chunk,BlockPos origin) {
         if(!boundingBox.intersects(box) || done.contains(chunk.pack()) || !working.add(chunk.pack()))return;
         try {
             boolean existingWorld=world.getChunk(chunk.x(),chunk.z()).getPersistedStatus().isOrAfter(net.minecraft.world.level.chunk.status.ChunkStatus.FULL);
+            if(layoutVersion==2) {CrownCitadelPlacement.place(world,center,site,box,existingWorld);done.add(chunk.pack());return;}
             for(int x=Math.max(boundingBox.minX(),box.minX());x<=Math.min(boundingBox.maxX(),box.maxX());x++)for(int z=Math.max(boundingBox.minZ(),box.minZ());z<=Math.min(boundingBox.maxZ(),box.maxZ());z++) {
                 int dx=x-center.getX(),dz=z-center.getZ();boolean floor=CrownLayout.cell(dx,0,dz)!=null;
                 boolean protectedColumn=false;

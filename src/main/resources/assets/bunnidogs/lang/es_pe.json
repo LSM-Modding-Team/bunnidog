@@ -2359,7 +2359,7 @@
   "tooltip.bunnidogs.sovereign_core": "Catalizador de herrería para armaduras vitales, élitros acorazados y lanzas de prisma.",
   "tooltip.bunnidogs.crown_sigil": "Despierta una Madriguera de la Corona ya derrotada.",
   "message.bunnidogs.kit.replace": "Reemplaza tu inventario con /kit %s %s replace.",
-  "tooltip.bunnidogs.crown_key": "Encaja en el hueco del mismo color del sello dorado de la corona. Dos llaves distintas abren la puerta.",
+  "tooltip.bunnidogs.crown_key": "Dos piedras llave distintas abren la puerta de esta ciudadela. La tercera abre su archivo.",
   "message.bunnidogs.crown.no_dungeon": "Debes estar dentro de una Madriguera de la Corona para repararla.",
   "message.bunnidogs.crown.repaired": "Se repararon %s bloques en los chunks cargados. Se conservaron el botín y los combates guardados.",
   "message.bunnidogs.tool.power": "Potencia %s/5",
@@ -2529,5 +2529,9 @@
   "care.bunnidogs.commons.working.clip_wood": "Recogiendo madera caída",
   "care.bunnidogs.commons.working.pick_fruit": "Recogiendo fruta",
   "care.bunnidogs.commons.working.hatch_soil": "Ayudando a nacer a una camada",
-  "tooltip.bunnidogs.ground_remnant": "Vestigio de ápex terrestre"
+  "tooltip.bunnidogs.ground_remnant": "Vestigio de ápex terrestre",
+  "block.bunnidogs.crown_socket": "Asiento de piedra llave",
+  "message.bunnidogs.crown.archive_locked": "Al archivo le falta una piedra llave.",
+  "message.bunnidogs.crown.vault_locked": "La corona viviente mantiene cerrada la tesorería.",
+  "block.bunnidogs.crown_rootlight": "Piedra raíz luminosa"
 }
