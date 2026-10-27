@@ -1,6 +1,8 @@
 # Bunnidog barding — one visible equipment item
 
 Design proposal following the player's request for tiered, whole-animal armour.
+Revised after the player rejected the initial high-tier harness as light clothing:
+Diamond, Netherite and Astralite are **complete articulated plate suits**.
 **Not implemented yet.** The current release still uses the dungeon champion
 profiles described in `CROWN_WARREN_SPECS.md`. This design replaces those profiles
 when the equipment system is implemented; it does not add another bonus on top.
@@ -38,51 +40,71 @@ or explicit administrative commands. Shears retain their existing use.
 
 ## Shape and material language
 
-Use fitted animal barding, following the approved sculpt. The body must not look
-like a rectangular chest strapped around the animal. Its readable features are:
+The upper tiers must immediately read as **fully armoured creatures**, with
+substantial metal volume and a complete silhouette from front, side and rear.
+The first concept's flank panels/leather straps remain appropriate only to the
+lower tiers. Full plate is not that harness recoloured or given more statistics.
+Fit the approved anatomy rather than putting a rectangular box around the body.
 
-- A curved, split breastplate beneath the jaw, with a small central buckle.
-- Paired shoulder guards and articulated flank plates following the ribcage.
-- A narrow segmented back ridge and two straps beneath the belly.
-- A short hip guard ending before the tail, with gaps around all four legs.
+- A full domed helmet with brow rim, reinforced cheeks, rigid nasal/face guard,
+  narrow eye openings and a breathing/bite grille. No exposed forehead or large
+  bare cheeks. The faceplate bridges facial detail instead of copying lips and
+  nostrils as a metallic face. Keep it recognisable as a helmet.
+- Segmented sleeves protect the long rabbit ears, preserving their tapered
+  outline and bending. Armour also closes around the smaller ear bases.
+- A substantial gorget joins the helmet to the breastplate. An enclosed cuirass
+  protects chest, flanks, entire back, belly and rump, with overlapping plates
+  and a central crest. Narrow articulation seams replace large exposed gaps.
+- Raised pauldrons and hip guards overlap plated upper legs. All four limbs
+  have articulated knee/hock guards, greaves and paw sabatons, not bare legs
+  emerging from a cloth vest. Small joint gaps and claw/sole clearance remain.
+- A segmented tail guard completes the rear, following the existing tail bone.
 
-Leave the face, ears, paws and tail exposed. Do not add a humanoid helmet, boots
-or another set of limbs. Keep coat visible at joints and between plates so the
-animal's inherited appearance remains recognisable. A small breastplate emblem
-makes a frontal encounter readable despite the large head.
+Helmet, body and limb components are visual parts of **one equipped item**;
+there are no separately crafted/managed head, torso or boot items. The resulting
+anatomy is still quadrupedal, with the original ears, stance and paw shapes.
+Genes remain identifiable through the animal's build, ear/leg proportions and
+behaviour, with coat glimpses at small joints; keeping most fur visible is no
+longer a high-tier design goal. The helmet makes equipment unmistakable during
+a frontal encounter, rather than relying on a small buckle below the face.
 
 | Tier | Visible construction |
 | --- | --- |
 | Leather | Warm brown quilted harness, broad chest panel, stitching and brass buckle; most flank remains uncovered. |
-| Iron | Rolled silver shoulder guards and two flank plates over the leather harness; dark seams and visible rivets. |
-| Diamond | Blue-cyan faceted plates with broader flank coverage and a segmented back; dark cloth remains visible between plates. |
-| Netherite | Thick charcoal-violet plates, pale metal edges, a reinforced breastplate and short hip guards; retain the articulated silhouette. |
-| Astralite | Refined indigo-grey plates, copper-coloured fasteners and restrained pale turquoise inlays, matching existing Astralite equipment. More fitted than Netherite, with a distinct split chest crest and three back segments. |
+| Iron | A transitional plated harness with rolled silver shoulder guards, two flank plates, dark seams and rivets; partial coverage is deliberate at this lower tier. |
+| Diamond | First complete suit: blue-cyan helmet/visor and ear sleeves, enclosed torso and belly, raised shoulder/hip guards, all four armoured legs and paws, and a tail guard. Faceted plates and bright rolled edges. |
+| Netherite | Complete heavy siege armour in charcoal-violet: a deeper reinforced visor, thick gorget, overlapping cuirass, broad pauldrons and plated limbs. Pale edges expose the thickness; dark articulated joints replace exposed leather panels. |
+| Astralite | Complete elite plate armour, with an indigo-grey helmet, enclosed body and fully protected limbs/ears/tail. Copper fasteners, reinforced shoulders, a distinct chest crest and restrained turquoise inlays follow existing Astralite equipment. Refined fit must still look solid and heavily armoured. |
 
 Shape changes as well as colour distinguish the tiers. Astralite inlays must read
 in ordinary light; they do not create a bright aura or hide attack particles.
 Dungeon equipment is the same Astralite item players can craft, not an invisible
 enemy-only tier. The Crowned Apex retains its separate crown above the barding.
 
-Wing roots pass through open channels between the shoulder and back plates.
-The harness follows the torso; wings keep their own moving shoulder/hand bones.
-Do not plate the flight feathers or cover their folded outline. Existing bundle
-packs remain compatible, mounted over the side straps. Their filled silhouette
-must not disappear inside the plates. Fit slim/chonker builds and short/long
-legs through shared rig transforms, without changing collision, size, wing genes
+Wing roots pass through fitted articulated sockets in the shoulder/back armour,
+not large bare patches of torso. Winged upper-tier suits add leading-edge and
+root guards, with overlapping coverts over the inner wing; outer flight feathers
+remain free. Follow the existing moving shoulder/hand bones and folded outline.
+Existing bundle packs mount outside the plate on actual anchor points, and their
+filled silhouette must not disappear inside the cuirass. Fit slim/chonker builds
+and short/long legs through shared rig transforms, without changing collision, size, wing genes
 or the original body mesh. Armour shares hit flashes, Blastmaw white/red fuse
 flashes and swelling, aerial dive poses and the downed pose.
 
 `art/barding_design.png` is a headless **concept**, using the existing sculpt and
 proposed fitted surfaces. It is not a shipped armour model or an in-game capture.
-The concept source is `art/preview_barding_design.py`; wing/pack clearance and
-moving poses still need the eventual runtime model and client review.
+The concept source is `art/preview_barding_design.py`; its studies show all five
+tiers, frontal visor coverage, rear/side views and different builds. Wing/pack
+clearance, full native Apex scale and moving poses still need the eventual
+runtime model and client review.
 
 ## Starting balance
 
 These are proposed equipment values, to be tuned from actual play. Armour and
 toughness are native points; health, damage and speed multiply the unarmoured
 animal's corresponding attributes. They do not replace the genetic foundation.
+The coverage revision changes the visual design, not these proposed numbers.
+Head/leg plates do not add a separate set of regional damage multipliers.
 
 | Tier | Armour | Toughness | Max health | Outgoing damage | Movement | Knockback resistance | Durability |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -104,8 +126,9 @@ attack attribute and multiply the resulting hit again. For Blastmaw explosions
 and fireballs, multiply entity damage while keeping explosion power, block
 destruction, fuse and attack timing unchanged. Self-explosion health cost is
 still a direct cost proportional to equipped max health; do not multiply it by
-the outgoing damage bonus or let its own armour reduce it. Lifebinder healing continues to use the real accepted
-drain, with its existing multiplier. No bonus to heart debt or stun duration.
+the outgoing damage bonus or let its own armour reduce it. Lifebinder healing
+continues to use the real accepted drain, with its existing multiplier. No bonus
+to heart debt or stun duration.
 Broodcaller spawns keep their own genetics and stats: equipment is neither
 inherited nor copied to summoned creatures.
 
@@ -217,7 +240,7 @@ actual slot; the stack is the authority, not a parallel saved tier integer.
 Save only an encounter revision where compatibility requires it.
 
 The client render snapshot contains just the actual tier/required visual
-components. Add one fitted armour layer following body/head/leg transforms;
+components. Add one fitted armour layer following body/head/ear/leg/tail transforms;
 avoid per-frame item or world scans. Five palettes and selectively visible
 plate groups can share a mesh. Do not recolour or replace the animal's coat
 atlas, Crown layer, wing layer or bundle inventory.

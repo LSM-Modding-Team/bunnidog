@@ -9,6 +9,9 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 
 `docs/BUNNIDOG_ARMOUR_PLAN.md` designs one barding item in Leather, Iron,
 Diamond, Netherite and Astralite tiers for adult bunnidogs and all Apexes.
+The revised upper tiers are full plate, including helmet/visor, ear protection,
+enclosed body/belly/rump, all four legs and paws, and an articulated tail guard.
+The light harness is retained only for Leather/transitional Iron.
 Equipment provides protection, health, damage and modest mobility separately
 from genes. Future dungeon actors wear actual Astralite gear instead of the
 current enhanced champion genetics/modifiers. The Crowned Apex is rebased to
