@@ -73,6 +73,7 @@ public final class ModBlocks {
     }
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(BunnidogsMod.MODID);
+    static {com.bunnidogs.mod.crown.LunarMasonry.register(BLOCKS);}
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, BunnidogsMod.MODID);
     public static final java.util.Map<String,DeferredBlock<PeltRugBlock>> PELT_RUGS = registerPeltRugs();

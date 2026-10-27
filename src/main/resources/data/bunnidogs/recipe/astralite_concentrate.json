@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "XXX",
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": "bunnidogs:astralite_shard"
+  },
+  "result": {
+    "id": "bunnidogs:astralite_concentrate",
+    "count": 1
+  }
+}

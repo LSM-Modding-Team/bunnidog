@@ -44,7 +44,7 @@ public final class ApexSkills {
     void restore(float value) { vitality=Float.isFinite(value) ? Math.clamp(value,0,12) : 0; tether=null; }
     public static boolean family(Entity entity) { return entity instanceof Apex || entity instanceof ApexMinion; }
     private boolean victim(LivingEntity entity) {
-        return entity.isAlive() && !family(entity) && !entity.isSpectator() && !(entity instanceof Player p && p.hasInfiniteMaterials())
+        return entity!=null && com.bunnidogs.mod.crown.CrownEncounter.allowedTarget(apex,entity) && entity.isAlive() && !family(entity) && !entity.isSpectator() && !(entity instanceof Player p && p.hasInfiniteMaterials())
                 && (entity instanceof Player || entity==apex.getTarget() || entity instanceof Bunnidog dog && dog.trail().keeper()!=null);
     }
     public Vec3 mouth() { return apex.position().add(0,apex.getBbHeight()*.72,0).add(Vec3.directionFromRotation(apex.getXRot(),apex.getYHeadRot()).scale(apex.getBbWidth()*.45)); }
@@ -106,7 +106,7 @@ public final class ApexSkills {
             @Override public boolean shouldDamageEntity(Explosion explosion,Entity entity) { return !immune(entity); }
             @Override public float getKnockbackMultiplier(Entity entity) { return immune(entity) ? 0 : 1; }
             @Override public float getEntityDamageAmount(Explosion explosion,Entity entity,float exposure) {
-                return (allBunnidogs ? .6F : .96F)*super.getEntityDamageAmount(explosion,entity,exposure);
+                return (float)com.bunnidogs.mod.equipment.Barding.damage(caster)*(allBunnidogs ? .6F : .96F)*super.getEntityDamageAmount(explosion,entity,exposure);
             }
         };
         boolean grief=net.neoforged.neoforge.event.EventHooks.canEntityGrief(level,caster);

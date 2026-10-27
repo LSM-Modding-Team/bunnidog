@@ -2,7 +2,7 @@
   "type": "minecraft:smithing_transform",
   "template": "bunnidogs:astralite_upgrade",
   "base": "minecraft:netherite_leggings",
-  "addition": "bunnidogs:astralite_ingot",
+  "addition": "bunnidogs:astralite_plating",
   "result": {
     "id": "bunnidogs:astralite_leggings"
   }

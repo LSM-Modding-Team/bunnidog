@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "bunnidogs:diamond_bunnidog_barding",
+  "addition": "minecraft:netherite_ingot",
+  "result": {
+    "id": "bunnidogs:netherite_bunnidog_barding"
+  },
+  "template": "minecraft:netherite_upgrade_smithing_template"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "XXX"
+  ],
+  "key": {
+    "X": "bunnidogs:lunar_bricks"
+  },
+  "result": {
+    "id": "bunnidogs:lunar_bricks_slab",
+    "count": 6
+  }
+}

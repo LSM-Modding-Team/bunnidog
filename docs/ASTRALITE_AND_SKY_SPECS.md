@@ -6,47 +6,55 @@ Crown key, Sovereign Core, dungeon clear or dungeon chest.
 
 ## Expedition economy
 
-Astralite Shards and Raw Cinderite are mined from two unique ores. Smelt/blast
-Raw Cinderite into Cinderite Ingots. Four shards, four Cinderite Ingots and one
-Apex Marrow craft one Astralite Ingot. An Astralite Upgrade Template costs four
-diamonds, two Aerial Membranes, two Prism Lenses and one Netherite Ingot.
-Every item consumes one template and one Astralite Ingot in a normal Smithing
-Table, upgrading the corresponding Netherite item. Templates are deliberately
-crafted from repeatable wild-Apex drops rather than requiring dungeon access.
-All recipes unlock from their ingredients. Ore drops support native Fortune,
-Silk Touch and explosion decay. Moonstone and both ores require **Astralite**
-tools for mined drops; Netherite and every lower vanilla tier are insufficient.
-The first Astralite is obtained by baiting actual Blastmaw self-explosions into
-lunar rock, then collecting the real ore drops. This deliberate first-tool loop
-uses no dungeon item. Their resistance is 1,200 (TNT and player launchers cannot
-mine it); only the Blastmaw self-blast calculator treats lunar rock as resistance
-1.5. Mob-griefing, explosion cancellation and protection still apply. Blastmaw
-fireballs have no such exception. Moonstone, ore blocks, shards, raw Cinderite
-and both refined ingots resist native fire and explosion damage as items.
+The lunar forge now requires bulk moon extraction before a complete armour set:
 
-The four-piece set therefore requires sixteen shards, sixteen refined Cinderite,
-four Marrow, eight Membranes, eight Lenses, sixteen diamonds and four additional
-Netherite Ingots, besides the original Netherite gear. Tools cost the same per
-upgrade. No generic ruin chest hands out the new tier or its unique ores.
+1. Nine Astralite Shards craft one **Astralite Concentrate**.
+2. Smelt/blast Raw Cinderite into ingots; nine craft one **Cinderite Billet**.
+3. Nine Moonstone craft **Compressed Moonstone**. Combine one with a Prism Lens
+   and Apex Marrow to make a **Lunar Binder**.
+4. Four concentrates, four billets and one binder craft an **Astralite Bloom**.
+5. Blast-smelt the bloom for 400 ticks into one **Astralite Ingot**.
+6. Four ingots, four more billets and an Aerial Membrane craft **Astralite Plating**.
+7. Smith each Netherite armour piece with one plating and one existing Astralite
+   Upgrade Template. Tools still use one ingot plus one template.
 
-### Current lunar mining demand
+The template remains four diamonds, two membranes, two lenses and one Netherite
+Ingot. All stages are available before the dungeon and unlock through the native
+recipe book. There is no bypassing old cheap ingot recipe. This changes future
+crafting, not existing gear, enchantments, names, wear or saves.
 
-From an existing Netherite armour set, the exact extra materials are 16 Astralite
-Shards, 16 Raw Cinderite (smelted), four Apex Marrow, eight Aerial Membranes,
-eight Prism Lenses, 16 diamonds and four Netherite Ingots. Those additional
-Netherite Ingots use 16 Ancient Debris and 16 Gold Ingots. Add smelting fuel;
-ore-block/kill counts vary with Fortune, explosion loss and actual loot rolls.
-Making the first Astralite pick before the armour adds four shards, four raw
-Cinderite, one Marrow, two Membranes, two Lenses, four diamonds and one Netherite
-Ingot. These counts exclude already-owned gear, workstations and optional
-Heartbound/Sovereign artifacts.
+| Starting from an existing Netherite armour set | Required raw stock |
+| --- | ---: |
+| Astralite Shards | 576 |
+| Raw Cinderite, subsequently smelted | 720 |
+| Moonstone | 144 |
+| Apex Marrow | 16 |
+| Prism Lenses | 24 |
+| Aerial Membranes | 12 |
+| Diamonds | 16 |
+| Additional Netherite Ingots | 4 |
 
-The player correctly identified a progression gap: four ingots for the armour
-set, plus individual tools and Mending-supported repairs, do not justify extensive
-moon mining. Rich moons currently concentrate the ores and provide the first
-Blastmaw extraction challenge, rather than supporting a developed long mining
-expedition. This is a recorded economy/design gap, not evidence that the intended
-mining loop is complete. No recipes or yields were changed by the kit pass.
+Those four extra Netherite Ingots use 16 Ancient Debris and 16 Gold Ingots. Add
+fuel for refining Cinderite/blooms and any vanilla smelting. Counts are item
+requirements, not fixed ore-block or kill counts; Fortune and explosion losses
+matter. Starting with a Netherite pickaxe, upgrading it first adds 36 shards,
+36 raw Cinderite, nine Moonstone, one Marrow, three Lenses, two Membranes, four
+diamonds and one Netherite Ingot. The first tool is deliberately cheaper than
+full armour plating so it provides a mining foothold.
+
+Moonstone and the ores require Astralite for mined drops and resist TNT (1,200).
+Before the first tool, bait actual Blastmaw **self-explosions** into lunar rock.
+Only the dedicated `blastmaw_mineable_moonstone` tag gets resistance 1.5 in that
+narrow calculator. It contains exactly Moonstone and the two ores, not fortress
+blocks that also require an Astralite harvest tool. Fireballs/player launchers
+have no mining exception. Mob-griefing, native protection and explosion
+cancellation remain. Lunar drops and refined materials resist fire/explosions.
+
+Moons retain 2.4% Astralite and 3.2% Cinderite against 0.16%/0.24% on lower
+islands. Bulk ore demand now makes those rich concentrations valuable; no
+ordinary open dungeon cupboard supplies these bottleneck ores or forge stages.
+The first foothold and complete armour are separate resource goals. Natural
+Survival duration and co-op costs still need player review.
 
 ## Equipment
 
@@ -72,7 +80,7 @@ armor exception. This change does not alter accepted enemy fight values.
 
 Late/endgame Bunnidog kits supply enchanted Astralite tools and the corresponding
 Heartbound/Sovereign armor. All durable late/endgame kit items explicitly receive
-Mending I and Unbreaking III; native applicable enchantments remain otherwise.
+Mending I and Unbreaking III, except the requested Infinity bows.
 
 ## Terrain and travel
 

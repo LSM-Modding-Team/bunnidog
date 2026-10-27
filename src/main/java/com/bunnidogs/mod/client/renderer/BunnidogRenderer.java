@@ -33,6 +33,7 @@ public class BunnidogRenderer extends MobRenderer<Bunnidog, BunnidogRenderState,
 
     public BunnidogRenderer(EntityRendererProvider.Context context) {
         super(context, new BunnidogModel(BunnidogModelLayer.sculpt(context.bakeLayer(LAYER))), 0.35F);
+        this.addLayer(new BunnidogBardingLayer(this));
         this.addLayer(new CrownLayer(this,context.bakeLayer(CrownLayer.LAYER)));
         this.addLayer(new BunnidogWingLayer(this,context.bakeLayer(BunnidogWingLayer.LAYER)));
         this.addLayer(new BunnidogPackLayer(this,context.bakeLayer(BunnidogPackLayer.LAYER)));
@@ -51,6 +52,7 @@ public class BunnidogRenderer extends MobRenderer<Bunnidog, BunnidogRenderState,
     @Override
     public void extractRenderState(Bunnidog entity, BunnidogRenderState state, float partialTicks) {
         super.extractRenderState(entity, state, partialTicks);
+        state.barding=com.bunnidogs.mod.equipment.Barding.tier(entity);
         state.crowned=entity instanceof com.bunnidogs.mod.entity.CrownedApex;
         state.crownWarning=entity instanceof com.bunnidogs.mod.entity.CrownedApex crown ? crown.warning() : 0;
         state.swelling=entity instanceof com.bunnidogs.mod.entity.Apex apex ? apex.swelling(partialTicks) : 0;

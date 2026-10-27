@@ -85,6 +85,12 @@ public final class CrownSealBlockEntity extends BlockEntity {
         var c=encounterCenter();int radius=wing()==3 ? 41 : 17;
         return Math.abs(p.x-c.x)<=radius+margin && Math.abs(p.z-c.z)<=radius+margin && p.y>=center.getY()-4 && p.y<=center.getY()+(wing()==3 ? 31 : 16)+margin;
     }
+    public net.minecraft.world.phys.AABB movementBounds() {
+        if(patrol && geometry!=null)return new net.minecraft.world.phys.AABB(center.getX()-120,center.getY()-12,center.getZ()-120,center.getX()+120,center.getY()+71,center.getZ()+120);
+        if(geometry!=null) {var r=geometry.bounds();return new net.minecraft.world.phys.AABB(r.min().getX(),r.min().getY(),r.min().getZ(),r.max().getX()+1,r.max().getY()+1,r.max().getZ()+1);}
+        var c=encounterCenter();double radius=wing()==3 ? 40 : 17;
+        return new net.minecraft.world.phys.AABB(c.x-radius,center.getY(),c.z-radius,c.x+radius,center.getY()+(wing()==3 ? 32 : 17),c.z+radius);
+    }
     private void message(Player p,String id,Object...args) {p.sendOverlayMessage(Component.translatable("message.bunnidogs.crown."+id,args));}
     public void use(Player p,InteractionHand hand) {
         if(busy || !(p instanceof ServerPlayer player) || !editable(p) || site==null || player.isSpectator() || !p.isAlive())return;

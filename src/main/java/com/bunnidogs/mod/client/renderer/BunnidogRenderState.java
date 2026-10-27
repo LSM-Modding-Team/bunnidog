@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 public class BunnidogRenderState extends LivingEntityRenderState {
     /** Index of the expressed Coat allele; picks the texture. */
     public int coat;
+    public int barding=-1;
     public boolean winged,wingFlying,wingDiving;
     public float swelling;
     public boolean redFuse,crowned;

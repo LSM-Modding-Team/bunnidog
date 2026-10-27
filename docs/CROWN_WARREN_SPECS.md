@@ -1,8 +1,9 @@
 # Crown Warren and Sovereign rewards
 
-> Planned equipment replacement: [BUNNIDOG_ARMOUR_PLAN.md](BUNNIDOG_ARMOUR_PLAN.md)
-> replaces dungeon-only genetic/champion boosts with actual visible Astralite
-> barding when implemented. The mechanics below still describe the current release.
+> Current lunar forge, equipment, structural palette, supply and AI changes are
+> recorded in [LUNAR_DUNGEON_UPDATE.md](LUNAR_DUNGEON_UPDATE.md) and
+> [BARDING_SPECS.md](BARDING_SPECS.md). Real Astralite equipment now replaces
+> fresh dungeon actors' genetic/champion damage and health boosts.
 
 > The architectural redesign now ships for fresh sites. The accepted design and
 > implementation record are in [CROWN_WARREN_REDESIGN_PLAN.md](CROWN_WARREN_REDESIGN_PLAN.md).
@@ -74,13 +75,14 @@ melee/ranged/support threats and an aerial member in each trial. Each wave has
 at most one Broodcaller and one Lifebinder. Summon/lifetime limits remain intact;
 there are still exactly two finite waves, not an endless reinforcement loop.
 
-Dungeon actors use actual trained stocky genetic lines: Vitality 75–85,
-Swiftness 60–70, Leap 65–75, Senses 70–80, Bloom 30–40. Trial champions and boss
-escorts additionally receive **1.5× genetic health** and **1.15× attack attribute**.
-Their melee and attack-scaled beams/drains use that real attribute; fixed-power
-Blastmaw explosions keep their accepted values. Native permanent modifiers
-survive enrage/reload without stacking or restoring wounds. The two approach
-guards use the trained lines without champion multipliers.
+Fresh dungeon actors use the ordinary wild role lineages and 25–55-point combat
+range, with no forced stocky build or high-point champion genome. All Apex
+approach guards, trial actors and boss escorts wear actual Astralite BODY barding:
++14 armour, +5 toughness, ×2 health, ×1.6 damage, +8% movement and +0.20 knockback
+resistance. Native saved equipment/modifiers survive enrage/reload without
+stacking or healing. Fixed explosions also use equipment damage while retaining
+their actual explosion power. Old active actors keep their saved legacy profiles;
+new stages and rematches use equipment. Temporary ordinary brood receive none.
 
 Trials freeze the starter and up to three nearby living Survival players at
 engagement. Each additional participant adds 15% champion health, capped at
@@ -122,7 +124,14 @@ are preserved; opened paid gates are never rebuilt. It never force-loads the sit
 
 No tutorial menu, ambient instructions, mandatory guide chapter or automatic
 stat panel is added. Seals use concise feedback only when interacted with.
-Critical gates/seals resist mining, blasts, terrain attacks and piston movement.
+Critical gates/seals retain their existing protections. Fresh structural walls,
+roofs, floors, stairs, slabs, railings, beams, windows and rootlights use the new
+lunar/rootstone palette: hardness 200, maximum finite explosion resistance,
+Astralite harvest tier and explicit immunity to entity terrain clearing.
+Furnishings remain ordinary interactive blocks. `/bunnidogs dungeon fortify`
+upgrades matching old structural cells in loaded chunks at their actual template
+positions, preserving shape, missing/player-edited blocks, inventories and ledgers.
+It does not paste a fresh dungeon or refill an opened barrel.
 Other player-made shortcuts remain useful; opening a route does not skip the
 central seal's actual encounter conditions.
 
@@ -191,8 +200,10 @@ spawn/payment revalidation. Its recipe uses existing realm parts, not the five
 original legendary offerings. Saved active rematches remain already paid.
 
 Ten seconds without a living Survival player in the encounter, a missing tracked
-actor, or Peaceful mode resets an unfinished fight. Actors outside their local
-bounds are removed. Cleanup touches encounter actors and preserves player items,
+actor, or Peaceful mode resets an unfinished fight. Actors are steered and physically contained within saved bounds.
+Guards use the dungeon footprint; trials/adds use their own room. Targets outside
+the allowed area are rejected. Displaced old actors return without being counted
+as killed; no ordinary boundary crossing deletes an active enemy. Cleanup touches encounter actors and preserves player items,
 blocks and earned reward ledgers. Old active actors cannot join a later run.
 
 Each frozen participant needs 30 contribution points. Actual damage to the boss
@@ -214,8 +225,9 @@ A qualifying victory grants:
   duplicate it.
 - A displayable Crown trophy carrying the actual dungeon and victory identity.
   Failed trophy delivery remains independently claimable after the core.
-- A generic vault: 32–48 diamond blocks, 12–16 Netherite blocks, 48–64 enchanted
-  golden apples, 6–8 Totems, and large crafting/expedition stocks. Unique role
+- A generic vault: 64 diamond blocks, 32–48 Netherite blocks, 128 enchanted
+  golden apples, 6–8 Totems, 256 XP bottles, 192 amethyst blocks, 256 gunpowder,
+  128 fire charges and 64 each copper/gold blocks. Unique role
   ingredients instead drop from the actual Crowned Apex: 16–24 of each of the
   five role parts, Marrow and aerial membranes. The boss pays 10,000 XP.
 - A separately frozen archive: ordinary heritable winged End/Cave parents with
@@ -223,8 +235,17 @@ A qualifying victory grants:
   Starlit Dust. These breed ordinary bunnidogs through existing genetics; they do
   not grant the boss's separate health pool, an instant profession or a civilization.
 
-Wing caches now contain 12–16 diamond blocks, 24–32 Netherite ingots, 16–24
-enchanted golden apples, 3–4 Totems and increased bulk ammunition reagents.
+Ordinary architectural barrels now contain 64–128 golden apples, 16–32 enchanted
+apples, 128–256 XP bottles, 32–64 pearls, 64–128 Flight-1 rockets, 4–8 diamond
+blocks/Netherite ingots, 2–3 Totems, 64–128 amethyst blocks, 128–256 gunpowder,
+32–64 each fire charges/copper blocks and 16–32 gold blocks. This replaces the separate weak supply table from
+the screenshot; the final rewards alone were not the problem.
+
+Wing caches now contain 24–32 diamond blocks, 32–48 Netherite ingots, 48–64
+enchanted apples, 4–6 Totems, 128 golden apples, 256 XP bottles, 128 amethyst
+blocks, 384 gunpowder, 128 fire charges and 64 each copper/gold blocks. All maximum
+rolls fit 27 native slots. Generic caches supply bulk crafting ingredients, not
+exclusive Apex parts or the lunar forge bottlenecks; those still require combat/mining.
 The richer loot tables affect unresolved caches; existing actual contents never
 refill. Personal Core count, exclusive drops and rematch payments are unchanged. Temporary dungeon enemies
 and boss adds do not provide ordinary ritual Crests, role parts or XP. Paid genetic
@@ -255,7 +276,7 @@ healing credit for self-healing. Interrupted charges spend nothing. Native fuel,
 cooldown, permission and whole-item checks remain authoritative.
 
 All new text is English plus the shared neutral Peruvian Spanish source.
-Protocol **43** requires matching client/server content. Original ordinary Apex
+Protocol **44** requires matching client/server content. Original ordinary Apex
 values and old gear IDs/saves remain compatible.
 
 ## Evidence and remaining review
@@ -274,7 +295,8 @@ keys, the archive/treasury, final reward, native saves and generation/repair sto
 preservation. A separate unfinished-ProtoChunk fixture covers all four V2 seals;
 missing-revision V1 saves remain covered. The shipped-NBT walking audit proves
 independent closed-gate wing routes, legal pads/jambs and the clear Crown volume.
-The full suite contains 248 scenarios; build/model/localization gates also run.
+The full suite contains 252 scenarios, including the new lunar forge, native
+barding ownership/save, movement boundary and actual supply barrel/masonry cases; build/model/localization gates also run.
 A repeat run exposed the pre-existing field test's open irrigation shaft under
 a one-block-thick platform; that fixture now uses a real waterlogged cover so
 random crop velocity cannot turn its hauling assertion into an unreachable void drop.

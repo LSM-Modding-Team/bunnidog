@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "XC",
+    "XC"
+  ],
+  "key": {
+    "X": "bunnidogs:lunar_rootstone",
+    "C": "bunnidogs:cinderite_ingot"
+  },
+  "result": {
+    "id": "bunnidogs:cinderroot_beams",
+    "count": 8
+  }
+}

@@ -177,6 +177,7 @@ public final class CarePanels {
     public static boolean animalAction(Player player,Bunnidog dog,int id) {
         if (id>=CombatPanel.ASSIST && id<=CombatPanel.COMMAND) return CombatPanel.act(player,dog,id);
         return switch (id) {
+            case 242 -> com.bunnidogs.mod.equipment.Barding.remove(player,dog);
             case GENETICS -> {
                 boolean measured=player instanceof ServerPlayer && has(player,ModItems.CALIPERS.get());
                 if (measured) {

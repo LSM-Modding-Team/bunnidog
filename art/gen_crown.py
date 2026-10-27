@@ -135,3 +135,6 @@ for i,name in enumerate(icons):
 for i in range(4):
  icon=Image.open(A/'textures/block'/f'crown_seal_{i}_2_{7 if i==3 else 0}.png').resize((64,64),Image.Resampling.NEAREST);preview.paste(icon,(30+i*150,365))
 preview.save(ROOT/'art/crown_items_preview.png')
+
+from gen_lunar_forge import supplies
+supplies()

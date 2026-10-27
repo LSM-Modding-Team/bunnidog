@@ -13,8 +13,8 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 32,
-                "max": 48
+                "min": 64,
+                "max": 64
               }
             }
           ]
@@ -32,8 +32,8 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 12,
-                "max": 16
+                "min": 32,
+                "max": 48
               }
             }
           ]
@@ -51,8 +51,8 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 48,
-                "max": 64
+                "min": 128,
+                "max": 128
               }
             }
           ]
@@ -83,14 +83,14 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:amethyst_block",
+          "name": "minecraft:experience_bottle",
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 48,
-                "max": 64
+                "min": 256,
+                "max": 256
               }
             }
           ]
@@ -102,14 +102,14 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:copper_block",
+          "name": "minecraft:amethyst_block",
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 32,
-                "max": 64
+                "min": 192,
+                "max": 192
               }
             }
           ]
@@ -127,7 +127,7 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 192,
+                "min": 256,
                 "max": 256
               }
             }
@@ -140,33 +140,14 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:fire_charge",
+          "name": "minecraft:copper_block",
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 32,
+                "min": 64,
                 "max": 64
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:ender_pearl",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 32,
-                "max": 48
               }
             }
           ]
@@ -184,7 +165,7 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 32,
+                "min": 64,
                 "max": 64
               }
             }
@@ -197,14 +178,14 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:blaze_rod",
+          "name": "minecraft:fire_charge",
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 32,
-                "max": 64
+                "min": 128,
+                "max": 128
               }
             }
           ]

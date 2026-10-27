@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "bunnidogs:block/lunar_tiles",
+    "top": "bunnidogs:block/lunar_tiles",
+    "side": "bunnidogs:block/lunar_tiles"
+  }
+}

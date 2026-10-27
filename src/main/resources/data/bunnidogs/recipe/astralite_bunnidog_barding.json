@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "bunnidogs:netherite_bunnidog_barding",
+  "addition": "bunnidogs:astralite_plating",
+  "result": {
+    "id": "bunnidogs:astralite_bunnidog_barding"
+  },
+  "template": "bunnidogs:astralite_upgrade"
+}

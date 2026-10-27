@@ -24,6 +24,11 @@
     "bunnidogs:astralite_pickaxe",
     "bunnidogs:astralite_axe",
     "bunnidogs:astralite_shovel",
-    "bunnidogs:astralite_hoe"
+    "bunnidogs:astralite_hoe",
+    "bunnidogs:leather_bunnidog_barding",
+    "bunnidogs:iron_bunnidog_barding",
+    "bunnidogs:diamond_bunnidog_barding",
+    "bunnidogs:netherite_bunnidog_barding",
+    "bunnidogs:astralite_bunnidog_barding"
   ]
 }

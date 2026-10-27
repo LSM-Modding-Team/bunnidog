@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "XXX",
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": "bunnidogs:cinderite_ingot"
+  },
+  "result": {
+    "id": "bunnidogs:cinderite_billet",
+    "count": 1
+  }
+}

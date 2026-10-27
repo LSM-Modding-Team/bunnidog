@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ABA",
+    "BMB",
+    "ABA"
+  ],
+  "key": {
+    "A": "bunnidogs:astralite_concentrate",
+    "B": "bunnidogs:cinderite_billet",
+    "M": "bunnidogs:lunar_binder"
+  },
+  "result": {
+    "id": "bunnidogs:astralite_bloom",
+    "count": 1
+  }
+}

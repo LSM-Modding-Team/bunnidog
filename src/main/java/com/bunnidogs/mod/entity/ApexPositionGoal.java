@@ -25,7 +25,7 @@ final class ApexPositionGoal extends Goal {
         if(distance<near) {
             Vec3 away=apex.position().subtract(target.position()).multiply(1,0,1).normalize();
             if(away.lengthSqr()<.01)away=new Vec3(1,0,0);
-            Vec3 at=apex.position().add(away.scale(6));
+            Vec3 at=com.bunnidogs.mod.crown.CrownEncounter.destination(apex,apex.position().add(away.scale(6)));
             if(apex.level().hasChunkAt(BlockPos.containing(at)))apex.getNavigation().moveTo(at.x,at.y,at.z,1.2);
         } else if(distance>far || !apex.hasLineOfSight(target) && apex.kind()!=ApexKind.PRISM)apex.getNavigation().moveTo(target,rush ? 1.3 : 1);
         else apex.getNavigation().stop();

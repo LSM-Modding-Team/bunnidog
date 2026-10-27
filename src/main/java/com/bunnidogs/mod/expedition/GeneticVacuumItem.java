@@ -34,7 +34,7 @@ public final class GeneticVacuumItem extends BundleItem {
     @Override public ItemUseAnimation getUseAnimation(ItemStack stack) {return ItemUseAnimation.BOW;}
     private static Bunnidog target(ServerLevel server,Player player) {
         return server.getEntitiesOfClass(Bunnidog.class,player.getBoundingBox().inflate(9),dog->!(dog instanceof Apex) && dog.isAlive() && dog.getLeashData()==null && !dog.isPassenger() && !dog.isVehicle()
-                && (dog.trail().keeper()==null || dog.trail().belongsTo(player)) && (!dog.hasCustomName() || dog.trail().belongsTo(player)) && dog.carriedBundleCount()==0 && player.hasLineOfSight(dog)
+                && (dog.trail().keeper()==null || dog.trail().belongsTo(player)) && (!dog.hasCustomName() || dog.trail().belongsTo(player)) && dog.carriedBundleCount()==0 && com.bunnidogs.mod.equipment.Barding.tier(dog)<0 && player.hasLineOfSight(dog)
                 && dog.getEyePosition().subtract(player.getEyePosition()).normalize().dot(player.getLookAngle())>.94)
                 .stream().min(java.util.Comparator.comparingDouble(player::distanceToSqr)).orElse(null);
     }

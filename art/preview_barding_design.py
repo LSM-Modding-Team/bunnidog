@@ -23,6 +23,9 @@ TIERS = [
 BG = (238, 234, 226)
 
 
+EXPORT_FACES=[]
+EXPORT_BONE="body"
+
 def face(points, colour_slot):
     points = np.asarray(points, dtype=float)
     normal = np.cross(points[2] - points[0], points[3] - points[1])
@@ -34,7 +37,9 @@ def face(points, colour_slot):
     v=points[:,2]+12 if axis==1 else 20-points[:,1]
     uv=np.column_stack(((colour_slot%4)*256+8*(u+12)+4,
                         512+(colour_slot//4)*256+8*v+4))
-    return points, normal, uv, (0,0), np.tile(normal, (4, 1))
+    result=(points, normal, uv, (0,0), np.tile(normal, (4, 1)))
+    EXPORT_FACES.append((EXPORT_BONE,result))
+    return result
 
 
 def material_atlas(tier,fur):
@@ -284,7 +289,10 @@ def extremities(tier,build):
             pivot=np.asarray(bones[parent]['pivot'])
             thick=1+(build-1)*.6
             points=pivot+(points-pivot)*(thick,1,thick)
+        global EXPORT_BONE
+        EXPORT_BONE=parent
         result.append(face(points,slot))
+        EXPORT_BONE="body"
     return result
 
 

@@ -24,7 +24,7 @@ final class EquipmentModesGameTest {
         ModItems.FIREBALL_LAUNCHER.get().use(level,p,InteractionHand.MAIN_HAND);
         var ball=level.getEntitiesOfClass(net.minecraft.world.entity.projectile.hurtingprojectile.LargeFireball.class,p.getBoundingBox().inflate(4),e->e.getOwner()==p).getFirst();
         var out=net.minecraft.world.level.storage.TagValueOutput.createWithContext(net.minecraft.util.ProblemReporter.DISCARDING,level.registryAccess());ball.saveWithoutId(out);
-        h.assertTrue(out.buildResult().getByteOr("ExplosionPower",(byte)0)==20 && launcher.getDamageValue()==5 && !PowerModes.available(p,ModItems.VOLATILE_CHARGE.get(),1),"Power-five launcher creates a real power-20 fireball and spends five fragmented charges");ball.discard();
+        h.assertTrue(out.buildResult().getByteOr("ExplosionPower",(byte)0)==15 && launcher.getDamageValue()==5 && !PowerModes.available(p,ModItems.VOLATILE_CHARGE.get(),1),"Power-five launcher creates a real power-15 fireball and spends five fragmented charges");ball.discard();
         p.setShiftKeyDown(true);ModItems.FIREBALL_LAUNCHER.get().use(level,p,InteractionHand.MAIN_HAND);
         h.assertTrue(PowerModes.get(launcher)==1 && launcher.getDamageValue()==5,"Sneak-use wraps power without firing or consuming resources, even during recovery");p.setShiftKeyDown(false);p.discard();
     }

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "bunnidogs:block/pale_lunar_tiles_slab"
+    },
+    "type=top": {
+      "model": "bunnidogs:block/pale_lunar_tiles_slab_top"
+    },
+    "type=double": {
+      "model": "bunnidogs:block/pale_lunar_tiles"
+    }
+  }
+}

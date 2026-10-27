@@ -46,11 +46,11 @@ final class CrownDungeonGameTest {
         var champion=(Apex)h.getLevel().getEntity(be.enemies().iterator().next());
         var ordinary=ModEntities.apex(champion.kind(),champion.flying()).create(h.getLevel(),EntitySpawnReason.COMMAND);
         ordinary.setGenome(champion.genome());ordinary.setStats(champion.stats());ordinary.setNoAi(true);
-        h.assertTrue(Math.abs(champion.getMaxHealth()-ordinary.getMaxHealth()*1.5)<.1 && Math.abs(champion.getAttributeValue(Attributes.ATTACK_DAMAGE)-ordinary.getAttributeValue(Attributes.ATTACK_DAMAGE)*1.15)<.001,"A dungeon champion is stronger than the same ordinary genetic line, without changing wild rules");
+        h.assertTrue(Math.abs(champion.getMaxHealth()-Math.min(960,ordinary.getMaxHealth()*2))<.1 && Math.abs(champion.getAttributeValue(Attributes.ATTACK_DAMAGE)-ordinary.getAttributeValue(Attributes.ATTACK_DAMAGE)*1.6)<.001,"A dungeon champion is stronger than the same ordinary genetic line, without changing wild rules");
         float maximum=champion.getMaxHealth();champion.setHealth(maximum/3);champion.tick();
         var savedActor=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,h.getLevel().registryAccess());champion.saveWithoutId(savedActor);
         var restoredActor=ModEntities.apex(champion.kind(),champion.flying()).create(h.getLevel(),EntitySpawnReason.LOAD);restoredActor.load(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),savedActor.buildResult()));restoredActor.tick();
-        h.assertTrue(Math.abs(restoredActor.getMaxHealth()-maximum)<.1 && Math.abs(restoredActor.getHealth()-maximum/3)<.1 && restoredActor.getAttribute(Attributes.ATTACK_DAMAGE).hasModifier(CrownBalance.DAMAGE),"Enrage and native actor reload retain champion bonuses and wounds without stacking or refilling health");
+        h.assertTrue(Math.abs(restoredActor.getMaxHealth()-maximum)<.1 && Math.abs(restoredActor.getHealth()-maximum/3)<.1 && com.bunnidogs.mod.equipment.Barding.tier(restoredActor)==4 && !restoredActor.getAttribute(Attributes.ATTACK_DAMAGE).hasModifier(CrownBalance.DAMAGE),"Enrage and native actor reload retain champion bonuses and wounds without stacking or refilling health");
         ordinary.discard();restoredActor.discard();
         var first=h.getLevel().getEntity(be.enemies().iterator().next());first.discard();
         h.assertTrue(be.active() && be.wave()==0 && !be.cleared(),"Discarding/unloading an actor never counts as a confirmed kill");be.reset();
@@ -77,7 +77,7 @@ final class CrownDungeonGameTest {
         boolean brood=false,support=false,air=false;
         for(var id:seal.enemies()) {
             var mob=(Apex)h.getLevel().getEntity(id);var hp=mob.getAttribute(Attributes.MAX_HEALTH);
-            double expected=Math.min(960,hp.getBaseValue()*1.5*1.45);
+            double expected=Math.min(960,hp.getBaseValue()*2*1.45);
             h.assertTrue(Math.abs(mob.getMaxHealth()-expected)<.1 && mob.getMaxHealth()<=960,"The next wave retains the original four-player scaling within native health bounds");
             brood|=mob.kind()==ApexKind.BROOD;support|=mob.kind()==ApexKind.SUPPORT;air|=mob.flying();
         }

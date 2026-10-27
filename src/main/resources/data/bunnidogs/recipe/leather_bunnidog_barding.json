@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "L L",
+    "LNL",
+    "LSL"
+  ],
+  "key": {
+    "L": "minecraft:leather",
+    "N": "minecraft:iron_nugget",
+    "S": "minecraft:string"
+  },
+  "result": {
+    "id": "bunnidogs:leather_bunnidog_barding"
+  }
+}

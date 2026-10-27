@@ -36,11 +36,37 @@ public final class CrownEncounter {
         var attacking=event.getSource().getEntity();var encounter=attacking==null ? null : controller(attacking);
         if(encounter!=null && event.getEntity() instanceof ServerPlayer player && event.getBlockedDamage()>0)encounter.credit(player.getUUID(),event.getBlockedDamage()*.5F);
     }
+    public static boolean allowedTarget(Entity actor,Entity target) {
+        if(!member(actor))return true;var seal=controller(actor);return seal!=null && seal.active() && target!=null && seal.movementBounds().contains(target.position());
+    }
+    public static net.minecraft.world.phys.Vec3 destination(Bunnidog mob,net.minecraft.world.phys.Vec3 point) {
+        if(!member(mob))return point;var seal=controller(mob);if(seal==null)return mob.position();var b=seal.movementBounds();double inset=mob.getBbWidth()/2+.1;
+        return new net.minecraft.world.phys.Vec3(Math.clamp(point.x,b.minX+inset,b.maxX-inset),Math.clamp(point.y,b.minY+.01,b.maxY-mob.getBbHeight()-.01),Math.clamp(point.z,b.minZ+inset,b.maxZ-inset));
+    }
+    private static double axis(double p,double delta,double low,double high) {
+        if(p<low)return Math.max(0,Math.min(delta,high-p));
+        if(p>high)return Math.min(0,Math.max(delta,low-p));
+        return Math.clamp(p+delta,low,high)-p;
+    }
+    public static net.minecraft.world.phys.Vec3 limit(Bunnidog mob,net.minecraft.world.phys.Vec3 motion) {
+        var seal=controller(mob);if(seal==null)return net.minecraft.world.phys.Vec3.ZERO;
+        var b=seal.movementBounds();double inset=mob.getBbWidth()/2+.06;
+        return new net.minecraft.world.phys.Vec3(axis(mob.getX(),motion.x,b.minX+inset,b.maxX-inset),axis(mob.getY(),motion.y,b.minY+.01,b.maxY-mob.getBbHeight()-.01),axis(mob.getZ(),motion.z,b.minZ+inset,b.maxZ-inset));
+    }
     @SubscribeEvent public static void tick(EntityTickEvent.Pre event) {
-        var entity=event.getEntity();if(!(entity.level() instanceof ServerLevel level) || !member(entity) || entity.tickCount%20!=0 || !entity.isAlive())return;
+        var entity=event.getEntity();if(!(entity.level() instanceof ServerLevel level) || !member(entity) || !entity.isAlive())return;
         var seal=controller(entity);
-        if(seal==null && CrownTickets.restoreController(entity,level,BlockPos.of(entity.getPersistentData().getLongOr("CrownHome",0))))return;
-        if(seal==null || !seal.active() || !seal.contains(entity.position(),8))entity.discard();
+        if(seal==null) {if(entity.tickCount%20==0 && !CrownTickets.restoreController(entity,level,BlockPos.of(entity.getPersistentData().getLongOr("CrownHome",0))))entity.discard();return;}
+        if(!seal.active()) {entity.discard();return;}
+        if(entity instanceof Mob mob) {
+            if(mob.getTarget()!=null && !allowedTarget(mob,mob.getTarget())) {mob.setTarget(null);mob.getNavigation().stop();}
+            var b=seal.movementBounds();
+            if(!b.contains(mob.position())) {
+                double inset=mob.getBbWidth()/2+.2;double x=Math.clamp(mob.getX(),b.minX+inset,b.maxX-inset),y=Math.clamp(mob.getY(),b.minY+.1,b.maxY-mob.getBbHeight()-.1),z=Math.clamp(mob.getZ(),b.minZ+inset,b.maxZ-inset);
+                mob.setTarget(null);mob.getNavigation().moveTo(x,y,z,1.1);
+                if(mob.isNoGravity())mob.setDeltaMovement(new net.minecraft.world.phys.Vec3(x,y,z).subtract(mob.position()).normalize().scale(.35));
+            }
+        }
     }
     public static void death(Apex apex) {var seal=controller(apex);if(seal!=null)seal.defeated(apex);}
     private CrownEncounter() {}

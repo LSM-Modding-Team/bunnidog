@@ -2,6 +2,23 @@
   "values": [
     "bunnidogs:moonstone",
     "bunnidogs:astralite_ore",
-    "bunnidogs:cinderite_ore"
+    "bunnidogs:cinderite_ore",
+    "bunnidogs:lunar_rootstone",
+    "bunnidogs:lunar_bricks",
+    "bunnidogs:lunar_bricks_stairs",
+    "bunnidogs:lunar_bricks_slab",
+    "bunnidogs:lunar_bricks_wall",
+    "bunnidogs:pale_lunar_tiles",
+    "bunnidogs:pale_lunar_tiles_stairs",
+    "bunnidogs:pale_lunar_tiles_slab",
+    "bunnidogs:pale_lunar_tiles_wall",
+    "bunnidogs:lunar_tiles",
+    "bunnidogs:lunar_tiles_stairs",
+    "bunnidogs:lunar_tiles_slab",
+    "bunnidogs:lunar_tiles_wall",
+    "bunnidogs:cinderroot_beams",
+    "bunnidogs:runic_lunar_glass",
+    "bunnidogs:lunar_rootlight",
+    "bunnidogs:cinderroot_fence"
   ]
 }

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "key": {
+    "X": "bunnidogs:lunar_bricks"
+  },
+  "result": {
+    "id": "bunnidogs:lunar_bricks_stairs",
+    "count": 4
+  }
+}

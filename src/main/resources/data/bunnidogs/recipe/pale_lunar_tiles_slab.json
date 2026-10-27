@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "XXX"
+  ],
+  "key": {
+    "X": "bunnidogs:pale_lunar_tiles"
+  },
+  "result": {
+    "id": "bunnidogs:pale_lunar_tiles_slab",
+    "count": 6
+  }
+}

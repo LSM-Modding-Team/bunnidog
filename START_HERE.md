@@ -5,6 +5,34 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — lunar forge, dungeon supplies, equipment and containment
+
+`docs/LUNAR_DUNGEON_UPDATE.md` records the six-item play-review update.
+Astralite now uses concentrates, billets, compressed Moonstone, binder and
+blast-smelted blooms. Player armour and Astralite barding consume Plating;
+tools retain an ingot to establish the first lunar mining foothold. Starting
+from a Netherite armour set, the full upgrade requires **576 shards, 720 raw
+Cinderite, 144 Moonstone, 16 Marrow, 24 lenses, 12 membranes, 16 diamonds and four
+extra Netherite ingots**, plus fuel. Everything is obtainable before the dungeon.
+See `docs/ASTRALITE_AND_SKY_SPECS.md` for exact crafts and first-pick costs.
+
+The weak architectural barrel table is replaced alongside wing/final rewards:
+large apple/XP/mobility reserves, Totems, refined vanilla wealth and bulk generic
+crafting materials. Exclusive role parts and lunar bottlenecks remain kills/mining.
+All maximum rolls fit native containers; already-opened stock never refills.
+Launcher levels now mean explosion powers **3/6/9/12/15**, with the same costs.
+
+Dungeon actors filter targets and constrain actual movement, navigation, jumps
+and flight to the dungeon; trial actors use their saved room bounds. Escaped old
+actors return without kill credit. New structural walls/roofs/floors/beams/glass/
+lights/stairs/slabs/walls/fences use original lunar/rootstone mineral textures,
+complete explosion/entity-destruction resistance, hardness 200 and Astralite
+harvest tier. The narrow Blastmaw mining exception still applies only to lunar
+rock and ores. Fresh native templates retain the authored architecture below.
+For an existing castle, explicit loaded-only **`/bunnidogs dungeon fortify`**
+converts matching old structural cells, preserving stock, state and other edits.
+Ordinary repair does not migrate palettes.
+
 ## Current — organised progression kits and endgame variants
 
 `/kit <vanilla|bunnidog> endgame <crystal|mace> replace` now selects a focused
@@ -17,30 +45,25 @@ repair XP; vanilla prepared kits have splash Healing II. Existing apple/rocket,
 mod ammo and flask totals remain. See `docs/KIT_LOADOUTS.md` for exact stock,
 slot layouts and research. These changes apply on the next kit command.
 
-## Planned — visible whole-animal equipment
+## Current — visible whole-animal equipment
 
-`docs/BUNNIDOG_ARMOUR_PLAN.md` designs one barding item in Leather, Iron,
-Diamond, Netherite and Astralite tiers for adult bunnidogs and all Apexes.
-Coverage progresses gradually: Leather padding/cap/wraps; Iron open helmet,
-partial body plates and greaves; Diamond enclosed torso, broader visor, upper-leg
-and paw guards; Netherite full plate; Astralite reinforced full plate. The final
-tiers protect head/ears, body/belly/rump, all four legs/paws and the tail.
-The accepted shape is retained; the latest texture study replaces flat swatches
-with material shading, stepped highlights, leather seams and mail detail informed
-by actual vanilla worn-armour/horse-armour assets and equipped horse references.
-Equipment provides protection, health, damage and modest mobility separately
-from genes. Future dungeon actors wear actual Astralite gear instead of the
-current enhanced champion genetics/modifiers. The Crowned Apex is rebased to
-avoid doubling its already increased stats. Owner handling, native stack
-ownership, repairs/drops, basket/vacuum boundaries and old-fight compatibility
-are specified. `art/barding_design.png` is a fitted concept over the existing
-sculpt, not a shipped model or client capture. Gameplay implementation is pending;
-the released dungeon balance below remains current.
+`docs/BARDING_SPECS.md` describes real single-item BODY barding in Leather,
+Iron, Diamond, Netherite and Astralite tiers for adult bunnidogs and all Apexes.
+The accepted coverage and material shading now export to actual game meshes
+and atlases. Calm bonded-owner equip/swap/removal preserves exact native stack
+ownership, wounds and genetics. Native repair, armour enchantments, wear and drops
+apply; basket saves preserve equipment and the vacuum refuses armoured captures.
+Astralite gives +14 armour/+5 toughness, ×2 health, ×1.6 damage and +8% speed.
+Fresh dungeon Apexes wear this real equipment with ordinary wild-range genomes;
+old active fighters retain their saved profiles. The Crowned Apex rebases new
+encounters before equipment so its accepted finale numbers do not double.
+`art/barding_shipped_preview.png` inspects exported meshes, not a client capture.
+Natural animation/wing/pack clearance and Survival acquisition remain human review.
 
 ## Current — dungeon combat above the Great Warren baseline
 
-Crown trials now have four then five mixed Apex champions, with trained genetic
-lines, 1.5× health and 1.15× attack. Party size freezes on entry and adds 15%
+Crown trials have four then five mixed Apex champions, with ordinary wild-range
+genomes and actual Astralite BODY equipment. Party size freezes on entry and adds 15%
 health per additional player, within ordinary native health limits. Finite guard
 pairs introduce each approach. Wild/ritual Apex tuning and realm spawn density
 remain unchanged.
@@ -232,7 +255,7 @@ include Unbreaking III and Mending I on durable late/endgame gear.
 ## Current gear follow-up
 
 Sneak-use cycles persistent power 1–5 on the Launcher, Sovereign Lance and
-Concord Standard. Launcher uses explosion strength 4×power; Lance deals 45×power;
+Concord Standard. Launcher uses explosion strength 3×power; Lance deals 45×power;
 Standard heals five hearts×power and gives Resistance level=power for four
 seconds. Fuel and wear scale per level. Native armor durability tags and tool
 enchantability now support Mending; Gene Siphon inventory accepts only Bunnidog
@@ -291,7 +314,7 @@ Read `docs/APEX_REWARDS_SPECS.md` before the original realm specs. Latest steeri
 calls for powerful multipart gear and much more generic ruin stock, with unique
 parts from Apex kills. All seven requested directions now ship: Heartbound
 Netherite with +1.5 equipped hearts/piece and independent 60/45/30/15s heart-loss
-recovery; an Elytra smithing upgrade with actual armor/Protection; native power-4
+recovery; an Elytra smithing upgrade with actual armor/Protection; native selectable power-3–15
 launcher; power-20 rescue Totem with owner immunity/5s stun; stronger armor-piercing
 Lance; native-bundle genetic vacuum/exact-copy seeds; ordered world-backed
 unbounded potion/juice flask. Rituals also pay parts for pre-realm preparation.

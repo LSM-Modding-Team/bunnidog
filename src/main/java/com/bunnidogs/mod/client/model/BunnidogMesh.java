@@ -20,8 +20,11 @@ public final class BunnidogMesh {
     private BunnidogMesh() {}
 
     public static ModelPart load(ModelPart skeleton) {
+        return load(skeleton,"bunnidog");
+    }
+    public static ModelPart load(ModelPart skeleton,String resource) {
         InputStream stream = BunnidogMesh.class.getResourceAsStream(
-                "/assets/bunnidogs/models/entity/bunnidog.mesh");
+                "/assets/bunnidogs/models/entity/"+resource+".mesh");
         if (stream == null) throw new IllegalStateException("Missing bunnidog mesh");
         try (DataInputStream in = new DataInputStream(stream)) {
             if (in.readInt() != 0x42444D32) throw new IOException("Invalid bunnidog mesh version");

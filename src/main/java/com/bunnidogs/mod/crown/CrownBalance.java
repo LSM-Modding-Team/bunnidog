@@ -6,7 +6,7 @@ import java.util.*;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.*;
 
-/** Dungeon-only formations and trained lines. Ordinary wild/ritual Apex rules stay authoritative. */
+/** Dungeon-only formations and equipped wild-range lineages. Ordinary wild/ritual Apex rules stay authoritative. */
 public final class CrownBalance {
     public record Fighter(ApexKind kind,boolean flying) {}
     private static Fighter ground(ApexKind kind) {return new Fighter(kind,false);}
@@ -34,14 +34,13 @@ public final class CrownBalance {
     public static void train(Apex mob,long seed,int players,boolean champion) {
         var rng=new Random(seed);var lineage=switch(mob.kind()) {case PRISM->Lineage.CAVE;case BLAST->Lineage.NETHER;case SUPPORT->Lineage.SWAMP;default->Lineage.MEADOW;};
         var genes=Genome.randomFounder(lineage,rng);
-        for(int allele=0;allele<2;allele++)genes=genes.with(Gene.BUILD,allele,Gene.BUILD.alleleNamed("stocky").id());
         if(mob.flying())genes=Wings.winged(genes);
-        mob.setGenome(genes);mob.setStats(Stats.of(75+rng.nextInt(11),60+rng.nextInt(11),65+rng.nextInt(11),70+rng.nextInt(11),30+rng.nextInt(11)));
+        mob.setGenome(genes);mob.setStats(Stats.of(25+rng.nextInt(31),25+rng.nextInt(31),25+rng.nextInt(31),25+rng.nextInt(31),10+rng.nextInt(21)));
+        com.bunnidogs.mod.equipment.Barding.astralite(mob);
         if(champion) {
-            var health=mob.getAttribute(Attributes.MAX_HEALTH);var damage=mob.getAttribute(Attributes.ATTACK_DAMAGE);
-            double multiplier=Math.min(960/health.getValue(),1.5*(1+.15*(Math.clamp(players,1,4)-1)));
+            var health=mob.getAttribute(Attributes.MAX_HEALTH);
+            double multiplier=Math.min(960/(health.getBaseValue()*2),(1+.15*(Math.clamp(players,1,4)-1)));
             health.addPermanentModifier(new AttributeModifier(VITALITY,multiplier-1,AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
-            damage.addPermanentModifier(new AttributeModifier(DAMAGE,.15,AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         }
         mob.setHealth(mob.getMaxHealth());
     }

@@ -1,13 +1,10 @@
 # Bunnidog barding — one visible equipment item
 
-Design proposal following the player's request for tiered, whole-animal armour.
-Revised after the player rejected light high-tier clothing and then asked for a
-smoother progression: padding → partial plate → fitted armour → full plate →
-reinforced full plate. Each upgrade visibly extends the previous suit. Netherite
-and Astralite retain **complete articulated plate coverage**.
-**Not implemented yet.** The current release still uses the dungeon champion
-profiles described in `CROWN_WARREN_SPECS.md`. This design replaces those profiles
-when the equipment system is implemented; it does not add another bonus on top.
+This is the accepted visual/design record. The complete first equipment slice
+now ships; [BARDING_SPECS.md](BARDING_SPECS.md) describes actual behaviour and
+recipe changes under the new lunar economy. Historical implementation proposals
+below are not evidence of unimplemented work. `art/barding_shipped_preview.png`
+reads the exported game meshes; the original concept remains for comparison.
 
 ## What the player sees and does
 

@@ -455,6 +455,13 @@ def main():
    put(xx,yy-1,zz,PALE);clear(xx,yy,zz,xx,yy+2,zz)
   # Explicit floor-relative legal actor feet; flight offsets remain the accepted native behavior.
   fx,fy,fz=e['floor'];e['pads']=[[fx+dx,fy+1,fz+dz] for dx,dz in [(-7,7),(7,-7),(7,7),(-7,-7),(0,-10),(10,0)]]
+ # Preserve authored geometry while replacing every structural palette entry.
+ from gen_lunar_forge import MAPPING
+ for pos,(name,props,tag) in list(C.items()):
+  if name in MAPPING:
+   out='bunnidogs:'+MAPPING[name]
+   if not out.endswith(('_stairs','_fence','_slab','_wall')):props={}
+   C[pos]=(out,props,tag)
  tiles=defaultdict(dict)
  for (x,y,z),state in C.items():
   if not (-120<=x<120 and -120<=z<120 and -12<=y<=70):raise ValueError((x,y,z))
@@ -466,8 +473,7 @@ def main():
  meta={'revision':2,'minimum':[-120,-12,-120],'maximum':[119,70,119], 'tiles':[[tx*16-120,-12,tz*16-120,f'crown_citadel/tile_{tx}_{tz}'] for tx,tz in sorted(tiles)], 'encounters':ENCOUNTERS,'gates':GATES,'sockets':SOCKETS,'rooms':ROOMS}
  (DATA/'structure/crown_citadel.json').write_text(json.dumps(meta,indent=2)+'\n')
  # Finite supply cupboards contain generic expedition stock, never wing keys/exclusive boss parts.
- loot=[('minecraft:golden_apple',8,16),('minecraft:ender_pearl',8,16),('minecraft:arrow',32,64),('minecraft:gunpowder',24,48),('minecraft:amethyst_shard',32,64),('minecraft:experience_bottle',16,32)]
- pools=[{'rolls':1,'entries':[{'type':'minecraft:item','name':b,'functions':[{'function':'minecraft:set_count','count':{'type':'minecraft:uniform','min':lo,'max':hi}}]}]} for b,lo,hi in loot]
- (DATA/'loot_table/chests/crown_supplies.json').write_text(json.dumps({'type':'minecraft:chest','pools':pools},indent=2)+'\n')
+ from gen_lunar_forge import supplies
+ supplies()
  print(f'{len(C):,} authored cells; {len(tiles)} native tiles; {len(ROOMS)} purposeful rooms/circulation spaces')
 if __name__=='__main__':main()

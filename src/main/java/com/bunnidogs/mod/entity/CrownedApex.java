@@ -31,7 +31,7 @@ public final class CrownedApex extends Apex {
     private final ServerBossEvent crownBar=new ServerBossEvent(getUUID(),Component.translatable("entity.bunnidogs.crowned_apex"),BossEvent.BossBarColor.PURPLE,BossEvent.BossBarOverlay.NOTCHED_6);
     private BlockPos arena=BlockPos.ZERO;
     private int roster=1,cast,elapsed,recovery=60,index,biteWait,addWait=80;
-    private boolean livingPack,aerialPack;
+    private boolean livingPack,aerialPack,bardingEra;
     private int directedIndex;
     private float linkBudget=360;
     private Vec3 aim=Vec3.ZERO,origin=Vec3.ZERO,addAim,addOrigin;
@@ -46,14 +46,14 @@ public final class CrownedApex extends Apex {
     @Override protected void applyGenetics() {
         float fraction=getMaxHealth()>0 ? getHealth()/getMaxHealth() : 1;
         super.applyGenetics();
-        getAttribute(ModAttributes.CROWN_HEALTH).setBaseValue(6000*(1+.55*(Math.clamp(roster,1,4)-1)));
-        getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(phase()==3 ? 56 : 40);
-        getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(.38);
+        getAttribute(ModAttributes.CROWN_HEALTH).setBaseValue((bardingEra ? 3000 : 6000)*(1+.55*(Math.clamp(roster,1,4)-1)));
+        getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(bardingEra ? phase()==3 ? 35 : 25 : phase()==3 ? 56 : 40);
+        getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(bardingEra ? .38/1.08 : .38);
         getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(72);
-        getAttribute(Attributes.ARMOR).setBaseValue(18);
+        getAttribute(Attributes.ARMOR).setBaseValue(bardingEra ? 4 : 18);
         setHealth(getMaxHealth()*fraction);
     }
-    public void prepare(BlockPos center,int players) {arena=center.immutable();roster=Math.clamp(players,1,4);applyGenetics();setHealth(getMaxHealth());}
+    public void prepare(BlockPos center,int players) {bardingEra=true;com.bunnidogs.mod.equipment.Barding.astralite(this);setDropChance(EquipmentSlot.BODY,2);arena=center.immutable();roster=Math.clamp(players,1,4);applyGenetics();setHealth(getMaxHealth());}
     @Override protected void defineSynchedData(SynchedEntityData.Builder data) {super.defineSynchedData(data);data.define(PHASE,1);data.define(WARNING,0);}
     public int phase() {return entityData.get(PHASE);}
     public int warning() {return entityData.get(WARNING);}
@@ -71,7 +71,7 @@ public final class CrownedApex extends Apex {
     @Override public void startSeenByPlayer(ServerPlayer p) {crownBar.addPlayer(p);}
     @Override public void stopSeenByPlayer(ServerPlayer p) {crownBar.removePlayer(p);}
     @Override protected int getBaseExperienceReward(ServerLevel level) {var seal=CrownEncounter.controller(this);return seal!=null && !seal.spawning() ? 10000 : 0;}
-    private boolean victim(LivingEntity e) {return e!=null && e.isAlive() && !ApexSkills.family(e) && !e.isSpectator() && !(e instanceof Player p && p.hasInfiniteMaterials());}
+    private boolean victim(LivingEntity e) {return e!=null && CrownEncounter.allowedTarget(this,e) && e.isAlive() && !ApexSkills.family(e) && !e.isSpectator() && !(e instanceof Player p && p.hasInfiniteMaterials());}
     @Override public void tick() {
         super.tick();if(!(level() instanceof ServerLevel server) || !isAlive())return;
         if(flying()) {setNoGravity(true);resetFallDistance();getNavigation().stop();}
@@ -147,7 +147,7 @@ public final class CrownedApex extends Apex {
         PacketDistributor.sendToPlayersTrackingEntity(this,new ApexBeamPayload(start,end,damage ? 0 : 1));
         if(!damage)return;
         var source=new DamageSource(level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(ResourceKey.create(Registries.DAMAGE_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","apex_beam"))),this);
-        for(var enemy:level.getEntitiesOfClass(LivingEntity.class,box,this::victim))if(enemy.getBoundingBox().inflate(1.25).clip(start,end).isPresent())enemy.hurtServer(level,source,32);
+        for(var enemy:level.getEntitiesOfClass(LivingEntity.class,box,this::victim))if(enemy.getBoundingBox().inflate(1.25).clip(start,end).isPresent())enemy.hurtServer(level,source,(float)(bardingEra ? 20*com.bunnidogs.mod.equipment.Barding.damage(this) : 32));
     }
     private static void ring(ServerLevel server,Vec3 at,int radius,net.minecraft.core.particles.ParticleOptions particle) {
         for(int i=0;i<24;i++) {double a=i*Math.PI/12;server.sendParticles(particle,at.x+Math.cos(a)*radius,at.y+.25,at.z+Math.sin(a)*radius,1,0,.05,0,0);}
@@ -204,9 +204,9 @@ public final class CrownedApex extends Apex {
         for(var entity:level.getEntitiesOfClass(Entity.class,new AABB(center,center).inflate(100),e->ApexSkills.family(e) && !(e instanceof CrownedApex) && run.toString().equals(e.getPersistentData().getStringOr("CrownRun",""))))entity.discard();
     }
     @Override public void die(DamageSource source) {super.die(source);if(dead) {crownBar.removeAllPlayers();cancel();}}
-    @Override public void addAdditionalSaveData(ValueOutput out) {super.addAdditionalSaveData(out);out.store("CrownArena",BlockPos.CODEC,arena);out.putInt("CrownRoster",roster);out.putInt("CrownPhase",phase());out.putBoolean("CrownPack",livingPack);out.putBoolean("CrownAerialPack",aerialPack);out.putInt("CrownDirectedIndex",directedIndex);out.putFloat("CrownLinks",linkBudget);}
+    @Override public void addAdditionalSaveData(ValueOutput out) {super.addAdditionalSaveData(out);out.store("CrownArena",BlockPos.CODEC,arena);out.putInt("CrownRoster",roster);out.putInt("CrownPhase",phase());out.putBoolean("CrownBardingEra",bardingEra);out.putBoolean("CrownPack",livingPack);out.putBoolean("CrownAerialPack",aerialPack);out.putInt("CrownDirectedIndex",directedIndex);out.putFloat("CrownLinks",linkBudget);}
     @Override public void readAdditionalSaveData(ValueInput in) {
-        super.readAdditionalSaveData(in);arena=in.read("CrownArena",BlockPos.CODEC).orElse(blockPosition().below());roster=Math.clamp(in.getIntOr("CrownRoster",1),1,4);
+        super.readAdditionalSaveData(in);bardingEra=in.getBooleanOr("CrownBardingEra",false);arena=in.read("CrownArena",BlockPos.CODEC).orElse(blockPosition().below());roster=Math.clamp(in.getIntOr("CrownRoster",1),1,4);
         entityData.set(PHASE,Math.clamp(in.getIntOr("CrownPhase",1),1,3));livingPack=in.getBooleanOr("CrownPack",false);aerialPack=in.getBooleanOr("CrownAerialPack",false);directedIndex=in.getIntOr("CrownDirectedIndex",0);linkBudget=Math.clamp(in.getFloatOr("CrownLinks",0),0,360);cancel();recovery=60;applyGenetics();
         crownBar.setColor(phase()==3 ? BossEvent.BossBarColor.RED : phase()==2 ? BossEvent.BossBarColor.GREEN : BossEvent.BossBarColor.PURPLE);
         crownBar.setName(Component.translatable("entity.bunnidogs.crowned_apex.phase_"+phase()));

@@ -36,6 +36,12 @@ final class CrownCitadelGameTest {
         var supplies=(BarrelBlockEntity)level.getBlockEntity(c.offset(-73,1,82));supplies.unpackLootTable(null);
         boolean apples=false;for(int i=0;i<supplies.getContainerSize();i++)if(supplies.getItem(i).is(Items.GOLDEN_APPLE))apples=true;
         h.assertTrue(apples,"The actual authored supply barrel resolves its finite native expedition loot");supplies.clearContent();
+        // Explicit old-palette conversion only visits matching native structural positions.
+        // Pick a real planned masonry cell, restore its former material, then upgrade it.
+        BlockPos structural=null;
+        outer:for(int x=-20;x<=20;x++)for(int z=-20;z<=20;z++)if(level.getBlockState(c.offset(x,0,z)).is(com.bunnidogs.mod.crown.LunarMasonry.BLOCKS.get("lunar_rootstone").get())){structural=c.offset(x,0,z);break outer;}
+        h.assertTrue(structural!=null,"The actual castle floor uses fortified masonry");level.setBlock(structural,ModBlocks.ROOTSTONE.get().defaultBlockState(),2);
+        h.assertTrue(CrownCitadelPlacement.fortify(level,piece)==1 && level.getBlockState(structural).is(com.bunnidogs.mod.crown.LunarMasonry.BLOCKS.get("lunar_rootstone").get()) && supplies.isEmpty(),"Explicit fortification upgrades the legacy matching cell without refilling an opened barrel");
         // Controller and pad locations are checked by real collision/spawn attempts in all three finished wings.
         var p=ApexTypesGameTest.player(h,Vec3.atBottomCenterOf(CrownSitePlan.seal(c,0).east()));
         p.setInvulnerable(true);guards(h,c,piece,p,0);

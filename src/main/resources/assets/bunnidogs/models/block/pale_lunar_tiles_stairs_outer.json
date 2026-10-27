@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "bunnidogs:block/pale_lunar_tiles",
+    "top": "bunnidogs:block/pale_lunar_tiles",
+    "side": "bunnidogs:block/pale_lunar_tiles"
+  }
+}

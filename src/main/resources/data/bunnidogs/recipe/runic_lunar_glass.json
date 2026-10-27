@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "XGX",
+    "GAG",
+    "XGX"
+  ],
+  "key": {
+    "X": "bunnidogs:lunar_rootstone",
+    "G": "minecraft:glass",
+    "A": "minecraft:amethyst_shard"
+  },
+  "result": {
+    "id": "bunnidogs:runic_lunar_glass",
+    "count": 8
+  }
+}

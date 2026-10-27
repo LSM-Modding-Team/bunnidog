@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ABA",
+    "BMB",
+    "ABA"
+  ],
+  "key": {
+    "A": "bunnidogs:astralite_ingot",
+    "B": "bunnidogs:cinderite_billet",
+    "M": "bunnidogs:aerial_membrane"
+  },
+  "result": {
+    "id": "bunnidogs:astralite_plating",
+    "count": 1
+  }
+}

@@ -6,9 +6,27 @@ Preserve actual hotbar transfers, distinct Density/Breach maces, variant-specifi
 explosive supplies, moderate midgame enchants, late repair XP/healing, and shared
 apple/rocket/flask/ammo totals. `endgame replace` aliases Crystal; both explicit
 variants require the same final `replace` token. Keep inventory capacity checks,
-real Shulker contents and compatible native enchantments. The current Astralite
-armor economy's small lunar cost is acknowledged in its spec; this kit task does
-not authorise silently increasing the mining grind or changing those recipes.
+real Shulker contents and compatible native enchantments.
+
+Latest six-item play review explicitly authorizes the substantial lunar forge,
+expedition loot, launcher, boundaries, real armour and structural material update.
+Read `docs/LUNAR_DUNGEON_UPDATE.md`, `docs/ASTRALITE_AND_SKY_SPECS.md` and
+`docs/BARDING_SPECS.md`. Armour now consumes Astralite Plating; tools retain the
+one-ingot mining foothold. Bulk Crown supplies must fit 27 native slots and keep
+exclusive Apex parts/mining bottlenecks out of generic barrels. Opened inventories
+never refill. The Blastmaw-only mining tag is separate from the Astralite-tool tag:
+lunar masonry must never inherit the explosion exception. Use the original
+accepted castle geometry with the new blast-proof, hardness-200 mineral palette.
+`/bunnidogs dungeon fortify` explicitly converts only matching loaded structural
+cells from the original templates; preserve air, other player edits, block entities,
+stock and progress. Ordinary repair does not migrate architecture.
+Dungeon physical movement, jumps, flight and targets respect saved bounds;
+trials stay in their room, patrols in the dungeon. Do not delete escaped actors
+or count them as kills. Five real BODY barding tiers use native stacks/save/drop
+ownership and the accepted animated meshes/textures. Fresh dungeon Apexes have
+ordinary wild-range genomes plus Astralite gear; do not stack the former genetic
+or champion damage buffs. Preserve old active fights and rebase new Crowned HP/
+damage before equipment. Natural client clearance/pacing remains human review.
 
 Work in this checkout. Read `START_HERE.md` for current status, then only the
 specifications and source relevant to the request. Historical documents preserve
@@ -64,7 +82,7 @@ interaction from either side. `/bunnidogs dungeon repair` explicitly repairs onl
 loaded terrain/markers/missing seals; retain original site identities, stock and
 existing encounter state. Durable gear must support native Mending. Gene Siphon
 insertion is seed-only. Sneak-use selects persistent power 1–5 on Launcher,
-Sovereign Lance and Standard; costs/wear scale, with native explosion power 4×N,
+Sovereign Lance and Standard; costs/wear scale, with native explosion power 3×N,
 Lance damage 45×N, Standard healing five hearts×N and four-second Resistance N.
 Other scaling juice levels have no mod balance cap except Resistance, within
 native engine representation. Endgame kit Strength XXX is a baseline, not a cap.
@@ -84,29 +102,18 @@ headless geometry evidence, not live client/shader/performance evidence.
 Latest dungeon balance feedback supersedes the initial Crown trial/boss numbers:
 ordinary Great Warren travel already involves overlapping Apex packs. Preserve
 `docs/CROWN_WARREN_SPECS.md`'s four/five mixed champion waves, finite approach
-pairs, native saved champion modifiers, frozen cooperative scaling and stronger
+pairs, real Astralite champion equipment, frozen cooperative scaling and stronger
 Crowned phases. Dungeon balance must sit above ordinary realm combat; keep wild
 and ritual Apex values, player gear, readable warnings, finite summons, physical
 keys and stock/reward journals intact. Do not refill old caches or rewrite sites.
 
-Latest armour direction is designed in `docs/BUNNIDOG_ARMOUR_PLAN.md`, with the
-planning-only surface study in `art/preview_barding_design.py`. It is not shipped
-equipment. The requested future replacement is one visible tiered barding item
-for ordinary bunnidogs and Apexes, with actual Astralite gear on dungeon Apexes
-instead of enhanced dungeon genetics. The player rejected light high-tier
-clothing and then requested smoother coverage between tiers: Leather padding/
-cap/wraps, Iron open helmet/partial plates/greaves, Diamond enclosed body with
-broader visor and limb/paw guards, Netherite full plate, Astralite reinforced
-full plate. The top tiers protect head/ears, torso/belly/rump, limbs/paws and tail.
-Do not jump directly from a bare-limbed harness to a recoloured complete suit.
-It is still one item.
-The latest texture review accepts this model: retain its geometry/coverage and
-replace uniform swatches with material shading, broad stepped reflections, edge
-contrast, leather stitches and mail detail. Use worn armour/horse-armour references
-rather than inventory icons; avoid remodelling or shader-only fixes.
-When implementing it, remove those genetic
-and champion bonuses rather than stacking both systems; rebase Crowned values,
-preserve existing active fights and retain actual equipment ownership.
+Latest armour direction now ships; `docs/BARDING_SPECS.md` is authoritative.
+`docs/BUNNIDOG_ARMOUR_PLAN.md` preserves the accepted design history. Keep the
+progressive five-tier coverage and shaded leather/mail/metal materials, rather
+than flat recolours or new anatomy. `art/gen_barding.py` exports the actual
+animated meshes and textures; `art/barding_shipped_preview.png` reads those
+binary exports. Retain item components, calm bonded-owner changes, real repair/
+wear/drops, exact basket saves and the vacuum's equipped-animal exclusion.
 
 Latest expedition play review supersedes personal hunt locks and the first flat
 archipelago. Preserve physical ground-remnant recipe inputs for the Resonant Eye,

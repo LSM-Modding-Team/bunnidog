@@ -115,7 +115,24 @@ public final class ModItems {
     public static final DeferredItem<Item> RAW_CINDERITE=ITEMS.registerSimpleItem("raw_cinderite",p->com.bunnidogs.mod.expedition.MoonMining.material(p));
     public static final DeferredItem<Item> CINDERITE_INGOT=ITEMS.registerSimpleItem("cinderite_ingot",p->com.bunnidogs.mod.expedition.MoonMining.material(p));
     public static final DeferredItem<Item> ASTRALITE_INGOT=ITEMS.registerSimpleItem("astralite_ingot",p->com.bunnidogs.mod.expedition.MoonMining.material(p).rarity(Rarity.EPIC));
+    public static final Map<String,DeferredItem<Item>> LUNAR_PARTS=new LinkedHashMap<>();
+    public static final Map<String,DeferredItem<BlockItem>> LUNAR_MASONRY=new LinkedHashMap<>();
+    static {
+        for(String name:List.of("astralite_concentrate","cinderite_billet","compressed_moonstone","lunar_binder","astralite_bloom","astralite_plating"))LUNAR_PARTS.put(name,ITEMS.registerSimpleItem(name,com.bunnidogs.mod.expedition.MoonMining::material));
+        com.bunnidogs.mod.crown.LunarMasonry.BLOCKS.forEach((name,block)->LUNAR_MASONRY.put(name,ITEMS.registerSimpleBlockItem(block)));
+    }
     public static final DeferredItem<Item> ASTRALITE_UPGRADE=ITEMS.registerSimpleItem("astralite_upgrade",p->p.rarity(Rarity.EPIC).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.astralite_upgrade")))));
+    public static final Map<String,DeferredItem<com.bunnidogs.mod.equipment.BardingItem>> BARDING=new LinkedHashMap<>();
+    static {
+        for(int i=0;i<5;i++) {
+            int tier=i;String name=com.bunnidogs.mod.equipment.Barding.NAMES[i];
+            BARDING.put(name,ITEMS.registerItem(name+"_bunnidog_barding",p->new com.bunnidogs.mod.equipment.BardingItem(p,tier),p->{
+                Item repair=switch(tier){case 0->net.minecraft.world.item.Items.LEATHER;case 1->net.minecraft.world.item.Items.IRON_INGOT;case 2->net.minecraft.world.item.Items.DIAMOND;case 3->net.minecraft.world.item.Items.NETHERITE_INGOT;default->ASTRALITE_INGOT.get();};
+                p.durability(com.bunnidogs.mod.equipment.Barding.DURABILITY[tier]).repairable(repair).enchantable(15);
+                return tier>=3 ? com.bunnidogs.mod.expedition.MoonMining.material(p) : p;
+            }));
+        }
+    }
     public static final Map<String,DeferredItem<Item>> ASTRALITE_ARMOR=new LinkedHashMap<>();
     public static final Map<String,DeferredItem<Item>> ASTRALITE_TOOLS=new LinkedHashMap<>();
     static {
@@ -560,6 +577,8 @@ public final class ModItems {
             event.accept(MOON_SINEW.get());
             event.accept(LISTENING_SHELL.get());
             event.accept(EVERBLOOM.get());
+            BARDING.values().forEach(i->event.accept(i.get()));
+            LUNAR_PARTS.values().forEach(i->event.accept(i.get()));LUNAR_MASONRY.values().forEach(i->event.accept(i.get()));
             ASTRALITE_ARMOR.values().forEach(item->event.accept(item.get()));ASTRALITE_TOOLS.values().forEach(item->event.accept(item.get()));
             for(var item:List.of(MOONSTONE.get(),ASTRALITE_ORE.get(),CINDERITE_ORE.get(),ASTRALITE_SHARD.get(),RAW_CINDERITE.get(),CINDERITE_INGOT.get(),ASTRALITE_INGOT.get(),ASTRALITE_UPGRADE.get()))event.accept(item);
             HEARTBOUND_ARMOR.values().forEach(item->event.accept(item.get()));

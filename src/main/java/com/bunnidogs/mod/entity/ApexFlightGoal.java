@@ -59,6 +59,8 @@ final class ApexFlightGoal extends Goal {
         if(!apex.casting())apex.getLookControl().setLookAt(target,20,20);
     }
     static void fly(Bunnidog mob,Vec3 point,double speed) {
+        point=com.bunnidogs.mod.crown.CrownEncounter.destination(mob,point);
+        speed*=com.bunnidogs.mod.equipment.Barding.speed(mob);
         Vec3 towards=point.subtract(mob.position());
         var span=new net.minecraft.world.phys.AABB(mob.position(),point).inflate(2);
         if(!mob.level().hasChunksAt(BlockPos.containing(span.minX,span.minY,span.minZ),BlockPos.containing(span.maxX,span.maxY,span.maxZ))) { mob.setDeltaMovement(mob.getDeltaMovement().scale(.5));return; }

@@ -1,0 +1,22 @@
+{
+  "bunnidogs:rootstone": "bunnidogs:lunar_rootstone",
+  "bunnidogs:crown_rootlight": "bunnidogs:lunar_rootlight",
+  "minecraft:tuff_bricks": "bunnidogs:lunar_bricks",
+  "minecraft:deepslate_tiles": "bunnidogs:lunar_tiles",
+  "minecraft:calcite": "bunnidogs:pale_lunar_tiles",
+  "minecraft:dark_oak_planks": "bunnidogs:cinderroot_beams",
+  "minecraft:polished_basalt": "bunnidogs:lunar_tiles",
+  "minecraft:mud_bricks": "bunnidogs:lunar_bricks",
+  "minecraft:deepslate_bricks": "bunnidogs:lunar_tiles",
+  "minecraft:dark_oak_log": "bunnidogs:cinderroot_beams",
+  "minecraft:raw_copper_block": "bunnidogs:cinderroot_beams",
+  "minecraft:cut_copper": "bunnidogs:cinderroot_beams",
+  "minecraft:copper_grate": "bunnidogs:runic_lunar_glass",
+  "minecraft:tuff_brick_stairs": "bunnidogs:lunar_bricks_stairs",
+  "minecraft:dark_oak_stairs": "bunnidogs:lunar_tiles_stairs",
+  "minecraft:dark_oak_fence": "bunnidogs:cinderroot_fence",
+  "minecraft:light_gray_stained_glass": "bunnidogs:runic_lunar_glass",
+  "minecraft:cyan_stained_glass": "bunnidogs:runic_lunar_glass",
+  "minecraft:light_blue_stained_glass": "bunnidogs:runic_lunar_glass",
+  "minecraft:orange_stained_glass": "bunnidogs:runic_lunar_glass"
+}

@@ -17,7 +17,7 @@ span inventory stacks and respect Creative mode; interrupted charges pay nothing
 
 | Tool | Power 1 → 5 | Cost and wear |
 | --- | --- | --- |
-| Blastmaw Launcher | Native explosion strength 4, 8, 12, 16, 20 | 1–5 Volatile Charges and wear |
+| Blastmaw Launcher | Native explosion strength 3, 6, 9, 12, 15 | 1–5 Volatile Charges and wear |
 | Sovereign Lance | 45, 90, 135, 180, 225 raw piercing damage | 1–5 Prism Cells and wear; 24-tick charge/recovery, 48-block reach |
 | Concord Standard | 5, 10, 15, 20, 25 hearts; Resistance I–V for four seconds | 1–5 Heart Spools and wear; existing 30-tick charge/five-second recovery |
 

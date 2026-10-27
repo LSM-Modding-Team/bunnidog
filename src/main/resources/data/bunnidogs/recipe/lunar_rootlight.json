@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "XAX",
+    "AGA",
+    "XAX"
+  ],
+  "key": {
+    "X": "bunnidogs:lunar_rootstone",
+    "A": "minecraft:amethyst_shard",
+    "G": "minecraft:glowstone"
+  },
+  "result": {
+    "id": "bunnidogs:lunar_rootlight",
+    "count": 8
+  }
+}

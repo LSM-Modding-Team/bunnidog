@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "bunnidogs:block/pale_lunar_tiles"
+  }
+}

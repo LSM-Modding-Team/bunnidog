@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "XSX",
+    "XSX"
+  ],
+  "key": {
+    "X": "bunnidogs:cinderroot_beams",
+    "S": "minecraft:iron_nugget"
+  },
+  "result": {
+    "id": "bunnidogs:cinderroot_fence",
+    "count": 6
+  }
+}

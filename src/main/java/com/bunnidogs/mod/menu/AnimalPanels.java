@@ -30,6 +30,7 @@ public final class AnimalPanels {
     }
     public static CareView home(Player player,Bunnidog dog) {
         var buttons=new ArrayList<CareView.Control>();
+        if(com.bunnidogs.mod.equipment.Barding.tier(dog)>=0)buttons.add(new CareView.Control(242,Component.translatable("care.bunnidogs.barding.remove"),com.bunnidogs.mod.equipment.Barding.editable(player,dog)));
         buttons.add(action(CARE_MENU,"care",true,Component.empty()));
         buttons.add(action(ORDERS,"orders",true,Component.empty()));
         buttons.add(action(CarePanels.ROLES,"work",true,Component.empty()));

@@ -95,3 +95,7 @@ for p,e,s in [('helmet','Helmet','Casco vital'),('chestplate','Chestplate','Pech
  en['item.bunnidogs.heartbound_'+p]='Heartbound Astralite '+e;es['item.bunnidogs.heartbound_'+p]=s+' de astralita'
 for locale,new in [('en_us',en),('es_pe',es)]:
  p=A/'lang'/f'{locale}.json';obj=json.loads(p.read_text());obj.update(new);p.write_text(json.dumps(obj,indent=2,ensure_ascii=False)+'\n')
+
+# Current lunar forge overrides the historical simple-ingot recipes.
+from gen_lunar_forge import generate as generate_lunar_forge
+generate_lunar_forge()

@@ -14,6 +14,11 @@
     "bunnidogs:astralite_helmet",
     "bunnidogs:astralite_chestplate",
     "bunnidogs:astralite_leggings",
-    "bunnidogs:astralite_boots"
+    "bunnidogs:astralite_boots",
+    "bunnidogs:leather_bunnidog_barding",
+    "bunnidogs:iron_bunnidog_barding",
+    "bunnidogs:diamond_bunnidog_barding",
+    "bunnidogs:netherite_bunnidog_barding",
+    "bunnidogs:astralite_bunnidog_barding"
   ]
 }

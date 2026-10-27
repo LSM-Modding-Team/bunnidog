@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "bunnidogs:leather_bunnidog_barding",
+  "addition": "minecraft:iron_block",
+  "result": {
+    "id": "bunnidogs:iron_bunnidog_barding"
+  }
+}

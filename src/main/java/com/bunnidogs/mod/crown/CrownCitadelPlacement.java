@@ -14,7 +14,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.*;
 
 /** Chunk-local native templates: authored air carves occupied rooms only. No whole-island clear,
  * block entities are configured without an attached level, and retries never refill a container. */
-final class CrownCitadelPlacement {
+public final class CrownCitadelPlacement {
     static void place(WorldGenLevel world,BlockPos center,UUID site,BoundingBox chunk,boolean existingWorld) {
         Set<Long> protectedColumns=new HashSet<>();
         for(int x=chunk.minX();x<=chunk.maxX();x++)for(int z=chunk.minZ();z<=chunk.maxZ();z++) {
@@ -102,6 +102,19 @@ final class CrownCitadelPlacement {
                     if(!level.hasChunkAt(p))continue;var old=level.getBlockState(p);
                     if(!old.hasBlockEntity() && (old.isAir() || CrownWarrenPiece.natural(old))) {level.setBlock(p,ModBlocks.CROWN_GATE.get().defaultBlockState().setValue(CrownGateBlock.KIND,gate.kind()),2);count++;}
                 }
+            }
+        }
+        return count;
+    }
+    public static int fortify(net.minecraft.server.level.ServerLevel level,CrownWarrenPiece piece) {
+        int count=0;
+        for(var tile:CrownSitePlan.tiles()) {
+            var origin=piece.center().offset(tile.offset());if(!level.hasChunkAt(origin))continue;
+            var template=level.getStructureManager().get(Identifier.fromNamespaceAndPath("bunnidogs",tile.name())).orElseThrow();
+            for(var entry:LunarMasonry.BLOCKS.values())for(var info:template.filterBlocks(origin,new StructurePlaceSettings(),entry.get())) {
+                var pos=info.pos();if(!level.hasChunkAt(pos))continue;var old=level.getBlockState(pos);
+                if(old.hasBlockEntity())continue;var upgraded=LunarMasonry.upgrade(old);
+                if(upgraded!=old && upgraded.getBlock()==info.state().getBlock()) {level.setBlock(pos,upgraded,2);count++;}
             }
         }
         return count;

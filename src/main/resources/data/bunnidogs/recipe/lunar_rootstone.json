@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "RMR",
+    "MCM",
+    "RMR"
+  ],
+  "key": {
+    "R": "bunnidogs:rootstone",
+    "M": "bunnidogs:moonstone",
+    "C": "bunnidogs:cinderite_ingot"
+  },
+  "result": {
+    "id": "bunnidogs:lunar_rootstone",
+    "count": 16
+  }
+}

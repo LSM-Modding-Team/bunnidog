@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "bunnidogs:lunar_bricks_wall",
+    "bunnidogs:pale_lunar_tiles_wall",
+    "bunnidogs:lunar_tiles_wall"
+  ]
+}

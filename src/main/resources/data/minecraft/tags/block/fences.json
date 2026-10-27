@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "bunnidogs:guava_fence"
+    "bunnidogs:guava_fence",
+    "bunnidogs:cinderroot_fence"
   ]
 }

@@ -235,7 +235,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
                 .add(Attributes.MOVEMENT_SPEED, BASE_SPEED)
                 .add(Attributes.JUMP_STRENGTH, BASE_JUMP)
                 .add(Attributes.FOLLOW_RANGE, BASE_FOLLOW_RANGE)
-                .add(Attributes.ARMOR,0).add(Attributes.KNOCKBACK_RESISTANCE,0)
+                .add(Attributes.ARMOR_TOUGHNESS,0).add(Attributes.ARMOR,0).add(Attributes.KNOCKBACK_RESISTANCE,0)
                 .add(Attributes.ATTACK_SPEED,1).add(Attributes.ATTACK_DAMAGE, 2.0D);      // only used by feral bunnidogs biting back
     }
 
@@ -386,6 +386,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
                 Lineage lineage = ModBiomeTags.lineageAt(this.level(), this.blockPosition());
                 this.setGenome(Genome.randomFounder(lineage, new Random(this.getRandom().nextLong())));
             }
+            com.bunnidogs.mod.equipment.Barding.refresh(this);
             this.growthTick();
             this.guavaMemory.tick(this.getAge());      // Phase 4e: forgets the tier when love is over
             this.trailCompanion.tick();
@@ -639,9 +640,18 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
      * and not an adult in its cooldown) that is not in love yet (an animal in love refuses another guava, so its earlier
      * tier stays: the memory lasts exactly as long as the love) and an interaction that consumed the action.
      */
+    @Override public boolean canAttack(LivingEntity target) {return com.bunnidogs.mod.crown.CrownEncounter.allowedTarget(this,target) && super.canAttack(target);}
+    @Override public void move(net.minecraft.world.entity.MoverType type,net.minecraft.world.phys.Vec3 movement) {
+        if(level() instanceof ServerLevel && com.bunnidogs.mod.crown.CrownEncounter.member(this))movement=com.bunnidogs.mod.crown.CrownEncounter.limit(this,movement);
+        super.move(type,movement);
+    }
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack held = player.getItemInHand(hand);
+        if(held.getItem() instanceof com.bunnidogs.mod.equipment.BardingItem) {
+            if(!com.bunnidogs.mod.equipment.Barding.equip(player,this,held) && !level().isClientSide())player.sendOverlayMessage(Component.translatable("message.bunnidogs.barding.refused"));
+            return InteractionResult.SUCCESS;
+        }
         if (held.getItem() instanceof GuavaItem) {
             if (!this.acceptsCare() || !this.isAlive()) return InteractionResult.PASS;
             com.bunnidogs.mod.menu.CareMenu.openGuava(player,this,hand);

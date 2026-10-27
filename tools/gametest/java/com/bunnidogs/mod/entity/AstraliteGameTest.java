@@ -15,7 +15,7 @@ final class AstraliteGameTest {
         for(String part:new String[]{"helmet","chestplate","leggings","boots","sword","pickaxe","axe","shovel","hoe"}) {
             var base=new ItemStack(registry.getValue(Identifier.withDefaultNamespace("netherite_"+part)));base.setDamageValue(47);base.enchant(enchants.getOrThrow(Enchantments.UNBREAKING),3);base.enchant(enchants.getOrThrow(Enchantments.MENDING),1);base.set(DataComponents.CUSTOM_NAME,net.minecraft.network.chat.Component.literal("My expedition gear"));
             var recipe=(SmithingTransformRecipe)level.getServer().getRecipeManager().byKey(ResourceKey.create(Registries.RECIPE,Identifier.fromNamespaceAndPath("bunnidogs","astralite_"+part))).orElseThrow().value();
-            var input=new SmithingRecipeInput(new ItemStack(ModItems.ASTRALITE_UPGRADE.get()),base,new ItemStack(ModItems.ASTRALITE_INGOT.get()));
+            var input=new SmithingRecipeInput(new ItemStack(ModItems.ASTRALITE_UPGRADE.get()),base,new ItemStack(ModItems.ASTRALITE_ARMOR.containsKey(part) ? ModItems.LUNAR_PARTS.get("astralite_plating").get() : ModItems.ASTRALITE_INGOT.get()));
             h.assertTrue(recipe.matches(input,level),"Real smithing accepts the Netherite base, Astralite template and ingot");
             var output=recipe.assemble(input);var expected=(ModItems.ASTRALITE_ARMOR.containsKey(part) ? ModItems.ASTRALITE_ARMOR : ModItems.ASTRALITE_TOOLS).get(part).get();
             h.assertTrue(output.is(expected) && output.getDamageValue()==47 && output.get(DataComponents.ENCHANTMENTS).equals(base.get(DataComponents.ENCHANTMENTS)) && output.getHoverName().equals(base.getHoverName()),"Astralite smithing preserves wear, Mending, Unbreaking and identity: "+part);

@@ -26,6 +26,24 @@ public final class CrownRepair {
             int changed=count;c.getSource().sendSuccess(()->Component.translatable("message.bunnidogs.crown.repaired",changed),false);return count;
         }))));
     }
+    @SubscribeEvent public static void registerFortify(RegisterCommandsEvent event) {
+        event.getDispatcher().register(Commands.literal("bunnidogs").then(Commands.literal("dungeon").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS)).then(Commands.literal("fortify").executes(c->{
+            var player=c.getSource().getPlayerOrException();var level=player.level();
+            var structure=level.registryAccess().lookupOrThrow(Registries.STRUCTURE).getOrThrow(ResourceKey.create(Registries.STRUCTURE,Identifier.fromNamespaceAndPath("bunnidogs","crown_warren"))).value();
+            var start=level.structureManager().getStructureAt(player.blockPosition(),structure);
+            if(!start.isValid()){c.getSource().sendFailure(Component.translatable("message.bunnidogs.crown.no_dungeon"));return 0;}
+            int count=0;
+            for(var part:start.getPieces())if(part instanceof CrownWarrenPiece piece) {
+                if(piece.layoutVersion()==2)count+=CrownCitadelPlacement.fortify(level,piece);
+                else for(int x=-90;x<=90;x++)for(int z=-90;z<=90;z++)if(level.hasChunkAt(piece.center().offset(x,0,z)))for(int y=0;y<=64 && piece.center().getY()+y<level.getMaxY();y++) {
+                    var pos=piece.center().offset(x,y,z);var old=level.getBlockState(pos);var planned=CrownLayout.cell(x,y,z);
+                    if(planned==null || old.hasBlockEntity() || old.getBlock()!=planned.getBlock())continue;var upgraded=LunarMasonry.upgrade(old);
+                    if(upgraded!=old){level.setBlock(pos,upgraded,2);count++;}
+                }
+            }
+            int changed=count;c.getSource().sendSuccess(()->Component.translatable("message.bunnidogs.crown.fortified",changed),false);return count;
+        }))));
+    }
     public static int repair(net.minecraft.server.level.ServerLevel level,CrownWarrenPiece piece) {
         if(piece.layoutVersion()==2)return CrownCitadelPlacement.repair(level,piece);
         var center=piece.center();int changed=0;

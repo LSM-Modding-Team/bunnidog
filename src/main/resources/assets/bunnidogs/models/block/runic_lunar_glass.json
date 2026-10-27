@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "bunnidogs:block/runic_lunar_glass"
+  },
+  "render_type": "minecraft:translucent"
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "XC",
+    "CX"
+  ],
+  "key": {
+    "X": "bunnidogs:lunar_rootstone",
+    "C": "minecraft:quartz"
+  },
+  "result": {
+    "id": "bunnidogs:pale_lunar_tiles",
+    "count": 4
+  }
+}

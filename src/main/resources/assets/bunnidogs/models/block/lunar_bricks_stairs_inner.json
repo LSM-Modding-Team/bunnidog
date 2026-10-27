@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "bunnidogs:block/lunar_bricks",
+    "top": "bunnidogs:block/lunar_bricks",
+    "side": "bunnidogs:block/lunar_bricks"
+  }
+}
