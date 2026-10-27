@@ -39,7 +39,10 @@ final class RealmProgressionGameTest {
             boolean late=end || tier.equals("late");var ench=p.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
             if(!late) {
                 h.assertTrue(count(all,Items.COOKED_BEEF)==64 && count(all,Items.END_CRYSTAL)==0 && count(all,Items.LAVA_BUCKET)==1,"Earlier kits keep normal food/building supplies and gain a real lava bucket");
-                h.assertTrue(count(all,Items.COBWEB)==(tier.equals("mid") ? 8 : 0),"Diamond progression adds a modest web supply, without giving early kits endgame stock");continue;
+                h.assertTrue(count(all,Items.COBWEB)==(tier.equals("mid") ? 8 : 0),"Diamond progression adds a modest web supply, without giving early kits endgame stock");
+                h.assertTrue(p.getInventory().getItem(1).is(tier.equals("mid") ? Items.DIAMOND_AXE : Items.IRON_AXE) && p.getInventory().getItem(4).is(Items.WATER_BUCKET) && p.getInventory().getItem(5).is(Items.LAVA_BUCKET),"Earlier hotbars have actual axe and bucket stacks in deliberate slots");
+                if(tier.equals("mid"))h.assertTrue(p.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.CHEST).getEnchantmentLevel(ench.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.PROTECTION))==2 && p.getInventory().getItem(0).getEnchantmentLevel(ench.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.SHARPNESS))==2 && count(all,Items.SPLASH_POTION)==2,"Midgame has real moderate enchants and two healing potions");
+                continue;
             }
             h.assertTrue(all.stream().filter(s->s.is(Items.GOLDEN_APPLE)).mapToInt(ItemStack::getCount).sum()==(end ? 256 : 64) && all.stream().filter(s->s.is(Items.ENCHANTED_GOLDEN_APPLE)).mapToInt(ItemStack::getCount).sum()==(end ? 20 : 5),"The actual inventory and Shulker together have exact requested apple totals: "+family+" "+tier);
             h.assertTrue(all.stream().anyMatch(s->s.is(Items.FIREWORK_ROCKET)) && all.stream().filter(s->s.is(Items.FIREWORK_ROCKET)).allMatch(s->s.get(DataComponents.FIREWORKS).flightDuration()==1),"Every carried and boxed rocket uses native Flight 1");
@@ -59,7 +62,25 @@ final class RealmProgressionGameTest {
                 h.assertTrue(count(main,Items.TRIDENT)==0 && count(main,Items.CROSSBOW)==0 && count(all,Items.TRIDENT)==1 && count(all,Items.CROSSBOW)==1 && count(main,Items.OBSIDIAN)==64,"Optional weapons are boxed and crystal bases are directly accessible");
             }
             h.assertTrue(all.stream().filter(ItemStack::isDamageableItem).allMatch(s->s.getEnchantmentLevel(ench.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.UNBREAKING))==3 && (s.is(Items.BOW) || s.getEnchantmentLevel(ench.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.MENDING))==1)),"Every durable carried or boxed late-game item retains Unbreaking III and Mending, except the deliberate Infinity bow");
-        }p.discard();
+            h.assertTrue(p.getInventory().getItem(8).is(family.equals("bunnidog") ? ModItems.CATACLYSM_TOTEM.get() : Items.TOTEM_OF_UNDYING),"Prepared hotbars reserve a real emergency totem");
+            if(!end)h.assertTrue(count(all,Items.COOKED_BEEF)==64 && count(all,Items.EXPERIENCE_BOTTLE)==64,"Late kits retain main food but replace boxed spare steak with repair XP");
+        }
+        for(String family:List.of("vanilla","bunnidog"))for(String style:List.of("crystal","mace")) {
+            com.bunnidogs.mod.command.KitCommands.apply(p,family,"endgame",style);var all=contents(p);boolean mace=style.equals("mace");
+            var main=new ArrayList<ItemStack>();for(int i=0;i<36;i++)main.add(p.getInventory().getItem(i));
+            h.assertTrue(count(all,Items.GOLDEN_APPLE)==256 && count(all,Items.ENCHANTED_GOLDEN_APPLE)==20 && count(all,Items.EXPERIENCE_BOTTLE)==128 && count(all,Items.FIREWORK_ROCKET)==192 && count(all,Items.WIND_CHARGE)==128,"Both variants conserve shared endgame supplies");
+            h.assertTrue(count(all,Items.END_CRYSTAL)==(mace ? 0 : 128) && count(all,Items.OBSIDIAN)==(mace ? 0 : 192) && count(all,Items.RESPAWN_ANCHOR)==(mace ? 0 : 64) && count(all,Items.GLOWSTONE)==(mace ? 0 : 64),"Crystal explosives and their bases are intentionally absent from the mace variant");
+            h.assertTrue(count(main,Items.MACE)==(mace ? 1 : 0) && count(all,Items.MACE)==(mace ? 2 : 1),"Crystal boxes its backup mace; mace keeps a primary and a distinct reserve alternative");
+            h.assertTrue(p.getInventory().getItem(1).is(mace ? Items.MACE : Items.END_CRYSTAL) && p.getInventory().getItem(2).is(mace ? Items.WIND_CHARGE : Items.OBSIDIAN),"Each variant's main attack resources occupy the correct hotbar slots");
+            h.assertTrue(p.getInventory().getItem(5).is(family.equals("bunnidog") ? ModItems.ABYSSAL_FLASK.get() : Items.GOLDEN_APPLE),"Modded sustain is directly accessible instead of buried in the inventory");
+            var ench=p.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+            for(var weapon:all)if(weapon.is(Items.MACE)) {
+                int density=weapon.getEnchantmentLevel(ench.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.DENSITY));int breach=weapon.getEnchantmentLevel(ench.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.BREACH));
+                h.assertTrue((density==5 && breach==0) || (density==0 && breach==4),"Density and Breach are separate compatible native mace stacks");
+            }
+            h.assertTrue(count(all,Items.COBWEB)==64 && count(all,Items.TRIDENT)==1 && count(all,Items.CROSSBOW)==1,"Organisation preserves exact equipment and variant web stock without duplication");
+        }
+        p.discard();
     }
     private static int count(List<ItemStack> stacks,Item item) {return stacks.stream().filter(s->s.is(item)).mapToInt(ItemStack::getCount).sum();}
     static void mining(GameTestHelper h) {

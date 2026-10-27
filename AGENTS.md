@@ -1,11 +1,14 @@
 # Codex working instructions
 
-Latest kit changes are recorded in `docs/KIT_LOADOUTS.md`: preserve both endgame
-families' XP/crystal/wind stock, boxed secondary equipment, compatible Riptide III
-tridents, Infinity bows, reduced arrow/rocket stock and existing apple/flask
-totals. Earlier kits retain stage-appropriate food/building supplies. Preserve
-explicit inventory capacity checks and native components; do not silently lose
-supplies or turn optional PvP suggestions into new defaults without task context.
+Latest kit changes are recorded in `docs/KIT_LOADOUTS.md`: the user approved
+Crystal/Mace endgame variants and the previous organisation recommendations.
+Preserve actual hotbar transfers, distinct Density/Breach maces, variant-specific
+explosive supplies, moderate midgame enchants, late repair XP/healing, and shared
+apple/rocket/flask/ammo totals. `endgame replace` aliases Crystal; both explicit
+variants require the same final `replace` token. Keep inventory capacity checks,
+real Shulker contents and compatible native enchantments. The current Astralite
+armor economy's small lunar cost is acknowledged in its spec; this kit task does
+not authorise silently increasing the mining grind or changing those recipes.
 
 Work in this checkout. Read `START_HERE.md` for current status, then only the
 specifications and source relevant to the request. Historical documents preserve

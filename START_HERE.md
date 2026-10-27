@@ -5,17 +5,17 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
-## Current — combat kit inventory corrections
+## Current — organised progression kits and endgame variants
 
-Both endgame families now carry XP bottles, crystals and wind charges, with
-optional tools/weapons boxed and Riptide III tridents. Late/endgame bows use
-Infinity, one shared arrow stack and three Flight-1 rocket stacks. Earlier kits
-keep ordinary food/blocks and gain staged bucket/web utility; vanilla late kits
-also have Speed II and long Fire Resistance. Existing apple totals, mod equipment,
-ammo and elite flask stock remain. Inventory capacity is explicit rather than
-silently truncating additions. See `docs/KIT_LOADOUTS.md` for exact stock,
-researched PvP references and further suggestions. These apply on the next `/kit`
-invocation, not automatically to a player's existing items.
+`/kit <vanilla|bunnidog> endgame <crystal|mace> replace` now selects a focused
+loadout. Bare `endgame replace` aliases Crystal. Crystal keeps explosives/bases
+accessible and boxes its mace; Mace carries a Density mace, boxes a separate
+Breach mace and exchanges explosive supplies for blocks/webs. All stages have
+purposeful hotbars; modded prepared kits expose lance/flask directly. Midgame
+now has moderate native enchants and healing. Late kits replace boxed steak with
+repair XP; vanilla prepared kits have splash Healing II. Existing apple/rocket,
+mod ammo and flask totals remain. See `docs/KIT_LOADOUTS.md` for exact stock,
+slot layouts and research. These changes apply on the next kit command.
 
 ## Planned — visible whole-animal equipment
 

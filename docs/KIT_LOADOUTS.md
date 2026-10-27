@@ -1,43 +1,80 @@
 # Combat testing kits
 
-`/kit vanilla|bunnidog early|mid|late|endgame replace` explicitly replaces the
-player's inventory. The unconfirmed command still only prints its existing
-replacement instruction. These are progression testing supplies, not arena rules
-or rewards earned in Survival. Existing inventories are changed only by invoking
-the command again.
+The command explicitly replaces the player's inventory:
 
-## Current inventory changes
+```
+/kit vanilla early replace
+/kit vanilla mid replace
+/kit vanilla late replace
+/kit vanilla endgame crystal replace
+/kit vanilla endgame mace replace
+```
 
-Both endgame families now have 128 XP bottles instead of both steak stacks,
-128 end crystals instead of the cobblestone/plank stacks, and 128 wind charges.
-Three stacks of obsidian remain: one immediately accessible and two boxed.
-The axe, shovel, hoe, crossbow and trident are in the Shulker, retaining their
-actual enchantments. The trident has Riptide III without Channeling or Loyalty.
-The mace remains in the main inventory.
+Use `bunnidog` instead of `vanilla` for the modded family. Existing
+`/kit <family> endgame replace` is an alias for Crystal. Omitting `replace`
+only prints the existing replacement instruction; permissions are unchanged.
+Current inventories are not edited until the player invokes the command again.
 
-All enchanted late/endgame bows have Infinity instead of Mending. Their single
-64-arrow stack also supplies the boxed crossbow. The spare boxed arrow stack is
-removed. Flight-1 rockets total three stacks, one carried and two boxed, rather
-than four. Other durable equipment keeps Mending I and Unbreaking III.
+## Current loadouts
 
-Late kits also box their shovel, hoe and crossbow, but keep the axe accessible
-for shield combat. Early/mid kits retain their tool sets and offhand shield,
-without an unnecessary second shield. All non-endgame kits gain one lava bucket;
-mid adds eight cobwebs and late adds sixteen. Their ordinary food and building
-blocks remain. Vanilla late/endgame retain three Strength II potions and add
-one Speed II plus one eight-minute Fire Resistance potion. Bunnidog late/endgame
-keep their actual infused-juice flask rather than duplicate ordinary potions.
+- **Early:** iron equipment, normal food, shield and building supplies. The
+  hotbar puts sword, axe, bow, pickaxe, water, lava, food and blocks first.
+- **Mid:** Diamond equipment with Protection II, Sharpness II, Power II,
+  Efficiency III and Unbreaking II where supported. Eight webs and two native
+  splash Healing II potions complement food, buckets and pearls. No max-enchant
+  jump or automatic Mending at this stage.
+- **Late:** max-enchanted gear, 64 golden/five enchanted apples, one main steak
+  stack and 64 boxed XP bottles instead of the spare steak. Shovel, hoe and
+  crossbow are boxed; the axe stays accessible. Sixteen webs and bucket utility
+  remain. Vanilla carries Strength II, Speed II, long Fire Resistance and two
+  splash Healing II; Bunnidog uses its actual 32-drink infused flask.
+- **Endgame Crystal:** 128 crystals, 192 obsidian (64 carried, 128 boxed), 64
+  anchors, 64 glowstone and 64 webs. The Density/Wind Burst mace is boxed with
+  the trident, crossbow, axe, shovel and hoe. Its hotbar prioritises crystals,
+  bases and placement tools rather than the backup mace.
+- **Endgame Mace:** a Density V/Wind Burst III mace is directly accessible;
+  a separate Breach IV/Wind Burst III mace is boxed. These incompatible damage
+  enchants never coexist on the same stack. No crystals, obsidian, anchors or
+  glowstone; 64 cobblestone and 64 webs replace the explosive supplies. The
+  hotbar prioritises the mace, wind, pearls, water, sustain, webs and blocks.
 
-Apple totals are unchanged: late 64 golden plus five enchanted; endgame 256
-golden plus 20 enchanted, including the box. Bunnidog Astralite/artifact gear,
-native upgraded tool components, power settings, ammo and elite flask contents
-remain. Endgame's remaining free slots still contain the appropriate totems.
+Both endgame variants retain 128 XP bottles, 128 wind charges, 192 Flight-1
+rockets, one 64-arrow stack, 256 golden/20 enchanted apples, native Riptide III
+trident (no Channeling/Loyalty), Infinity bow (no Mending), elytra and ordinary
+max-enchanted gear. Other durable gear keeps Mending I and Unbreaking III.
+Vanilla has the Strength/Speed/Fire Resistance potions plus two Healing II
+splashes. Modded variants retain Astralite/artifact gear, all ammo, power
+settings, Calipers/guavas and the unchanged elite 96-drink flask; ordinary
+potions do not crowd out that stock. Free slots contain the appropriate totems.
 
-Main stock is checked against 36 slots and boxed stock against 27 before the
-inventory replacement commits. Filling with totems happens after real supplies
-and equipment. Do not silently truncate future additions, including the flask.
-The existing native kit scenario exercises all eight family/stage combinations,
-exact quantities, real box placement and compatible enchantments.
+## Hotbar organisation
+
+These are actual moved stacks, not duplicate preview items. The remaining main
+inventory keeps support equipment/ammo; the real 27-slot Shulker holds reserves.
+
+| Slot | Early | Mid | Late | Endgame Crystal | Endgame Mace |
+| --- | --- | --- | --- | --- | --- |
+| 1 | Sword | Sword | Sword | Sword | Sword |
+| 2 | Axe | Axe | Axe | Crystals | Density mace |
+| 3 | Bow | Bow | Bow | Obsidian | Wind charges |
+| 4 | Pickaxe | Pickaxe | Pickaxe | Pickaxe | Pearls |
+| 5 | Water | Water | Water | Pearls | Water |
+| 6 | Lava | Lava | Lava | Golden apples | Golden apples |
+| 7 | Steak | Golden apples | Golden apples | Wind charges | Webs |
+| 8 | Planks | Pearls | Pearls | Water | Cobblestone |
+| 9 | Cobblestone | Cobblestone | Totem | Totem | Totem |
+
+For Bunnidog late/endgame, the appropriate lance replaces the sword in slot 1,
+while the flask occupies slot 6. The ordinary sword and any displaced lava/
+apples remain in the main inventory. A real emergency totem is always available
+in slot 9 and the offhand for prepared kits; earlier kits use an offhand shield.
+
+Supplies are checked against 36 main/27 boxed slots before inventory replacement.
+Fillers are added last, and hotbar arrangement transfers existing stacks without
+creating extra supply. Do not silently truncate future kit additions. The native
+kit scenario covers all eight original family/stage combinations plus the four
+explicit endgame family/variant combinations, compatible enchantments, supplies,
+real boxed alternatives and hotbar slots.
 
 ## Reference inventories and recommendations
 
@@ -63,17 +100,10 @@ player's requested apple quantities, Prot IV/no-Thorns baseline or mod infusions
   command. Its Blast Protection choice is not applied to the player's existing
   general-purpose Protection IV benchmark.
 
-Suggested next choices, **not added in this pass**:
-
-| Stage | Proposed choice | Why |
-| --- | --- | --- |
-| Early | An optional combat-focused arrangement keeping sword, axe, water, lava and blocks in the hotbar | Makes shield breaking, cover and bucket play available without inventory sorting. Keep the current mixed survival kit as the default. |
-| Mid | Moderate Protection II/Sharpness II enchants and a few healing supplies | Gives Diamond preparation a useful middle step before max-enchanted Netherite, following the published staged kits. |
-| Late | Replace the boxed spare steak with repair XP; offer splash Healing II as an alternative to extra totems | Supports Mending during longer fights while keeping the main food stack, and gives an active recovery option. |
-| Endgame | Optional crystal-focused and mace-focused variants, rather than adding every counter to the default | Crystal can exchange reserve utilities for webs/anchor supplies; mace can prioritise movement and an alternate Breach mace. Keep current Density/Crystal mixed kit and requested quantities intact. |
-
-Anchors/glowstone, a second specialised mace, tipped arrows and spare armour are
-candidate trades for limited slots, not unconditional extra stock. Ordinary
-Infinity arrows do not make tipped arrows or crossbow shots free. No changes to
-world combat, player damage rules, item recipes or armour-design work are part
-of this kit pass.
+The previously suggested organisation, midgame enchants, healing supplies,
+late-game repair XP and endgame specialisations now ship under the explicit
+follow-up request. The table above records implementation rather than proposed
+extras. Tipped arrows and spare armour remain future possible trades for limited
+slots, not added stock. Ordinary Infinity arrows do not make tipped arrows or
+crossbow shots free. This pass does not change world combat, recipes or the
+pending bunnidog-armour design.

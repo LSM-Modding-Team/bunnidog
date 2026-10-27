@@ -29,6 +29,25 @@ four Marrow, eight Membranes, eight Lenses, sixteen diamonds and four additional
 Netherite Ingots, besides the original Netherite gear. Tools cost the same per
 upgrade. No generic ruin chest hands out the new tier or its unique ores.
 
+### Current lunar mining demand
+
+From an existing Netherite armour set, the exact extra materials are 16 Astralite
+Shards, 16 Raw Cinderite (smelted), four Apex Marrow, eight Aerial Membranes,
+eight Prism Lenses, 16 diamonds and four Netherite Ingots. Those additional
+Netherite Ingots use 16 Ancient Debris and 16 Gold Ingots. Add smelting fuel;
+ore-block/kill counts vary with Fortune, explosion loss and actual loot rolls.
+Making the first Astralite pick before the armour adds four shards, four raw
+Cinderite, one Marrow, two Membranes, two Lenses, four diamonds and one Netherite
+Ingot. These counts exclude already-owned gear, workstations and optional
+Heartbound/Sovereign artifacts.
+
+The player correctly identified a progression gap: four ingots for the armour
+set, plus individual tools and Mending-supported repairs, do not justify extensive
+moon mining. Rich moons currently concentrate the ores and provide the first
+Blastmaw extraction challenge, rather than supporting a developed long mining
+expedition. This is a recorded economy/design gap, not evidence that the intended
+mining loop is complete. No recipes or yields were changed by the kit pass.
+
 ## Equipment
 
 Astralite armor has the Netherite armor values, toughness **5** per piece,
