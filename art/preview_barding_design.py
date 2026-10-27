@@ -27,7 +27,65 @@ def face(points, colour_slot):
     points = np.asarray(points, dtype=float)
     normal = np.cross(points[2] - points[0], points[3] - points[1])
     normal /= np.linalg.norm(normal)
-    return points, normal, (4 + colour_slot * 12, 516), (4, 4), np.tile(normal, (4, 1))
+    # Continuous object-space UVs replace the old single-colour swatch. Shared
+    # coordinates keep surface marks coherent across neighbouring mesh faces.
+    axis=int(np.argmax(np.abs(normal)))
+    u=points[:,2] if axis==0 else points[:,0]
+    v=points[:,2]+12 if axis==1 else 20-points[:,1]
+    uv=np.column_stack(((colour_slot%4)*256+8*(u+12)+4,
+                        512+(colour_slot//4)*256+8*v+4))
+    return points, normal, uv, (0,0), np.tile(normal, (4, 1))
+
+
+def material_atlas(tier,fur):
+    """Authored pixel ramps informed by vanilla worn armour/horse equipment.
+
+    Broad stepped reflections and recesses carry the material; fine grain stays
+    subordinate. All samples are original, not copied Minecraft texture pixels.
+    """
+    ramps=[
+        ['#402719','#654027','#8b5935','#ad7749','#d0a06a'],
+        ['#414b53','#75858e','#aab8bf','#d4dfe1','#f0f0df'],
+        ['#12515e','#198391','#29b8c2','#6cddd9','#bdfff0'],
+        ['#211f2b','#36313f','#514754','#726371','#988392'],
+        ['#242940','#3b4561','#606e8a','#8fa7bb','#c3dcd9'],
+    ]
+    from PIL import ImageColor
+    main=np.array([ImageColor.getrgb(c) for c in ramps[tier]],dtype=float)
+    leather=np.array([ImageColor.getrgb(c) for c in ramps[0]],dtype=float)
+    accent=np.array(TIERS[tier][2],dtype=float)
+    palettes=[main,np.array([accent*f for f in (.43,.63,.82,1,1.08)]),
+              main*.64,leather,
+              np.array([(65,39,27),(111,66,42),(173,111,67),(218,165,107),(245,211,157)]),
+              np.array([(26,31,36),(44,53,60),(66,78,84),(98,111,116),(135,146,144)])]
+    atlas=Image.new('RGB',(1024,1024),BG);atlas.paste(fur,(0,0))
+    yy,xx=np.mgrid[:256,:256]
+    # Stable coarse patches make large plates readable at ordinary game distance.
+    coarse=((xx//9*73+yy//7*151+(xx//9)*(yy//7)*13)%101)/100
+    fine=((xx*37+yy*67+xx*yy*3)%71)/70
+    field=.42+.17*np.sin((xx+yy*.48)/27)+.14*np.cos((xx*.44-yy)/39)+.16*(coarse-.5)+.035*(fine-.5)
+    for slot,palette in enumerate(palettes):
+        values=field.copy()
+        if slot in (0,2) and tier>0:
+            # Wide stepped glints, not uniform brightness or per-face speckles.
+            band=(xx+yy//6*3)%109
+            values+=np.where((band>34)&(band<47),.30,0)
+            values-=np.where((band>82)&(band<91),.16,0)
+            if tier in (2,4):
+                values+=np.where(((xx//24+yy//32)%5==1)&(yy%32<5),.18,0)
+        if (slot==0 and tier==0) or slot==3:
+            values=.40+.12*np.sin(xx/19)+.12*(coarse-.5)+.05*(fine-.5)
+            values-=np.where(yy%57<2,.22,0)
+            values+=np.where((yy%57>=3)&(yy%57<5)&(xx%9<4),.34,0)
+        if slot==5:
+            # Small staggered mail links sit in dark sockets.
+            links=((xx+(yy//6%2)*3)%6)
+            values=np.where((links==1)&(yy%6<4),.75,.25)
+            values=np.where((links==2)&(yy%6==3),.52,values)
+        indices=np.minimum(4,np.maximum(0,(values*5).astype(int)))
+        pixels=np.clip(palette[indices],0,255).astype('uint8')
+        atlas.paste(Image.fromarray(pixels),((slot%4)*256,512+(slot//4)*256))
+    return atlas
 
 
 # The approved torso's authored sections, used only as a fitting reference.
@@ -246,13 +304,7 @@ def main():
               (4,-85,.8,'Astralite — slim build / side'),
               (4,-30,1.25,'Astralite — Apex suit')]
     for index, (tier, yaw, build, label) in enumerate(cases):
-        texture = Image.new('RGB', (512, 528), BG)
-        texture.paste(fur, (0, 0))
-        tex_draw = ImageDraw.Draw(texture)
-        palette = (*TIERS[tier][1:], tuple(int(c*.65) for c in TIERS[tier][1]),
-                   (93, 58, 39), (196, 143, 99), (76, 83, 92))
-        for slot, colour in enumerate(palette):
-            tex_draw.rectangle((slot*12, 512, slot*12+11, 527), fill=colour)
+        texture = material_atlas(tier,fur)
         image = render(study(tier, build), np.asarray(texture, dtype=float),
                        yaw=yaw, elevation=16, width=width, height=height-40, zoom=23)
         x, y = (index % 3) * width, 90 + (index // 3) * height

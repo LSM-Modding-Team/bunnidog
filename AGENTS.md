@@ -90,6 +90,10 @@ broader visor and limb/paw guards, Netherite full plate, Astralite reinforced
 full plate. The top tiers protect head/ears, torso/belly/rump, limbs/paws and tail.
 Do not jump directly from a bare-limbed harness to a recoloured complete suit.
 It is still one item.
+The latest texture review accepts this model: retain its geometry/coverage and
+replace uniform swatches with material shading, broad stepped reflections, edge
+contrast, leather stitches and mail detail. Use worn armour/horse-armour references
+rather than inventory icons; avoid remodelling or shader-only fixes.
 When implementing it, remove those genetic
 and champion bonuses rather than stacking both systems; rebase Crowned values,
 preserve existing active fights and retain actual equipment ownership.

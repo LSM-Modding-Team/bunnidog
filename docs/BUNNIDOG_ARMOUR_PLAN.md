@@ -94,6 +94,31 @@ in ordinary light; they do not create a bright aura or hide attack particles.
 Dungeon equipment is the same Astralite item players can craft, not an invisible
 enemy-only tier. The Crowned Apex retains its separate crown above the barding.
 
+### Material texture revision
+
+The player accepts the current model/coverage progression but rejects the flat,
+uniform colour. Preserve those shapes. Reference the **equipped** Iron, Diamond
+and Netherite horse renders on [Horse Armor](https://minecraft.wiki/w/Horse_Armor)
+and the resolved Minecraft 26.2 `textures/entity/equipment/humanoid` and
+`horse_body` atlases, rather than inventory icons. Their stepped light/shadow
+patches and painted edge reflections remain visible under ordinary world light.
+Do not substitute glossy shaders, brighter lighting or a remodel for texture.
+
+Use original material palettes with several distinct shadow, midtone and highlight
+colours. Leather gets seams, small stitches and restrained grain. Iron gets cool
+brushed patches and bright stepped glints; Diamond gets deeper teal recesses and
+pale angular reflections. Netherite uses charcoal/plum patches with muted warm
+highlights. Astralite uses blue-grey metal, pale steel highlights, copper fittings
+and separate restrained turquoise inlays. Mail has staggered links in dark sockets.
+Keep broad material variation readable at gameplay distance; fine grain supports
+it instead of turning every surface into random noise or a checkerboard.
+
+The concept uses continuous object-space UVs and pixel material swatches, replacing
+the old solid-colour samples. Plate coordinates, coverage, silhouettes, poses,
+camera and lighting are unchanged. The existing animal atlas is unchanged.
+These are authored concept textures, not copied vanilla pixels or shipped runtime
+atlases; final model-specific UVs still need runtime implementation and review.
+
 Wing roots pass through fitted articulated sockets in the shoulder/back armour,
 not large bare patches of torso. Winged upper-tier suits add leading-edge and
 root guards, with overlapping coverts over the inner wing; outer flight feathers

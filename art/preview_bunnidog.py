@@ -106,9 +106,12 @@ def render(faces, texture, yaw=0, elevation=7, width=650, height=820, zoom=35, p
             continue
         projected = (corners - center) @ basis.T
         projected[:, :2] = projected[:, :2] * zoom + (width / 2, height / 2)
-        u, v = uv
-        w, h = size
-        texcoords = np.asarray(((u, v), (u + w, v), (u + w, v + h), (u, v + h)))
+        if len(uv) == 4:
+            texcoords = np.asarray(uv)
+        else:
+            u, v = uv
+            w, h = size
+            texcoords = np.asarray(((u, v), (u + w, v), (u + w, v + h), (u, v + h)))
         for indices in ((0, 1, 2), (0, 2, 3)):
             tri, tex = projected[list(indices)], texcoords[list(indices)]
             tri_normals = vertex_normals[list(indices)]
@@ -141,7 +144,7 @@ def render(faces, texture, yaw=0, elevation=7, width=650, height=820, zoom=35, p
             vi = np.clip(vi, 0, texture.shape[0] - 2)
             col = ((texture[vi, ui, :3] * (1 - uf[:, :, None]) + texture[vi, ui + 1, :3] * uf[:, :, None]) * (1 - vf[:, :, None]) +
                    (texture[vi + 1, ui, :3] * (1 - uf[:, :, None]) + texture[vi + 1, ui + 1, :3] * uf[:, :, None]) * vf[:, :, None])
-            if nearest:
+            if nearest or len(uv) == 4:
                 col = texture[np.clip(np.floor(vt + .5).astype(int), 0, texture.shape[0] - 1),
                               np.clip(np.floor(ut + .5).astype(int), 0, texture.shape[1] - 1), :3]
             depth[region][keep] = z[keep]

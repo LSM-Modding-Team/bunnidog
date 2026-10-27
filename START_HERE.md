@@ -13,6 +13,9 @@ Coverage progresses gradually: Leather padding/cap/wraps; Iron open helmet,
 partial body plates and greaves; Diamond enclosed torso, broader visor, upper-leg
 and paw guards; Netherite full plate; Astralite reinforced full plate. The final
 tiers protect head/ears, body/belly/rump, all four legs/paws and the tail.
+The accepted shape is retained; the latest texture study replaces flat swatches
+with material shading, stepped highlights, leather seams and mail detail informed
+by actual vanilla worn-armour/horse-armour assets and equipped horse references.
 Equipment provides protection, health, damage and modest mobility separately
 from genes. Future dungeon actors wear actual Astralite gear instead of the
 current enhanced champion genetics/modifiers. The Crowned Apex is rebased to
