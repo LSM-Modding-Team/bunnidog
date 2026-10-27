@@ -5,6 +5,19 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Planned — visible whole-animal equipment
+
+`docs/BUNNIDOG_ARMOUR_PLAN.md` designs one barding item in Leather, Iron,
+Diamond, Netherite and Astralite tiers for adult bunnidogs and all Apexes.
+Equipment provides protection, health, damage and modest mobility separately
+from genes. Future dungeon actors wear actual Astralite gear instead of the
+current enhanced champion genetics/modifiers. The Crowned Apex is rebased to
+avoid doubling its already increased stats. Owner handling, native stack
+ownership, repairs/drops, basket/vacuum boundaries and old-fight compatibility
+are specified. `art/barding_design.png` is a fitted concept over the existing
+sculpt, not a shipped model or client capture. Gameplay implementation is pending;
+the released dungeon balance below remains current.
+
 ## Current — dungeon combat above the Great Warren baseline
 
 Crown trials now have four then five mixed Apex champions, with trained genetic

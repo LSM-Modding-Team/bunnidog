@@ -1,5 +1,9 @@
 # Crown Warren and Sovereign rewards
 
+> Planned equipment replacement: [BUNNIDOG_ARMOUR_PLAN.md](BUNNIDOG_ARMOUR_PLAN.md)
+> replaces dungeon-only genetic/champion boosts with actual visible Astralite
+> barding when implemented. The mechanics below still describe the current release.
+
 > The architectural redesign now ships for fresh sites. The accepted design and
 > implementation record are in [CROWN_WARREN_REDESIGN_PLAN.md](CROWN_WARREN_REDESIGN_PLAN.md).
 > Old sites retain their original geometry and progress; they are not converted.

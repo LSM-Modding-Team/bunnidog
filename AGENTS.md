@@ -79,6 +79,14 @@ Crowned phases. Dungeon balance must sit above ordinary realm combat; keep wild
 and ritual Apex values, player gear, readable warnings, finite summons, physical
 keys and stock/reward journals intact. Do not refill old caches or rewrite sites.
 
+Latest armour direction is designed in `docs/BUNNIDOG_ARMOUR_PLAN.md`, with the
+planning-only surface study in `art/preview_barding_design.py`. It is not shipped
+equipment. The requested future replacement is one visible tiered barding item
+for ordinary bunnidogs and Apexes, with actual Astralite gear on dungeon Apexes
+instead of enhanced dungeon genetics. When implementing it, remove those genetic
+and champion bonuses rather than stacking both systems; rebase Crowned values,
+preserve existing active fights and retain actual equipment ownership.
+
 Latest expedition play review supersedes personal hunt locks and the first flat
 archipelago. Preserve physical ground-remnant recipe inputs for the Resonant Eye,
 all five roles plus an aerial drop, native component ingredient displays, and
