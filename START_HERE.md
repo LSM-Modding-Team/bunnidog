@@ -5,6 +5,22 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — dungeon combat above the Great Warren baseline
+
+Crown trials now have four then five mixed Apex champions, with trained genetic
+lines, 1.5× health and 1.15× attack. Party size freezes on entry and adds 15%
+health per additional player, within ordinary native health limits. Finite guard
+pairs introduce each approach. Wild/ritual Apex tuning and realm spawn density
+remain unchanged.
+
+The Crowned Apex has 6,000 solo HP (15,900 with four), 40/56 melee, 32 beam damage
+and shorter recovery with the original warnings. Its middle phase has four
+champion Apexes plus three brood, and its final phase has two finite flying
+Prismmaw escorts. Support healing remains finite. Wing/final generic caches are
+richer; existing stock, keys, personal Cores and rematch payment are preserved.
+See `docs/CROWN_WARREN_SPECS.md`. This is a dungeon-specific balance pass;
+actual solo/co-op Survival pacing remains player review.
+
 ## Current — authored Crown citadel
 
 Fresh Crown Warrens use the architectural redesign in
@@ -223,8 +239,8 @@ frozen genetic archives. Sovereign smithing upgrades extend Heartbound armor,
 Lance and Armored Elytra; the Concord Standard adds paid party healing. Existing
 ordinary Apex tuning stays accepted. No new tutorial/menu layer.
 
-Protocol **42**, **2,535 authored / 2,663 packaged** language keys, English/shared
-neutral Spanish. The native suite now has **247 scenarios**, alongside actual
+Protocol **43**, **2,535 authored / 2,663 packaged** language keys, English/shared
+neutral Spanish. The native suite now has **248 scenarios**, alongside actual
 model/localization/build gates. Save/kill-payment ordering, native health above
 1,024, short chunk leases, finite actors, exact smithing components and separate
 core/trophy delivery retries are invariants. Native and inspected preview evidence

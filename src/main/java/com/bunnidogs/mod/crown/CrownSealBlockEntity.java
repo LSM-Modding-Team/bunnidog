@@ -145,11 +145,9 @@ public final class CrownSealBlockEntity extends BlockEntity {
         if(isRemoved() || server.getBlockEntity(worldPosition)!=this || !editable(player))return false;
 
         run=UUID.randomUUID();wave=0;active=true;absent=missing=0;enemies.clear();contributions.clear();
-        if(wing()==3) {
-            // Freeze a small nearby roster at engagement; spectators/late arrivals cannot create free cores.
-            contributions.put(player.getUUID(),0F);
-            server.players().stream().filter(p->p!=player && p.isAlive() && !p.isSpectator() && !p.hasInfiniteMaterials() && contains(p.position(),7)).sorted(Comparator.comparingDouble(p->p.distanceToSqr(encounterCenter()))).limit(3).forEach(p->contributions.put(p.getUUID(),0F));
-        }
+        // Freeze the nearby party for champion scaling and boss reward eligibility.
+        contributions.put(player.getUUID(),0F);
+        server.players().stream().filter(p->p!=player && p.isAlive() && !p.isSpectator() && !p.hasInfiniteMaterials() && contains(p.position(),7)).sorted(Comparator.comparingDouble(p->p.distanceToSqr(encounterCenter()))).limit(3).forEach(p->contributions.put(p.getUUID(),0F));
         boolean spawned=spawnWave();
         if(!spawned || isRemoved() || server.getBlockEntity(worldPosition)!=this || !editable(player) || player.getItemInHand(hand)!=offered || !ItemStack.matches(expected,offered)) {reset();message(player,"blocked");return false;}
         CrownTickets.hold(this);
@@ -162,19 +160,16 @@ public final class CrownSealBlockEntity extends BlockEntity {
     }
     private boolean spawnActors() {
         if(!(level instanceof ServerLevel server))return false;
-        List<ApexKind> kinds;
-        if(patrol)kinds=List.of(wing()==0 ? ApexKind.PRISM : wing()==1 ? ApexKind.BROOD : wing()==2 ? ApexKind.SUPPORT : ApexKind.BRUTE);
-        else if(wing()==3)kinds=List.of(ApexKind.BRUTE);
-        else if(wing()==0)kinds=wave==0 ? List.of(ApexKind.PRISM,ApexKind.BRUTE) : List.of(ApexKind.PRISM,ApexKind.PRISM);
-        else if(wing()==1)kinds=wave==0 ? List.of(ApexKind.BROOD) : List.of(ApexKind.BROOD,ApexKind.BRUTE);
-        else kinds=wave==0 ? List.of(ApexKind.SUPPORT,ApexKind.BRUTE) : List.of(ApexKind.BLAST);
+        var formation=patrol ? CrownBalance.patrol(wing()) : wing()==3 ? List.of(new CrownBalance.Fighter(ApexKind.BRUTE,false)) : CrownBalance.wave(wing(),wave);
         var made=new ArrayList<Apex>();
-        for(int i=0;i<kinds.size();i++) {
+        for(int i=0;i<formation.size();i++) {
+            var fighter=formation.get(i);
             Apex mob=wing()==3 && !patrol ? ModEntities.CROWNED_APEX.get().create(server,EntitySpawnReason.TRIGGERED)
-                    : ModEntities.apex(kinds.get(i),wing()==0 && wave==1 && i==1).create(server,EntitySpawnReason.TRIGGERED);
+                    : ModEntities.apex(fighter.kind(),fighter.flying()).create(server,EntitySpawnReason.TRIGGERED);
             if(mob==null) {made.forEach(Entity::discard);return false;}
+            if(!(mob instanceof CrownedApex))CrownBalance.train(mob,site.getMostSignificantBits()^site.getLeastSignificantBits()^((long)wave<<32)^i,contributions.size(),!patrol);
             boolean placed=false;
-            var pads=geometry==null ? Arrays.stream(new int[][]{{-7,7},{7,-7},{7,7},{-7,-7},{0,-10},{10,0}}).map(d->BlockPos.containing(encounterCenter().add(d[0],0,d[1]))).toList() : patrol ? List.of(geometry.patrol()) : geometry.pads();
+            var pads=geometry==null ? Arrays.stream(new int[][]{{-7,7},{7,-7},{7,7},{-7,-7},{0,-10},{10,0}}).map(d->BlockPos.containing(encounterCenter().add(d[0],0,d[1]))).toList() : patrol ? List.of(geometry.patrol(),geometry.patrol().west(4),geometry.patrol().east(4),geometry.patrol().north(4),geometry.patrol().south(4)) : geometry.pads();
             for(var pad:pads) {
                 var pos=Vec3.atBottomCenterOf(pad).add(0,mob.flying() ? 4 : 0,0);mob.snapTo(pos);
                 var bounds=mob.getBoundingBox();
@@ -285,7 +280,7 @@ public final class CrownSealBlockEntity extends BlockEntity {
         missing=lost ? missing+10 : 0;
         if(absent>=200 || missing>=200 || server.getDifficulty()==net.minecraft.world.Difficulty.PEACEFUL)reset();
     }
-    /** A single finite guard per precinct, attempted once and saved before native callbacks. */
+    /** A finite complementary guard pair per precinct, attempted once and saved before native callbacks. */
     private void tryPatrol(ServerLevel server) {
         if(geometry==null || patrolSpent || cleared || busy || spawning || server.getDifficulty()==net.minecraft.world.Difficulty.PEACEFUL)return;
         if(server.players().stream().noneMatch(p->p.isAlive() && !p.isSpectator() && !p.hasInfiniteMaterials() && p.distanceToSqr(Vec3.atCenterOf(geometry.patrol()))<18*18))return;

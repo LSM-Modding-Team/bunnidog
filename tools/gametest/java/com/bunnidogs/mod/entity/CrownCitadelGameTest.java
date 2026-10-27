@@ -45,7 +45,7 @@ final class CrownCitadelGameTest {
         p.snapTo(Vec3.atBottomCenterOf(CrownSitePlan.geometry(c,wing).patrol().south(3)));
         h.runAfterDelay(12,()->{
             var seal=(CrownSealBlockEntity)h.getLevel().getBlockEntity(CrownSitePlan.seal(c,wing));
-            h.assertTrue(seal.patrol() && seal.enemies().size()==1 && seal.patrolSpent(),"The actual furnished approach admits its single saved guard: "+wing);
+            h.assertTrue(seal.patrol() && seal.enemies().size()==2 && seal.patrolSpent(),"The actual furnished approach admits its saved guard pair: "+wing);
             for(var id:seal.enemies())CrownDungeonGameTest.kill(h,(LivingEntity)h.getLevel().getEntity(id),p);
             seal=CrownDungeonGameTest.copy(h,seal);
             h.assertTrue(!seal.active() && !seal.cleared() && seal.wave()==0 && seal.patrolSpent(),"Patrol death/reload pays no wing key/cache and never rearms: "+wing);

@@ -31,12 +31,13 @@ public final class CrownedApex extends Apex {
     private final ServerBossEvent crownBar=new ServerBossEvent(getUUID(),Component.translatable("entity.bunnidogs.crowned_apex"),BossEvent.BossBarColor.PURPLE,BossEvent.BossBarOverlay.NOTCHED_6);
     private BlockPos arena=BlockPos.ZERO;
     private int roster=1,cast,elapsed,recovery=60,index,biteWait,addWait=80;
-    private boolean livingPack;
-    private float linkBudget=120;
+    private boolean livingPack,aerialPack;
+    private int directedIndex;
+    private float linkBudget=360;
     private Vec3 aim=Vec3.ZERO,origin=Vec3.ZERO,addAim,addOrigin;
     private UUID aimedAdd;
     public CrownedApex(EntityType<? extends CrownedApex> type,Level level) {super(type,level);}
-    public static AttributeSupplier.Builder createAttributes() {return Apex.createAttributes().add(ModAttributes.CROWN_HEALTH,3000).add(Attributes.SCALE,4.6);}
+    public static AttributeSupplier.Builder createAttributes() {return Apex.createAttributes().add(ModAttributes.CROWN_HEALTH,6000).add(Attributes.SCALE,4.6);}
     // Only this creature redirects native max-health lookups. Vanilla/global attribute bounds stay intact.
     private Holder<Attribute> nativeAttribute(Holder<Attribute> a) {return a.equals(Attributes.MAX_HEALTH) ? ModAttributes.CROWN_HEALTH : a;}
     @Override public AttributeInstance getAttribute(Holder<Attribute> a) {return super.getAttribute(nativeAttribute(a));}
@@ -45,11 +46,11 @@ public final class CrownedApex extends Apex {
     @Override protected void applyGenetics() {
         float fraction=getMaxHealth()>0 ? getHealth()/getMaxHealth() : 1;
         super.applyGenetics();
-        getAttribute(ModAttributes.CROWN_HEALTH).setBaseValue(3000*(1+.55*(Math.clamp(roster,1,4)-1)));
-        getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(phase()==3 ? 44 : 30);
-        getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(.36);
+        getAttribute(ModAttributes.CROWN_HEALTH).setBaseValue(6000*(1+.55*(Math.clamp(roster,1,4)-1)));
+        getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(phase()==3 ? 56 : 40);
+        getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(.38);
         getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(72);
-        getAttribute(Attributes.ARMOR).setBaseValue(16);
+        getAttribute(Attributes.ARMOR).setBaseValue(18);
         setHealth(getMaxHealth()*fraction);
     }
     public void prepare(BlockPos center,int players) {arena=center.immutable();roster=Math.clamp(players,1,4);applyGenetics();setHealth(getMaxHealth());}
@@ -98,6 +99,7 @@ public final class CrownedApex extends Apex {
                 else {getNavigation().stop();if(biteWait==0 && isWithinMeleeAttackRange(target) && hasLineOfSight(target)) {doHurtTarget(server,target);biteWait=24;}}
             }
         }
+        if(phase()==3 && !aerialPack) {aerialPack=true;aerialEscort(server);}
         if(phase()==2) {if(!livingPack) {livingPack=true;pack(server);}links(server);}
         if(--recovery>0 || mobility().leaping())return;
         int choice=phase()==1 ? (++index%2==0 ? 2 : 1) : phase()==2 ? 2 : (++index%2==0 ? 4 : 1);
@@ -123,17 +125,17 @@ public final class CrownedApex extends Apex {
             // A readable orange landing marker precedes a real colliding, terrain-clearing arc.
             if(elapsed<28) {if(elapsed%4==0)ring(server,aim.add(0,-target.getEyeHeight(),0),3,ParticleTypes.FLAME);}
             else if(elapsed==28) {mobility().leap(target,aim.add(0,-target.getEyeHeight(),0));entityData.set(WARNING,0);}
-            if(elapsed>28 && !mobility().leaping())finish(45);
+            if(elapsed>28 && !mobility().leaping())finish(32);
         } else if(cast==2) {
             if(elapsed<=34) {if(elapsed%4==0)beam(server,origin,aim.subtract(origin),false);}
             else if(elapsed<=94) {if((elapsed-34)%10==0)beam(server,origin,aim.subtract(origin),true);}
-            else finish(55);
+            else finish(40);
         } else if(cast==4) {
             var c=Vec3.atBottomCenterOf(arena).add(0,1,0);
             var left=c.add(index%4==0 ? 22 : 0,0,index%4==0 ? 0 : 22);var right=c.add(index%4==0 ? -22 : 0,0,index%4==0 ? 0 : -22);
             if(elapsed<=60 && elapsed%4==0) {ring(server,left,19,ParticleTypes.FLAME);ring(server,right,19,ParticleTypes.FLAME);}
             if(elapsed==64) {ApexSkills.explosion(server,this,left,9,false);ApexSkills.explosion(server,this,right,9,false);}
-            if(elapsed>=68)finish(65);
+            if(elapsed>=68)finish(45);
         }
     }
     private void finish(int ticks) {cast=0;entityData.set(WARNING,0);recovery=ticks;}
@@ -145,22 +147,33 @@ public final class CrownedApex extends Apex {
         PacketDistributor.sendToPlayersTrackingEntity(this,new ApexBeamPayload(start,end,damage ? 0 : 1));
         if(!damage)return;
         var source=new DamageSource(level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(ResourceKey.create(Registries.DAMAGE_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","apex_beam"))),this);
-        for(var enemy:level.getEntitiesOfClass(LivingEntity.class,box,this::victim))if(enemy.getBoundingBox().inflate(1.25).clip(start,end).isPresent())enemy.hurtServer(level,source,24);
+        for(var enemy:level.getEntitiesOfClass(LivingEntity.class,box,this::victim))if(enemy.getBoundingBox().inflate(1.25).clip(start,end).isPresent())enemy.hurtServer(level,source,32);
     }
     private static void ring(ServerLevel server,Vec3 at,int radius,net.minecraft.core.particles.ParticleOptions particle) {
         for(int i=0;i<24;i++) {double a=i*Math.PI/12;server.sendParticles(particle,at.x+Math.cos(a)*radius,at.y+.25,at.z+Math.sin(a)*radius,1,0,.05,0,0);}
     }
     private void pack(ServerLevel server) {
-        for(int i=0;i<5;i++) {
-            Apex ally=i<2 ? ModEntities.apex(i==0 ? ApexKind.SUPPORT : ApexKind.PRISM,false).create(server,EntitySpawnReason.MOB_SUMMONED) : null;
+        for(int i=0;i<7;i++) {
+            Apex ally=i<4 ? ModEntities.apex(i==0 ? ApexKind.SUPPORT : i==3 ? ApexKind.BRUTE : ApexKind.PRISM,i==2).create(server,EntitySpawnReason.MOB_SUMMONED) : null;
             Bunnidog mob=ally!=null ? ally : ModEntities.APEX_MINION.get().create(server,EntitySpawnReason.MOB_SUMMONED);if(mob==null)continue;
             var seal=CrownEncounter.controller(this);if(seal==null) {mob.discard();return;}
+            if(ally!=null)CrownBalance.train(ally,getUUID().getLeastSignificantBits()^i,roster,true);
             CrownEncounter.bind(mob,seal);
-            if(mob instanceof ApexMinion pup)pup.caller(this);else mob.setNoAi(true);
-            double angle=i*Math.PI*2/5;mob.snapTo(Vec3.atBottomCenterOf(arena).add(Math.cos(angle)*12,1,Math.sin(angle)*12));
+            if(mob instanceof ApexMinion pup)pup.caller(this);else mob.setNoAi(i!=3);
+            double angle=i*Math.PI*2/7;mob.snapTo(Vec3.atBottomCenterOf(arena).add(Math.cos(angle)*18,i==2 ? 8 : 1,Math.sin(angle)*18));
             var bounds=mob.getBoundingBox();
             if(!server.hasChunksAt(BlockPos.containing(bounds.minX,bounds.minY,bounds.minZ),BlockPos.containing(bounds.maxX,bounds.maxY,bounds.maxZ))) {mob.discard();continue;}
             if(!server.noCollision(mob) || !server.addFreshEntity(mob))mob.discard();
+        }
+    }
+    private void aerialEscort(ServerLevel server) {
+        var seal=CrownEncounter.controller(this);if(seal==null)return;
+        for(int i=0;i<2;i++) {
+            var mob=ModEntities.apex(ApexKind.PRISM,true).create(server,EntitySpawnReason.MOB_SUMMONED);if(mob==null)continue;
+            CrownBalance.train(mob,getUUID().getMostSignificantBits()^i,roster,true);CrownEncounter.bind(mob,seal);
+            mob.snapTo(Vec3.atBottomCenterOf(arena).add(i==0 ? -18 : 18,12,0));
+            var bounds=mob.getBoundingBox();
+            if(!server.hasChunksAt(BlockPos.containing(bounds.minX,bounds.minY,bounds.minZ),BlockPos.containing(bounds.maxX,bounds.maxY,bounds.maxZ)) || !server.noCollision(mob) || !server.addFreshEntity(mob))mob.discard();
         }
     }
     private void links(ServerLevel server) {
@@ -169,19 +182,20 @@ public final class CrownedApex extends Apex {
         if(tickCount%20==0 && linkBudget>0) {
             var support=adds.stream().filter(e->e.kind()==ApexKind.SUPPORT).findFirst().orElse(null);
             if(support!=null) {
-                float before=getHealth(),paid=Math.min(8,linkBudget);heal(paid);linkBudget-=Math.clamp(getHealth()-before,0,paid);
+                float before=getHealth(),paid=Math.min(12,linkBudget);heal(paid);linkBudget-=Math.clamp(getHealth()-before,0,paid);
                 PacketDistributor.sendToPlayersTrackingEntity(this,new ApexBeamPayload(support.skills().mouth(),getEyePosition(),3));
             }
         }
         // Only one add major, and only while the boss is recovering. These directed casters never start native autonomous casts.
         if(--addWait<=0 && cast==0 && recovery>=25 && getTarget()!=null) {
-            adds.stream().filter(e->e.kind()==ApexKind.PRISM).findFirst().ifPresent(prism->{
+            var prisms=adds.stream().filter(e->e.kind()==ApexKind.PRISM).sorted(Comparator.comparing(Entity::getUUID)).toList();
+            if(!prisms.isEmpty()) {var prism=prisms.get(Math.floorMod(directedIndex++,prisms.size()));
                 aimedAdd=prism.getUUID();addOrigin=prism.skills().mouth();addAim=getTarget().getEyePosition().subtract(addOrigin);prism.skills().trace(server,addOrigin,addAim,false);
-            });
+            }
             // The aimed line is a warning; resolution follows 20 ticks later, unless a boss cast interrupts it.
-            addWait=100;
+            addWait=80;
         }
-        if(addWait==80 && cast==0 && recovery>=5 && aimedAdd!=null && addAim!=null) {
+        if(addWait==60 && cast==0 && recovery>=5 && aimedAdd!=null && addAim!=null) {
             adds.stream().filter(e->e.getUUID().equals(aimedAdd)).findFirst().ifPresent(prism->prism.skills().trace(server,addOrigin,addAim,true));aimedAdd=null;addAim=addOrigin=null;
         }
     }
@@ -190,10 +204,10 @@ public final class CrownedApex extends Apex {
         for(var entity:level.getEntitiesOfClass(Entity.class,new AABB(center,center).inflate(100),e->ApexSkills.family(e) && !(e instanceof CrownedApex) && run.toString().equals(e.getPersistentData().getStringOr("CrownRun",""))))entity.discard();
     }
     @Override public void die(DamageSource source) {super.die(source);if(dead) {crownBar.removeAllPlayers();cancel();}}
-    @Override public void addAdditionalSaveData(ValueOutput out) {super.addAdditionalSaveData(out);out.store("CrownArena",BlockPos.CODEC,arena);out.putInt("CrownRoster",roster);out.putInt("CrownPhase",phase());out.putBoolean("CrownPack",livingPack);out.putFloat("CrownLinks",linkBudget);}
+    @Override public void addAdditionalSaveData(ValueOutput out) {super.addAdditionalSaveData(out);out.store("CrownArena",BlockPos.CODEC,arena);out.putInt("CrownRoster",roster);out.putInt("CrownPhase",phase());out.putBoolean("CrownPack",livingPack);out.putBoolean("CrownAerialPack",aerialPack);out.putInt("CrownDirectedIndex",directedIndex);out.putFloat("CrownLinks",linkBudget);}
     @Override public void readAdditionalSaveData(ValueInput in) {
         super.readAdditionalSaveData(in);arena=in.read("CrownArena",BlockPos.CODEC).orElse(blockPosition().below());roster=Math.clamp(in.getIntOr("CrownRoster",1),1,4);
-        entityData.set(PHASE,Math.clamp(in.getIntOr("CrownPhase",1),1,3));livingPack=in.getBooleanOr("CrownPack",false);linkBudget=Math.clamp(in.getFloatOr("CrownLinks",0),0,120);cancel();recovery=60;applyGenetics();
+        entityData.set(PHASE,Math.clamp(in.getIntOr("CrownPhase",1),1,3));livingPack=in.getBooleanOr("CrownPack",false);aerialPack=in.getBooleanOr("CrownAerialPack",false);directedIndex=in.getIntOr("CrownDirectedIndex",0);linkBudget=Math.clamp(in.getFloatOr("CrownLinks",0),0,360);cancel();recovery=60;applyGenetics();
         crownBar.setColor(phase()==3 ? BossEvent.BossBarColor.RED : phase()==2 ? BossEvent.BossBarColor.GREEN : BossEvent.BossBarColor.PURPLE);
         crownBar.setName(Component.translatable("entity.bunnidogs.crowned_apex.phase_"+phase()));
     }

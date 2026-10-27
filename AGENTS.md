@@ -71,6 +71,14 @@ protected fighting floors and detached ProtoChunk safety. Inspect final shipped
 NBT through `art/render_citadel.py` after visual edits; the Blender previews are
 headless geometry evidence, not live client/shader/performance evidence.
 
+Latest dungeon balance feedback supersedes the initial Crown trial/boss numbers:
+ordinary Great Warren travel already involves overlapping Apex packs. Preserve
+`docs/CROWN_WARREN_SPECS.md`'s four/five mixed champion waves, finite approach
+pairs, native saved champion modifiers, frozen cooperative scaling and stronger
+Crowned phases. Dungeon balance must sit above ordinary realm combat; keep wild
+and ritual Apex values, player gear, readable warnings, finite summons, physical
+keys and stock/reward journals intact. Do not refill old caches or rewrite sites.
+
 Latest expedition play review supersedes personal hunt locks and the first flat
 archipelago. Preserve physical ground-remnant recipe inputs for the Resonant Eye,
 all five roles plus an aerial drop, native component ingredient displays, and

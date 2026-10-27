@@ -35,11 +35,11 @@ Store thresholds, stairs, gallery landings and returns form real walking routes;
 no obligatory wing approach passes through the arena. The keep's side galleries
 have stairs inside the hall, while the observatory roofwalk ends outside its wall.
 
-| Wing | Architecture | Accepted two finite waves |
+| Wing | Architecture | Two finite waves |
 | --- | --- | --- |
-| Glass Gallery | Two-storey furnished library, atrium and two stairs; raised octagonal observatory beneath a ribbed glass dome | Prismmaw + Brute; then two Prismmaws, one flying |
-| Brood Vaults | Granary, seed kitchen, open nesting court and four terraced nursery rooms with a service return | Broodcaller; then Broodcaller + Brute |
-| Heart Furnace | Upper loading/workshop hall, freight stair, lower cooling gallery and vaulted chained-heart chamber with copper-banded vents | Lifebinder + Brute; then Blastmaw |
+| Glass Gallery | Library, atrium and raised observatory | Prismmaw, Brute, Lifebinder, flying Brute; then ground/flying Prismmaws, Brute, Blastmaw, Lifebinder |
+| Brood Vaults | Stores, seed kitchen, nesting court and nursery terraces | Broodcaller, Brute, Prismmaw, flying Brute; then Broodcaller, two Brutes, flying Prismmaw, Lifebinder |
+| Heart Furnace | Workshop, freight stair, cooling gallery and chained-heart chamber | Lifebinder, Blastmaw, Brute, Prismmaw; then Blastmaw, Lifebinder, Prismmaw, ground/flying Brutes |
 
 Occupied room geometry, details and furnishing come from reusable authored
 modules baked into **188 native StructureTemplates**, owned by horizontal chunks.
@@ -50,15 +50,42 @@ recessed Rootstone lights and ordinary lanterns illuminate rooms without a
 colored floor runway. Supply barrels/chests have finite generic expedition loot;
 there are no stock-refilling room spawners or free exclusive Apex parts.
 
-There is one finite saved guard attempt in each wing's approach room and the
-entry precinct. It wakes only near a living Survival visitor, with its known
-bounded room already loaded. It shares that controller's actor slot with the
-trial, grants no wing key/cache, and never rearms after death, reset or reload.
+There is one finite saved **guard-pair** attempt in each wing's approach room
+and the entry precinct. It wakes only near a living Survival visitor, with its
+known bounded room already loaded. The pair shares its controller with the trial,
+grants no wing key/cache, and never rearms after death, reset or reload.
 Approach guards do not create a boss encounter. A normal click on a hall's
 physical seal starts the existing trial, including while holding a weapon.
 Confirmed deaths advance waves; unload/removal never counts as victory.
 Completed halls drop a glowing, site-bound key immediately, pay their original
 one-time generic cache and replace lost keys on later use without refilling it.
+
+### Dungeon difficulty above the realm baseline
+
+The latest balance request supersedes the initial one/two-Apex trial groups.
+Normal Great Warren land already spawns ground packs of two or three, which
+readily overlap other roles and flying enemies. Dungeon fights now deliberately
+exceed that baseline: **four Apexes in wave one, five in wave two**, with mixed
+melee/ranged/support threats and an aerial member in each trial. Each wave has
+at most one Broodcaller and one Lifebinder. Summon/lifetime limits remain intact;
+there are still exactly two finite waves, not an endless reinforcement loop.
+
+Dungeon actors use actual trained stocky genetic lines: Vitality 75–85,
+Swiftness 60–70, Leap 65–75, Senses 70–80, Bloom 30–40. Trial champions and boss
+escorts additionally receive **1.5× genetic health** and **1.15× attack attribute**.
+Their melee and attack-scaled beams/drains use that real attribute; fixed-power
+Blastmaw explosions keep their accepted values. Native permanent modifiers
+survive enrage/reload without stacking or restoring wounds. The two approach
+guards use the trained lines without champion multipliers.
+
+Trials freeze the starter and up to three nearby living Survival players at
+engagement. Each additional participant adds 15% champion health, capped at
+960 HP per actor to stay below native ordinary-Apex health limits. Saves and the
+second wave retain the original party size; arrivals/departures cannot keep
+rescaling a live fight. This tuning applies to new engagements in both old and
+new layouts. Existing tracked enemies/paid progress are never replaced on load.
+Wild and ritual Apex combat rules, global spawn tables and player equipment are
+unchanged by this dungeon-specific pass.
 
 **Two distinct matching-site keys** fit two actual seats beside the throne gate.
 They preserve insertion order and open that gate permanently. The optional third
@@ -102,9 +129,9 @@ resonant back organs on the existing animal sculpt. Its independent crown layer
 follows actual body/head proportions; wings unfold in the aerial final phase.
 The boss has its own native boss bar and remains measurable with Calipers.
 
-Solo health is **3,000**, with 16 armor and 30 raw melee damage. The engagement
-roster freezes at the starter plus up to three nearby Survival players. Health
-scales by `3000 × (1 + .55 × (players − 1))`, up to 7,950 for four players.
+Solo health is **6,000**, with 18 armor, 40 raw melee damage and movement speed
+.38. The engagement roster freezes at the starter plus up to three nearby Survival players. Health
+scales by `6000 × (1 + .55 × (players − 1))`, up to 15,900 for four players.
 Visitors arriving later cannot inflate health or acquire an idle core entitlement.
 
 A synchronized, boss-only `crown_health` attribute supplies a real native health
@@ -115,21 +142,26 @@ preserve damage rather than replacing health bars or imposing per-hit caps.
 | Health band | Pattern and openings |
 | --- | --- |
 | Above two thirds — The Hunt | Alternates committed pounces and aimed beams; ordinary bites/chasing during recovery |
-| Middle third — The Living Crown | One finite pack: Lifebinder, directed Prismmaw, three elite brood. Visible vitality links; boss remains directly damageable |
-| Last third — The Broken Crown | Continuous flight between warned dives and paired large detonations, with recovery; 44 raw melee damage |
+| Middle third — The Living Crown | One finite pack: champion Lifebinder, ground/flying directed Prismmaws, active Brute and three elite brood. Visible vitality links; boss remains directly damageable |
+| Last third — The Broken Crown | Continuous flight with two finite flying champion Prismmaws, warned dives and paired detonations; 56 raw melee damage |
 
 Pounces warn their fixed landing point for 28 ticks, then follow a real colliding,
 terrain-clearing arc. Beams warn for 34 ticks and pulse six times over 60 ticks,
-with up to 64-block reach (clipped to encounter bounds) and 24 raw piercing damage
-per accepted hit. The aimed
-line stays committed while the boss casts. Native protection/damage hooks remain.
+with up to 64-block reach (clipped to encounter bounds) and 32 raw piercing damage
+per accepted hit. Post-attack recovery is 32 ticks after a pounce, 40 after a beam
+and 45 after a detonation, reduced from 45/55/65. Warning lengths and the blast safe lane
+remain readable. The aimed line stays committed while the boss casts. Native
+protection/damage hooks remain.
 
-The Living Crown summons its pack once. Its support link has 120 HP of finite
+The Living Crown summons its pack once. Its support link has 360 HP of finite
 healing income, spent only on actual accepted healing; the ordinary Lifebinder's
-small saved reserve remains finite too. Killing support stops its link. A single
-directed Prismmaw can issue a warned, fixed-direction shot during boss recovery;
-it does not run an independent full attack rotation. Brood retains normal elite
-rules and its finite lifetime. Phase transitions and victory clean the old pack.
+small saved reserve remains finite too. It spends at most 12 HP per accepted
+one-second pulse. Killing support stops its link. The two directed Prismmaws alternate fixed-direction shots during boss
+recovery, with a 20-tick warning and an 80-recovery-tick cadence; they do not run
+independent full attack rotations. The Brute and three brood provide melee
+pressure. Brood retains normal elite rules and its finite lifetime. Phase
+transitions and victory clean the old pack. The final flying escorts are
+attempted only once, saved across reloads, and cleaned on retreat/victory.
 
 Final flight orbits around the chamber at roughly 17 blocks above its floor.
 Aerial casts retain no-gravity and stop stale ground navigation. The boss is
@@ -178,8 +210,8 @@ A qualifying victory grants:
   duplicate it.
 - A displayable Crown trophy carrying the actual dungeon and victory identity.
   Failed trophy delivery remains independently claimable after the core.
-- A generic vault: 24–32 diamond blocks, 8–12 Netherite blocks, 32–48 enchanted
-  golden apples, 4–6 Totems, and large crafting/expedition stocks. Unique role
+- A generic vault: 32–48 diamond blocks, 12–16 Netherite blocks, 48–64 enchanted
+  golden apples, 6–8 Totems, and large crafting/expedition stocks. Unique role
   ingredients instead drop from the actual Crowned Apex: 16–24 of each of the
   five role parts, Marrow and aerial membranes. The boss pays 10,000 XP.
 - A separately frozen archive: ordinary heritable winged End/Cave parents with
@@ -187,7 +219,10 @@ A qualifying victory grants:
   Starlit Dust. These breed ordinary bunnidogs through existing genetics; they do
   not grant the boss's separate health pool, an instant profession or a civilization.
 
-Wing caches contain generic wealth and bulk reagents. Temporary dungeon enemies
+Wing caches now contain 12–16 diamond blocks, 24–32 Netherite ingots, 16–24
+enchanted golden apples, 3–4 Totems and increased bulk ammunition reagents.
+The richer loot tables affect unresolved caches; existing actual contents never
+refill. Personal Core count, exclusive drops and rematch payments are unchanged. Temporary dungeon enemies
 and boss adds do not provide ordinary ritual Crests, role parts or XP. Paid genetic
 vacuum capture retains the user's existing exception for brood-to-seed capture.
 
@@ -216,12 +251,13 @@ healing credit for self-healing. Interrupted charges spend nothing. Native fuel,
 cooldown, permission and whole-item checks remain authoritative.
 
 All new text is English plus the shared neutral Peruvian Spanish source.
-Protocol **42** requires matching client/server content. Original ordinary Apex
+Protocol **43** requires matching client/server content. Original ordinary Apex
 values and old gear IDs/saves remain compatible.
 
 ## Evidence and remaining review
 
-The full native suite covers finite hall waves, actual key/hand/gate behavior,
+The full native suite covers champion wounds/enrage/reload, frozen cooperative
+wing scaling and four-to-five mixed waves, the larger finite phase packs, finite hall waves, actual key/hand/gate behavior,
 entity/controller saves, truthful high health, phase/pack cleanup, damaging beam
 warnings, sustained native aerial physics, abandoned-fight cleanup, frozen
 multiplayer scaling, killing-hit contribution, cancelled spawns, paid rematches,
@@ -234,7 +270,7 @@ keys, the archive/treasury, final reward, native saves and generation/repair sto
 preservation. A separate unfinished-ProtoChunk fixture covers all four V2 seals;
 missing-revision V1 saves remain covered. The shipped-NBT walking audit proves
 independent closed-gate wing routes, legal pads/jambs and the clear Crown volume.
-The full suite contains 247 scenarios; build/model/localization gates also run.
+The full suite contains 248 scenarios; build/model/localization gates also run.
 A repeat run exposed the pre-existing field test's open irrigation shaft under
 a one-block-thick platform; that fixture now uses a real waterlogged cover so
 random crop velocity cannot turn its hauling assertion into an unreachable void drop.

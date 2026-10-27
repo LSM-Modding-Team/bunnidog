@@ -41,12 +41,21 @@ final class CrownDungeonGameTest {
     static void kill(GameTestHelper h,LivingEntity mob,ServerPlayer p) {mob.setInvulnerable(false);mob.invulnerableTime=0;mob.hurtServer(h.getLevel(),h.getLevel().damageSources().playerAttack(p),20000);h.assertTrue(mob.isDeadOrDying(),"The actual accepted lethal hit must kill its encounter member");}
     static void wings(GameTestHelper h) {
         floor(h);var c=origin(h);var be=seal(h,0,c.above(),c,UUID.randomUUID());var p=ApexTypesGameTest.player(h,Vec3.atBottomCenterOf(c.offset(2,1,0)));
-        h.assertTrue(be.begin(p,InteractionHand.MAIN_HAND) && be.enemies().size()==2,"A physical wing seal starts its finite first encounter");
+        h.assertTrue(be.begin(p,InteractionHand.MAIN_HAND) && be.enemies().size()==4,"A physical wing seal starts its finite first encounter");
         for(var id:be.enemies()) {var e=(Apex)h.getLevel().getEntity(id);e.setNoAi(true);}
+        var champion=(Apex)h.getLevel().getEntity(be.enemies().iterator().next());
+        var ordinary=ModEntities.apex(champion.kind(),champion.flying()).create(h.getLevel(),EntitySpawnReason.COMMAND);
+        ordinary.setGenome(champion.genome());ordinary.setStats(champion.stats());ordinary.setNoAi(true);
+        h.assertTrue(Math.abs(champion.getMaxHealth()-ordinary.getMaxHealth()*1.5)<.1 && Math.abs(champion.getAttributeValue(Attributes.ATTACK_DAMAGE)-ordinary.getAttributeValue(Attributes.ATTACK_DAMAGE)*1.15)<.001,"A dungeon champion is stronger than the same ordinary genetic line, without changing wild rules");
+        float maximum=champion.getMaxHealth();champion.setHealth(maximum/3);champion.tick();
+        var savedActor=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,h.getLevel().registryAccess());champion.saveWithoutId(savedActor);
+        var restoredActor=ModEntities.apex(champion.kind(),champion.flying()).create(h.getLevel(),EntitySpawnReason.LOAD);restoredActor.load(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),savedActor.buildResult()));restoredActor.tick();
+        h.assertTrue(Math.abs(restoredActor.getMaxHealth()-maximum)<.1 && Math.abs(restoredActor.getHealth()-maximum/3)<.1 && restoredActor.getAttribute(Attributes.ATTACK_DAMAGE).hasModifier(CrownBalance.DAMAGE),"Enrage and native actor reload retain champion bonuses and wounds without stacking or refilling health");
+        ordinary.discard();restoredActor.discard();
         var first=h.getLevel().getEntity(be.enemies().iterator().next());first.discard();
         h.assertTrue(be.active() && be.wave()==0 && !be.cleared(),"Discarding/unloading an actor never counts as a confirmed kill");be.reset();
         be.begin(p,InteractionHand.MAIN_HAND);
-        var saved=copy(h,be);h.assertTrue(saved.active() && saved.enemies().size()==2,"A native controller save retains exact encounter actor identities");
+        var saved=copy(h,be);h.assertTrue(saved.active() && saved.enemies().size()==4,"A native controller save retains exact encounter actor identities");
         for(int wave=0;wave<2;wave++)for(var id:saved.enemies())kill(h,(LivingEntity)h.getLevel().getEntity(id),p);
         h.assertTrue(saved.cleared() && !saved.active() && saved.wave()==2,"Only both finite waves unlock their keystone");
         int chests=h.getLevel().getBlockState(c.offset(-6,1,-12)).is(Blocks.CHEST) ? 1 : 0;h.assertTrue(chests==1,"Wing completion pays a physical generic-supply cache");
@@ -56,6 +65,28 @@ final class CrownDungeonGameTest {
         var chest=(ChestBlockEntity)h.getLevel().getBlockEntity(c.offset(-6,1,-12));chest.unpackLootTable(null);chest.clearContent();
         saved=copy(h,saved);saved.use(p,InteractionHand.MAIN_HAND);h.assertTrue(chest.isEmpty() && saved.cleared(),"Replacement keys and native reload cannot refill the one-time cache");saved.reset();p.discard();
     }
+    static void balance(GameTestHelper h) {
+        floor(h);var c=origin(h);var seal=seal(h,1,c.above(),c,UUID.randomUUID());
+        var party=new ArrayList<ServerPlayer>();for(int i=0;i<4;i++)party.add(ApexTypesGameTest.player(h,Vec3.atBottomCenterOf(c.offset(2+i,1,2))));
+        h.assertTrue(seal.begin(party.getFirst(),InteractionHand.MAIN_HAND) && seal.enemies().size()==4,"The initial Brood trial is a four-Apex combined-arms fight");
+        var late=ApexTypesGameTest.player(h,Vec3.atBottomCenterOf(c.offset(-2,1,2)));seal=copy(h,seal);
+        h.assertTrue(!seal.participant(late.getUUID()) && party.stream().allMatch(p->sealParticipant(h,c,p)),"Wing saves freeze the nearby party; late visitors cannot rescale the fight");
+        for(int i=1;i<party.size();i++)party.get(i).discard();
+        for(var id:seal.enemies())kill(h,(LivingEntity)h.getLevel().getEntity(id),party.getFirst());
+        h.assertTrue(seal.wave()==1 && seal.enemies().size()==5,"Confirmed first-wave deaths lead to five complementary champions");
+        boolean brood=false,support=false,air=false;
+        for(var id:seal.enemies()) {
+            var mob=(Apex)h.getLevel().getEntity(id);var hp=mob.getAttribute(Attributes.MAX_HEALTH);
+            double expected=Math.min(960,hp.getBaseValue()*1.5*1.45);
+            h.assertTrue(Math.abs(mob.getMaxHealth()-expected)<.1 && mob.getMaxHealth()<=960,"The next wave retains the original four-player scaling within native health bounds");
+            brood|=mob.kind()==ApexKind.BROOD;support|=mob.kind()==ApexKind.SUPPORT;air|=mob.flying();
+        }
+        h.assertTrue(brood && support && air,"The second Brood wave combines summons, healing and aerial pressure");
+        var four=ModEntities.CROWNED_APEX.get().create(h.getLevel(),EntitySpawnReason.COMMAND);four.prepare(c,4);four.setHealth(13000);
+        h.assertTrue(four.getMaxHealth()==15900 && four.getHealth()==13000,"Four-player Crown health remains a truthful native pool below its registered maximum");four.discard();
+        seal.reset();for(var p:party)p.discard();late.discard();
+    }
+    private static boolean sealParticipant(GameTestHelper h,BlockPos c,ServerPlayer p) {return ((CrownSealBlockEntity)h.getLevel().getBlockEntity(c.above())).participant(p.getUUID());}
     static void gate(GameTestHelper h) {
         floor(h);var c=origin(h);var be=seal(h,3,c.offset(0,1,46),c,UUID.randomUUID());var p=ApexTypesGameTest.player(h,Vec3.atBottomCenterOf(be.getBlockPos().east()));
         for(int x=-3;x<=3;x++)for(int y=1;y<=6;y++)h.getLevel().setBlock(c.offset(x,y,42),ModBlocks.CROWN_GATE.get().defaultBlockState(),3);
@@ -82,14 +113,20 @@ final class CrownDungeonGameTest {
         var idle=ApexTypesGameTest.player(h,Vec3.atBottomCenterOf(c.offset(15,1,15)));unlock(h,be,p);
         h.assertTrue(be.begin(p,InteractionHand.MAIN_HAND),"Two paid sockets authorize the first real Crowned encounter");
         var boss=(CrownedApex)h.getLevel().getEntity(be.enemies().iterator().next());boss.setNoAi(true);
-        h.assertTrue(boss.getMaxHealth()==4650 && boss.roster()==2 && boss.getAttribute(Attributes.MAX_HEALTH)==boss.getAttribute(ModAttributes.CROWN_HEALTH),"Frozen two-player scaling uses a real native pool above vanilla's 1024 cap");
+        h.assertTrue(boss.getMaxHealth()==9300 && boss.roster()==2 && boss.getAttribute(Attributes.MAX_HEALTH)==boss.getAttribute(ModAttributes.CROWN_HEALTH),"Frozen two-player scaling uses a real native pool above vanilla's 1024 cap");
         boss.setHealth(3200);h.assertTrue(boss.getHealth()==3200,"Native setHealth cannot silently clamp the boss to vanilla max health");
-        boss.setHealth(2700);boss.setNoAi(false);boss.tick();boss.setNoAi(true);h.assertTrue(boss.phase()==2 && boss.getHealth()>=2699.9F && boss.getHealth()<=2708.1F,"Phase transitions preserve damage; only the finite visible vitality link can heal");
+        boss.setHealth(5400);boss.setNoAi(false);boss.tick();boss.setNoAi(true);h.assertTrue(boss.phase()==2 && boss.getHealth()>=5399.9F && boss.getHealth()<=5412.1F,"Phase transitions preserve damage; only the finite visible vitality link can heal");
         h.assertTrue(h.getLevel().getEntitiesOfClass(ApexMinion.class,boss.getBoundingBox().inflate(50),e->CrownEncounter.member(e)).size()==3,"The Living Crown has a finite native pack");
+        h.assertTrue(h.getLevel().getEntitiesOfClass(Apex.class,boss.getBoundingBox().inflate(60),e->e!=boss && CrownEncounter.member(e)).size()==4,"The middle phase adds four champions, with a melee threat and two directed ranged casters");
         float savedHealth=boss.getHealth();
         var out=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,h.getLevel().registryAccess());boss.saveWithoutId(out);var restored=ModEntities.CROWNED_APEX.get().create(h.getLevel(),EntitySpawnReason.LOAD);restored.load(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),out.buildResult()));
-        h.assertTrue(restored.roster()==2 && restored.getMaxHealth()==4650 && Math.abs(restored.getHealth()-savedHealth)<.1 && restored.phase()==2,"Native entity saves preserve full health, scaling and phase without resetting the fight");restored.discard();
-        boss.setHealth(1000);boss.tick();h.assertTrue(boss.phase()==3 && boss.flying(),"The last third becomes an actual aerial finale");
+        h.assertTrue(restored.roster()==2 && restored.getMaxHealth()==9300 && Math.abs(restored.getHealth()-savedHealth)<.1 && restored.phase()==2,"Native entity saves preserve full health, scaling and phase without resetting the fight");restored.discard();
+        boss.setHealth(1000);boss.setNoAi(false);boss.tick();boss.setNoAi(true);h.assertTrue(boss.phase()==3 && boss.flying(),"The last third becomes an actual aerial finale");
+        var escorts=h.getLevel().getEntitiesOfClass(Apex.class,boss.getBoundingBox().inflate(60),e->e!=boss && CrownEncounter.member(e));
+        h.assertTrue(escorts.size()==2 && escorts.stream().allMatch(e->e.flying() && e.kind()==ApexKind.PRISM),"The final phase replaces its ground pack with two finite flying Prismmaws");
+        var finalOut=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,h.getLevel().registryAccess());boss.saveWithoutId(finalOut);
+        var finalCopy=ModEntities.CROWNED_APEX.get().create(h.getLevel(),EntitySpawnReason.LOAD);finalCopy.load(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),finalOut.buildResult()));finalCopy.setNoAi(false);finalCopy.tick();
+        h.assertTrue(h.getLevel().getEntitiesOfClass(Apex.class,boss.getBoundingBox().inflate(60),e->e!=boss && CrownEncounter.member(e)).size()==2,"Reloading a wounded final-phase boss cannot create another escort pack");finalCopy.discard();
         kill(h,boss,p);
         h.assertTrue(!be.active() && be.pending(p.getUUID())==1 && be.pending(idle.getUUID())==0,"Accepted lethal participation earns one saved core; an idle scaling visitor earns none");
         var cache=(ChestBlockEntity)h.getLevel().getBlockEntity(c.offset(-6,1,50));var archive=(ChestBlockEntity)h.getLevel().getBlockEntity(c.offset(-4,1,50));

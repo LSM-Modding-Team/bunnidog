@@ -361,10 +361,10 @@ The courtyard's preparation buildings, recessed archive/treasury, rose window,
 framed thresholds and uneven gate towers provide distinct arrival scales.
 
 Two physical seats flank the throne gate. They preserve the actual order of the
-first two distinct keys; the remaining key opens the separate archive. A single
-finite saved guard per wing/entry precinct uses the existing encounter budget,
-pays no wing cache/key and never rearms on reset/reload. Trials retain the
-accepted two waves and rewards. Protected Rootstone floors retain the fighting
+first two distinct keys; the remaining key opens the separate archive. A finite saved guard group per wing/entry precinct uses the existing encounter budget,
+pays no wing cache/key and never rearms on reset/reload. Trials retain two finite waves and the same key/payment journals. The later
+dungeon-specific balance feedback supersedes their initial rosters and values;
+see `CROWN_WARREN_SPECS.md` for the current four/five champion waves and finale. Protected Rootstone floors retain the fighting
 space, with small recessed warm light grains rather than a colored route.
 
 New pieces save revision 2; missing revision means V1. Each seal saves its

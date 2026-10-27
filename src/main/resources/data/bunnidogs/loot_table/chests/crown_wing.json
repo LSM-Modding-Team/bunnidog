@@ -13,8 +13,8 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 8,
-                "max": 12
+                "min": 12,
+                "max": 16
               }
             }
           ]
@@ -27,6 +27,25 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:netherite_ingot",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 24,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:enchanted_golden_apple",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -45,33 +64,14 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:enchanted_golden_apple",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 12,
-                "max": 20
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
           "name": "minecraft:totem_of_undying",
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 2,
-                "max": 3
+                "min": 3,
+                "max": 4
               }
             }
           ]
@@ -89,8 +89,8 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 128,
-                "max": 192
+                "min": 192,
+                "max": 256
               }
             }
           ]
@@ -108,8 +108,8 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 128,
-                "max": 192
+                "min": 192,
+                "max": 256
               }
             }
           ]
@@ -127,7 +127,7 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 32,
+                "min": 48,
                 "max": 64
               }
             }
@@ -146,7 +146,7 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 32,
+                "min": 48,
                 "max": 64
               }
             }
