@@ -2566,5 +2566,7 @@
   "message.bunnidogs.barding.refused": "Only calm, bonded adults can change armour.",
   "care.bunnidogs.barding.remove": "Remove armour",
   "tooltip.bunnidogs.barding.defense": "Armour +%s · Toughness +%s",
-  "tooltip.bunnidogs.barding.power": "Max health +%s%% · Damage +%s%%"
+  "tooltip.bunnidogs.barding.power": "Max health +%s%% · Damage +%s%%",
+  "container.bunnidogs.kit.equipment": "Equipment",
+  "container.bunnidogs.kit.supplies": "Supplies"
 }

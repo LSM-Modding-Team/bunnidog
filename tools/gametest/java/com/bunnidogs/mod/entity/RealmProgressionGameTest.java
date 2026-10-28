@@ -62,12 +62,25 @@ final class RealmProgressionGameTest {
                 h.assertTrue(count(main,Items.TRIDENT)==0 && count(main,Items.CROSSBOW)==0 && count(all,Items.TRIDENT)==1 && count(all,Items.CROSSBOW)==1 && count(main,Items.OBSIDIAN)==64,"Optional weapons are boxed and crystal bases are directly accessible");
             }
             h.assertTrue(all.stream().filter(ItemStack::isDamageableItem).allMatch(s->s.getEnchantmentLevel(ench.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.UNBREAKING))==3 && (s.is(Items.BOW) || s.getEnchantmentLevel(ench.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.MENDING))==1)),"Every durable carried or boxed late-game item retains Unbreaking III and Mending, except the deliberate Infinity bow");
-            h.assertTrue(p.getInventory().getItem(8).is(family.equals("bunnidog") ? ModItems.CATACLYSM_TOTEM.get() : Items.TOTEM_OF_UNDYING),"Prepared hotbars reserve a real emergency totem");
+            h.assertTrue(p.getInventory().getItem(8).is(family.equals("bunnidog") && !end ? ModItems.CATACLYSM_TOTEM.get() : Items.TOTEM_OF_UNDYING),"Prepared hotbars reserve a real emergency totem; endgame starts with the normal type");
             if(!end)h.assertTrue(count(all,Items.COOKED_BEEF)==64 && count(all,Items.EXPERIENCE_BOTTLE)==64,"Late kits retain main food but replace boxed spare steak with repair XP");
         }
         for(String family:List.of("vanilla","bunnidog"))for(String style:List.of("crystal","mace")) {
             com.bunnidogs.mod.command.KitCommands.apply(p,family,"endgame",style);var all=contents(p);boolean mace=style.equals("mace");
             var main=new ArrayList<ItemStack>();for(int i=0;i<36;i++)main.add(p.getInventory().getItem(i));
+            h.assertTrue(count(main,Items.DYED_SHULKER_BOX.blue())==1 && count(main,Items.DYED_SHULKER_BOX.red())==1,"Every explicit endgame variant has two separately accessible Equipment/Supplies Shulkers");
+            for(var box:main)if(box.is(Items.DYED_SHULKER_BOX.blue()) || box.is(Items.DYED_SHULKER_BOX.red())) {
+                String purpose=box.is(Items.DYED_SHULKER_BOX.blue()) ? "equipment" : "supplies";
+                h.assertTrue(net.minecraft.network.chat.Component.translatable("container.bunnidogs.kit."+purpose).equals(box.get(DataComponents.CUSTOM_NAME)),"Native box names preserve the player's language");
+                var boxed=new ArrayList<ItemStack>();box.get(DataComponents.CONTAINER).nonEmptyItems().forEach(t->boxed.add(t.create()));
+                h.assertTrue(boxed.size()==27 && boxed.stream().allMatch(s->s.getCount()<=s.getMaxStackSize()),"Both real 27-slot containers retain valid stock and reserve totems without truncation");
+            }
+            int normal=count(main,Items.TOTEM_OF_UNDYING),explosive=count(main,ModItems.CATACLYSM_TOTEM.get());
+            h.assertTrue(normal+explosive>=19 && p.getOffhandItem().is(Items.TOTEM_OF_UNDYING),"Most main-inventory slots are Totems, with a normal offhand emergency option: "+family+" "+style+" "+normal+"/"+explosive);
+            h.assertTrue(family.equals("bunnidog") ? explosive>=5 && normal>explosive : explosive==0,"Modded endgame mixes both Totem types with a normal majority; vanilla uses only vanilla Totems");
+            h.assertTrue(count(main,Items.ENDER_PEARL)==16 && count(all,Items.ENDER_PEARL)==128 && count(main,Items.FIREWORK_ROCKET)==64 && count(main,Items.EXPERIENCE_BOTTLE)==64 && count(main,Items.WIND_CHARGE)==64,"One active stack stays accessible while exact refills move to the two boxes");
+            h.assertTrue(count(main,Items.BOW)==0 && count(all,Items.BOW)==1 && count(all,Items.SHIELD)==1,"Backup bow/shield are preserved in equipment rather than crowding out Totems");
+            if(family.equals("bunnidog"))h.assertTrue(count(all,ModItems.PRISM_CELL.get())==320 && count(all,ModItems.VOLATILE_CHARGE.get())==320 && count(all,ModItems.HEART_SPOOL.get())==64 && count(all,ModItems.GUAVA.get())==64 && count(all,ModItems.FIREBALL_LAUNCHER.get())==1 && count(all,ModItems.CONCORD_STANDARD.get())==1 && count(main,ModItems.PRISM_CELL.get())==64,"Modded equipment/ammo survive packing exactly once, retaining real active lance ammunition");
             h.assertTrue(count(all,Items.GOLDEN_APPLE)==256 && count(all,Items.ENCHANTED_GOLDEN_APPLE)==20 && count(all,Items.EXPERIENCE_BOTTLE)==128 && count(all,Items.FIREWORK_ROCKET)==192 && count(all,Items.WIND_CHARGE)==128,"Both variants conserve shared endgame supplies");
             h.assertTrue(count(all,Items.END_CRYSTAL)==(mace ? 0 : 128) && count(all,Items.OBSIDIAN)==(mace ? 0 : 192) && count(all,Items.RESPAWN_ANCHOR)==(mace ? 0 : 64) && count(all,Items.GLOWSTONE)==(mace ? 0 : 64),"Crystal explosives and their bases are intentionally absent from the mace variant");
             h.assertTrue(count(main,Items.MACE)==(mace ? 1 : 0) && count(all,Items.MACE)==(mace ? 2 : 1),"Crystal boxes its backup mace; mace keeps a primary and a distinct reserve alternative");

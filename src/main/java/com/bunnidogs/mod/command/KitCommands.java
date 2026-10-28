@@ -63,6 +63,32 @@ public final class KitCommands {
         }
         ordered.addAll(items);items.clear();items.addAll(ordered);
     }
+    private static Item endgameTotem(boolean mod,int index) {return mod && index%3==2 ? ModItems.CATACLYSM_TOTEM.get() : Items.TOTEM_OF_UNDYING;}
+    private static boolean equipmentReserve(ItemStack stack) {
+        return stack.isDamageableItem() || stack.is(Items.ARROW) || stack.is(Items.POTION) || stack.is(Items.SPLASH_POTION)
+            || stack.is(ModItems.CALIPERS.get()) || stack.is(ModItems.GUAVA.get()) || stack.is(ModItems.PRISM_CELL.get())
+            || stack.is(ModItems.VOLATILE_CHARGE.get()) || stack.is(ModItems.HEART_SPOOL.get());
+    }
+    private static ItemStack endgameBox(java.util.List<ItemStack> stock,Item boxItem,String name,boolean mod) {
+        if(stock.size()>27)throw new IllegalStateException("Endgame "+name+" exceeds its Shulker: "+stock.size());
+        int index=0;while(stock.size()<27)stock.add(new ItemStack(endgameTotem(mod,index++)));
+        var box=new ItemStack(boxItem);box.set(DataComponents.CUSTOM_NAME,Component.translatable("container.bunnidogs.kit."+name));
+        box.set(DataComponents.CONTAINER,ItemContainerContents.fromItems(stock));return box;
+    }
+    /** Keep one stack of each active supply; move the rest into two real, independently owned boxes. */
+    private static void packEndgame(java.util.List<ItemStack> items,java.util.List<ItemStack> reserve,java.util.List<Item> hotbar,Item pick,Item wings,boolean mod) {
+        var equipment=new java.util.ArrayList<ItemStack>();var supplies=new java.util.ArrayList<ItemStack>();
+        var accessible=new java.util.HashSet<>(hotbar);accessible.addAll(java.util.List.of(pick,wings,Items.EXPERIENCE_BOTTLE,Items.FIREWORK_ROCKET,Items.GOLDEN_APPLE,Items.ENCHANTED_GOLDEN_APPLE));
+        if(mod)accessible.add(ModItems.PRISM_CELL.get());var kept=new java.util.HashSet<Item>();
+        for(var stack:reserve)(equipmentReserve(stack) ? equipment : supplies).add(stack);
+        var iterator=items.iterator();while(iterator.hasNext()) {
+            var stack=iterator.next();if(accessible.contains(stack.getItem()) && kept.add(stack.getItem()))continue;
+            (equipmentReserve(stack) ? equipment : supplies).add(stack);iterator.remove();
+        }
+        // Validate both before constructing/padding either; never truncate supplies to make a kit fit.
+        if(equipment.size()>27 || supplies.size()>27)throw new IllegalStateException("Endgame reserves exceed two Shulkers: "+equipment.size()+"/"+supplies.size());
+        items.add(endgameBox(equipment,Items.DYED_SHULKER_BOX.blue(),"equipment",mod));items.add(endgameBox(supplies,Items.DYED_SHULKER_BOX.red(),"supplies",mod));
+    }
     private static ItemStack enchanted(net.minecraft.server.level.ServerPlayer p,Item item,boolean end) {
         var stack=new ItemStack(item);if(!end)return stack;
         var registry=p.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
@@ -114,9 +140,11 @@ public final class KitCommands {
             for(int i=0;i<(mace ? 0 : end ? 2 : 3);i++)reserve.add(new ItemStack(Items.OBSIDIAN,64));
             reserve.add(new ItemStack(Items.EXPERIENCE_BOTTLE,64));
             if(mod)for(int i=0;i<4;i++) {reserve.add(new ItemStack(ModItems.PRISM_CELL.get(),64));reserve.add(new ItemStack(ModItems.VOLATILE_CHARGE.get(),64));}
-            if(reserve.size()>27)throw new IllegalStateException("Kit reserve exceeds its Shulker: "+family+" "+tier);
-            while(reserve.size()<27)reserve.add(new ItemStack(mod ? ModItems.CATACLYSM_TOTEM.get() : Items.TOTEM_OF_UNDYING));
-            var box=new ItemStack(Items.SHULKER_BOX);box.set(DataComponents.CONTAINER,ItemContainerContents.fromItems(reserve));items.add(box);
+            if(!end) {
+                if(reserve.size()>27)throw new IllegalStateException("Kit reserve exceeds its Shulker: "+family+" "+tier);
+                while(reserve.size()<27)reserve.add(new ItemStack(mod ? ModItems.CATACLYSM_TOTEM.get() : Items.TOTEM_OF_UNDYING));
+                var box=new ItemStack(Items.SHULKER_BOX);box.set(DataComponents.CONTAINER,ItemContainerContents.fromItems(reserve));items.add(box);
+            }
         }
         items.add(new ItemStack(Items.WATER_BUCKET));
         if(end) {
@@ -147,16 +175,18 @@ public final class KitCommands {
             }
         }
         for(var item:items)if(item.is(ModItems.SOVEREIGN_LANCE.get()) || item.is(ModItems.FIREBALL_LAUNCHER.get()) || item.is(ModItems.CONCORD_STANDARD.get()))item.set(ModItems.TOOL_POWER.get(),end ? 5 : 1);
-        if(items.size()>36)throw new IllegalStateException("Kit exceeds main inventory: "+family+" "+tier);
-        var totem=mod ? ModItems.CATACLYSM_TOTEM.get() : Items.TOTEM_OF_UNDYING;
-        if(late)while(items.size()<36)items.add(new ItemStack(totem));
+        var totem=mod && !end ? ModItems.CATACLYSM_TOTEM.get() : Items.TOTEM_OF_UNDYING;
         Item sword=mod&&late ? ModItems.ASTRALITE_TOOLS.get("sword").get() : net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(Identifier.withDefaultNamespace(material+"_sword"));
         Item pick=mod&&late ? ModItems.ASTRALITE_TOOLS.get("pickaxe").get() : net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(Identifier.withDefaultNamespace(material+"_pickaxe"));
         Item axe=mod&&late ? ModItems.ASTRALITE_TOOLS.get("axe").get() : net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(Identifier.withDefaultNamespace(material+"_axe"));
         Item primary=mod&&late ? (end ? ModItems.SOVEREIGN_LANCE.get() : ModItems.PRISM_LANCE.get()) : sword;
         Item sustain=mod&&late ? ModItems.ABYSSAL_FLASK.get() : Items.GOLDEN_APPLE;
-        if(end)organize(items,mace ? java.util.List.of(primary,Items.MACE,Items.WIND_CHARGE,Items.ENDER_PEARL,Items.WATER_BUCKET,sustain,Items.COBWEB,Items.COBBLESTONE,totem)
-            : java.util.List.of(primary,Items.END_CRYSTAL,Items.OBSIDIAN,pick,Items.ENDER_PEARL,sustain,Items.WIND_CHARGE,Items.WATER_BUCKET,totem));
+        var endbar=mace ? java.util.List.of(primary,Items.MACE,Items.WIND_CHARGE,Items.ENDER_PEARL,Items.WATER_BUCKET,sustain,Items.COBWEB,Items.COBBLESTONE,totem)
+            : java.util.List.of(primary,Items.END_CRYSTAL,Items.OBSIDIAN,pick,Items.ENDER_PEARL,sustain,Items.WIND_CHARGE,Items.WATER_BUCKET,totem);
+        if(end)packEndgame(items,reserve,endbar,pick,mod ? ModItems.SOVEREIGN_ELYTRA.get() : Items.ELYTRA,mod);
+        if(items.size()>36)throw new IllegalStateException("Kit exceeds main inventory: "+family+" "+tier);
+        if(late) {int index=0;while(items.size()<36)items.add(new ItemStack(end ? endgameTotem(mod,index++) : totem));}
+        if(end)organize(items,endbar);
         else if(late)organize(items,java.util.List.of(primary,axe,Items.BOW,pick,Items.WATER_BUCKET,mod ? ModItems.ABYSSAL_FLASK.get() : Items.LAVA_BUCKET,Items.GOLDEN_APPLE,Items.ENDER_PEARL,totem));
         else organize(items,java.util.List.of(sword,axe,Items.BOW,pick,Items.WATER_BUCKET,Items.LAVA_BUCKET,mid ? Items.GOLDEN_APPLE : Items.COOKED_BEEF,mid ? Items.ENDER_PEARL : Items.OAK_PLANKS,Items.COBBLESTONE));
         p.getInventory().clearContent();armor.forEach(p::setItemSlot);

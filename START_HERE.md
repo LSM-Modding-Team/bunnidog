@@ -52,17 +52,21 @@ For an existing castle, explicit loaded-only **`/bunnidogs dungeon fortify`**
 converts matching old structural cells, preserving stock, state and other edits.
 Ordinary repair does not migrate palettes.
 
-## Current — organised progression kits and endgame variants
+## Current — two-Shulker endgame PvP kits
 
-`/kit <vanilla|bunnidog> endgame <crystal|mace> replace` now selects a focused
-loadout. Bare `endgame replace` aliases Crystal. Crystal keeps explosives/bases
-accessible and boxes its mace; Mace carries a Density mace, boxes a separate
-Breach mace and exchanges explosive supplies for blocks/webs. All stages have
-purposeful hotbars; modded prepared kits expose lance/flask directly. Midgame
-now has moderate native enchants and healing. Late kits replace boxed steak with
-repair XP; vanilla prepared kits have splash Healing II. Existing apple/rocket,
-mod ammo and flask totals remain. See `docs/KIT_LOADOUTS.md` for exact stock,
-slot layouts and research. These changes apply on the next kit command.
+`/kit <vanilla|bunnidog> endgame <crystal|mace> replace` now supplies a blue
+Equipment Shulker and a red Supplies Shulker. Bare `endgame replace` still aliases
+Crystal. Active hotbars, one stack of each immediate supply, XP, pickaxe, wings
+and sustain remain accessible; backup gear/potions/mod tools and bulk refills are
+boxed. Every existing supply, ammo, apple, Flight-1 rocket and flask total is
+preserved. **22/21** main slots are normal Totems for vanilla Crystal/Mace;
+Bunnidog has **20/19** Totem slots, with **six explosive** and a normal majority.
+Endgame starts with normal Totems in slot 9 and offhand; unused box slots hold
+more refills. Native manual retrieval/re-equipping remains necessary.
+
+Earlier stages retain their progression; late still uses one Shulker. See
+`docs/KIT_LOADOUTS.md` for exact stocks, layouts and the existing research.
+These changes apply when the player invokes the command again.
 
 ## Current — visible whole-animal equipment
 

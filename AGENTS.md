@@ -6,7 +6,14 @@ Preserve actual hotbar transfers, distinct Density/Breach maces, variant-specifi
 explosive supplies, moderate midgame enchants, late repair XP/healing, and shared
 apple/rocket/flask/ammo totals. `endgame replace` aliases Crystal; both explicit
 variants require the same final `replace` token. Keep inventory capacity checks,
-real Shulker contents and compatible native enchantments.
+real Shulker contents and compatible native enchantments. Endgame now carries
+two named/coloured Shulkers (blue Equipment, red Supplies), keeping one active
+stack and boxing reserves/optional tools so 19–22 main slots are Totems. Vanilla
+has normal Totems; Bunnidog endgame uses normal/normal/explosive fillers with
+normal hotbar/offhand defaults. Preserve both real box inventories, full supply/
+flask/ammo totals and their individual capacity checks. Late remains one box.
+Do not restore the former exclusive Cataclysm endgame filler or crowd the main
+inventory with every backup tool; native Shulkers still require manual retrieval.
 
 Latest rarity/treasure steering: Crown spacing/separation is now 512/256
 chunks (~7.1x rarer than 192/96); update Java placement, the native structure-set

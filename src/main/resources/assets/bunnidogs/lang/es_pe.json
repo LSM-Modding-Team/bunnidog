@@ -2566,5 +2566,7 @@
   "message.bunnidogs.barding.refused": "Solo los adultos vinculados y tranquilos pueden cambiar de armadura.",
   "care.bunnidogs.barding.remove": "Quitar armadura",
   "tooltip.bunnidogs.barding.defense": "Armadura +%s · Dureza +%s",
-  "tooltip.bunnidogs.barding.power": "Salud máxima +%s%% · Daño +%s%%"
+  "tooltip.bunnidogs.barding.power": "Salud máxima +%s%% · Daño +%s%%",
+  "container.bunnidogs.kit.equipment": "Equipo",
+  "container.bunnidogs.kit.supplies": "Suministros"
 }

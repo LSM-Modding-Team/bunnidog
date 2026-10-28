@@ -28,8 +28,8 @@ Current inventories are not edited until the player invokes the command again.
   crossbow are boxed; the axe stays accessible. Sixteen webs and bucket utility
   remain. Vanilla carries Strength II, Speed II, long Fire Resistance and two
   splash Healing II; Bunnidog uses its actual 32-drink infused flask.
-- **Endgame Crystal:** 128 crystals, 192 obsidian (64 carried, 128 boxed), 64
-  anchors, 64 glowstone and 64 webs. The Density/Wind Burst mace is boxed with
+- **Endgame Crystal:** 128 crystals (64 carried, 64 boxed), 192 obsidian
+  (64 carried, 128 boxed), 64 anchors, 64 glowstone and 64 webs. The Density/Wind Burst mace is boxed with
   the trident, crossbow, axe, shovel and hoe. Its hotbar prioritises crystals,
   bases and placement tools rather than the backup mace.
 - **Endgame Mace:** a Density V/Wind Burst III mace is directly accessible;
@@ -45,12 +45,41 @@ max-enchanted gear. Other durable gear keeps Mending I and Unbreaking III.
 Vanilla has the Strength/Speed/Fire Resistance potions plus two Healing II
 splashes. Modded variants retain Astralite/artifact gear, all ammo, power
 settings, Calipers/guavas and the unchanged elite 96-drink flask; ordinary
-potions do not crowd out that stock. Free slots contain the appropriate totems.
+potions do not crowd out that stock.
+
+Endgame has **two real Shulkers**: a blue **Equipment** box (backup weapons,
+shield, specialised tools, potions and mod ammo) and a red **Supplies** box
+(bulk refills). Names follow the player's Minecraft language, including the
+shared Spanish source. Keep one stack of active pearls, wind charges, rockets,
+XP bottles and golden apples accessible, plus enchanted apples, the pickaxe and
+Elytra. Modded endgame also exposes its flask and one Prism Cell stack. The bow,
+arrows, extra pearls/wind, optional crystal anchors/glowstone/webs, secondary
+weapons, Calipers/guavas, launcher, Siphon and Standard move into the appropriate
+box. Every previous tool, apple, potion, rocket, flask and ammo total is retained.
+Late kits keep their existing single Shulker.
+
+All remaining main/boxed slots become real nonstackable Totems. Vanilla endgame
+uses ordinary Totems. Bunnidog endgame fills in a repeating normal/normal/
+explosive pattern, including box spare slots, instead of filling exclusively with
+Cataclysm Totems. Its hotbar emergency slot and offhand start with normal Totems;
+explosive backups are readily available in the main inventory.
+
+| Endgame loadout | Main Totem slots (of 36, including hotbar) | Normal / explosive in main | Offhand |
+| --- | ---: | --- | --- |
+| Vanilla Crystal | 22 | 22 / 0 | Normal Totem |
+| Vanilla Mace | 21 | 21 / 0 | Normal Totem |
+| Bunnidog Crystal | 20 | 14 / 6 | Normal Totem |
+| Bunnidog Mace | 19 | 13 / 6 | Normal Totem |
+
+Both boxes also contain Totem refills in their unused slots. The usable kit
+requires ordinary manual retrieval/re-equipping; there is no automatic Totem
+replacement or remote access to Shulker contents.
 
 ## Hotbar organisation
 
 These are actual moved stacks, not duplicate preview items. The remaining main
-inventory keeps support equipment/ammo; the real 27-slot Shulker holds reserves.
+inventory keeps immediate combat supplies and mostly Totems. Late uses one
+real 27-slot Shulker; endgame uses two, with equipment separated from bulk refills.
 
 | Slot | Early | Mid | Late | Endgame Crystal | Endgame Mace |
 | --- | --- | --- | --- | --- | --- |
@@ -65,16 +94,19 @@ inventory keeps support equipment/ammo; the real 27-slot Shulker holds reserves.
 | 9 | Cobblestone | Cobblestone | Totem | Totem | Totem |
 
 For Bunnidog late/endgame, the appropriate lance replaces the sword in slot 1,
-while the flask occupies slot 6. The ordinary sword and any displaced lava/
-apples remain in the main inventory. A real emergency totem is always available
-in slot 9 and the offhand for prepared kits; earlier kits use an offhand shield.
+while the flask occupies slot 6. Endgame boxes the backup sword, keeps golden
+apples accessible and starts with normal Totems in slot 9/offhand. Late retains
+its prior main-inventory sword and Cataclysm Totem setup. Earlier kits use an
+offhand shield.
 
-Supplies are checked against 36 main/27 boxed slots before inventory replacement.
-Fillers are added last, and hotbar arrangement transfers existing stacks without
+Supplies are checked against 36 main slots and each independent 27-slot box
+before inventory replacement. Fillers are added last, and hotbar arrangement transfers existing stacks without
 creating extra supply. Do not silently truncate future kit additions. The native
 kit scenario covers all eight original family/stage combinations plus the four
 explicit endgame family/variant combinations, compatible enchantments, supplies,
-real boxed alternatives and hotbar slots.
+real named/coloured boxed alternatives, all refills, both Totem types and
+majority-Totem main inventories. The focused native kit selector is
+`./gradlew runGameTestServer -PgameTestFilter=bunnidogs:kit_*`.
 
 ## Reference inventories and recommendations
 
@@ -105,5 +137,5 @@ late-game repair XP and endgame specialisations now ship under the explicit
 follow-up request. The table above records implementation rather than proposed
 extras. Tipped arrows and spare armour remain future possible trades for limited
 slots, not added stock. Ordinary Infinity arrows do not make tipped arrows or
-crossbow shots free. This pass does not change world combat, recipes or the
-pending bunnidog-armour design.
+crossbow shots free. This inventory pass does not change world combat or recipes. Current creature
+armour is recorded separately in `BARDING_SPECS.md`.
