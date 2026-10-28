@@ -4,6 +4,10 @@
 none of the enchantments below are registered, obtainable or added to loot yet.
 Names, levels and numbers are proposed implementation targets, not shipped stats.
 
+The later bulk-material workshop proposal in GREAT_WARREN_MATERIAL_ECONOMY_PLAN.md
+complements these separate book cabinets. Its binding bench consumes actual
+found books; it is not a new source of missing enchantments. Both remain plans.
+
 ## What finding one should feel like
 
 The Great Warren already demands exceptional equipment. A rare Crown should

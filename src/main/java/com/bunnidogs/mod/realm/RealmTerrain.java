@@ -9,13 +9,17 @@ import net.minecraft.world.level.levelgen.structure.placement.*;
 /** End-inspired seeded island fields, mountain relief and shortest routes through intermediate islands. No world queries. */
 public final class RealmTerrain {
     public static final int LAND_Y=80,MOON_Y=244,CROWN_SPACING=512,CROWN_SEPARATION=256;
-    public static final int REGION=CROWN_SPACING*16,GRID=256,TILE=256;
+    public static final int REGION=CROWN_SPACING*16,GRID=256,TILE=256,TUNNEL_HEIGHT=5;
     public static final RandomSpreadStructurePlacement CROWNS=new RandomSpreadStructurePlacement(CROWN_SPACING,CROWN_SEPARATION,RandomSpreadType.LINEAR,926481503);
     public record Site(int x,int z) {}
     public record Edge(Site a,Site b) {}
     private static final Comparator<Edge> EDGE_ORDER=Comparator.comparingInt((Edge e)->e.a.x).thenComparingInt(e->e.a.z).thenComparingInt(e->e.b.x).thenComparingInt(e->e.b.z);
     public record Moon(int x,int y,int z,int radius) {}
-    public record Column(int bottom,int top,int moonBottom,int moonTop,boolean bridge) {}
+    /** top is the exterior surface, independent of the route deck beneath an island. */
+    public record Column(int bottom,int top,int moonBottom,int moonTop,boolean bridge,int roadY,int landBottom,int landTop) {
+        public int pathY() {return bridge ? roadY : top;}
+        public boolean tunnel() {return bridge && top>roadY+TUNNEL_HEIGHT;}
+    }
     public record Island(Site at,boolean crown,double rx,double rz,double sin,double cos,int base,double phase,double warpX,double warpZ) {}
     public record Tile(List<Site> sites,List<Edge> edges,List<Moon> moons,List<Site> outliers,List<Island> islands) {}
     private record Route(List<Site> points,List<Edge> spans) {}
@@ -120,19 +124,23 @@ public final class RealmTerrain {
     private int roadHeight(Site s) {return site(Math.floorDiv(s.x,REGION),Math.floorDiv(s.z,REGION)).equals(s) ? LAND_Y : centerHeight(s);}
     private static double along(int x,int z,Edge e) {double dx=e.b.x-e.a.x,dz=e.b.z-e.a.z;return Math.clamp(((x-e.a.x)*dx+(z-e.a.z)*dz)/(dx*dx+dz*dz),0,1);}
     public Column column(int x,int z) {
-        var t=tile(x,z);int bottom=320,top=-64,mb=320,mt=-64;boolean bridge=false;
+        var t=tile(x,z);int bottom=320,top=-64,mb=320,mt=-64,roadY=-64;boolean bridge=false;
         for(var s:t.islands) {double q=shape(s,x,z);if(q<0)continue;int surface=surface(s,x,z,q);top=Math.max(top,surface);bottom=Math.min(bottom,Math.min(surface-5,s.base-10-(int)(Math.sqrt(Math.min(1,q))*52+detail.getValue(x*.022,z*.022)*7)));}
+        int landBottom=bottom,landTop=top;
         for(var e:t.edges) {
             double a=along(x,z,e);if(Math.hypot(x-e.a.x-a*(e.b.x-e.a.x),z-e.a.z-a*(e.b.z-e.a.z))>3.2)continue;
             // Never grade through an existing Crown footprint. Its approaches join the edge of the plateau.
             if(t.sites.stream().anyMatch(s->Math.max(Math.abs(x-s.x),Math.abs(z-s.z))<98))break;
             double height=roadHeight(e.a)*(1-a)+roadHeight(e.b)*a;
             // Round only the final grade: two consecutive roundings can create a two-block step.
-            double shore=t.sites.stream().mapToDouble(s->Math.max(Math.abs(x-s.x),Math.abs(z-s.z))).min().orElse(1000);double blend=Math.clamp((shore-96)/96,0,1);bridge=true;top=(int)Math.round(LAND_Y*(1-blend)+height*blend);bottom=Math.min(bottom,top-2);break;
+            double shore=t.sites.stream().mapToDouble(s->Math.max(Math.abs(x-s.x),Math.abs(z-s.z))).min().orElse(1000);double blend=Math.clamp((shore-96)/96,0,1);bridge=true;roadY=(int)Math.round(LAND_Y*(1-blend)+height*blend);
+            // Keep the island above the corridor. Shallow edges open naturally into tunnel mouths.
+            if(top<=roadY+TUNNEL_HEIGHT)top=roadY;
+            bottom=Math.min(bottom,roadY-2);break;
         }
         for(var m:t.moons) {double q=((x-m.x)*(double)(x-m.x)+(z-m.z)*(double)(z-m.z))/(m.radius*m.radius);if(q<1) {int h=(int)(Math.sqrt(1-q)*m.radius*.82);mb=m.y-h;mt=m.y+h;break;}}
-        return new Column(bottom,top,mb,mt,bridge);
+        return new Column(bottom,top,mb,mt,bridge,roadY,landBottom,landTop);
     }
-    public boolean hollow(int x,int y,int z,Column c) {return y>c.bottom+3 && y<c.top-4 && caves.getValue(x*.035,y*.045,z*.035)>.57 && nearestCrownDistance(x,z)>150;}
+    public boolean hollow(int x,int y,int z,Column c) {return !(c.bridge && y>=c.roadY-3 && y<=c.roadY+TUNNEL_HEIGHT+2) && y>c.landBottom+3 && y<c.landTop-4 && caves.getValue(x*.035,y*.045,z*.035)>.57 && nearestCrownDistance(x,z)>150;}
     private double nearestCrownDistance(int x,int z) {return tile(x,z).islands.stream().filter(Island::crown).mapToDouble(s->Math.max(Math.abs(x-s.at.x),Math.abs(z-s.at.z))).min().orElse(1000);}
 }

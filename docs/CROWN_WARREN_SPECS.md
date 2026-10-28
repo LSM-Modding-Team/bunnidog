@@ -1,5 +1,10 @@
 # Crown Warren and Sovereign rewards
 
+> Latest loot review rejects the vanilla-heavy quantities as excessive.
+> [GREAT_WARREN_MATERIAL_ECONOMY_PLAN.md](GREAT_WARREN_MATERIAL_ECONOMY_PLAN.md)
+> proposes mod-material projects and whole-site reward budgets. **Planning only**:
+> the existing loot quantities below remain the implemented tables for now.
+
 > Current lunar forge, equipment, structural palette, supply and AI changes are
 > recorded in [LUNAR_DUNGEON_UPDATE.md](LUNAR_DUNGEON_UPDATE.md) and
 > [BARDING_SPECS.md](BARDING_SPECS.md). Real Astralite equipment now replaces

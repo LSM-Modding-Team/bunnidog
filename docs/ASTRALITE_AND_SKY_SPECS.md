@@ -114,7 +114,16 @@ travel distance, climbs and missing-land costs select a chain of islands. Only
 selected missing waypoints become stepping islands; many unrelated islands remain
 unconnected. Seeded triangulation avoids crossing incompatible diagonal spans.
 Seven-block-wide roads/bridges follow varying heights, grade their narrow island
-approaches and join Crown plateaus. This is a bounded local network, not one
+approaches and join Crown plateaus. The deck height is independent of the island
+surface: when terrain rises above it, generation carves only **five blocks of
+headroom** over the existing three-block lit deck. Rock and moss above the
+corridor remain, producing tunnels instead of deep open trenches. Shallow entry
+edges open naturally; void spans remain bridges. Decks raised above lower
+island terrain preserve the air gap rather than filling a solid wall down to
+the ground. Nearby natural hollow noise
+cannot erase the immediate tunnel roof/floor. Crown footprints remain excluded.
+Native heightmaps/base-height/base-column queries follow the actual exterior
+roof, while route traversal follows the deck. This is a bounded local network, not one
 global minimum tree over an infinite world. Tile/route caches are bounded; no
 world access, chunk loading or search proportional to explored territory occurs.
 Canonical span endpoints and a complete coordinate sort make overlapping routes
@@ -149,9 +158,16 @@ unfinished ProtoChunk terrain, rich moons, void and bridge placement, agreeing
 heightmap/base-column queries, moon spawn tables, seed variation, actual Crown
 candidates, connected local Crown networks and full block-by-block island paths
 across four seeds (including negative regions), native ProtoChunk roads/headroom
-at Crown-region seams, cold-cache determinism, ordinary ruins, all nine native
+at Crown-region seams, ordinary-island tunnel deck/headroom/roof/surface and
+matching native height queries, cold-cache determinism, ordinary ruins, all nine native
 smithing upgrades, artifact-base rejection and exact enchantment/name/wear
 preservation. Geometry/texture previews are headless evidence; first-person appearance, natural encounter density and
 Survival acquisition pacing still need player review. The maintained native
 sample map and height study are `art/realm_islands_preview.png`; they are not
 a graphical client capture.
+
+The tunnel fixture exports a longitudinal section from actual generated
+ProtoChunks. `art/preview_realm_tunnel.py` renders `art/realm_tunnel_preview.png`;
+it is a block inspection, not simulated client lighting. Bulk-material project
+and future loot proposals are in `GREAT_WARREN_MATERIAL_ECONOMY_PLAN.md` and do
+not change current mineral generation or crafting in this tunnel batch.

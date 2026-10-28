@@ -23,15 +23,19 @@ public final class RealmChunkGenerator extends NoiseBasedChunkGenerator {
     @Override protected MapCodec<? extends ChunkGenerator> codec() {return CODEC;}
     @Override public ChunkGeneratorStructureState createState(HolderLookup<net.minecraft.world.level.levelgen.structure.StructureSet> sets,RandomState random,long seed) {terrain=new RealmTerrain(seed);return super.createState(sets,random,seed);}
     public BlockState state(int x,int y,int z,RealmTerrain.Column c) {
-        boolean moon=y>=c.moonBottom() && y<=c.moonTop();boolean land=y>=c.bottom() && y<=c.top();
-        if(!moon && !land)return Blocks.AIR.defaultBlockState();
-        if(!moon && c.bridge() && y>=c.top()-2)return (y==c.top() && Math.floorMod(x+z,16)==0 ? Blocks.SEA_LANTERN : Blocks.END_STONE_BRICKS).defaultBlockState();
+        boolean moon=y>=c.moonBottom() && y<=c.moonTop();boolean land=y>=c.landBottom() && y<=c.landTop();
+        boolean deck=c.bridge() && y>=c.roadY()-2 && y<=c.roadY();
+        if(!moon && !land && !deck)return Blocks.AIR.defaultBlockState();
+        if(!moon && c.bridge()) {
+            if(y>c.roadY() && y<=c.roadY()+RealmTerrain.TUNNEL_HEIGHT)return Blocks.AIR.defaultBlockState();
+            if(deck)return (y==c.roadY() && Math.floorMod(x+z,16)==0 ? Blocks.SEA_LANTERN : Blocks.END_STONE_BRICKS).defaultBlockState();
+        }
         if(!moon && terrain.hollow(x,y,z,c))return Blocks.AIR.defaultBlockState();
         long chance=Math.floorMod(terrain.hash(x,y,z),10000);
         if(chance<(moon ? 240 : 16))return ModBlocks.ASTRALITE_ORE.get().defaultBlockState();
         if(chance<(moon ? 560 : 40))return ModBlocks.CINDERITE_ORE.get().defaultBlockState();
         if(moon)return ModBlocks.MOONSTONE.get().defaultBlockState();
-        if(y==c.top())return Blocks.MOSS_BLOCK.defaultBlockState();
+        if(y==c.landTop())return Blocks.MOSS_BLOCK.defaultBlockState();
         return Blocks.END_STONE.defaultBlockState();
     }
     @Override public CompletableFuture<ChunkAccess> fillFromNoise(Blender blender,RandomState random,StructureManager manager,ChunkAccess chunk) {

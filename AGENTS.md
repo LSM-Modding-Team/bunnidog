@@ -1,5 +1,23 @@
 # Codex working instructions
 
+Latest bridge/loot screenshot review: routes now keep exterior terrain height
+separate from their buried road deck. Preserve five-block corridor headroom,
+natural island roofs/hills above it and air gaps beneath raised spans. Keep
+the existing lit three-block deck, original
+route grades and Crown footprint exclusion. Heightmaps/base-height/base-column
+queries describe the actual roof/surface, not an underground road. Native tunnel
+and seam fixtures use unfinished ProtoChunks; inspect the actual block section
+with `art/preview_realm_tunnel.py`. Do not cut an open trench to the sky or
+rewrite existing generated chunks/player builds to retrofit a roof.
+`docs/GREAT_WARREN_MATERIAL_ECONOMY_PLAN.md` is planning only. The user rejected
+vanilla-centred Crown wealth as excessive and requested useful bulk mod-material
+projects. No loot/recipe/stat changes ship with this tunnel batch. The proposed
+later earned-room mineral shipments supersede the blanket old no-forge-minerals
+rule when implemented; preserve the pre-dungeon mining path, exclusive kill
+catalysts, native stock ownership and finite separate book caches. Do not mistake
+proposal quantities, new Fibre/products or civilization integrations for runtime
+features. Keep existing kits independent of the proposed vanilla loot reduction.
+
 Latest kit changes are recorded in `docs/KIT_LOADOUTS.md`: the user approved
 Crystal/Mace endgame variants and the previous organisation recommendations.
 Preserve actual hotbar transfers, distinct Density/Breach maces, variant-specific

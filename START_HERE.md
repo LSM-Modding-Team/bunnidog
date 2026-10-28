@@ -5,6 +5,24 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — island tunnels; planned material economy
+
+Route decks now pass through five-block-high tunnels when islands rise above
+them. Natural rock and the original surface remain overhead, while the lit
+three-block road deck and existing route grade continue below. Shallow edges
+open into tunnel mouths; void crossings remain bridges and raised decks retain
+air gaps over lower land. Native height queries
+follow the preserved island roof. The realm fixture tests actual tunnel rock,
+headroom, floor, heightmaps and seams, and exports the native block section in
+`art/realm_tunnel_preview.png`. Existing chunks are not retroactively rebuilt.
+
+`docs/GREAT_WARREN_MATERIAL_ECONOMY_PLAN.md` responds to excessive vanilla wealth
+with bulk mod-material rewards and useful sinks: a real equipped companion pack,
+armoury/refining, finite ammo reservoirs, fortified outposts, a kennel wagon,
+nursery works and future book binding. It proposes whole-site reward budgets
+and substantially less vanilla wealth. **Planning only**: no loot/recipe/item/
+gear-stat changes ship yet; the current table values below still describe runtime.
+
 ## Current — rarer Crown destinations and checked island routes
 
 Crown spacing/separation is **512/256 chunks**, about **7.1x rarer by area**
