@@ -38,13 +38,6 @@ public final class ModDispensers {
             DispenserBlock.registerBehavior(ModItems.MUTAGEN.get(),new NurseryBehavior(NurseryAction.TREAT));
             DispenserBlock.registerBehavior(ModItems.GUAVA_SAPLING.get(),new SaplingBehavior());
             DispenserBlock.registerBehavior(ModItems.TRAVEL_BASKET.get(),new BasketBehavior());
-            var previousGuava = DispenserBlock.DISPENSER_REGISTRY.get(ModItems.GUAVA.get());
-            var droppingGuava = previousGuava == null ? new DefaultDispenseItemBehavior() : previousGuava;
-            var plantingFruit = new FruitPlantingBehavior();
-            DispenserBlock.registerBehavior(ModItems.GUAVA.get(),(source,stack) -> {
-                var front = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
-                return GuavaFruitBlock.canPlant(source.level(),front) ? plantingFruit.dispense(source,stack) : droppingGuava.dispense(source,stack);
-            });
             var previousShears = DispenserBlock.DISPENSER_REGISTRY.get(Items.SHEARS);
             var picking = new FruitPickingBehavior();
             DispenserBlock.registerBehavior(Items.SHEARS,(source,tool) -> {
@@ -81,16 +74,6 @@ public final class ModDispensers {
             return !inventory.isRemoved() && level.getBlockEntity(source.pos()) == inventory ? inventory.getItem(slot) : ItemStack.EMPTY;
         }
     }
-    /** A valid canopy gap uses one plain guava; other targets keep the original food-ejection behavior. */
-    private static final class FruitPlantingBehavior extends OptionalDispenseItemBehavior {
-        @Override protected ItemStack execute(BlockSource source, ItemStack stack) {
-            var front = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
-            boolean planted = GuavaFruitBlock.plant(source.level(),front);
-            if (planted) stack.shrink(1);
-            this.setSuccess(planted);
-            return stack;
-        }
-    }
     /** Ordinary shears still delegate to their original behavior away from guava fruit. */
     private static final class FruitPickingBehavior extends OptionalDispenseItemBehavior {
         @Override protected ItemStack execute(BlockSource source, ItemStack tool) {
@@ -111,6 +94,7 @@ public final class ModDispensers {
             if (!level.hasChunkAt(front) || !level.hasChunkAt(front.below()) || level.isOutsideBuildHeight(front)
                     || !level.getWorldBorder().isWithinBounds(front) || !level.getBlockState(front).isAir()
                     || !level.getFluidState(front).isEmpty()) return stack;
+            if(GuavaFruitBlock.canPlant(level,front)) {boolean planted=GuavaFruitBlock.plant(level,front);if(planted)stack.shrink(1);this.setSuccess(planted);return stack;}
             if (stack.getItem() instanceof BlockItem sapling)
                 this.setSuccess(sapling.place(new DirectionalPlaceContext(level,front,direction,stack,Direction.UP)).consumesAction());
             return stack;

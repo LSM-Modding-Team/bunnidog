@@ -1,131 +1,110 @@
-# Guava orchards O1–O7
+# Guava gathering and orchards
 
-Implemented 2026-10-18 under standing design latitude. Natural trees already
-provide repeatable hanging fruit, but a lost fruit could only be replaced by
-growing another tree. Player propagation makes established orchards repairable
-and allows intentional canopy layouts without new blocks, items or save fields.
+The 2026-10-28 early-game revision supersedes the old O1/O7 raw-fruit-under-any-
+leaves shortcut. The goal is a productive, visible orchard progression supporting
+breeding, food, treatment and later society, without a tutorial screen or another
+quality system. Guava tiers and inherited seed quality retain their existing roles.
 
-## O1: establish hanging fruit
+## The player loop
 
-Use a **plain guava** on the underside of leaves with dry air below. One new
-age-zero Guava Fruit is placed and survival consumes one guava from the actual
-hand; creative keeps it. Enhanced tiers retain their breeding/food role and
-never plant. Any `LeavesBlock` is valid, matching the existing fruit survival
-rule. Other faces, solid supports, occupied cells, fluids, build-height/world
-border limits and unloaded cells refuse. No replacement of existing fruit.
+1. Find actual guava trees. Independent wild groves now generate in forests,
+   flower/birch forests, savannas and jungles, rather than requiring a settlement.
+   A placement averages one attempt per 16 eligible chunks and tries three nearby
+   trees. These taller trees carry two-fruit bunches with mixed flowering, green
+   and ripe stages, including a guaranteed ripe first bunch on each fitting tree.
+2. Pick a low ripe bunch, or shake the standing trunk. The first normal punch
+   also shakes it; empty-hand use works without cutting it down. Only ripe fruit
+   on that trunk drops. Flowers and green fruit stay; the tree grows another crop.
+3. Make a copper **Guava Picker**. Its fruit-only eight-block ray catches a whole
+   bunch into the actual inventory; a full inventory drops the real remainder.
+   Ordinary walls stop it. It does not increase combat, building or other reach.
+4. Craft one ordinary guava into the existing Guava Sapling. Plant it in soil for
+   a whole tree, or graft it below leaves connected to a living rooted guava trunk.
+   Sapling-grown trees start flowering, so bone-mealing wood never creates an
+   instantly ripe harvest. Raw guavas remain food; oak-leaf fruit wallpaper ends.
+5. Improve the soil immediately under a trunk with **Orchard Mulch**. A connected
+   tree normally grows two-fruit bunches; mulch grows three and doubles its random
+   growth chance. White flowers, green fruit and yellow ripe bunches expose the
+   stage and count. No fertility meter, watering chore or repeated fertilizer cost.
+6. Teach and employ the existing bunnidog routines. Workers harvest a full actual
+   bunch into their existing stores, respecting capacity, filters, protection,
+   learned skills, genetic limits, home and work recovery. Low reachable orchard
+   branches are useful for animal tending; hand tools still handle tall groves.
 
-Player use follows the native ItemStack/GameMode placement path, including
-Adventure placement predicates, use permission and NeoForge captured-block
-protection/rollback. Cancellation restores the block and whole original stock,
-including off-hand names/components. A new fruit is always green; item block
-state components cannot inject ripeness. Native placement sounds, game events,
-statistics and placement criteria apply. Existing food and breeding remain.
+The recipe book unlocks saplings and pickers on collecting the first guava, then
+mulch on collecting a sapling. Item purpose lines remain brief. The optional guide
+has updated orchard pages; it is not required to find the first harvest. Ordinary
+plain-guava tooltips no longer front-load seed-quality theory; advanced tooltips
+and enhanced fruit preserve the existing measurements.
 
-## O2: bone meal growth
+## Materials and timings
 
-Guava Fruit implements native `BonemealableBlock`. One successful application
-advances exactly one age, so green → yellow → ripe takes two bone meal. Native
-hand costs/creative handling, protection hooks, particles and dispenser pulses
-apply. Fully ripe/unsupported fruit is not a growth target. Right-clicking a
-ripe fruit retains its established picking behavior, including when carrying
-bone meal: one plain guava drops and the same fruit resets to green.
+| Craft | Actual ingredients | Result |
+| --- | --- | --- |
+| Guava Sapling | 1 ordinary Guava | 1 sapling or graft |
+| Guava Picker | 1 Copper Ingot, 2 Sticks, 2 Root Fibre | 1 picker |
+| Orchard Mulch | 1 Dirt, 1 Bone Meal, 2 Wheat, 1 Root Fibre | 4 soil blocks |
+| Root Fibre (existing) | 1 Guava Log | 4 fibre |
 
-Ordinary random growth is unchanged. Leaf removal still schedules the native
-support check; ripe fruit drops one guava, unripe fruit none. Nothing forces
-neighboring chunks to load, replenishes trees or changes saved ages.
+The picker has 128 durability, native Unbreaking/Mending, copper repair and a
+six-tick shared item cooldown. One successful harvest costs one wear, irrespective
+of bunch size. It cannot spend durability on unripe/protected/blocked/stale fruit.
+Shaking rests twelve ticks per player and harvests at most 32 bunches from one
+loaded nine-by-thirteen-by-nine canopy. Native per-target protection still applies.
 
-## O3: recover canopy blocks
+The saved `age` remains 0–2: flowering, green, ripe. New `bunch` is 1–3, default 1
+for old states. On the first growth stage, the current physical root/soil chooses
+the new crop size. Removing soil later does not erase already-grown fruit.
+Random growth odds per stage are 1/5 isolated, 1/4 rooted, 1/2 mulched. One native
+hand/dispenser bone meal advances one stage; full ripeness refuses it. Random
+timing is deliberately variable. There is no extra timer or world crop manager.
 
-Guava leaves now recognize **Silk Touch** alongside shears. Either yields exactly
-one leaf block and suppresses the sapling/stick pools. All other tool chances
-remain the established 5% sapling and 20% stick. The predicate follows the
-resolved Minecraft 26.2 native leaves table; no Fortune rebalance is included.
+## Shared harvesting and compatibility
 
-## O4: dispenser sapling stations
+Hand, picker, trunk and shears dispenser harvesting reset the actual branch before
+paying the exact ripe count. Native block drops are respected, including direct
+picker collection. Breaking/support loss uses the same count in native loot;
+flowers/green bunches drop nothing. Shears wear once per successful pulse and
+retain ordinary animal/beehive behavior. Hoppers collect ordinary loose produce.
 
-Dispensers plant one Guava Sapling into dry air directly in front, with valid
-vegetation soil/farmland below. Native `BlockItem.place`/`DirectionalPlaceContext` handles
-placement, sound and the single-item cost, as in native block-placement
-dispensers. Occupied cells, fluids, invalid soil, missing terrain and world
-limits retain the whole named/component-bearing stock without ejecting it.
-Repeated pulses keep an already planted sapling intact. This applies only to
-the sapling item; ordinary guava dispensing keeps its existing behavior.
+A dispenser holding an actual sapling can graft a valid canopy or plant valid
+soil. Blocked targets retain named/component-bearing saplings. Dispensed raw fruit
+uses ordinary food ejection. Native captured placement supports cancellation,
+Adventure predicates, creative use, off-hand costs and exact stack rollback.
 
-## O5: supported, bounded sapling growth
+An injured animal eats **one** guava, preserving the other ripe fruit in a bunch.
+Garden harvest and primitive wild harvesting pay the full count. Worker insertion
+uses the actual inserted amount and drops only the remainder, preventing duplicate
+multi-fruit payouts. Botanical gap restoration costs the existing real surplus
+fruit and now requires a rooted guava canopy; learned/work/reserve gates remain.
 
-Saplings now follow native `SUPPORTS_VEGETATION`, including grass, podzol and
-mycelium, and honor NeoForge `canSustainPlant` overrides. Minecraft 26.2 narrowed
-`DIRT` to dirt/coarse dirt/rooted dirt; the old broad-tag assumption made grass
-placement refuse. Existing ordinary dirt/farmland support remains.
+Root lookup follows only loaded guava leaves for six steps and a vertical trunk
+for at most 24 blocks. Shaking checks the same physical root for each bunch and
+revalidates player, hand and target after callbacks. Picker rays check loaded
+terrain, the first obstruction, target permission and unchanged tool/block after
+native callbacks. Neither system loads a chunk or touches another tree's fruit.
+New grove generation preflights its entire bounded shape before writing.
 
-Losing soil support schedules a next-tick check and recovers exactly one
-sapling instead of leaving it floating until a random tick then deleting it.
-The random-tick fallback also recovers the item. Unsupported saplings refuse
-native bone meal. Actual supported plants retain their usual 45% bone-meal
-chance and slow random growth; a blocked trunk keeps the sapling intact.
-
-Direct growth requires a current supported sapling. Before fitting/writing,
-every planned tree cell must already be loaded and inside build height/world
-border, so a stale request cannot grow a tree at an empty cell or request
-unloaded terrain. Logs are preflighted before any changes; obstructing
-containers remain. Natural settlement tree generation keeps its existing path.
-No new tree shape, sapling state or save data is introduced.
+Old hanging fruit keeps its any-leaf survival rule and regenerates a single crop
+when disconnected. No existing plot, terrain, stock, genome or guava tier is
+rewritten. Independent groves need new terrain; existing standing guava trees can
+be shaken and improved. Protocol **47** requires matching clients and server.
 
 ## Evidence
 
-Java 25 build/all 49 native cases pass. The native orchard case exercises real
-player off-hand survival/creative use, Adventure refusal, canceled placement
-rollback with named stock, occupied/water/non-leaf/wrong-face/enhanced-guava
-refusals, oak-leaf support, native hand growth and ripe picking, actual Silk
-Touch/shears loot, real dispenser growth/ripe refusal and scheduled support
-loss with exact drops. The authored guide/preview adds page 59 and a third
-Habitat chapter link. Native client controls/fonts and orchard appearance
-remain gameplay review. Creature visuals and existing save formats are unchanged.
+Native cases cover actual off-hand graft cancellation/rollback, Adventure and
+creative behavior, rooted/oak/occupied/fluid refusals, bone meal, exact bunch loot,
+shears and hopper collection, raw-food ejection, trunk protection/replacement,
+root/mulch crop changes, picker reach/obstruction/cooldown/tool swap, block-drop
+rules, worker stock conservation and one-fruit meals. The grove case uses an
+actual detached WorldGenRegion and unfinished ProtoChunks, checking living leaf
+support, tall trunks, mixed stages and a ready crop without loading live chunks.
 
-The native sapling-station case uses real pulses for invalid soil, occupied
-containers, contained water, valid planting, repeat refusal and repaired-soil
-retry, preserving exact named stock and spending one per success. Scheduled
-support loss recovers exactly one sapling; unsupported bone meal retains its
-stack. Stale/remote requests refuse without requesting a chunk. Actual grass,
-podzol, mycelium, rooted dirt and farmland support pass; an obstructed trunk
-preserves its chest/sapling, then clearing it grows the actual tree. Guide
-page 62 and its Habitat link/preview are inspected. Natural growth/client
-automation remain gameplay review.
-
-## O6: dispenser guava picking
-
-A dispenser with ordinary shears targets the block directly ahead. Supported
-ripe Guava Fruit resets to age zero and pays one plain guava as the same native
-drop used by hand picking; one successful pulse wears the tool once. An unripe,
-unsupported, stale or unloaded fruit cannot pay or wear it. The shared server
-picker resets the actual plant before paying, so a repeated stale request
-cannot duplicate food. Ordinary hoppers can collect the drops. Native block-drop
-rules remain shared with hand picking; no new inventory or saved state.
-
-The original shears dispenser behavior remains the fallback away from Guava
-Fruit, including animals, bunnidog fleece, beehives and native tool wear. The
-wrapper is registered after native behaviors and delegates the original rather
-than reconstructing it. This avoids relying on the 26.2 CommonHooks shear-block
-helper, which queries the dispenser source state rather than this target.
-
-## O7: dispenser canopy repair
-
-A dispenser with plain guavas plants one fruit into a dry, loaded air gap
-beneath valid leaves, using the same support/world-border/height checks as hand
-propagation. A successful pulse spends exactly one item and keeps the rest of
-its components. When planting is impossible, it delegates the previous ordinary
-food-ejection behavior, preserving food stations and protecting containers.
-Pulse once to fill a gap; continuous invalid pulses still dispense food.
-Higher guava tiers retain their ordinary behavior and never plant fruit.
-Together with native bone meal and O6 this completes plant/grow/pick orchard
-stations without another block, item, slot, payload or persistent field.
-
-O6/O7 evidence (2026-10-19): Java 25 build/all 56 native cases pass. The new
-orchard-picking case uses actual redstone pulses and hopper collection, checks
-exact one-fruit/one-wear output and shared stale/unripe/unsupported/unloaded
-refusal, and exercises native beehive honeycomb output/wear through the fallback.
-The extended case plants one named real guava, preserves its remainder, ejects
-one ordinary food at a blocked chest without replacing it, and leaves upgraded
-guavas as food rather than planting them. Existing hand propagation/picking,
-care dispenser/shearing and bone-meal cases remain passing. New guide pages
-and navigation are previewed; client automation appearance remains gameplay review.
+Java 25 `build checkBunnidogModel runGameTestServer` passed, including all **267**
+native scenarios and the maintained localization/model/asset gates.
+`art/guava_tree_preview.png` shows the actual regenerated flowers/bunches, sapling,
+mulch and picker textures. `art/orchard/overview.png` was inspected from the actual
+seed-1832 ProtoChunk grove, with native cross planes and resource textures;
+`native_grove_cells.json`/the NBT and provenance preserve its source. These are
+headless checks. Native first-session feel, grove frequency in natural terrain
+and long Survival orchard output remain human play review.

@@ -1,13 +1,31 @@
 {
   "variants": {
-    "age=0": {
+    "age=0,bunch=1": {
       "model": "bunnidogs:block/guava_fruit_stage0"
     },
-    "age=1": {
+    "age=1,bunch=1": {
       "model": "bunnidogs:block/guava_fruit_stage1"
     },
-    "age=2": {
+    "age=2,bunch=1": {
       "model": "bunnidogs:block/guava_fruit_stage2"
+    },
+    "age=0,bunch=2": {
+      "model": "bunnidogs:block/guava_fruit_stage0_bunch2"
+    },
+    "age=1,bunch=2": {
+      "model": "bunnidogs:block/guava_fruit_stage1_bunch2"
+    },
+    "age=2,bunch=2": {
+      "model": "bunnidogs:block/guava_fruit_stage2_bunch2"
+    },
+    "age=0,bunch=3": {
+      "model": "bunnidogs:block/guava_fruit_stage0_bunch3"
+    },
+    "age=1,bunch=3": {
+      "model": "bunnidogs:block/guava_fruit_stage1_bunch3"
+    },
+    "age=2,bunch=3": {
+      "model": "bunnidogs:block/guava_fruit_stage2_bunch3"
     }
   }
 }

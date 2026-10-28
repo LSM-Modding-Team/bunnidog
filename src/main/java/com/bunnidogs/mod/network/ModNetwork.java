@@ -21,7 +21,7 @@ public final class ModNetwork {
     private ModNetwork() {}
 
     /** Bump for payload shape or required client content/allele semantics. */
-    public static final String VERSION = "46";
+    public static final String VERSION = "47";
 
     public static void register(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar(VERSION);

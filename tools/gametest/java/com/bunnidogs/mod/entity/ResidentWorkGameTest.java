@@ -137,7 +137,12 @@ public final class ResidentWorkGameTest {
                     && dog.gardeningWait() == Gardening.REST_TICKS,"Restoring one carrot must cost one real item, keep exact remainder/filter and share work recovery");
             h.assertTrue(!new GardenGoal(dog).canUse(),"Planting must obey shared recovery"); ready(dog); c.stock().takeAll(); c.stock().clearFilter();
             dog.setGenome(Genome.DEFAULT); c.stock().insert(new ItemStack(ModItems.GUAVA.get(),9)); level.removeBlock(c.bed,false);
-            level.setBlock(c.bed.above(),Blocks.OAK_LEAVES.defaultBlockState().setValue(LeavesBlock.PERSISTENT,true),3); work(h,c);
+            level.setBlock(c.bed.above(),Blocks.OAK_LEAVES.defaultBlockState().setValue(LeavesBlock.PERSISTENT,true),3);
+            h.assertTrue(!new GardenGoal(dog).canUse(),"Raw surplus guava cannot turn arbitrary oak leaves into an orchard");
+            level.setBlock(c.bed.above(),ModBlocks.GUAVA_LEAVES.get().defaultBlockState().setValue(LeavesBlock.PERSISTENT,true),3);
+            level.setBlock(c.bed.east().below(),Blocks.DIRT.defaultBlockState(),3);
+            level.setBlock(c.bed.east(),ModBlocks.GUAVA_LOG.get().defaultBlockState(),3);
+            level.setBlock(c.bed.east().above(),ModBlocks.GUAVA_LOG.get().defaultBlockState(),3); work(h,c);
             h.assertTrue(level.getBlockState(c.bed).is(ModBlocks.GUAVA_FRUIT.get()) && c.stock().food().getCount() == 8,"Plain lines must establish hanging fruit for exactly one ordinary surplus guava");
             level.removeBlock(c.bed,false); level.removeBlock(c.bed.above(),false); level.setBlock(c.bed.below(),Blocks.SAND.defaultBlockState(),3);
             dog.setPos(Vec3.atBottomCenterOf(c.bed));

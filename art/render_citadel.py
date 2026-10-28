@@ -47,6 +47,7 @@ def prepare():
  def texture(name,face):
   namespace,b=name.split(':');suffix=''
   if b=='wheat':b='wheat_stage7'
+  if b=='guava_log' and face in [4,5]:b='guava_log_top'
   if b.endswith('_bed'):b='red_wool'
   if b in ['grass_block','hay_block','bookshelf','barrel','lectern','crafting_table','smithing_table','furnace','blast_furnace','chest','ender_chest']:
    if b=='hay_block':b+='_'+('top' if face in [4,5] else 'side')
@@ -70,13 +71,13 @@ def prepare():
   else:
    try:dest.write_bytes(client.read(rel))
    except KeyError:dest.write_bytes(client.read('assets/minecraft/textures/block/tuff_bricks.png'))
-  mats[key]={'texture':str(dest),'glass':'glass' in name,'cutout':name in ['minecraft:wheat','minecraft:iron_bars'],'emission':any(s in name for s in ['lantern','froglight','shroomlight','rootlight','guild_veil'])}
+  mats[key]={'texture':str(dest),'glass':'glass' in name,'cutout':name in ['minecraft:wheat','minecraft:iron_bars','bunnidogs:guava_leaves'] or 'guava_fruit_stage' in name,'emission':any(s in name for s in ['lantern','froglight','shroomlight','rootlight','guild_veil'])}
   return key
  # Minecraft coordinates converted to Blender x,-z,y; UVs consistently one native block.
  facepoints=[[(0,0,0),(0,1,0),(0,1,1),(0,0,1)],[(1,0,1),(1,1,1),(1,1,0),(1,0,0)],[(0,0,0),(0,0,1),(1,0,1),(1,0,0)],[(1,1,0),(1,1,1),(0,1,1),(0,1,0)],[(0,1,0),(0,0,0),(1,0,0),(1,1,0)],[(0,0,1),(0,1,1),(1,1,1),(1,0,1)]]
  # Here facepoints use x,z,y; neighbors match native x,y,z.
  neighbors=[(-1,0,0),(1,0,0),(0,0,-1),(0,0,1),(0,-1,0),(0,1,0)]
- def solid(s):return not any(k in s['Name'] for k in ['fence','stairs','slab','chain','lantern','anvil','lectern','glass','wheat','bed','armoury','bench','hearth','aerie','guild_heart','guild_gate'])
+ def solid(s):return not any(k in s['Name'] for k in ['fence','stairs','slab','chain','lantern','anvil','lectern','glass','wheat','bed','armoury','bench','hearth','aerie','guild_heart','guild_gate','guava_fruit','guava_leaves'])
  def cube(pos,state,lo=(0,0,0),hi=(1,1,1),cull=True):
   x,y,z=pos;name=state['Name']
   for f,fp in enumerate(facepoints):
@@ -94,6 +95,12 @@ def prepare():
     alias=next(iter(element['faces'].values()))['texture'].lstrip('#');tex=model['textures'][alias]
     part_state={'Name':tex.split(':')[0]+':'+tex.split('/')[-1]}
     cube(pos,part_state,tuple(v/16 for v in element['from']),tuple(v/16 for v in element['to']),False)
+  elif name=='bunnidogs:guava_fruit':
+   bunch=props.get('bunch','1');suffix='' if bunch=='1' else '_bunch'+bunch
+   key=texture('bunnidogs:guava_fruit_stage'+props.get('age','0')+suffix,0)
+   vv=verts.setdefault(key,[]);ff=faces.setdefault(key,[]);x,y,z=pos
+   for a,b in [((.146,.146),(.854,.854)),((.146,.854),(.854,.146))]:
+    start=len(vv);vv.extend([(x+a[0],-z-a[1],y),(x+b[0],-z-b[1],y),(x+b[0],-z-b[1],y+1),(x+a[0],-z-a[1],y+1)]);ff.append((start,start+1,start+2,start+3))
   elif name=='minecraft:wheat':
    cube(pos,state,(.49,0,0),(.51,1,1),False);cube(pos,state,(0,0,.49),(1,1,.51),False)
   elif name=='minecraft:iron_bars':

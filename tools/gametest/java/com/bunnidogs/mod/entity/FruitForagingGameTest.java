@@ -77,6 +77,11 @@ public final class FruitForagingGameTest {
                         && dog.getHealth() == health+Foraging.HEAL && dog.forageWait() == Foraging.MEAL_COOLDOWN,"One guava meal must preserve the fruit, heal two HP and start shared recovery");
                 h.assertTrue(!new GrazeGoal(dog).canUse() && level.getEntitiesOfClass(ItemEntity.class,new AABB(fruit).inflate(3),e -> true).isEmpty(),"A direct meal must not duplicate food or bypass recovery");
                 ready(dog); h.assertTrue(!new GrazeGoal(dog).canUse(),"Unripe fruit is not a meal");
+                level.setBlock(fruit,ripe.setValue(GuavaFruitBlock.BUNCH,3),3);
+                var bunchMeal=new GrazeGoal(dog); h.assertTrue(bunchMeal.canUse(),"A ripe bunch is real food"); work(h,dog,bunchMeal);
+                h.assertTrue(GuavaFruitBlock.isRipe(level.getBlockState(fruit)) && level.getBlockState(fruit).getValue(GuavaFruitBlock.BUNCH)==2,
+                        "One meal must consume only one fruit and leave the other two ripe on the branch");
+                level.setBlock(fruit,ripe.setValue(GuavaFruitBlock.AGE,0),3); ready(dog);
                 level.setBlock(field.below(),Blocks.GRASS_BLOCK.defaultBlockState(),3);
                 level.setBlock(field,Blocks.SWEET_BERRY_BUSH.defaultBlockState().setValue(SweetBerryBushBlock.AGE,3),3);
                 h.assertTrue(!new GrazeGoal(dog).canUse(),"Plain Diet must refuse sweet berries"); dog.setGenome(diet("forager"));

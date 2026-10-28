@@ -46,9 +46,11 @@ public final class OrchardGameTest {
             for (int y = 1; y < 6; y++) h.setBlock(x,y,z,Blocks.AIR);
         }
         var fruit = h.absolutePos(new BlockPos(3,2,3)); var leaf = fruit.above();
+        level.setBlock(leaf.east().below(3),Blocks.DIRT.defaultBlockState(),3);
+        for(int y=0;y<3;y++)level.setBlock(leaf.east().below(y),ModBlocks.GUAVA_LOG.get().defaultBlockState(),3);
         level.setBlock(leaf,ModBlocks.GUAVA_LEAVES.get().defaultBlockState().setValue(LeavesBlock.PERSISTENT,true),3);
         var player = h.makeMockServerPlayerInLevel(); player.gameMode.changeGameModeForPlayer(GameType.SURVIVAL);
-        var guavas = new ItemStack(ModItems.GUAVA.get(),4); guavas.set(DataComponents.CUSTOM_NAME,Component.literal("Orchard stock"));
+        var guavas = new ItemStack(ModItems.GUAVA_SAPLING.get(),4); guavas.set(DataComponents.CUSTOM_NAME,Component.literal("Orchard stock"));
         player.setItemInHand(InteractionHand.OFF_HAND,guavas);
         Consumer<EntityPlaceEvent> protect = event -> { if (event.getLevel() == level && event.getPos().equals(fruit)) event.setCanceled(true); };
         NeoForge.EVENT_BUS.addListener(protect);
@@ -58,7 +60,7 @@ public final class OrchardGameTest {
                 && guavas.getHoverName().getString().equals("Orchard stock"),"Canceled native placement must restore block and exact held stock");
         use(player,leaf,Direction.DOWN,InteractionHand.OFF_HAND);
         h.assertTrue(level.getBlockState(fruit).is(ModBlocks.GUAVA_FRUIT.get()) && level.getBlockState(fruit).getValue(GuavaFruitBlock.AGE) == 0
-                && guavas.getCount() == 3 && player.getMainHandItem().isEmpty(),"Survival off-hand planting must spend one plain guava and start green");
+                && guavas.getCount() == 3 && player.getMainHandItem().isEmpty(),"Survival off-hand grafting must spend one sapling and start flowering");
         use(player,leaf,Direction.DOWN,InteractionHand.OFF_HAND);
         h.assertTrue(guavas.getCount() == 3,"Existing fruit must not be replaced or charged again");
         level.removeBlock(fruit,false); player.gameMode.changeGameModeForPlayer(GameType.ADVENTURE);
@@ -78,7 +80,13 @@ public final class OrchardGameTest {
         h.assertTrue(level.getBlockState(fruit).isAir() && guavas.getCount() == 3,"Solid non-leaf supports must refuse");
         level.setBlock(leaf,Blocks.OAK_LEAVES.defaultBlockState().setValue(LeavesBlock.PERSISTENT,true),3);
         use(player,leaf,Direction.DOWN,InteractionHand.OFF_HAND);
-        h.assertTrue(level.getBlockState(fruit).is(ModBlocks.GUAVA_FRUIT.get()) && guavas.getCount() == 2,"Existing any-leaf fruit support applies to propagation too");
+        h.assertTrue(level.getBlockState(fruit).isAir() && guavas.getCount() == 3,"A graft must refuse arbitrary oak leaves");
+        level.setBlock(leaf,ModBlocks.GUAVA_LEAVES.get().defaultBlockState().setValue(LeavesBlock.PERSISTENT,true),3);
+        var food = new ItemStack(ModItems.GUAVA.get(),2); player.setItemInHand(InteractionHand.OFF_HAND,food);
+        use(player,leaf,Direction.DOWN,InteractionHand.OFF_HAND);
+        h.assertTrue(level.getBlockState(fruit).isAir() && food.getCount() == 2,"Raw guavas remain food rather than planting shortcuts");
+        player.setItemInHand(InteractionHand.OFF_HAND,guavas); use(player,leaf,Direction.DOWN,InteractionHand.OFF_HAND);
+        h.assertTrue(level.getBlockState(fruit).is(ModBlocks.GUAVA_FRUIT.get()) && guavas.getCount() == 2,"A rooted guava canopy accepts an actual sapling graft");
         var meal = new ItemStack(Items.BONE_MEAL,4); player.setItemInHand(InteractionHand.OFF_HAND,meal);
         use(player,fruit,Direction.NORTH,InteractionHand.OFF_HAND);
         h.assertTrue(level.getBlockState(fruit).getValue(GuavaFruitBlock.AGE) == 1 && meal.getCount() == 3,"One native bone meal must add one age");
@@ -87,7 +95,7 @@ public final class OrchardGameTest {
         player.setItemInHand(InteractionHand.OFF_HAND,ItemStack.EMPTY); use(player,fruit,Direction.NORTH,InteractionHand.MAIN_HAND);
         h.assertTrue(level.getBlockState(fruit).getValue(GuavaFruitBlock.AGE) == 0
                 && level.getEntitiesOfClass(ItemEntity.class,new AABB(fruit).inflate(2),e -> e.getItem().is(ModItems.GUAVA.get())).stream()
-                    .mapToInt(e -> e.getItem().getCount()).sum() == 1,"Picking must produce exactly one guava and keep the green fruit");
+                    .mapToInt(e -> e.getItem().getCount()).sum() == 2,"A rooted bunch must pay exactly two guavas and keep the flowering branch");
         var leaves = ModBlocks.GUAVA_LEAVES.get().defaultBlockState();
         var silk = new ItemStack(Items.DIAMOND_HOE);
         silk.enchant(level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.SILK_TOUCH),1);
@@ -109,7 +117,7 @@ public final class OrchardGameTest {
                     h.runAfterDelay(2,() -> {
                         h.assertTrue(level.getBlockState(fruit).isAir(),"Native scheduled support loss must still remove fruit");
                         h.assertTrue(level.getEntitiesOfClass(ItemEntity.class,new AABB(fruit).inflate(3),e -> e.getItem().is(ModItems.GUAVA.get())).stream()
-                                .mapToInt(e -> e.getItem().getCount()).sum() == 2,"Support loss must drop exactly the ripe guava in addition to the earlier pick");
+                                .mapToInt(e -> e.getItem().getCount()).sum() == 4,"Support loss must drop the ripe bunch in addition to the earlier harvest");
                         h.succeed();
                     });
                 });

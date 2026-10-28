@@ -35,20 +35,22 @@ public final class OrchardPickingGameTest {
     }
     private static void planting(GameTestHelper h, BlockPos fruit, BlockPos source, DispenserBlockEntity dispenser, HopperBlockEntity hopper) {
         var level = h.getLevel();
-        level.setBlock(fruit.above(),Blocks.OAK_LEAVES.defaultBlockState().setValue(LeavesBlock.PERSISTENT,true),3);
-        var stock = new ItemStack(ModItems.GUAVA.get(),3); stock.set(DataComponents.CUSTOM_NAME,Component.literal("Canopy repair")); dispenser.setItem(0,stock);
+        level.setBlock(fruit.above(),ModBlocks.GUAVA_LEAVES.get().defaultBlockState().setValue(LeavesBlock.PERSISTENT,true),3);
+        level.setBlock(fruit.east().below(2),Blocks.DIRT.defaultBlockState(),3);
+        for(int y=-1;y<=1;y++)level.setBlock(fruit.east().above(y),ModBlocks.GUAVA_LOG.get().defaultBlockState(),3);
+        var stock = new ItemStack(ModItems.GUAVA_SAPLING.get(),3); stock.set(DataComponents.CUSTOM_NAME,Component.literal("Canopy repair")); dispenser.setItem(0,stock);
         pulse(h,source,() -> {
             h.assertTrue(level.getBlockState(fruit).is(ModBlocks.GUAVA_FRUIT.get()) && level.getBlockState(fruit).getValue(GuavaFruitBlock.AGE) == 0
                     && stock.getCount() == 2 && stock.getHoverName().getString().equals("Canopy repair")
-                    && products(h,fruit,hopper,ModItems.GUAVA.get()) == 2,"Canopy repair must plant one real plain guava and preserve its named remainder without ejecting a copy");
+                    && products(h,fruit,hopper,ModItems.GUAVA.get()) == 6,"Canopy repair must graft one real sapling and preserve its named remainder without ejecting a copy");
             level.setBlock(fruit,Blocks.CHEST.defaultBlockState(),3); var chest = level.getBlockEntity(fruit);
             pulse(h,source,() -> {
-                h.assertTrue(level.getBlockEntity(fruit) == chest && stock.getCount() == 1 && products(h,fruit,hopper,ModItems.GUAVA.get()) == 3,
-                        "Blocked planting must preserve the container and retain ordinary one-item food ejection");
-                level.removeBlock(fruit,false); var upgraded = new ItemStack(ModItems.GOLDEN_GUAVA.get()); dispenser.setItem(0,upgraded);
+                h.assertTrue(level.getBlockEntity(fruit) == chest && stock.getCount() == 2 && products(h,fruit,hopper,ModItems.GUAVA_SAPLING.get()) == 0,
+                        "Blocked grafting must preserve the container and retain its actual sapling");
+                level.removeBlock(fruit,false); var upgraded = new ItemStack(ModItems.GUAVA.get()); dispenser.setItem(0,upgraded);
                 pulse(h,source,() -> {
-                    h.assertTrue(upgraded.isEmpty() && level.getBlockState(fruit).isAir() && products(h,fruit,hopper,ModItems.GOLDEN_GUAVA.get()) == 1,
-                            "Upgraded guavas must keep ordinary dispenser ejection without planting fruit");
+                    h.assertTrue(upgraded.isEmpty() && level.getBlockState(fruit).isAir() && products(h,fruit,hopper,ModItems.GUAVA.get()) == 7,
+                            "Raw guavas must keep ordinary dispenser ejection without planting fruit");
                     h.succeed();
                 });
             });
@@ -64,19 +66,19 @@ public final class OrchardPickingGameTest {
         level.setBlock(fruit.below(),Blocks.HOPPER.defaultBlockState(),3);
         var hopper = (HopperBlockEntity)level.getBlockEntity(fruit.below());
         level.setBlock(fruit.above(),Blocks.OAK_LEAVES.defaultBlockState().setValue(LeavesBlock.PERSISTENT,true),3);
-        var ripe = ModBlocks.GUAVA_FRUIT.get().defaultBlockState().setValue(GuavaFruitBlock.AGE,2);
+        var ripe = ModBlocks.GUAVA_FRUIT.get().defaultBlockState().setValue(GuavaFruitBlock.AGE,2).setValue(GuavaFruitBlock.BUNCH,3);
         level.setBlock(fruit,ripe,3);
         level.setBlock(source,Blocks.DISPENSER.defaultBlockState().setValue(DispenserBlock.FACING,Direction.EAST),3);
         var dispenser = (DispenserBlockEntity)level.getBlockEntity(source); var shears = new ItemStack(Items.SHEARS); dispenser.setItem(0,shears);
         pulse(h,source,() -> {
             h.assertTrue(level.getBlockState(fruit).is(ModBlocks.GUAVA_FRUIT.get()) && level.getBlockState(fruit).getValue(GuavaFruitBlock.AGE) == 0
-                    && shears.getDamageValue() == 1 && products(h,fruit,hopper,ModItems.GUAVA.get()) == 1,
-                    "One shears pulse must reset ripe fruit, pay one guava and wear exactly once");
+                    && shears.getDamageValue() == 1 && products(h,fruit,hopper,ModItems.GUAVA.get()) == 3,
+                    "One shears pulse must reset a ripe bunch, pay three guavas and wear exactly once");
             pulse(h,source,() -> {
-                h.assertTrue(shears.getDamageValue() == 1 && products(h,fruit,hopper,ModItems.GUAVA.get()) == 1,"Unripe pulses must retain shears without duplicate food or wear");
+                h.assertTrue(shears.getDamageValue() == 1 && products(h,fruit,hopper,ModItems.GUAVA.get()) == 3,"Unripe pulses must retain shears without duplicate food or wear");
                 level.setBlock(fruit,ripe,3);
                 h.assertTrue(GuavaFruitBlock.pick(level,fruit) && !GuavaFruitBlock.pick(level,fruit)
-                        && products(h,fruit,hopper,ModItems.GUAVA.get()) == 2,"Hand/shared picking must pay once and reject a stale repeat");
+                        && products(h,fruit,hopper,ModItems.GUAVA.get()) == 6,"Hand/shared picking must pay once and reject a stale repeat");
                 level.setBlock(fruit,ripe,3); level.removeBlock(fruit.above(),false);
                 h.assertTrue(!GuavaFruitBlock.pick(level,fruit),"Unsupported ripe fruit must not be picked before its scheduled fall");
                 level.removeBlock(fruit,false);
@@ -91,7 +93,7 @@ public final class OrchardPickingGameTest {
                     h.runAfterDelay(25,() -> {
                         int collected = 0;
                         for (int slot = 0; slot < hopper.getContainerSize(); slot++) if (hopper.getItem(slot).is(ModItems.GUAVA.get())) collected += hopper.getItem(slot).getCount();
-                        h.assertTrue(collected == 2 && products(h,fruit,hopper,ModItems.GUAVA.get()) == 2,"An ordinary hopper must collect both paid fruit with no extra copy");
+                        h.assertTrue(collected == 6 && products(h,fruit,hopper,ModItems.GUAVA.get()) == 6,"An ordinary hopper must collect both paid bunches with no extra copy");
                         planting(h,fruit,source,dispenser,hopper);
                     });
                 });

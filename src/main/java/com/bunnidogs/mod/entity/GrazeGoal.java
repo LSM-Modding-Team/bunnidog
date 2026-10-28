@@ -77,7 +77,7 @@ final class GrazeGoal extends Goal {
         if (state.is(Blocks.NETHER_WART) && state.getValue(NetherWartBlock.AGE) == NetherWartBlock.MAX_AGE && this.dog.canEat(new ItemStack(Items.NETHER_WART)))
             return new Meal(state,state.setValue(NetherWartBlock.AGE,0));
         if (state.is(ModBlocks.GUAVA_FRUIT.get()) && GuavaFruitBlock.isRipe(state) && this.dog.canEat(new ItemStack(ModItems.GUAVA.get())))
-            return new Meal(state,state.setValue(GuavaFruitBlock.AGE,0));
+            return new Meal(state,GuavaFruitBlock.mealReset(state));
         if (state.is(Blocks.SWEET_BERRY_BUSH) && state.getValue(SweetBerryBushBlock.AGE) >= 2 && this.dog.canEat(new ItemStack(Items.SWEET_BERRIES)))
             return new Meal(state,state.setValue(SweetBerryBushBlock.AGE,1));
         if ((state.is(Blocks.CAVE_VINES) || state.is(Blocks.CAVE_VINES_PLANT)) && state.getValue(CaveVines.BERRIES)

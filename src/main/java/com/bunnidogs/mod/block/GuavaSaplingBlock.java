@@ -88,7 +88,7 @@ public class GuavaSaplingBlock extends Block implements BonemealableBlock {
         if (!GuavaTree.fits(level, pos, cells)) {
             return false;
         }
-        GuavaTree.place(level, pos, cells);
+        GuavaTree.place(level, pos, cells,false);
         return true;
     }
 

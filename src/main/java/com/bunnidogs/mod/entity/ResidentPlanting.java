@@ -25,6 +25,8 @@ final class ResidentPlanting {
             var kelp=Blocks.KELP.defaultBlockState(); return kelp.canSurvive(level,pos) ? kelp : null;
         }
         if (!level.getBlockState(pos).isAir() || !level.getFluidState(pos).isEmpty()) return null;
+        if(food.is(ModItems.GUAVA.get()))return com.bunnidogs.mod.block.GuavaFruitBlock.canPlant(level,pos)
+                ? ModBlocks.GUAVA_FRUIT.get().defaultBlockState().setValue(com.bunnidogs.mod.block.GuavaFruitBlock.BUNCH,com.bunnidogs.mod.orchard.Orchard.cropSize(level,pos)) : null;
         var plant = plant(food);
         if (plant == null) return null;
         if (plant == Blocks.CACTUS && (level.getBlockState(pos.below()).is(Blocks.CACTUS)

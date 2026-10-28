@@ -5,7 +5,27 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
-## Current — Lantern Warrens, material projects and finished architecture
+## Current — early guava gathering and productive orchards
+
+Wild groves now offer a ready first harvest. Punch/use a standing guava trunk to
+shake down ripe bunches, or catch high fruit with the copper Guava Picker. A real
+sapling plants a new tree or grafts its rooted guava canopy; raw fruit no longer
+plants under arbitrary leaves. Rooted trees grow pairs, Orchard Mulch grows
+triples faster, and the flowers/fruit show the crop stage and size. Recipe-book
+unlocks connect the first guava to these crafts. Existing plots keep working.
+
+Trunk/picker/dispenser/player harvesting and bunnidog work use the actual bunch.
+A direct meal consumes only one fruit. Native ownership, protection, block-drop
+rules, learning and genetic limits remain. New trees from saplings start
+flowering; fresh wild trees have mixed stages and a guaranteed ripe bunch.
+See `docs/ORCHARD_SPECS.md` for recipes, physical-root rules and native evidence.
+Protocol **47** requires matching clients/server; new independent groves need
+fresh terrain. Java 25 build/model/localization and all **267** native scenarios
+pass. The actual grove/texture previews in `art/orchard/overview.png` were
+inspected; first-session feel and Survival pacing remain human review.
+No tutorial HUD, crop manager or extra quality ladder is added.
+
+## Previous — Lantern Warrens, material projects and finished architecture
 
 The following polish gives Armoury/Binding real selected workpiece/book/result
 slots, exact paid output, visible cost icons and concise state. Bastion/Nursery
@@ -1103,8 +1123,9 @@ that players understand it.
 
 - **O6/O7/D8/H9/L27, orchard and habitat routines:** shears dispensers pick
   ripe guavas with one wear while retaining native animal/beehive shearing.
-  Plain guavas plant canopy gaps; invalid planting keeps ordinary food
-  ejection, with higher tiers untouched. Injured matching residents eat spare
+  The 2026-10-28 orchard revision replaces raw-fruit propagation with
+  actual sapling grafts on rooted guava trees; fruit dispensing stays ordinary
+  food ejection. Higher tiers retain their existing roles. Injured matching residents eat spare
   cactus tops/same-color mushrooms, ripe wart and linked melons, preserving
   growing stock through shared work/meal rules and protection rechecks.
   Nests expose claimed/free comparator signals through normal POI tickets;

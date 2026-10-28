@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:dirt",
+    "minecraft:bone_meal",
+    "minecraft:wheat",
+    "minecraft:wheat",
+    "bunnidogs:root_fibre"
+  ],
+  "result": {
+    "id": "bunnidogs:orchard_mulch",
+    "count": 4
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " CF",
+    " SF",
+    "S  "
+  ],
+  "key": {
+    "C": "minecraft:copper_ingot",
+    "F": "bunnidogs:root_fibre",
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "bunnidogs:fruit_picker"
+  }
+}

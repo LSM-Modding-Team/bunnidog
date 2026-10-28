@@ -19,6 +19,7 @@ public final class ModFeatures {
     public static final DeferredHolder<com.mojang.serialization.MapCodec<? extends net.minecraft.world.level.chunk.ChunkGenerator>,com.mojang.serialization.MapCodec<com.bunnidogs.mod.realm.RealmChunkGenerator>> REALM_GENERATOR=GENERATORS.register("realm_islands",()->com.bunnidogs.mod.realm.RealmChunkGenerator.CODEC);
 
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, BunnidogsMod.MODID);
+    public static final DeferredHolder<Feature<?>,com.bunnidogs.mod.worldgen.GuavaGroveFeature> GUAVA_GROVE=FEATURES.register("guava_grove",com.bunnidogs.mod.worldgen.GuavaGroveFeature::new);
 
     public static final DeferredHolder<Feature<?>,com.bunnidogs.mod.realm.RealmLandmarkFeature> REALM_LANDMARKS=
             FEATURES.register("realm_landmarks",()->new com.bunnidogs.mod.realm.RealmLandmarkFeature());

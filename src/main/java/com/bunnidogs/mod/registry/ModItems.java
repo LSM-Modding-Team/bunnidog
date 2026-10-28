@@ -278,8 +278,10 @@ public final class ModItems {
             COMPONENTS.registerComponentType("infusion_data",
                     builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
 
-    /** The guava sapling (Phase 4g): a plain block item for {@link ModBlocks#GUAVA_SAPLING}; crafted from one guava (data/bunnidogs/recipe/guava_sapling.json). */
-    public static final DeferredItem<BlockItem> GUAVA_SAPLING = ITEMS.registerSimpleBlockItem(ModBlocks.GUAVA_SAPLING);
+    /** One real guava crafts a sapling for soil planting or rooted-canopy grafting. */
+    public static final DeferredItem<BlockItem> GUAVA_SAPLING = ITEMS.registerItem("guava_sapling",p->new com.bunnidogs.mod.orchard.GuavaSaplingItem(ModBlocks.GUAVA_SAPLING.get(),p.useBlockDescriptionPrefix()));
+    public static final DeferredItem<BlockItem> ORCHARD_MULCH=ITEMS.registerItem("orchard_mulch",p->new com.bunnidogs.mod.orchard.OrchardMulchItem(ModBlocks.ORCHARD_MULCH.get(),p.useBlockDescriptionPrefix()));
+    public static final DeferredItem<com.bunnidogs.mod.orchard.FruitPickerItem> FRUIT_PICKER=ITEMS.registerItem("fruit_picker",com.bunnidogs.mod.orchard.FruitPickerItem::new,p->p.durability(128).enchantable(12).repairable(net.minecraft.world.item.Items.COPPER_INGOT));
     /** Guava wood (Phase 7a): plain block items for the log and the leaves of the guava tree. */
     public static final DeferredItem<BlockItem> GUAVA_LOG = ITEMS.registerSimpleBlockItem(ModBlocks.GUAVA_LOG);
     public static final DeferredItem<BlockItem> GUAVA_LEAVES = ITEMS.registerSimpleBlockItem(ModBlocks.GUAVA_LEAVES);
@@ -512,6 +514,7 @@ public final class ModItems {
         }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(CALIPERS.get());
+            event.accept(FRUIT_PICKER.get());
             com.bunnidogs.mod.guild.GuildProjects.MATERIALS.values().forEach(v->event.accept(v.get()));
             com.bunnidogs.mod.guild.GuildProjects.BLOCKS.values().forEach(v->event.accept(v.get()));
             event.accept(com.bunnidogs.mod.guild.GuildProjects.BATTERY.get());event.accept(com.bunnidogs.mod.guild.GuildProjects.MAGAZINE.get());event.accept(HOMEWARD_TOTEM.get());
@@ -543,6 +546,7 @@ public final class ModItems {
         }
         if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
             event.accept(GUAVA_SAPLING.get());
+            event.accept(ORCHARD_MULCH.get());
             event.accept(GUAVA_LOG.get());
             event.accept(STRIPPED_GUAVA_LOG.get());
             event.accept(GUAVA_WOOD.get());

@@ -125,8 +125,9 @@ public final class ModBlocks {
      * distance to it. The leaves are vanilla's leaf behaviour (they DECAY when no log is within 6 blocks; 0.0F = no falling-leaf particles),
      * pre-coloured by the texture (no biome tint). Their loot is data/bunnidogs/loot_table/blocks/guava_leaves.json.
      */
-    public static final DeferredBlock<RotatedPillarBlock> GUAVA_LOG = BLOCKS.registerBlock("guava_log", RotatedPillarBlock::new,
+    public static final DeferredBlock<RotatedPillarBlock> GUAVA_LOG = BLOCKS.registerBlock("guava_log", com.bunnidogs.mod.orchard.GuavaLogBlock::new,
             props -> props.strength(2.0F).sound(SoundType.WOOD));
+    public static final DeferredBlock<Block> ORCHARD_MULCH=BLOCKS.registerBlock("orchard_mulch",Block::new,p->p.strength(.6F).sound(SoundType.GRAVEL));
 
     /**
      * Guava wood, part 2 (W1, docs/FIXES_PLAN.md section 4): planks, the stripped log, and the two "bark on all sides" forms (wood, stripped wood).

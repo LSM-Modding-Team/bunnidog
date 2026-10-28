@@ -108,8 +108,10 @@ final class GardenGoal extends Goal {
         if (state.is(Blocks.COMPOSTER)) return cultivate && state.getValue(ComposterBlock.LEVEL) < ComposterBlock.MAX_LEVEL
                 && stock.getCount() > Gardening.COMPOST_RESERVE && ComposterBlock.getValue(stock) > 0
                 ? new Work(stock.copyWithCount(1),state,Task.COMPOST) : null;
-        if (state.is(ModBlocks.GUAVA_FRUIT.get()))
-            return staged(state,GuavaFruitBlock.AGE,GuavaFruitBlock.MAX_AGE,0,ModItems.GUAVA.get(),cultivate);
+        if (state.is(ModBlocks.GUAVA_FRUIT.get())) {
+            boolean ripe=GuavaFruitBlock.isRipe(state);
+            return ripe || cultivate ? new Work(new ItemStack(ModItems.GUAVA.get(),ripe ? GuavaFruitBlock.fruitCount(state) : 1),ripe ? state.setValue(GuavaFruitBlock.AGE,0) : GuavaFruitBlock.grow(level,pos,state),ripe ? Task.HARVEST : Task.CULTIVATE) : null;
+        }
         if (state.is(Blocks.NETHER_WART))
             return staged(state,NetherWartBlock.AGE,NetherWartBlock.MAX_AGE,0,Items.NETHER_WART,cultivate);
         if (state.is(Blocks.SWEET_BERRY_BUSH))
@@ -245,11 +247,12 @@ final class GardenGoal extends Goal {
         if (this.task == Task.PLANT || this.task == Task.NURTURE) {
             spendFood(level); this.ticks = Gardening.MAX_VISIT; return;
         }
-        if (level.setBlock(this.crop,this.reset,3)) {
+        var next=this.task==Task.CULTIVATE && this.mature.is(ModBlocks.GUAVA_FRUIT.get()) ? GuavaFruitBlock.grow(level,this.crop,this.mature) : this.reset;
+        if (level.setBlock(this.crop,next,3)) {
             var stock = trough(this.trough);
             boolean harvest = this.task == Task.HARVEST;
             if(harvest)this.dog.society().harvested(this.trough);
-            if (harvest && (stock == null || stock.insert(this.produce) != 1)) Block.popResource(level,this.crop,this.produce.copy());
+            if (harvest) {var remainder=this.produce.copy();if(stock!=null)remainder.shrink(stock.insert(remainder));if(!remainder.isEmpty())Block.popResource(level,this.crop,remainder);}
             level.levelEvent(harvest ? 2001 : 2005,this.crop,harvest ? Block.getId(this.mature) : 15);
             this.dog.finishedGardening();
             this.dog.learning().completed(this.task.routine());

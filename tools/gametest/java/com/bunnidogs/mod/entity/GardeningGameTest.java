@@ -143,7 +143,7 @@ public final class GardeningGameTest {
                 level.setBlock(cropPos,Blocks.AIR.defaultBlockState(),3);
                 var fruitPos = cropPos.above();
                 level.setBlock(fruitPos.above(),Blocks.OAK_LEAVES.defaultBlockState(),3);
-                level.setBlock(fruitPos,ModBlocks.GUAVA_FRUIT.get().defaultBlockState().setValue(GuavaFruitBlock.AGE,2),3);
+                level.setBlock(fruitPos,ModBlocks.GUAVA_FRUIT.get().defaultBlockState().setValue(GuavaFruitBlock.AGE,2).setValue(GuavaFruitBlock.BUNCH,3),3);
                 dog.setGenome(Genome.DEFAULT); dog.setHealth(dog.getMaxHealth());
                 var fruit = new GardenGoal(dog);
                 h.assertTrue(fruit.canUse(),"Plain lines must recognize a low reachable ripe guava");
@@ -151,8 +151,9 @@ public final class GardeningGameTest {
                 for (int i = 0; i < Gardening.WORK_TICKS; i++) fruit.tick();
                 fruit.stop();
                 h.assertTrue(level.getBlockState(fruitPos).getValue(GuavaFruitBlock.AGE) == 0
-                        && trough.food().is(ModItems.GUAVA.get()) && trough.food().getCount() == 1,
-                        "Picking fruit must retain the plant and stock one guava");
+                        && trough.food().is(ModItems.GUAVA.get()) && trough.food().getCount() == 3
+                        && level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class,new net.minecraft.world.phys.AABB(fruitPos).inflate(3),e->e.getItem().is(ModItems.GUAVA.get())).isEmpty(),
+                        "Picking a whole bunch must stock three actual guavas without duplicating a loose remainder");
                 h.useBlock(new BlockPos(4,1,4),player);
                 h.assertTrue(!level.getBlockState(troughPos).getValue(FeedingTroughBlock.TENDING),"A second hoe use must switch gardening off");
                 h.succeed();

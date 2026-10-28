@@ -43,6 +43,9 @@ public final class GuavaTree {
 
     /** Places the tree: logs first, then the leaves that fit, then the fruits that have a leaf above them. */
     public static void place(LevelAccessor level, BlockPos base, List<TreeShape.Cell> cells) {
+        place(level,base,cells,true);
+    }
+    public static void place(LevelAccessor level, BlockPos base, List<TreeShape.Cell> cells,boolean wild) {
         for (TreeShape.Cell cell : cells) {
             if (cell.kind() == TreeShape.Kind.LOG) {
                 level.setBlock(offset(base, cell), ModBlocks.GUAVA_LOG.get().defaultBlockState(), FLAGS);
@@ -57,11 +60,13 @@ public final class GuavaTree {
                 level.setBlock(offset(base, cell), leaves.setValue(LeavesBlock.DISTANCE, distances.get(cell)), FLAGS);
             }
         }
+        boolean firstFruit=true;
         for (TreeShape.Cell cell : cells) {
             if (cell.kind() == TreeShape.Kind.FRUIT) {
                 BlockPos pos = offset(base, cell);
                 if (replaceable(level.getBlockState(pos)) && level.getBlockState(pos.above()).getBlock() instanceof LeavesBlock) {
-                    level.setBlock(pos, ModBlocks.GUAVA_FRUIT.get().defaultBlockState(), FLAGS);
+                    int age=wild ? firstFruit ? 2 : Math.floorMod((int)(pos.asLong()^(pos.asLong()>>>32)),3) : 0;
+                    level.setBlock(pos, ModBlocks.GUAVA_FRUIT.get().defaultBlockState().setValue(com.bunnidogs.mod.block.GuavaFruitBlock.AGE,age).setValue(com.bunnidogs.mod.block.GuavaFruitBlock.BUNCH,2), FLAGS);firstFruit=false;
                 }
             }
         }

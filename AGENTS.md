@@ -1,5 +1,19 @@
 # Codex working instructions
 
+Latest request revises early guava gathering. Read `docs/ORCHARD_SPECS.md`.
+Preserve independent mature wild groves, bounded same-root trunk shaking, the
+fruit-only obstruction-aware copper picker, real sapling graft costs and visible
+flower/green/ripe bunches. Mulch under a physical guava trunk improves yield/growth
+without upkeep. Raw guava no longer plants under arbitrary leaves; old hanging
+fruit keeps its support/save compatibility. Harvest actual bunch counts through
+players, dispensers and workers; direct animal meals consume one. Preserve native
+protection/callback revalidation, exact inventory insertion/remainders, learned
+work/genetic limits and loaded terrain bounds. Keep recipe discovery and brief
+item purposes instead of tutorials or another quality system. Protocol 47 carries
+the orchard content. Build/model/localization and all 267 native cases pass;
+the actual ProtoChunk grove/texture previews were inspected. Natural client/
+Survival pacing remains human review.
+
 Latest user asks for polish following their recurring complaints. Current
 workshop/expedition corrections are in `docs/COHESION_PLAN.md` and the updated
 guild spec. Keep deliberate native workpiece/book/result slots over the original

@@ -1,0 +1,10 @@
+{
+  "renderer": "Blender Cycles CPU; native template cells and source textures; approximate minor block shapes, neutral ambient material fill for readable geometry; no terrain or client light simulation",
+  "template_sha256": {
+    "native_grove": "ea2a260abaf27417beca6d13084ea6504b6db9ded63a3d4997826c857f41861c"
+  },
+  "solid_cells": 108,
+  "faces": 225,
+  "source": "orchard_grove native WorldGenRegion / seed 1832",
+  "cell_sha256": "50c8dbfb3a528194fe93464717d282938b81f3db0e57706f5721c847ead70c28"
+}

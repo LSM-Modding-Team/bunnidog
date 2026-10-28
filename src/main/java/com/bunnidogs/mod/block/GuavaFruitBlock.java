@@ -26,17 +26,12 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-/**
- * A guava hanging under the leaves of a guava tree (Phase 4g). Three ages: green, yellowing, ripe. It grows on random ticks,
- * slowly (1 in {@value #GROWTH_ODDS} random ticks per age, about 10 minutes from green to ripe at the default random tick speed).
- * Right-clicking a ripe one picks it (one plain guava) and sends it back to green, so a tree keeps giving; breaking a ripe one drops
- * a guava too (the loot table {@code data/bunnidogs/loot_table/blocks/guava_fruit.json}), an unripe one drops nothing. It needs leaves
- * above it: when they are gone it falls off at once (a scheduled tick after the shape update, F1); a ripe one drops its guava, a green one nothing. A random tick is the safety net.
- * Plain guavas can plant green fruit beneath any leaves; native bone meal advances one age per application.
- */
+/** Flowering, green and ripe bunches. Living roots and mulch improve real yields;
+ * legacy isolated fruit retains any-leaf support and a one-fruit crop. */
 public class GuavaFruitBlock extends Block implements BonemealableBlock {
     public static final int MAX_AGE = 2;
     public static final IntegerProperty AGE = BlockStateProperties.AGE_2;
+    public static final IntegerProperty BUNCH = IntegerProperty.create("bunch",1,3);
     /** On average 1 random tick in this many grows the fruit one age. */
     public static final int GROWTH_ODDS = 5;
 
@@ -44,33 +39,41 @@ public class GuavaFruitBlock extends Block implements BonemealableBlock {
 
     public GuavaFruitBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
+        this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0).setValue(BUNCH,1));
     }
 
     public static boolean isRipe(BlockState state) {
         return state.getValue(AGE) >= MAX_AGE;
     }
 
-    /** A plain guava can establish a green fruit only in dry, loaded air beneath leaves. */
+    /** New grafts need dry loaded air and an actual rooted guava canopy. */
     public static boolean canPlant(Level level, BlockPos pos) {
         return !level.isOutsideBuildHeight(pos) && !level.isOutsideBuildHeight(pos.above())
                 && level.hasChunkAt(pos) && level.hasChunkAt(pos.above()) && level.getWorldBorder().isWithinBounds(pos)
                 && level.getBlockState(pos).isAir() && level.getFluidState(pos).isEmpty()
-                && ModBlocks.GUAVA_FRUIT.get().defaultBlockState().canSurvive(level,pos);
+                && com.bunnidogs.mod.orchard.Orchard.root(level,pos)!=null;
     }
 
     public static boolean plant(ServerLevel level, BlockPos pos) {
-        return canPlant(level,pos) && level.setBlock(pos,ModBlocks.GUAVA_FRUIT.get().defaultBlockState(),3);
+        return canPlant(level,pos) && level.setBlock(pos,ModBlocks.GUAVA_FRUIT.get().defaultBlockState().setValue(BUNCH,com.bunnidogs.mod.orchard.Orchard.cropSize(level,pos)),3);
+    }
+
+    public static int fruitCount(BlockState state){return state.getValue(BUNCH);}
+    /** A direct meal consumes one fruit rather than silently discarding the rest of its bunch. */
+    public static BlockState mealReset(BlockState state){return fruitCount(state)>1 ? state.setValue(BUNCH,fruitCount(state)-1) : state.setValue(AGE,0);}
+    public static BlockState grow(LevelReader level,BlockPos pos,BlockState state){return state.setValue(AGE,state.getValue(AGE)+1).setValue(BUNCH,state.getValue(AGE)==0 ? com.bunnidogs.mod.orchard.Orchard.cropSize(level,pos) : fruitCount(state));}
+    public record Harvest(boolean picked,ItemStack produce){}
+    public static Harvest take(ServerLevel level,BlockPos pos) {
+        if(!level.hasChunkAt(pos) || !level.hasChunkAt(pos.above()) || !level.getWorldBorder().isWithinBounds(pos))return new Harvest(false,ItemStack.EMPTY);
+        var state=level.getBlockState(pos);
+        if(!state.is(ModBlocks.GUAVA_FRUIT.get()) || !isRipe(state) || !state.canSurvive(level,pos) || !level.setBlock(pos,state.setValue(AGE,0),2))return new Harvest(false,ItemStack.EMPTY);
+        level.playSound(null,pos,net.minecraft.sounds.SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES,net.minecraft.sounds.SoundSource.BLOCKS,.7F,1.1F);
+        return new Harvest(true,level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.BLOCK_DROPS) ? new ItemStack(ModItems.GUAVA.get(),fruitCount(state)) : ItemStack.EMPTY);
     }
 
     /** Reset before paying the fruit; hand and dispenser harvesting share support and stale-state checks. */
     public static boolean pick(ServerLevel level, BlockPos pos) {
-        if (!level.hasChunkAt(pos) || !level.hasChunkAt(pos.above()) || !level.getWorldBorder().isWithinBounds(pos)) return false;
-        var state = level.getBlockState(pos);
-        if (!state.is(ModBlocks.GUAVA_FRUIT.get()) || !isRipe(state) || !state.canSurvive(level,pos)
-                || !level.setBlock(pos,state.setValue(AGE,0),2)) return false;
-        Block.popResource(level,pos,new ItemStack(ModItems.GUAVA.get()));
-        return true;
+        var harvest=take(level,pos);if(!harvest.produce().isEmpty())Block.popResource(level,pos,harvest.produce());return harvest.picked();
     }
 
     @Override
@@ -86,17 +89,17 @@ public class GuavaFruitBlock extends Block implements BonemealableBlock {
     /** One successful native hand/dispenser application advances exactly one age. */
     @Override
     public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
-        if (isValidBonemealTarget(level,pos,state)) level.setBlock(pos,state.setValue(AGE,state.getValue(AGE)+1),2);
+        if (isValidBonemealTarget(level,pos,state)) level.setBlock(pos,grow(level,pos,state),2);
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(AGE);
+        builder.add(AGE,BUNCH);
     }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return SHAPE;
+        return state.getValue(BUNCH)>1 ? Shapes.box(1D/16,0,1D/16,15D/16,1,15D/16) : SHAPE;
     }
 
     /** Hangs from leaves. */
@@ -133,12 +136,18 @@ public class GuavaFruitBlock extends Block implements BonemealableBlock {
             return;
         }
         int age = state.getValue(AGE);
-        if (age < MAX_AGE && random.nextInt(GROWTH_ODDS) == 0) {
-            level.setBlock(pos, state.setValue(AGE, age + 1), 2);
+        if(age>=MAX_AGE)return;
+        int crop=com.bunnidogs.mod.orchard.Orchard.cropSize(level,pos);int odds=crop==3 ? 2 : crop==2 ? 4 : GROWTH_ODDS;
+        if (age < MAX_AGE && random.nextInt(odds) == 0 && level.getBlockState(pos).equals(state)) {
+            level.setBlock(pos, grow(level,pos,state), 2);
         }
     }
 
-    /** Picks a ripe guava (one plain guava, back to green); an unripe one ignores the click. */
+    /** The tool catches a bunch; ordinary hand picking drops it below the branch. */
+    @Override protected InteractionResult useItemOn(ItemStack stack,BlockState state,Level level,BlockPos pos,Player player,net.minecraft.world.InteractionHand hand,BlockHitResult hit) {
+        if(stack.getItem() instanceof com.bunnidogs.mod.orchard.FruitPickerItem picker)return picker.harvest(level,player,hand,pos,false);
+        return super.useItemOn(stack,state,level,pos,player,hand,hit);
+    }
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (!isRipe(state)) {
