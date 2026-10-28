@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BRB",
+    "FHF",
+    "MMM"
+  ],
+  "key": {
+    "B": "bunnidogs:cinderite_billet",
+    "R": "bunnidogs:structural_frame",
+    "F": "bunnidogs:fibre_roll",
+    "H": "bunnidogs:volatile_heart",
+    "M": "bunnidogs:compressed_moonstone"
+  },
+  "result": {
+    "id": "bunnidogs:volatile_magazine",
+    "count": 1
+  }
+}

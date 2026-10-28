@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "bunnidogs:moonstone_crate"
+  ],
+  "result": {
+    "id": "bunnidogs:compressed_moonstone",
+    "count": 9
+  }
+}

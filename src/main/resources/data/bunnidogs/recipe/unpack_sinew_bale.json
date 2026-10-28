@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "bunnidogs:sinew_bale"
+  ],
+  "result": {
+    "id": "bunnidogs:sinew",
+    "count": 9
+  }
+}

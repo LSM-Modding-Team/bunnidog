@@ -1,0 +1,7 @@
+{
+  "type": "bunnidogs:lantern_warren",
+  "biomes": "#bunnidogs:great_warren",
+  "step": "underground_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

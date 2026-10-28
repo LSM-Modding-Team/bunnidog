@@ -113,14 +113,18 @@ uses bounded Dijkstra routes through intermediate island candidates. Actual
 travel distance, climbs and missing-land costs select a chain of islands. Only
 selected missing waypoints become stepping islands; many unrelated islands remain
 unconnected. Seeded triangulation avoids crossing incompatible diagonal spans.
-Seven-block-wide roads/bridges follow varying heights, grade their narrow island
+Architectural roads/bridges follow varying heights, grade their narrow island
 approaches and join Crown plateaus. The deck height is independent of the island
 surface: when terrain rises above it, generation carves only **five blocks of
-headroom** over the existing three-block lit deck. Rock and moss above the
+headroom** over a five-wide carriageway. Rock and moss above the
 corridor remain, producing tunnels instead of deep open trenches. Shallow entry
 edges open naturally; void spans remain bridges. Decks raised above lower
 island terrain preserve the air gap rather than filling a solid wall down to
-the ground. Nearby natural hollow noise
+the ground. Outside spans now have double-thick masonry arch ribs, hanging
+piers, slab-capped parapets and root-beam crossframes with recessed lights.
+Native stairs/slabs make grade changes walkable. Tunnels have periodic ribs and
+side lights. Their structural extents agree with native height/base-column
+queries, while the natural island roof remains independent. Nearby natural hollow noise
 cannot erase the immediate tunnel roof/floor. Crown footprints remain excluded.
 Native heightmaps/base-height/base-column queries follow the actual exterior
 roof, while route traversal follows the deck. This is a bounded local network, not one
@@ -152,6 +156,15 @@ Existing generated chunks, structures, containers, anchors and player builds are
 not rewritten. Newly generated chunks use the new generator; old/new borders can
 have abrupt terrain seams. No automatic chunk deletion or terrain migration.
 The explicit dungeon repair command retains its earlier scope.
+An explicit `/bunnidogs bridges renovate` upgrades only loaded surviving former
+road cells within 64 blocks; it preserves natural terrain, containers and other
+player blocks. This never stitches old/new route borders automatically.
+
+Lantern Warrens can fit inside suitable ordinary islands, with surface entrances,
+peaceful trade and inter-island portals. Their 32/16-chunk candidate set rejects
+thin/low rock and Crown islands; it changes neither independent island/moon
+density nor the 512/256 Crown placement. See
+`LANTERN_WARRENS_AND_GUILD_PROJECTS.md` for exact native fitting/network rules.
 
 Native checks cover real shipped LevelStem decoding/realm entry and return,
 unfinished ProtoChunk terrain, rich moons, void and bridge placement, agreeing
@@ -168,6 +181,8 @@ a graphical client capture.
 
 The tunnel fixture exports a longitudinal section from actual generated
 ProtoChunks. `art/preview_realm_tunnel.py` renders `art/realm_tunnel_preview.png`;
-it is a block inspection, not simulated client lighting. Bulk-material project
-and future loot proposals are in `GREAT_WARREN_MATERIAL_ECONOMY_PLAN.md` and do
-not change current mineral generation or crafting in this tunnel batch.
+it is a block inspection, not simulated client lighting. Final architectural
+bridge views in `art/bridges/` render an actual generated ProtoChunk export.
+Bulk-material projects and room-specific rewards now ship as recorded in
+`LANTERN_WARRENS_AND_GUILD_PROJECTS.md`; they do not change mineral density or
+the pre-dungeon Astralite forge path.

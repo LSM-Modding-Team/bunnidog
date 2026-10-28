@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "XXX",
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": "bunnidogs:sinew"
+  },
+  "result": {
+    "id": "bunnidogs:sinew_bale",
+    "count": 1
+  }
+}

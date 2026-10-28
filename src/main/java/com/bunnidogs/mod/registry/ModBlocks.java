@@ -76,6 +76,7 @@ public final class ModBlocks {
     static {com.bunnidogs.mod.crown.LunarMasonry.register(BLOCKS);}
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, BunnidogsMod.MODID);
+    static {com.bunnidogs.mod.guild.GuildProjects.blocks(BLOCKS,BLOCK_ENTITIES);}
     public static final java.util.Map<String,DeferredBlock<PeltRugBlock>> PELT_RUGS = registerPeltRugs();
     private static java.util.Map<String,DeferredBlock<PeltRugBlock>> registerPeltRugs() {
         var rugs = new java.util.LinkedHashMap<String,DeferredBlock<PeltRugBlock>>();
@@ -84,6 +85,7 @@ public final class ModBlocks {
         return java.util.Collections.unmodifiableMap(rugs);
     }
 
+    public static final DeferredBlock<com.bunnidogs.mod.guild.GuildVeilBlock> GUILD_VEIL=BLOCKS.registerBlock("guild_veil",com.bunnidogs.mod.guild.GuildVeilBlock::new,p->p.strength(-1,3600000).noCollision().noOcclusion().noLootTable().lightLevel(s->12));
     public static final DeferredBlock<com.bunnidogs.mod.society.HearthTreeBlock> HEARTH_TREE=BLOCKS.registerBlock("hearth_tree",com.bunnidogs.mod.society.HearthTreeBlock::new,p->p.strength(3).sound(SoundType.WOOD).noOcclusion().lightLevel(state->state.getValue(com.bunnidogs.mod.society.HearthTreeBlock.STAGE)*3));
     public static final DeferredBlock<com.bunnidogs.mod.society.CoppiceBlock> GUAVA_COPPICE=BLOCKS.registerBlock("guava_coppice",com.bunnidogs.mod.society.CoppiceBlock::new,p->p.strength(.8F).randomTicks().noOcclusion().noCollision().sound(SoundType.AZALEA));
     public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<com.bunnidogs.mod.society.HearthTreeBlockEntity>> HEARTH_TREE_BE=BLOCK_ENTITIES.register("hearth_tree",()->new BlockEntityType<>(com.bunnidogs.mod.society.HearthTreeBlockEntity::new,HEARTH_TREE.get()));

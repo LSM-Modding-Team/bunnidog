@@ -33,6 +33,8 @@ public final class ModEntities {
                     .build(ResourceKey.create(Registries.ENTITY_TYPE,
                             Identifier.fromNamespaceAndPath(BunnidogsMod.MODID, "bunnidog"))));
 
+    public static final DeferredHolder<EntityType<?>,EntityType<com.bunnidogs.mod.guild.WarrenCitizen>> WARREN_CITIZEN=ENTITIES.register("warren_citizen",()->EntityType.Builder.<com.bunnidogs.mod.guild.WarrenCitizen>of(com.bunnidogs.mod.guild.WarrenCitizen::new,MobCategory.CREATURE).sized(.6F,.9F).clientTrackingRange(10).noLootTable().build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","warren_citizen"))));
+    public static final DeferredHolder<EntityType<?>,EntityType<com.bunnidogs.mod.guild.KennelWagon>> KENNEL_WAGON=ENTITIES.register("kennel_wagon",()->EntityType.Builder.<com.bunnidogs.mod.guild.KennelWagon>of(com.bunnidogs.mod.guild.KennelWagon::new,MobCategory.MISC).sized(2.3F,1.8F).clientTrackingRange(10).noLootTable().build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","kennel_wagon"))));
     public static final DeferredHolder<EntityType<?>, EntityType<Apex>> APEX =
             ENTITIES.register("apex", () -> EntityType.Builder.<Apex>of(Apex::new, MobCategory.MONSTER)
                     .sized(.6F, .9F).clientTrackingRange(12).notInPeaceful().noLootTable()
@@ -88,6 +90,8 @@ public final class ModEntities {
 
     /** Registered on the mod event bus from {@link BunnidogsMod}. */
     public static void registerAttributes(EntityAttributeCreationEvent event) {
+        event.put(WARREN_CITIZEN.get(),com.bunnidogs.mod.guild.WarrenCitizen.attributes().build());
+        event.put(KENNEL_WAGON.get(),com.bunnidogs.mod.guild.KennelWagon.attributes().build());
         event.put(BUNNIDOG.get(), Bunnidog.createAttributes().build());
         event.put(CROWNED_APEX.get(),com.bunnidogs.mod.entity.CrownedApex.createAttributes().build());
         GROUND_APEX.forEach(type->event.put(type.get(),Apex.createAttributes().build()));

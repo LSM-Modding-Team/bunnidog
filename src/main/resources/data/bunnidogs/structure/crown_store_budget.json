@@ -1,0 +1,127 @@
+{
+  "entry": {
+    "containers": 6,
+    "combined_budget": [
+      [
+        "bunnidogs:moonstone",
+        128,
+        256
+      ],
+      [
+        "bunnidogs:root_fibre",
+        64,
+        128
+      ],
+      [
+        "bunnidogs:raw_cinderite",
+        64,
+        64
+      ],
+      [
+        "minecraft:golden_apple",
+        8,
+        16
+      ],
+      [
+        "minecraft:enchanted_golden_apple",
+        1,
+        2
+      ],
+      [
+        "minecraft:totem_of_undying",
+        1,
+        3
+      ],
+      [
+        "minecraft:diamond",
+        8,
+        16
+      ],
+      [
+        "minecraft:netherite_ingot",
+        1,
+        3
+      ],
+      [
+        "minecraft:experience_bottle",
+        32,
+        64
+      ],
+      [
+        "minecraft:ender_pearl",
+        16,
+        32
+      ],
+      [
+        "minecraft:firework_rocket",
+        32,
+        64
+      ]
+    ]
+  },
+  "glass": {
+    "containers": 2,
+    "combined_budget": [
+      [
+        "bunnidogs:starlit_dust",
+        32,
+        64
+      ],
+      [
+        "bunnidogs:whisker",
+        16,
+        32
+      ],
+      [
+        "bunnidogs:cinderite_ingot",
+        64,
+        64
+      ]
+    ]
+  },
+  "brood": {
+    "containers": 8,
+    "combined_budget": [
+      [
+        "bunnidogs:root_fibre",
+        64,
+        128
+      ],
+      [
+        "bunnidogs:sinew",
+        32,
+        64
+      ],
+      [
+        "bunnidogs:moonstone",
+        128,
+        256
+      ],
+      [
+        "bunnidogs:cinderite_ingot",
+        64,
+        64
+      ]
+    ]
+  },
+  "furnace": {
+    "containers": 3,
+    "combined_budget": [
+      [
+        "bunnidogs:raw_cinderite",
+        128,
+        192
+      ],
+      [
+        "bunnidogs:moonstone",
+        128,
+        256
+      ],
+      [
+        "bunnidogs:starlit_dust",
+        32,
+        64
+      ]
+    ]
+  }
+}

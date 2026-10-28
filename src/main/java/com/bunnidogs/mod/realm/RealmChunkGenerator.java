@@ -24,12 +24,10 @@ public final class RealmChunkGenerator extends NoiseBasedChunkGenerator {
     @Override public ChunkGeneratorStructureState createState(HolderLookup<net.minecraft.world.level.levelgen.structure.StructureSet> sets,RandomState random,long seed) {terrain=new RealmTerrain(seed);return super.createState(sets,random,seed);}
     public BlockState state(int x,int y,int z,RealmTerrain.Column c) {
         boolean moon=y>=c.moonBottom() && y<=c.moonTop();boolean land=y>=c.landBottom() && y<=c.landTop();
-        boolean deck=c.bridge() && y>=c.roadY()-2 && y<=c.roadY();
-        if(!moon && !land && !deck)return Blocks.AIR.defaultBlockState();
         if(!moon && c.bridge()) {
-            if(y>c.roadY() && y<=c.roadY()+RealmTerrain.TUNNEL_HEIGHT)return Blocks.AIR.defaultBlockState();
-            if(deck)return (y==c.roadY() && Math.floorMod(x+z,16)==0 ? Blocks.SEA_LANTERN : Blocks.END_STONE_BRICKS).defaultBlockState();
+            var built=BridgeArchitecture.state(c,y-c.roadY());if(built!=null)return built;
         }
+        if(!moon && !land)return Blocks.AIR.defaultBlockState();
         if(!moon && terrain.hollow(x,y,z,c))return Blocks.AIR.defaultBlockState();
         long chance=Math.floorMod(terrain.hash(x,y,z),10000);
         if(chance<(moon ? 240 : 16))return ModBlocks.ASTRALITE_ORE.get().defaultBlockState();

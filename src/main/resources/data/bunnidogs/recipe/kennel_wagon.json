@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "RFR",
+    "SCS",
+    "RMR"
+  ],
+  "key": {
+    "R": "bunnidogs:structural_frame",
+    "F": "bunnidogs:fibre_roll",
+    "S": "bunnidogs:sinew_bale",
+    "C": "bunnidogs:chorus_heart",
+    "M": "bunnidogs:aerial_membrane"
+  },
+  "result": {
+    "id": "bunnidogs:kennel_wagon",
+    "count": 1
+  }
+}

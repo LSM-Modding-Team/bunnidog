@@ -33,8 +33,8 @@ public final class CrownedApex extends Apex {
     private int roster=1,cast,elapsed,recovery=60,index,biteWait;
     private boolean livingPack,aerialPack,bardingEra,activePack=true;
     private float linkBudget=360;
-    private Vec3 aim=Vec3.ZERO,origin=Vec3.ZERO,beamDirection=Vec3.ZERO;
-    private static final int[][] ROTATION={{1,2,1,4},{2,1,2,1},{2,1,4,1,2,4}};
+    private Vec3 aim=Vec3.ZERO,origin=Vec3.ZERO,beamDirection=Vec3.ZERO,blastA=Vec3.ZERO,blastB=Vec3.ZERO;
+    private static final int[][] ROTATION={{1,2,3,1,4},{2,1,2,1},{2,1,3,4,1,2,4}};
     public CrownedApex(EntityType<? extends CrownedApex> type,Level level) {super(type,level);}
     public static AttributeSupplier.Builder createAttributes() {return Apex.createAttributes().add(ModAttributes.CROWN_HEALTH,6000).add(Attributes.SCALE,4.6);}
     // Only this creature redirects native max-health lookups. Vanilla/global attribute bounds stay intact.
@@ -110,15 +110,22 @@ public final class CrownedApex extends Apex {
     }
     private boolean inside(Vec3 p,int margin) {return Math.abs(p.x-arena.getX()-.5)<=40+margin && Math.abs(p.z-arena.getZ()-.5)<=40+margin && p.y>=arena.getY()-3 && p.y<=arena.getY()+33;}
     private void changePhase(ServerLevel server,int value) {
+        for(var shot:server.getEntitiesOfClass(ApexFireball.class,getBoundingBox().inflate(90),e->e.getOwner()==this))shot.discard();
         cancel();cleanup(server,CrownEncounter.controller(this)==null ? null : CrownEncounter.controller(this).run(),Vec3.atCenterOf(arena));
-        entityData.set(PHASE,value);crownBar.setColor(value==3 ? BossEvent.BossBarColor.RED : BossEvent.BossBarColor.GREEN);
+        entityData.set(PHASE,value);index=0;crownBar.setColor(value==3 ? BossEvent.BossBarColor.RED : BossEvent.BossBarColor.GREEN);
         crownBar.setName(Component.translatable("entity.bunnidogs.crowned_apex.phase_"+value));recovery=70;applyGenetics();
         server.sendParticles(ParticleTypes.END_ROD,getX(),getEyeY(),getZ(),4,1,1,1,0);
         playSound(SoundEvents.WITHER_SPAWN,1,.65F);
     }
     public void beginCast(int choice,LivingEntity target) {
-        if(choice!=1 && choice!=2 && choice!=4 || !victim(target))return;
+        if(choice!=1 && choice!=2 && choice!=3 && choice!=4 || !victim(target))return;
         cast=choice;elapsed=0;origin=skills().mouth();aim=target.getEyePosition();beamDirection=aim.subtract(origin).normalize();entityData.set(WARNING,choice);getNavigation().stop();setDeltaMovement(Vec3.ZERO);
+        if(choice==4) {
+            var middle=Vec3.atBottomCenterOf(arena).add(0,1,0);
+            blastA=middle.add(Math.clamp(aim.x-middle.x,-23,23),0,Math.clamp(aim.z-middle.z,-23,23));
+            var away=blastA.subtract(middle).multiply(1,0,1);if(away.lengthSqr()<16)away=new Vec3(index%2==0 ? 1 : -1,0,0);
+            blastB=middle.subtract(away.normalize().scale(27));
+        }
         playSound(choice==2 ? SoundEvents.BEACON_POWER_SELECT : SoundEvents.RAVAGER_ROAR,.9F,choice==4 ? .6F : 1.2F);
     }
     public void cancel() {cast=0;elapsed=0;beamDirection=Vec3.ZERO;entityData.set(WARNING,0);mobility().stopLeap();setNoGravity(flying());}
@@ -128,9 +135,15 @@ public final class CrownedApex extends Apex {
             // A readable orange landing marker precedes a real colliding, terrain-clearing arc.
             if(elapsed<28) {
                 if(elapsed<=20)aim=target.getEyePosition();
-                if(elapsed%4==0)ring(server,aim.add(0,-target.getEyeHeight(),0),3,ParticleTypes.FLAME);
+                if(elapsed%4==0)ring(server,aim.add(0,-target.getEyeHeight(),0),4,ParticleTypes.FLAME);
             } else if(elapsed==28) {mobility().leap(target,aim.add(0,-target.getEyeHeight(),0),1.25);entityData.set(WARNING,0);}
-            if(elapsed>28 && !mobility().leaping())finish(22);
+            if(elapsed>28 && !mobility().leaping()) {
+                var source=damageSources().mobAttack(this);float impact=(float)getAttributeValue(Attributes.ATTACK_DAMAGE)*.65F;
+                for(var enemy:server.getEntitiesOfClass(LivingEntity.class,getBoundingBox().inflate(4,1,4),this::victim))
+                    if(distanceToSqr(enemy)<=16 && Math.abs(enemy.getY()-getY())<3 && hasLineOfSight(enemy) && enemy.hurtServer(server,source,impact))
+                        enemy.knockback(.8,getX()-enemy.getX(),getZ()-enemy.getZ(),source,impact);
+                finish(22);
+            }
         } else if(cast==2) {
             origin=skills().mouth();
             beamDirection=turnBeam(beamDirection,target.getEyePosition().subtract(origin),elapsed<=24 ? .055 : .012+(phase()-1)*.003);
@@ -140,11 +153,27 @@ public final class CrownedApex extends Apex {
                 boolean pulse=(elapsed-34)%10==0;
                 if(pulse || elapsed%4==0)beam(server,origin,beamDirection,pulse);
             } else finish(28);
+        } else if(cast==3) {
+            // Three separate aimed volleys, each locked eight ticks before release.
+            if(elapsed==16 || elapsed==32 || elapsed==48) {
+                aim=target.getEyePosition().add(target.getDeltaMovement().scale(5));
+                playSound(SoundEvents.BEACON_POWER_SELECT,.65F,1.4F);
+            }
+            if((elapsed<=24 || elapsed>=32 && elapsed<=40 || elapsed>=48 && elapsed<=56) && elapsed%4==0)
+                ring(server,aim.add(0,-target.getEyeHeight(),0),2,ParticleTypes.SOUL_FIRE_FLAME);
+            if(elapsed==24 || elapsed==40 || elapsed==56) {
+                for(int side:new int[]{-1,1}) {
+                    var shot=ModEntities.APEX_FIREBALL.get().create(server,EntitySpawnReason.TRIGGERED);if(shot==null)continue;
+                    var mouth=skills().mouth();var direction=aim.subtract(mouth).normalize().yRot(side*.09F);
+                    shot.setOwner(this);shot.setPos(mouth.add(direction.scale(1.4)));shot.setDeltaMovement(direction.scale(1.1));
+                    if(!server.addFreshEntity(shot))shot.discard();
+                }
+                playSound(SoundEvents.GHAST_SHOOT,.85F,.65F);
+            }
+            if(elapsed>=64)finish(24);
         } else if(cast==4) {
-            var c=Vec3.atBottomCenterOf(arena).add(0,1,0);
-            var left=c.add(index%4==0 ? 22 : 0,0,index%4==0 ? 0 : 22);var right=c.add(index%4==0 ? -22 : 0,0,index%4==0 ? 0 : -22);
-            if(elapsed<=60 && elapsed%4==0) {ring(server,left,19,ParticleTypes.FLAME);ring(server,right,19,ParticleTypes.FLAME);}
-            if(elapsed==64) {ApexSkills.explosion(server,this,left,9,false);ApexSkills.explosion(server,this,right,9,false);}
+            if(elapsed<=60 && elapsed%4==0) {ring(server,blastA,19,ParticleTypes.FLAME);ring(server,blastB,19,ParticleTypes.FLAME);}
+            if(elapsed==64) {ApexSkills.explosion(server,this,blastA,9,false);ApexSkills.explosion(server,this,blastB,9,false);}
             if(elapsed>=68)finish(32);
         }
     }
@@ -230,10 +259,10 @@ public final class CrownedApex extends Apex {
         }
     }
     @Override public void die(DamageSource source) {super.die(source);if(dead) {crownBar.removeAllPlayers();cancel();}}
-    @Override public void addAdditionalSaveData(ValueOutput out) {super.addAdditionalSaveData(out);out.store("CrownArena",BlockPos.CODEC,arena);out.putInt("CrownRoster",roster);out.putInt("CrownPhase",phase());out.putBoolean("CrownBardingEra",bardingEra);out.putBoolean("CrownPack",livingPack);out.putBoolean("CrownAerialPack",aerialPack);out.putBoolean("CrownActivePack",activePack);out.putFloat("CrownLinks",linkBudget);}
+    @Override public void addAdditionalSaveData(ValueOutput out) {super.addAdditionalSaveData(out);out.store("CrownArena",BlockPos.CODEC,arena);out.putInt("CrownRoster",roster);out.putInt("CrownAttackIndex",index);out.putInt("CrownPhase",phase());out.putBoolean("CrownBardingEra",bardingEra);out.putBoolean("CrownPack",livingPack);out.putBoolean("CrownAerialPack",aerialPack);out.putBoolean("CrownActivePack",activePack);out.putFloat("CrownLinks",linkBudget);}
     @Override public void readAdditionalSaveData(ValueInput in) {
         super.readAdditionalSaveData(in);bardingEra=in.getBooleanOr("CrownBardingEra",false);arena=in.read("CrownArena",BlockPos.CODEC).orElse(blockPosition().below());roster=Math.clamp(in.getIntOr("CrownRoster",1),1,4);
-        entityData.set(PHASE,Math.clamp(in.getIntOr("CrownPhase",1),1,3));livingPack=in.getBooleanOr("CrownPack",false);aerialPack=in.getBooleanOr("CrownAerialPack",false);activePack=in.getBooleanOr("CrownActivePack",false);linkBudget=Math.clamp(in.getFloatOr("CrownLinks",0),0,360);cancel();recovery=60;applyGenetics();
+        entityData.set(PHASE,Math.clamp(in.getIntOr("CrownPhase",1),1,3));index=Math.max(0,in.getIntOr("CrownAttackIndex",0));livingPack=in.getBooleanOr("CrownPack",false);aerialPack=in.getBooleanOr("CrownAerialPack",false);activePack=in.getBooleanOr("CrownActivePack",false);linkBudget=Math.clamp(in.getFloatOr("CrownLinks",0),0,360);cancel();recovery=60;applyGenetics();
         crownBar.setColor(phase()==3 ? BossEvent.BossBarColor.RED : phase()==2 ? BossEvent.BossBarColor.GREEN : BossEvent.BossBarColor.PURPLE);
         crownBar.setName(Component.translatable("entity.bunnidogs.crowned_apex.phase_"+phase()));
     }

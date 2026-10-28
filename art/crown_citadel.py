@@ -405,7 +405,7 @@ def build():
   put(20,-7,z,'blast_furnace',facing='west',lit=False)
  box(-19,-7,-108,19,-7,-107,'copper_grate',waterlogged=False)
  box(-12,22,-97,12,22,-95,RIB)
- for x in [-3,3]:box(x,11,-96,x,21,-96,'chain',axis='y',waterlogged=False)
+ for x in [-3,3]:box(x,11,-96,x,21,-96,'iron_chain',axis='y',waterlogged=False)
  for yy,r in enumerate([1,2,3,3,3,2,1],4):
   for x in range(-r,r+1):
    for dz in range(-r,r+1):
@@ -441,6 +441,24 @@ ENCOUNTERS=[
  {'wing':3,'seal':[0,1,50],'floor':[0,0,0],'bounds':[-43,-4,-43,43,33,43], 'patrol':[0,1,100],'patrolBounds':[-35,0,91,35,55,119]}]
 GATES=[{'kind':0,'box':[-3,1,46,3,8,46]},{'kind':1,'box':[29,1,67,33,5,67]},{'kind':2,'box':[-33,1,67,-29,5,67]}]
 SOCKETS=[[-6,4,46],[6,4,46],[31,3,68]]
+def support_lights():
+ """Resolve supports after roofs/galleries have finished overwriting their modules."""
+ fixed=0
+ for (x,y,z),(name,props,tag) in list(C.items()):
+  if name!='minecraft:lantern':continue
+  hanging=props.get('hanging')=='true'
+  if hanging:
+   anchor=next((yy for yy in range(y+1,71) if C.get((x,yy,z),(AIR,{},None))[0] not in [AIR,'minecraft:iron_chain','minecraft:lantern']),None)
+   if anchor is not None:
+    for yy in range(y+1,anchor):put(x,yy,z,'iron_chain',axis='y',waterlogged=False);fixed+=1
+    continue
+  # Exterior stand lights have a real post, with a compact pedestal below the lamp.
+  ground=next((yy for yy in range(y-1,-13,-1) if C.get((x,yy,z),(AIR,{},None))[0]!=AIR),None)
+  if ground is None:raise ValueError(('Unsupported lantern',x,y,z))
+  for yy in range(ground+1,y):put(x,yy,z,'dark_oak_fence',east=False,west=False,north=False,south=False,waterlogged=False);fixed+=1
+  put(x,y,z,'lantern',hanging=False,waterlogged=False)
+ print('Lantern support cells:',fixed)
+
 def main():
  build()
  # Six reward niches per controller, reserved empty. Counters populate them only after victory.
@@ -455,6 +473,9 @@ def main():
    put(xx,yy-1,zz,PALE);clear(xx,yy,zz,xx,yy+2,zz)
   # Explicit floor-relative legal actor feet; flight offsets remain the accepted native behavior.
   fx,fy,fz=e['floor'];e['pads']=[[fx+dx,fy+1,fz+dz] for dx,dz in [(-7,7),(7,-7),(7,7),(-7,-7),(0,-10),(10,0)]]
+ support_lights()
+ from guild_loot import distribute
+ distribute(C,string)
  # Preserve authored geometry while replacing every structural palette entry.
  from gen_lunar_forge import MAPPING
  for pos,(name,props,tag) in list(C.items()):

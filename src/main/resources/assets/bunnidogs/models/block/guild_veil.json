@@ -1,0 +1,30 @@
+{
+  "parent": "minecraft:block/block",
+  "render_type": "minecraft:translucent",
+  "textures": {
+    "portal": "bunnidogs:block/guild_veil",
+    "particle": "bunnidogs:block/guild_veil"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        7.95
+      ],
+      "to": [
+        16,
+        16,
+        8.05
+      ],
+      "faces": {
+        "north": {
+          "texture": "#portal"
+        },
+        "south": {
+          "texture": "#portal"
+        }
+      }
+    }
+  ]
+}

@@ -13,20 +13,8 @@ def unlock(name,item):write(D,'advancement/recipes/lunar/'+name+'.json',{'parent
 MAPPING={'bunnidogs:rootstone':'lunar_rootstone','bunnidogs:crown_rootlight':'lunar_rootlight','minecraft:tuff_bricks':'lunar_bricks','minecraft:deepslate_tiles':'lunar_tiles','minecraft:calcite':'pale_lunar_tiles','minecraft:dark_oak_planks':'cinderroot_beams','minecraft:polished_basalt':'lunar_tiles','minecraft:mud_bricks':'lunar_bricks','minecraft:deepslate_bricks':'lunar_tiles','minecraft:dark_oak_log':'cinderroot_beams','minecraft:raw_copper_block':'cinderroot_beams','minecraft:cut_copper':'cinderroot_beams','minecraft:copper_grate':'runic_lunar_glass','minecraft:tuff_brick_stairs':'lunar_bricks_stairs','minecraft:dark_oak_stairs':'lunar_tiles_stairs','minecraft:dark_oak_fence':'cinderroot_fence'}
 for c in ['light_gray','cyan','light_blue','orange']:MAPPING['minecraft:'+c+'_stained_glass']='runic_lunar_glass'
 def supplies():
- def pool(item,lo,hi):
-  funcs=[{'function':'minecraft:set_count','count':{'type':'minecraft:uniform','min':lo,'max':hi}}]
-  if item=='minecraft:firework_rocket':funcs.insert(0,{'function':'minecraft:set_components','components':{'minecraft:fireworks':{'flight_duration':1,'explosions':[]}}})
-  return {'rolls':1,'entries':[{'type':'minecraft:item','name':item,'functions':funcs}]}
- tables={
- 'crown_supplies':[('minecraft:golden_apple',64,128),('minecraft:enchanted_golden_apple',16,32),('minecraft:experience_bottle',128,256),('minecraft:ender_pearl',32,64),('minecraft:firework_rocket',64,128),('minecraft:diamond_block',4,8),('minecraft:netherite_ingot',4,8),('minecraft:totem_of_undying',2,3),('minecraft:amethyst_block',64,128),('minecraft:gunpowder',128,256),('minecraft:fire_charge',32,64),('minecraft:copper_block',32,64),('minecraft:gold_block',16,32)],
- 'crown_wing':[('minecraft:golden_apple',128,128),('minecraft:diamond_block',24,32),('minecraft:netherite_ingot',32,48),('minecraft:enchanted_golden_apple',48,64),('minecraft:totem_of_undying',4,6),('minecraft:experience_bottle',256,256),('minecraft:amethyst_block',128,128),('minecraft:gunpowder',384,384),('minecraft:fire_charge',128,128),('minecraft:copper_block',64,64),('minecraft:gold_block',64,64)],
- 'crown_vault':[('minecraft:diamond_block',64,64),('minecraft:netherite_block',32,48),('minecraft:enchanted_golden_apple',128,128),('minecraft:totem_of_undying',6,8),('minecraft:experience_bottle',256,256),('minecraft:amethyst_block',192,192),('minecraft:gunpowder',256,256),('minecraft:copper_block',64,64),('minecraft:gold_block',64,64),('minecraft:fire_charge',128,128)]}
- for name,stock in tables.items():
-  slots=sum((hi+63)//64 if item not in ['minecraft:totem_of_undying'] else hi for item,lo,hi in stock)
-  # Pearls stack to sixteen, unlike the other bulk materials.
-  slots+=sum((hi+15)//16-(hi+63)//64 for item,lo,hi in stock if item=='minecraft:ender_pearl')
-  assert slots<=27,(name,slots)
-  write(D,'loot_table/chests/'+name+'.json',{'type':'minecraft:chest','random_sequence':'bunnidogs:chests/'+name,'pools':[pool(*s) for s in stock]})
+ from guild_loot import supply_tables
+ supply_tables()
 def generate():
  names={'astralite_concentrate':('Astralite Concentrate','Concentrado de astralita'),'cinderite_billet':('Cinderite Billet','Tocho de cinerita'),'compressed_moonstone':('Compressed Moonstone','Roca lunar comprimida'),'lunar_binder':('Lunar Binder','Aglutinante lunar'),'astralite_bloom':('Astralite Bloom','Masa de astralita'),'astralite_plating':('Astralite Plating','Placas de astralita')}
  for out,source in [('astralite_concentrate','astralite_shard'),('cinderite_billet','cinderite_ingot'),('compressed_moonstone','moonstone')]:recipe(out,['XXX','XXX','XXX'],{'X':'bunnidogs:'+source})

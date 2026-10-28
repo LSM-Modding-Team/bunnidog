@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "XXX",
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": "bunnidogs:starlit_dust"
+  },
+  "result": {
+    "id": "bunnidogs:dust_pouch",
+    "count": 1
+  }
+}

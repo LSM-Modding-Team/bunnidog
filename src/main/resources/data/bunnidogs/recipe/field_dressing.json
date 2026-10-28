@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BBB",
+    "SDS",
+    "BHD"
+  ],
+  "key": {
+    "B": "bunnidogs:cinderite_billet",
+    "S": "bunnidogs:sinew_bale",
+    "D": "bunnidogs:dust_pouch",
+    "H": "bunnidogs:heart_spool"
+  },
+  "result": {
+    "id": "bunnidogs:field_dressing",
+    "count": 4
+  }
+}

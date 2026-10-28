@@ -9,6 +9,11 @@ a well-equipped vanilla endgame player survives only minutes. Rewards now suppor
 substantial power progression. Enemy combat values are unchanged. This revision
 supersedes the initial loot/equipment numbers in GREAT_WARREN_SPECS.md.
 
+The later [Lantern Warren/material update](LANTERN_WARRENS_AND_GUILD_PROJECTS.md)
+adds paid project stations, real kennel freight and finite carried reservoirs.
+It also replaces excessive Crown vanilla wealth with room-specific bulk mod
+materials; ordinary ruins and operator kit budgets are independent.
+
 ## Current follow-up: selectable power and unrestricted scaling levels
 
 Sneak-use cycles persistent item power **1–5**, with a brief action confirmation
@@ -101,6 +106,8 @@ crafting recipe is replaced. It now gives **eight armor points, three toughness*
 native Protection/durability enchantment support, normal gliding and 864 durability.
 Its existing Prism Cell climbing bursts remain. It occupies the chest slot and
 therefore trades the fourth Heartbound health/recovery bonus for flight.
+An equipped supported wing burst can also spend the same exact units from a
+Prism Battery. Battery and plain-Cell activation share the native burst cooldown.
 
 ## Weapons and rescue
 
@@ -135,6 +142,14 @@ also pause. Other players, pets, loot and builds are not exempt from the blast;
 this is a situational rescue, not a safe base accessory. Native explosion
 cancellation/protection still applies. Totem heart repayment remains intact.
 
+**Homeward Totem:** a separate peaceful-town reward, bought from a Waykeeper
+for an ordinary Totem and 48 Astralite Shards. Its native successful pop attempts
+rescue to its actual bound Lantern Warren, including across dimensions. Missing
+or obstructed destinations preserve ordinary death protection. Holding it and
+directly using a town gate changes its binding; walking into the portal travels
+normally. It does not also trigger a Cataclysm explosion. See the guild spec for
+finite trader stock, network discovery and native-pop evidence.
+
 ## Functional equipment
 
 **Gene Siphon:** Hearts, Lens, Spools and Marrow with netherite and a vanilla
@@ -144,6 +159,16 @@ paying one Prism Cell/one durability, and inserts a seed into the **real vanilla
 BundleContents** inventory. Inventory insertion/extraction, grid tooltip,
 selection and fullness follow BundleItem; crouched world use retains bundle
 unloading. It never equips itself as an animal's cargo bundle.
+Paid capture can draw the same one Cell from a Prism Battery; peaceful Warren
+Elders cannot be captured.
+
+**Bulk supplies:** a Prism Battery holds 512 units and refills 256 for 18
+Cinderite plus 36 Dust. A Volatile Magazine holds 128 and refills 64 for 18 each
+Cinderite/Fibre/Dust plus a Volatile Heart. Shells craft empty, reject partial
+over-capacity refills and save native per-item charges. Weapons spend ordinary
+ammo first, then reservoirs, preserving all exact costs/wear. Concord Field
+Dressings fuel the Standard one-for-one alongside Spools and cannot become
+organs or hunt remnants. Exact capital bills are in the guild spec.
 
 Each captured seed hatches **one exact-genome, exact-stat pup**, with no extra
 litter, mutation or quality/Fortune drift. The appended `captured` seed marker

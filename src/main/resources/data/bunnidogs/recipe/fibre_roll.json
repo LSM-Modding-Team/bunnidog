@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "XXX",
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": "bunnidogs:root_fibre"
+  },
+  "result": {
+    "id": "bunnidogs:fibre_roll",
+    "count": 1
+  }
+}

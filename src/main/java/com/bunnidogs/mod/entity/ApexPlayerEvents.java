@@ -13,7 +13,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 /** Successful native totems/deaths, rather than item possession, repay heart loss. */
 public final class ApexPlayerEvents {
     private ApexPlayerEvents() {}
-    private record Totem(Item item,int before) {}
+    private record Totem(Item item,int before,net.minecraft.core.GlobalPos guild) {}
     private static final Map<UUID,Totem> TOTEMS=new HashMap<>();
     public static void login(net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent event) {
         if(event.getEntity() instanceof ServerPlayer p)LifebinderMarks.get(p.level()).sync(p);
@@ -22,7 +22,7 @@ public final class ApexPlayerEvents {
         if(event.getEntity() instanceof ServerPlayer p)LifebinderMarks.get(p.level()).sync(p);
     }
     public static void totem(LivingUseTotemEvent event) {
-        if(event.getEntity() instanceof ServerPlayer p)TOTEMS.putIfAbsent(p.getUUID(),new Totem(event.getTotem().getItem(),p.getStats().getValue(Stats.ITEM_USED.get(event.getTotem().getItem()))));
+        if(event.getEntity() instanceof ServerPlayer p)TOTEMS.putIfAbsent(p.getUUID(),new Totem(event.getTotem().getItem(),p.getStats().getValue(Stats.ITEM_USED.get(event.getTotem().getItem())),event.getTotem().get(com.bunnidogs.mod.registry.ModItems.GUILD_HOME.get())));
     }
     public static void death(LivingDeathEvent event) {
         if(!(event.getEntity().level() instanceof net.minecraft.server.level.ServerLevel level))return;
@@ -37,6 +37,7 @@ public final class ApexPlayerEvents {
             int used=p.getStats().getValue(Stats.ITEM_USED.get(pending.item))-pending.before;
             if(used>0) {
                 LifebinderMarks.get(p.level()).restore(p,3*used);
+                if(pending.item==com.bunnidogs.mod.registry.ModItems.HOMEWARD_TOTEM.get() && pending.guild!=null)com.bunnidogs.mod.guild.LanternTowns.travel(p,pending.guild,true);
                 if(pending.item==com.bunnidogs.mod.registry.ModItems.CATACLYSM_TOTEM.get())com.bunnidogs.mod.expedition.ExpeditionGear.detonate(p);
             }
         }

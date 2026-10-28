@@ -76,6 +76,20 @@ public final class CrownCitadelPlacement {
             if(!level.hasChunkAt(origin))continue;
             var template=level.getStructureManager().get(Identifier.fromNamespaceAndPath("bunnidogs",tile.name())).orElseThrow();
             var settings=new StructurePlaceSettings();
+            // Add the missing physical supports to original lamps, preserving removed lamps and player edits.
+            for(var info:template.filterBlocks(origin,settings,Blocks.IRON_CHAIN)) {
+                var p=info.pos();if(!level.hasChunkAt(p) || !level.getBlockState(p).isAir())continue;
+                boolean lamp=false,anchor=false;
+                for(int d=1;d<=64;d++) {var q=p.below(d);if(!level.hasChunkAt(q))break;var state=level.getBlockState(q);
+                    if(state.is(Blocks.LANTERN) && state.getValue(net.minecraft.world.level.block.LanternBlock.HANGING)) {lamp=true;break;}
+                    if(!state.isAir() && !state.is(Blocks.IRON_CHAIN))break;
+                }
+                if(!lamp)continue;
+                for(int d=1;d<=64;d++) {var q=p.above(d);if(!level.hasChunkAt(q))break;var state=level.getBlockState(q);
+                    if(state.isAir() || state.is(Blocks.IRON_CHAIN))continue;anchor=state.isFaceSturdy(level,q,net.minecraft.core.Direction.DOWN);break;
+                }
+                if(anchor && level.setBlock(p,info.state(),2))count++;
+            }
             for(var info:template.filterBlocks(origin,settings,Blocks.AIR)) {
                 var p=info.pos();if(!level.hasChunkAt(p))continue;
                 var old=level.getBlockState(p);

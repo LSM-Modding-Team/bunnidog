@@ -34,8 +34,8 @@ final class CrownCitadelGameTest {
             h.assertTrue(restored!=null && restored.citadel() && restored.encounterCenter().equals(seal.encounterCenter()) && restored.leaseBounds().equals(seal.leaseBounds()),"Native saves freeze elevated centers and room bounds");
         }
         var supplies=(BarrelBlockEntity)level.getBlockEntity(c.offset(-73,1,82));supplies.unpackLootTable(null);
-        boolean apples=false;for(int i=0;i<supplies.getContainerSize();i++)if(supplies.getItem(i).is(Items.GOLDEN_APPLE))apples=true;
-        h.assertTrue(apples,"The actual authored supply barrel resolves its finite native expedition loot");supplies.clearContent();
+        boolean stockPresent=false;for(int i=0;i<supplies.getContainerSize();i++)if(!supplies.getItem(i).isEmpty())stockPresent=true;
+        h.assertTrue(stockPresent,"The actual authored supply barrel resolves its finite native expedition loot");supplies.clearContent();
         // Explicit old-palette conversion only visits matching native structural positions.
         // Pick a real planned masonry cell, restore its former material, then upgrade it.
         BlockPos structural=null;

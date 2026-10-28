@@ -15,6 +15,7 @@ public final class GreatWarren {
     public static final ResourceKey<Level> LEVEL=ResourceKey.create(Registries.DIMENSION,Identifier.fromNamespaceAndPath("bunnidogs","great_warren"));
     public static boolean isRealm(Level level) {return level.dimension().equals(LEVEL);}
     public static boolean warded(ServerLevel level,BlockPos pos) {
+        if(com.bunnidogs.mod.guild.LanternTowns.sheltered(level,pos))return true;
         return level.getPoiManager().findAll(type->type.is(ModPoi.WARREN_WARD.getKey()),
                 at->level.hasChunkAt(at) && at.distSqr(pos)<=24*24 &&
                         (level.getBlockState(at).is(ModBlocks.WARREN_WARD.get()) || level.getBlockState(at).is(ModBlocks.WARREN_ANCHOR.get()) && level.getBlockState(at).getValue(WarrenAnchorBlock.ACTIVE)),

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BCB",
+    "R R",
+    "BCB"
+  ],
+  "key": {
+    "B": "bunnidogs:cinderite_billet",
+    "C": "bunnidogs:compressed_moonstone",
+    "R": "bunnidogs:fibre_roll"
+  },
+  "result": {
+    "id": "bunnidogs:structural_frame",
+    "count": 1
+  }
+}

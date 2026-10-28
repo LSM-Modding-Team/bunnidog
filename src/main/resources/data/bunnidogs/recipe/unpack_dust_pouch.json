@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "bunnidogs:dust_pouch"
+  ],
+  "result": {
+    "id": "bunnidogs:starlit_dust",
+    "count": 9
+  }
+}

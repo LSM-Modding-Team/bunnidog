@@ -25,9 +25,9 @@ def nbt(data):
   raise ValueError(t)
  assert read(1)==b'\x0a';utf();return val(10)
 def prepare():
- meta=json.loads((ROOT/'src/main/resources/data/bunnidogs/structure/crown_citadel.json').read_text());cells={};states=[];ids={};hashes={}
+ meta=json.loads(Path(os.environ.get('STRUCTURE_META',str(ROOT/'src/main/resources/data/bunnidogs/structure/crown_citadel.json'))).read_text());cells={};states=[];ids={};hashes={}
  for ox,oy,oz,name in meta['tiles']:
-  path=ROOT/'src/main/resources/data/bunnidogs/structure'/f'{name}.nbt';raw=path.read_bytes();hashes[name]=hashlib.sha256(raw).hexdigest();t=nbt(gzip.decompress(raw))
+  path=Path(os.environ.get('STRUCTURE_TEMPLATE_ROOT',str(ROOT/'src/main/resources/data/bunnidogs/structure')))/f'{name}.nbt';raw=path.read_bytes();hashes[name]=hashlib.sha256(raw).hexdigest();t=nbt(gzip.decompress(raw))
   palette=[]
   for s in t['palette']:
    key=json.dumps(s,sort_keys=True)
@@ -36,6 +36,7 @@ def prepare():
   for b in t['blocks']:
    x,y,z=b['pos'];sid=palette[b['state']]
    if states[sid]['Name']!='minecraft:air':cells[x+ox,y+oy,z+oz]=sid
+ if os.environ.get('STRUCTURE_MAX_Y'):cells={p:v for p,v in cells.items() if p[1]<=int(os.environ['STRUCTURE_MAX_Y'])}
  # Textures from the resolved client and mod resources. Use the native texture dictionary,
  # with explicit face choices for common architectural blocks; nearest sampling preserves pixels.
  candidates=[Path(os.environ.get('BUNNIDOG_CLIENT_JAR','/nonexistent')),ROOT.parent/'.bunnidog-setup/gradle/caches/neoformruntime/artifacts/minecraft_26.2_client.jar',Path(os.environ.get('GRADLE_USER_HOME',str(Path.home()/'.gradle')))/'caches/neoformruntime/artifacts/minecraft_26.2_client.jar']
@@ -45,6 +46,8 @@ def prepare():
  mats={};verts={};faces={};uvs={};lights=[]
  def texture(name,face):
   namespace,b=name.split(':');suffix=''
+  if b=='wheat':b='wheat_stage7'
+  if b.endswith('_bed'):b='red_wool'
   if b in ['grass_block','hay_block','bookshelf','barrel','lectern','crafting_table','smithing_table','furnace','blast_furnace','chest','ender_chest']:
    if b=='hay_block':b+='_'+('top' if face in [4,5] else 'side')
    elif b=='bookshelf':b='dark_oak_planks' if face in [4,5] else b
@@ -54,7 +57,7 @@ def prepare():
   for end in ['_stairs','_slab','_fence']:
    if b.endswith(end):
     b=b[:-len(end)];b=({'tuff_brick':'tuff_bricks','dark_oak':'dark_oak_planks'}).get(b,b)
-  if b=='chain':b='iron_block'
+  if b in ['chain','iron_chain']:b='iron_block'
   if b=='lantern':b='glowstone'
   if b=='anvil':b='anvil_top' if face==5 else 'anvil'
   key=f'{namespace}:{b}'
@@ -67,13 +70,13 @@ def prepare():
   else:
    try:dest.write_bytes(client.read(rel))
    except KeyError:dest.write_bytes(client.read('assets/minecraft/textures/block/tuff_bricks.png'))
-  mats[key]={'texture':str(dest),'glass':'glass' in name,'emission':any(s in name for s in ['lantern','froglight','shroomlight','rootlight'])}
+  mats[key]={'texture':str(dest),'glass':'glass' in name,'cutout':name=='minecraft:wheat','emission':any(s in name for s in ['lantern','froglight','shroomlight','rootlight','guild_veil'])}
   return key
  # Minecraft coordinates converted to Blender x,-z,y; UVs consistently one native block.
  facepoints=[[(0,0,0),(0,1,0),(0,1,1),(0,0,1)],[(1,0,1),(1,1,1),(1,1,0),(1,0,0)],[(0,0,0),(0,0,1),(1,0,1),(1,0,0)],[(1,1,0),(1,1,1),(0,1,1),(0,1,0)],[(0,1,0),(0,0,0),(1,0,0),(1,1,0)],[(0,0,1),(0,1,1),(1,1,1),(1,0,1)]]
  # Here facepoints use x,z,y; neighbors match native x,y,z.
  neighbors=[(-1,0,0),(1,0,0),(0,0,-1),(0,0,1),(0,-1,0),(0,1,0)]
- def solid(s):return not any(k in s['Name'] for k in ['fence','stairs','slab','chain','lantern','anvil','lectern','glass'])
+ def solid(s):return not any(k in s['Name'] for k in ['fence','stairs','slab','chain','lantern','anvil','lectern','glass','wheat','bed','armoury','bench','hearth','aerie','guild_heart','guild_gate'])
  def cube(pos,state,lo=(0,0,0),hi=(1,1,1),cull=True):
   x,y,z=pos;name=state['Name']
   for f,fp in enumerate(facepoints):
@@ -84,15 +87,29 @@ def prepare():
    ff.append((base,base+1,base+2,base+3))
  for pos,sid in cells.items():
   state=states[sid];name=state['Name'];props=state.get('Properties',{})
-  if 'fence' in name:
+  model_path=ROOT/'src/main/resources/assets/bunnidogs/models/block'/f"{name.split(':')[-1]}.json"
+  if name.startswith('bunnidogs:') and name.split(':')[-1] in ['pack_armoury','resonance_bench','nursery_hearth','bastion_heart','launch_aerie','guild_heart','guild_gate']:
+   model=json.loads(model_path.read_text())
+   for element in model.get('elements',[]):
+    alias=next(iter(element['faces'].values()))['texture'].lstrip('#');tex=model['textures'][alias]
+    part_state={'Name':tex.split(':')[0]+':'+tex.split('/')[-1]}
+    cube(pos,part_state,tuple(v/16 for v in element['from']),tuple(v/16 for v in element['to']),False)
+  elif name=='minecraft:wheat':
+   cube(pos,state,(.49,0,0),(.51,1,1),False);cube(pos,state,(0,0,.49),(1,1,.51),False)
+  elif name.endswith('_bed'):
+   cube(pos,state,(0,.18,0),(1,.56,1),False)
+  elif 'fence' in name:
    cube(pos,state,(.375,0,.375),(.625,1,.625),False)
    if props.get('north')=='true' or props.get('south')=='true':cube(pos,state,(.43,.4,0),(.57,.875,1),False)
    if props.get('east')=='true' or props.get('west')=='true':cube(pos,state,(0,.4,.43),(1,.875,.57),False)
+  elif name.endswith('guild_veil'):cube(pos,state,(0,0,.495),(1,1,.505),False)
   elif name.endswith('chain'):cube(pos,state,(.46,0,.46),(.54,1,.54),False)
   elif name.endswith('lantern'):
    cube(pos,state,(.3,0,.3),(.7,.65,.7),False);lights.append((pos[0]+.5,-pos[2]-.5,pos[1]+.3))
   elif name.endswith('_trapdoor'):
    cube(pos,state,(0,0,0),(1,.1875,1),False)
+  elif name.endswith('_slab'):
+   cube(pos,state,(0,.5 if props.get('type')=='top' else 0,0),(1,1 if props.get('type') in ['top','double'] else .5,1),False)
   elif name.endswith('_stairs'):
    cube(pos,state,(0,0,0),(1,.5,1),False);lo=[0,.5,0];hi=[1,1,1];f=props.get('facing')
    if f=='north':hi[2]=.5
@@ -112,6 +129,8 @@ def blender():
  bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
  for key,data in p['materials'].items():
   m=bpy.data.materials.new(key);m.use_nodes=True;n=m.node_tree.nodes;bs=n.get('Principled BSDF');im=n.new('ShaderNodeTexImage');im.image=bpy.data.images.load(data['texture']);im.interpolation='Closest';m.node_tree.links.new(im.outputs['Color'],bs.inputs['Base Color']);bs.inputs['Roughness'].default_value=.8
+  if data.get('cutout'):
+   m.node_tree.links.new(im.outputs['Alpha'],bs.inputs['Alpha']);m.blend_method='CLIP'
   if data['glass']:
    bs.inputs['Alpha'].default_value=.24;m.blend_method='BLEND';bs.inputs['Transmission Weight'].default_value=.4
   m.node_tree.links.new(im.outputs['Color'],bs.inputs['Emission Color']);bs.inputs['Emission Strength'].default_value=.65 if data['emission'] else .16
@@ -128,14 +147,16 @@ def blender():
  scene.view_settings.view_transform='Standard';scene.view_settings.look='Medium High Contrast' if bpy.app.version<(4,0,0) else 'Medium High Contrast';scene.view_settings.exposure=0;scene.view_settings.gamma=1
  scene.render.resolution_percentage=100;scene.render.image_settings.file_format='PNG'
  camdata=bpy.data.cameras.new('architectural_review');cam=bpy.data.objects.new('camera',camdata);bpy.context.collection.objects.link(cam);scene.camera=cam
- out=ROOT/'art/citadel';out.mkdir(exist_ok=True)
+ out=Path(os.environ.get('STRUCTURE_RENDER_DIR',str(ROOT/'art/citadel')));out.mkdir(exist_ok=True)
  views=[('exterior',(200,-260,183),(0,0,15),42,1280,960),('gatehouse',(0,-141,5),(0,-91,12),24,1200,780),('courtyard',(-16,-88,3),(0,-44,16),20,1200,780),('library',(-91,-34,2.62),(-78,-15,9),20,1200,780),('stair_gallery',(-58,-36,4.62),(-61,-11,11),20,1200,780),('observatory',(-83,0,11),(-83,34,23),20,1200,780),('nurseries',(80,-29,2.62),(88,11,8),20,1200,780),('nursery_room',(72,50,6.62),(72,31,8),20,1200,780),('furnace',(17,78,-5),(-8,94,5),20,1200,780),('crown_hall',(-28,-35,2.62),(0,0,19),20,1200,780)]
+ if os.environ.get('STRUCTURE_VIEWS'):views=json.loads(Path(os.environ['STRUCTURE_VIEWS']).read_text())
  requested=[a for a in sys.argv[sys.argv.index('--')+1:] if a!='--blender'] if '--' in sys.argv else []
  for name,pos,target,lens,w,h in views:
   if requested and name not in requested:continue
   cam.location=pos;cam.rotation_euler=(Vector(target)-cam.location).to_track_quat('-Z','Y').to_euler();camdata.lens=lens;camdata.clip_end=700;camdata.clip_start=.08;scene.render.resolution_x=w;scene.render.resolution_y=h;scene.render.filepath=str(out/(name+'.png'));bpy.ops.render.render(write_still=True)
  (out/'provenance.json').write_bytes((TMP/'provenance.json').read_bytes())
 def contact_sheet():
+ if os.environ.get('STRUCTURE_META'):return
  from PIL import Image,ImageDraw,ImageFont,ImageOps
  out=ROOT/'art/citadel';sheet=Image.new('RGB',(2000,2110),'#19262c');draw=ImageDraw.Draw(sheet)
  try:font=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',24)

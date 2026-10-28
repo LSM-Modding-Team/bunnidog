@@ -97,6 +97,10 @@ public final class ModItems {
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<String>> FARM_ORIGIN=COMPONENTS.registerComponentType("farm_origin",b->b.persistent(Codec.string(0,36)).networkSynchronized(ByteBufCodecs.stringUtf8(36)));
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<String>> ROUTE_NOTES_DATA=COMPONENTS.registerComponentType("route_notes",b->b.persistent(Codec.string(0,32768)).networkSynchronized(ByteBufCodecs.stringUtf8(32768)));
     public static final DeferredItem<net.minecraft.world.item.WrittenBookItem> ROUTE_NOTES=ITEMS.registerItem("route_notes",net.minecraft.world.item.WrittenBookItem::new,p->p.stacksTo(1).component(net.minecraft.core.component.DataComponents.WRITTEN_BOOK_CONTENT,net.minecraft.world.item.component.WrittenBookContent.EMPTY));
+    public static final DeferredHolder<DataComponentType<?>,DataComponentType<Integer>> AMMO_UNITS=COMPONENTS.registerComponentType("ammo_units",b->b.persistent(Codec.intRange(0,512)).networkSynchronized(ByteBufCodecs.VAR_INT));
+    public static final DeferredHolder<DataComponentType<?>,DataComponentType<net.minecraft.core.GlobalPos>> GUILD_HOME=COMPONENTS.registerComponentType("guild_home",b->b.persistent(net.minecraft.core.GlobalPos.CODEC).networkSynchronized(net.minecraft.core.GlobalPos.STREAM_CODEC));
+    public static final DeferredItem<Item> HOMEWARD_TOTEM=ITEMS.registerItem("homeward_totem",com.bunnidogs.mod.guild.HomewardTotemItem::new,p->p.stacksTo(1).rarity(Rarity.EPIC).fireResistant().component(DataComponents.DEATH_PROTECTION,net.minecraft.world.item.component.DeathProtection.TOTEM_OF_UNDYING));
+    static {com.bunnidogs.mod.guild.GuildProjects.items(ITEMS);}
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<Integer>> TOOL_POWER=COMPONENTS.registerComponentType("tool_power",b->b.persistent(Codec.intRange(1,5)).networkSynchronized(ByteBufCodecs.VAR_INT));
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<String>> FLASK_ID=COMPONENTS.registerComponentType("flask_id",b->b.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<Integer>> FLASK_COUNT=COMPONENTS.registerComponentType("flask_count",b->b.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.VAR_INT));
@@ -508,6 +512,9 @@ public final class ModItems {
         }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(CALIPERS.get());
+            com.bunnidogs.mod.guild.GuildProjects.MATERIALS.values().forEach(v->event.accept(v.get()));
+            com.bunnidogs.mod.guild.GuildProjects.BLOCKS.values().forEach(v->event.accept(v.get()));
+            event.accept(com.bunnidogs.mod.guild.GuildProjects.BATTERY.get());event.accept(com.bunnidogs.mod.guild.GuildProjects.MAGAZINE.get());event.accept(HOMEWARD_TOTEM.get());
             event.accept(TRAIL_WHISTLE.get());
             event.accept(FIELD_GUIDE.get());
             event.accept(SYRINGE.get());

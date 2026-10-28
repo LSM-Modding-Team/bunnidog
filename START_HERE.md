@@ -5,6 +5,46 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — Lantern Warrens, material projects and finished architecture
+
+New Great Warren islands can contain peaceful **Lantern Warrens**: surface
+gatehouses and real switchback stairs lead to a vaulted market, residential
+galleries, lit kitchen garden, workshop and portal hall. Eight large intelligent
+Elders trade through native Minecraft screens, using finite saved stock and paid
+production. Waykeepers sell town-bound **Homeward Totems**; a successful native
+pop returns the player to that town. Actual generated halls form a teleport
+network, and first portal use can reveal a seed-valid neighbouring settlement.
+No background chunk forcing or player-animal skill grants are involved.
+
+Bulk treasure now funds useful projects: Pack Armoury, Resonance Binding Bench,
+Bastion Heart, Launch Aerie, Nursery Hearth, finite Prism Batteries/Volatile
+Magazines, Concord Dressings and a visible Kennel Wagon carrying real companions
+and freight behind a trained puller. Crown rooms split whole-site mod-material
+budgets and much smaller vanilla supplies. First Astralite still requires moon
+mining; existing stock never refills. Exact recipes, operation, acquisition,
+network/save rules and evidence are in
+`docs/LANTERN_WARRENS_AND_GUILD_PROJECTS.md`.
+
+Bridges now have masonry arches/ribs, parapets, crossframes, recessed lights,
+five-wide carriageways and native grade stairs, retaining island tunnels. All
+Crown hanging lamps connect by real iron chains to actual beams. Existing worlds
+can explicitly use loaded-only `/bunnidogs bridges renovate` or the existing
+`/bunnidogs dungeon repair` for surviving lamps; natural/player edits and stock
+remain. New towns require new terrain.
+
+The Crowned fight adds a warned three-volley barrage and real pounce landing
+impact, and commits its paired detonations around the target/opposite side.
+Phase rotations/save positions prevent repeated skipped moves. Existing native
+health/damage scaling, finite packs, warnings and reward ownership remain.
+
+Build/model/localization gates and **all 264 native server scenarios** pass.
+Final native-template renders are in `art/bridges/`, `art/lantern_warren/` and
+`art/citadel/`; they are headless geometry evidence, not client captures.
+Protocol **45** requires matching clients. Natural Survival pacing and client
+performance remain player review. Modded enchantments remain planning only;
+the binding bench supports existing compatible books. Authored town professions
+do not complete the separate autonomous civilization roadmap.
+
 ## Current — launcher safety and active Crowned combat
 
 Launcher shots now pass allied bodies and protect the original shooter, bonded
@@ -20,26 +60,23 @@ and raw damage. Recovery is shorter; health/party scaling and finite pack/reward
 ownership remain. Retiring a support summon releases its own heart losses.
 See `docs/CROWN_WARREN_SPECS.md`, `docs/APEX_SPECS.md` and the updated Launcher
 entry in `docs/APEX_REWARDS_SPECS.md`. Build, model and localization gates plus
-all **257 native server scenarios** pass. Natural Survival balance and client
+all **264 native server scenarios** pass. Natural Survival balance and client
 visual judgement remain player review.
 
-## Current — island tunnels; planned material economy
+## Current — preserved island tunnels
 
 Route decks now pass through five-block-high tunnels when islands rise above
 them. Natural rock and the original surface remain overhead, while the lit
-three-block road deck and existing route grade continue below. Shallow edges
+architectural carriageway and existing route grade continue below. Shallow edges
 open into tunnel mouths; void crossings remain bridges and raised decks retain
 air gaps over lower land. Native height queries
 follow the preserved island roof. The realm fixture tests actual tunnel rock,
 headroom, floor, heightmaps and seams, and exports the native block section in
 `art/realm_tunnel_preview.png`. Existing chunks are not retroactively rebuilt.
 
-`docs/GREAT_WARREN_MATERIAL_ECONOMY_PLAN.md` responds to excessive vanilla wealth
-with bulk mod-material rewards and useful sinks: a real equipped companion pack,
-armoury/refining, finite ammo reservoirs, fortified outposts, a kennel wagon,
-nursery works and future book binding. It proposes whole-site reward budgets
-and substantially less vanilla wealth. **Planning only**: no loot/recipe/item/
-gear-stat changes ship yet; the current table values below still describe runtime.
+The material-economy proposal is implemented by the guild projects described
+above. Its historical provisional capital costs are superseded by the actual
+native recipes and expanded bills in the current guild spec.
 
 ## Current — rarer Crown destinations and checked island routes
 
@@ -71,9 +108,10 @@ Cinderite, 144 Moonstone, 16 Marrow, 24 lenses, 12 membranes, 16 diamonds and fo
 extra Netherite ingots**, plus fuel. Everything is obtainable before the dungeon.
 See `docs/ASTRALITE_AND_SKY_SPECS.md` for exact crafts and first-pick costs.
 
-The weak architectural barrel table is replaced alongside wing/final rewards:
-large apple/XP/mobility reserves, Totems, refined vanilla wealth and bulk generic
-crafting materials. Exclusive role parts and lunar bottlenecks remain kills/mining.
+The latest architectural/wing/final tables follow the material economy above:
+useful mod-material shipments, with substantially smaller whole-site vanilla
+supplies. Exclusive role parts remain real kills; initial Astralite comes from
+mining and later earned wing/vault stock can fund pack/infrastructure expansion.
 All maximum rolls fit native containers; already-opened stock never refills.
 Launcher levels now mean explosion powers **3/6/9/12/15**, with the same costs.
 

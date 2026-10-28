@@ -1,5 +1,45 @@
 # Codex working instructions
 
+Latest continuation implements the player's bridge/build/finale/material-economy
+and peaceful-town request. Read `docs/LANTERN_WARRENS_AND_GUILD_PROJECTS.md`.
+Preserve the actual arched/parapeted/ribbed five-wide bridges, five clear blocks,
+native grade stairs, preserved tunnel roofs and deterministic island routes.
+`/bunnidogs bridges renovate` is an explicit loaded-only old-road upgrade;
+snapshot surviving anchors before mutation, and preserve natural/player blocks.
+Dungeon lights use real `minecraft:iron_chain` supports to surviving beams.
+Existing repair only restores those missing chains above still-present lamps.
+
+The Crowned fight now includes a warned three-volley barrage, actual pounce
+landing impact and committed target-centred/opposite detonations. Preserve full
+warnings, phase-specific rotation/reset/save, native hit immunity and protections,
+finite champions, health/damage/party values and existing reward journals.
+No new ordinary wild/ritual Apex balancing is implied.
+
+Bulk material projects now ship: actual-stock Armoury/Binding Bench, paid
+Bastion/Aerie/Nursery, finite saved Battery/Magazine, processed Standard dressings
+and a native animal-pulled wagon with real freight/passengers. Preserve exact
+multi-stage bills, shared boost cooldown, native enchantment compatibility,
+nonstacking pup growth, physical travel and actual ownership; do not grant jobs,
+stocks or skills from placing a block. New finite room-specific Crown tables
+split whole-site budgets, rather than multiplying them per decorative barrel.
+Entry stores do not replace first-set moon mining; earned wing/vault mineral
+shipments are intentional. Opened inventories never refill. Kits are unchanged.
+
+Lantern Warrens are new underground Great Warren island settlements, with
+visible surface entrances, native intelligent peaceful merchants and paid work.
+Keep finite resident attempts, actual merchant stock/save/payment and real
+kitchen harvest/replanting. Their teleport network uses actual generated hearts;
+only explicit first use may reveal/generate bounded seed-valid neighbour
+footprints. Ordinary ticking never searches or force-loads remote towns. Rescue
+Totems bind actual GlobalPos and travel only after native successful death
+protection. Preserve blocked-landing survival, debt repayment and one real item
+consumed. This authored NPC culture does not complete the I1–I10 roadmap.
+Protocol 45 requires matching new content. Build/model/localization and all 264
+native server scenarios passed; final native-template renders were inspected.
+Client visuals/performance and natural solo/co-op economy/balance remain human
+review. Modded dungeon enchantments remain planning only; the bench uses real
+existing books.
+
 Latest combat play review explicitly supersedes the balance pause for the four
 reported fixes. Launcher shots use their own saved player projectile: protect
 original shooter, bonded animals and native allies from collision, blast damage
@@ -19,20 +59,17 @@ tracking/escape, old-pack saves/AI and actual autonomous phase rotations.
 Latest bridge/loot screenshot review: routes now keep exterior terrain height
 separate from their buried road deck. Preserve five-block corridor headroom,
 natural island roofs/hills above it and air gaps beneath raised spans. Keep
-the existing lit three-block deck, original
+the architectural lit five-wide carriageway, original
 route grades and Crown footprint exclusion. Heightmaps/base-height/base-column
 queries describe the actual roof/surface, not an underground road. Native tunnel
 and seam fixtures use unfinished ProtoChunks; inspect the actual block section
 with `art/preview_realm_tunnel.py`. Do not cut an open trench to the sky or
 rewrite existing generated chunks/player builds to retrofit a roof.
-`docs/GREAT_WARREN_MATERIAL_ECONOMY_PLAN.md` is planning only. The user rejected
-vanilla-centred Crown wealth as excessive and requested useful bulk mod-material
-projects. No loot/recipe/stat changes ship with this tunnel batch. The proposed
-later earned-room mineral shipments supersede the blanket old no-forge-minerals
-rule when implemented; preserve the pre-dungeon mining path, exclusive kill
-catalysts, native stock ownership and finite separate book caches. Do not mistake
-proposal quantities, new Fibre/products or civilization integrations for runtime
-features. Keep existing kits independent of the proposed vanilla loot reduction.
+`docs/GREAT_WARREN_MATERIAL_ECONOMY_PLAN.md` now preserves the accepted design
+history; the current guild spec above records actual costs and shipped projects.
+Earned-room mineral shipments supersede the old blanket no-forge-minerals rule;
+preserve the pre-dungeon mining path, exclusive kill catalysts, native stock
+ownership and finite separate book caches. Keep kits independent of Crown loot.
 
 Latest kit changes are recorded in `docs/KIT_LOADOUTS.md`: the user approved
 Crystal/Mace endgame variants and the previous organisation recommendations.

@@ -59,6 +59,7 @@ final class RealmRoutesGameTest {
         var elevated=chunk(realm,generator,new ChunkPos(elevatedSample.getX()>>4,elevatedSample.getZ()>>4));
         h.assertTrue(elevated.getBlockState(elevatedSample.below(3)).isAir(),"An elevated deck does not extrude a solid wall down to lower island terrain");
         tunnel(h,realm,generator,tunnelSample,tunnelSpan);
+        GuildPreview.bridge(realm,generator,bridgeSample);
         return bridgeSample;
     }
     private static ProtoChunk chunk(ServerLevel realm,RealmChunkGenerator generator,ChunkPos pos) {

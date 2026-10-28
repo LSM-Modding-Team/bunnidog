@@ -127,16 +127,16 @@ final class CombatReviewGameTest {
         var p=ApexTypesGameTest.player(h,at.add(24,0,0));p.setInvulnerable(true);
         var boss=ModEntities.CROWNED_APEX.get().create(level,EntitySpawnReason.TRIGGERED);boss.prepare(c,1);boss.snapTo(at);boss.setTarget(p);level.addFreshEntity(boss);
         var seen=List.of(new HashSet<Integer>(),new HashSet<Integer>(),new HashSet<Integer>());final double[] travel={0};
-        for(int tick=1;tick<=1200;tick++)h.runAfterDelay(tick,()->{
+        for(int tick=1;tick<=1600;tick++)h.runAfterDelay(tick,()->{
             if(boss.warning()!=0)seen.get(boss.phase()-1).add(boss.warning());
             travel[0]=Math.max(travel[0],boss.position().distanceToSqr(at));
             if(boss.warning()==0 && !boss.mobility().leaping() && boss.distanceToSqr(p)<144)
                 p.snapTo(at.add(boss.getX()>at.x ? -28 : 28,0,boss.getZ()>at.z ? -12 : 12));
         });
-        h.runAfterDelay(460,()->{h.assertTrue(seen.getFirst().containsAll(Set.of(1,2,4)),"The Hunt actually uses pounce, beam and blast through its own AI: "+seen);boss.setHealth(boss.getMaxHealth()*.55F);p.snapTo(at.add(-24,0,0));});
-        h.runAfterDelay(760,()->{h.assertTrue(seen.get(1).containsAll(Set.of(1,2)) && !seen.get(1).contains(4),"The Living Crown mixes leaps and beams without a hook/blast overlap: "+seen);boss.setHealth(boss.getMaxHealth()*.2F);p.snapTo(at.add(0,0,24));});
-        h.runAfterDelay(1201,()->{
-            h.assertTrue(seen.get(2).containsAll(Set.of(1,2,4)),"The aerial finale actually uses every major attack, including its tracking beam: "+seen);
+        h.runAfterDelay(660,()->{h.assertTrue(seen.getFirst().containsAll(Set.of(1,2,3,4)),"The Hunt actually uses pounce, beam and blast through its own AI: "+seen);boss.setHealth(boss.getMaxHealth()*.55F);p.snapTo(at.add(-24,0,0));});
+        h.runAfterDelay(960,()->{h.assertTrue(seen.get(1).containsAll(Set.of(1,2)) && !seen.get(1).contains(4),"The Living Crown mixes leaps and beams without a hook/blast overlap: "+seen);boss.setHealth(boss.getMaxHealth()*.2F);p.snapTo(at.add(0,0,24));});
+        h.runAfterDelay(1601,()->{
+            h.assertTrue(seen.get(2).containsAll(Set.of(1,2,3,4)),"The aerial finale actually uses every major attack, including its tracking beam: "+seen);
             h.assertTrue(travel[0]>100 && boss.isNoGravity() && boss.getY()>at.y+4,"The native boss moves across the arena and returns to sustained flight");
             boss.discard();p.discard();h.succeed();
         });

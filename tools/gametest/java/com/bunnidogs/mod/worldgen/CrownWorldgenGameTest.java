@@ -64,8 +64,8 @@ public final class CrownWorldgenGameTest {
         h.assertTrue(restored!=null && restored.site().equals(node.site()) && stock.getItem(0).getCount()==7,"Explicit repair restores a missing seal with the original site identity and preserves real container contents");
         var pos=h.absolutePos(new BlockPos(3,2,3));level.setBlock(pos,Blocks.CHEST.defaultBlockState(),3);var chest=(ChestBlockEntity)level.getBlockEntity(pos);
         chest.setLootTable(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.LOOT_TABLE,net.minecraft.resources.Identifier.fromNamespaceAndPath("bunnidogs","chests/crown_vault")));chest.setLootTableSeed(1040);chest.unpackLootTable(null);
-        int netherite=0,diamonds=0;for(int i=0;i<27;i++) {var s=chest.getItem(i);if(s.is(net.minecraft.world.item.Items.NETHERITE_BLOCK))netherite+=s.getCount();if(s.is(net.minecraft.world.item.Items.DIAMOND_BLOCK))diamonds+=s.getCount();}
-        h.assertTrue(netherite>=8 && diamonds>=24,"The actual final vault resolves generous generic wealth, not a token stack");
+        int shards=0,cinder=0;for(int i=0;i<27;i++){var s=chest.getItem(i);if(s.is(com.bunnidogs.mod.registry.ModItems.ASTRALITE_SHARD.get()))shards+=s.getCount();if(s.is(com.bunnidogs.mod.registry.ModItems.RAW_CINDERITE.get()))cinder+=s.getCount();}
+        h.assertTrue(shards>=192 && cinder>=256,"The finite 27-slot vault delivers substantial useful mod material rather than vanilla block wealth");
     }
     public static void citadel(GameTestHelper h) {
         var level=h.getLevel();var center=new BlockPos(28008,95,28008);var piece=CrownWarrenPiece.citadel(center.getX(),center.getY(),center.getZ(),6728163);

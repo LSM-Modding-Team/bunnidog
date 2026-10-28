@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "CMC",
+    "RLR",
+    "AWS"
+  ],
+  "key": {
+    "C": "bunnidogs:compressed_moonstone",
+    "M": "bunnidogs:moonstone_crate",
+    "R": "bunnidogs:structural_frame",
+    "L": "bunnidogs:prism_lens",
+    "A": "bunnidogs:fibre_roll",
+    "W": "bunnidogs:whisker",
+    "S": "bunnidogs:astralite_concentrate"
+  },
+  "result": {
+    "id": "bunnidogs:prism_battery",
+    "count": 1
+  }
+}

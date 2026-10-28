@@ -20,6 +20,7 @@ public final class ModPoi {
 
     public static final DeferredRegister<PoiType> POI_TYPES = DeferredRegister.create(Registries.POINT_OF_INTEREST_TYPE, BunnidogsMod.MODID);
 
+    public static final DeferredHolder<PoiType,PoiType> BASTION=POI_TYPES.register("bastion_heart",()->new PoiType(Set.copyOf(com.bunnidogs.mod.guild.GuildProjects.BLOCKS.get("bastion_heart").get().getStateDefinition().getPossibleStates()),1,1));
     public static final DeferredHolder<PoiType,PoiType> WARREN_WARD=POI_TYPES.register("warren_ward",()->{
         var states=new java.util.HashSet<>(ModBlocks.WARREN_WARD.get().getStateDefinition().getPossibleStates());
         states.addAll(ModBlocks.WARREN_ANCHOR.get().getStateDefinition().getPossibleStates());

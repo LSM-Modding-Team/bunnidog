@@ -8,7 +8,8 @@ final class RealmFixture implements AutoCloseable {
     final ServerLevel realm;
     private final net.minecraft.server.MinecraftServer server;
     private final net.minecraft.world.level.storage.LevelStorageSource.LevelStorageAccess storage;
-    RealmFixture(ServerLevel source) throws Exception {
+    RealmFixture(ServerLevel source) throws Exception {this(source,"great-warren-islands-v1");}
+    RealmFixture(ServerLevel source,String fixtureName) throws Exception {
         server=source.getServer();
         var resource=server.getResourceManager().getResourceOrThrow(net.minecraft.resources.Identifier.fromNamespaceAndPath("bunnidogs","dimension/great_warren.json"));
         net.minecraft.world.level.dimension.LevelStem stem;
@@ -16,7 +17,7 @@ final class RealmFixture implements AutoCloseable {
             stem=net.minecraft.world.level.dimension.LevelStem.CODEC.parse(server.registryAccess().createSerializationContext(com.mojang.serialization.JsonOps.INSTANCE),com.google.gson.JsonParser.parseReader(reader)).getOrThrow();
         }
         var path=server.getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).resolve("realm-fixture");
-        storage=net.minecraft.world.level.storage.LevelStorageSource.createDefault(path).validateAndCreateAccess("great-warren-islands-v1");
+        storage=net.minecraft.world.level.storage.LevelStorageSource.createDefault(path).validateAndCreateAccess(fixtureName);
         realm=new ServerLevel(server,net.minecraft.util.Util.backgroundExecutor(),storage,new net.minecraft.world.level.storage.DerivedLevelData(server.getWorldData(),(net.minecraft.world.level.storage.ServerLevelData)source.getLevelData()),GreatWarren.LEVEL,stem,false,net.minecraft.world.level.biome.BiomeManager.obfuscateSeed(source.getSeed()),java.util.List.of(),false);
         server.forgeGetWorldMap().put(GreatWarren.LEVEL,realm);server.markWorldsDirty();
     }

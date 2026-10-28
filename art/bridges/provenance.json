@@ -1,0 +1,8 @@
+{
+  "renderer": "Blender Cycles CPU; native template cells and source textures; approximate minor block shapes, neutral ambient material fill for readable geometry; no terrain or client light simulation",
+  "template_sha256": {
+    "native_bridge": "fb653781d357f1d5fd52b7d87d3584eb5f66f59d805f981f8af747cd7e0e3113"
+  },
+  "solid_cells": 8848,
+  "faces": 8396
+}

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "bunnidogs:fibre_roll"
+  ],
+  "result": {
+    "id": "bunnidogs:root_fibre",
+    "count": 9
+  }
+}

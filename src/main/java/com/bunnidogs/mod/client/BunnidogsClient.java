@@ -40,6 +40,7 @@ public final class BunnidogsClient {
 
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(com.bunnidogs.mod.client.renderer.WagonRenderer.LAYER,com.bunnidogs.mod.client.renderer.WagonRenderer::layer);
         event.registerLayerDefinition(BunnidogRenderer.LAYER, BunnidogModelLayer::createBodyLayer);
         event.registerLayerDefinition(com.bunnidogs.mod.client.renderer.CrownLayer.LAYER,com.bunnidogs.mod.client.model.CrownModelLayer::createLayer);
         event.registerLayerDefinition(com.bunnidogs.mod.client.renderer.BunnidogWingLayer.LAYER,com.bunnidogs.mod.client.model.BunnidogWingModelLayer::createLayer);
@@ -50,6 +51,8 @@ public final class BunnidogsClient {
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(ModEntities.WARREN_CITIZEN.get(),BunnidogRenderer::new);
+        event.registerEntityRenderer(ModEntities.KENNEL_WAGON.get(),com.bunnidogs.mod.client.renderer.WagonRenderer::new);
         event.registerEntityRenderer(ModEntities.BUNNIDOG.get(), BunnidogRenderer::new);
         event.registerEntityRenderer(ModEntities.CROWNED_APEX.get(),BunnidogRenderer::new);
         ModEntities.GROUND_APEX.forEach(type->event.registerEntityRenderer(type.get(),BunnidogRenderer::new));

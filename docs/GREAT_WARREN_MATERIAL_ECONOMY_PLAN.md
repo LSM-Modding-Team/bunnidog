@@ -1,10 +1,13 @@
 # Great Warren treasure and material projects
 
-**Planning only.** This batch implements island tunnels. It does not change loot,
-recipes, enemy rewards or gear stats, or register the proposed projects below.
-This supersedes the *future direction* of the recent vanilla-heavy reward pass;
-the current tables remain recorded in the Crown spec until implementation.
-The enchantment collection remains a separate proposal in DUNGEON_ENCHANTMENTS_PLAN.md.
+**Accepted design history, implemented 2026-10-28.**
+[LANTERN_WARRENS_AND_GUILD_PROJECTS.md](LANTERN_WARRENS_AND_GUILD_PROJECTS.md)
+records the shipped recipes, exact expanded bills, physical projects, paid
+trading/teleport towns and whole-site reward splits. Its quantities supersede
+the provisional capital costs below. The implementation keeps the whole-site
+material/vanilla budgets proposed here. The enchantment collection remains a
+separate planning-only proposal in DUNGEON_ENCHANTMENTS_PLAN.md; the real binding
+bench currently uses existing compatible books.
 
 ## What coming home with treasure should mean
 

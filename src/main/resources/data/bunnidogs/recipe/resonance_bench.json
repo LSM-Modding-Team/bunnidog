@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "RMR",
+    "FCF",
+    " C "
+  ],
+  "key": {
+    "R": "bunnidogs:structural_frame",
+    "M": "bunnidogs:moonstone_crate",
+    "F": "bunnidogs:fibre_roll",
+    "C": "bunnidogs:prism_lens"
+  },
+  "result": {
+    "id": "bunnidogs:resonance_bench",
+    "count": 1
+  }
+}

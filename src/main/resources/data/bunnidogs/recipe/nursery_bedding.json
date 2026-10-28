@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "bunnidogs:root_fibre",
+    "bunnidogs:root_fibre",
+    "bunnidogs:root_fibre",
+    "bunnidogs:root_fibre",
+    "bunnidogs:sinew",
+    "bunnidogs:sinew",
+    "bunnidogs:starlit_dust"
+  ],
+  "result": {
+    "id": "bunnidogs:nursery_bedding",
+    "count": 4
+  }
+}

@@ -77,6 +77,6 @@ final class LunarUpdateGameTest {
         blast.skills().blast(level);h.assertTrue(positions.stream().noneMatch(p->level.getBlockState(p).isAir()),"An actual Blastmaw self-explosion preserves the entire structural palette");blast.discard();
         var p=BlockPos.containing(at).offset(8,1,0);level.setBlock(p,Blocks.BARREL.defaultBlockState(),3);var barrel=(BarrelBlockEntity)level.getBlockEntity(p);barrel.setLootTable(ResourceKey.create(Registries.LOOT_TABLE,Identifier.fromNamespaceAndPath("bunnidogs","chests/crown_supplies")),771);barrel.unpackLootTable(null);
         int apples=0,xp=0,amethyst=0,rockets=0;for(int slot=0;slot<27;slot++){var stack=barrel.getItem(slot);if(stack.is(Items.ENCHANTED_GOLDEN_APPLE))apples+=stack.getCount();if(stack.is(Items.EXPERIENCE_BOTTLE))xp+=stack.getCount();if(stack.is(Items.AMETHYST_BLOCK))amethyst+=stack.getCount();if(stack.is(Items.FIREWORK_ROCKET)){rockets+=stack.getCount();h.assertTrue(stack.get(net.minecraft.core.component.DataComponents.FIREWORKS).flightDuration()==1,"Every bulk rocket stack retains Flight 1");}}
-        h.assertTrue(apples>=16 && xp>=128 && amethyst>=64 && rockets>=64,"A real 27-slot dungeon barrel resolves expedition-scale supplies rather than the old handfuls");
+        h.assertTrue(java.util.stream.IntStream.range(0,27).map(index->barrel.getItem(index).is(ModItems.MOONSTONE.get()) ? barrel.getItem(index).getCount() : 0).sum()>=128 && xp>=32,"A legacy untyped barrel resolves bounded mod-material supplies; fresh stores split whole-site room budgets");
     }
 }

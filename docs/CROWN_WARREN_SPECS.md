@@ -1,9 +1,9 @@
 # Crown Warren and Sovereign rewards
 
-> Latest loot review rejects the vanilla-heavy quantities as excessive.
-> [GREAT_WARREN_MATERIAL_ECONOMY_PLAN.md](GREAT_WARREN_MATERIAL_ECONOMY_PLAN.md)
-> proposes mod-material projects and whole-site reward budgets. **Planning only**:
-> the existing loot quantities below remain the implemented tables for now.
+> The material economy now ships. The tables below and
+> [LANTERN_WARRENS_AND_GUILD_PROJECTS.md](LANTERN_WARRENS_AND_GUILD_PROJECTS.md)
+> record split whole-site mineral/material shipments, useful paid projects and
+> substantially reduced vanilla wealth. Existing opened inventories remain exact.
 
 > Current lunar forge, equipment, structural palette, supply and AI changes are
 > recorded in [LUNAR_DUNGEON_UPDATE.md](LUNAR_DUNGEON_UPDATE.md) and
@@ -62,6 +62,11 @@ geometry. Rootstone fighting floors withstand Apex terrain attacks; small warm
 recessed Rootstone lights and ordinary lanterns illuminate rooms without a
 colored floor runway. Supply barrels/chests have finite generic expedition loot;
 there are no stock-refilling room spawners or free exclusive Apex parts.
+Every hanging light now has a continuous native iron chain to a real roof/beam.
+The support pass runs after architecture, so later roofing cannot erase it.
+Unsupported exterior lamps become supported standing lights. Existing V2 repair
+can restore missing chain cells above a surviving lamp when its original solid
+anchor remains; it does not replace removed lamps or rebuild the room.
 
 There is one finite saved **guard-pair** attempt in each wing's approach room
 and the entry precinct. It wakes only near a living Survival visitor, with its
@@ -162,12 +167,12 @@ preserve damage rather than replacing health bars or imposing per-hit caps.
 
 | Health band | Pattern and openings |
 | --- | --- |
-| Above two thirds — The Hunt | Pounces, tracking beams and paired detonations, with active pursuit/bites in recovery |
+| Above two thirds — The Hunt | Pounces, tracking beams, a three-volley barrage and paired detonations, with active pursuit/bites in recovery |
 | Middle third — The Living Crown | Pounces and tracking beams alongside one finite active pack: champion Lifebinder, ground/flying Prismmaws, Brute and three elite brood |
-| Last third — The Broken Crown | Continuous flight, tracking beams, faster pounces and paired detonations, with two finite flying champion Prismmaws; 56 raw melee damage |
+| Last third — The Broken Crown | Continuous flight, tracking beams, three-volley barrages, faster pounces and paired detonations, with two finite flying champion Prismmaws; 56 raw melee damage |
 
-This play-review pass changes activity and pressure, retaining the actual native
-HP, armour, party scaling and raw damage. Ground pursuit uses speed .46 with a
+The director retains the actual native HP, armour, party scaling and individual
+attack damage. Ground pursuit uses speed .46 with a
 1.15 navigation multiplier, and only stops when a real visible bite is possible.
 Bites recover in 20 ticks. A scheduled pounce becomes a beam if the player is
 already in bite range. The middle phase no longer loops the beam exclusively;
@@ -178,7 +183,11 @@ Pounces retain their 28-tick warning, updating the orange landing marker for
 the first 20 ticks, then committing for the final eight ticks and the arc.
 The colliding, terrain-clearing arc is 25% faster than the ordinary Apex's,
 with the same loaded-world/protection/bounds checks. Post-pounce recovery is
-22 ticks. Ordinary ground/flying Apex jump and dive tuning stays unchanged.
+22 ticks. Its actual landing produces a short-radius impact at .65 times melee
+damage, with .8 knockback, matching the four-block warning ring. Native damage
+hooks, line of sight, family safety and ordinary hit invulnerability apply;
+the same target cannot bypass native i-frames by taking both bite and landing.
+Ordinary ground/flying Apex jump and dive tuning stays unchanged.
 
 Beams retain 34 harmless warning ticks and six damaging pulses over 60 ticks,
 up to 64-block reach (clipped to the arena) and 32 raw piercing damage. They now
@@ -213,10 +222,23 @@ Final flight orbits the current target roughly 12 blocks out and 12 blocks above
 it, at controller speed .9 rather than a distant fixed chamber-centred loop.
 The boss returns to flight during recovery; casts retain no-gravity, stop stale
 ground navigation and remain fall-damage immune. Detonations retain the two
-19-block warning circles, native power-nine explosions and central safe lane,
-with 32-tick recovery. The Living phase excludes detonations while its active
+19-block warning circles and native power-nine explosions, with 32-tick recovery.
+The first centre locks to the target's clamped arena position and the second
+locks on the opposite side. This removes a permanent central camping lane,
+while retaining all 60 warning ticks and fixed centres after commitment. Safe
+routes depend on the shown pair of circles rather than a memorised spot.
+The Living phase excludes detonations while its active
 hook/anvil support is present. Family immunity, griefing rules, cancellation,
 protected masonry, player movement tools and combat companions remain meaningful.
+
+The Hunt and Broken Crown also use a **three-volley barrage**: each volley
+fires two native power-four fireballs, locking aim eight ticks before launch.
+Soul-flame rings and native sounds warn each shot. The whole cast lasts 64 ticks
+then recovers for 24. Projectiles retain enemy Apex family immunity and native
+griefing/protection, and only this boss's unfinished shots retire on a phase
+transition. The Living Crown omits barrage/explosions while hooks/anvils provide
+its extra pressure. Saved rotation position resumes across reloads and resets
+at each phase boundary, so no attack can be skipped indefinitely by phase index.
 
 ## Saves, retreat and rewards
 
@@ -259,29 +281,33 @@ A qualifying victory grants:
   duplicate it.
 - A displayable Crown trophy carrying the actual dungeon and victory identity.
   Failed trophy delivery remains independently claimable after the core.
-- A generic vault: 64 diamond blocks, 32–48 Netherite blocks, 128 enchanted
-  golden apples, 6–8 Totems, 256 XP bottles, 192 amethyst blocks, 256 gunpowder,
-  128 fire charges and 64 each copper/gold blocks. Unique role
-  ingredients instead drop from the actual Crowned Apex: 16–24 of each of the
+- A generic foundry vault: 192–256 Astralite Shards, 256–512 raw Cinderite,
+  128 Moonstone, 128 Dust, 256–512 Root Fibre and 64 Sinew, at most 25 native
+  slots. Unique role ingredients instead drop from the actual Crowned Apex: 16–24 of each of the
   five role parts, Marrow and aerial membranes. The boss pays 10,000 XP.
 - A separately frozen archive: ordinary heritable winged End/Cave parents with
   70–100 stat points, quality 36–47 seed, matching reusable tissues, Mutagen and
   Starlit Dust. These breed ordinary bunnidogs through existing genetics; they do
   not grant the boss's separate health pool, an instant profession or a civilization.
 
-Ordinary architectural barrels now contain 64–128 golden apples, 16–32 enchanted
-apples, 128–256 XP bottles, 32–64 pearls, 64–128 Flight-1 rockets, 4–8 diamond
-blocks/Netherite ingots, 2–3 Totems, 64–128 amethyst blocks, 128–256 gunpowder,
-32–64 each fire charges/copper blocks and 16–32 gold blocks. This replaces the separate weak supply table from
-the screenshot; the final rewards alone were not the problem.
+Architectural stores split whole-site budgets by actual room: Moonstone/Fibre/
+Cinderite freight, Glass Dust/Whiskers, Brood Sinew/bedding materials and Furnace
+raw minerals. Each native container has its own declared share, recorded in
+`structure/crown_store_budget.json`; adding decorative barrels cannot multiply
+the complete budget. No free entry-store Astralite replaces pre-dungeon mining.
 
-Wing caches now contain 24–32 diamond blocks, 32–48 Netherite ingots, 48–64
-enchanted apples, 4–6 Totems, 128 golden apples, 256 XP bottles, 128 amethyst
-blocks, 384 gunpowder, 128 fire charges and 64 each copper/gold blocks. All maximum
-rolls fit 27 native slots. Generic caches supply bulk crafting ingredients, not
-exclusive Apex parts or the lunar forge bottlenecks; those still require combat/mining.
-The richer loot tables affect unresolved caches; existing actual contents never
-refill. Personal Core count, exclusive drops and rematch payments are unchanged. Temporary dungeon enemies
+Earned Glass and Furnace caches add **32–64 / 64–128 Shards** respectively;
+Brood grants four Dressings and sixteen Bedding. Each also has 8–16 golden
+apples, 1–2 enchanted apples, one Totem and sixteen XP bottles. Together with
+architectural stock and the vault, a complete site supplies **288–448 Shards,
+576–896 raw-equivalent Cinderite, 512–896 Moonstone, 384–768 Fibre, 192–256
+Dust, 96–128 Sinew and 16–32 Whiskers**, plus kill-exclusive parts.
+
+Vanilla treasure across the entire site is **32–64 golden apples, 4–8 enchanted
+apples, 4–6 Totems, 8–16 diamonds and 1–3 Netherite Ingots**, with modest XP,
+pearls and Flight-1 rockets. The old unresolved untyped supply table becomes a
+mod-material crate; existing actual contents never refill. Kits are independent.
+Personal Core count, exclusive drops and rematch payments are unchanged. Temporary dungeon enemies
 and boss adds do not provide ordinary ritual Crests, role parts or XP. Paid genetic
 vacuum capture retains the user's existing exception for brood-to-seed capture.
 
@@ -319,7 +345,7 @@ healing credit for self-healing. Interrupted charges spend nothing. Native fuel,
 cooldown, permission and whole-item checks remain authoritative.
 
 All new text is English plus the shared neutral Peruvian Spanish source.
-Protocol **44** requires matching client/server content. Original ordinary Apex
+Protocol **45** requires matching client/server content. Original ordinary Apex
 values and old gear IDs/saves remain compatible.
 
 ## Evidence and remaining review
@@ -338,13 +364,15 @@ keys, the archive/treasury, final reward, native saves and generation/repair sto
 preservation. A separate unfinished-ProtoChunk fixture covers all four V2 seals;
 missing-revision V1 saves remain covered. The shipped-NBT walking audit proves
 independent closed-gate wing routes, legal pads/jambs and the clear Crown volume.
-The suite now contains 257 scenarios. Five new play-review fixtures cover a
+The suite now contains 264 scenarios. Existing play-review fixtures cover a
 real saved launcher shot passing allies and damaging an enemy, friendly blast/
 knockback immunity and explosion cancellation; native shield raising/blocking/
 recovery and variant exclusion; a damaging tracking sweep plus a real escape;
 old disabled-pack save migration, moving/casting champions and support debt
-cleanup; and 1,200 native ticks of autonomous three-phase attack selection and
-sustained flight. The full 257-case native gate passes. The existing lunar forge, native
+cleanup; and 1,600 native ticks of autonomous three-phase attack selection,
+including the new barrage and sustained flight. The full 264-case native gate
+passes, including guild stock, town generation/trading/portals and native Totem
+rescue. The existing lunar forge, native
 barding ownership/save, movement bounds and supply/masonry checks remain;
 build/model/localization gates also run.
 A repeat run exposed the pre-existing field test's open irrigation shaft under

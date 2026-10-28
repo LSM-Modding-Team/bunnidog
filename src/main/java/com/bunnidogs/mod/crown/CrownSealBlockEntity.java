@@ -310,7 +310,7 @@ public final class CrownSealBlockEntity extends BlockEntity {
             if(!server.setBlock(pos,Blocks.CHEST.defaultBlockState(),3) || !(server.getBlockEntity(pos) instanceof ChestBlockEntity chest)) {if(archive)archives++;else vaults++;setChanged();continue;}
             if(archive)CrownArchives.fill(chest,server.getRandom().nextLong(),site);
             else {
-                chest.setLootTable(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.LOOT_TABLE,net.minecraft.resources.Identifier.fromNamespaceAndPath("bunnidogs",wing()==3 ? "chests/crown_vault" : "chests/crown_wing")));
+                chest.setLootTable(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.LOOT_TABLE,net.minecraft.resources.Identifier.fromNamespaceAndPath("bunnidogs",wing()==3 ? "chests/crown_vault" : "chests/crown_wing_"+wing())));
                 chest.setLootTableSeed(server.getRandom().nextLong());chest.setChanged();
             }
         }

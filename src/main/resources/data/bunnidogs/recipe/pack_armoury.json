@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "RMR",
+    "FCF",
+    " C "
+  ],
+  "key": {
+    "R": "bunnidogs:structural_frame",
+    "M": "bunnidogs:moonstone_crate",
+    "F": "bunnidogs:fibre_roll",
+    "C": "bunnidogs:apex_marrow"
+  },
+  "result": {
+    "id": "bunnidogs:pack_armoury",
+    "count": 1
+  }
+}

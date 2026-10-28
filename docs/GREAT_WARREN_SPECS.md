@@ -7,6 +7,13 @@ physical hunt ingredients, paid portals are shared, moons require Blastmaw minin
 before Astralite, and new terrain uses sparse Crown routes through varied islands.
 Existing chunks, items, stock and paired returns are retained.
 
+The [Lantern Warren/material update](LANTERN_WARRENS_AND_GUILD_PROJECTS.md)
+adds proper architectural bridge spans and inhabited underground trading towns
+on ordinary islands, with surface entrances and actual inter-island portals.
+Town-bound Homeward Totems provide a native successful-pop rescue. Useful bulk
+projects and the current Crown whole-site rewards are recorded there; no
+passive remote chunk loading or automatic replacement of old terrain occurs.
+
 
 > Latest implemented progression: [HEARTH_PROGRESSION_SPECS.md](HEARTH_PROGRESSION_SPECS.md)
 > supersedes the old offering/entry rules and adds a focused sustainable household,

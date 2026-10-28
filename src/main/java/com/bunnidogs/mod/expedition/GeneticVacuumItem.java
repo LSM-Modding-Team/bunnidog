@@ -33,7 +33,7 @@ public final class GeneticVacuumItem extends BundleItem {
     @Override public int getUseDuration(ItemStack stack,LivingEntity user) {return user instanceof Player p && p.isShiftKeyDown() ? super.getUseDuration(stack,user) : 20;}
     @Override public ItemUseAnimation getUseAnimation(ItemStack stack) {return ItemUseAnimation.BOW;}
     private static Bunnidog target(ServerLevel server,Player player) {
-        return server.getEntitiesOfClass(Bunnidog.class,player.getBoundingBox().inflate(9),dog->!(dog instanceof Apex) && dog.isAlive() && dog.getLeashData()==null && !dog.isPassenger() && !dog.isVehicle()
+        return server.getEntitiesOfClass(Bunnidog.class,player.getBoundingBox().inflate(9),dog->!(dog instanceof Apex) && !(dog instanceof com.bunnidogs.mod.guild.WarrenCitizen) && dog.isAlive() && dog.getLeashData()==null && !dog.isPassenger() && !dog.isVehicle()
                 && (dog.trail().keeper()==null || dog.trail().belongsTo(player)) && (!dog.hasCustomName() || dog.trail().belongsTo(player)) && dog.carriedBundleCount()==0 && com.bunnidogs.mod.equipment.Barding.tier(dog)<0 && player.hasLineOfSight(dog)
                 && dog.getEyePosition().subtract(player.getEyePosition()).normalize().dot(player.getLookAngle())>.94)
                 .stream().min(java.util.Comparator.comparingDouble(player::distanceToSqr)).orElse(null);
@@ -42,8 +42,7 @@ public final class GeneticVacuumItem extends BundleItem {
         if(user instanceof Player p && p.isShiftKeyDown()) {super.onUseTick(level,user,stack,remaining);return;}
         if(!(level instanceof ServerLevel server) || !(user instanceof Player player) || remaining%4!=0)return;
         var dog=target(server,player);if(dog==null)return;
-        boolean fuel=player.hasInfiniteMaterials();
-        for(int i=0;i<player.getInventory().getContainerSize() && !fuel;i++)fuel=player.getInventory().getItem(i).is(ModItems.PRISM_CELL.get());
+        boolean fuel=PowerModes.available(player,ModItems.PRISM_CELL.get(),1);
         if(!fuel)return;
         dog.setDeltaMovement(dog.getDeltaMovement().lerp(player.getEyePosition().add(0,-.5,0).subtract(dog.position()).normalize().scale(.6),.6));dog.hurtMarked=true;
         server.sendParticles(net.minecraft.core.particles.ParticleTypes.REVERSE_PORTAL,dog.getX(),dog.getY()+.5,dog.getZ(),5,.25,.3,.25,.02);
@@ -53,15 +52,14 @@ public final class GeneticVacuumItem extends BundleItem {
         if(player.isShiftKeyDown())return stack;
         var target=target(server,player);
         if(target==null || stack.getDamageValue()>=stack.getMaxDamage()-1)return stack;
-        ItemStack ammo=ItemStack.EMPTY;
-        for(int i=0;i<player.getInventory().getContainerSize();i++)if(player.getInventory().getItem(i).is(ModItems.PRISM_CELL.get())) {ammo=player.getInventory().getItem(i);break;}
-        if(ammo.isEmpty() && !player.hasInfiniteMaterials())return stack;
+        if(!PowerModes.available(player,ModItems.PRISM_CELL.get(),1))return stack;
         var contents=new BundleContents.Mutable(stack.getOrDefault(DataComponents.BUNDLE_CONTENTS,BundleContents.EMPTY));
         var seed=SeedItem.create(Seed.captured(target.genome(),target.stats()));
         if(contents.tryInsert(seed)!=1)return stack;
+        if(!PowerModes.pay(player,ModItems.PRISM_CELL.get(),1))return stack;
         // Extraction, not a kill: no loot, XP, tissue roll or death effects.
         target.releaseHomeForTravel(server);target.discard();stack.set(DataComponents.BUNDLE_CONTENTS,contents.toImmutable());
-        ammo.consume(1,player);stack.hurtAndBreak(1,player,player.getUsedItemHand());
+        stack.hurtAndBreak(1,player,player.getUsedItemHand());
         return stack;
     }
 }

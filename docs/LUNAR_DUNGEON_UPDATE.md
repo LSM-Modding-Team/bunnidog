@@ -1,5 +1,9 @@
 # Lunar forge and Crown expedition update
 
+The later material economy supersedes this update's original vanilla-heavy
+supplies. See [LANTERN_WARRENS_AND_GUILD_PROJECTS.md](LANTERN_WARRENS_AND_GUILD_PROJECTS.md)
+and the current Crown spec for exact room splits, crafts and evidence.
+
 Implemented six-item play-review plan:
 
 1. Lunar forge: nine shards → concentrate; nine Cinderite → billet; nine
@@ -29,18 +33,16 @@ Verification: native recipes/loot, block strength and fresh templates, boundary
 movement, equipment/saves/costs, launcher shots; actual exported mesh previews
 and final native-template render. Live client appearance remains human review.
 
-Generic supplies keep role parts exclusive to Apex kills and the forge minerals
-exclusive to mining. A normal supply barrel now rolls 16–32 enchanted apples,
-128–256 XP bottles, 64–128 golden apples, 2–3 Totems, 4–8 each diamond blocks/
-Netherite ingots, pearls/Flight-1 rockets and bulk amethyst/gunpowder/copper/gold/
-fire charges. Wing and finale rewards increase these quantities substantially.
-The maximum rolls fit 27 slots, counting pearls as 16 and Totems as one per slot.
-Opened barrels remain their exact saved contents.
+Generic supplies keep role parts exclusive to Apex kills. Entry freight cannot
+replace first-set moon mining; completed wings and the foundry vault now pay
+bulk forge materials for pack upgrades and useful projects. Vanilla supplies
+are a declared whole-site budget, not repeated wealth piles in each barrel.
+The maximum rolls fit native stock; opened barrels retain their exact contents.
 
 For an existing castle, `/bunnidogs dungeon fortify` converts only still-matching
 old structural blocks in loaded chunks, using actual native template coordinates.
 It does not re-paste the building, refill containers or reset keys/progress.
-The original architecture is retained. Protocol 44 requires matching clients.
+The original architecture is retained. Current protocol 45 requires matching clients.
 
 Evidence: native recipe-manager crafts/smelting/smithing, actual 27-slot supply
 barrel, Blastmaw-resistant masonry, constrained encounter movement/targets,
