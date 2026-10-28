@@ -345,7 +345,7 @@ healing credit for self-healing. Interrupted charges spend nothing. Native fuel,
 cooldown, permission and whole-item checks remain authoritative.
 
 All new text is English plus the shared neutral Peruvian Spanish source.
-Protocol **45** requires matching client/server content. Original ordinary Apex
+Current protocol **46** requires matching client/server content. Original ordinary Apex
 values and old gear IDs/saves remain compatible.
 
 ## Evidence and remaining review

@@ -42,7 +42,9 @@ public final class CompanionCombatGameTest {
     private CompanionCombatGameTest() {}
     private static final int Y=200;
     private static void floor(GameTestHelper h) {
-        for (int x=0;x<=18;x++) for (int z=0;z<=5;z++) {
+        // The recall scenario deliberately moves its keeper five blocks WEST of
+        // the bite position. Native bite spacing can put that destination below X0.
+        for (int x=-8;x<=18;x++) for (int z=0;z<=5;z++) {
             h.setBlock(x,Y,z,Blocks.STONE);
             for (int y=1;y<=4;y++) h.setBlock(x,Y+y,z,Blocks.AIR);
         }
@@ -89,7 +91,7 @@ public final class CompanionCombatGameTest {
             dog.hurtServer(h.getLevel(),h.getLevel().damageSources().mobAttack(enemy),1);
         });
         h.runAtTickTime(95,()->{
-            h.assertTrue(dog.getTarget()==null&&dog.distanceToSqr(keeper)<distance[0],"Incoming damage cannot cancel withdrawal or reacquire the old enemy");
+            h.assertTrue(dog.getTarget()==null&&dog.distanceToSqr(keeper)<distance[0],"Incoming damage cannot cancel withdrawal or reacquire the old enemy: dog="+dog.position()+", keeper="+keeper.position()+", target="+dog.getTarget()+", intent="+dog.combat().intent()+", initial distance="+distance[0]+", current="+dog.distanceToSqr(keeper));
             dog.discard(); enemy.discard(); h.succeed();
         });
     }

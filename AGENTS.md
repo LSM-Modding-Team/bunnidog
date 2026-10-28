@@ -1,5 +1,23 @@
 # Codex working instructions
 
+Latest user asks for polish following their recurring complaints. Current
+workshop/expedition corrections are in `docs/COHESION_PLAN.md` and the updated
+guild spec. Keep deliberate native workpiece/book/result slots over the original
+27 saved slots, exact one-job payments, component-preserving output and untouched
+reserve gear. Old mismatched contents remain withdrawable. Show compact cost
+icons, actual fuel/bedding bars and one brief state on vanilla gray; never add a
+manual/HUD or automatic measurements. Aerie Launch closes only on success;
+empty town hearts have no unused inventory menu. Binding accepts compatible
+useful book upgrades and prices only applied levels, within native limits.
+Preserve actual native lead hitches, one refund across cuts/snaps/death/reload,
+legacy paid-hitch migration and protection of other leashes. Owner-led pullers
+transfer their already-paid lead without a second payment. Town routes save
+their actual selected hall, not a mutable network-list index.
+Arrival/attempted actions have brief local feedback. Preserve covered irrigation,
+supported house lamps/rails, fresh-terrain-only architecture and distinct item
+silhouettes/real charge bars. Protocol 46 carries the new native menu content.
+Native/template previews are headless evidence; client feel remains human review.
+
 Latest continuation implements the player's bridge/build/finale/material-economy
 and peaceful-town request. Read `docs/LANTERN_WARRENS_AND_GUILD_PROJECTS.md`.
 Preserve the actual arched/parapeted/ribbed five-wide bridges, five clear blocks,
@@ -34,7 +52,7 @@ footprints. Ordinary ticking never searches or force-loads remote towns. Rescue
 Totems bind actual GlobalPos and travel only after native successful death
 protection. Preserve blocked-landing survival, debt repayment and one real item
 consumed. This authored NPC culture does not complete the I1–I10 roadmap.
-Protocol 45 requires matching new content. Build/model/localization and all 264
+Protocol 46 requires matching new content. Build/model/localization and all 264
 native server scenarios passed; final native-template renders were inspected.
 Client visuals/performance and natural solo/co-op economy/balance remain human
 review. Modded dungeon enchantments remain planning only; the bench uses real

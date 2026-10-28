@@ -12,4 +12,5 @@ public final class ModMenus {
     private ModMenus() {}
     public static final DeferredRegister<MenuType<?>> MENUS=DeferredRegister.create(Registries.MENU,BunnidogsMod.MODID);
     public static final DeferredHolder<MenuType<?>,MenuType<CareMenu>> CARE=MENUS.register("care",()->IMenuTypeExtension.create(CareMenu::new));
+    public static final DeferredHolder<MenuType<?>,MenuType<com.bunnidogs.mod.menu.ProjectMenu>> PROJECT=MENUS.register("project",()->IMenuTypeExtension.create(com.bunnidogs.mod.menu.ProjectMenu::new));
 }

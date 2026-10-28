@@ -5,6 +5,12 @@ accepted [material economy proposal](GREAT_WARREN_MATERIAL_ECONOMY_PLAN.md) and
 the player's request for peaceful underground towns, proper bridges, supported
 dungeon lights and a more complete Crowned fight.
 
+The subsequent polish replaces generic workshop chests with native deliberate
+input/result menus, adds charge/fuel bars and recognizable item icons, and
+finishes real wagon hitches, stable town routing and kitchen irrigation. Current
+interaction/evidence details are in `COHESION_PLAN.md`; protocol 46 requires
+matching client/server menu content.
+
 ## A journey with places to return to
 
 Lantern Warrens are peaceful, inhabited underground towns in **new Great Warren
@@ -17,7 +23,8 @@ bunnidogs:lantern_warren` uses the native registry.
 A stone gatehouse, beacon and graded surface entrance lead down four switchback
 stair flights. Below is a vaulted market with a fountain, four awning stalls,
 reading alcoves and side galleries. Two upstairs residential wings have beds,
-storage and shared sitting areas. A lit kitchen garden, furnished workshop and
+storage, supported hanging lamps, small tables and shared sitting areas. A lit,
+covered-water-irrigated kitchen garden, furnished workshop and
 large portal hall make a working district rather than an empty stone shell.
 Arches, pillars, stairs, roof beams and continuous lantern chains are actual
 blocks. The 30 native chunk templates come from `art/underwarren.py`; placement
@@ -100,18 +107,24 @@ These costs do not alter the existing Astralite armour/tool path.
 | Four Nursery Bedding | — | — | 4 | 2 Sinew, 1 Dust |
 
 Blocks use ordinary gray native inventory screens, actual carried stacks and
-27-slot storage. Redstone pauses their work. Placing a station grants no animal
+27 original saved slots. Workshops reserve workpiece/book/result slots with
+remaining supplies below; other projects show actual supply stock and fuel state.
+Old contents remain retrievable. Redstone pauses their work. Placing a station grants no animal
 skill. Existing hauling/manufacturing can use physical stock and ordinary
 recipes; the blocks do not teleport goods or replace workforce learning.
 
-* **Pack Armoury:** repairs a real damaged barding by up to 120 durability for
+* **Pack Armoury:** repairs the deliberately selected barding by up to 120 durability for
   one appropriate tier ingredient, two Cinderite and four Sinew. Astralite uses
   one Shard. Wounds, enchantments, names and exact stack ownership survive.
-  Native anvils/Mending remain alternatives.
+  The real suit moves to its output after one paid job; stored spare suits are
+  never selected and an occupied output blocks another payment. Native anvils/
+  Mending remain alternatives.
 * **Resonance Binding Bench:** consumes an actual compatible enchanted book,
-  eight Cinderite, eight Dust and one Shard per sum of applied book levels. It
+  eight Cinderite, eight Dust and one Shard per sum of actually applied levels. It
   applies only higher supported levels within native maxima and compatible
-  sets, preserving wear and other components. It does not clone books, combine
+  sets, preserving wear and other components. Redundant/unsupported parts of a
+  mixed book do not prevent its useful compatible upgrades. The actual result
+  owns the original equipment. It does not clone books, combine
   two equal levels into a higher one or introduce the still-planned dungeon
   enchantments.
 * **Bastion Heart:** retains 24-block natural-spawn suppression and expands it
@@ -119,7 +132,9 @@ recipes; the blocks do not teleport goods or replace workforce learning.
   supplies 12,000. Redstone pauses fuel and expansion. It does not cancel active
   enemies, waves or projectiles and incurs no offline bill.
 * **Launch Aerie:** spends two Cinderite and one Dust from stock to launch a
-  player wearing a usable native glider. Crouch-use opens its supplies. It
+  player wearing a usable native glider. Crouch-use opens its supplies; that
+  screen also has a paid Launch button which closes the menu on success.
+  Unready direct use opens supplies with its actual blocker. It
   grants no wingless flight or teleport.
 * **Nursery Hearth:** sheltered nearby pups can grow up to 25% sooner in loaded
   time, spending one bedding and one Guava per 600 active ticks. A station lease
@@ -147,6 +162,11 @@ Standard one-for-one alongside Spools, without becoming organs or Eye remnants.
 The visible covered **Kennel Wagon** carries 27 actual freight slots, four actual
 companion passengers and its owner driver. A sufficiently strong, trained adult
 puller with Carrying capacity at least three is hitched using one real Lead.
+The hitch is a native visible lead connection. Owner-used shears release it and
+return its one Lead; native snapping/cleanup and repeated cuts cannot refund it
+twice. Legacy paid hitches acquire their real connection on loaded reunion.
+An owner-led companion transfers its existing paid lead into the hitch rather
+than consuming a second one. Other keepers' or unresolved leashes are protected.
 The Trail Whistle boards/releases the owner's nearby companions; empty-hand use
 boards the owner as driver and crouch-use opens cargo. The puller is not copied
 into a passenger slot.
@@ -214,5 +234,5 @@ Build/model/localization gates passed. Final native-template previews are in
 `art/lantern_warren/`, `art/bridges/` and `art/citadel/`, with template hashes.
 These headless renders approximate minor native models and lighting; they do
 not establish client performance or natural solo/co-op Survival balance.
-Protocol **45** requires matching client/server content for the new entities,
+Protocol **46** requires matching client/server content for the new entities,
 blocks, items and components.

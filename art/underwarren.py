@@ -57,6 +57,14 @@ def build():
    box(x0+3,10,z,x1-3,12,z,WOOD);opening(x0+8,z,x0+11,z,9,3)
    for x in [x0+4,x1-5]:put(x,10,z+2,'red_bed',facing='south',part='foot',occupied=False);put(x,10,z+3,'red_bed',facing='south',part='head',occupied=False)
    put(x0+5,10,z+1,'barrel',facing='up',open=False)
+   # A table, reading stool and a lamp fixed to the actual vault in each home.
+   if z<20:
+    tx=x0+16
+    put(tx,10,z+5,'bunnidogs:guava_fence',east=False,west=False,north=False,south=False,waterlogged=False)
+    put(tx,11,z+5,'bunnidogs:guava_pressure_plate',powered=False)
+    put(tx-2,10,z+5,'bunnidogs:guava_slab',type='bottom',waterlogged=False)
+    roof=9+4+round(8*.55*math.sqrt(max(0,1-((tx-(x0+x1)/2)/((x1-x0)/2))**2)))
+    hang(tx,12,z+6,roof)
   # Open balcony and continuous stairs from the public hall.
   bx=x1 if x0<0 else x0
   opening(bx-1,-10,bx+1,21,9,5)
@@ -138,10 +146,15 @@ def build():
   y0=32-flight*8;direction=1 if flight%2==0 else -1;x=-3 if flight%2==0 else 3;z0=-37 if direction==1 else -21
   for n in range(16):
    z=z0+direction*n;y=y0-(n+1)//2;box(x-2,y+1,z,x+2,y+5,z,AIR)
+   if 2<=n<=12:
+    for xx in [x-3,x+3]:
+     put(xx,y,z,RIB);put(xx,y+1,z,'iron_bars',north=True,south=True,east=False,west=False,waterlogged=False)
  # Real planted kitchen beds under grow lights.
  for x in range(-40,-19):
   for z in [26,27]:
    put(x,0,z,'farmland',moisture=7);put(x,1,z,'wheat',age=7)
+  # A covered water channel hydrates every bed without an open item-trapping shaft.
+  put(x,0,28,'bunnidogs:lunar_bricks_slab',type='top',waterlogged=True)
  for x in range(-40,-19,4):
   put(x,3,27,'bunnidogs:lunar_rootlight')
   for y in range(4,8):put(x,y,27,'iron_chain',axis='y',waterlogged=False)

@@ -29,6 +29,7 @@ public final class BunnidogsClient {
     }
     @SubscribeEvent public static void menus(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) {
         event.register(com.bunnidogs.mod.registry.ModMenus.CARE.get(),com.bunnidogs.mod.client.screen.CareScreen::new);
+        event.register(com.bunnidogs.mod.registry.ModMenus.PROJECT.get(),com.bunnidogs.mod.client.screen.ProjectScreen::new);
     }
     @SubscribeEvent public static void itemProperties(RegisterRangeSelectItemModelPropertyEvent event) {
         event.register(Identifier.fromNamespaceAndPath("bunnidogs","seed_quality"),SeedQualityProperty.CODEC);

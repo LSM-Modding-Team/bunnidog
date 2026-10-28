@@ -14,6 +14,9 @@ public final class ReservoirItem extends Item {
     public ReservoirItem(Properties p,boolean prism) {super(p);this.prism=prism;}
     public Item ammo() {return prism ? ModItems.PRISM_CELL.get() : ModItems.VOLATILE_CHARGE.get();}
     public int capacity() {return prism ? 512 : 128;}
+    @Override public boolean isBarVisible(ItemStack stack){return GuildProjects.units(stack,ammo())<capacity();}
+    @Override public int getBarWidth(ItemStack stack){return Math.round(13F*GuildProjects.units(stack,ammo())/capacity());}
+    @Override public int getBarColor(ItemStack stack){return prism ? 0x5DCED0 : 0xEEA24D;}
     @Override public InteractionResult use(Level level,Player player,InteractionHand hand) {
         var stack=player.getItemInHand(hand);
         if(!player.isShiftKeyDown())return prism ? com.bunnidogs.mod.realm.PrismCellItem.boost(level,player,hand) : InteractionResult.PASS;

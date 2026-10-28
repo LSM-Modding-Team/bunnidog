@@ -70,7 +70,7 @@ def prepare():
   else:
    try:dest.write_bytes(client.read(rel))
    except KeyError:dest.write_bytes(client.read('assets/minecraft/textures/block/tuff_bricks.png'))
-  mats[key]={'texture':str(dest),'glass':'glass' in name,'cutout':name=='minecraft:wheat','emission':any(s in name for s in ['lantern','froglight','shroomlight','rootlight','guild_veil'])}
+  mats[key]={'texture':str(dest),'glass':'glass' in name,'cutout':name in ['minecraft:wheat','minecraft:iron_bars'],'emission':any(s in name for s in ['lantern','froglight','shroomlight','rootlight','guild_veil'])}
   return key
  # Minecraft coordinates converted to Blender x,-z,y; UVs consistently one native block.
  facepoints=[[(0,0,0),(0,1,0),(0,1,1),(0,0,1)],[(1,0,1),(1,1,1),(1,1,0),(1,0,0)],[(0,0,0),(0,0,1),(1,0,1),(1,0,0)],[(1,1,0),(1,1,1),(0,1,1),(0,1,0)],[(0,1,0),(0,0,0),(1,0,0),(1,1,0)],[(0,0,1),(0,1,1),(1,1,1),(1,0,1)]]
@@ -96,6 +96,9 @@ def prepare():
     cube(pos,part_state,tuple(v/16 for v in element['from']),tuple(v/16 for v in element['to']),False)
   elif name=='minecraft:wheat':
    cube(pos,state,(.49,0,0),(.51,1,1),False);cube(pos,state,(0,0,.49),(1,1,.51),False)
+  elif name=='minecraft:iron_bars':
+   if props.get('north')=='true' or props.get('south')=='true':cube(pos,state,(.47,0,0),(.53,1,1),False)
+   if props.get('east')=='true' or props.get('west')=='true':cube(pos,state,(0,0,.47),(1,1,.53),False)
   elif name.endswith('_bed'):
    cube(pos,state,(0,.18,0),(1,.56,1),False)
   elif 'fence' in name:

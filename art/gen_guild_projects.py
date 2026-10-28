@@ -54,8 +54,39 @@ def generate():
    write(A,'items/'+name+'.json',{'model':{'type':'minecraft:model','model':'bunnidogs:item/'+name}})
    write(D,'loot_table/blocks/'+name+'.json',{'type':'minecraft:block','pools':[{'rolls':1,'entries':[{'type':'minecraft:item','name':'bunnidogs:'+name}],'conditions':[{'condition':'minecraft:survives_explosion'}]}]})
    continue
-  dr.rounded_rectangle((2,2,13,13),2,fill=(*color,255),outline=(38,42,49,255));dr.line((4,3,11,3),fill=(229,218,167,255));dr.line((3,5,3,11),fill=(219,201,153,255))
-  for y in range(5,12,3):dr.line((5,y,10,y),fill=(49,60,70,255))
+  # Distinct inventory silhouettes, rather than recolouring the same square for every project.
+  if name=='root_fibre':
+   for x,c in [(2,'#a27942'),(6,'#d3b675'),(10,'#c0975c')]:dr.line((x,2,x+2,5,x,9,x+2,13),fill=c,width=2)
+   dr.line((4,1,6,4,5,8,7,14),fill='#edd39a')
+  elif name=='fibre_roll':
+   dr.rounded_rectangle((2,4,12,13),2,fill='#b58b52',outline='#493724');dr.ellipse((7,2,14,10),fill='#d4b273',outline='#59422b');dr.ellipse((9,4,12,8),outline='#745634');dr.line((3,6,3,11),fill='#e9cf94');dr.line((2,10,7,14),fill='#7c5d39')
+  elif name=='dust_pouch':
+   dr.polygon([(4,4),(11,4),(14,11),(12,14),(3,14),(1,11)],fill='#817490',outline='#302b40');dr.line((5,2,11,2,10,5,5,5,5,2),fill='#b7b1bc',width=2);dr.line((4,5,12,5),fill='#d2b77e');dr.line((7,8,7,12),fill='#f5d76e');dr.line((5,10,9,10),fill='#f5d76e');dr.point((11,8),fill='#ded5ff')
+  elif name=='sinew_bale':
+   for y in [3,6,9]:dr.rounded_rectangle((1,y,14,y+3),1,fill='#bb8d88',outline='#654b4d');dr.line((3,y+1,11,y+1),fill='#edc3ad')
+   for x in [4,10]:dr.rectangle((x,2,x+1,13),fill='#6b6246');dr.point((x,3),fill='#bca977')
+  elif name=='moonstone_crate':
+   dr.rectangle((1,4,14,14),fill='#755638',outline='#322b27')
+   for x in [3,7,11]:dr.rectangle((x,5,x+1,12),fill='#a48255')
+   dr.polygon([(3,4),(5,1),(9,2),(11,1),(13,5)],fill='#d6dbba',outline='#899878');dr.line((1,6,14,6),fill='#ceaa70');dr.line((1,12,14,12),fill='#ceaa70')
+  elif name=='structural_frame':
+   dr.rectangle((1,1,14,14),outline='#333b44',width=3);dr.rectangle((3,3,12,12),outline='#95653e',width=2)
+   for x in [1,12]:
+    for y in [1,12]:dr.rectangle((x,y,x+2,y+2),fill='#8b9b9f');dr.point((x,y),fill='#d6ddc6')
+  elif name=='field_dressing':
+   dr.polygon([(1,6),(6,1),(14,9),(9,14)],fill='#ddd4b7',outline='#665b4c');dr.line((4,5,11,12),fill='#a8997f',width=2);dr.line((8,5,11,8),fill='#588b80',width=2);dr.line((5,7,8,10),fill='#588b80',width=2)
+  elif name=='nursery_bedding':
+   dr.rounded_rectangle((1,5,14,14),2,fill='#c8ad77',outline='#59482f');dr.rectangle((2,3,13,9),fill='#e0cb96',outline='#92754c');dr.line((3,6,12,6),fill='#8c6450');dr.line((3,11,12,11),fill='#8c6450');dr.line((4,3,4,8),fill='#f1e5b7')
+  elif name in ['prism_battery','volatile_magazine']:
+   prism=name=='prism_battery';base='#4a6870' if prism else '#6d4e3c';bright='#95e6e4' if prism else '#ecaa52'
+   dr.rounded_rectangle((4,2,11,14),2,fill=base,outline='#29343d');dr.rectangle((6,0,9,2),fill='#bec2ab');dr.rectangle((3,5,12,11),outline='#aca58a');dr.rectangle((6,4,9,11),fill=bright);dr.line((5,3,5,12),fill='#a3b6af');dr.line((7,5,7,9),fill='#f4efd5')
+   if not prism:dr.rectangle((2,6,3,12),fill='#b77c42');dr.rectangle((12,6,13,12),fill='#b77c42')
+  elif name=='kennel_wagon':
+   dr.rectangle((2,5,12,11),fill='#906442',outline='#493927');dr.polygon([(1,5),(4,1),(10,1),(13,5)],fill='#d1bc8b',outline='#5b4b38');dr.line((2,8,12,8),fill='#c49a61');dr.line((12,10,15,10),fill='#956f43',width=2)
+   for x in [3,10]:dr.ellipse((x-2,10,x+2,14),fill='#424c50',outline='#aeb5a5');dr.point((x,12),fill='#d8bf7b')
+  else:
+   dr.rounded_rectangle((2,2,13,13),2,fill=(*color,255),outline=(38,42,49,255));dr.line((4,3,11,3),fill=(229,218,167,255));dr.line((3,5,3,11),fill=(219,201,153,255))
+   for y in range(5,12,3):dr.line((5,y,10,y),fill=(49,60,70,255))
   if name=='homeward_totem':
    dr.rectangle((6,0,9,5),fill=(214,178,83,255));dr.rectangle((0,6,15,8),fill=(214,178,83,255));dr.rectangle((5,4,6,5),fill=(92,227,207,255));dr.rectangle((9,4,10,5),fill=(92,227,207,255))
   im.save(A/'textures/item'/f'{name}.png');write(A,'models/item/'+name+'.json',{'parent':'minecraft:item/generated','textures':{'layer0':'bunnidogs:item/'+name}});write(A,'items/'+name+'.json',{'model':{'type':'minecraft:model','model':'bunnidogs:item/'+name}})
@@ -73,6 +104,27 @@ def generate():
    base=(84,63,44) if x<80 else (87,99,105);n=rng.randint(-15,15)+(8 if y%7==0 else 0);px[x,y]=tuple(max(0,min(255,c+n)) for c in base)
  atlas.save(A/'textures/entity/kennel_wagon.png')
  messages={
+ 'project.bunnidogs.occupied':('Result occupied','Resultado ocupado'),
+ 'project.bunnidogs.launch':('Launch','Despegar'),
+ 'project.bunnidogs.workpiece':('No workpiece','Sin pieza'),
+ 'project.bunnidogs.barding':('No barding','Sin armadura animal'),
+ 'project.bunnidogs.repaired':('Fully repaired','Reparación completa'),
+ 'project.bunnidogs.equipment':('No equipment','Sin equipo'),
+ 'project.bunnidogs.book':('No enchanted book','Sin libro encantado'),
+ 'project.bunnidogs.incompatible':('No compatible upgrade','Sin mejoras compatibles'),
+ 'project.bunnidogs.working':('Working','En proceso'),
+ 'project.bunnidogs.materials':('Missing materials','Faltan materiales'),
+ 'project.bunnidogs.ready':('Ready','Listo'),
+ 'project.bunnidogs.paused':('Paused by redstone','Pausado por redstone'),
+ 'project.bunnidogs.fuel':('Missing fuel','Falta combustible'),
+ 'project.bunnidogs.active':('Active','Activo'),
+ 'project.bunnidogs.shelter':('No sheltered pups nearby','Sin crías bajo techo cerca'),
+ 'project.bunnidogs.wings':('Glider required','Se necesita un planeador'),
+ 'message.bunnidogs.wagon.hitched':('Puller hitched.','Animal enganchado.'),
+ 'message.bunnidogs.wagon.unhitched':('Puller released.','Animal desenganchado.'),
+ 'message.bunnidogs.wagon.puller':('No available strong companion nearby.','No hay un compañero fuerte disponible cerca.'),
+ 'message.bunnidogs.guild.riding':('Leave the vehicle first.','Baja del vehículo primero.'),
+ 'message.bunnidogs.guild.arrived':('Lantern Warren: %s','Madriguera de los faroles: %s'),
  'message.bunnidogs.guild.renovated':('Updated %s bridge blocks.','Se renovaron %s bloques del puente.'),
  'tooltip.bunnidogs.homeward_totem':('Returns you to its Warren when it saves your life.','Te devuelve a su madriguera al salvarte la vida.'),
  'message.bunnidogs.guild.full':('There is not enough room for a full refill.','No queda espacio para una recarga completa.'),

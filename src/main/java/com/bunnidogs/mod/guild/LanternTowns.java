@@ -59,16 +59,22 @@ public final class LanternTowns extends SavedData {
         var data=get(level);
         if(data.halls.removeIf(home->home.dimension().equals(level.dimension()) && level.hasChunkAt(home.pos()) && !(level.getBlockEntity(home.pos()) instanceof ProjectStation town && town.isTown())))data.setDirty();
         var nodes=get(level).halls.stream().filter(p->p.dimension().equals(level.dimension()) && p.pos().distSqr(gate.getBlockPos())>80*80).sorted(Comparator.comparingLong(p->p.pos().asLong())).toList();
+        if(player.isPassenger() || player.isVehicle()) {if(direct)player.sendOverlayMessage(Component.translatable("message.bunnidogs.guild.riding"));return;}
         var held=player.getMainHandItem();
+        if(held.isEmpty() && player.isShiftKeyDown() && player.getOffhandItem().is(ModItems.HOMEWARD_TOTEM.get()))held=player.getOffhandItem();
         var own=get(level).halls.stream().filter(p->p.dimension().equals(level.dimension()) && p.pos().distSqr(gate.getBlockPos())<80*80).findFirst().orElse(null);
         if(direct && held.is(ModItems.HOMEWARD_TOTEM.get()) && own!=null) {held.set(ModItems.GUILD_HOME.get(),own);player.sendOverlayMessage(Component.translatable("message.bunnidogs.guild.bound"));return;}
         if(nodes.isEmpty()) {
             var neighbor=discover(level,gate.getBlockPos());if(neighbor!=null)nodes=List.of(neighbor);
         }
         if(nodes.isEmpty()) {player.sendOverlayMessage(Component.translatable("message.bunnidogs.guild.no_route"));return;}
-        int selected=gate.getPersistentData().getIntOr("Route",0);
-        if(player.isShiftKeyDown()) {selected=Math.floorMod(selected+1,nodes.size());gate.getPersistentData().putInt("Route",selected);gate.setChanged();player.sendOverlayMessage(Component.translatable("message.bunnidogs.guild.destination",name(nodes.get(selected).pos())));return;}
-        travel(player,nodes.get(Math.floorMod(selected,nodes.size())),false);
+        int selected=Math.floorMod(gate.getPersistentData().getIntOr("Route",0),nodes.size());
+        long preferred=gate.getPersistentData().getLongOr("RouteHall",Long.MIN_VALUE);
+        for(int i=0;i<nodes.size();i++)if(nodes.get(i).pos().asLong()==preferred) {selected=i;break;}
+        if(player.isShiftKeyDown())selected=Math.floorMod(selected+1,nodes.size());
+        var destination=nodes.get(selected);gate.getPersistentData().putLong("RouteHall",destination.pos().asLong());gate.setChanged();
+        if(player.isShiftKeyDown()) {player.sendOverlayMessage(Component.translatable("message.bunnidogs.guild.destination",name(destination.pos())));return;}
+        travel(player,destination,false);
     }
     public static String name(BlockPos p) {String[] a={"Amber","Moss","Silver","Hearth","Moon","Cinder","Willow","Lantern"},b={"deep","hollow","rest","haven","root","grove","vault","burrow"};long seed=RealmTerrain.hash(p.asLong());return a[Math.floorMod(seed,a.length)]+b[Math.floorMod(seed>>>16,b.length)];}
     public static boolean travel(ServerPlayer player,GlobalPos hall,boolean rescue) {
@@ -80,7 +86,8 @@ public final class LanternTowns extends SavedData {
         if(landing==null) {player.sendOverlayMessage(Component.translatable("message.bunnidogs.guild.blocked"));return false;}
         if(rescue) {player.stopRiding();player.addEffect(new net.minecraft.world.effect.MobEffectInstance(net.minecraft.world.effect.MobEffects.REGENERATION,900,1));player.addEffect(new net.minecraft.world.effect.MobEffectInstance(net.minecraft.world.effect.MobEffects.FIRE_RESISTANCE,800,0));}
         if(player.teleport(new TeleportTransition(target,landing,Vec3.ZERO,player.getYRot(),player.getXRot(),TeleportTransition.PLAY_PORTAL_SOUND.then(TeleportTransition.PLACE_PORTAL_TICKET)))==null)return false;
-        player.getPersistentData().putLong("GuildTransitUntil",target.getGameTime()+80);player.resetFallDistance();player.clearFire();return true;
+        player.getPersistentData().putLong("GuildTransitUntil",target.getGameTime()+80);player.resetFallDistance();player.clearFire();
+        player.sendOverlayMessage(Component.translatable("message.bunnidogs.guild.arrived",name(hall.pos())));return true;
     }
     static void resident(ServerLevel level,BlockPos heart,int slot) {
         var center=heart.offset(-12,-1,-19);int[][] pads={{-31,-6},{31,-6},{-31,6},{31,6},{-28,28},{29,29},{-8,12},{8,12}};

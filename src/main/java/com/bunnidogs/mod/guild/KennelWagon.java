@@ -20,7 +20,7 @@ import net.minecraft.world.phys.Vec3;
 public final class KennelWagon extends net.minecraft.world.entity.PathfinderMob implements Container {
     private NonNullList<ItemStack> cargo=NonNullList.withSize(27,ItemStack.EMPTY);
     private UUID owner,puller;
-    private boolean dropped;
+    private boolean dropped,nativeHitch;
     private static final net.minecraft.network.syncher.EntityDataAccessor<Boolean> HITCHED=net.minecraft.network.syncher.SynchedEntityData.defineId(KennelWagon.class,net.minecraft.network.syncher.EntityDataSerializers.BOOLEAN);
     private static final net.minecraft.network.syncher.EntityDataAccessor<Boolean> HEAVY=net.minecraft.network.syncher.SynchedEntityData.defineId(KennelWagon.class,net.minecraft.network.syncher.EntityDataSerializers.BOOLEAN);
     @Override protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder b){super.defineSynchedData(b);b.define(HITCHED,false);b.define(HEAVY,false);}
@@ -28,7 +28,15 @@ public final class KennelWagon extends net.minecraft.world.entity.PathfinderMob 
     public KennelWagon(EntityType<? extends KennelWagon> type,Level level) {super(type,level);setPersistenceRequired();getNavigation().setCanFloat(false);}
     public static AttributeSupplier.Builder attributes() {return Mob.createMobAttributes().add(Attributes.MAX_HEALTH,80).add(Attributes.MOVEMENT_SPEED,.22).add(Attributes.KNOCKBACK_RESISTANCE,1);}
     public void owner(UUID id) {owner=id;}
+    private void notice(Player p,String key){p.sendOverlayMessage(Component.translatable("message.bunnidogs.wagon."+key));}
+    private void releaseHitch(Player p) {
+        boolean ownsLead=puller!=null && (!nativeHitch || getLeashData()!=null);
+        removeLeash();setLeashData(null);puller=null;nativeHitch=false;entityData.set(HITCHED,false);getNavigation().stop();
+        if(ownsLead)com.bunnidogs.mod.block.StationUse.give(p,new ItemStack(Items.LEAD));
+        notice(p,"unhitched");
+    }
     @Override protected void registerGoals() {}
+    @Override public boolean canBeLeashed(){return false;} // Only the owner's paid hitch may attach a lead.
     @Override public boolean isPushable() {return false;}
     @Override protected boolean canAddPassenger(Entity passenger) {
         if(passenger instanceof Player p)return owner!=null && owner.equals(p.getUUID()) && getControllingPassenger()==null;
@@ -45,25 +53,34 @@ public final class KennelWagon extends net.minecraft.world.entity.PathfinderMob 
     }
     @Override public InteractionResult mobInteract(Player p,InteractionHand hand) {
         if(level().isClientSide())return InteractionResult.SUCCESS;if(!p.isAlive() || p.isSpectator() || owner==null || !owner.equals(p.getUUID()))return InteractionResult.FAIL;
+        if(p.getItemInHand(hand).is(Items.SHEARS)) {
+            if(puller==null)return InteractionResult.PASS;
+            releaseHitch(p);p.getItemInHand(hand).hurtAndBreak(1,p,hand==InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);return InteractionResult.SUCCESS;
+        }
         if(p.getItemInHand(hand).is(Items.LEAD)) {
-            if(puller!=null)return InteractionResult.FAIL;
-            var dog=level().getEntitiesOfClass(Bunnidog.class,getBoundingBox().inflate(6),d->d.acceptsCare() && d.isAlive() && !d.isBaby() && owner.equals(d.trail().keeper()) && !d.isPassenger() && !d.combat().downed()
+            if(puller!=null) {notice(p,"hitched");return InteractionResult.FAIL;}
+            var dog=level().getEntitiesOfClass(Bunnidog.class,getBoundingBox().inflate(6),d->d.acceptsCare() && d.isAlive() && !d.isBaby() && owner.equals(d.trail().keeper()) && !d.isPassenger() && (d.getLeashData()==null || d.getLeashHolder()==p) && !d.combat().downed()
                 && com.bunnidogs.mod.genetics.Carrying.capacity(d.genome())>=3).stream().min(java.util.Comparator.comparingDouble(this::distanceToSqr)).orElse(null);
-            if(dog==null)return InteractionResult.FAIL;puller=dog.getUUID();p.getItemInHand(hand).consume(1,p);return InteractionResult.SUCCESS;
+            if(dog==null) {notice(p,"puller");return InteractionResult.FAIL;}
+            boolean transfer=dog.getLeashHolder()==p;if(transfer)dog.removeLeash();
+            puller=dog.getUUID();nativeHitch=true;setLeashedTo(dog,true);if(!transfer)p.getItemInHand(hand).consume(1,p);notice(p,"hitched");return InteractionResult.SUCCESS;
         }
         if(p.isShiftKeyDown()) {
             p.openMenu(new SimpleMenuProvider((id,inv,user)->ChestMenu.threeRows(id,inv,this),getDisplayName()));return InteractionResult.SUCCESS;
         }
         if(!p.getItemInHand(hand).is(ModItems.TRAIL_WHISTLE.get())) {p.startRiding(this,true,true);return InteractionResult.SUCCESS;}
         if(getPassengers().stream().anyMatch(e->e instanceof Bunnidog)) {for(var e:java.util.List.copyOf(getPassengers()))if(e instanceof Bunnidog)e.stopRiding();return InteractionResult.SUCCESS;}
-        for(var dog:level().getEntitiesOfClass(Bunnidog.class,getBoundingBox().inflate(5),d->d.acceptsCare() && d.isAlive() && !d.isBaby() && owner.equals(d.trail().keeper()) && !d.isPassenger() && !d.combat().downed() && !d.getUUID().equals(puller))) {
+        for(var dog:level().getEntitiesOfClass(Bunnidog.class,getBoundingBox().inflate(5),d->d.acceptsCare() && d.isAlive() && !d.isBaby() && owner.equals(d.trail().keeper()) && !d.isPassenger() && d.getLeashData()==null && !d.combat().downed() && !d.getUUID().equals(puller))) {
             if(getPassengers().stream().filter(e->e instanceof Bunnidog).count()==4)break;dog.startRiding(this,true,true);
         }
         return InteractionResult.SUCCESS;
     }
     @Override public void tick() {
-        super.tick();if(!(level() instanceof ServerLevel server) || !isAlive())return;if(puller==null) {entityData.set(HITCHED,false);return;}
+        super.tick();if(!(level() instanceof ServerLevel server) || !isAlive())return;
+        if(nativeHitch && !mayBeLeashed()) {puller=null;nativeHitch=false;}
+        if(puller==null) {entityData.set(HITCHED,false);return;}
         if(!(server.getEntity(puller) instanceof Bunnidog dog) || !dog.isAlive() || dog.isPassenger() || dog.combat().downed() || !owner.equals(dog.trail().keeper()) || distanceToSqr(dog)>32*32) {entityData.set(HITCHED,false);getNavigation().stop();return;}
+        if(!nativeHitch) {nativeHitch=true;setLeashedTo(dog,true);} // Original saves already paid for this hitch.
         double distance=distanceToSqr(dog);entityData.set(HITCHED,distance<64 && !dog.isInWater());
         if(getControllingPassenger() instanceof Player driver) {
             getNavigation().stop();
@@ -78,7 +95,8 @@ public final class KennelWagon extends net.minecraft.world.entity.PathfinderMob 
     }
     @Override public void die(net.minecraft.world.damagesource.DamageSource source) {
         super.die(source);if(!dead || dropped || !(level() instanceof ServerLevel server))return;dropped=true;
-        Containers.dropContents(server,this,this);spawnAtLocation(server,new ItemStack(GuildProjects.material("kennel_wagon")));if(puller!=null)spawnAtLocation(server,new ItemStack(Items.LEAD));
+        Containers.dropContents(server,this,this);spawnAtLocation(server,new ItemStack(GuildProjects.material("kennel_wagon")));
+        if(puller!=null && (!nativeHitch || getLeashData()!=null)) {removeLeash();setLeashData(null);spawnAtLocation(server,new ItemStack(Items.LEAD));}
     }
     @Override public int getContainerSize() {return 27;}
     @Override public boolean isEmpty() {return cargo.stream().allMatch(ItemStack::isEmpty);}
@@ -89,7 +107,7 @@ public final class KennelWagon extends net.minecraft.world.entity.PathfinderMob 
     @Override public void setItem(int i,ItemStack s) {cargo.set(i,s);setChanged();}
     @Override public void setChanged() {if(!level().isClientSide() && cargo!=null)entityData.set(HEAVY,cargo.stream().filter(s->!s.isEmpty()).count()>18);}
     @Override public boolean stillValid(Player p) {return isAlive() && owner!=null && owner.equals(p.getUUID()) && distanceToSqr(p)<64;}
-    @Override public void clearContent() {cargo.clear();}
-    @Override public void addAdditionalSaveData(ValueOutput out) {super.addAdditionalSaveData(out);ContainerHelper.saveAllItems(out,cargo);if(owner!=null)out.putString("WagonOwner",owner.toString());if(puller!=null)out.putString("WagonPuller",puller.toString());}
-    @Override public void readAdditionalSaveData(ValueInput in) {super.readAdditionalSaveData(in);cargo=NonNullList.withSize(27,ItemStack.EMPTY);ContainerHelper.loadAllItems(in,cargo);setChanged();try {owner=UUID.fromString(in.getStringOr("WagonOwner",""));}catch(IllegalArgumentException ignored){}try{puller=UUID.fromString(in.getStringOr("WagonPuller",""));}catch(IllegalArgumentException ignored){}}
+    @Override public void clearContent() {cargo.clear();setChanged();}
+    @Override public void addAdditionalSaveData(ValueOutput out) {super.addAdditionalSaveData(out);ContainerHelper.saveAllItems(out,cargo);out.putBoolean("NativeHitch",nativeHitch);if(owner!=null)out.putString("WagonOwner",owner.toString());if(puller!=null)out.putString("WagonPuller",puller.toString());}
+    @Override public void readAdditionalSaveData(ValueInput in) {super.readAdditionalSaveData(in);cargo=NonNullList.withSize(27,ItemStack.EMPTY);ContainerHelper.loadAllItems(in,cargo);setChanged();nativeHitch=in.getBooleanOr("NativeHitch",false);owner=null;puller=null;try {owner=UUID.fromString(in.getStringOr("WagonOwner",""));}catch(IllegalArgumentException ignored){}try{puller=UUID.fromString(in.getStringOr("WagonPuller",""));}catch(IllegalArgumentException ignored){}}
 }

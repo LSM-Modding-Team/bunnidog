@@ -4,6 +4,62 @@ The player should be able to raise a useful companion without reading a manual.
 The Field Guide is an optional reference for exact genetics and advanced systems.
 Adding another chapter does not count as making an interaction discoverable.
 
+## Workshop and expedition polish (2026-10-28)
+
+The new guild projects initially reused a generic chest and selected the first
+suitable suit/book anywhere in its stock. That repeats the same interaction
+mistake as the retired first-match Add buttons. Armouries and Binding Benches
+now expose deliberate workpiece/book/result slots, native shift-click and the
+original saved supplies. One paid job returns the actual altered item in a real
+output slot; spare equipment never becomes an implicit selection. Old stock
+remains recoverable even if it occupies a newly reserved slot.
+
+These screens use the accepted opaque gray Minecraft frame, compact cost icons
+and one short live state. There is no procedure paragraph, tutorial HUD, exact
+animal measurement or guide requirement. Bastions show actual remaining fuel;
+Nurseries show the paid bedding interval; Aeries expose their real costs and a
+Launch action. A successful launch closes its actual menu so flight can begin.
+An unsuccessful world-use opens its supply inventory rather than failing
+silently. Redstone and actual missing equipment/materials remain meaningful.
+Empty town hearts give their town name on use rather than opening an unused
+inventory. Batteries/magazines have native charge bars, and new guild materials
+have distinct inventory silhouettes instead of the same recoloured square.
+
+Binding accepts useful, supported higher enchantments from mixed books while
+leaving existing stronger/equal enchantments intact. It pays only for levels
+actually applied, consumes one real book and preserves the equipment's wounds,
+name, other components and repair history. Native incompatibilities/maxima
+remain; it cannot combine equal levels upward or clone books.
+
+Wagon hitches now use actual native lead connections, rather than invisible
+association alone. Owner-used shears release the hitch and return its one lead;
+repeat cutting, natural snapping, death and reload cannot refund that same lead
+twice. Existing paid hitches acquire their physical connection when their actual
+puller is present. Other leashed animals are not recruited as pullers/passengers.
+An animal already on its keeper's own lead transfers that paid lead directly
+into the hitch, without a detach-and-repay sequence or an extra dropped lead.
+Short messages report attempted hitching without adding an ambient control guide.
+
+Town gates save their chosen hall's position, so discovering another town cannot
+quietly change where a selected portal goes. Arrival gives one short town name;
+requested mounted travel reports the actual blocker. Homeward Totems can also
+bind from the off hand with an empty main hand while crouching. Normal travel
+does not consume the Totem. New town kitchens have covered irrigation that stays
+hydrated after harvest, and upper homes/stairs gain supported lamps, furniture
+and rails. No existing generated towns/player builds are repasted.
+
+Native regressions exercise real menu transfers/results and protected stale
+gestures, mixed books, original item save/drop, a paid Launch button that closes
+the menu, exact hitch refunds, stable portal destinations and repeated farmland
+hydration. `art/project_workshops_preview.png` uses native menu snapshots and
+source textures in English/shared Spanish at 320×240, with a substitute font.
+Final town renders read shipped templates. These are headless evidence, not
+client captures or natural Survival pacing evidence. Protocol 46 requires
+matching new menu content.
+The recall fixture also now supplies floor beneath its own five-block westward
+keeper move; native bite spacing could previously put that destination over
+the test platform's edge. Its withdrawal and target assertions remain intact.
+
 ## Screenshot review: normal container backgrounds (2026-10-24)
 
 The user likes the native-slot arrangement but rejects its floating appearance.

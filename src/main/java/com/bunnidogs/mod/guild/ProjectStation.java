@@ -35,17 +35,48 @@ public final class ProjectStation extends BaseContainerBlockEntity {
     @Override protected void setItems(NonNullList<ItemStack> items) {stock=items;}
     @Override public int getContainerSize() {return 27;}
     @Override protected Component getDefaultName() {return Component.translatable("block.bunnidogs."+kind());}
-    @Override protected AbstractContainerMenu createMenu(int id,Inventory inventory) {return ChestMenu.threeRows(id,inventory,this);}
+    @Override protected AbstractContainerMenu createMenu(int id,Inventory inventory) {
+        return new com.bunnidogs.mod.menu.ProjectMenu(id,inventory,this,kind(),new ContainerData() {
+            public int get(int index){return switch(index){case 0->java.util.Arrays.asList(com.bunnidogs.mod.menu.ProjectMenu.STATES).indexOf(state(inventory.player));case 1->cinderTicks;case 2->dustTicks;default->nurseryTicks;};}
+            public void set(int i,int value){}
+            public int getCount(){return 4;}
+        });
+    }
+    @Override public void writeClientSideData(AbstractContainerMenu menu,net.minecraft.network.RegistryFriendlyByteBuf buffer) {((com.bunnidogs.mod.menu.ProjectMenu)menu).writeOpeningData(buffer);}
+    public boolean workshop(){return kind().equals("pack_armoury") || kind().equals("resonance_bench");}
+    public boolean binding(){return kind().equals("resonance_bench");}
+    public int supplies(){return workshop() ? binding() ? 3 : 2 : 0;}
+    public int output(){return binding() ? 2 : 1;}
+    public WorkshopJob job(){return WorkshopJob.plan(kind(),stock.get(0),binding() ? stock.get(1) : ItemStack.EMPTY);}
+    public String state(Player viewer) {
+        if(workshop() && !stock.get(output()).isEmpty()) {var result=stock.get(output());return (binding() ? result.has(DataComponents.ENCHANTMENTS) && !result.is(Items.ENCHANTED_BOOK) : result.getItem() instanceof com.bunnidogs.mod.equipment.BardingItem) ? "ready" : "occupied";}
+        if(level!=null && level.hasNeighborSignal(worldPosition))return "paused";
+        if(workshop()) {var job=job();return !job.bill().isEmpty() && !has(job.bill(),supplies()) ? "materials" : job.state();}
+        return switch(kind()) {
+            case "bastion_heart" -> powered() ? "active" : "fuel";
+            case "launch_aerie" -> !usableWings(viewer) ? "wings" : has(Map.of(ModItems.CINDERITE_INGOT.get(),2,ModItems.STARLIT_DUST.get(),1),0) ? "ready" : "materials";
+            default -> nurseryTicks>0 ? "active" : has(Map.of(GuildProjects.material("nursery_bedding"),1,ModItems.GUAVA.get(),1),0) ? "shelter" : "materials";
+        };
+    }
+    private static boolean usableWings(Player p) {var wings=p.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.CHEST);return wings.has(DataComponents.GLIDER) && wings.getDamageValue()<wings.getMaxDamage()-1;}
+    public boolean launch(Player player) {
+        if(!(level instanceof ServerLevel server) || !com.bunnidogs.mod.block.StationUse.editable(player,this) || !stillValid(player) || !kind().equals("launch_aerie") || server.hasNeighborSignal(worldPosition)
+            || !usableWings(player) || !pay(Map.of(ModItems.CINDERITE_INGOT.get(),2,ModItems.STARLIT_DUST.get(),1),0))return false;
+        player.setOnGround(false);player.setDeltaMovement(player.getDeltaMovement().add(0,2.2,0));player.hurtMarked=true;player.startFallFlying();
+        server.sendParticles(net.minecraft.core.particles.ParticleTypes.CLOUD,player.getX(),player.getY(),player.getZ(),24,.6,.2,.6,.1);return true;
+    }
+    @Override public boolean canPlaceItem(int slot,ItemStack stack) {
+        if(!workshop())return true;
+        if(slot==output())return false;
+        if(slot==0)return binding() ? !stack.is(Items.ENCHANTED_BOOK) && stack.has(DataComponents.ENCHANTMENTS) : stack.getItem() instanceof com.bunnidogs.mod.equipment.BardingItem;
+        return !binding() || slot!=1 || stack.is(Items.ENCHANTED_BOOK);
+    }
     @Override public boolean stillValid(Player player) {return Container.stillValidBlockEntity(this,player) && canOpen(player);}
     public void use(Player player) {
         if(!(level instanceof ServerLevel server) || !com.bunnidogs.mod.block.StationUse.editable(player,this) || !stillValid(player))return;
         if(kind().equals("guild_gate")) {LanternTowns.gate(server,this,(ServerPlayer)player);return;}
-        if(kind().equals("launch_aerie") && !player.isShiftKeyDown()) {
-            var wings=player.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.CHEST);
-            if(!wings.has(DataComponents.GLIDER) || wings.getDamageValue()>=wings.getMaxDamage()-1 || !pay(Map.of(ModItems.CINDERITE_INGOT.get(),2,ModItems.STARLIT_DUST.get(),1),0))return;
-            player.setOnGround(false);player.setDeltaMovement(player.getDeltaMovement().add(0,2.2,0));player.hurtMarked=true;player.startFallFlying();
-            server.sendParticles(net.minecraft.core.particles.ParticleTypes.CLOUD,player.getX(),player.getY(),player.getZ(),24,.6,.2,.6,.1);return;
-        }
+        if(kind().equals("guild_heart")) {player.sendOverlayMessage(Component.literal(LanternTowns.name(worldPosition)));return;}
+        if(kind().equals("launch_aerie") && !player.isShiftKeyDown() && launch(player))return;
         player.openMenu(this);
     }
     private boolean has(Map<Item,Integer> bill,int start) {
@@ -78,24 +109,13 @@ public final class ProjectStation extends BaseContainerBlockEntity {
         }
     }
     private void repair() {
-        var suit=stock.stream().filter(s->s.getItem() instanceof com.bunnidogs.mod.equipment.BardingItem && s.isDamaged()).findFirst().orElse(ItemStack.EMPTY);if(!(suit.getItem() instanceof com.bunnidogs.mod.equipment.BardingItem) || !suit.isDamaged())return;
-        int tier=new ArrayList<>(ModItems.BARDING.values()).stream().map(Deferred->Deferred.get()).toList().indexOf(suit.getItem());
-        Item metal=switch(tier) {case 0->Items.LEATHER;case 1->Items.IRON_INGOT;case 2->Items.DIAMOND;case 3->Items.NETHERITE_INGOT;default->ModItems.ASTRALITE_SHARD.get();};
-        if(pay(Map.of(metal,1,ModItems.CINDERITE_INGOT.get(),2,ModItems.SINEW.get(),4),0)) {suit.setDamageValue(Math.max(0,suit.getDamageValue()-120));setChanged();}
+        var job=job();if(!stock.get(output()).isEmpty() || job.bill().isEmpty() || !pay(job.bill(),supplies()))return;
+        var suit=stock.get(0);suit.setDamageValue(Math.max(0,suit.getDamageValue()-120));stock.set(output(),suit);stock.set(0,ItemStack.EMPTY);setChanged();
     }
     private void bind() {
-        var gear=stock.stream().filter(s->!s.isEmpty() && !s.is(Items.ENCHANTED_BOOK) && s.has(DataComponents.ENCHANTMENTS)).findFirst().orElse(ItemStack.EMPTY);var book=stock.stream().filter(s->s.is(Items.ENCHANTED_BOOK)).findFirst().orElse(ItemStack.EMPTY);if(gear.isEmpty() || !book.is(Items.ENCHANTED_BOOK) || !gear.has(DataComponents.ENCHANTMENTS))return;
-        var enchants=EnchantmentHelper.getEnchantmentsForCrafting(book);if(enchants.isEmpty())return;
-        var old=EnchantmentHelper.getEnchantmentsForCrafting(gear);int levels=0;
-        for(var entry:enchants.entrySet()) {
-            var enchant=entry.getKey();int n=entry.getIntValue();
-            if(!enchant.value().isSupportedItem(gear) || n>enchant.value().getMaxLevel() || n<=old.getLevel(enchant))return;
-            for(var existing:old.keySet())if(!existing.equals(enchant) && !Enchantment.areCompatible(enchant,existing))return;
-            for(var other:enchants.keySet())if(!other.equals(enchant) && !Enchantment.areCompatible(enchant,other))return;
-            levels+=n;
-        }
-        if(!pay(Map.of(ModItems.STARLIT_DUST.get(),8*levels,ModItems.CINDERITE_INGOT.get(),8*levels,ModItems.ASTRALITE_SHARD.get(),levels),0))return;
-        EnchantmentHelper.updateEnchantments(gear,mutable->enchants.entrySet().forEach(e->mutable.set(e.getKey(),e.getIntValue())));book.shrink(1);setChanged();
+        var job=job();if(!stock.get(output()).isEmpty() || job.bill().isEmpty() || !pay(job.bill(),supplies()))return;
+        var gear=stock.get(0);EnchantmentHelper.updateEnchantments(gear,mutable->job.upgrades().entrySet().forEach(e->mutable.set(e.getKey(),e.getIntValue())));
+        stock.get(1).shrink(1);stock.set(output(),gear);stock.set(0,ItemStack.EMPTY);setChanged();
     }
     private void nurture(ServerLevel server) {
         var babies=server.getEntitiesOfClass(Bunnidog.class,new AABB(worldPosition).inflate(12),d->d.acceptsCare() && d.isAlive() && d.isBaby() && (owner==null || d.trail().keeper()==null || owner.equals(d.trail().keeper()))

@@ -7,6 +7,22 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 
 ## Current — Lantern Warrens, material projects and finished architecture
 
+The following polish gives Armoury/Binding real selected workpiece/book/result
+slots, exact paid output, visible cost icons and concise state. Bastion/Nursery
+supplies have live fuel/bedding bars; Aerie supplies include a paid Launch button
+which closes the screen. Existing 27-slot stock is preserved and spare gear is
+never auto-selected. Mixed books apply their useful compatible upgrades and cost
+only their applied levels. No tutorial text or measurement HUD is added.
+
+Wagons now show a real native lead hitch, cut with owner-used shears for one
+Lead back. Snap/death/reload cannot refund twice, and legacy paid hitches migrate
+on loaded reunion. Gates save an actual chosen destination and show the arrival
+town; growing the network cannot silently reroute them. Empty town hearts no
+longer open unused chests. New kitchens have covered irrigation; houses gain
+supported lights, tables and stair rails. Distinct material/ammunition icons and
+native charge bars improve inventory recognition. See `docs/COHESION_PLAN.md`
+and `art/project_workshops_preview.png` for implementation and headless evidence.
+
 New Great Warren islands can contain peaceful **Lantern Warrens**: surface
 gatehouses and real switchback stairs lead to a vaulted market, residential
 galleries, lit kitchen garden, workshop and portal hall. Eight large intelligent
@@ -40,7 +56,7 @@ health/damage scaling, finite packs, warnings and reward ownership remain.
 Build/model/localization gates and **all 264 native server scenarios** pass.
 Final native-template renders are in `art/bridges/`, `art/lantern_warren/` and
 `art/citadel/`; they are headless geometry evidence, not client captures.
-Protocol **45** requires matching clients. Natural Survival pacing and client
+Protocol **46** requires matching clients. Natural Survival pacing and client
 performance remain player review. Modded enchantments remain planning only;
 the binding bench supports existing compatible books. Authored town professions
 do not complete the separate autonomous civilization roadmap.

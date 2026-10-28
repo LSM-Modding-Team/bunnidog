@@ -42,7 +42,7 @@ The maximum rolls fit native stock; opened barrels retain their exact contents.
 For an existing castle, `/bunnidogs dungeon fortify` converts only still-matching
 old structural blocks in loaded chunks, using actual native template coordinates.
 It does not re-paste the building, refill containers or reset keys/progress.
-The original architecture is retained. Current protocol 45 requires matching clients.
+The original architecture is retained. Current protocol 46 requires matching clients.
 
 Evidence: native recipe-manager crafts/smelting/smithing, actual 27-slot supply
 barrel, Blastmaw-resistant masonry, constrained encounter movement/targets,
