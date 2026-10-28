@@ -8,11 +8,12 @@ import net.minecraft.world.level.levelgen.structure.placement.*;
 
 /** End-inspired seeded island fields, mountain relief and shortest routes through intermediate islands. No world queries. */
 public final class RealmTerrain {
-    public static final int LAND_Y=80,MOON_Y=244,CROWN_SPACING=192,CROWN_SEPARATION=96;
+    public static final int LAND_Y=80,MOON_Y=244,CROWN_SPACING=512,CROWN_SEPARATION=256;
     public static final int REGION=CROWN_SPACING*16,GRID=256,TILE=256;
     public static final RandomSpreadStructurePlacement CROWNS=new RandomSpreadStructurePlacement(CROWN_SPACING,CROWN_SEPARATION,RandomSpreadType.LINEAR,926481503);
     public record Site(int x,int z) {}
     public record Edge(Site a,Site b) {}
+    private static final Comparator<Edge> EDGE_ORDER=Comparator.comparingInt((Edge e)->e.a.x).thenComparingInt(e->e.a.z).thenComparingInt(e->e.b.x).thenComparingInt(e->e.b.z);
     public record Moon(int x,int y,int z,int radius) {}
     public record Column(int bottom,int top,int moonBottom,int moonTop,boolean bridge) {}
     public record Island(Site at,boolean crown,double rx,double rz,double sin,double cos,int base,double phase,double warpX,double warpZ) {}
@@ -52,16 +53,18 @@ public final class RealmTerrain {
             var c=column(s.x,s.z);if(c.top<48 || c.moonTop>=0)continue;found=s;best=d;
         }return found;
     }
-    private List<Edge> crownEdges(int rx,int rz) {
+    public List<Edge> crownLinks(int rx,int rz) {
         var result=new LinkedHashSet<Edge>();
         // Four-site local minimum trees retain a connected large-scale network without a complete mesh.
         for(int a=rx-1;a<=rx+1;a++)for(int b=rz-1;b<=rz+1;b++) {
             var corners=List.of(site(a,b),site(a+1,b),site(a,b+1),site(a+1,b+1));var possible=new ArrayList<Edge>();
             for(int i=0;i<4;i++)for(int j=i+1;j<4;j++)possible.add(edge(corners.get(i),corners.get(j)));
-            possible.sort(Comparator.comparingDouble((Edge e)->distance(e.a,e.b)).thenComparingInt(e->e.a.x).thenComparingInt(e->e.a.z));int[] parent={0,1,2,3};
+            possible.sort(Comparator.comparingDouble((Edge e)->distance(e.a,e.b)).thenComparing(EDGE_ORDER));int[] parent={0,1,2,3};
             for(var e:possible) {int i=corners.indexOf(e.a),j=corners.indexOf(e.b);while(parent[i]!=i)i=parent[i];while(parent[j]!=j)j=parent[j];if(i!=j) {parent[i]=j;result.add(e);}}
-        }return List.copyOf(result);
+        }return result.stream().sorted(EDGE_ORDER).toList();
     }
+    /** Immutable seeded plan, also used by native path audits and terrain previews. */
+    public List<Site> islandPath(Edge crownLink) {return route(edge(crownLink.a,crownLink.b)).points;}
     private int centerHeight(Site s) {return surface(island(s,false),s.x,s.z,1);}
     /** Bounded Dijkstra over neighboring island candidates; gaps and climbs cost more than existing land. */
     private Route route(Edge link) {
@@ -79,8 +82,9 @@ public final class RealmTerrain {
             else {int a=i/nz,b=i%nz;for(int dx=-1;dx<=1;dx++)for(int dz=-1;dz<=1;dz++)if((dx!=0 || dz!=0) && (dx==0 || dz==0 || ((hash(x0+Math.min(a,a+dx),7,z0+Math.min(b,b+dz))&1)==0)==(dx==dz)) && a+dx>=0 && a+dx<nx && b+dz>=0 && b+dz<nz)next.add((a+dx)*nz+b+dz);if(distance(points[i],link.b)<GRID*1.6)next.add(end);}
             for(int j:next) {double paid=cost[i]+distance(points[i],points[j])+Math.abs(heights[i]-heights[j])*3+(j<n && !exists[j] ? 165 : 0);if(paid<cost[j]) {cost[j]=paid;parent[j]=i;queue.add(new Step(j,paid));}}
         }
+        if(parent[end]<0)throw new IllegalStateException("No bounded island route between "+link.a+" and "+link.b);
         var path=new ArrayList<Site>();for(int i=end;i>=0;i=parent[i]) {path.add(points[i]);if(i==start)break;}Collections.reverse(path);
-        var spans=new ArrayList<Edge>();for(int i=1;i<path.size();i++)spans.add(new Edge(path.get(i-1),path.get(i)));
+        var spans=new ArrayList<Edge>();for(int i=1;i<path.size();i++)spans.add(edge(path.get(i-1),path.get(i)));
         var result=new Route(List.copyOf(path),List.copyOf(spans));routes.put(link,result);return result;
     }
     private static boolean near(Edge e,int x,int z,int margin) {return Math.max(e.a.x,e.b.x)>=x-margin && Math.min(e.a.x,e.b.x)<=x+TILE+margin && Math.max(e.a.z,e.b.z)>=z-margin && Math.min(e.a.z,e.b.z)<=z+TILE+margin;}
@@ -89,14 +93,14 @@ public final class RealmTerrain {
         int rx=Math.floorDiv(x,REGION),rz=Math.floorDiv(z,REGION);var crowns=new ArrayList<Site>();var natural=new LinkedHashSet<Site>();var spans=new LinkedHashSet<Edge>();var moons=new ArrayList<Moon>();
         for(int a=rx-1;a<=rx+1;a++)for(int b=rz-1;b<=rz+1;b++)crowns.add(site(a,b));
         for(int a=tx-2;a<=tx+2;a++)for(int b=tz-2;b<=tz+2;b++)if(present(a,b))natural.add(node(a,b));
-        for(var link:crownEdges(rx,rz))if(near(link,ox,oz,GRID*2)) {
+        for(var link:crownLinks(rx,rz))if(near(link,ox,oz,GRID*2)) {
             var route=route(link);for(var s:route.points)if(s.x>=ox-400 && s.x<=ox+TILE+400 && s.z>=oz-400 && s.z<=oz+TILE+400 && !s.equals(link.a) && !s.equals(link.b))natural.add(s);
             for(var e:route.spans)if(near(e,ox,oz,16))spans.add(e);
         }
         var islands=new ArrayList<Island>();for(var s:crowns)if(s.x>=ox-512 && s.x<=ox+TILE+512 && s.z>=oz-512 && s.z<=oz+TILE+512)islands.add(island(s,true));
         for(var s:natural)if(crowns.stream().noneMatch(c->distance(c,s)<400))islands.add(island(s,false));
         int mx=Math.floorDiv(x,1024),mz=Math.floorDiv(z,1024);for(int a=mx-1;a<=mx+1;a++)for(int b=mz-1;b<=mz+1;b++)moons.add(moon(a,b));
-        var result=new Tile(List.copyOf(crowns),List.copyOf(spans),List.copyOf(moons),List.copyOf(natural),List.copyOf(islands));tiles.put(key,result);return result;
+        var result=new Tile(List.copyOf(crowns),spans.stream().sorted(EDGE_ORDER).toList(),List.copyOf(moons),List.copyOf(natural),List.copyOf(islands));tiles.put(key,result);return result;
     }
     private double shape(Island s,int x,int z) {
         double dx=x-s.at.x,dz=z-s.at.z;if(Math.abs(dx)>512 || Math.abs(dz)>512)return -1;
@@ -122,8 +126,9 @@ public final class RealmTerrain {
             double a=along(x,z,e);if(Math.hypot(x-e.a.x-a*(e.b.x-e.a.x),z-e.a.z-a*(e.b.z-e.a.z))>3.2)continue;
             // Never grade through an existing Crown footprint. Its approaches join the edge of the plateau.
             if(t.sites.stream().anyMatch(s->Math.max(Math.abs(x-s.x),Math.abs(z-s.z))<98))break;
-            int height=(int)Math.round(roadHeight(e.a)*(1-a)+roadHeight(e.b)*a);
-            double shore=t.sites.stream().mapToDouble(s->Math.max(Math.abs(x-s.x),Math.abs(z-s.z))).min().orElse(1000);double blend=Math.clamp((shore-96)/96,0,1);height=(int)Math.round(LAND_Y*(1-blend)+height*blend);bridge=true;top=height;bottom=Math.min(bottom,height-2);break;
+            double height=roadHeight(e.a)*(1-a)+roadHeight(e.b)*a;
+            // Round only the final grade: two consecutive roundings can create a two-block step.
+            double shore=t.sites.stream().mapToDouble(s->Math.max(Math.abs(x-s.x),Math.abs(z-s.z))).min().orElse(1000);double blend=Math.clamp((shore-96)/96,0,1);bridge=true;top=(int)Math.round(LAND_Y*(1-blend)+height*blend);bottom=Math.min(bottom,top-2);break;
         }
         for(var m:t.moons) {double q=((x-m.x)*(double)(x-m.x)+(z-m.z)*(double)(z-m.z))/(m.radius*m.radius);if(q<1) {int h=(int)(Math.sqrt(1-q)*m.radius*.82);mb=m.y-h;mt=m.y+h;break;}}
         return new Column(bottom,top,mb,mt,bridge);

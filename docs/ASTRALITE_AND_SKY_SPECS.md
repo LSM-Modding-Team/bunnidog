@@ -91,8 +91,10 @@ Void is real air down through minimum Y. Decoration cannot reintroduce vanilla
 Overworld caves, geodes or ore generation. Vegetation is restricted to low island
 surfaces and excluded from bridges and Crown footprints.
 
-Dungeon placement and foundations share spacing **192 chunks**, separation **96**
-and salt 926481503: one ninth the former candidate density. Only the actual
+Dungeon placement and foundations share spacing **512 chunks**, separation **256**
+and salt 926481503: one candidate per 8,192-block-square region. This is about
+**7.1x rarer by area** than the preceding 192/96 placement (64x rarer than the original 64/32). Ordinary
+island and moon density are unchanged; those use independent grids. Only the actual
 192×192 footprint around each Crown is flat at Y80, with its dungeon at Y81;
 approaches blend into the surrounding hills. It no longer flattens the entire
 island. Ordinary islands are independent of dungeon placement.
@@ -115,6 +117,13 @@ Seven-block-wide roads/bridges follow varying heights, grade their narrow island
 approaches and join Crown plateaus. This is a bounded local network, not one
 global minimum tree over an infinite world. Tile/route caches are bounded; no
 world access, chunk loading or search proportional to explored territory occurs.
+Canonical span endpoints and a complete coordinate sort make overlapping routes
+independent of regional enumeration order. Road heights round only after the
+final Crown-approach blend; rounding twice could turn a gentle grade into a
+two-block step. Failed route reconstruction cannot silently return an
+endpoint-only path. Native route inspection uses the same
+immutable plan as generation, and every sampled hop remains local even when
+Crown destinations are thousands of blocks farther apart.
 
 Moonstone ellipsoids sit around Y235–253, horizontal radii42–64. They contain
 Astralite **2.4%**, Cinderite **3.2%** of their rock, versus **0.16% / 0.24%** on
@@ -138,9 +147,11 @@ The explicit dungeon repair command retains its earlier scope.
 Native checks cover real shipped LevelStem decoding/realm entry and return,
 unfinished ProtoChunk terrain, rich moons, void and bridge placement, agreeing
 heightmap/base-column queries, moon spawn tables, seed variation, actual Crown
-candidates, ordinary ruins, all nine native smithing upgrades, artifact-base
-rejection and exact enchantment/name/wear preservation. Geometry/texture previews
-are headless evidence; first-person appearance, natural encounter density and
+candidates, connected local Crown networks and full block-by-block island paths
+across four seeds (including negative regions), native ProtoChunk roads/headroom
+at Crown-region seams, cold-cache determinism, ordinary ruins, all nine native
+smithing upgrades, artifact-base rejection and exact enchantment/name/wear
+preservation. Geometry/texture previews are headless evidence; first-person appearance, natural encounter density and
 Survival acquisition pacing still need player review. The maintained native
 sample map and height study are `art/realm_islands_preview.png`; they are not
 a graphical client capture.

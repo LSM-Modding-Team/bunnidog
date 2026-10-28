@@ -20,8 +20,11 @@ headless evidence does not establish its natural Survival balance or appearance.
 ## Finding and entering
 
 Crown Warrens generate in **new Great Warren terrain**, through their own native
-random-spread structure set: spacing 192 chunks, separation 96 (latest expedition correction). A bounded nine-point
-terrain fit rejects submerged, excessively uneven or ceiling-clipped sites.
+random-spread structure set: spacing **512 chunks**, separation **256**. This is
+about **7.1x rarer by area** than the previous 192/96 placement, with candidate regions 8,192 blocks
+across. Foundations and multi-island routes share that exact placement. The realm
+supplies a fitted Crown island; the legacy non-realm fallback retains its bounded
+nine-point terrain check.
 `/locate structure bunnidogs:crown_warren` uses the normal structure registry.
 Existing generated terrain, homes and stock are not retroactively rebuilt.
 
@@ -257,6 +260,15 @@ Pending deliveries remain in the original controller until their actual niche is
 replaced/refilled. Blocked vault/archive deliveries remain saved until space is
 available. Archives store their exact whole seed/sample items once; they never
 combine deferred loot tables with inventory contents or reroll on inspection.
+
+## Planned room enchantment treasures
+
+`DUNGEON_ENCHANTMENTS_PLAN.md` proposes powerful, specialised books tied to the
+Glass Gallery/observatory, Brood Vaults, Furnace/workshop and final treasury.
+This is **planning only**; none of those books or effects are in runtime loot.
+Future book cabinets must own finite separate stock, since the generous generic
+27-slot tables already have a full maximum-roll budget. Existing loot/Core/key/
+archive journals remain unchanged by this proposal.
 
 ## Sovereign choices
 

@@ -22,6 +22,6 @@ view=fig.add_subplot(122,projection='3d');view.set_facecolor('#151e2a');view.plo
 for axis in [view.xaxis,view.yaxis,view.zaxis]:axis.pane.fill=False;axis.line.set_color('#596674')
 fig.set_layout_engine('constrained',rect=(0,.065,1,.935))
 fig.suptitle('Great Warren · native seeded terrain',color='#fff0cc',fontsize=18)
-fig.text(.04,.02,'Gold: connecting routes  ·  Violet: sky moons  ·  Each Crown is ~9× rarer by area than before',color='#c4ced9',fontsize=9)
+fig.text(.04,.02,'Gold: island routes · Violet: moons · Crowns ~7.1× rarer (512-chunk spacing)',color='#c4ced9',fontsize=9)
 fig.text(.55,.02,'Generated sample; not an in-game screenshot or a gameplay review.',color='#c4ced9',fontsize=9)
 fig.savefig(root/'art/realm_islands_preview.png',dpi=140,facecolor=fig.get_facecolor());plt.close(fig)

@@ -5,6 +5,25 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — rarer Crown destinations and checked island routes
+
+Crown spacing/separation is **512/256 chunks**, about **7.1x rarer by area**
+than the previous 192/96 placement. Candidate regions are 8,192 blocks across;
+ordinary island and moon density stays the same. Both actual native structures
+and the island/route planner share these values. Long links still follow bounded
+shortest paths through many intermediate islands, not direct Crown causeways.
+Canonical span ordering keeps route selection independent of neighboring region
+iteration order. Final-only height rounding removes two-block approach steps.
+The native audit traces complete routes across multiple seeds,
+including negative coordinates and generated ProtoChunk seams/headroom. Fresh
+terrain uses this placement; old chunks, castles, stock and portals remain saved.
+Old/new generation borders are not retroactively stitched.
+
+`docs/DUNGEON_ENCHANTMENTS_PLAN.md` proposes room-themed enchantment books for
+combat, traversal, mining and companion gear. **Planning only**: no enchantments
+or book loot are added in this build. The plan includes concrete effects/costs,
+exclusive build choices, room acquisition and native implementation requirements.
+
 ## Current — lunar forge, dungeon supplies, equipment and containment
 
 `docs/LUNAR_DUNGEON_UPDATE.md` records the six-item play-review update.
@@ -112,8 +131,8 @@ Blastmaw self-explosions for the first upgrade. Lunar item drops resist fire/bla
 Blastmaws are rare singles on ordinary land and remain the exclusive moon mobs.
 
 New realm terrain has independent irregular islands, layered hills/hollows and
-height-graded routes through intermediate islands. Crown candidates are 9× rarer
-by area; only their actual footprint is flat. Fresh arrivals are at least 700
+height-graded routes through intermediate islands. Crown candidates are about 7.1× rarer than the previous placement (64× rarer than the
+original placement); only their actual footprint is flat. Fresh arrivals are at least 700
 blocks from a Crown. Old chunks/paired returns remain intact. Read the updated
 `docs/ASTRALITE_AND_SKY_SPECS.md` and `docs/HEARTH_PROGRESSION_SPECS.md`.
 

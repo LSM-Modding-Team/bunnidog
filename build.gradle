@@ -115,6 +115,11 @@ neoForge {
         gameTestServer {
             type = "gameTestServer"
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            def selection = project.providers.gradleProperty('gameTestFilter')
+            if (selection.isPresent()) {
+                programArgument '--tests'
+                programArgument selection.get()
+            }
         }
 
         data {

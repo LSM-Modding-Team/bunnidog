@@ -8,6 +8,23 @@ apple/rocket/flask/ammo totals. `endgame replace` aliases Crystal; both explicit
 variants require the same final `replace` token. Keep inventory capacity checks,
 real Shulker contents and compatible native enchantments.
 
+Latest rarity/treasure steering: Crown spacing/separation is now 512/256
+chunks (~7.1x rarer than 192/96); update Java placement, the native structure-set
+JSON and its art generator together. Keep independent island/moon density,
+intermediate-island Dijkstra paths, shared route endpoint heights and deterministic
+span ordering across tile/region seams. Round road heights only after their
+final approach blend; intermediate rounding can create unwalkable two-block steps.
+Native full-route audits cover multiple
+seeds, negative coordinates and actual ProtoChunk road/headroom at region seams.
+Use `-PgameTestFilter=bunnidogs:realm_travel` for focused realm checks before the
+final full gate; the ordinary CI command still runs every test.
+Existing generated terrain/builds/paired returns remain intact; never promise
+retroactive old/new bridge stitching. `docs/DUNGEON_ENCHANTMENTS_PLAN.md` is a
+planning-only proposal: no enchantment definitions or enchantment loot ship yet.
+Future books need their own finite physical cabinets; generic dungeon tables
+already have a 27-slot worst-case budget. Preserve the separate native Core,
+archive and stock journals.
+
 Latest six-item play review explicitly authorizes the substantial lunar forge,
 expedition loot, launcher, boundaries, real armour and structural material update.
 Read `docs/LUNAR_DUNGEON_UPDATE.md`, `docs/ASTRALITE_AND_SKY_SPECS.md` and
@@ -123,7 +140,7 @@ Crest hunt popups; preserve historical saves/items/paired links. Late/endgame ki
 apple totals are 64/5 and 256/20 regular/enchanted, including boxed stock; every
 rocket is Flight 1. Lunar rock/ores require Astralite, resist TNT (1,200), and only
 Blastmaw self-blasts get their narrow mining exception. Real lunar item entities
-resist fire/blasts. Land Blastmaws are rare singles. Keep the shared 192/96 Crown
+resist fire/blasts. Land Blastmaws are rare singles. Keep the shared 512/256 Crown
 placement, varied independent islands/hills/hollows, bounded shortest routes via
 intermediate islands and arrivals away from dungeons. Do not flatten entire
 islands, restore direct straight Crown-to-Crown causeways, rewrite old chunks or
