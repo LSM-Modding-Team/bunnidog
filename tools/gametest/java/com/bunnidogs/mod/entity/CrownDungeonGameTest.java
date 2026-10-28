@@ -117,7 +117,7 @@ final class CrownDungeonGameTest {
         boss.setHealth(3200);h.assertTrue(boss.getHealth()==3200,"Native setHealth cannot silently clamp the boss to vanilla max health");
         boss.setHealth(5400);boss.setNoAi(false);boss.tick();boss.setNoAi(true);h.assertTrue(boss.phase()==2 && boss.getHealth()>=5399.9F && boss.getHealth()<=5412.1F,"Phase transitions preserve damage; only the finite visible vitality link can heal");
         h.assertTrue(h.getLevel().getEntitiesOfClass(ApexMinion.class,boss.getBoundingBox().inflate(50),e->CrownEncounter.member(e)).size()==3,"The Living Crown has a finite native pack");
-        h.assertTrue(h.getLevel().getEntitiesOfClass(Apex.class,boss.getBoundingBox().inflate(60),e->e!=boss && CrownEncounter.member(e)).size()==4,"The middle phase adds four champions, with a melee threat and two directed ranged casters");
+        h.assertTrue(h.getLevel().getEntitiesOfClass(Apex.class,boss.getBoundingBox().inflate(60),e->e!=boss && CrownEncounter.member(e)).size()==4,"The middle phase adds four champions, with a melee threat and two active ranged casters");
         float savedHealth=boss.getHealth();
         var out=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,h.getLevel().registryAccess());boss.saveWithoutId(out);var restored=ModEntities.CROWNED_APEX.get().create(h.getLevel(),EntitySpawnReason.LOAD);restored.load(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),out.buildResult()));
         h.assertTrue(restored.roster()==2 && restored.getMaxHealth()==9300 && Math.abs(restored.getHealth()-savedHealth)<.1 && restored.phase()==2,"Native entity saves preserve full health, scaling and phase without resetting the fight");restored.discard();

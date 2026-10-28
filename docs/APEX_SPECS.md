@@ -31,6 +31,12 @@ menu-replacement protections remain.
 | `blastmaw` | No melee. Rushes into a five-block fuse range, arms for forty ticks, explodes and backs away for eighty ticks during its 280-tick recovery, shooting power-four fireballs. Outside self-explosion range it fires even when that charge is ready, and ground variants can leap into range without spending it. A lethal next self-cost starts a longer red power-twenty final blast. |
 | `lifebinder` | No melee. Holds 10–16 blocks. Thrown anvils start the look-to-escape stun and queue a hook eight ticks after impact. Regular hooks retain their thirty-tick windup/160-tick recovery. Hooks remove one heart container; drains convert damage into seven-times healing. |
 
+Only the **ground basic melee Apex** disables a successfully blocking player's
+shield for five seconds, through Minecraft's native blocking API. The current
+bite is still blocked; following attacks exploit the recovery. Cancelled hits
+and hits behind the shield do not falsely disable it. Flying melee Apexes,
+Crowned Apexes and every specialist keep their previous shield behaviour.
+
 The base Apex health band is 180–720; Blastmaw is **216–864**. Normal Brute bites
 are 12.8–24; flying-Brute bites are **25.6–48**. Enrage retains the existing bounded
 speed/damage changes. Prefix each role ID with `flying_`, including `flying_apex`.

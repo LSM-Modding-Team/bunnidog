@@ -164,6 +164,10 @@ public class Apex extends Bunnidog implements Enemy {
     @Override public boolean doHurtTarget(ServerLevel level,Entity target) {
         return kind==ApexKind.BRUTE && super.doHurtTarget(level,target);
     }
+    @Override public float getSecondsToDisableBlocking() {
+        // Native blocking applies this only after an accepted, facing melee block.
+        return kind==ApexKind.BRUTE && !flying() && !(this instanceof CrownedApex) ? 5 : super.getSecondsToDisableBlocking();
+    }
     @Override public boolean acceptsCare() { return false; }
     @Override public boolean canEat(ItemStack stack) { return false; }
     @Override public boolean isFood(ItemStack stack) { return false; }

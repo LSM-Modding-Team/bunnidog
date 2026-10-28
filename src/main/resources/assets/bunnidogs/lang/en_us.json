@@ -2258,6 +2258,7 @@
   "text.bunnidogs.9924c3fcf0444d9c": "All eight pairs fixed",
   "effect.bunnidogs.anvil_daze": "Dazed",
   "effect.bunnidogs.anvil_daze.escape": "Shake your view",
+  "entity.bunnidogs.launcher_fireball": "Launcher Fireball",
   "entity.bunnidogs.apex_fireball": "Blastmaw Fireball",
   "entity.bunnidogs.apex_anvil": "Lifebinder Anvil",
   "block.bunnidogs.warren_anchor": "Warren Anchor",

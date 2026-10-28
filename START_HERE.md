@@ -5,6 +5,24 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
+## Current — launcher safety and active Crowned combat
+
+Launcher shots now pass allied bodies and protect the original shooter, bonded
+pets and native teammates from impact/blast damage and knockback. Modes, ammo,
+wear, native terrain/cancellation and enemy damage remain. Only the ground basic
+melee Apex disables a successfully blocking player's shield for five seconds.
+
+Crowned escorts all run actual movement/attack AI, with a one-time repair for
+old disabled casters. The boss now mixes its moves in every phase, pursues/bites
+more actively, pounces faster and returns to a closer target-centred aerial orbit.
+Its beam follows at a capped angular rate, with the original harmless warning
+and raw damage. Recovery is shorter; health/party scaling and finite pack/reward
+ownership remain. Retiring a support summon releases its own heart losses.
+See `docs/CROWN_WARREN_SPECS.md`, `docs/APEX_SPECS.md` and the updated Launcher
+entry in `docs/APEX_REWARDS_SPECS.md`. Build, model and localization gates plus
+all **257 native server scenarios** pass. Natural Survival balance and client
+visual judgement remain player review.
+
 ## Current — island tunnels; planned material economy
 
 Route decks now pass through five-block-high tunnels when islands rise above
@@ -110,7 +128,7 @@ pairs introduce each approach. Wild/ritual Apex tuning and realm spawn density
 remain unchanged.
 
 The Crowned Apex has 6,000 solo HP (15,900 with four), 40/56 melee, 32 beam damage
-and shorter recovery with the original warnings. Its middle phase has four
+and the active attack patterns/shorter recovery described above. Its middle phase has four
 champion Apexes plus three brood, and its final phase has two finite flying
 Prismmaw escorts. Support healing remains finite. Wing/final generic caches are
 richer; existing stock, keys, personal Cores and rematch payment are preserved.

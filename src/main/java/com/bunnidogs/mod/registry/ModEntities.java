@@ -62,6 +62,9 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>,EntityType<com.bunnidogs.mod.entity.ApexFireball>> APEX_FIREBALL=ENTITIES.register("apex_fireball",()->
             EntityType.Builder.<com.bunnidogs.mod.entity.ApexFireball>of(com.bunnidogs.mod.entity.ApexFireball::new,MobCategory.MISC).sized(1F,1F).clientTrackingRange(12).updateInterval(1)
                 .build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","apex_fireball"))));
+    public static final DeferredHolder<EntityType<?>,EntityType<com.bunnidogs.mod.entity.LauncherFireball>> LAUNCHER_FIREBALL=ENTITIES.register("launcher_fireball",()->
+            EntityType.Builder.<com.bunnidogs.mod.entity.LauncherFireball>of(com.bunnidogs.mod.entity.LauncherFireball::new,MobCategory.MISC).sized(1F,1F).clientTrackingRange(12).updateInterval(1)
+                .build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","launcher_fireball"))));
     public static final DeferredHolder<EntityType<?>,EntityType<com.bunnidogs.mod.entity.ApexAnvil>> APEX_ANVIL=ENTITIES.register("apex_anvil",()->
             EntityType.Builder.<com.bunnidogs.mod.entity.ApexAnvil>of(com.bunnidogs.mod.entity.ApexAnvil::new,MobCategory.MISC).sized(2F,2F).clientTrackingRange(12).updateInterval(1)
                 .build(ResourceKey.create(Registries.ENTITY_TYPE,Identifier.fromNamespaceAndPath("bunnidogs","apex_anvil"))));

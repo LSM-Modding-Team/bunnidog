@@ -56,6 +56,7 @@ public final class BunnidogsClient {
         ModEntities.FLYING_APEX.forEach(type->event.registerEntityRenderer(type.get(),BunnidogRenderer::new));
         event.registerEntityRenderer(ModEntities.APEX_MINION.get(),BunnidogRenderer::new);
         event.registerEntityRenderer(ModEntities.APEX_FIREBALL.get(),context -> new net.minecraft.client.renderer.entity.ThrownItemRenderer<>(context,2F,true));
+        event.registerEntityRenderer(ModEntities.LAUNCHER_FIREBALL.get(),context -> new net.minecraft.client.renderer.entity.ThrownItemRenderer<>(context,2F,true));
         event.registerEntityRenderer(ModEntities.APEX_ANVIL.get(),com.bunnidogs.mod.client.renderer.ApexAnvilRenderer::new);
         event.registerEntityRenderer(ModEntities.APEX_HOOK.get(),context -> new net.minecraft.client.renderer.entity.ThrownItemRenderer<>(context,4F,true));
         event.registerEntityRenderer(ModEntities.GUAVA_BOAT.get(), context -> new BoatRenderer(context, GUAVA_BOAT_LAYER));

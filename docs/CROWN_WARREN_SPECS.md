@@ -151,7 +151,7 @@ follows actual body/head proportions; wings unfold in the aerial final phase.
 The boss has its own native boss bar and remains measurable with Calipers.
 
 Solo health is **6,000**, with 18 armor, 40 raw melee damage and movement speed
-.38. The engagement roster freezes at the starter plus up to three nearby Survival players. Health
+.46. The engagement roster freezes at the starter plus up to three nearby Survival players. Health
 scales by `6000 × (1 + .55 × (players − 1))`, up to 15,900 for four players.
 Visitors arriving later cannot inflate health or acquire an idle core entitlement.
 
@@ -162,35 +162,61 @@ preserve damage rather than replacing health bars or imposing per-hit caps.
 
 | Health band | Pattern and openings |
 | --- | --- |
-| Above two thirds — The Hunt | Alternates committed pounces and aimed beams; ordinary bites/chasing during recovery |
-| Middle third — The Living Crown | One finite pack: champion Lifebinder, ground/flying directed Prismmaws, active Brute and three elite brood. Visible vitality links; boss remains directly damageable |
-| Last third — The Broken Crown | Continuous flight with two finite flying champion Prismmaws, warned dives and paired detonations; 56 raw melee damage |
+| Above two thirds — The Hunt | Pounces, tracking beams and paired detonations, with active pursuit/bites in recovery |
+| Middle third — The Living Crown | Pounces and tracking beams alongside one finite active pack: champion Lifebinder, ground/flying Prismmaws, Brute and three elite brood |
+| Last third — The Broken Crown | Continuous flight, tracking beams, faster pounces and paired detonations, with two finite flying champion Prismmaws; 56 raw melee damage |
 
-Pounces warn their fixed landing point for 28 ticks, then follow a real colliding,
-terrain-clearing arc. Beams warn for 34 ticks and pulse six times over 60 ticks,
-with up to 64-block reach (clipped to encounter bounds) and 32 raw piercing damage
-per accepted hit. Post-attack recovery is 32 ticks after a pounce, 40 after a beam
-and 45 after a detonation, reduced from 45/55/65. Warning lengths and the blast safe lane
-remain readable. The aimed line stays committed while the boss casts. Native
-protection/damage hooks remain.
+This play-review pass changes activity and pressure, retaining the actual native
+HP, armour, party scaling and raw damage. Ground pursuit uses speed .46 with a
+1.15 navigation multiplier, and only stops when a real visible bite is possible.
+Bites recover in 20 ticks. A scheduled pounce becomes a beam if the player is
+already in bite range. The middle phase no longer loops the beam exclusively;
+the final phase now uses beams too. Each major attack still has its own full
+warning and the boss does not launch two majors simultaneously.
 
-The Living Crown summons its pack once. Its support link has 360 HP of finite
-healing income, spent only on actual accepted healing; the ordinary Lifebinder's
-small saved reserve remains finite too. It spends at most 12 HP per accepted
-one-second pulse. Killing support stops its link. The two directed Prismmaws alternate fixed-direction shots during boss
-recovery, with a 20-tick warning and an 80-recovery-tick cadence; they do not run
-independent full attack rotations. The Brute and three brood provide melee
-pressure. Brood retains normal elite rules and its finite lifetime. Phase
-transitions and victory clean the old pack. The final flying escorts are
-attempted only once, saved across reloads, and cleaned on retreat/victory.
+Pounces retain their 28-tick warning, updating the orange landing marker for
+the first 20 ticks, then committing for the final eight ticks and the arc.
+The colliding, terrain-clearing arc is 25% faster than the ordinary Apex's,
+with the same loaded-world/protection/bounds checks. Post-pounce recovery is
+22 ticks. Ordinary ground/flying Apex jump and dive tuning stays unchanged.
 
-Final flight orbits around the chamber at roughly 17 blocks above its floor.
-Aerial casts retain no-gravity and stop stale ground navigation. The boss is
-fall-damage immune. Detonations mark two separated 19-block circles for about
-three seconds, then use native power-9 explosions, leaving a central safe lane.
-Family immunity, griefing rules, cancellation and protected Rootstone apply.
-The director never adds a fresh hook/stun to a point-blank blast. Player flight,
-ranged attacks, building and combat companions retain their normal uses.
+Beams retain 34 harmless warning ticks and six damaging pulses over 60 ticks,
+up to 64-block reach (clipped to the arena) and 32 raw piercing damage. They now
+turn toward the current target, capped at **.012/.015/.018 radians per tick**
+by phase after the initial aim acquisition (first 24 warning ticks: .055).
+Even an exact target reversal obeys that angular cap. Sprinting closer to the
+source, changing direction or using a quick movement tool can outrun the sweep;
+the ray never instantly snaps onto a relocated player. The actual current ray
+is also shown between damage pulses. Its source follows the mouth. Recovery
+is 28 ticks. Ordinary Prismmaw tracking/fixed-origin rules stay unchanged.
+
+The Living Crown summons its pack once, with legal targets assigned immediately.
+All champions run native movement and attack AI: the Lifebinder can use hooks/
+anvils/drain, and both Prismmaws reposition/fire normally. This replaces the old
+NoAI support/caster scheme and its sparse boss-directed Prism shot. Old saved
+middle-phase disabled casters resume once, without spawning extra actors or
+re-equipping/refilling them; actual Resonant Stun delays that repair. The saved
+pack flags, actor identities, Astralite gear and room boundaries remain.
+
+Its visible support link retains 360 HP of finite healing income, spent only on
+actual accepted healing, at most 12 HP per one-second opportunity. Ordinary
+Lifebinder drain converts only real accepted damage into additional healing;
+its reserve/cancellation rules remain. Killing support stops the link. Retiring
+that summon at a phase transition/reset/victory releases only its outstanding
+heart debt and stun, so no vanished caster leaves permanent losses behind.
+Offline debt ownership remains in SavedData. Other unrelated casters' debts
+are not removed by dismissal. Brood retains normal elite rules/finite lifetime.
+The final escorts are attempted only once across reloads and cleaned at the
+usual retreat/victory points.
+
+Final flight orbits the current target roughly 12 blocks out and 12 blocks above
+it, at controller speed .9 rather than a distant fixed chamber-centred loop.
+The boss returns to flight during recovery; casts retain no-gravity, stop stale
+ground navigation and remain fall-damage immune. Detonations retain the two
+19-block warning circles, native power-nine explosions and central safe lane,
+with 32-tick recovery. The Living phase excludes detonations while its active
+hook/anvil support is present. Family immunity, griefing rules, cancellation,
+protected masonry, player movement tools and combat companions remain meaningful.
 
 ## Saves, retreat and rewards
 
@@ -312,8 +338,15 @@ keys, the archive/treasury, final reward, native saves and generation/repair sto
 preservation. A separate unfinished-ProtoChunk fixture covers all four V2 seals;
 missing-revision V1 saves remain covered. The shipped-NBT walking audit proves
 independent closed-gate wing routes, legal pads/jambs and the clear Crown volume.
-The full suite contains 252 scenarios, including the new lunar forge, native
-barding ownership/save, movement boundary and actual supply barrel/masonry cases; build/model/localization gates also run.
+The suite now contains 257 scenarios. Five new play-review fixtures cover a
+real saved launcher shot passing allies and damaging an enemy, friendly blast/
+knockback immunity and explosion cancellation; native shield raising/blocking/
+recovery and variant exclusion; a damaging tracking sweep plus a real escape;
+old disabled-pack save migration, moving/casting champions and support debt
+cleanup; and 1,200 native ticks of autonomous three-phase attack selection and
+sustained flight. The full 257-case native gate passes. The existing lunar forge, native
+barding ownership/save, movement bounds and supply/masonry checks remain;
+build/model/localization gates also run.
 A repeat run exposed the pre-existing field test's open irrigation shaft under
 a one-block-thick platform; that fixture now uses a real waterlogged cover so
 random crop velocity cannot turn its hauling assertion into an unreachable void drop.

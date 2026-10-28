@@ -1,5 +1,21 @@
 # Codex working instructions
 
+Latest combat play review explicitly supersedes the balance pause for the four
+reported fixes. Launcher shots use their own saved player projectile: protect
+original shooter, bonded animals and native allies from collision, blast damage
+and knockback; preserve modes 1–5, power 3×N, exact payment, native cancellation,
+terrain rules and hostile targets. Do not change enemy Blastmaw fireball immunity.
+Only the ground basic melee Apex has the native five-second shield-disable
+response; flying, specialist and Crowned variants are excluded. Crowned escorts
+now move/attack with native AI; migrate the old disabled middle-phase casters
+once without duplicate packs, healing/refitting or bypassing Resonant Stun.
+The Crowned director uses varied phase rotations, faster pursuit/pounces, shorter
+recovery and a bounded-turn tracking beam, keeping health/damage, warning lengths,
+finite packs, original stock/keys/rewards and encounter bounds. Retired support
+summons release their own heart debt, including offline records. Read the current
+Crown/reward/Apex specs. Native review fixtures cover collision/blasts, shields,
+tracking/escape, old-pack saves/AI and actual autonomous phase rotations.
+
 Latest bridge/loot screenshot review: routes now keep exterior terrain height
 separate from their buried road deck. Preserve five-block corridor headroom,
 natural island roofs/hills above it and air gaps beneath raised spans. Keep

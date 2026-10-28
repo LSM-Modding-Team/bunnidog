@@ -17,7 +17,9 @@ public final class FireballLauncherItem extends Item {
         var weapon=player.getItemInHand(hand);if(PowerModes.cycle(level,player,weapon))return InteractionResult.SUCCESS;int power=PowerModes.get(weapon);if(!player.isAlive() || player.isSpectator() || player.getCooldowns().isOnCooldown(weapon))return InteractionResult.FAIL;
         if(!PowerModes.available(player,ModItems.VOLATILE_CHARGE.get(),power))return InteractionResult.FAIL;
         if(level instanceof ServerLevel server) {
-            var look=player.getLookAngle();var ball=new net.minecraft.world.entity.projectile.hurtingprojectile.LargeFireball(server,player,look,power*3);
+            var look=player.getLookAngle();var ball=com.bunnidogs.mod.registry.ModEntities.LAUNCHER_FIREBALL.get().create(server,net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
+            if(ball==null)return InteractionResult.FAIL;
+            ball.prepare(player,power);
             ball.setPos(player.getEyePosition().add(look.scale(1.3)));ball.setDeltaMovement(look.scale(1.2));
             var expected=weapon.copy();
             if(!server.addFreshEntity(ball))return InteractionResult.FAIL;

@@ -18,9 +18,12 @@ final class ApexMobility {
         leap(target,target.position());
     }
     void leap(LivingEntity target,Vec3 fixedLanding) {
+        leap(target,fixedLanding,1);
+    }
+    void leap(LivingEntity target,Vec3 fixedLanding,double tempo) {
         launch=apex.position();landing=com.bunnidogs.mod.crown.CrownEncounter.destination(apex,fixedLanding);victim=target;elapsed=0;
         double distance=launch.distanceTo(landing);
-        duration=Math.clamp((int)Math.ceil(distance*.7),18,40);
+        duration=Math.max(16,(int)Math.ceil(Math.clamp((int)Math.ceil(distance*.7),18,40)/tempo));
         height=Math.clamp(3.5+distance*.13+Math.max(0,landing.y-launch.y)*.4,3.5,12);
         apex.getNavigation().stop();apex.setOnGround(false);apex.resetFallDistance();
     }

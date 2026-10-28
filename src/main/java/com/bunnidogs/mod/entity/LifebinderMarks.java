@@ -80,6 +80,17 @@ final class LifebinderMarks extends SavedData {
         if(!freed.isEmpty())setDirty();
         ApexDaze.releaseCaster(caster);
     }
+    void dismissed(Apex caster) {
+        // A retired encounter summon must not leave an unkillable source of permanent debt.
+        boolean changed=false;
+        for(var it=debts.entrySet().iterator();it.hasNext();) {
+            var entry=it.next();if(entry.getValue().remove(caster.getUUID())==null)continue;
+            changed=true;var p=caster.level().getServer().getPlayerList().getPlayer(entry.getKey());
+            if(p!=null) {var timed=timers(p);timed.removeIf(t->t.caster.equals(caster.getUUID()));writeTimers(p,timed);sync(p);}
+            if(entry.getValue().isEmpty())it.remove();
+        }
+        if(changed)setDirty();ApexDaze.releaseCaster(caster);
+    }
     void sync(ServerPlayer player) {
         var attribute=player.getAttribute(Attributes.MAX_HEALTH);if(attribute==null)return;
         var existing=attribute.getModifier(MODIFIER);int count=lost(player.getUUID());

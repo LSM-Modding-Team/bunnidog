@@ -111,11 +111,18 @@ dealing **64 raw damage**. It retains its 32-tick charge, 30-tick recovery,
 identity and receive the new behavior.
 
 **Blastmaw Launcher:** mixed Volatile Hearts/Fangs/Marrow with netherite and a
-Blaze Rod. Launches real **power-four** native fireballs, including terrain/fire
-behavior and player kill credit. One Volatile Charge and one durability per
-shot; 40-tick repeat delay. Hearts, gunpowder and Fire Charges craft sixteen
-rounds. These are player weapons; the enemy family's fireball immunity does not
-protect targets from them. They can hurt the shooter normally.
+Blaze Rod. Sneak-use chooses power 1–5: explosion strength **3/6/9/12/15**,
+spending that many Volatile Charges and durability per shot, with a 40-tick
+repeat delay. Native fireball flight, impact/explosion cancellation, terrain
+rules and player kill credit remain. The registered launcher projectile saves
+its original shooter and selected strength. Direct collision and blast damage/
+knockback spare that shooter, bonded pets and native allies (including scoreboard
+teammates and their allied pets). Allied bodies do not intercept the shot;
+enemy players, wild Bunnidogs and hostile Apexes remain valid targets. The
+explosion creates no lingering fire under allies. Environmental consequences
+of destroyed terrain still use normal Minecraft rules. Enemy Blastmaw fireballs
+retain their separate family immunity and power-four tuning. Existing launcher
+items gain this behaviour; already-fired old vanilla projectiles remain vanilla.
 
 **Cataclysm Totem:** combine Volatile Hearts, Marrow, Spools and a Fang into a
 Core, then smith it into a real Totem. It uses native death protection. Only a
