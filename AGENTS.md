@@ -1,5 +1,17 @@
 # Codex working instructions
 
+Latest request updates planning only. `docs/STATS_REBALANCING_PLAN.md` is the
+current source-aware rebalance action plan; its effect-specific stat/potency
+formulas are preferred prototypes, not shipped or play-validated values.
+Prioritize an honest renewable Strength-XXX donor/infusion route and corresponding
+kits before broad enemy/reward multipliers. Separate establishing the bloodline
+from repeatedly infusing its seeds; do not add a pup-maturation charge to every
+drink. Evaluate Regeneration in HP/s and real mixed-role pressure, separately
+from Strength, Resistance and absorption. Use the corrected mining/trader rules,
+actual archive rolls/captures and finite supplies; preserve accepted combat roles
+and the no-new-effect-cap direction. No runtime, recipe or kit changes accompany
+this planning update. Read the plan before the older scale-audit next steps.
+
 Latest lunar correction: Cinderite must come from mining, alongside Astralite.
 Lantern smiths now refine 12 Raw Cinderite + 4 Root Fibre into 12 stocked ingots;
 retire the saved fibre-only offer without refilling stock or resetting other uses.

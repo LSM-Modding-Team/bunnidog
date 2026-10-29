@@ -4,6 +4,17 @@ The user requests substantial continuations, prioritizing unfinished planned
 features over more quality-of-life controls. Historical per-turn chunk limits
 do not apply. Verify old completion claims against code before choosing work.
 
+## Current player-directed review — progression and stats
+
+[STATS_REBALANCING_PLAN.md](STATS_REBALANCING_PLAN.md) is the current planning
+update, based on the corrected [acquisition audit](RAW_MATERIAL_ACQUISITION.md).
+Its priority is a renewable, earned Strength-XXX infusion route and honest kits,
+then independent healing/replenishment and mixed-encounter comparisons before
+targeted equipment/reward tuning. Keep full lunar blast drops, mined Cinderite,
+finite native stock and the user's accepted combat roles. The listed formulas
+are prototypes; this planning update does not implement them or replace the
+unfinished intelligence roadmap with another open-ended balance pass.
+
 ## Implemented expedition foundation — Great Warren and the Apex finale
 
 The 2026-10-25 user review marks Apex balancing complete and resumes autonomous

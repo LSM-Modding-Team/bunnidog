@@ -1,5 +1,11 @@
 # Progression, acquisition time and encounter scale
 
+**Current action plan:** [Stats rebalancing](STATS_REBALANCING_PLAN.md)
+incorporates the corrected acquisition findings and full-drop lunar mining.
+It prioritizes an attainable renewable infusion/Strength-XXX route, honest kits,
+separate recovery curves and whole-expedition comparisons. Its candidate values
+are planning only; this audit's existing formulas remain the shipped baseline.
+
 **Acquisition correction:** the first version over-weighted crafting bills and
 omitted important raw-material routes. Read [Raw-material acquisition](RAW_MATERIAL_ACQUISITION.md)
 first. It documents open ruins paying 12–24 Netherite Ingots, actual Blastmaw
@@ -281,13 +287,13 @@ These are identified design debts, not fixes falsely declared complete:
    actual minutes, deaths, supply loss and haul over those journeys before
    making another global enemy/loot multiplier claim.
 
-Next design priority starts with the actual source/payout hierarchy documented
-in RAW_MATERIAL_ACQUISITION.md, then the repeatable bred-seed/guava/infusion
-route to the desired endgame potency. Recipe totals alone cannot price it.
-Then compare whole-expedition consumption against finite room rewards and
-shared-material projects. Keep mining and six-hunt gates, the user's combat
-roles and permanent save/stock ownership intact while correcting that economy.
-Do not call the accepted intelligence roadmap complete from this equipment audit.
+The ordered next work is now specified in STATS_REBALANCING_PLAN.md, using
+RAW_MATERIAL_ACQUISITION.md as its source basis. Prototype the repeatable
+bred-seed/guava/infusion route and honest endgame kits first, then compare actual
+recovery, whole-expedition consumption, finite rewards and shared projects.
+Recipe totals alone cannot price that route. Keep mining and six-hunt gates,
+the user's combat roles and permanent save/stock ownership intact. Do not call
+the accepted intelligence roadmap complete from this equipment audit.
 
 ## Validation and limits
 

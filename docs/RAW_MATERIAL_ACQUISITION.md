@@ -338,6 +338,9 @@ potency; any revised route needs to be evaluated against these existing choices.
    source was depleted. Native counts and the small controlled extraction
    sample do not establish those human rates.
 
-Next work should reconcile the realm's actual source/payout hierarchy and the
-intended repeatable drink route with those source-specific observations. The
-recipe appendix remains useful bookkeeping, not an economic valuation model.
+The updated [stats rebalancing plan](STATS_REBALANCING_PLAN.md) uses these
+source-specific findings for the next decisions: an honest renewable donor/
+infusion route, separate healing curves and kits, then targeted encounter and
+reward tuning. It includes the full-drop lunar correction and mined-Cinderite
+requirement. Candidate coefficients are not shipped balance. The recipe appendix
+remains useful bookkeeping, not an economic valuation model.

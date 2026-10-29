@@ -5,7 +5,24 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
-## Current — reliable lunar blast mining and mined Cinderite
+## Current — acquisition-aware stats rebalancing plan
+
+`docs/STATS_REBALANCING_PLAN.md` is the current action plan. It incorporates
+ordinary ruin/Cleric/farm routes, joint Apex drops, finite archives/traders,
+full Blastmaw lunar drops and the restored mined-Cinderite requirement. It
+separates acquiring the first tool from repeat mining and developing a donor
+line from producing consumable seeds once those parents exist.
+
+The first priority is useful stat-driven infusion potency and honest kits that
+retain the requested Strength-XXX baseline. The plan supplies candidate curves,
+conditional breeding/refill calculations, independent healing/protection tests
+and field/night/moon/room/boss comparisons before targeted tuning. It does not
+infer a loot nerf from recipe counts or a health buff from enemy headcount.
+Formula coefficients are prototypes, not measured Survival balance. This update
+is documentation only: runtime, current bottles, kits and protocol **48** stay
+unchanged. Document links/arithmetic were reviewed; no local game build is needed.
+
+## Previous — reliable lunar blast mining and mined Cinderite
 
 Both ground and flying Blastmaw self-explosions now pay full normal block loot,
 like TNT without explosion decay. Every broken Astralite ore drops its shard,
