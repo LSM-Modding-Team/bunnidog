@@ -254,6 +254,7 @@ public final class CrownedApex extends Apex {
     public static void cleanup(ServerLevel level,UUID run,Vec3 center) {
         if(run==null)return;
         for(var entity:level.getEntitiesOfClass(Entity.class,new AABB(center,center).inflate(100),e->ApexSkills.family(e) && !(e instanceof CrownedApex) && run.toString().equals(e.getPersistentData().getStringOr("CrownRun","")))) {
+            if(entity instanceof LivingEntity living && living.isDeadOrDying())continue;
             if(entity instanceof Apex support && support.kind()==ApexKind.SUPPORT)LifebinderMarks.get(level).dismissed(support);
             entity.discard();
         }

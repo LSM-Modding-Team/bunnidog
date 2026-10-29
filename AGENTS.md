@@ -1,5 +1,22 @@
 # Codex working instructions
 
+Latest scale review supersedes the old no-dungeon-drops rule and balance pause.
+Read `docs/PROGRESSION_SCALE_AUDIT.md` and its generated quantity appendix before
+further economy or fight decisions. Night Apex spawning bypasses the inherited
+prey-animal dark-stone check; native aerial weights are 4x with small packs and
+35% fresh natural night actors have Iron/Diamond/Netherite, never Astralite.
+Preserve caps, wards, moon tables, native despawning and original daytime stats.
+Dungeon Apex kills pay normal wild parts/500 XP and native equipment; cleanup
+skips dying bodies, including caller-expiry checks on killed brood. Native reset/
+phase retirement does not fabricate kills. Regeneration has separate exponential
+quality thresholds (0,4,12,28,60,124...), no new level cap; other curves stay intact.
+The audit identifies real unresolved guava costs, renewable drink progression and
+kit quality inconsistencies. Strength XXX remains the requested endgame baseline;
+do not use the kit as proof of a realistic breeding/acquisition path. Compare
+whole journeys and finite site budgets, not rarity labels or isolated mob counts.
+Build/model/localization and all 270 native cases pass; natural Survival durations
+and client feel remain human review. Protocol 48 requires matching client/server.
+
 Latest request revises early guava gathering. Read `docs/ORCHARD_SPECS.md`.
 Preserve independent mature wild groves, bounded same-root trunk shaking, the
 fruit-only obstruction-aware copper picker, real sapling graft costs and visible

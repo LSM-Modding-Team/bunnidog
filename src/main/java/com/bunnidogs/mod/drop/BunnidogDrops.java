@@ -54,9 +54,9 @@ public final class BunnidogDrops {
             if(seal!=null && seal.active() && !seal.spawning() && event.isRecentlyHit() && level.getGameRules().get(GameRules.MOB_DROPS))for(var item:java.util.List.of(ModItems.APEX_FANG.get(),ModItems.PRISM_LENS.get(),ModItems.CHORUS_HEART.get(),ModItems.VOLATILE_HEART.get(),ModItems.HEART_SPOOL.get(),ModItems.APEX_MARROW.get(),ModItems.AERIAL_MEMBRANE.get()))event.getDrops().add(new ItemEntity(level,dog.getX(),dog.getY(),dog.getZ(),new ItemStack(item,16+level.getRandom().nextInt(9))));
             return;
         }
-        if (dog instanceof com.bunnidogs.mod.entity.ApexMinion || com.bunnidogs.mod.crown.CrownEncounter.member(dog) || dog instanceof com.bunnidogs.mod.entity.CrownedApex) return;
+        if (dog instanceof com.bunnidogs.mod.entity.ApexMinion || dog instanceof com.bunnidogs.mod.entity.CrownedApex) return;
         if (dog instanceof Apex apex) {
-            if(apex.wild()) {com.bunnidogs.mod.realm.RealmLoot.drops(event,apex,level);return;}
+            if(apex.wild() || com.bunnidogs.mod.crown.CrownEncounter.member(apex)) {com.bunnidogs.mod.realm.RealmLoot.drops(event,apex,level);return;}
             com.bunnidogs.mod.realm.RealmLoot.parts(event,apex,level);
             if (event.isRecentlyHit() && level.getGameRules().get(GameRules.MOB_DROPS)) {
                 var crest=ApexCrestItem.create(new Tissue(dog.genome(),dog.stats()));

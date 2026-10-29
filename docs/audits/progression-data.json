@@ -1,0 +1,1547 @@
+{
+  "basis": "shipped recipes and finite V2 cupboard/wing/vault tables; native scale_audit",
+  "projects": {
+    "mining_foothold": {
+      "raw": {
+        "bunnidogs:aerial_membrane": 2,
+        "bunnidogs:apex_marrow": 1,
+        "bunnidogs:astralite_shard": 36,
+        "bunnidogs:moonstone": 9,
+        "bunnidogs:prism_lens": 3,
+        "bunnidogs:raw_cinderite": 36,
+        "minecraft:diamond": 4,
+        "minecraft:netherite_ingot": 1,
+        "minecraft:netherite_pickaxe": 1
+      },
+      "work": {
+        "furnace_ticks": 4000
+      }
+    },
+    "astralite_armour": {
+      "raw": {
+        "bunnidogs:aerial_membrane": 12,
+        "bunnidogs:apex_marrow": 16,
+        "bunnidogs:astralite_shard": 576,
+        "bunnidogs:moonstone": 144,
+        "bunnidogs:prism_lens": 24,
+        "bunnidogs:raw_cinderite": 720,
+        "minecraft:diamond": 16,
+        "minecraft:netherite_boots": 1,
+        "minecraft:netherite_chestplate": 1,
+        "minecraft:netherite_helmet": 1,
+        "minecraft:netherite_ingot": 4,
+        "minecraft:netherite_leggings": 1
+      },
+      "work": {
+        "furnace_ticks": 78400
+      }
+    },
+    "heartbound_armour": {
+      "raw": {
+        "bunnidogs:aerial_membrane": 12,
+        "bunnidogs:apex_marrow": 24,
+        "bunnidogs:astralite_shard": 576,
+        "bunnidogs:chorus_heart": 4,
+        "bunnidogs:heart_spool": 16,
+        "bunnidogs:moonstone": 144,
+        "bunnidogs:prism_lens": 24,
+        "bunnidogs:raw_cinderite": 720,
+        "minecraft:diamond": 16,
+        "minecraft:enchanted_golden_apple": 8,
+        "minecraft:netherite_boots": 1,
+        "minecraft:netherite_chestplate": 1,
+        "minecraft:netherite_helmet": 1,
+        "minecraft:netherite_ingot": 4,
+        "minecraft:netherite_leggings": 1
+      },
+      "work": {
+        "furnace_ticks": 78400
+      }
+    },
+    "sovereign_armour": {
+      "raw": {
+        "bunnidogs:aerial_membrane": 12,
+        "bunnidogs:apex_marrow": 24,
+        "bunnidogs:astralite_shard": 576,
+        "bunnidogs:chorus_heart": 4,
+        "bunnidogs:heart_spool": 16,
+        "bunnidogs:moonstone": 144,
+        "bunnidogs:prism_lens": 24,
+        "bunnidogs:raw_cinderite": 720,
+        "bunnidogs:sovereign_core": 4,
+        "minecraft:diamond": 16,
+        "minecraft:enchanted_golden_apple": 8,
+        "minecraft:netherite_boots": 1,
+        "minecraft:netherite_chestplate": 1,
+        "minecraft:netherite_helmet": 1,
+        "minecraft:netherite_ingot": 4,
+        "minecraft:netherite_leggings": 1
+      },
+      "work": {
+        "furnace_ticks": 78400
+      }
+    },
+    "netherite_guava": {
+      "raw": {
+        "bunnidogs:guava": 1,
+        "minecraft:diamond": 8,
+        "minecraft:gold_ingot": 8,
+        "minecraft:netherite_ingot": 8
+      },
+      "work": {}
+    },
+    "beacon_guava": {
+      "raw": {
+        "bunnidogs:guava": 1,
+        "minecraft:beacon": 8,
+        "minecraft:diamond": 8,
+        "minecraft:gold_ingot": 8,
+        "minecraft:nether_star": 4,
+        "minecraft:netherite_ingot": 8
+      },
+      "work": {}
+    },
+    "dragon_egg_guava": {
+      "raw": {
+        "bunnidogs:guava": 1,
+        "minecraft:beacon": 8,
+        "minecraft:diamond": 8,
+        "minecraft:dragon_egg": 1,
+        "minecraft:gold_ingot": 8,
+        "minecraft:nether_star": 4,
+        "minecraft:netherite_ingot": 8
+      },
+      "work": {}
+    },
+    "astralite_bunnidog_barding": {
+      "raw": {
+        "bunnidogs:aerial_membrane": 3,
+        "bunnidogs:apex_marrow": 4,
+        "bunnidogs:astralite_shard": 144,
+        "bunnidogs:moonstone": 36,
+        "bunnidogs:prism_lens": 6,
+        "bunnidogs:raw_cinderite": 180,
+        "minecraft:diamond": 4,
+        "minecraft:diamond_block": 1,
+        "minecraft:iron_block": 1,
+        "minecraft:iron_nugget": 1,
+        "minecraft:leather": 6,
+        "minecraft:netherite_ingot": 2,
+        "minecraft:netherite_upgrade_smithing_template": 1,
+        "minecraft:string": 1
+      },
+      "work": {
+        "furnace_ticks": 19600
+      }
+    },
+    "fireball_launcher": {
+      "raw": {
+        "bunnidogs:apex_fang": 2,
+        "bunnidogs:apex_marrow": 1,
+        "bunnidogs:volatile_heart": 4,
+        "minecraft:blaze_rod": 1,
+        "minecraft:netherite_ingot": 1
+      },
+      "work": {}
+    },
+    "prism_lance": {
+      "raw": {
+        "bunnidogs:aerial_membrane": 1,
+        "bunnidogs:apex_fang": 1,
+        "bunnidogs:heart_spool": 1,
+        "bunnidogs:prism_lens": 3,
+        "minecraft:netherite_ingot": 1
+      },
+      "work": {}
+    },
+    "sovereign_lance": {
+      "raw": {
+        "bunnidogs:aerial_membrane": 1,
+        "bunnidogs:apex_fang": 1,
+        "bunnidogs:heart_spool": 1,
+        "bunnidogs:prism_lens": 3,
+        "bunnidogs:sovereign_core": 1,
+        "minecraft:netherite_ingot": 1
+      },
+      "work": {}
+    },
+    "concord_standard": {
+      "raw": {
+        "bunnidogs:chorus_heart": 1,
+        "bunnidogs:heart_spool": 2,
+        "bunnidogs:sovereign_core": 1,
+        "minecraft:netherite_ingot": 1
+      },
+      "work": {}
+    },
+    "abyssal_flask": {
+      "raw": {
+        "bunnidogs:aerial_membrane": 1,
+        "bunnidogs:chorus_heart": 4,
+        "bunnidogs:heart_spool": 2,
+        "bunnidogs:prism_lens": 1,
+        "minecraft:glass_bottle": 1
+      },
+      "work": {}
+    },
+    "genetic_vacuum": {
+      "raw": {
+        "bunnidogs:apex_marrow": 1,
+        "bunnidogs:chorus_heart": 2,
+        "bunnidogs:heart_spool": 2,
+        "bunnidogs:prism_lens": 2,
+        "minecraft:bundle": 1,
+        "minecraft:netherite_ingot": 1
+      },
+      "work": {}
+    },
+    "cataclysm_totem": {
+      "raw": {
+        "bunnidogs:apex_fang": 1,
+        "bunnidogs:apex_marrow": 2,
+        "bunnidogs:heart_spool": 2,
+        "bunnidogs:volatile_heart": 4,
+        "minecraft:totem_of_undying": 1
+      },
+      "work": {}
+    },
+    "pack_armoury": {
+      "raw": {
+        "bunnidogs:apex_marrow": 2,
+        "bunnidogs:guava_log": 14,
+        "bunnidogs:moonstone": 117,
+        "bunnidogs:raw_cinderite": 72
+      },
+      "work": {
+        "furnace_ticks": 7200
+      }
+    },
+    "resonance_bench": {
+      "raw": {
+        "bunnidogs:guava_log": 14,
+        "bunnidogs:moonstone": 117,
+        "bunnidogs:prism_lens": 2,
+        "bunnidogs:raw_cinderite": 72
+      },
+      "work": {
+        "furnace_ticks": 7200
+      }
+    },
+    "bastion_heart": {
+      "raw": {
+        "bunnidogs:aerial_membrane": 1,
+        "bunnidogs:apex_marrow": 1,
+        "bunnidogs:astralite_shard": 18,
+        "bunnidogs:chorus_heart": 1,
+        "bunnidogs:guava_log": 18,
+        "bunnidogs:heart_spool": 1,
+        "bunnidogs:moonstone": 234,
+        "bunnidogs:raw_cinderite": 144,
+        "minecraft:amethyst_block": 1,
+        "minecraft:crying_obsidian": 4
+      },
+      "work": {
+        "furnace_ticks": 14400
+      }
+    },
+    "launch_aerie": {
+      "raw": {
+        "bunnidogs:aerial_membrane": 2,
+        "bunnidogs:guava_log": 14,
+        "bunnidogs:moonstone": 117,
+        "bunnidogs:raw_cinderite": 72
+      },
+      "work": {
+        "furnace_ticks": 7200
+      }
+    },
+    "nursery_hearth": {
+      "raw": {
+        "bunnidogs:chorus_heart": 2,
+        "bunnidogs:guava_log": 14,
+        "bunnidogs:moonstone": 117,
+        "bunnidogs:raw_cinderite": 72
+      },
+      "work": {
+        "furnace_ticks": 7200
+      }
+    },
+    "kennel_wagon": {
+      "raw": {
+        "bunnidogs:aerial_membrane": 1,
+        "bunnidogs:chorus_heart": 1,
+        "bunnidogs:guava_log": 21,
+        "bunnidogs:moonstone": 72,
+        "bunnidogs:raw_cinderite": 144,
+        "bunnidogs:sinew": 18
+      },
+      "work": {
+        "furnace_ticks": 14400
+      }
+    },
+    "hearth_tree": {
+      "raw": {
+        "#minecraft:planks": 3,
+        "bunnidogs:guava": 1,
+        "minecraft:amethyst_shard": 1,
+        "minecraft:copper_ingot": 2
+      },
+      "work": {}
+    },
+    "grafting_frame": {
+      "raw": {
+        "#minecraft:planks": 4,
+        "minecraft:bone_meal": 2
+      },
+      "work": {}
+    },
+    "feeding_trough": {
+      "raw": {
+        "#minecraft:planks": 7,
+        "minecraft:iron_ingot": 1
+      },
+      "work": {}
+    },
+    "nursery_cradle": {
+      "raw": {
+        "#minecraft:planks": 6,
+        "#minecraft:wool": 3,
+        "minecraft:glass": 2,
+        "minecraft:wheat": 3
+      },
+      "work": {}
+    },
+    "apex_crucible": {
+      "raw": {
+        "bunnidogs:mutant_marrow": 1,
+        "minecraft:diamond": 1,
+        "minecraft:obsidian": 7
+      },
+      "work": {}
+    },
+    "hearth_incense": {
+      "raw": {
+        "#minecraft:planks": 1,
+        "bunnidogs:guava": 3
+      },
+      "work": {}
+    },
+    "warren_anchor": {
+      "raw": {
+        "minecraft:copper_block": 4,
+        "minecraft:crying_obsidian": 4,
+        "minecraft:ender_pearl": 1
+      },
+      "work": {}
+    },
+    "resonant_eye": {
+      "raw": {
+        "bunnidogs:aerial_membrane": 1,
+        "bunnidogs:apex_fang [ground remnant]": 1,
+        "bunnidogs:chorus_heart [ground remnant]": 1,
+        "bunnidogs:heart_spool [ground remnant]": 1,
+        "bunnidogs:prism_lens [ground remnant]": 1,
+        "bunnidogs:starlit_dust": 1,
+        "bunnidogs:volatile_heart [ground remnant]": 1,
+        "minecraft:ender_eye": 1,
+        "minecraft:netherite_scrap": 1
+      },
+      "work": {}
+    },
+    "warren_ward": {
+      "raw": {
+        "bunnidogs:aerial_membrane": 1,
+        "bunnidogs:apex_marrow": 1,
+        "bunnidogs:chorus_heart": 1,
+        "bunnidogs:heart_spool": 1,
+        "minecraft:amethyst_block": 1,
+        "minecraft:crying_obsidian": 4
+      },
+      "work": {}
+    },
+    "64_volatile_charges": {
+      "raw": {
+        "bunnidogs:volatile_heart": 4,
+        "minecraft:fire_charge": 8,
+        "minecraft:gunpowder": 24
+      },
+      "work": {}
+    },
+    "64_prism_cells": {
+      "raw": {
+        "minecraft:amethyst_shard": 32,
+        "minecraft:copper_ingot": 8
+      },
+      "work": {}
+    }
+  },
+  "whole_site_chests": {
+    "bunnidogs:astralite_shard": [
+      288,
+      448
+    ],
+    "bunnidogs:cinderite_ingot": [
+      128,
+      128
+    ],
+    "bunnidogs:field_dressing": [
+      4,
+      4
+    ],
+    "bunnidogs:moonstone": [
+      512,
+      896
+    ],
+    "bunnidogs:nursery_bedding": [
+      16,
+      16
+    ],
+    "bunnidogs:raw_cinderite": [
+      448,
+      768
+    ],
+    "bunnidogs:root_fibre": [
+      384,
+      768
+    ],
+    "bunnidogs:sinew": [
+      96,
+      128
+    ],
+    "bunnidogs:starlit_dust": [
+      192,
+      256
+    ],
+    "bunnidogs:whisker": [
+      16,
+      32
+    ],
+    "minecraft:diamond": [
+      8,
+      16
+    ],
+    "minecraft:enchanted_golden_apple": [
+      4,
+      8
+    ],
+    "minecraft:ender_pearl": [
+      16,
+      32
+    ],
+    "minecraft:experience_bottle": [
+      80,
+      112
+    ],
+    "minecraft:firework_rocket": [
+      32,
+      64
+    ],
+    "minecraft:golden_apple": [
+      32,
+      64
+    ],
+    "minecraft:netherite_ingot": [
+      1,
+      3
+    ],
+    "minecraft:totem_of_undying": [
+      4,
+      6
+    ]
+  },
+  "tables": {
+    "brood_7": {
+      "bunnidogs:root_fibre": [
+        8,
+        16
+      ],
+      "bunnidogs:sinew": [
+        4,
+        8
+      ],
+      "bunnidogs:moonstone": [
+        16,
+        32
+      ],
+      "bunnidogs:cinderite_ingot": [
+        8,
+        8
+      ]
+    },
+    "entry_3": {
+      "bunnidogs:moonstone": [
+        21,
+        43
+      ],
+      "bunnidogs:root_fibre": [
+        11,
+        21
+      ],
+      "bunnidogs:raw_cinderite": [
+        11,
+        11
+      ],
+      "minecraft:golden_apple": [
+        1,
+        3
+      ],
+      "minecraft:diamond": [
+        1,
+        3
+      ],
+      "minecraft:experience_bottle": [
+        5,
+        11
+      ],
+      "minecraft:ender_pearl": [
+        3,
+        5
+      ],
+      "minecraft:firework_rocket": [
+        5,
+        11
+      ]
+    },
+    "entry_0": {
+      "bunnidogs:moonstone": [
+        22,
+        43
+      ],
+      "bunnidogs:root_fibre": [
+        11,
+        22
+      ],
+      "bunnidogs:raw_cinderite": [
+        11,
+        11
+      ],
+      "minecraft:golden_apple": [
+        2,
+        3
+      ],
+      "minecraft:enchanted_golden_apple": [
+        1,
+        1
+      ],
+      "minecraft:totem_of_undying": [
+        1,
+        1
+      ],
+      "minecraft:diamond": [
+        2,
+        3
+      ],
+      "minecraft:netherite_ingot": [
+        1,
+        1
+      ],
+      "minecraft:experience_bottle": [
+        6,
+        11
+      ],
+      "minecraft:ender_pearl": [
+        3,
+        6
+      ],
+      "minecraft:firework_rocket": [
+        6,
+        11
+      ]
+    },
+    "glass_0": {
+      "bunnidogs:starlit_dust": [
+        16,
+        32
+      ],
+      "bunnidogs:whisker": [
+        8,
+        16
+      ],
+      "bunnidogs:cinderite_ingot": [
+        32,
+        32
+      ]
+    },
+    "brood_2": {
+      "bunnidogs:root_fibre": [
+        8,
+        16
+      ],
+      "bunnidogs:sinew": [
+        4,
+        8
+      ],
+      "bunnidogs:moonstone": [
+        16,
+        32
+      ],
+      "bunnidogs:cinderite_ingot": [
+        8,
+        8
+      ]
+    },
+    "entry_4": {
+      "bunnidogs:moonstone": [
+        21,
+        42
+      ],
+      "bunnidogs:root_fibre": [
+        10,
+        21
+      ],
+      "bunnidogs:raw_cinderite": [
+        10,
+        10
+      ],
+      "minecraft:golden_apple": [
+        1,
+        2
+      ],
+      "minecraft:diamond": [
+        1,
+        2
+      ],
+      "minecraft:experience_bottle": [
+        5,
+        10
+      ],
+      "minecraft:ender_pearl": [
+        2,
+        5
+      ],
+      "minecraft:firework_rocket": [
+        5,
+        10
+      ]
+    },
+    "entry_1": {
+      "bunnidogs:moonstone": [
+        22,
+        43
+      ],
+      "bunnidogs:root_fibre": [
+        11,
+        22
+      ],
+      "bunnidogs:raw_cinderite": [
+        11,
+        11
+      ],
+      "minecraft:golden_apple": [
+        2,
+        3
+      ],
+      "minecraft:enchanted_golden_apple": [
+        0,
+        1
+      ],
+      "minecraft:totem_of_undying": [
+        0,
+        1
+      ],
+      "minecraft:diamond": [
+        2,
+        3
+      ],
+      "minecraft:netherite_ingot": [
+        0,
+        1
+      ],
+      "minecraft:experience_bottle": [
+        6,
+        11
+      ],
+      "minecraft:ender_pearl": [
+        3,
+        6
+      ],
+      "minecraft:firework_rocket": [
+        6,
+        11
+      ]
+    },
+    "furnace_2": {
+      "bunnidogs:raw_cinderite": [
+        42,
+        64
+      ],
+      "bunnidogs:moonstone": [
+        42,
+        85
+      ],
+      "bunnidogs:starlit_dust": [
+        10,
+        21
+      ]
+    },
+    "glass_1": {
+      "bunnidogs:starlit_dust": [
+        16,
+        32
+      ],
+      "bunnidogs:whisker": [
+        8,
+        16
+      ],
+      "bunnidogs:cinderite_ingot": [
+        32,
+        32
+      ]
+    },
+    "entry_2": {
+      "bunnidogs:moonstone": [
+        21,
+        43
+      ],
+      "bunnidogs:root_fibre": [
+        11,
+        21
+      ],
+      "bunnidogs:raw_cinderite": [
+        11,
+        11
+      ],
+      "minecraft:golden_apple": [
+        1,
+        3
+      ],
+      "minecraft:totem_of_undying": [
+        0,
+        1
+      ],
+      "minecraft:diamond": [
+        1,
+        3
+      ],
+      "minecraft:netherite_ingot": [
+        0,
+        1
+      ],
+      "minecraft:experience_bottle": [
+        5,
+        11
+      ],
+      "minecraft:ender_pearl": [
+        3,
+        5
+      ],
+      "minecraft:firework_rocket": [
+        5,
+        11
+      ]
+    },
+    "brood_6": {
+      "bunnidogs:root_fibre": [
+        8,
+        16
+      ],
+      "bunnidogs:sinew": [
+        4,
+        8
+      ],
+      "bunnidogs:moonstone": [
+        16,
+        32
+      ],
+      "bunnidogs:cinderite_ingot": [
+        8,
+        8
+      ]
+    },
+    "brood_1": {
+      "bunnidogs:root_fibre": [
+        8,
+        16
+      ],
+      "bunnidogs:sinew": [
+        4,
+        8
+      ],
+      "bunnidogs:moonstone": [
+        16,
+        32
+      ],
+      "bunnidogs:cinderite_ingot": [
+        8,
+        8
+      ]
+    },
+    "brood_5": {
+      "bunnidogs:root_fibre": [
+        8,
+        16
+      ],
+      "bunnidogs:sinew": [
+        4,
+        8
+      ],
+      "bunnidogs:moonstone": [
+        16,
+        32
+      ],
+      "bunnidogs:cinderite_ingot": [
+        8,
+        8
+      ]
+    },
+    "brood_3": {
+      "bunnidogs:root_fibre": [
+        8,
+        16
+      ],
+      "bunnidogs:sinew": [
+        4,
+        8
+      ],
+      "bunnidogs:moonstone": [
+        16,
+        32
+      ],
+      "bunnidogs:cinderite_ingot": [
+        8,
+        8
+      ]
+    },
+    "brood_4": {
+      "bunnidogs:root_fibre": [
+        8,
+        16
+      ],
+      "bunnidogs:sinew": [
+        4,
+        8
+      ],
+      "bunnidogs:moonstone": [
+        16,
+        32
+      ],
+      "bunnidogs:cinderite_ingot": [
+        8,
+        8
+      ]
+    },
+    "furnace_0": {
+      "bunnidogs:raw_cinderite": [
+        43,
+        64
+      ],
+      "bunnidogs:moonstone": [
+        43,
+        86
+      ],
+      "bunnidogs:starlit_dust": [
+        11,
+        22
+      ]
+    },
+    "brood_0": {
+      "bunnidogs:root_fibre": [
+        8,
+        16
+      ],
+      "bunnidogs:sinew": [
+        4,
+        8
+      ],
+      "bunnidogs:moonstone": [
+        16,
+        32
+      ],
+      "bunnidogs:cinderite_ingot": [
+        8,
+        8
+      ]
+    },
+    "entry_5": {
+      "bunnidogs:moonstone": [
+        21,
+        42
+      ],
+      "bunnidogs:root_fibre": [
+        10,
+        21
+      ],
+      "bunnidogs:raw_cinderite": [
+        10,
+        10
+      ],
+      "minecraft:golden_apple": [
+        1,
+        2
+      ],
+      "minecraft:diamond": [
+        1,
+        2
+      ],
+      "minecraft:experience_bottle": [
+        5,
+        10
+      ],
+      "minecraft:ender_pearl": [
+        2,
+        5
+      ],
+      "minecraft:firework_rocket": [
+        5,
+        10
+      ]
+    },
+    "furnace_1": {
+      "bunnidogs:raw_cinderite": [
+        43,
+        64
+      ],
+      "bunnidogs:moonstone": [
+        43,
+        85
+      ],
+      "bunnidogs:starlit_dust": [
+        11,
+        21
+      ]
+    },
+    "crown_wing_0": {
+      "minecraft:golden_apple": [
+        8,
+        16
+      ],
+      "minecraft:enchanted_golden_apple": [
+        1,
+        2
+      ],
+      "minecraft:totem_of_undying": [
+        1,
+        1
+      ],
+      "minecraft:experience_bottle": [
+        16,
+        16
+      ],
+      "bunnidogs:astralite_shard": [
+        32,
+        64
+      ]
+    },
+    "crown_wing_1": {
+      "minecraft:golden_apple": [
+        8,
+        16
+      ],
+      "minecraft:enchanted_golden_apple": [
+        1,
+        2
+      ],
+      "minecraft:totem_of_undying": [
+        1,
+        1
+      ],
+      "minecraft:experience_bottle": [
+        16,
+        16
+      ],
+      "bunnidogs:field_dressing": [
+        4,
+        4
+      ],
+      "bunnidogs:nursery_bedding": [
+        16,
+        16
+      ]
+    },
+    "crown_wing_2": {
+      "minecraft:golden_apple": [
+        8,
+        16
+      ],
+      "minecraft:enchanted_golden_apple": [
+        1,
+        2
+      ],
+      "minecraft:totem_of_undying": [
+        1,
+        1
+      ],
+      "minecraft:experience_bottle": [
+        16,
+        16
+      ],
+      "bunnidogs:astralite_shard": [
+        64,
+        128
+      ]
+    },
+    "crown_vault": {
+      "bunnidogs:astralite_shard": [
+        192,
+        256
+      ],
+      "bunnidogs:raw_cinderite": [
+        256,
+        512
+      ],
+      "bunnidogs:moonstone": [
+        128,
+        128
+      ],
+      "bunnidogs:starlit_dust": [
+        128,
+        128
+      ],
+      "bunnidogs:root_fibre": [
+        256,
+        512
+      ],
+      "bunnidogs:sinew": [
+        64,
+        64
+      ]
+    }
+  },
+  "native": {
+    "effects": [
+      {
+        "quality": 0.0,
+        "strength_level": 1,
+        "regen_level": 1,
+        "duration_ticks": 800,
+        "native_healing_hp_per_second": 0.4
+      },
+      {
+        "quality": 1.0,
+        "strength_level": 1,
+        "regen_level": 1,
+        "duration_ticks": 880,
+        "native_healing_hp_per_second": 0.4
+      },
+      {
+        "quality": 2.0,
+        "strength_level": 1,
+        "regen_level": 1,
+        "duration_ticks": 960,
+        "native_healing_hp_per_second": 0.4
+      },
+      {
+        "quality": 4.0,
+        "strength_level": 2,
+        "regen_level": 2,
+        "duration_ticks": 1120,
+        "native_healing_hp_per_second": 0.8
+      },
+      {
+        "quality": 7.0,
+        "strength_level": 2,
+        "regen_level": 2,
+        "duration_ticks": 1360,
+        "native_healing_hp_per_second": 0.8
+      },
+      {
+        "quality": 12.0,
+        "strength_level": 4,
+        "regen_level": 3,
+        "duration_ticks": 1760,
+        "native_healing_hp_per_second": 1.68
+      },
+      {
+        "quality": 20.0,
+        "strength_level": 6,
+        "regen_level": 3,
+        "duration_ticks": 2400,
+        "native_healing_hp_per_second": 1.68
+      },
+      {
+        "quality": 24.0,
+        "strength_level": 7,
+        "regen_level": 3,
+        "duration_ticks": 2400,
+        "native_healing_hp_per_second": 1.68
+      },
+      {
+        "quality": 28.0,
+        "strength_level": 8,
+        "regen_level": 4,
+        "duration_ticks": 2400,
+        "native_healing_hp_per_second": 3.36
+      },
+      {
+        "quality": 60.0,
+        "strength_level": 16,
+        "regen_level": 5,
+        "duration_ticks": 2400,
+        "native_healing_hp_per_second": 6.68
+      },
+      {
+        "quality": 116.0,
+        "strength_level": 30,
+        "regen_level": 5,
+        "duration_ticks": 2400,
+        "native_healing_hp_per_second": 6.68
+      },
+      {
+        "quality": 124.0,
+        "strength_level": 32,
+        "regen_level": 6,
+        "duration_ticks": 2400,
+        "native_healing_hp_per_second": 20.0
+      },
+      {
+        "quality": 252.0,
+        "strength_level": 64,
+        "regen_level": 7,
+        "duration_ticks": 2400,
+        "native_healing_hp_per_second": 20.0
+      }
+    ],
+    "fighters": [
+      {
+        "role": "apex",
+        "flying": false,
+        "barding": "none",
+        "health": 288.0,
+        "attack": 19.968,
+        "armor": 4,
+        "toughness": 0.0
+      },
+      {
+        "role": "apex",
+        "flying": false,
+        "barding": "iron",
+        "health": 360.0,
+        "attack": 22.963199999999997,
+        "armor": 10,
+        "toughness": 1.0
+      },
+      {
+        "role": "apex",
+        "flying": false,
+        "barding": "diamond",
+        "health": 432.0,
+        "attack": 25.9584,
+        "armor": 14,
+        "toughness": 2.0
+      },
+      {
+        "role": "apex",
+        "flying": false,
+        "barding": "netherite",
+        "health": 504.0,
+        "attack": 28.953599999999998,
+        "armor": 16,
+        "toughness": 3.0
+      },
+      {
+        "role": "apex",
+        "flying": false,
+        "barding": "astralite",
+        "health": 576.0,
+        "attack": 31.948800000000002,
+        "armor": 18,
+        "toughness": 5.0
+      },
+      {
+        "role": "apex",
+        "flying": true,
+        "barding": "none",
+        "health": 288.0,
+        "attack": 30.72,
+        "armor": 4,
+        "toughness": 0.0
+      },
+      {
+        "role": "apex",
+        "flying": true,
+        "barding": "iron",
+        "health": 360.0,
+        "attack": 35.327999999999996,
+        "armor": 10,
+        "toughness": 1.0
+      },
+      {
+        "role": "apex",
+        "flying": true,
+        "barding": "diamond",
+        "health": 432.0,
+        "attack": 39.936,
+        "armor": 14,
+        "toughness": 2.0
+      },
+      {
+        "role": "apex",
+        "flying": true,
+        "barding": "netherite",
+        "health": 504.0,
+        "attack": 44.544,
+        "armor": 16,
+        "toughness": 3.0
+      },
+      {
+        "role": "apex",
+        "flying": true,
+        "barding": "astralite",
+        "health": 576.0,
+        "attack": 49.152,
+        "armor": 18,
+        "toughness": 5.0
+      },
+      {
+        "role": "prismmaw",
+        "flying": false,
+        "barding": "none",
+        "health": 288.0,
+        "attack": 15.36,
+        "armor": 4,
+        "toughness": 0.0
+      },
+      {
+        "role": "prismmaw",
+        "flying": false,
+        "barding": "iron",
+        "health": 360.0,
+        "attack": 17.663999999999998,
+        "armor": 10,
+        "toughness": 1.0
+      },
+      {
+        "role": "prismmaw",
+        "flying": false,
+        "barding": "diamond",
+        "health": 432.0,
+        "attack": 19.968,
+        "armor": 14,
+        "toughness": 2.0
+      },
+      {
+        "role": "prismmaw",
+        "flying": false,
+        "barding": "netherite",
+        "health": 504.0,
+        "attack": 22.272,
+        "armor": 16,
+        "toughness": 3.0
+      },
+      {
+        "role": "prismmaw",
+        "flying": false,
+        "barding": "astralite",
+        "health": 576.0,
+        "attack": 24.576,
+        "armor": 18,
+        "toughness": 5.0
+      },
+      {
+        "role": "prismmaw",
+        "flying": true,
+        "barding": "none",
+        "health": 288.0,
+        "attack": 15.36,
+        "armor": 4,
+        "toughness": 0.0
+      },
+      {
+        "role": "prismmaw",
+        "flying": true,
+        "barding": "iron",
+        "health": 360.0,
+        "attack": 17.663999999999998,
+        "armor": 10,
+        "toughness": 1.0
+      },
+      {
+        "role": "prismmaw",
+        "flying": true,
+        "barding": "diamond",
+        "health": 432.0,
+        "attack": 19.968,
+        "armor": 14,
+        "toughness": 2.0
+      },
+      {
+        "role": "prismmaw",
+        "flying": true,
+        "barding": "netherite",
+        "health": 504.0,
+        "attack": 22.272,
+        "armor": 16,
+        "toughness": 3.0
+      },
+      {
+        "role": "prismmaw",
+        "flying": true,
+        "barding": "astralite",
+        "health": 576.0,
+        "attack": 24.576,
+        "armor": 18,
+        "toughness": 5.0
+      },
+      {
+        "role": "broodcaller",
+        "flying": false,
+        "barding": "none",
+        "health": 288.0,
+        "attack": 15.36,
+        "armor": 4,
+        "toughness": 0.0
+      },
+      {
+        "role": "broodcaller",
+        "flying": false,
+        "barding": "iron",
+        "health": 360.0,
+        "attack": 17.663999999999998,
+        "armor": 10,
+        "toughness": 1.0
+      },
+      {
+        "role": "broodcaller",
+        "flying": false,
+        "barding": "diamond",
+        "health": 432.0,
+        "attack": 19.968,
+        "armor": 14,
+        "toughness": 2.0
+      },
+      {
+        "role": "broodcaller",
+        "flying": false,
+        "barding": "netherite",
+        "health": 504.0,
+        "attack": 22.272,
+        "armor": 16,
+        "toughness": 3.0
+      },
+      {
+        "role": "broodcaller",
+        "flying": false,
+        "barding": "astralite",
+        "health": 576.0,
+        "attack": 24.576,
+        "armor": 18,
+        "toughness": 5.0
+      },
+      {
+        "role": "broodcaller",
+        "flying": true,
+        "barding": "none",
+        "health": 288.0,
+        "attack": 15.36,
+        "armor": 4,
+        "toughness": 0.0
+      },
+      {
+        "role": "broodcaller",
+        "flying": true,
+        "barding": "iron",
+        "health": 360.0,
+        "attack": 17.663999999999998,
+        "armor": 10,
+        "toughness": 1.0
+      },
+      {
+        "role": "broodcaller",
+        "flying": true,
+        "barding": "diamond",
+        "health": 432.0,
+        "attack": 19.968,
+        "armor": 14,
+        "toughness": 2.0
+      },
+      {
+        "role": "broodcaller",
+        "flying": true,
+        "barding": "netherite",
+        "health": 504.0,
+        "attack": 22.272,
+        "armor": 16,
+        "toughness": 3.0
+      },
+      {
+        "role": "broodcaller",
+        "flying": true,
+        "barding": "astralite",
+        "health": 576.0,
+        "attack": 24.576,
+        "armor": 18,
+        "toughness": 5.0
+      },
+      {
+        "role": "blastmaw",
+        "flying": false,
+        "barding": "none",
+        "health": 345.6,
+        "attack": 15.36,
+        "armor": 4,
+        "toughness": 0.0
+      },
+      {
+        "role": "blastmaw",
+        "flying": false,
+        "barding": "iron",
+        "health": 432.0,
+        "attack": 17.663999999999998,
+        "armor": 10,
+        "toughness": 1.0
+      },
+      {
+        "role": "blastmaw",
+        "flying": false,
+        "barding": "diamond",
+        "health": 518.4,
+        "attack": 19.968,
+        "armor": 14,
+        "toughness": 2.0
+      },
+      {
+        "role": "blastmaw",
+        "flying": false,
+        "barding": "netherite",
+        "health": 604.8,
+        "attack": 22.272,
+        "armor": 16,
+        "toughness": 3.0
+      },
+      {
+        "role": "blastmaw",
+        "flying": false,
+        "barding": "astralite",
+        "health": 691.2,
+        "attack": 24.576,
+        "armor": 18,
+        "toughness": 5.0
+      },
+      {
+        "role": "blastmaw",
+        "flying": true,
+        "barding": "none",
+        "health": 345.6,
+        "attack": 15.36,
+        "armor": 4,
+        "toughness": 0.0
+      },
+      {
+        "role": "blastmaw",
+        "flying": true,
+        "barding": "iron",
+        "health": 432.0,
+        "attack": 17.663999999999998,
+        "armor": 10,
+        "toughness": 1.0
+      },
+      {
+        "role": "blastmaw",
+        "flying": true,
+        "barding": "diamond",
+        "health": 518.4,
+        "attack": 19.968,
+        "armor": 14,
+        "toughness": 2.0
+      },
+      {
+        "role": "blastmaw",
+        "flying": true,
+        "barding": "netherite",
+        "health": 604.8,
+        "attack": 22.272,
+        "armor": 16,
+        "toughness": 3.0
+      },
+      {
+        "role": "blastmaw",
+        "flying": true,
+        "barding": "astralite",
+        "health": 691.2,
+        "attack": 24.576,
+        "armor": 18,
+        "toughness": 5.0
+      },
+      {
+        "role": "lifebinder",
+        "flying": false,
+        "barding": "none",
+        "health": 288.0,
+        "attack": 15.36,
+        "armor": 4,
+        "toughness": 0.0
+      },
+      {
+        "role": "lifebinder",
+        "flying": false,
+        "barding": "iron",
+        "health": 360.0,
+        "attack": 17.663999999999998,
+        "armor": 10,
+        "toughness": 1.0
+      },
+      {
+        "role": "lifebinder",
+        "flying": false,
+        "barding": "diamond",
+        "health": 432.0,
+        "attack": 19.968,
+        "armor": 14,
+        "toughness": 2.0
+      },
+      {
+        "role": "lifebinder",
+        "flying": false,
+        "barding": "netherite",
+        "health": 504.0,
+        "attack": 22.272,
+        "armor": 16,
+        "toughness": 3.0
+      },
+      {
+        "role": "lifebinder",
+        "flying": false,
+        "barding": "astralite",
+        "health": 576.0,
+        "attack": 24.576,
+        "armor": 18,
+        "toughness": 5.0
+      },
+      {
+        "role": "lifebinder",
+        "flying": true,
+        "barding": "none",
+        "health": 288.0,
+        "attack": 15.36,
+        "armor": 4,
+        "toughness": 0.0
+      },
+      {
+        "role": "lifebinder",
+        "flying": true,
+        "barding": "iron",
+        "health": 360.0,
+        "attack": 17.663999999999998,
+        "armor": 10,
+        "toughness": 1.0
+      },
+      {
+        "role": "lifebinder",
+        "flying": true,
+        "barding": "diamond",
+        "health": 432.0,
+        "attack": 19.968,
+        "armor": 14,
+        "toughness": 2.0
+      },
+      {
+        "role": "lifebinder",
+        "flying": true,
+        "barding": "netherite",
+        "health": 504.0,
+        "attack": 22.272,
+        "armor": 16,
+        "toughness": 3.0
+      },
+      {
+        "role": "lifebinder",
+        "flying": true,
+        "barding": "astralite",
+        "health": 576.0,
+        "attack": 24.576,
+        "armor": 18,
+        "toughness": 5.0
+      }
+    ]
+  }
+}

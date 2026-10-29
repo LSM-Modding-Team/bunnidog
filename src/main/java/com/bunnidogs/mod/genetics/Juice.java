@@ -16,7 +16,7 @@ import java.util.Map;
  * <ul>
  *   <li><b>Amplifier</b> of an effect that scales: {@code floor(quality / 4)}, without a mod level cap except for Resistance
  *       ({@link #AMP_STEP}). So plain and golden seeds give level I, a netherite pair level II, nether star level II
- *       and up, only the beacon and dragon egg tiers reach the high levels. Effects that are a drawback or a trick
+ *       and up, only the beacon and dragon egg tiers reach the high levels. Regeneration instead uses exponential quality thresholds, because native healing doubles per early level. Effects that are a drawback or a trick
  *       (Slowness, Levitation, Night Vision ...) never scale.</li>
  *   <li><b>Duration</b> = the effect's base seconds x (1 + 0.1 quality) x (1 + 0.02 per bred point of the stat that belongs
  *       to the gene, at most doubled), never above the effect's own maximum. A heavily bred line makes longer juice.</li>
@@ -152,6 +152,12 @@ public final class Juice {
         return (int) Math.floor(Math.max(0.0, quality) / AMP_STEP);
     }
 
+    /** Regeneration doubles its healing rate at each early level, rather than adding a fixed benefit.
+     * Exponential quality thresholds keep that curve separate; there is no extra level cap. */
+    public static int regenerationAmplifier(double quality) {
+        return Math.getExponent(1+Math.max(0,quality)/AMP_STEP);
+    }
+
     /** The factor a duration gets from quality and from the bred points of the effect's stat. */
     public static double durationFactor(double quality, int statPoints) {
         double q = 1.0 + DURATION_PER_QUALITY * Math.max(0.0, quality);
@@ -162,7 +168,8 @@ public final class Juice {
     /** One def worked out for a quality and a stat block. */
     public static Spec spec(Def def, double quality, Stats stats) {
         // Resistance retains its deliberate limit. Other scaling effects use only Minecraft's native amplifier representation.
-        int amp=def.maxAmp()==0 ? 0 : Math.min(def.id().equals("minecraft:resistance") ? def.maxAmp() : 255,amplifierFor(quality));
+        int scaled=def.id().equals("minecraft:regeneration") ? regenerationAmplifier(quality) : amplifierFor(quality);
+        int amp=def.maxAmp()==0 ? 0 : Math.min(def.id().equals("minecraft:resistance") ? def.maxAmp() : 255,scaled);
         int points = def.stat() == null ? 0 : stats.get(def.stat());
         double seconds = Math.min(def.maxSeconds(), def.baseSeconds() * durationFactor(quality, points));
         return new Spec(def.id(), def.name(), amp, (int) Math.round(seconds * 20.0), def.target());

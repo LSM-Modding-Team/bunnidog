@@ -93,9 +93,13 @@ public class Apex extends Bunnidog implements Enemy {
     }
     @Override public net.minecraft.world.entity.SpawnGroupData finalizeSpawn(net.minecraft.world.level.ServerLevelAccessor level,net.minecraft.world.DifficultyInstance difficulty,net.minecraft.world.entity.EntitySpawnReason reason,net.minecraft.world.entity.SpawnGroupData group) {
         var result=super.finalizeSpawn(level,difficulty,reason,group);
-        if((reason==net.minecraft.world.entity.EntitySpawnReason.NATURAL || reason==net.minecraft.world.entity.EntitySpawnReason.CHUNK_GENERATION) && com.bunnidogs.mod.realm.GreatWarren.isRealm(level.getLevel()))makeWild();
+        if((reason==net.minecraft.world.entity.EntitySpawnReason.NATURAL || reason==net.minecraft.world.entity.EntitySpawnReason.CHUNK_GENERATION) && com.bunnidogs.mod.realm.GreatWarren.isRealm(level.getLevel())) {
+            makeWild();com.bunnidogs.mod.realm.RealmNight.equip(this,level.getLevel());
+        }
         return result;
     }
+    /** Animal's inherited path-value test rejects dark stone at night. Apex placement has its own native predicate. */
+    @Override public boolean checkSpawnRules(net.minecraft.world.level.LevelAccessor world,net.minecraft.world.entity.EntitySpawnReason reason) {return true;}
     @Override public boolean isPersistenceRequired() {return !wild || hasCustomName();}
     @Override public boolean removeWhenFarAway(double distance) {return wild;}
     public ApexKind kind() { return kind; }
@@ -173,7 +177,7 @@ public class Apex extends Bunnidog implements Enemy {
     @Override public boolean isFood(ItemStack stack) { return false; }
     @Override protected boolean canRide(Entity vehicle) { return false; }
     @Override public boolean canBeLeashed() { return false; }
-    @Override protected int getBaseExperienceReward(ServerLevel level) { return com.bunnidogs.mod.crown.CrownEncounter.member(this) ? 0 : 500; }
+    @Override protected int getBaseExperienceReward(ServerLevel level) { return 500; }
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (!(player.getItemInHand(hand).getItem() instanceof CalipersItem)) return InteractionResult.PASS;

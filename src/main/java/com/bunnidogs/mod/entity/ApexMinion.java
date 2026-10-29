@@ -123,7 +123,7 @@ public final class ApexMinion extends Bunnidog implements Enemy {
             if(controlled())controlledTick(server);
             else if(!isNoAi())ApexMobility.swim(this,getTarget(),com.bunnidogs.mod.genetics.Wings.expressed(genome()),false,false);
         }
-        if (level() instanceof ServerLevel server && (--life<=0 || tickCount%10==0 && (caller==null
+        if (isAlive() && level() instanceof ServerLevel server && (--life<=0 || tickCount%10==0 && (caller==null
                 || !(server.getEntity(caller) instanceof Apex apex) || !apex.isAlive() || distanceToSqr(apex)>1600))) discard();
     }
     @Override public boolean acceptsCare() { return false; }

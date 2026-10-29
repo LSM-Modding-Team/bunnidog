@@ -5,7 +5,27 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
-## Current — early guava gathering and productive orchards
+## Current — night danger, dungeon deaths and progression scale
+
+Night Apexes can now pass the native dark-stone spawn check, with fourfold aerial
+selection weights, small flying packs and a 35% chance of non-Astralite equipment
+on new natural actors. Caps, wards, daylight profiles and lunar roles remain.
+Dungeon Apex kills now pay ordinary parts/500 XP and keep native death ticking;
+cleanup no longer removes dying bodies. Regeneration uses separate quality
+thresholds so its exponential healing no longer follows Strength's linear curve.
+No new effect-level cap is introduced. Protocol **48** needs matching clients.
+
+`docs/PROGRESSION_SCALE_AUDIT.md` follows the complete current acquisition path,
+compares time/production, native effects, enemy equipment and whole-site rewards,
+and identifies unresolved guava/renewable drink/kit contradictions. Its generated
+appendix expands 32 bills and 23 physical loot tables; it is reproducible from
+actual data and native observations. Strength XXX stays the intended endgame
+baseline, but the current kit is not an honest cost/time benchmark. Prioritize
+that progression debt before more arbitrary global multipliers. Build/model/
+localization and all **270** native cases pass; natural Survival time/balance and
+client animations remain human review.
+
+## Previous — early guava gathering and productive orchards
 
 Wild groves now offer a ready first harvest. Punch/use a standing guava trunk to
 shake down ripe bunches, or catch high fruit with the copper Guava Picker. A real

@@ -307,8 +307,11 @@ Vanilla treasure across the entire site is **32–64 golden apples, 4–8 enchan
 apples, 4–6 Totems, 8–16 diamonds and 1–3 Netherite Ingots**, with modest XP,
 pearls and Flight-1 rockets. The old unresolved untyped supply table becomes a
 mod-material crate; existing actual contents never refill. Kits are independent.
-Personal Core count, exclusive drops and rematch payments are unchanged. Temporary dungeon enemies
-and boss adds do not provide ordinary ritual Crests, role parts or XP. Paid genetic
+Personal Core count, exclusive drops and rematch payments are unchanged. The subsequent scale review supersedes the former drop exclusion: ordinary
+dungeon Apexes and boss Apex escorts pay normal wild role parts, native equipment
+and 500 XP, including the small wild Crest chance. Killed actors retain native
+death ticking through cleanup. Temporary brood minions retain their ordinary
+no-part/no-XP policy. See `PROGRESSION_SCALE_AUDIT.md`. Paid genetic
 vacuum capture retains the user's existing exception for brood-to-seed capture.
 
 V2 rewards sit in their respective wing niches or the gated treasury/archive,
