@@ -74,7 +74,7 @@ public final class WarrenCitizen extends Bunnidog implements Merchant {
     private void rebuild() {
         offers=new MerchantOffers();
         switch(profession) {
-            case 0 -> {offer(ModItems.CINDERITE_INGOT.get(),48,new ItemStack(GuildProjects.material("structural_frame")),GuildProjects.material("root_fibre"),32);offer(ModItems.MOONSTONE.get(),48,new ItemStack(GuildProjects.material("root_fibre"),32),null,0);offer(GuildProjects.material("root_fibre"),32,new ItemStack(ModItems.CINDERITE_INGOT.get(),12),null,0);}
+            case 0 -> {offer(ModItems.CINDERITE_INGOT.get(),48,new ItemStack(GuildProjects.material("structural_frame")),GuildProjects.material("root_fibre"),32);offer(ModItems.MOONSTONE.get(),48,new ItemStack(GuildProjects.material("root_fibre"),32),null,0);offer(ModItems.RAW_CINDERITE.get(),12,new ItemStack(ModItems.CINDERITE_INGOT.get(),12),GuildProjects.material("root_fibre"),4);}
             case 1 -> {offer(ModItems.CINDERITE_INGOT.get(),24,new ItemStack(GuildProjects.material("field_dressing"),4),ModItems.SINEW.get(),8);offer(ModItems.CINDERITE_INGOT.get(),16,new ItemStack(ModItems.PRISM_CELL.get(),16),ModItems.STARLIT_DUST.get(),16);}
             case 2 -> {offer(ModItems.CINDERITE_INGOT.get(),8,new ItemStack(Items.BREAD,16),null,0);offer(ModItems.SINEW.get(),16,new ItemStack(ModItems.STARLIT_DUST.get(),16),GuildProjects.material("root_fibre"),16);offer(GuildProjects.material("root_fibre"),24,new ItemStack(GuildProjects.material("nursery_bedding"),8),ModItems.GUAVA.get(),8);offer(ModItems.CINDERITE_INGOT.get(),24,new ItemStack(ModItems.STARLIT_DUST.get(),16),null,0);}
             case 3 -> {offer(Items.TOTEM_OF_UNDYING,1,LanternTowns.totem(GlobalPos.of(level().dimension(),hall)),ModItems.ASTRALITE_SHARD.get(),48);offer(ModItems.CINDERITE_INGOT.get(),16,new ItemStack(ModItems.PRISM_CELL.get(),16),ModItems.STARLIT_DUST.get(),16);}
@@ -147,5 +147,10 @@ public final class WarrenCitizen extends Bunnidog implements Merchant {
     @Override public boolean isClientSide() {return level().isClientSide();}
     @Override public boolean stillValid(Player p) {return isAlive() && !p.isSpectator() && level()==p.level() && distanceToSqr(p)<64;}
     @Override public void addAdditionalSaveData(ValueOutput out) {super.addAdditionalSaveData(out);out.store("GuildHall",BlockPos.CODEC,hall);out.putInt("GuildJob",profession);out.store("GuildOffers",MerchantOffers.CODEC,offers);ContainerHelper.saveAllItems(out,goods);}
-    @Override public void readAdditionalSaveData(ValueInput in) {super.readAdditionalSaveData(in);hall=in.read("GuildHall",BlockPos.CODEC).orElse(blockPosition());profession=Math.clamp(in.getIntOr("GuildJob",0),0,3);offers=in.read("GuildOffers",MerchantOffers.CODEC).orElseGet(MerchantOffers::new);goods=NonNullList.withSize(27,ItemStack.EMPTY);ContainerHelper.loadAllItems(in,goods);customer=null;}
+    @Override public void readAdditionalSaveData(ValueInput in) {
+        super.readAdditionalSaveData(in);hall=in.read("GuildHall",BlockPos.CODEC).orElse(blockPosition());profession=Math.clamp(in.getIntOr("GuildJob",0),0,3);offers=in.read("GuildOffers",MerchantOffers.CODEC).orElseGet(MerchantOffers::new);
+        // Retire the old wood-for-mineral shortcut without refilling goods or resetting other offers' uses.
+        offers.removeIf(o->o.getResult().is(ModItems.CINDERITE_INGOT.get()) && o.getCostA().is(GuildProjects.material("root_fibre")) && o.getCostB().isEmpty());
+        goods=NonNullList.withSize(27,ItemStack.EMPTY);ContainerHelper.loadAllItems(in,goods);customer=null;
+    }
 }

@@ -55,7 +55,10 @@ final class AcquisitionAuditGameTest {
         var trades=new JsonArray();
         for(int job=0;job<4;job++) {
             var citizen=ModEntities.WARREN_CITIZEN.get().create(h.getLevel(),EntitySpawnReason.STRUCTURE);citizen.initialize(h.absolutePos(new BlockPos(56,180,56)),job);
-            for(var offer:citizen.getOffers()) {var o=new JsonObject();o.addProperty("profession",job);o.add("cost_a",stack(offer.getCostA()));o.add("cost_b",stack(offer.getCostB()));o.add("output",stack(offer.getResult()));o.addProperty("initial_max_uses",offer.getMaxUses());trades.add(o);}citizen.discard();
+            for(var offer:citizen.getOffers()) {
+                if(offer.getResult().is(ModItems.CINDERITE_INGOT.get()))h.assertTrue(offer.getCostA().is(ModItems.RAW_CINDERITE.get()) && offer.getCostA().getCount()==offer.getResult().getCount(),"Smiths refine mined Cinderite rather than sell minerals for renewable wood");
+                var o=new JsonObject();o.addProperty("profession",job);o.add("cost_a",stack(offer.getCostA()));o.add("cost_b",stack(offer.getCostB()));o.add("output",stack(offer.getResult()));o.addProperty("initial_max_uses",offer.getMaxUses());trades.add(o);
+            }citizen.discard();
         }
         output.add("lantern_initial_trades",trades);
         var materials=new JsonArray();
@@ -82,14 +85,20 @@ final class AcquisitionAuditGameTest {
             }
         }
         level.setBlock(at,Blocks.AIR.defaultBlockState(),2);before.remove(at);
-        var actor=ApexTypesGameTest.apex(h,ApexKind.BLAST,false,Vec3.atBottomCenterOf(at));
+        var actor=ApexTypesGameTest.apex(h,ApexKind.BLAST,power==20,Vec3.atBottomCenterOf(at));
         try {
             level.getGameRules().set(GameRules.MOB_GRIEFING,true,level.getServer());level.getGameRules().set(GameRules.MOB_EXPLOSION_DROP_DECAY,true,level.getServer());
             h.assertTrue(ApexSkills.explosion(level,actor,Vec3.atCenterOf(at),power,false),"The actual Blastmaw calculator executes against native generated moon substrate");
             int broken=0,brokenOre=0,brokenCinder=0;
-            for(var e:before.entrySet())if(level.getBlockState(e.getKey()).isAir()) {broken++;if(e.getValue().is(ModBlocks.ASTRALITE_ORE.get()))brokenOre++;if(e.getValue().is(ModBlocks.CINDERITE_ORE.get()))brokenCinder++;}
+            for(var e:before.entrySet())if(!level.getBlockState(e.getKey()).is(e.getValue().getBlock())) {broken++;if(e.getValue().is(ModBlocks.ASTRALITE_ORE.get()))brokenOre++;if(e.getValue().is(ModBlocks.CINDERITE_ORE.get()))brokenCinder++;}
             var row=new JsonObject();row.addProperty("substrate_seed",1379);row.addProperty("placement",interior ? "interior" : "surface");row.addProperty("power",power);row.addProperty("blocks_broken",broken);row.addProperty("astralite_ore_broken",brokenOre);row.addProperty("cinderite_ore_broken",brokenCinder);
-            for(var item:List.of(ModItems.ASTRALITE_SHARD.get(),ModItems.RAW_CINDERITE.get(),ModItems.MOONSTONE.get()))row.addProperty(BuiltInRegistries.ITEM.getKey(item).getPath()+"_recovered",level.getEntitiesOfClass(ItemEntity.class,box,e->e.getItem().is(item)).stream().mapToInt(e->e.getItem().getCount()).sum());
+            for(var item:List.of(ModItems.ASTRALITE_SHARD.get(),ModItems.RAW_CINDERITE.get(),ModItems.MOONSTONE.get())) {
+                int recovered=level.getEntitiesOfClass(ItemEntity.class,box,e->e.getItem().is(item)).stream().mapToInt(e->e.getItem().getCount()).sum();
+                int expected=item==ModItems.ASTRALITE_SHARD.get() ? brokenOre : item==ModItems.RAW_CINDERITE.get() ? brokenCinder : broken-brokenOre-brokenCinder;
+                h.assertTrue(recovered==expected,"Each destroyed lunar block pays its full normal loot even with native mob explosion decay enabled: "+item+" "+recovered+"/"+expected);
+                row.addProperty(BuiltInRegistries.ITEM.getKey(item).getPath()+"_recovered",recovered);
+            }
+            h.assertTrue(level.getGameRules().get(GameRules.MOB_EXPLOSION_DROP_DECAY),"Full mining drops never mutate the world's explosion rule");
             return row;
         }finally {actor.discard();level.getEntitiesOfClass(ItemEntity.class,box,e->true).forEach(Entity::discard);level.getGameRules().set(GameRules.MOB_GRIEFING,oldGrief,level.getServer());level.getGameRules().set(GameRules.MOB_EXPLOSION_DROP_DECAY,oldDecay,level.getServer());}
     }

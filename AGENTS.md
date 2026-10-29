@@ -1,14 +1,24 @@
 # Codex working instructions
 
+Latest lunar correction: Cinderite must come from mining, alongside Astralite.
+Lantern smiths now refine 12 Raw Cinderite + 4 Root Fibre into 12 stocked ingots;
+retire the saved fibre-only offer without refilling stock or resetting other uses.
+Both ground/flying Blastmaw self-explosions use full normal block drops regardless
+of the mob explosion-decay rule, like non-decaying TNT. Preserve lunar resistance
+exceptions, fire/blast-resistant material items, griefing/protection/cancellation,
+fireball rules and all fight numbers. Do not reintroduce mining loot decay or a
+wood-for-mineral bypass. Updated native acquisition observations supersede the
+earlier low-recovery examples below; safe collection remains real player work.
+
 Latest user correction: ingredient counts do not establish raw acquisition
 difficulty. Read `docs/RAW_MATERIAL_ACQUISITION.md` before the earlier bill audit.
 Compare stage-available routes, first setup versus repeat collection, loaded
 waiting versus active work, risk/loss, actual recovered yield and finite stock.
 Ordinary ruins pay 12–24 Netherite Ingots, 8–16 enchanted apples, ammunition
 inputs and quality-20–33 archive seeds; Crown archives supply quality 36–47.
-Lantern smiths exchange renewable fibre for finite Cinderite stock. Native
-Blastmaw samples show destroyed ore far exceeds recovered drops under default
-explosion decay. Do not value every Netherite ingot as fresh debris mining,
+Lantern smiths refine mined Cinderite using finite physical stock. Earlier native
+Blastmaw samples exposed loot decay, now superseded by full self-blast drops.
+Do not value every Netherite ingot as fresh debris mining,
 every Dust as another rare-animal search, or every high-quality drink as guava
 crafting. Withdraw the count-only guava-overpricing conclusion. Count joint
 outputs once and distinguish native samples from measured Survival rates.

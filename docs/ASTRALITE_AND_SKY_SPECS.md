@@ -36,7 +36,7 @@ crafting, not existing gear, enchantments, names, wear or saves.
 
 Those four extra Netherite Ingots use 16 Ancient Debris and 16 Gold Ingots. Add
 fuel for refining Cinderite/blooms and any vanilla smelting. Counts are item
-requirements, not fixed ore-block or kill counts; Fortune and explosion losses
+requirements, not fixed ore-block or kill counts; Fortune and collection losses
 matter. Starting with a Netherite pickaxe, upgrading it first adds 36 shards,
 36 raw Cinderite, nine Moonstone, one Marrow, three Lenses, two Membranes, four
 diamonds and one Netherite Ingot. The first tool is deliberately cheaper than
@@ -48,7 +48,17 @@ Only the dedicated `blastmaw_mineable_moonstone` tag gets resistance 1.5 in that
 narrow calculator. It contains exactly Moonstone and the two ores, not fortress
 blocks that also require an Astralite harvest tool. Fireballs/player launchers
 have no mining exception. Mob-griefing, native protection and explosion
-cancellation remain. Lunar drops and refined materials resist fire/explosions.
+cancellation remain. Both ground and flying Blastmaw self-explosions use native
+`DESTROY`, so every destroyed lunar block pays its full normal loot even when
+`mob_explosion_drop_decay` is true. This TNT-like recovery does not change the
+world rule or extend the mining exception/full-drop override to fireballs.
+Lunar drops and refined materials resist fire/explosions; collecting them before
+void loss/despawn or dying remains part of extraction.
+
+Cinderite is a mined mineral too. The Lantern smith refines **12 Raw Cinderite
++ 4 Root Fibre → 12 Ingots** from finite stock; fibre alone no longer buys metal.
+Saved old shortcut offers retire without restocking or resetting other trades.
+Later dungeon mineral shipments remain earned rewards, not a first-tool bypass.
 
 Moons retain 2.4% Astralite and 3.2% Cinderite against 0.16%/0.24% on lower
 islands. Bulk ore demand now makes those rich concentrations valuable; no

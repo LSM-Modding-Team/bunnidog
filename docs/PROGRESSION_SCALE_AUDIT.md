@@ -135,7 +135,9 @@ corresponds to roughly **24,000 / 22,500 moon rock cells sampled**, before
 Fortune, luck, exposure and selection. Fortune III's average 2.2 ore-drop
 multiplier reduces the illustrative expectations to about 10,909 / 10,227.
 These are density estimates, not minimum excavations or minutes. Blastmaw
-bootstrap has no Fortune tool and explosion-decay rules may lose produce.
+bootstrap has no Fortune tool, but its self-explosions now pay full normal lunar
+loot; dangerous collection/void loss still matter. Both minerals must be mined:
+the smith now refines Raw Cinderite instead of selling metal for wood alone.
 Mainland densities of 0.16%/0.24% make the equivalent search roughly 15x/13.3x
 larger. That is why actual repeated moon extraction matters.
 

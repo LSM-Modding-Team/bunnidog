@@ -97,9 +97,10 @@ public final class ApexSkills {
     static boolean explosion(ServerLevel level,Apex caster,Vec3 center,int power,boolean allBunnidogs) {
         var pos=BlockPos.containing(center);int bound=power*2+2;
         if(!level.hasChunksAt(pos.offset(-bound,-bound,-bound),pos.offset(bound,bound,bound)))return false;
+        boolean miningBlast=!allBunnidogs && caster.kind()==ApexKind.BLAST;
         var calculator=new ExplosionDamageCalculator() {
             @Override public java.util.Optional<Float> getBlockExplosionResistance(Explosion explosion,net.minecraft.world.level.BlockGetter world,BlockPos at,net.minecraft.world.level.block.state.BlockState state,net.minecraft.world.level.material.FluidState fluid) {
-                if(!allBunnidogs && caster.kind()==ApexKind.BLAST && state.is(com.bunnidogs.mod.expedition.MoonMining.STONE))return java.util.Optional.of(1.5F);
+                if(miningBlast && state.is(com.bunnidogs.mod.expedition.MoonMining.STONE))return java.util.Optional.of(1.5F);
                 return super.getBlockExplosionResistance(explosion,world,at,state,fluid);
             }
             private boolean immune(Entity entity) { return allBunnidogs ? entity instanceof Bunnidog : family(entity); }
@@ -110,7 +111,8 @@ public final class ApexSkills {
             }
         };
         boolean grief=net.neoforged.neoforge.event.EventHooks.canEntityGrief(level,caster);
-        var interaction=!grief ? Explosion.BlockInteraction.KEEP : level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.MOB_EXPLOSION_DROP_DECAY)
+        // Mining bursts pay normal block loot, like non-decaying TNT, without changing the world's mob rule.
+        var interaction=!grief ? Explosion.BlockInteraction.KEEP : !miningBlast && level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.MOB_EXPLOSION_DROP_DECAY)
                 ? Explosion.BlockInteraction.DESTROY_WITH_DECAY : Explosion.BlockInteraction.DESTROY;
         var boom=new ServerExplosion(level,caster,null,calculator,center,power,grief,interaction);
         if(net.neoforged.neoforge.event.EventHooks.onExplosionStart(level,boom))return false;

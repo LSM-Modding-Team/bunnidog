@@ -73,6 +73,11 @@ seconds in the air. White flashing/swelling uses vanilla creeper curves. Normal
 power-ten blasts use native exposure, drops/fire, mob griefing and explosion
 start/detonate events, with .96× native victim damage (another 20% below the previous 1.2×) and family Apex/brood immunity.
 Self-cost is now **22.5% maximum health**, a 25% reduction from the former 30%.
+Ground/flying self-explosions give full normal block loot, like non-decaying TNT,
+even with the mob explosion-decay rule enabled. Destroyed lunar rock and ores
+therefore reliably yield Moonstone, Astralite Shards and Raw Cinderite. Griefing
+and native explosion/protection cancellation still apply. Fireballs keep their
+normal mob drop policy and cannot mine the blast-resistant lunar blocks.
 
 If that cost would kill it, including damage received during an existing fuse,
 Blastmaw commits to a **power-twenty final explosion**, flashes **red** and adds

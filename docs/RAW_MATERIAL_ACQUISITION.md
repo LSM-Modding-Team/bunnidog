@@ -7,8 +7,10 @@ archive seeds and actual mineral recovery, then called some expenses
 "disproportionate" without establishing their acquisition cost. That conclusion
 was not justified by its bill comparison.
 
-This follow-up changes the analysis and evidence, not gameplay values. The
-previous Regeneration change remains implemented, but its native healing rate
+The acquisition-audit correction initially changed analysis/evidence only. The
+subsequent lunar correction now makes Blastmaw self-blasts pay full normal loot
+and replaces the wood-for-Cinderite shortcut with refining mined Raw Cinderite.
+The previous Regeneration change remains implemented, but its native healing rate
 alone is not evidence that it was overpowered in a full expedition. Incoming
 bursts, armour-bypassing damage, Resistance, heart debt, duration and the ability
 to finish drinking still need encounter evidence. No further balance change
@@ -118,8 +120,9 @@ Debris, captured seed quality or carried emergency supplies easy.
 Vanilla debris and moon bootstrap also have different explosion economics:
 Ancient Debris survives the mining explosions that expose it; the player then
 mines it. The native moon exception deliberately lowers resistance of both
-Moonstone and its ores, so the Blastmaw destroys ore and invokes explosion-decay
-loot. "Both are blast mining" does not mean equal recovery or risk.
+Moonstone and its ores, so the Blastmaw destroys ore and pays its normal loot
+directly. Its self-explosions now bypass mob loot decay, while dangerous baiting
+and recovery remain. "Both are blast mining" does not mean equal setup or risk.
 
 ## 3. Lunar acquisition has a major before/after boundary
 
@@ -149,36 +152,34 @@ A single moon therefore contains many armour sets' worth of ore. That is
 - Normal power-ten bursts cost the actor 22.5% of its max health. Its final
   power-twenty detonation is not an unlimited repeatable button. Fuse, approach,
   attack recovery, terrain shape and the finite remaining moon all matter.
-- The default `mob_explosion_drop_decay` rule is **true**. Destroyed ore is not
-  recovered ore. Fire/blast resistance on the resulting item entity does not
-  cancel the loot table's earlier explosion-decay roll.
+- The default `mob_explosion_drop_decay` rule is **true**, but both ground and
+  flying Blastmaw self-explosions now use native `DESTROY`, like non-decaying TNT.
+  Each destroyed Astralite ore yields one Shard, each Cinderite ore one Raw
+  Cinderite, and each Moonstone its block. This does not modify the world rule,
+  bypass griefing/protection/cancellation, or grant full drops/mining exceptions
+  to fireballs. Ordinary blocks retain their own normal loot tables.
 
-Four native-calculator observations, on copied real generated substrate with
-that default rule, illustrate the loss:
+The updated [native-calculator observations](audits/acquisition-observations.md)
+assert exact drops for every destroyed lunar block in four copied generated
+substrate patches, with mob decay still enabled. Ground power-ten and flying
+power-twenty samples cover both bodies. These replace the earlier low-recovery
+examples, which measured the now-removed decay. They are not average yields or
+predictions of how many Blastmaws a player needs: the patches omit player danger,
+other creatures, baiting, fuse time and actual item collection.
 
-| Position | Power | Astralite ore destroyed | Shards spawned | Cinderite ore destroyed | Raw Cinderite spawned |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Surface | 10 | 15 | 2 | 17 | 1 |
-| Surface | 20 | 42 | 2 | 50 | 3 |
-| Interior | 10 | 15 | 1 | 21 | 2 |
-| Interior | 20 | 65 | 5 | 89 | 4 |
-
-These four random observations are not average yields or predictions of how
-many Blastmaws a player needs. The controlled patches omit player danger,
-other creatures, baiting, fuse time and item collection. They do show why
-"2.4% ore" was not an adequate acquisition analysis. The first tool's 36 Shards require actual recovered drops, not merely
-destroying 1,500 nominal rock cells. Its Cinderite can instead come from a
-previously found Lantern smith: three fibre trades supply all 36 ingots. A
-player choosing the moon-only route must also recover that Cinderite; the
-crafting bill is not a requirement that both minerals must be mined.
+The first tool requires **36 recovered Shards and 36 recovered Raw Cinderite**,
+plus its other inputs. Both minerals must be acquired. A Lantern smith can refine
+twelve Raw Cinderite plus four Fibre into twelve stocked ingots, but renewable
+wood alone no longer substitutes for mining. Earlier saved shortcut offers are
+retired without refilling merchant goods or resetting other offers' uses.
 
 ### Once the mining foothold exists
 
 The same moon is now a dense, visible local resource that an Astralite tool can
 harvest directly, with Fortune and Mending available. The bottleneck changes to
 safe access, exposing/reaching veins, actual breaking and collection speed,
-combat interruptions, equipment wear and bringing the haul back. Explosions can
-expose veins but still destroy/pay poorly for any ore caught in their blast.
+combat interruptions, equipment wear and bringing the haul back. Self-explosions
+still pay one drop per ore, while Fortune can improve direct tool-mining yields.
 Moonstone is plentiful bulk rock rather than another equally rare ore.
 
 Moonstone has hardness four; both lunar ores have hardness six. Efficiency,
@@ -260,9 +261,10 @@ routes. Capture does not magically grant a renewable high-quality infusion.
 
 Native fresh Lantern offers and goods establish these alternatives:
 
-- **32 Root Fibre → 12 Cinderite Ingots.** Eight Guava Logs can supply that fibre.
-  Each fresh smith starts with 64 ingots and can initially fund five such
-  trades (60 ingots). This is a real post-discovery alternative to ore extraction.
+- **12 Raw Cinderite + 4 Root Fibre → 12 Cinderite Ingots.** This is a refining
+  service for an existing mineral haul, not an alternative to mining it. Each
+  fresh smith's 64 ingots initially fund five trades (60 ingots). The earlier
+  fibre-only exchange is removed, including saved offers.
 - **24 Cinderite → 16 Dust**, or **16 Sinew + 16 Fibre → 16 Dust** from a kitchen
   merchant. These spend different player surpluses, and share its actual dust.
 - **16 Cinderite + 16 Dust → 16 Prism Cells.** Compare that convenience against
@@ -274,6 +276,8 @@ Native fresh Lantern offers and goods establish these alternatives:
 Initial goods are finite and production consumes stock. Rebuilding the offer
 list does not create a new 64-ingot deposit. Later Cinderite taken in payment
 can finance further trades; smiths do not manufacture raw Cinderite from fibre.
+Earned later dungeon shipments remain a finite mineral source after preparation;
+they do not replace the intended first-set moon-mining path.
 Kitchen bedding work also consumes Dust. These NPCs are not vanilla villagers
 with an inexhaustible emerald-to-everything refresh. Town finding, routes and
 what other players have sold determine subsequent availability.

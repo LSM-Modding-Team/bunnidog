@@ -14,16 +14,17 @@ Total contained ore, not collected output or a timed mining run.
 
 ## Native Blastmaw payout samples
 
-Each row refills a translated real generated substrate patch. Default explosion decay is enabled.
+Each row refills a translated real generated substrate patch. The world mob-decay rule stays enabled;
+self-blasts use full normal block drops. Power 10 uses a ground actor; power 20 uses a flying actor.
 These observe block destruction and spawned drops, not the difficulty/time of making the attack happen.
 Four samples cannot establish average expedition yield; source and limitations are in the JSON.
 
 | Placement | Power | Blocks broken | Astralite ore broken | Shards recovered | Cinderite ore broken | Raw Cinderite recovered | Moonstone recovered |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| surface | 10 | 418 | 15 | 2 | 17 | 1 | 39 |
-| surface | 20 | 1525 | 42 | 2 | 50 | 3 | 75 |
-| interior | 10 | 613 | 15 | 1 | 21 | 2 | 58 |
-| interior | 20 | 2791 | 65 | 5 | 89 | 4 | 129 |
+| surface | 10 | 436 | 13 | 13 | 15 | 15 | 408 |
+| surface | 20 | 1684 | 46 | 46 | 59 | 59 | 1579 |
+| interior | 10 | 640 | 14 | 14 | 19 | 19 | 607 |
+| interior | 20 | 2994 | 68 | 68 | 97 | 97 | 2829 |
 
 ## One open ruin: actual chest stock
 
@@ -56,7 +57,7 @@ Initial max uses is backed by goods, not a claim that a daily refresh creates th
 | Profession | Input A | Input B | Output | Initial uses |
 | ---: | --- | --- | --- | ---: |
 | 0 | 48 bunnidogs:moonstone |  | 32 bunnidogs:root_fibre | 2 |
-| 0 | 32 bunnidogs:root_fibre |  | 12 bunnidogs:cinderite_ingot | 5 |
+| 0 | 12 bunnidogs:raw_cinderite | 4 bunnidogs:root_fibre | 12 bunnidogs:cinderite_ingot | 5 |
 | 1 | 24 bunnidogs:cinderite_ingot | 8 bunnidogs:sinew | 4 bunnidogs:field_dressing | 4 |
 | 1 | 16 bunnidogs:cinderite_ingot | 16 bunnidogs:starlit_dust | 16 bunnidogs:prism_cell | 2 |
 | 2 | 16 bunnidogs:sinew | 16 bunnidogs:root_fibre | 16 bunnidogs:starlit_dust | 4 |

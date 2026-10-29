@@ -72,6 +72,7 @@ final class GuildProjectsGameTest {
         citizen.mobInteract(p,InteractionHand.MAIN_HAND);h.assertTrue(p.containerMenu instanceof MerchantMenu,"An actual peaceful Elder opens Minecraft's trading interface");var menu=(MerchantMenu)p.containerMenu;var offer=citizen.getOffers().getFirst();menu.setSelectionHint(0);menu.getSlot(0).set(offer.getCostA().copy());menu.getSlot(1).set(offer.getCostB().copy());menu.clicked(2,0,ContainerInput.PICKUP,p);
         var token=menu.getCarried().copy();h.assertTrue(token.is(ModItems.HOMEWARD_TOTEM.get()) && token.get(ModItems.GUILD_HOME.get()).pos().equals(hall) && menu.getSlot(0).getItem().isEmpty() && offer.getUses()==1,"A real native purchase pays inputs once and creates the town-bound rescue totem");menu.setCarried(ItemStack.EMPTY);p.closeContainer();
         var out=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess());citizen.saveWithoutId(out);var restored=ModEntities.WARREN_CITIZEN.get().create(level,EntitySpawnReason.LOAD);restored.load(TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),out.buildResult()));h.assertTrue(restored.getOffers().getFirst().getUses()==1,"Merchant saves preserve finite uses and original stock");restored.discard();
+        smithRefining(h,p,hall);
         p.snapTo(Vec3.atBottomCenterOf(c.offset(-20,1,-20)));p.setItemInHand(InteractionHand.OFF_HAND,token);p.setHealth(1);p.invulnerableTime=0;p.hurtServer(level,level.damageSources().generic(),10000);ApexPlayerEvents.tick(new net.neoforged.neoforge.event.tick.PlayerTickEvent.Post(p));
         h.assertTrue(p.isAlive() && p.getOffhandItem().isEmpty() && p.distanceToSqr(Vec3.atCenterOf(hall))<25*25,"A successful native totem pop saves the player and teleports to the bound real Warren");var secondHall=hall.east(160);
         for(int dx=-22;dx<=3;dx++)for(int dz=-14;dz<=3;dz++)level.setBlock(secondHall.offset(dx,-1,dz),ModBlocks.ROOTSTONE.get().defaultBlockState(),3);
@@ -82,6 +83,18 @@ final class GuildProjectsGameTest {
         p.snapTo(Vec3.atBottomCenterOf(gate.getBlockPos().above()));gate.use(p);
         h.assertTrue(p.distanceToSqr(Vec3.atCenterOf(secondHall))<25*25,"Discovering another town cannot silently change a portal's saved destination");
         citizen.discard();p.discard();
+    }
+    private static void smithRefining(GameTestHelper h,ServerPlayer p,BlockPos hall) {
+        var level=h.getLevel();var smith=ModEntities.WARREN_CITIZEN.get().create(level,EntitySpawnReason.STRUCTURE);smith.initialize(hall,0);smith.snapTo(p.position().add(1,0,0));smith.setNoAi(true);level.addFreshEntity(smith);
+        var refining=smith.getOffers().stream().filter(o->o.getResult().is(ModItems.CINDERITE_INGOT.get())).findFirst().orElseThrow();
+        h.assertTrue(refining.getCostA().is(ModItems.RAW_CINDERITE.get()) && refining.getCostA().getCount()==12 && refining.getCostB().is(GuildProjects.material("root_fibre")) && refining.getCostB().getCount()==4 && refining.getResult().getCount()==12,"The smith requires mined raw mineral for its one-for-one refining service");
+        smith.mobInteract(p,InteractionHand.MAIN_HAND);var menu=(MerchantMenu)p.containerMenu;menu.setSelectionHint(smith.getOffers().indexOf(refining));menu.getSlot(0).set(refining.getCostA().copy());menu.getSlot(1).set(refining.getCostB().copy());menu.clicked(2,0,ContainerInput.PICKUP,p);
+        h.assertTrue(menu.getCarried().is(ModItems.CINDERITE_INGOT.get()) && menu.getCarried().getCount()==12 && menu.getSlot(0).getItem().isEmpty() && menu.getSlot(1).getItem().isEmpty() && refining.getUses()==1,"Native refining consumes both real inputs and pays exactly twelve stocked ingots");menu.setCarried(ItemStack.EMPTY);p.closeContainer();
+        smith.getOffers().add(new net.minecraft.world.item.trading.MerchantOffer(new net.minecraft.world.item.trading.ItemCost(GuildProjects.material("root_fibre"),32),new ItemStack(ModItems.CINDERITE_INGOT.get(),12),5,2,0));
+        var before=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess());smith.saveWithoutId(before);var original=before.buildResult();
+        var loaded=ModEntities.WARREN_CITIZEN.get().create(level,EntitySpawnReason.LOAD);loaded.load(TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),original));
+        h.assertTrue(loaded.getOffers().size()==smith.getOffers().size()-1 && loaded.getOffers().stream().noneMatch(o->o.getResult().is(ModItems.CINDERITE_INGOT.get()) && o.getCostB().isEmpty()) && loaded.getOffers().stream().filter(o->o.getResult().is(ModItems.CINDERITE_INGOT.get())).findFirst().orElseThrow().getUses()==1,"Reload retires only the old fibre shortcut and preserves the paid refining offer's uses");
+        var after=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess());loaded.saveWithoutId(after);h.assertTrue(java.util.Objects.equals(original.get("Items"),after.buildResult().get("Items")),"Retiring the old offer neither refills nor discards any physical merchant stock");loaded.discard();smith.discard();
     }
     static void habitation(GameTestHelper h) {
         var level=h.getLevel();var center=CrownDungeonGameTest.origin(h);var piece=new LanternWarrenPiece(center);var bounds=piece.getBoundingBox();

@@ -50,7 +50,10 @@ depends on crops or player-supplied ingredients. There is no free timed reset.
 Waykeepers exchange one ordinary Totem plus **48 Astralite Shards** for a
 **Homeward Totem** bound to that actual town. Other offers exchange common bulk
 materials for frames, cells, dressings, bedding or food. They do not sell raw
-Astralite or bypass the pre-dungeon lunar mining loop.
+Astralite or bypass the pre-dungeon lunar mining loop. The Rootmason's Cinderite
+service requires **12 mined Raw Cinderite + 4 Root Fibre** for twelve stocked
+ingots, rather than exchanging wood alone for mineral. Existing saved fibre-only
+offers retire on load; other uses and all physical goods are preserved.
 
 ## The Lantern network and rescue
 

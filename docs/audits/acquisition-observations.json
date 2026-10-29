@@ -33,45 +33,45 @@
       "substrate_seed": 1379,
       "placement": "surface",
       "power": 10,
-      "blocks_broken": 418,
-      "astralite_ore_broken": 15,
-      "cinderite_ore_broken": 17,
-      "astralite_shard_recovered": 2,
-      "raw_cinderite_recovered": 1,
-      "moonstone_recovered": 39
+      "blocks_broken": 436,
+      "astralite_ore_broken": 13,
+      "cinderite_ore_broken": 15,
+      "astralite_shard_recovered": 13,
+      "raw_cinderite_recovered": 15,
+      "moonstone_recovered": 408
     },
     {
       "substrate_seed": 1379,
       "placement": "surface",
       "power": 20,
-      "blocks_broken": 1525,
-      "astralite_ore_broken": 42,
-      "cinderite_ore_broken": 50,
-      "astralite_shard_recovered": 2,
-      "raw_cinderite_recovered": 3,
-      "moonstone_recovered": 75
+      "blocks_broken": 1684,
+      "astralite_ore_broken": 46,
+      "cinderite_ore_broken": 59,
+      "astralite_shard_recovered": 46,
+      "raw_cinderite_recovered": 59,
+      "moonstone_recovered": 1579
     },
     {
       "substrate_seed": 1379,
       "placement": "interior",
       "power": 10,
-      "blocks_broken": 613,
-      "astralite_ore_broken": 15,
-      "cinderite_ore_broken": 21,
-      "astralite_shard_recovered": 1,
-      "raw_cinderite_recovered": 2,
-      "moonstone_recovered": 58
+      "blocks_broken": 640,
+      "astralite_ore_broken": 14,
+      "cinderite_ore_broken": 19,
+      "astralite_shard_recovered": 14,
+      "raw_cinderite_recovered": 19,
+      "moonstone_recovered": 607
     },
     {
       "substrate_seed": 1379,
       "placement": "interior",
       "power": 20,
-      "blocks_broken": 2791,
-      "astralite_ore_broken": 65,
-      "cinderite_ore_broken": 89,
-      "astralite_shard_recovered": 5,
-      "raw_cinderite_recovered": 4,
-      "moonstone_recovered": 129
+      "blocks_broken": 2994,
+      "astralite_ore_broken": 68,
+      "cinderite_ore_broken": 97,
+      "astralite_shard_recovered": 68,
+      "raw_cinderite_recovered": 97,
+      "moonstone_recovered": 2829
     }
   ],
   "lantern_initial_trades": [
@@ -94,12 +94,12 @@
     {
       "profession": 0,
       "cost_a": {
-        "id": "bunnidogs:root_fibre",
-        "count": 32
+        "id": "bunnidogs:raw_cinderite",
+        "count": 12
       },
       "cost_b": {
-        "id": "minecraft:air",
-        "count": 0
+        "id": "bunnidogs:root_fibre",
+        "count": 4
       },
       "output": {
         "id": "bunnidogs:cinderite_ingot",
@@ -405,7 +405,7 @@
   ],
   "method": {
     "ore_stock": "Three actual generator/seed moon volumes; no claimed harvest or player time.",
-    "explosions": "Actual Blastmaw calculator against translated 45x45x45 patches of seed-1379 moon substrate; four independent illustrative samples, native mob griefing and explosion decay enabled. No player, AI opponents, travel, baiting, collection, fuse or self-damage simulation. Blocks are refilled per sample. Engine explosion/loot RNG is not a fixed golden output.",
+    "explosions": "Actual Blastmaw calculator against translated 45x45x45 patches of seed-1379 moon substrate; four independent illustrative samples, native mob griefing and mob explosion decay enabled. Ground power-10 and flying power-20 self-blasts override decay for full normal block loot, with exact one-per-destroyed-lunar-block assertions. No player, AI opponents, travel, baiting, collection, fuse or self-damage simulation. Blocks are refilled per sample. Engine explosion RNG is not a fixed golden output.",
     "ruins": "16 native random-spread candidates per seed; height admission only, not guaranteed completed structures or a search time.",
     "trades": "Fresh native merchant offers backed by actual initial goods; not an infinite daily restock.",
     "domestic": "Expected drops for a homozygous Starborn/default-other-genes adult, Looting III. Grooming has one shared recovery, can give multiple products and still requires real health/care eligibility."

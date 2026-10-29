@@ -5,7 +5,26 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
-## Current — acquisition correction to the progression audit
+## Current — reliable lunar blast mining and mined Cinderite
+
+Both ground and flying Blastmaw self-explosions now pay full normal block loot,
+like TNT without explosion decay. Every broken Astralite ore drops its shard,
+every Cinderite ore its raw mineral, and Moonstone drops its block. Native mob
+griefing/protection/cancellation remain authoritative; fireballs and other mobs'
+drop rules, battle stats and mineral generation are unchanged.
+
+The Lantern smith's old fibre-only mineral sale is replaced by a finite refining
+service: **12 Raw Cinderite + 4 Root Fibre → 12 Cinderite Ingots**. Old saved
+shortcut offers retire on load without replenishing stock or resetting other
+offers. First-tool Cinderite therefore requires actual mineral acquisition too.
+Updated acquisition evidence checks full recovery under an enabled mob-decay rule
+and both ground/flying blasts; natural expedition difficulty still needs play.
+Protocol remains **48**; these are server behavior changes, not new client content.
+Java 25 build/localization and focused `scale_acquisition`/`guild_towns` checks
+pass, including exact block payouts, native refining payment and preserved
+merchant stock/uses across legacy-offer retirement. Full CI is the release gate.
+
+## Previous — acquisition correction to the progression audit
 
 `docs/RAW_MATERIAL_ACQUISITION.md` supersedes count-only economic conclusions.
 It follows actual sources: rich ordinary ruins, finite physical NPC exchange,
@@ -17,8 +36,9 @@ ruin pays 12–24 ingots, and its archive can directly supply quality-20–33 se
 New native acquisition observations count three actual moons, check ruin-height
 admission, exercise actual Blastmaw block destruction/drop recovery and inspect
 stock-backed merchant offers/domestic yields. The recorded extraction example
-broke fifteen Astralite ores but recovered two shards under default decay. These
-are controlled native observations, not timed player expeditions. See the JSON/
+broke fifteen Astralite ores but recovered two shards under default decay; that
+loss and the fibre-only trade are superseded by the current lunar correction.
+These are controlled native observations, not timed player expeditions. See the JSON/
 Markdown in `docs/audits/acquisition-observations.*` for evidence and limits.
 This follow-up changes documentation and the acquisition fixture; gameplay
 values and protocol 48 are unchanged. Keep setup, active labour, waiting, danger,
