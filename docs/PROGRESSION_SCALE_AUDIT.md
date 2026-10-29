@@ -1,5 +1,13 @@
 # Progression, acquisition time and encounter scale
 
+**Acquisition correction:** the first version over-weighted crafting bills and
+omitted important raw-material routes. Read [Raw-material acquisition](RAW_MATERIAL_ACQUISITION.md)
+first. It documents open ruins paying 12–24 Netherite Ingots, actual Blastmaw
+ore recovery, finite NPC exchange, domestic yields and direct archive seeds.
+The count-only conclusion that guava is overpriced is withdrawn pending
+stage/source comparison. This document remains the recipe/effect/encounter
+appendix; its item totals are not material difficulty or measured player time.
+
 This audit responds to the player's night/death/scale review. It replaces the
 assumption that a bigger numeric level, a rarer-looking mineral, or a smaller
 number of enemies is enough to price or balance a feature. The player's field
@@ -131,8 +139,9 @@ bootstrap has no Fortune tool and explosion-decay rules may lose produce.
 Mainland densities of 0.16%/0.24% make the equivalent search roughly 15x/13.3x
 larger. That is why actual repeated moon extraction matters.
 
-A Netherite Ingot instead requires four Ancient Debris-derived scraps and four
-Gold Ingots, with vanilla exploration, fire/terrain and refining. It is not a
+The vanilla mining route to a Netherite Ingot uses four Ancient Debris-derived
+scraps and four Gold Ingots. After realm entry, ordinary ruins instead supply
+12–24 ingots in one treasure chest; the mining route is not the sole valuation. It is not a
 unit to equate to one shard because both are near the end of a crafting ladder.
 An XP Bottle averages seven XP; a player-attributed ordinary Apex pays **500 XP**
 (about 71.4 bottles of experience). Bottles are portable reserve repair/levels;
@@ -224,16 +233,18 @@ income alongside the containers, not interchangeable with their XP bottles.
 
 These are identified design debts, not fixes falsely declared complete:
 
-1. **Guava investment is disproportionate.** A single Netherite Guava recursively
+1. **Guava investment must be valued by stage/source.** A single Netherite Guava recursively
    costs eight Netherite Ingots, eight Diamonds, eight Gold Ingots and a fruit.
    A pair at that tier can consume sixteen Netherite Ingots for one breeding
-   event. That exceeds the *extra Netherite component* of the whole Astralite
-   armour bill fourfold, while also competing with durable tools. Do not change
-   Astralite shard counts to compensate for this unrelated consumable bottleneck.
+   event. The earlier comparison to four extra armour-template ingots did not
+   establish acquisition difficulty. One ordinary ruin pays 12–24 ingots; raw
+   source, intended stage, supply replacement and archived-seed alternatives
+   must be assessed before calling the guava recipe overpriced.
 2. **Upper guava tiers are not a renewable ration economy.** Beacon/egg recipes
    consume their inputs; the vanilla Java Dragon Egg is not a repeatable normal
-   farming output. A one-off carrier is not an adequate foundation for stacks
-   of daily expedition drinks. Starborn breeding is another route, with its
+   farming output. However, ordinary ruin archives directly provide quality
+   20–33 seeds and Crown archives provide 36–47. Those missed sources change
+   the practical choice. Starborn breeding is another route, with its
    own real generations, costs and time. These routes must be priced separately.
 3. **Kit quality is not proof of obtainable progression.** Kits create quality
    116 bottles with Bloom 60 and ordinary fertility, without the parents/costs
@@ -268,8 +279,9 @@ These are identified design debts, not fixes falsely declared complete:
    actual minutes, deaths, supply loss and haul over those journeys before
    making another global enemy/loot multiplier claim.
 
-Next design priority is the renewable bred-seed/guava/infusion economy and the
-honest route to the desired endgame potency, with independent effect curves.
+Next design priority starts with the actual source/payout hierarchy documented
+in RAW_MATERIAL_ACQUISITION.md, then the repeatable bred-seed/guava/infusion
+route to the desired endgame potency. Recipe totals alone cannot price it.
 Then compare whole-expedition consumption against finite room rewards and
 shared-material projects. Keep mining and six-hunt gates, the user's combat
 roles and permanent save/stock ownership intact while correcting that economy.

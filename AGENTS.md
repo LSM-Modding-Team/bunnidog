@@ -1,5 +1,20 @@
 # Codex working instructions
 
+Latest user correction: ingredient counts do not establish raw acquisition
+difficulty. Read `docs/RAW_MATERIAL_ACQUISITION.md` before the earlier bill audit.
+Compare stage-available routes, first setup versus repeat collection, loaded
+waiting versus active work, risk/loss, actual recovered yield and finite stock.
+Ordinary ruins pay 12–24 Netherite Ingots, 8–16 enchanted apples, ammunition
+inputs and quality-20–33 archive seeds; Crown archives supply quality 36–47.
+Lantern smiths exchange renewable fibre for finite Cinderite stock. Native
+Blastmaw samples show destroyed ore far exceeds recovered drops under default
+explosion decay. Do not value every Netherite ingot as fresh debris mining,
+every Dust as another rare-animal search, or every high-quality drink as guava
+crafting. Withdraw the count-only guava-overpricing conclusion. Count joint
+outputs once and distinguish native samples from measured Survival rates.
+This acquisition correction changes analysis/evidence, not gameplay values;
+no further nerf/buff follows solely from effect levels or recipe counts.
+
 Latest scale review supersedes the old no-dungeon-drops rule and balance pause.
 Read `docs/PROGRESSION_SCALE_AUDIT.md` and its generated quantity appendix before
 further economy or fight decisions. Night Apex spawning bypasses the inherited

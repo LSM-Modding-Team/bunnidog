@@ -1,5 +1,9 @@
 # Generated progression quantities
 
+These bills are demand bookkeeping. For stage-dependent raw-material acquisition,
+read [RAW_MATERIAL_ACQUISITION.md](../RAW_MATERIAL_ACQUISITION.md); trades,
+ordinary ruins and direct archive seeds change the practical routes.
+
 Reproduce with `python3 tools/progression_audit.py <passing GameTest log>`.
 All amounts are acquisition units. Vanilla gear is assumed already owned; fuels,
 travel, failed attempts, enchantments and teaching time are additional. Recipe

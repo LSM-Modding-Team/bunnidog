@@ -5,7 +5,26 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
-## Current — night danger, dungeon deaths and progression scale
+## Current — acquisition correction to the progression audit
+
+`docs/RAW_MATERIAL_ACQUISITION.md` supersedes count-only economic conclusions.
+It follows actual sources: rich ordinary ruins, finite physical NPC exchange,
+living harvest versus slaughter, joint Apex drops, first-tool versus later lunar
+mining, stocked Cleric bottles and direct high-quality archives. The earlier
+claim that guava was overpriced from its Netherite count is withdrawn: one open
+ruin pays 12–24 ingots, and its archive can directly supply quality-20–33 seeds.
+
+New native acquisition observations count three actual moons, check ruin-height
+admission, exercise actual Blastmaw block destruction/drop recovery and inspect
+stock-backed merchant offers/domestic yields. The recorded extraction example
+broke fifteen Astralite ores but recovered two shards under default decay. These
+are controlled native observations, not timed player expeditions. See the JSON/
+Markdown in `docs/audits/acquisition-observations.*` for evidence and limits.
+This follow-up changes documentation and the acquisition fixture; gameplay
+values and protocol 48 are unchanged. Keep setup, active labour, waiting, danger,
+loss, stock and repeatability explicit before deciding new balance changes.
+
+## Previous — night danger, dungeon deaths and progression scale
 
 Night Apexes can now pass the native dark-stone spawn check, with fourfold aerial
 selection weights, small flying packs and a 35% chance of non-Astralite equipment

@@ -1,0 +1,514 @@
+{
+  "moons": [
+    {
+      "seed": 1379,
+      "moon_radius": 43,
+      "moon_blocks": 273079,
+      "astralite_ore": 6599,
+      "cinderite_ore": 8811,
+      "ruin_candidates": 16,
+      "height_accepted_candidates": 2
+    },
+    {
+      "seed": 49157,
+      "moon_radius": 53,
+      "moon_blocks": 511499,
+      "astralite_ore": 12265,
+      "cinderite_ore": 16295,
+      "ruin_candidates": 16,
+      "height_accepted_candidates": 2
+    },
+    {
+      "seed": 926481503,
+      "moon_radius": 43,
+      "moon_blocks": 273079,
+      "astralite_ore": 6458,
+      "cinderite_ore": 8819,
+      "ruin_candidates": 16,
+      "height_accepted_candidates": 0
+    }
+  ],
+  "extraction": [
+    {
+      "substrate_seed": 1379,
+      "placement": "surface",
+      "power": 10,
+      "blocks_broken": 418,
+      "astralite_ore_broken": 15,
+      "cinderite_ore_broken": 17,
+      "astralite_shard_recovered": 2,
+      "raw_cinderite_recovered": 1,
+      "moonstone_recovered": 39
+    },
+    {
+      "substrate_seed": 1379,
+      "placement": "surface",
+      "power": 20,
+      "blocks_broken": 1525,
+      "astralite_ore_broken": 42,
+      "cinderite_ore_broken": 50,
+      "astralite_shard_recovered": 2,
+      "raw_cinderite_recovered": 3,
+      "moonstone_recovered": 75
+    },
+    {
+      "substrate_seed": 1379,
+      "placement": "interior",
+      "power": 10,
+      "blocks_broken": 613,
+      "astralite_ore_broken": 15,
+      "cinderite_ore_broken": 21,
+      "astralite_shard_recovered": 1,
+      "raw_cinderite_recovered": 2,
+      "moonstone_recovered": 58
+    },
+    {
+      "substrate_seed": 1379,
+      "placement": "interior",
+      "power": 20,
+      "blocks_broken": 2791,
+      "astralite_ore_broken": 65,
+      "cinderite_ore_broken": 89,
+      "astralite_shard_recovered": 5,
+      "raw_cinderite_recovered": 4,
+      "moonstone_recovered": 129
+    }
+  ],
+  "lantern_initial_trades": [
+    {
+      "profession": 0,
+      "cost_a": {
+        "id": "bunnidogs:moonstone",
+        "count": 48
+      },
+      "cost_b": {
+        "id": "minecraft:air",
+        "count": 0
+      },
+      "output": {
+        "id": "bunnidogs:root_fibre",
+        "count": 32
+      },
+      "initial_max_uses": 2
+    },
+    {
+      "profession": 0,
+      "cost_a": {
+        "id": "bunnidogs:root_fibre",
+        "count": 32
+      },
+      "cost_b": {
+        "id": "minecraft:air",
+        "count": 0
+      },
+      "output": {
+        "id": "bunnidogs:cinderite_ingot",
+        "count": 12
+      },
+      "initial_max_uses": 5
+    },
+    {
+      "profession": 1,
+      "cost_a": {
+        "id": "bunnidogs:cinderite_ingot",
+        "count": 24
+      },
+      "cost_b": {
+        "id": "bunnidogs:sinew",
+        "count": 8
+      },
+      "output": {
+        "id": "bunnidogs:field_dressing",
+        "count": 4
+      },
+      "initial_max_uses": 4
+    },
+    {
+      "profession": 1,
+      "cost_a": {
+        "id": "bunnidogs:cinderite_ingot",
+        "count": 16
+      },
+      "cost_b": {
+        "id": "bunnidogs:starlit_dust",
+        "count": 16
+      },
+      "output": {
+        "id": "bunnidogs:prism_cell",
+        "count": 16
+      },
+      "initial_max_uses": 2
+    },
+    {
+      "profession": 2,
+      "cost_a": {
+        "id": "bunnidogs:sinew",
+        "count": 16
+      },
+      "cost_b": {
+        "id": "bunnidogs:root_fibre",
+        "count": 16
+      },
+      "output": {
+        "id": "bunnidogs:starlit_dust",
+        "count": 16
+      },
+      "initial_max_uses": 4
+    },
+    {
+      "profession": 2,
+      "cost_a": {
+        "id": "bunnidogs:root_fibre",
+        "count": 24
+      },
+      "cost_b": {
+        "id": "bunnidogs:guava",
+        "count": 8
+      },
+      "output": {
+        "id": "bunnidogs:nursery_bedding",
+        "count": 8
+      },
+      "initial_max_uses": 3
+    },
+    {
+      "profession": 2,
+      "cost_a": {
+        "id": "bunnidogs:cinderite_ingot",
+        "count": 24
+      },
+      "cost_b": {
+        "id": "minecraft:air",
+        "count": 0
+      },
+      "output": {
+        "id": "bunnidogs:starlit_dust",
+        "count": 16
+      },
+      "initial_max_uses": 4
+    },
+    {
+      "profession": 3,
+      "cost_a": {
+        "id": "minecraft:totem_of_undying",
+        "count": 1
+      },
+      "cost_b": {
+        "id": "bunnidogs:astralite_shard",
+        "count": 48
+      },
+      "output": {
+        "id": "bunnidogs:homeward_totem",
+        "count": 1
+      },
+      "initial_max_uses": 2
+    },
+    {
+      "profession": 3,
+      "cost_a": {
+        "id": "bunnidogs:cinderite_ingot",
+        "count": 16
+      },
+      "cost_b": {
+        "id": "bunnidogs:starlit_dust",
+        "count": 16
+      },
+      "output": {
+        "id": "bunnidogs:prism_cell",
+        "count": 16
+      },
+      "initial_max_uses": 2
+    }
+  ],
+  "domestic_materials": [
+    {
+      "bred_points": 0,
+      "death_drops": [
+        {
+          "id": "bunnidogs:tan_pelt",
+          "mean_per_looting3_adult": 1.45
+        },
+        {
+          "id": "bunnidogs:raw_bunnidog_flesh",
+          "mean_per_looting3_adult": 1.45
+        },
+        {
+          "id": "minecraft:rabbit_foot",
+          "mean_per_looting3_adult": 0.145
+        },
+        {
+          "id": "minecraft:bone_meal",
+          "mean_per_looting3_adult": 0.5074999913573265
+        },
+        {
+          "id": "bunnidogs:starlit_dust",
+          "mean_per_looting3_adult": 0.48750000000000004
+        },
+        {
+          "id": "bunnidogs:tissue_sample",
+          "mean_per_looting3_adult": 0.04
+        }
+      ],
+      "grooming_products_per_12000_ticks": []
+    },
+    {
+      "bred_points": 20,
+      "death_drops": [
+        {
+          "id": "bunnidogs:tan_pelt",
+          "mean_per_looting3_adult": 1.45
+        },
+        {
+          "id": "bunnidogs:raw_bunnidog_flesh",
+          "mean_per_looting3_adult": 4.35
+        },
+        {
+          "id": "minecraft:rabbit_foot",
+          "mean_per_looting3_adult": 1.595
+        },
+        {
+          "id": "bunnidogs:sinew",
+          "mean_per_looting3_adult": 2.32
+        },
+        {
+          "id": "bunnidogs:whisker",
+          "mean_per_looting3_adult": 2.32
+        },
+        {
+          "id": "minecraft:bone_meal",
+          "mean_per_looting3_adult": 1.7254999706149101
+        },
+        {
+          "id": "bunnidogs:starlit_dust",
+          "mean_per_looting3_adult": 0.6824999999999999
+        },
+        {
+          "id": "bunnidogs:tissue_sample",
+          "mean_per_looting3_adult": 0.04
+        }
+      ],
+      "grooming_products_per_12000_ticks": [
+        "WHISKER",
+        "STARLIT"
+      ]
+    },
+    {
+      "bred_points": 50,
+      "death_drops": [
+        {
+          "id": "bunnidogs:tan_pelt",
+          "mean_per_looting3_adult": 1.45
+        },
+        {
+          "id": "bunnidogs:raw_bunnidog_flesh",
+          "mean_per_looting3_adult": 8.320988541912454
+        },
+        {
+          "id": "bunnidogs:prime_haunch",
+          "mean_per_looting3_adult": 1.2677953910866224
+        },
+        {
+          "id": "minecraft:rabbit_foot",
+          "mean_per_looting3_adult": 3.977593125147472
+        },
+        {
+          "id": "bunnidogs:sinew",
+          "mean_per_looting3_adult": 4.702593125147472
+        },
+        {
+          "id": "bunnidogs:whisker",
+          "mean_per_looting3_adult": 4.702593125147472
+        },
+        {
+          "id": "minecraft:bone_meal",
+          "mean_per_looting3_adult": 3.393315129815417
+        },
+        {
+          "id": "bunnidogs:starlit_dust",
+          "mean_per_looting3_adult": 0.9750000000000001
+        },
+        {
+          "id": "bunnidogs:tissue_sample",
+          "mean_per_looting3_adult": 0.04
+        }
+      ],
+      "grooming_products_per_12000_ticks": [
+        "WHISKER",
+        "STARLIT"
+      ]
+    },
+    {
+      "bred_points": 100,
+      "death_drops": [
+        {
+          "id": "bunnidogs:tan_pelt",
+          "mean_per_looting3_adult": 1.45
+        },
+        {
+          "id": "bunnidogs:raw_bunnidog_flesh",
+          "mean_per_looting3_adult": 10.83459713474939
+        },
+        {
+          "id": "bunnidogs:prime_haunch",
+          "mean_per_looting3_adult": 2.2647477556002262
+        },
+        {
+          "id": "minecraft:rabbit_foot",
+          "mean_per_looting3_adult": 5.485758280849634
+        },
+        {
+          "id": "bunnidogs:sinew",
+          "mean_per_looting3_adult": 6.210758280849634
+        },
+        {
+          "id": "bunnidogs:whisker",
+          "mean_per_looting3_adult": 6.210758280849634
+        },
+        {
+          "id": "minecraft:bone_meal",
+          "mean_per_looting3_adult": 4.449030720828201
+        },
+        {
+          "id": "bunnidogs:starlit_dust",
+          "mean_per_looting3_adult": 1.4249999999999998
+        },
+        {
+          "id": "bunnidogs:tissue_sample",
+          "mean_per_looting3_adult": 0.04
+        },
+        {
+          "id": "bunnidogs:titan_haunch",
+          "mean_per_looting3_adult": 0.02
+        },
+        {
+          "id": "bunnidogs:gilded_foot",
+          "mean_per_looting3_adult": 0.02
+        },
+        {
+          "id": "bunnidogs:moon_sinew",
+          "mean_per_looting3_adult": 0.02
+        },
+        {
+          "id": "bunnidogs:listening_shell",
+          "mean_per_looting3_adult": 0.02
+        },
+        {
+          "id": "bunnidogs:everbloom",
+          "mean_per_looting3_adult": 0.02
+        }
+      ],
+      "grooming_products_per_12000_ticks": [
+        "WHISKER",
+        "STARLIT"
+      ]
+    }
+  ],
+  "method": {
+    "ore_stock": "Three actual generator/seed moon volumes; no claimed harvest or player time.",
+    "explosions": "Actual Blastmaw calculator against translated 45x45x45 patches of seed-1379 moon substrate; four independent illustrative samples, native mob griefing and explosion decay enabled. No player, AI opponents, travel, baiting, collection, fuse or self-damage simulation. Blocks are refilled per sample. Engine explosion/loot RNG is not a fixed golden output.",
+    "ruins": "16 native random-spread candidates per seed; height admission only, not guaranteed completed structures or a search time.",
+    "trades": "Fresh native merchant offers backed by actual initial goods; not an infinite daily restock.",
+    "domestic": "Expected drops for a homozygous Starborn/default-other-genes adult, Looting III. Grooming has one shared recovery, can give multiple products and still requires real health/care eligibility."
+  },
+  "one_open_ruin": {
+    "treasure": {
+      "stock": {
+        "minecraft:diamond": [
+          48,
+          64
+        ],
+        "minecraft:netherite_ingot": [
+          12,
+          24
+        ],
+        "minecraft:enchanted_golden_apple": [
+          8,
+          16
+        ],
+        "minecraft:gold_block": [
+          16,
+          32
+        ],
+        "minecraft:emerald_block": [
+          16,
+          32
+        ],
+        "minecraft:totem_of_undying": [
+          2,
+          4
+        ],
+        "minecraft:elytra": [
+          1,
+          1
+        ],
+        "minecraft:blaze_rod": [
+          32,
+          64
+        ]
+      },
+      "sha256": "aa9d219186000d7ab8ac8500105f4de74ac769467529a75ab7996049fcab498a"
+    },
+    "supplies": {
+      "stock": {
+        "minecraft:amethyst_shard": [
+          128,
+          192
+        ],
+        "minecraft:copper_block": [
+          32,
+          64
+        ],
+        "minecraft:gunpowder": [
+          128,
+          192
+        ],
+        "minecraft:ender_pearl": [
+          32,
+          48
+        ],
+        "minecraft:crying_obsidian": [
+          32,
+          64
+        ],
+        "minecraft:golden_carrot": [
+          32,
+          64
+        ],
+        "minecraft:glass_bottle": [
+          32,
+          64
+        ],
+        "minecraft:fire_charge": [
+          32,
+          64
+        ]
+      },
+      "sha256": "af58dede89ff818b51ba0d0fc1b777c32ff725cf9410edd3ee84d3a5c243a954"
+    },
+    "archive": {
+      "seed_quality": [
+        20,
+        33
+      ],
+      "stat_points": [
+        40,
+        70
+      ],
+      "starlit_dust": 16,
+      "source": "GreatRuinPiece.archive"
+    },
+    "layout": "One treasure chest, one supply chest and one frozen archive. No seal, key or mandatory kill wave; terrain and world enemies still matter."
+  },
+  "crown_archive": {
+    "seed_quality": [
+      36,
+      47
+    ],
+    "stat_points": [
+      70,
+      100
+    ],
+    "starlit_dust": 64,
+    "source": "CrownArchives.fill"
+  }
+}
