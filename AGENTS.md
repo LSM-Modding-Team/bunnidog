@@ -1,5 +1,14 @@
 # Codex working instructions
 
+Resident furnace workshops now ship through explicit Staff links; read the
+native-furnace section in `docs/HOUSEHOLD_COMMONS_SPECS.md`. Preserve actual
+input/fuel/output walking parcels, native cooking/fuel/XP, saved original furnace
+tokens/community ownership, reserves, shared work fronts and exact callback
+revalidation. Locks/redstone/unloaded neighbours pause transfers; vanilla cooking
+remains native. Primitive discovery is charcoal-only. This does not yet implement
+the wild site's first self-made stone/furnace/light infrastructure or complete
+craft/build education. Network 49 remains current; pursue the remaining roadmap.
+
 The autonomous continuation resumes implementation. The first stat/kit prototype
 now ships; read `docs/INFUSION_SPECS.md`. Preserve effect-specific potency from
 the actual rolled individual, independent duration and unchanged seed quality.

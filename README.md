@@ -17,6 +17,10 @@ contents. Orders and committed care return to the world; settings stay open.
 Plain held materials can inspect stations, with normal crouch-placement preserved.
 Every action uses real supplies.
 
+Household craftspeople can operate a Furnace, Blast Furnace or Smoker explicitly
+linked with the Steward Staff. They carry real inputs and fuel to it; couriers
+bring the cooked/refined results home. Native cooking and fuel still apply.
+
 1. Find guavas and a bunnidog. Care heals with a plain guava; healthy adults need
    no meals. Each adult can claim its own Nest, made from wheat and any planks.
 2. Offer a guava to each of two ready adults and choose Courtship. Keep them

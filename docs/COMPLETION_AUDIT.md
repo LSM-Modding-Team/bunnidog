@@ -67,6 +67,13 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
   [WILD_FAMILY_SPECS.md](WILD_FAMILY_SPECS.md). This advances I7/I8 without claiming
   resident-made initial caches, furnace/light workshops or complete civilization.
 
+- Native furnace workshops now add real craftspeople/courier handoffs through
+  explicitly linked Furnaces, Blast Furnaces and Smokers. Inputs, fuel, native
+  cooking and output travel use actual stock, saved parcels and exact original
+  containers. See [HOUSEHOLD_COMMONS_SPECS.md](HOUSEHOLD_COMMONS_SPECS.md).
+  This advances workshop professions; resident-made first stone/furnace/light
+  infrastructure and broader craft/build education remain open.
+
 ## Remaining acceptance criteria for full completion
 
 The latest user request makes full completion the target. These are finite gaps

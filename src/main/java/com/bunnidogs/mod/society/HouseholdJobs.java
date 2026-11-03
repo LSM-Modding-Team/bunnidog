@@ -22,6 +22,7 @@ public final class HouseholdJobs {
             case MEDICINE,FETCH_AID,TEACH -> job.patient()==null ? null : job.patient().id();
             default -> null;
         };
+        if(SocietyWork.furnaceJob(kind))return new Key(SocietyWork.Kind.FETCH_FURNACE,kind==SocietyWork.Kind.FETCH_FURNACE ? job.destination() : job.target(),-1,null);
         return new Key(kind,kind==SocietyWork.Kind.GATHER_FIELD ? BlockPos.ZERO : job.destination()!=null ? job.destination() : job.target(),kind==SocietyWork.Kind.CRAFT || kind==SocietyWork.Kind.TEACH ? -1 : job.index(),personal);
     }
     private boolean live(Claim claim) {
@@ -33,6 +34,7 @@ public final class HouseholdJobs {
         var failed=unreachable.get(new Rejected(dog.getUUID(),key(dog,job)));if(failed!=null && failed.until>home.getLevel().getGameTime())return false;
         if(job.kind()==SocietyWork.Kind.FETCH_SEED || job.kind()==SocietyWork.Kind.SOW_FIELD) {var target=job.destination()!=null ? job.destination() : job.target();if(home.residents().stream().anyMatch(other->other!=dog && target.equals(other.society().fieldTarget())))return false;}
         if(job.kind()==SocietyWork.Kind.FETCH_BUILD || job.kind()==SocietyWork.Kind.BUILD) {var target=job.destination()!=null ? job.destination() : job.target();if(home.residents().stream().anyMatch(other->other!=dog && target.equals(other.society().buildTarget())))return false;}
+        if(SocietyWork.furnaceJob(job.kind())) {var target=job.kind()==SocietyWork.Kind.FETCH_FURNACE ? job.destination() : job.target();if(target==null || home.residents().stream().anyMatch(other->other!=dog && target.equals(other.society().furnaceTarget())))return false;}
         var claim=claims.get(key(dog,job));return !live(claim) || claim.actor.equals(dog.getUUID());}
     public boolean claim(Bunnidog dog,SocietyWork.Job job) {
         if(!home.attached() || !dog.society().belongs(home) || !available(dog,job))return false;

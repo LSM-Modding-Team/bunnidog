@@ -5,7 +5,28 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
-## Current — bred infusion potency and reproducible kit donors
+## Current — resident-operated native furnace workshops
+
+The Staff now explicitly links actual Furnaces, Blast Furnaces and Smokers.
+Qualified craftspeople fetch real inputs/fuel, walk both supply legs and use
+native slots; couriers bring actual results and spent containers home. Cooking,
+fuel and XP remain native. Charcoal, minerals, glass and food have bounded stock
+targets and first-tool/seed reserves. Named keepsakes remain excluded.
+
+Saved furnace tokens/community identity prevent replacement or explicit relinking
+from rerouting an old paid parcel. Transient/shared claims and persistent cargo
+keep one work front. Native cancellation, reentrant callbacks, locks, redstone,
+loaded-neighbour bounds, original-owner recovery and one death parcel remain
+authoritative. See `docs/HOUSEHOLD_COMMONS_SPECS.md`. This advances professions;
+the wild family's first self-built furnace/stone/light chain is still unfinished.
+No new screen, profession selector, inherited skill or stat shortcut is added.
+
+Java 25 build/localization and all four focused `furnace_*` native cases pass,
+including all furnace types and actual autonomous walking/cooking. Network 49
+remains current. Natural long-term staffing, throughput and client feel remain
+play review; full native CI remains the release gate.
+
+## Previous — bred infusion potency and reproducible kit donors
 
 The first implementation slice of the acquisition-aware plan now uses the
 rolled individual's effect-specific stats for potency, independently of duration
@@ -27,8 +48,8 @@ Java 25 `build checkBunnidogModel` and both focused native `infusion_*` cases
 pass, including real drinking/attributes, controlled native healing and eight
 actual archive rolls. `checkInfusions` is now part of the ordinary build. The
 source observations are reproducible in `docs/audits/infusion-observations.*`.
-Full native CI remains the release gate; these checks do not establish natural
-Survival pacing or graphical client feel.
+Full native CI and direct-JAR publication passed for `a91a9ca`. These checks do
+not establish natural Survival pacing or graphical client feel.
 
 ## Previous — acquisition-aware stats rebalancing plan
 

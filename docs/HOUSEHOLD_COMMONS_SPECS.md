@@ -53,6 +53,58 @@ stripped for that classification, and exact source components still determine
 the extraction. No parallel profession inventory or credited resource counter
 exists.
 
+## Native furnace workshops
+
+The existing Staff can explicitly link a nearby Furnace, Blast Furnace or Smoker
+as one of the original twelve work sites. It donates that actual native
+container, not every replacement later placed at the same coordinates. A saved
+token and original community identity distinguish it through normal home/furnace
+reloads. Another household cannot silently acquire its workstation. Old sites
+and player builds do not gain workshop permissions automatically.
+
+Capable learned craftspeople fetch actual inputs at the Hearth, walk them to the
+furnace and insert them in its native input slot. Fuel requires its own paid
+parcel and walking leg. Native recipes, cooking time, real fuel/remainders and
+normal loaded ticking determine the result; workers do not advance a hidden
+cooking timer. Couriers collect actual output or spent fuel containers and walk
+them home. Furnace XP stays in its ordinary native journal, as with hopper
+extraction. Existing inputs, remaining fuel and normal player access remain.
+
+Processes cover charcoal, raw Iron/Copper/Gold/Cinderite, sand/glass and native
+food cooking. Personal Diet still controls meals; a craftsperson can prepare
+donated food for the warehouse/player without becoming able to eat it. Native
+furnace types must actually accept the recipe. Primitive independently capable
+natural residents can discover charcoal work, not advanced metal/glass/food
+processing merely from site membership. This does not yet build the wild site's
+first furnace or mine its stone.
+
+These are bounded needs, not a new factory manager. Charcoal/glass/cooked-food
+targets are sixteen stored items; refined minerals target thirty-two, with a
+finishing batch allowed to exceed the target. Keep four logs for tools/building,
+eight planks and two sticks when selecting fuel, four planting potatoes and two
+other raw foods. Fuel selection is ordinary coal/charcoal/planks/sticks rather
+than tools or named keepsakes. Each input parcel has at most eight items; fuel
+has a two-item buffer. A primitive carrier moves one item, while learned capable
+bulk hauling retains its existing eight-item advantage. Preparation scans only
+known practical candidates before consulting native recipes.
+
+All input/fuel/output operations share one furnace work front. Saved in-flight
+parcels retain that front after transient goal claims end. Native griefing
+callbacks, exact inventory journals and identity revalidation occur before
+payment. Replacement during a callback cannot redirect the parcel; even an
+explicit new link keeps an old parcel bound to its original token. It returns
+physically to the original store or remains recoverable by its original owner.
+Native locks, redstone and unloaded neighbours pause worker transfers. Vanilla
+furnace cooking itself keeps its ordinary redstone behaviour. Death releases
+one exact remaining parcel, never a duplicated stock credit.
+
+Four focused native `furnace_*` scenarios cover all three furnace types, real
+recipes/fuel/output, source reserves, native saves, named ingredients, cancellation,
+replacement during permission callbacks, explicit relinking, native locks,
+redstone, contested fronts, inherited limits and actual autonomous walking and
+cooking. Build/localization and these native scenarios pass. Ordinary Survival
+throughput, long-term staffing and client feel remain play review.
+
 ## A capable planner can leave instructions
 
 A resident with mastered independent Garden knowledge and independent Planning
