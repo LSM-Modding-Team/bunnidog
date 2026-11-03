@@ -60,7 +60,8 @@ final class ExpeditionRewardsGameTest {
         var cross=new Cross(saved);h.assertTrue(cross.litter()==1 && cross.looks(Gene.BUILD).size()==1 && new CapabilityForecast(cross).outcomes().size()==1,"Existing body and mind instruments forecast the exact captured pup rather than a Mendelian cross");
         var pups=saved.hatch(99,0,new java.util.Random(2));
         h.assertTrue(pups.size()==1 && pups.getFirst().genome().equals(genome) && pups.getFirst().stats().equals(stats),"Captured seeds preserve exact elite genes and points without litter multiplication or drift");
-        var frozen=Infusion.roll(saved,new java.util.Random(3));h.assertTrue(frozen.genome().equals(genome) && frozen.stats().equals(stats),"Infusing a captured seed preserves the same frozen genetic record");caller.discard();p.discard();
+        var frozen=Infusion.roll(saved,new java.util.Random(3));h.assertTrue(frozen.genome().equals(genome) && frozen.stats().equals(stats) && frozen.quality()==0,"Infusing a captured seed preserves the same frozen genetic record at quality zero");
+        com.bunnidogs.mod.BunnidogsMod.LOGGER.info("INFUSION_CAPTURE_AUDIT {}",frozen);caller.discard();p.discard();
     }
     static void flask(GameTestHelper h) {
         var level=h.getLevel();var p=ApexTypesGameTest.player(h,ApexTypesGameTest.center(h));var flask=new ItemStack(ModItems.ABYSSAL_FLASK.get());p.setItemInHand(InteractionHand.MAIN_HAND,flask);

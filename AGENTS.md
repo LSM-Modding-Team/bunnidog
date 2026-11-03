@@ -1,6 +1,16 @@
 # Codex working instructions
 
-Latest request updates planning only. `docs/STATS_REBALANCING_PLAN.md` is the
+The autonomous continuation resumes implementation. The first stat/kit prototype
+now ships; read `docs/INFUSION_SPECS.md`. Preserve effect-specific potency from
+the actual rolled individual, independent duration and unchanged seed quality.
+Kits use reproducible specialised plain-seed donor lines/golden carriers, keeping
+Strength XXX, separate recovery and all stock/box totals. Old bottles retain
+their exact data and use current rules; do not silently rewrite quality or
+pretend operator samples establish Survival timing. Network 49 needs matching
+client/server. The remaining balance comparisons stay provisional; continue
+useful accepted roadmap work without arbitrary global enemy/reward changes.
+
+The previous request updated planning only. `docs/STATS_REBALANCING_PLAN.md` is the
 current source-aware rebalance action plan; its effect-specific stat/potency
 formulas are preferred prototypes, not shipped or play-validated values.
 Prioritize an honest renewable Strength-XXX donor/infusion route and corresponding

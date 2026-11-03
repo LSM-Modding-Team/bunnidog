@@ -159,13 +159,8 @@ public final class KitCommands {
                 items.add(enchanted(p,end ? ModItems.SOVEREIGN_LANCE.get() : ModItems.PRISM_LANCE.get(),true));items.add(new ItemStack(ModItems.PRISM_CELL.get(),64));
                 items.add(enchanted(p,ModItems.FIREBALL_LAUNCHER.get(),true));items.add(new ItemStack(ModItems.VOLATILE_CHARGE.get(),64));
                 var flask=new ItemStack(ModItems.ABYSSAL_FLASK.get());String id=java.util.UUID.randomUUID().toString();flask.set(ModItems.FLASK_ID.get(),id);
-                var genes=Genome.DEFAULT;
-                for(var pair:java.util.List.of(new String[]{"BUILD","woolly"},new String[]{"COAT","ember"},new String[]{"TEMPERAMENT","feral"})) {
-                    var gene=Gene.valueOf(pair[0]);for(int n=0;n<2;n++)genes=genes.with(gene,n,gene.alleleNamed(pair[1]).id());
-                }
-                var recovery=genes;for(int n=0;n<2;n++) {recovery=recovery.with(Gene.TEMPERAMENT,n,Gene.TEMPERAMENT.alleleNamed("loyal").id());recovery=recovery.with(Gene.BUILD,n,Gene.BUILD.alleleNamed("average").id());recovery=recovery.with(Gene.COAT,n,Gene.COAT.alleleNamed("tan").id());}
                 int drinks=end ? 96 : 32;
-                for(int i=0;i<drinks;i++)com.bunnidogs.mod.expedition.FlaskStorage.get(p.level()).push(id,com.bunnidogs.mod.item.JuiceItem.create(new Infusion((drinks-1-i)%3==0 ? genes : recovery,Stats.of(80,70,75,80,60),end ? 116 : 24)));
+                for(int i=0;i<drinks;i++)com.bunnidogs.mod.expedition.FlaskStorage.get(p.level()).push(id,com.bunnidogs.mod.item.JuiceItem.create(ExpeditionInfusions.bottle(end,(drinks-1-i)%3==0)));
                 if(end) {items.add(enchanted(p,ModItems.GENETIC_VACUUM.get(),true));items.add(enchanted(p,ModItems.CONCORD_STANDARD.get(),true));items.add(new ItemStack(ModItems.HEART_SPOOL.get(),64));}
                 ModItems.ABYSSAL_FLASK.get().refresh(flask,p.level());items.add(flask);
             }

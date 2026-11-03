@@ -5,7 +5,32 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
-## Current — acquisition-aware stats rebalancing plan
+## Current — bred infusion potency and reproducible kit donors
+
+The first implementation slice of the acquisition-aware plan now uses the
+rolled individual's effect-specific stats for potency, independently of duration
+and quality. A real Vitality-116 Q0 drink reaches Strength XXX; recovery has its
+own Senses/logarithmic curve. Fixed utilities, the existing Resistance III limit,
+duplicate merging, breeding rules and enemy values remain. See
+`docs/INFUSION_SPECS.md` for formulas, save policy and evidence boundaries.
+
+New kits use conditional, reproducible selected donor lines and golden carriers,
+rather than quality 116/24 and blanket positive stats. Endgame has Strength XXX
+and separate Regeneration V; late has VII/III. Flask counts/order, supplies,
+gear and boxes remain intact. Existing bottles/flask entries retain their exact
+inputs and use current rules. Network **49** requires matching client/server.
+Natural acquisition, sustained recovery and encounter balance remain review
+work; the remaining rebalance plan does not automatically change rewards or
+fight multipliers.
+
+Java 25 `build checkBunnidogModel` and both focused native `infusion_*` cases
+pass, including real drinking/attributes, controlled native healing and eight
+actual archive rolls. `checkInfusions` is now part of the ordinary build. The
+source observations are reproducible in `docs/audits/infusion-observations.*`.
+Full native CI remains the release gate; these checks do not establish natural
+Survival pacing or graphical client feel.
+
+## Previous — acquisition-aware stats rebalancing plan
 
 `docs/STATS_REBALANCING_PLAN.md` is the current action plan. It incorporates
 ordinary ruin/Cleric/farm routes, joint Apex drops, finite archives/traders,

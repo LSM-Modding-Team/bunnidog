@@ -44,8 +44,15 @@ trident (no Channeling/Loyalty), Infinity bow (no Mending), elytra and ordinary
 max-enchanted gear. Other durable gear keeps Mending I and Unbreaking III.
 Vanilla has the Strength/Speed/Fire Resistance potions plus two Healing II
 splashes. Modded variants retain Astralite/artifact gear, all ammo, power
-settings, Calipers/guavas and the unchanged elite 96-drink flask; ordinary
+settings, Calipers/guavas and the elite 96-drink flask; ordinary
 potions do not crowd out that stock.
+
+The flask now uses [reproducible specialist donor lines](INFUSION_SPECS.md),
+plain production seeds and golden carriers instead of injected quality 116/24.
+Endgame retains Strength XXX; recovery is a separate Senses-240 Regeneration V
+drink. Late uses Strength VII/Regeneration III. The 32/96 totals and one-to-two
+stock order remain. These conditional breeding references do not measure natural
+founder selection, parent maturation or refill time.
 
 Endgame has **two real Shulkers**: a blue **Equipment** box (backup weapons,
 shield, specialised tools, potions and mod ammo) and a red **Supplies** box

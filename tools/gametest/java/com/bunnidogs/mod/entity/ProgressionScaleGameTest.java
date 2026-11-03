@@ -74,7 +74,7 @@ final class ProgressionScaleGameTest {
     static void audit(GameTestHelper h) {
         var out=new JsonObject();var effects=new JsonArray();var def=Juice.DEFS.get("temperament:loyal").getFirst();
         for(double quality:new double[]{0,1,2,4,7,12,20,24,28,60,116,124,252}) {
-            var spec=Juice.spec(def,quality,Stats.of(80,70,75,80,60));var row=new JsonObject();row.addProperty("quality",quality);row.addProperty("strength_level",Juice.amplifierFor(quality)+1);row.addProperty("regen_level",spec.amplifier()+1);row.addProperty("duration_ticks",spec.ticks());
+            var stats=Stats.of(80,70,75,80,60);var spec=Juice.spec(def,quality,stats);var row=new JsonObject();row.addProperty("quality",quality);row.addProperty("stats",stats.toString());row.addProperty("strength_level",Juice.spec(Juice.DEFS.get("temperament:feral").getFirst(),quality,stats).amplifier()+1);row.addProperty("quality_only_strength_level",Juice.amplifierFor(quality)+1);row.addProperty("regen_level",spec.amplifier()+1);row.addProperty("duration_ticks",spec.ticks());
             var patient=ModEntities.BUNNIDOG.get().create(h.getLevel(),EntitySpawnReason.COMMAND);patient.getAttribute(Attributes.MAX_HEALTH).setBaseValue(1000);patient.setHealth(1);
             var nativeEffect=MobEffects.REGENERATION.value();for(int t=0;t<500;t++)if(nativeEffect.shouldApplyEffectTickThisTick(t,spec.amplifier()))nativeEffect.applyEffectTick(h.getLevel(),patient,spec.amplifier());
             row.addProperty("native_healing_hp_per_second",(patient.getHealth()-1)/25.0);effects.add(row);patient.discard();

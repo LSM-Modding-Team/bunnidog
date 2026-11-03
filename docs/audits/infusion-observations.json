@@ -1,0 +1,332 @@
+{
+  "scope": "Four ordinary and four Crown archive generator samples, each rolled once. Ordinary archive generation also depends on its native fixture position; exact saved parent/child records below are authoritative. These are finite controlled observations, not population frequencies, a measured Survival route or renewable inherited archive quality.",
+  "samples": [
+    {
+      "source": "ordinary_ruin",
+      "sample": 1379,
+      "seed": "g3.02-a0-06-00-01-44-1b-11.01-31-11-33/58,53,69,66,62|g3.61-77-01-10-01-00-88-00.12-30-11-12/58,53,69,66,62|27.0",
+      "rolled_individual": "g3.01-a7-00-01-10-40-18-10.02-13-11-32/58,53,83,80,77|27.0",
+      "effects": [
+        {
+          "id": "minecraft:saturation",
+          "level": 1,
+          "ticks": 1
+        },
+        {
+          "id": "minecraft:levitation",
+          "level": 1,
+          "ticks": 120
+        },
+        {
+          "id": "minecraft:regeneration",
+          "level": 4,
+          "ticks": 2400
+        },
+        {
+          "id": "minecraft:luck",
+          "level": 12,
+          "ticks": 36000
+        },
+        {
+          "id": "minecraft:glowing",
+          "level": 1,
+          "ticks": 2220
+        }
+      ],
+      "plain_descendant_quality": 2.6324893162176366
+    },
+    {
+      "source": "crown_archive",
+      "sample": 1379,
+      "seed": "g3.22-aa-66-21-01-40-bb-11.02-11-21-30/78,81,88,93,86|g3.60-11-11-00-11-20-88-11.03-01-11-13/81,80,93,78,91|46.0",
+      "rolled_individual": "g3.20-a1-61-20-11-02-b8-11.03-10-21-33/103,104,114,109,113|46.0",
+      "effects": [
+        {
+          "id": "minecraft:saturation",
+          "level": 1,
+          "ticks": 1
+        },
+        {
+          "id": "minecraft:levitation",
+          "level": 1,
+          "ticks": 120
+        },
+        {
+          "id": "minecraft:slow_falling",
+          "level": 1,
+          "ticks": 6000
+        },
+        {
+          "id": "minecraft:invisibility",
+          "level": 1,
+          "ticks": 5040
+        }
+      ],
+      "plain_descendant_quality": 0.0
+    },
+    {
+      "source": "ordinary_ruin",
+      "sample": 49157,
+      "seed": "g3.01-aa-66-01-10-00-bb-11.12-11-13-12/65,60,70,65,49|g3.66-77-00-01-01-00-08-00.12-10-11-11/65,60,70,65,49|31.0",
+      "rolled_individual": "g3.16-a7-60-11-00-00-b0-10.21-10-31-11/65,60,86,82,49|31.0",
+      "effects": [
+        {
+          "id": "minecraft:saturation",
+          "level": 1,
+          "ticks": 1
+        },
+        {
+          "id": "minecraft:glowing",
+          "level": 1,
+          "ticks": 2400
+        },
+        {
+          "id": "minecraft:night_vision",
+          "level": 1,
+          "ticks": 7380
+        },
+        {
+          "id": "minecraft:levitation",
+          "level": 1,
+          "ticks": 120
+        },
+        {
+          "id": "minecraft:slow_falling",
+          "level": 1,
+          "ticks": 6000
+        },
+        {
+          "id": "minecraft:resistance",
+          "level": 3,
+          "ticks": 6000
+        },
+        {
+          "id": "minecraft:regeneration",
+          "level": 4,
+          "ticks": 2400
+        }
+      ],
+      "plain_descendant_quality": 0.0
+    },
+    {
+      "source": "crown_archive",
+      "sample": 49157,
+      "seed": "g3.01-aa-66-02-21-24-1b-11.10-11-01-12/73,79,91,88,96|g3.26-77-00-10-00-22-18-11.21-33-31-01/87,76,71,83,77|37.0",
+      "rolled_individual": "g3.12-a7-60-20-10-42-b1-11.02-13-13-11/79,88,100,115,106|37.0",
+      "effects": [
+        {
+          "id": "minecraft:saturation",
+          "level": 1,
+          "ticks": 1
+        },
+        {
+          "id": "minecraft:glowing",
+          "level": 1,
+          "ticks": 1800
+        },
+        {
+          "id": "minecraft:levitation",
+          "level": 1,
+          "ticks": 120
+        },
+        {
+          "id": "minecraft:slow_falling",
+          "level": 1,
+          "ticks": 6000
+        },
+        {
+          "id": "minecraft:regeneration",
+          "level": 5,
+          "ticks": 2400
+        },
+        {
+          "id": "minecraft:luck",
+          "level": 16,
+          "ticks": 36000
+        },
+        {
+          "id": "minecraft:glowing",
+          "level": 1,
+          "ticks": 2400
+        }
+      ],
+      "plain_descendant_quality": 3.0886890422961
+    },
+    {
+      "source": "ordinary_ruin",
+      "sample": 926481503,
+      "seed": "g3.00-aa-60-02-12-41-0b-11.02-02-13-02/49,46,62,65,68|g3.66-77-02-11-01-00-18-00.11-00-11-21/49,46,62,65,68|25.0",
+      "rolled_individual": "g3.06-a7-60-01-10-40-08-10.01-20-31-21/55,53,75,78,81|25.0",
+      "effects": [
+        {
+          "id": "minecraft:saturation",
+          "level": 1,
+          "ticks": 1
+        },
+        {
+          "id": "minecraft:glowing",
+          "level": 1,
+          "ticks": 2400
+        },
+        {
+          "id": "minecraft:night_vision",
+          "level": 1,
+          "ticks": 6300
+        },
+        {
+          "id": "minecraft:levitation",
+          "level": 1,
+          "ticks": 120
+        },
+        {
+          "id": "minecraft:slow_falling",
+          "level": 1,
+          "ticks": 6000
+        },
+        {
+          "id": "minecraft:regeneration",
+          "level": 4,
+          "ticks": 2400
+        },
+        {
+          "id": "minecraft:luck",
+          "level": 12,
+          "ticks": 36000
+        },
+        {
+          "id": "minecraft:glowing",
+          "level": 1,
+          "ticks": 2100
+        }
+      ],
+      "plain_descendant_quality": 2.6999999999999997
+    },
+    {
+      "source": "crown_archive",
+      "sample": 926481503,
+      "seed": "g3.02-aa-60-00-12-42-bb-11.12-02-11-13/85,76,79,73,74|g3.66-07-02-21-10-00-88-11.20-01-13-11/75,89,86,70,79|46.0",
+      "rolled_individual": "g3.26-a0-60-02-11-40-b8-11.12-21-11-31/91,95,106,95,100|46.0",
+      "effects": [
+        {
+          "id": "minecraft:saturation",
+          "level": 1,
+          "ticks": 1
+        },
+        {
+          "id": "minecraft:glowing",
+          "level": 1,
+          "ticks": 2400
+        },
+        {
+          "id": "minecraft:night_vision",
+          "level": 1,
+          "ticks": 10080
+        },
+        {
+          "id": "minecraft:levitation",
+          "level": 1,
+          "ticks": 120
+        },
+        {
+          "id": "minecraft:slow_falling",
+          "level": 1,
+          "ticks": 6000
+        },
+        {
+          "id": "minecraft:invisibility",
+          "level": 1,
+          "ticks": 5040
+        },
+        {
+          "id": "minecraft:luck",
+          "level": 18,
+          "ticks": 36000
+        },
+        {
+          "id": "minecraft:glowing",
+          "level": 1,
+          "ticks": 2400
+        }
+      ],
+      "plain_descendant_quality": 3.0
+    },
+    {
+      "source": "ordinary_ruin",
+      "sample": 57120,
+      "seed": "g3.00-aa-06-20-11-01-0b-00.10-12-00-11/68,54,59,61,42|g3.66-77-00-01-21-12-88-00.11-10-32-02/68,54,59,61,42|20.0",
+      "rolled_individual": "g3.06-a7-60-01-11-12-b8-00.01-21-03-10/68,65,70,72,48|20.0",
+      "effects": [
+        {
+          "id": "minecraft:saturation",
+          "level": 1,
+          "ticks": 1
+        },
+        {
+          "id": "minecraft:glowing",
+          "level": 1,
+          "ticks": 2400
+        },
+        {
+          "id": "minecraft:night_vision",
+          "level": 1,
+          "ticks": 5400
+        },
+        {
+          "id": "minecraft:levitation",
+          "level": 1,
+          "ticks": 120
+        },
+        {
+          "id": "minecraft:slow_falling",
+          "level": 1,
+          "ticks": 5400
+        },
+        {
+          "id": "minecraft:invisibility",
+          "level": 1,
+          "ticks": 2700
+        }
+      ],
+      "plain_descendant_quality": 0.0
+    },
+    {
+      "source": "crown_archive",
+      "sample": 57120,
+      "seed": "g3.21-aa-66-00-12-41-bb-11.12-22-23-21/77,70,91,70,76|g3.06-77-22-02-11-01-88-11.02-02-01-02/83,78,98,72,81|40.0",
+      "rolled_individual": "g3.26-a7-62-02-21-11-b8-11.22-20-30-10/80,95,116,112,100|40.0",
+      "effects": [
+        {
+          "id": "minecraft:saturation",
+          "level": 1,
+          "ticks": 1
+        },
+        {
+          "id": "minecraft:glowing",
+          "level": 1,
+          "ticks": 2400
+        },
+        {
+          "id": "minecraft:night_vision",
+          "level": 1,
+          "ticks": 9000
+        },
+        {
+          "id": "minecraft:levitation",
+          "level": 1,
+          "ticks": 120
+        },
+        {
+          "id": "minecraft:slow_falling",
+          "level": 1,
+          "ticks": 6000
+        },
+        {
+          "id": "minecraft:invisibility",
+          "level": 1,
+          "ticks": 4500
+        }
+      ],
+      "plain_descendant_quality": 0.0
+    }
+  ]
+}

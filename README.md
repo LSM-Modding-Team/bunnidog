@@ -2,7 +2,7 @@
 
 A NeoForge mod for Minecraft 26.2: baby-faced creatures, living warrens and
 inherited traits that shape companions, gardens and breeding lines. Client and
-server both need the current mod (network **29**).
+server both need the current mod (network **49**).
 
 Interact with a bunnidog to choose **Care, Orders or Work** beside the visible
 animal. Calm animals stay and face you while you interact. Ordinary held items
@@ -143,8 +143,10 @@ Development-only GameTests live in `tools/gametest` and run in `build/game-test`
 separate from player saves. Their classes and fixture are excluded from the
 shipped JAR. GitHub Actions runs these server checks before uploading the artifact.
 
-The proposed [intelligence and civilization update](docs/INTELLIGENCE_PLAN.md)
-is currently planning only; it is not part of the shipped behavior above.
+The [intelligence and civilization update](docs/INTELLIGENCE_PLAN.md) has shipped
+learning, household work/culture and the first wild-family bootstrap. Broader
+professions, independent settlements and civic rescue remain unfinished; see
+[the completion audit](docs/COMPLETION_AUDIT.md).
 
 See [current status](START_HERE.md), [player guide](docs/FEATURES.md),
 [roadmap](docs/ROADMAP.md), and [architecture/reference](docs/REFERENCE.md).

@@ -14,13 +14,14 @@ import java.util.Map;
  * <p>The juice is a frozen "liquid pup" ({@link Infusion}): a rolled genome, its bred stat points and the seed's quality.
  * Its EXPRESSED alleles decide which effects it has ({@link #DEFS}); the numbers follow three rules:
  * <ul>
- *   <li><b>Amplifier</b> of an effect that scales: {@code floor(quality / 4)}, without a mod level cap except for Resistance
- *       ({@link #AMP_STEP}). So plain and golden seeds give level I, a netherite pair level II, nether star level II
- *       and up, only the beacon and dragon egg tiers reach the high levels. Regeneration instead uses exponential quality thresholds, because native healing doubles per early level. Effects that are a drawback or a trick
- *       (Slowness, Levitation, Night Vision ...) never scale.</li>
+ *   <li><b>Amplifier</b> uses quality plus an effect-specific contribution from the rolled individual's bred stats
+ *       ({@link #potency}). Most scaling effects gain a level per four potency; Regeneration uses exponential
+ *       thresholds because native healing doubles per early level. Resistance retains its III limit; other effects
+ *       use only the native representation limit. Drawbacks and fixed utilities never scale.</li>
  *   <li><b>Duration</b> = the effect's base seconds x (1 + 0.1 quality) x (1 + 0.02 per bred point of the stat that belongs
  *       to the gene, at most doubled), never above the effect's own maximum. A heavily bred line makes longer juice.</li>
- *   <li><b>Price:</b> a seed (a whole litter) plus a juice, so the strongest juices need the strongest seeds.</li>
+ *   <li><b>Price:</b> one actual seed plus one carrier. Established donor lines can supply potent drinks with ordinary
+ *       feed; developing those parents is a separate investment from producing consumable seeds.</li>
  * </ul>
  * Several genes can bring the same effect; the strongest amplifier and the longest duration win (no stacking).
  * Every juice also restores a little hunger ({@code minecraft:saturation}); a plain, uninfused juice is only that.
@@ -28,7 +29,7 @@ import java.util.Map;
 public final class Juice {
     private Juice() {}
 
-    /** One amplifier level per this much quality. */
+    /** One amplifier level per this much potency (except Regeneration's exponential thresholds). */
     public static final double AMP_STEP = 4.0;
     /** Duration grows by this fraction of the base per quality point. */
     public static final double DURATION_PER_QUALITY = 0.1;
@@ -158,6 +159,22 @@ public final class Juice {
         return Math.getExponent(1+Math.max(0,quality)/AMP_STEP);
     }
 
+    /** Potency is independent of duration and seed quality: it cannot change breeding, drift or mutation.
+     * Coat Strength/Absorption use the same potency stat as their other sources, without a new duration bonus. */
+    public static double potency(String effect, double quality, Stats stats) {
+        double contribution = switch (effect) {
+            case "minecraft:strength" -> Math.max(0, stats.get(Stat.VITALITY));
+            case "minecraft:resistance" -> Math.max(0, stats.get(Stat.VITALITY)) / 16.0;
+            case "minecraft:absorption" -> Math.max(0, stats.get(Stat.VITALITY)) / 4.0;
+            case "minecraft:regeneration" -> Math.max(0, stats.get(Stat.SENSES)) / 4.0;
+            case "minecraft:speed" -> Math.max(0, stats.get(Stat.SWIFTNESS)) / 4.0;
+            case "minecraft:jump_boost" -> Math.max(0, stats.get(Stat.LEAP)) / 4.0;
+            case "minecraft:luck" -> Math.max(0, stats.get(Stat.BLOOM)) / 4.0;
+            default -> 0;
+        };
+        return Math.max(0, quality) + contribution;
+    }
+
     /** The factor a duration gets from quality and from the bred points of the effect's stat. */
     public static double durationFactor(double quality, int statPoints) {
         double q = 1.0 + DURATION_PER_QUALITY * Math.max(0.0, quality);
@@ -168,7 +185,8 @@ public final class Juice {
     /** One def worked out for a quality and a stat block. */
     public static Spec spec(Def def, double quality, Stats stats) {
         // Resistance retains its deliberate limit. Other scaling effects use only Minecraft's native amplifier representation.
-        int scaled=def.id().equals("minecraft:regeneration") ? regenerationAmplifier(quality) : amplifierFor(quality);
+        double potency = potency(def.id(), quality, stats);
+        int scaled=def.id().equals("minecraft:regeneration") ? regenerationAmplifier(potency) : amplifierFor(potency);
         int amp=def.maxAmp()==0 ? 0 : Math.min(def.id().equals("minecraft:resistance") ? def.maxAmp() : 255,scaled);
         int points = def.stat() == null ? 0 : stats.get(def.stat());
         double seconds = Math.min(def.maxSeconds(), def.baseSeconds() * durationFactor(quality, points));

@@ -1,11 +1,14 @@
 # Stats rebalancing: earned power across the whole journey
 
-Status: planning only, updated after the acquisition audit and lunar corrections
-in `a1c0687`. This is the current action plan; the older
+Status: the first stat-potency and reproducible-kit pass is implemented in
+[INFUSION_SPECS.md](INFUSION_SPECS.md); its coefficients still need ordinary
+Survival review. The rest remains an action plan, updated after the acquisition
+audit and lunar corrections in `a1c0687`. The older
 [scale audit](PROGRESSION_SCALE_AUDIT.md) records implemented behaviour and
 quantities, while [raw-material acquisition](RAW_MATERIAL_ACQUISITION.md)
-records actual sources and their limitations. None of the candidate formulas or
-reward changes below ship merely because they appear in this document.
+records actual sources and their limitations. Only the explicitly recorded
+infusion/kit slice ships; proposed reward, duration and encounter changes below
+remain planning.
 
 ## 1. What the findings change
 
@@ -53,8 +56,8 @@ the reference. One exceptional archive drink may also exceed it without proving
 that a player can replenish a whole flask that way.
 
 **First implementation priority: connect bred stats to useful infusion potency
-and then make the kits represent that actual route.** Current stats largely
-lengthen duration only up to 50 points. The kit instead injects quality 116 into
+and then make the kits represent that actual route.** Before this pass, stats largely
+lengthened duration only up to 50 points. The kit instead injected quality 116 into
 ordinary-fertility samples with Bloom 60. That does not demonstrate a breedable
 line or affordable supply. Do not fix the discrepancy by weakening the user's
 requested Strength baseline or by making every parent require Dragon Eggs.
@@ -74,7 +77,7 @@ Developed stats then let an established line produce useful drinks from ordinary
 renewable food. Keep existing duration rules for the initial comparison so the
 effect of the potency change can be understood separately.
 
-The following is the preferred prototype, not play-validated final tuning.
+The following is the implemented first prototype, not play-validated final tuning.
 `Q` is the infusion's actual saved quality, including the existing richer-carrier
 rule. `V`, `W`, `L`, `S`, `B` are nonnegative Vitality, Swiftness, Leap, Senses
 and Bloom of its **rolled individual**, not invented kit parents.
@@ -314,7 +317,9 @@ automated combat matrix as a substitute for ordinary play. One coherent build
 and native release gate follows an implementation batch. This planning update
 itself needs document/link review, not a new local game build.
 
-Before implementing, state how old saved bottles are evaluated under changed
+The implemented save policy is recorded in `INFUSION_SPECS.md`: old bottles are
+evaluated from their exact unchanged inputs using the current potency rules.
+For future changes, state how old saved bottles are evaluated under changed
 potency rules. Preserve their actual genomes, stats, contents and ownership;
 never rewrite a legitimate high value into the new reference kit or silently
 claim that a legacy/admin bottle has a Survival production history. No container
