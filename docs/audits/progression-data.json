@@ -450,305 +450,7 @@
     ]
   },
   "tables": {
-    "brood_7": {
-      "bunnidogs:root_fibre": [
-        8,
-        16
-      ],
-      "bunnidogs:sinew": [
-        4,
-        8
-      ],
-      "bunnidogs:moonstone": [
-        16,
-        32
-      ],
-      "bunnidogs:cinderite_ingot": [
-        8,
-        8
-      ]
-    },
-    "entry_3": {
-      "bunnidogs:moonstone": [
-        21,
-        43
-      ],
-      "bunnidogs:root_fibre": [
-        11,
-        21
-      ],
-      "bunnidogs:raw_cinderite": [
-        11,
-        11
-      ],
-      "minecraft:golden_apple": [
-        1,
-        3
-      ],
-      "minecraft:diamond": [
-        1,
-        3
-      ],
-      "minecraft:experience_bottle": [
-        5,
-        11
-      ],
-      "minecraft:ender_pearl": [
-        3,
-        5
-      ],
-      "minecraft:firework_rocket": [
-        5,
-        11
-      ]
-    },
-    "entry_0": {
-      "bunnidogs:moonstone": [
-        22,
-        43
-      ],
-      "bunnidogs:root_fibre": [
-        11,
-        22
-      ],
-      "bunnidogs:raw_cinderite": [
-        11,
-        11
-      ],
-      "minecraft:golden_apple": [
-        2,
-        3
-      ],
-      "minecraft:enchanted_golden_apple": [
-        1,
-        1
-      ],
-      "minecraft:totem_of_undying": [
-        1,
-        1
-      ],
-      "minecraft:diamond": [
-        2,
-        3
-      ],
-      "minecraft:netherite_ingot": [
-        1,
-        1
-      ],
-      "minecraft:experience_bottle": [
-        6,
-        11
-      ],
-      "minecraft:ender_pearl": [
-        3,
-        6
-      ],
-      "minecraft:firework_rocket": [
-        6,
-        11
-      ]
-    },
-    "glass_0": {
-      "bunnidogs:starlit_dust": [
-        16,
-        32
-      ],
-      "bunnidogs:whisker": [
-        8,
-        16
-      ],
-      "bunnidogs:cinderite_ingot": [
-        32,
-        32
-      ]
-    },
-    "brood_2": {
-      "bunnidogs:root_fibre": [
-        8,
-        16
-      ],
-      "bunnidogs:sinew": [
-        4,
-        8
-      ],
-      "bunnidogs:moonstone": [
-        16,
-        32
-      ],
-      "bunnidogs:cinderite_ingot": [
-        8,
-        8
-      ]
-    },
-    "entry_4": {
-      "bunnidogs:moonstone": [
-        21,
-        42
-      ],
-      "bunnidogs:root_fibre": [
-        10,
-        21
-      ],
-      "bunnidogs:raw_cinderite": [
-        10,
-        10
-      ],
-      "minecraft:golden_apple": [
-        1,
-        2
-      ],
-      "minecraft:diamond": [
-        1,
-        2
-      ],
-      "minecraft:experience_bottle": [
-        5,
-        10
-      ],
-      "minecraft:ender_pearl": [
-        2,
-        5
-      ],
-      "minecraft:firework_rocket": [
-        5,
-        10
-      ]
-    },
-    "entry_1": {
-      "bunnidogs:moonstone": [
-        22,
-        43
-      ],
-      "bunnidogs:root_fibre": [
-        11,
-        22
-      ],
-      "bunnidogs:raw_cinderite": [
-        11,
-        11
-      ],
-      "minecraft:golden_apple": [
-        2,
-        3
-      ],
-      "minecraft:enchanted_golden_apple": [
-        0,
-        1
-      ],
-      "minecraft:totem_of_undying": [
-        0,
-        1
-      ],
-      "minecraft:diamond": [
-        2,
-        3
-      ],
-      "minecraft:netherite_ingot": [
-        0,
-        1
-      ],
-      "minecraft:experience_bottle": [
-        6,
-        11
-      ],
-      "minecraft:ender_pearl": [
-        3,
-        6
-      ],
-      "minecraft:firework_rocket": [
-        6,
-        11
-      ]
-    },
-    "furnace_2": {
-      "bunnidogs:raw_cinderite": [
-        42,
-        64
-      ],
-      "bunnidogs:moonstone": [
-        42,
-        85
-      ],
-      "bunnidogs:starlit_dust": [
-        10,
-        21
-      ]
-    },
-    "glass_1": {
-      "bunnidogs:starlit_dust": [
-        16,
-        32
-      ],
-      "bunnidogs:whisker": [
-        8,
-        16
-      ],
-      "bunnidogs:cinderite_ingot": [
-        32,
-        32
-      ]
-    },
-    "entry_2": {
-      "bunnidogs:moonstone": [
-        21,
-        43
-      ],
-      "bunnidogs:root_fibre": [
-        11,
-        21
-      ],
-      "bunnidogs:raw_cinderite": [
-        11,
-        11
-      ],
-      "minecraft:golden_apple": [
-        1,
-        3
-      ],
-      "minecraft:totem_of_undying": [
-        0,
-        1
-      ],
-      "minecraft:diamond": [
-        1,
-        3
-      ],
-      "minecraft:netherite_ingot": [
-        0,
-        1
-      ],
-      "minecraft:experience_bottle": [
-        5,
-        11
-      ],
-      "minecraft:ender_pearl": [
-        3,
-        5
-      ],
-      "minecraft:firework_rocket": [
-        5,
-        11
-      ]
-    },
     "brood_6": {
-      "bunnidogs:root_fibre": [
-        8,
-        16
-      ],
-      "bunnidogs:sinew": [
-        4,
-        8
-      ],
-      "bunnidogs:moonstone": [
-        16,
-        32
-      ],
-      "bunnidogs:cinderite_ingot": [
-        8,
-        8
-      ]
-    },
-    "brood_1": {
       "bunnidogs:root_fibre": [
         8,
         16
@@ -802,39 +504,21 @@
         8
       ]
     },
-    "brood_4": {
-      "bunnidogs:root_fibre": [
-        8,
-        16
-      ],
-      "bunnidogs:sinew": [
-        4,
-        8
-      ],
-      "bunnidogs:moonstone": [
-        16,
-        32
-      ],
-      "bunnidogs:cinderite_ingot": [
-        8,
-        8
-      ]
-    },
-    "furnace_0": {
+    "furnace_1": {
       "bunnidogs:raw_cinderite": [
         43,
         64
       ],
       "bunnidogs:moonstone": [
         43,
-        86
+        85
       ],
       "bunnidogs:starlit_dust": [
         11,
-        22
+        21
       ]
     },
-    "brood_0": {
+    "brood_7": {
       "bunnidogs:root_fibre": [
         8,
         16
@@ -850,6 +534,40 @@
       "bunnidogs:cinderite_ingot": [
         8,
         8
+      ]
+    },
+    "entry_4": {
+      "bunnidogs:moonstone": [
+        21,
+        42
+      ],
+      "bunnidogs:root_fibre": [
+        10,
+        21
+      ],
+      "bunnidogs:raw_cinderite": [
+        10,
+        10
+      ],
+      "minecraft:golden_apple": [
+        1,
+        2
+      ],
+      "minecraft:diamond": [
+        1,
+        2
+      ],
+      "minecraft:experience_bottle": [
+        5,
+        10
+      ],
+      "minecraft:ender_pearl": [
+        2,
+        5
+      ],
+      "minecraft:firework_rocket": [
+        5,
+        10
       ]
     },
     "entry_5": {
@@ -886,18 +604,300 @@
         10
       ]
     },
-    "furnace_1": {
+    "entry_3": {
+      "bunnidogs:moonstone": [
+        21,
+        43
+      ],
+      "bunnidogs:root_fibre": [
+        11,
+        21
+      ],
+      "bunnidogs:raw_cinderite": [
+        11,
+        11
+      ],
+      "minecraft:golden_apple": [
+        1,
+        3
+      ],
+      "minecraft:diamond": [
+        1,
+        3
+      ],
+      "minecraft:experience_bottle": [
+        5,
+        11
+      ],
+      "minecraft:ender_pearl": [
+        3,
+        5
+      ],
+      "minecraft:firework_rocket": [
+        5,
+        11
+      ]
+    },
+    "brood_2": {
+      "bunnidogs:root_fibre": [
+        8,
+        16
+      ],
+      "bunnidogs:sinew": [
+        4,
+        8
+      ],
+      "bunnidogs:moonstone": [
+        16,
+        32
+      ],
+      "bunnidogs:cinderite_ingot": [
+        8,
+        8
+      ]
+    },
+    "brood_1": {
+      "bunnidogs:root_fibre": [
+        8,
+        16
+      ],
+      "bunnidogs:sinew": [
+        4,
+        8
+      ],
+      "bunnidogs:moonstone": [
+        16,
+        32
+      ],
+      "bunnidogs:cinderite_ingot": [
+        8,
+        8
+      ]
+    },
+    "furnace_0": {
       "bunnidogs:raw_cinderite": [
         43,
         64
       ],
       "bunnidogs:moonstone": [
         43,
-        85
+        86
       ],
       "bunnidogs:starlit_dust": [
         11,
+        22
+      ]
+    },
+    "entry_1": {
+      "bunnidogs:moonstone": [
+        22,
+        43
+      ],
+      "bunnidogs:root_fibre": [
+        11,
+        22
+      ],
+      "bunnidogs:raw_cinderite": [
+        11,
+        11
+      ],
+      "minecraft:golden_apple": [
+        2,
+        3
+      ],
+      "minecraft:enchanted_golden_apple": [
+        0,
+        1
+      ],
+      "minecraft:totem_of_undying": [
+        0,
+        1
+      ],
+      "minecraft:diamond": [
+        2,
+        3
+      ],
+      "minecraft:netherite_ingot": [
+        0,
+        1
+      ],
+      "minecraft:experience_bottle": [
+        6,
+        11
+      ],
+      "minecraft:ender_pearl": [
+        3,
+        6
+      ],
+      "minecraft:firework_rocket": [
+        6,
+        11
+      ]
+    },
+    "entry_0": {
+      "bunnidogs:moonstone": [
+        22,
+        43
+      ],
+      "bunnidogs:root_fibre": [
+        11,
+        22
+      ],
+      "bunnidogs:raw_cinderite": [
+        11,
+        11
+      ],
+      "minecraft:golden_apple": [
+        2,
+        3
+      ],
+      "minecraft:enchanted_golden_apple": [
+        1,
+        1
+      ],
+      "minecraft:totem_of_undying": [
+        1,
+        1
+      ],
+      "minecraft:diamond": [
+        2,
+        3
+      ],
+      "minecraft:netherite_ingot": [
+        1,
+        1
+      ],
+      "minecraft:experience_bottle": [
+        6,
+        11
+      ],
+      "minecraft:ender_pearl": [
+        3,
+        6
+      ],
+      "minecraft:firework_rocket": [
+        6,
+        11
+      ]
+    },
+    "brood_4": {
+      "bunnidogs:root_fibre": [
+        8,
+        16
+      ],
+      "bunnidogs:sinew": [
+        4,
+        8
+      ],
+      "bunnidogs:moonstone": [
+        16,
+        32
+      ],
+      "bunnidogs:cinderite_ingot": [
+        8,
+        8
+      ]
+    },
+    "glass_0": {
+      "bunnidogs:starlit_dust": [
+        16,
+        32
+      ],
+      "bunnidogs:whisker": [
+        8,
+        16
+      ],
+      "bunnidogs:cinderite_ingot": [
+        32,
+        32
+      ]
+    },
+    "glass_1": {
+      "bunnidogs:starlit_dust": [
+        16,
+        32
+      ],
+      "bunnidogs:whisker": [
+        8,
+        16
+      ],
+      "bunnidogs:cinderite_ingot": [
+        32,
+        32
+      ]
+    },
+    "furnace_2": {
+      "bunnidogs:raw_cinderite": [
+        42,
+        64
+      ],
+      "bunnidogs:moonstone": [
+        42,
+        85
+      ],
+      "bunnidogs:starlit_dust": [
+        10,
         21
+      ]
+    },
+    "entry_2": {
+      "bunnidogs:moonstone": [
+        21,
+        43
+      ],
+      "bunnidogs:root_fibre": [
+        11,
+        21
+      ],
+      "bunnidogs:raw_cinderite": [
+        11,
+        11
+      ],
+      "minecraft:golden_apple": [
+        1,
+        3
+      ],
+      "minecraft:totem_of_undying": [
+        0,
+        1
+      ],
+      "minecraft:diamond": [
+        1,
+        3
+      ],
+      "minecraft:netherite_ingot": [
+        0,
+        1
+      ],
+      "minecraft:experience_bottle": [
+        5,
+        11
+      ],
+      "minecraft:ender_pearl": [
+        3,
+        5
+      ],
+      "minecraft:firework_rocket": [
+        5,
+        11
+      ]
+    },
+    "brood_0": {
+      "bunnidogs:root_fibre": [
+        8,
+        16
+      ],
+      "bunnidogs:sinew": [
+        4,
+        8
+      ],
+      "bunnidogs:moonstone": [
+        16,
+        32
+      ],
+      "bunnidogs:cinderite_ingot": [
+        8,
+        8
       ]
     },
     "crown_wing_0": {
@@ -1001,93 +1001,119 @@
     "effects": [
       {
         "quality": 0.0,
-        "strength_level": 1,
-        "regen_level": 1,
-        "duration_ticks": 800,
-        "native_healing_hp_per_second": 0.4
-      },
-      {
-        "quality": 1.0,
-        "strength_level": 1,
-        "regen_level": 1,
-        "duration_ticks": 880,
-        "native_healing_hp_per_second": 0.4
-      },
-      {
-        "quality": 2.0,
-        "strength_level": 1,
-        "regen_level": 1,
-        "duration_ticks": 960,
-        "native_healing_hp_per_second": 0.4
-      },
-      {
-        "quality": 4.0,
-        "strength_level": 2,
-        "regen_level": 2,
-        "duration_ticks": 1120,
-        "native_healing_hp_per_second": 0.8
-      },
-      {
-        "quality": 7.0,
-        "strength_level": 2,
-        "regen_level": 2,
-        "duration_ticks": 1360,
-        "native_healing_hp_per_second": 0.8
-      },
-      {
-        "quality": 12.0,
-        "strength_level": 4,
-        "regen_level": 3,
-        "duration_ticks": 1760,
-        "native_healing_hp_per_second": 1.68
-      },
-      {
-        "quality": 20.0,
-        "strength_level": 6,
-        "regen_level": 3,
-        "duration_ticks": 2400,
-        "native_healing_hp_per_second": 1.68
-      },
-      {
-        "quality": 24.0,
-        "strength_level": 7,
-        "regen_level": 3,
-        "duration_ticks": 2400,
-        "native_healing_hp_per_second": 1.68
-      },
-      {
-        "quality": 28.0,
-        "strength_level": 8,
+        "stats": "80,70,75,80,60",
+        "strength_level": 21,
+        "quality_only_strength_level": 1,
         "regen_level": 4,
-        "duration_ticks": 2400,
+        "duration_ticks": 1600,
         "native_healing_hp_per_second": 3.36
       },
       {
-        "quality": 60.0,
-        "strength_level": 16,
+        "quality": 1.0,
+        "stats": "80,70,75,80,60",
+        "strength_level": 21,
+        "quality_only_strength_level": 1,
+        "regen_level": 4,
+        "duration_ticks": 1760,
+        "native_healing_hp_per_second": 3.36
+      },
+      {
+        "quality": 2.0,
+        "stats": "80,70,75,80,60",
+        "strength_level": 21,
+        "quality_only_strength_level": 1,
+        "regen_level": 4,
+        "duration_ticks": 1920,
+        "native_healing_hp_per_second": 3.36
+      },
+      {
+        "quality": 4.0,
+        "stats": "80,70,75,80,60",
+        "strength_level": 22,
+        "quality_only_strength_level": 2,
+        "regen_level": 4,
+        "duration_ticks": 2240,
+        "native_healing_hp_per_second": 3.36
+      },
+      {
+        "quality": 7.0,
+        "stats": "80,70,75,80,60",
+        "strength_level": 22,
+        "quality_only_strength_level": 2,
+        "regen_level": 4,
+        "duration_ticks": 2720,
+        "native_healing_hp_per_second": 3.36
+      },
+      {
+        "quality": 12.0,
+        "stats": "80,70,75,80,60",
+        "strength_level": 24,
+        "quality_only_strength_level": 4,
+        "regen_level": 4,
+        "duration_ticks": 3520,
+        "native_healing_hp_per_second": 3.36
+      },
+      {
+        "quality": 20.0,
+        "stats": "80,70,75,80,60",
+        "strength_level": 26,
+        "quality_only_strength_level": 6,
         "regen_level": 5,
-        "duration_ticks": 2400,
+        "duration_ticks": 4800,
+        "native_healing_hp_per_second": 6.68
+      },
+      {
+        "quality": 24.0,
+        "stats": "80,70,75,80,60",
+        "strength_level": 27,
+        "quality_only_strength_level": 7,
+        "regen_level": 5,
+        "duration_ticks": 4800,
+        "native_healing_hp_per_second": 6.68
+      },
+      {
+        "quality": 28.0,
+        "stats": "80,70,75,80,60",
+        "strength_level": 28,
+        "quality_only_strength_level": 8,
+        "regen_level": 5,
+        "duration_ticks": 4800,
+        "native_healing_hp_per_second": 6.68
+      },
+      {
+        "quality": 60.0,
+        "stats": "80,70,75,80,60",
+        "strength_level": 36,
+        "quality_only_strength_level": 16,
+        "regen_level": 5,
+        "duration_ticks": 4800,
         "native_healing_hp_per_second": 6.68
       },
       {
         "quality": 116.0,
-        "strength_level": 30,
-        "regen_level": 5,
-        "duration_ticks": 2400,
-        "native_healing_hp_per_second": 6.68
+        "stats": "80,70,75,80,60",
+        "strength_level": 50,
+        "quality_only_strength_level": 30,
+        "regen_level": 6,
+        "duration_ticks": 4800,
+        "native_healing_hp_per_second": 20.0
       },
       {
         "quality": 124.0,
-        "strength_level": 32,
+        "stats": "80,70,75,80,60",
+        "strength_level": 52,
+        "quality_only_strength_level": 32,
         "regen_level": 6,
-        "duration_ticks": 2400,
+        "duration_ticks": 4800,
         "native_healing_hp_per_second": 20.0
       },
       {
         "quality": 252.0,
-        "strength_level": 64,
+        "stats": "80,70,75,80,60",
+        "strength_level": 84,
+        "quality_only_strength_level": 64,
         "regen_level": 7,
-        "duration_ticks": 2400,
+        "duration_ticks": 4800,
         "native_healing_hp_per_second": 20.0
       }
     ],

@@ -2332,7 +2332,7 @@
   "item.bunnidogs.sovereign_lance": "Lanza soberana",
   "item.bunnidogs.sovereign_elytra": "Élitros soberanos",
   "tooltip.bunnidogs.concord_standard": "Cura y protege brevemente a los aliados cercanos. Cada nivel consume una bobina de corazón.",
-  "tooltip.bunnidogs.sovereign_lance": "Rayo perforante de 48 bloques. Cada nivel consume una celda de prisma.",
+  "tooltip.bunnidogs.sovereign_lance": "Rayo perforante rápido de 48 bloques. Cada nivel consume una celda de prisma.",
   "tooltip.bunnidogs.sovereign_armor": "+3 corazones al equipar · conserva la recuperación vital.",
   "tooltip.bunnidogs.sovereign_elytra": "Vuelo más protegido · impulsos más eficientes con celdas de prisma.",
   "advancements.bunnidogs.crown.title": "La corona es tuya",

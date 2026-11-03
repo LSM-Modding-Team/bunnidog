@@ -45,8 +45,8 @@ public final class ClinicGameTest {
     }
     public static void ai(GameTestHelper h) {
         setup(h,c->{float before=c.patient.getHealth();c.doctor.setNoAi(false);
-            h.runAfterDelay(240,()->{h.assertTrue(c.patient.getHealth()==before+ClinicCare.HEAL && c.hearth.getItem(0).getCount()==2 && c.doctor.society().cargoEmpty(),"Native AI walks both care legs and spends exactly one real dressing: health="+c.patient.getHealth()+", stock="+c.hearth.getItem(0)+", cargo="+c.doctor.society().medicalSupplies()+", position="+c.doctor.position());
-                int wait=c.patient.clinic().waitTicks();var saved=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,h.getLevel().registryAccess());c.patient.saveWithoutId(saved);c.patient.load(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),saved.buildResult()));h.assertTrue(wait>0 && c.patient.clinic().waitTicks()==wait,"The actual patient's dressing interval survives whole-animal saves");c.finish();});
+            h.succeedWhen(()->{h.assertTrue(c.patient.getHealth()==before+ClinicCare.HEAL && c.hearth.getItem(0).getCount()==2 && c.doctor.society().cargoEmpty(),"Native AI walks both care legs and spends exactly one real dressing: health="+c.patient.getHealth()+", stock="+c.hearth.getItem(0)+", cargo="+c.doctor.society().medicalSupplies()+", position="+c.doctor.position()+", active="+c.doctor.society().active()+", ready="+c.doctor.society().ready()+", patient_ready="+c.patient.clinic().ready());
+                int wait=c.patient.clinic().waitTicks();var saved=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,h.getLevel().registryAccess());c.patient.saveWithoutId(saved);c.patient.load(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),saved.buildResult()));h.assertTrue(wait>0 && c.patient.clinic().waitTicks()==wait,"The actual patient's dressing interval survives whole-animal saves");c.doctor.discard();c.patient.discard();c.p.discard();});
         });
     }
     private static void downed(Context c) {

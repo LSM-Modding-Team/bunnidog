@@ -56,12 +56,16 @@ public final class ResidentFinderGameTest {
         tool.getItem().use(level,player,InteractionHand.OFF_HAND);
         h.assertTrue(!dog.hasEffect(MobEffects.GLOWING),"An immediate repeated finder gesture must respect native cooldown");
         player.getCooldowns().removeCooldown(player.getCooldowns().getCooldownGroup(tool));
-        dog.setPos(center.add(ResidentFinding.RADIUS+.01,0,0));
+        // Keep the known tracked resident in its original loaded section. Moving it across a chunk
+        // boundary and querying in the same tick can hide it until native visibility catches up.
+        var residentAt=dog.position();player.setPos(residentAt.add(-ResidentFinding.RADIUS-.01,0,0));
         tool.getItem().use(level,player,InteractionHand.OFF_HAND);
         h.assertTrue(!dog.hasEffect(MobEffects.GLOWING) && player.getCooldowns().isOnCooldown(tool),
                 "An empty out-of-sphere search must still cool down without outlining a distant match");
         player.getCooldowns().removeCooldown(player.getCooldowns().getCooldownGroup(tool));
-        dog.setPos(center.add(ResidentFinding.RADIUS,0,0));
+        player.setPos(residentAt.add(-ResidentFinding.RADIUS,0,0));
+        h.assertTrue(dog.distanceToSqr(player.position())==ResidentFinding.RADIUS*ResidentFinding.RADIUS,
+                "The boundary fixture has an exact native twenty-four-block separation");
         dog.addEffect(new MobEffectInstance(MobEffects.GLOWING,1000));
         tool.getItem().use(level,player,InteractionHand.OFF_HAND);
         h.assertTrue(dog.getEffect(MobEffects.GLOWING).getDuration() == 1000,

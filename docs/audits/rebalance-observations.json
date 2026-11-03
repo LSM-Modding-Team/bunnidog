@@ -1,0 +1,337 @@
+{
+  "scope": "Implementation candidate; human balance acceptance pending. Donor development and refill figures are conditional arithmetic. Healing uses the actual native effect tick. The 600-world-tick pressure comparison uses the actual endgame kit and paid flask entries, pins positions and schedules native attacks; it is not autonomous AI combat or a measured Survival journey. No client, solo/co-op Crown clear, natural acquisition time or farm throughput is certified.",
+  "supply": {
+    "human_acceptance": "pending",
+    "conditional_donors": [
+      {
+        "genome": "g3.22-99-00-44-22-00-00-00.11-11-11-11",
+        "parents": "20,0,-2,-4,0",
+        "frozen_bottle": "g3.22-99-00-44-22-00-00-00.11-11-11-11/24,0,-3,-6,0|1.0",
+        "rich_generations": 1,
+        "plain_generations": 2,
+        "plain_seed_quality": 0.0,
+        "effects": [
+          {
+            "effect": "minecraft:saturation",
+            "level": 1,
+            "seconds": 0.05
+          },
+          {
+            "effect": "minecraft:fire_resistance",
+            "level": 1,
+            "seconds": 132.0
+          },
+          {
+            "effect": "minecraft:strength",
+            "level": 7,
+            "seconds": 73.25
+          },
+          {
+            "effect": "minecraft:resistance",
+            "level": 1,
+            "seconds": 97.7
+          },
+          {
+            "effect": "minecraft:absorption",
+            "level": 2,
+            "seconds": 97.7
+          }
+        ]
+      },
+      {
+        "genome": "g3.22-99-00-44-22-00-00-00.11-11-11-11",
+        "parents": "112,0,-1,-2,0",
+        "frozen_bottle": "g3.22-99-00-44-22-00-00-00.11-11-11-11/116,0,-2,-4,0|1.0",
+        "rich_generations": 9,
+        "plain_generations": 1,
+        "plain_seed_quality": 0.0,
+        "effects": [
+          {
+            "effect": "minecraft:saturation",
+            "level": 1,
+            "seconds": 0.05
+          },
+          {
+            "effect": "minecraft:fire_resistance",
+            "level": 1,
+            "seconds": 132.0
+          },
+          {
+            "effect": "minecraft:strength",
+            "level": 30,
+            "seconds": 99.0
+          },
+          {
+            "effect": "minecraft:resistance",
+            "level": 3,
+            "seconds": 132.0
+          },
+          {
+            "effect": "minecraft:absorption",
+            "level": 8,
+            "seconds": 132.0
+          }
+        ]
+      },
+      {
+        "genome": "g3.66-00-22-00-00-00-00-00.11-11-11-11",
+        "parents": "0,-1,-1,21,0",
+        "frozen_bottle": "g3.66-00-22-00-00-00-00-00.11-11-11-11/0,-2,-2,24,0|1.0",
+        "rich_generations": 2,
+        "plain_generations": 1,
+        "plain_seed_quality": 0.0,
+        "effects": [
+          {
+            "effect": "minecraft:saturation",
+            "level": 1,
+            "seconds": 0.05
+          },
+          {
+            "effect": "minecraft:glowing",
+            "level": 1,
+            "seconds": 48.85
+          },
+          {
+            "effect": "minecraft:night_vision",
+            "level": 1,
+            "seconds": 99.0
+          },
+          {
+            "effect": "minecraft:regeneration",
+            "level": 3,
+            "seconds": 65.1
+          }
+        ]
+      },
+      {
+        "genome": "g3.66-00-22-00-00-00-00-00.11-11-11-11",
+        "parents": "0,0,0,117,0",
+        "frozen_bottle": "g3.66-00-22-00-00-00-00-00.11-11-11-11/0,-1,-1,120,0|1.0",
+        "rich_generations": 13,
+        "plain_generations": 0,
+        "plain_seed_quality": 0.0,
+        "effects": [
+          {
+            "effect": "minecraft:saturation",
+            "level": 1,
+            "seconds": 0.05
+          },
+          {
+            "effect": "minecraft:glowing",
+            "level": 1,
+            "seconds": 66.0
+          },
+          {
+            "effect": "minecraft:night_vision",
+            "level": 1,
+            "seconds": 99.0
+          },
+          {
+            "effect": "minecraft:regeneration",
+            "level": 5,
+            "seconds": 88.0
+          }
+        ]
+      }
+    ],
+    "conditional_continuous_uptime": [
+      {
+        "carrier": "plain",
+        "strength_seconds": 90.0,
+        "recovery_seconds": 80.0,
+        "strength_drinks_per_hour_at_full_uptime": 40.0,
+        "recovery_drinks_per_hour_at_full_uptime": 45.0,
+        "strength_pair_capacity_per_loaded_hour": 12.0,
+        "recovery_pair_capacity_per_loaded_hour": 12.0,
+        "ideal_strength_pairs": 4,
+        "ideal_recovery_pairs": 4,
+        "alternating_cycle_seconds": 80.0,
+        "alternating_strength_drinks_per_hour": 45.0,
+        "alternating_recovery_drinks_per_hour": 45.0,
+        "alternating_strength_pairs": 4,
+        "alternating_recovery_pairs": 4,
+        "endgame_stock_cycles": 48,
+        "endgame_ideal_overlap_minutes": 64.0
+      },
+      {
+        "carrier": "golden",
+        "strength_seconds": 99.0,
+        "recovery_seconds": 88.0,
+        "strength_drinks_per_hour_at_full_uptime": 36.36363636363637,
+        "recovery_drinks_per_hour_at_full_uptime": 40.90909090909091,
+        "strength_pair_capacity_per_loaded_hour": 12.0,
+        "recovery_pair_capacity_per_loaded_hour": 12.0,
+        "ideal_strength_pairs": 4,
+        "ideal_recovery_pairs": 4,
+        "alternating_cycle_seconds": 88.0,
+        "alternating_strength_drinks_per_hour": 40.90909090909091,
+        "alternating_recovery_drinks_per_hour": 40.90909090909091,
+        "alternating_strength_pairs": 4,
+        "alternating_recovery_pairs": 4,
+        "endgame_stock_cycles": 48,
+        "endgame_ideal_overlap_minutes": 70.4
+      }
+    ],
+    "native_regeneration": [
+      {
+        "level": 1,
+        "native_hp_in_30_seconds": 12.0,
+        "native_hp_per_second": 0.4
+      },
+      {
+        "level": 2,
+        "native_hp_in_30_seconds": 24.0,
+        "native_hp_per_second": 0.8
+      },
+      {
+        "level": 3,
+        "native_hp_in_30_seconds": 50.0,
+        "native_hp_per_second": 1.6666666666666667
+      },
+      {
+        "level": 4,
+        "native_hp_in_30_seconds": 100.0,
+        "native_hp_per_second": 3.3333333333333335
+      },
+      {
+        "level": 5,
+        "native_hp_in_30_seconds": 200.0,
+        "native_hp_per_second": 6.666666666666667
+      },
+      {
+        "level": 6,
+        "native_hp_in_30_seconds": 600.0,
+        "native_hp_per_second": 20.0
+      }
+    ],
+    "lances": [
+      {
+        "weapon": "PRISM",
+        "damage_per_cell": 64,
+        "charge_ticks": 32,
+        "recovery_ticks": 30,
+        "range": 32,
+        "mode_one_raw_damage_per_second": 20.64516129032258
+      },
+      {
+        "weapon": "SOVEREIGN",
+        "damage_per_cell": 56,
+        "charge_ticks": 24,
+        "recovery_ticks": 24,
+        "range": 48,
+        "mode_one_raw_damage_per_second": 23.333333333333332
+      }
+    ]
+  },
+  "defence": {
+    "human_acceptance": "pending",
+    "absorption_refill_per_paid_combat_bottle_hp": 32,
+    "regeneration_refills_absorption": false,
+    "standard_power_five_spools": 5,
+    "standard_resistance_v_ticks": 80,
+    "juice_resistance_returns_after_standard": true
+  },
+  "pressure": {
+    "human_acceptance": "pending",
+    "window_ticks": 600,
+    "actual_world_ticks": true,
+    "native_mock_player_body_tick_driver": true,
+    "position_pinned": true,
+    "scheduled_attacks_not_autonomous_combat": true,
+    "player_attacks_apples_and_emergency_actions_scripted": false,
+    "loadout": "actual endgame kit, two original flask drinks, only Regeneration amplifier overridden for comparison",
+    "natural_regeneration": true,
+    "profiles": [
+      {
+        "regeneration_level": 3,
+        "alive": true,
+        "minimum_health": 10.169895,
+        "health_left": 11.169895,
+        "max_health_left": 42.0,
+        "absorption_left": 0.0,
+        "native_accepted_healing_hp": 40.57421241700649,
+        "native_health_damage_hp": 73.40433311462402,
+        "native_damage_events": 67,
+        "normal_totems_used": 0,
+        "death_tick": -1,
+        "flask_drinks_left": 94,
+        "heart_debt_left": 1,
+        "brute_attack": 31.948800000000002,
+        "prism_beam_raw": 24.48
+      },
+      {
+        "regeneration_level": 4,
+        "alive": true,
+        "minimum_health": 36.333897,
+        "health_left": 38.813824,
+        "max_health_left": 42.0,
+        "absorption_left": 0.0,
+        "native_accepted_healing_hp": 68.45810447633266,
+        "native_health_damage_hp": 73.40433311462402,
+        "native_damage_events": 67,
+        "normal_totems_used": 0,
+        "death_tick": -1,
+        "flask_drinks_left": 94,
+        "heart_debt_left": 1,
+        "brute_attack": 31.948800000000002,
+        "prism_beam_raw": 24.48
+      },
+      {
+        "regeneration_level": 5,
+        "alive": true,
+        "minimum_health": 38.044693,
+        "health_left": 42.0,
+        "max_health_left": 42.0,
+        "absorption_left": 0.0,
+        "native_accepted_healing_hp": 71.88424682617188,
+        "native_health_damage_hp": 73.40433311462402,
+        "native_damage_events": 67,
+        "normal_totems_used": 0,
+        "death_tick": -1,
+        "flask_drinks_left": 94,
+        "heart_debt_left": 1,
+        "brute_attack": 31.948800000000002,
+        "prism_beam_raw": 24.48
+      },
+      {
+        "regeneration_level": 6,
+        "alive": true,
+        "minimum_health": 38.239964,
+        "health_left": 42.0,
+        "max_health_left": 42.0,
+        "absorption_left": 0.0,
+        "native_accepted_healing_hp": 71.88424682617188,
+        "native_health_damage_hp": 73.40433311462402,
+        "native_damage_events": 67,
+        "normal_totems_used": 0,
+        "death_tick": -1,
+        "flask_drinks_left": 94,
+        "heart_debt_left": 1,
+        "brute_attack": 31.948800000000002,
+        "prism_beam_raw": 24.48
+      }
+    ]
+  },
+  "conditional_recipe_account": {
+    "basis": "Current golden carrier recipe; conditional two plain parent feedings and one carrier fruit per drink. Existing shapeless carrier crafting bypasses pressing; infusion remains five machine seconds. No waste or replacement parents included.",
+    "gold_ingots_per_golden_carrier": 8,
+    "refill": [
+      {
+        "carrier": "plain",
+        "total_drinks_per_hour": 90.0,
+        "parent_and_carrier_guavas_per_hour": 270.0,
+        "gold_ingots_per_hour": 0,
+        "infusion_station_seconds_per_hour": 450.0,
+        "additional_seconds_if_carriers_also_pressed": 450.0
+      },
+      {
+        "carrier": "golden",
+        "total_drinks_per_hour": 81.81818181818181,
+        "parent_and_carrier_guavas_per_hour": 245.45454545454544,
+        "gold_ingots_per_hour": 654.5454545454545,
+        "infusion_station_seconds_per_hour": 409.09090909090907,
+        "additional_seconds_if_carriers_also_pressed": 409.09090909090907
+      }
+    ]
+  }
+}

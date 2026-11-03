@@ -103,6 +103,8 @@ redstone, carrier death, limiting splices, source loss, foreign-owner/full-inven
 refusals and autonomous native walking through the whole journey. The autonomous
 case retains actual quiet waiting and the ordinary meal/work rules.
 
-Java 25 build/localization and the seven focused cases pass. These are functional
+Java 25 build/localization and the seven focused cases pass. The subsequent
+rebalance release gate also passes all **294** required native cases, including
+the rescue chain and corrected older readiness/timing fixtures. These are functional
 native-server fixtures; they do not establish natural Survival timing, client
 appearance, multiplayer pacing or that the entire civilization roadmap is done.

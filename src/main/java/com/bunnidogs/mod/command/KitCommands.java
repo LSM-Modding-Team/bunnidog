@@ -160,7 +160,7 @@ public final class KitCommands {
                 items.add(enchanted(p,ModItems.FIREBALL_LAUNCHER.get(),true));items.add(new ItemStack(ModItems.VOLATILE_CHARGE.get(),64));
                 var flask=new ItemStack(ModItems.ABYSSAL_FLASK.get());String id=java.util.UUID.randomUUID().toString();flask.set(ModItems.FLASK_ID.get(),id);
                 int drinks=end ? 96 : 32;
-                for(int i=0;i<drinks;i++)com.bunnidogs.mod.expedition.FlaskStorage.get(p.level()).push(id,com.bunnidogs.mod.item.JuiceItem.create(ExpeditionInfusions.bottle(end,(drinks-1-i)%3==0)));
+                for(int i=0;i<drinks;i++)com.bunnidogs.mod.expedition.FlaskStorage.get(p.level()).push(id,com.bunnidogs.mod.item.JuiceItem.create(ExpeditionInfusions.bottle(end,(drinks-1-i)%2==0)));
                 if(end) {items.add(enchanted(p,ModItems.GENETIC_VACUUM.get(),true));items.add(enchanted(p,ModItems.CONCORD_STANDARD.get(),true));items.add(new ItemStack(ModItems.HEART_SPOOL.get(),64));}
                 ModItems.ABYSSAL_FLASK.get().refresh(flask,p.level());items.add(flask);
             }

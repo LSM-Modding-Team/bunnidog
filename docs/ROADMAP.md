@@ -6,14 +6,18 @@ do not apply. Verify old completion claims against code before choosing work.
 
 ## Current player-directed review — progression and stats
 
-[STATS_REBALANCING_PLAN.md](STATS_REBALANCING_PLAN.md) is the current planning
-update, based on the corrected [acquisition audit](RAW_MATERIAL_ACQUISITION.md).
-Its priority is a renewable, earned Strength-XXX infusion route and honest kits,
-then independent healing/replenishment and mixed-encounter comparisons before
-targeted equipment/reward tuning. Keep full lunar blast drops, mined Cinderite,
-finite native stock and the user's accepted combat roles. The listed formulas
-are prototypes; this planning update does not implement them or replace the
-unfinished intelligence roadmap with another open-ended balance pass.
+[STATS_REBALANCING_PLAN.md](STATS_REBALANCING_PLAN.md) now records an implemented
+candidate based on the corrected [acquisition audit](RAW_MATERIAL_ACQUISITION.md).
+Rolled stat potency, reproducible Strength-XXX donors, independent recovery
+investment/duration, alternating paid kit stock and the Sovereign cycle correction
+ship together. Full lunar blast drops, mined Cinderite, finite native stock,
+recipes, rewards and current enemy/companion values remain after review.
+Native supply/defence/controlled-pressure observations are recorded; **natural
+Survival, client and solo/co-op balance remain pending human test**. The plan
+lists those trials rather than claiming native checks establish completion.
+The latest request explicitly ends after validation/push of this finite batch;
+do not resume the earlier endless loop. Future continuations can return to the
+unfinished intelligence roadmap below unless new feedback steers them.
 
 ## Implemented expedition foundation — Great Warren and the Apex finale
 

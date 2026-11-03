@@ -40,8 +40,8 @@ final class InfusionGameTest {
         var recoveryBottle = JuiceItem.create(recovery);
         recoveryBottle.getItem().finishUsingItem(recoveryBottle, level, player);
         var effect = player.getEffect(MobEffects.REGENERATION);
-        h.assertTrue(effect.getAmplifier() == 4 && effect.getDuration() == 880,
-                "A separate Senses-240 drink supplies native Regeneration V for the unchanged 44-second duration");
+        h.assertTrue(effect.getAmplifier() == 4 && effect.getDuration() == 1760,
+                "A separate actual Senses-120 drink supplies native Regeneration V for eighty-eight seconds");
         player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(1000); player.setHealth(1);
         for (int tick = 0; tick < 300; tick++) {
             if (MobEffects.REGENERATION.value().shouldApplyEffectTickThisTick(tick, effect.getAmplifier()))

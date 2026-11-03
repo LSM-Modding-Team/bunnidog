@@ -2332,7 +2332,7 @@
   "item.bunnidogs.sovereign_lance": "Sovereign Lance",
   "item.bunnidogs.sovereign_elytra": "Sovereign Elytra",
   "tooltip.bunnidogs.concord_standard": "Heals nearby allies and grants brief protection. Each power level costs one Heart Spool.",
-  "tooltip.bunnidogs.sovereign_lance": "48-block piercing ray. Each power level costs one Prism Cell.",
+  "tooltip.bunnidogs.sovereign_lance": "Fast 48-block piercing ray. Each power level costs one Prism Cell.",
   "tooltip.bunnidogs.sovereign_armor": "+3 equipped hearts · retains Heartbound recovery.",
   "tooltip.bunnidogs.sovereign_elytra": "Stronger armored flight · more efficient Prism Cell bursts.",
   "advancements.bunnidogs.crown.title": "The Crown Is Yours",

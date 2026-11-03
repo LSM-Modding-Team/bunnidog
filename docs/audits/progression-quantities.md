@@ -455,23 +455,26 @@ divide their group budget; they do not each receive the entire group.
 
 ## Native juice scaling
 
-Actual healing over 500 native effect ticks on an injured actor.
+Separate effect-definition probes at V80 / W70 / L75 / S80 / B60. Strength uses
+the feral definition; recovery uses loyal. These are not one combined temperament
+or a frozen kit bottle. Actual healing is over 500 native effect ticks on an
+injured actor; duration is recovery duration. Human balance acceptance is pending.
 
 | Quality | Strength level | Regeneration level | Healing HP/s | Duration s |
 | ---: | ---: | ---: | ---: | ---: |
-| 0 | 1 | 1 | 0.40 | 40 |
-| 1 | 1 | 1 | 0.40 | 44 |
-| 2 | 1 | 1 | 0.40 | 48 |
-| 4 | 2 | 2 | 0.80 | 56 |
-| 7 | 2 | 2 | 0.80 | 68 |
-| 12 | 4 | 3 | 1.68 | 88 |
-| 20 | 6 | 3 | 1.68 | 120 |
-| 24 | 7 | 3 | 1.68 | 120 |
-| 28 | 8 | 4 | 3.36 | 120 |
-| 60 | 16 | 5 | 6.68 | 120 |
-| 116 | 30 | 5 | 6.68 | 120 |
-| 124 | 32 | 6 | 20.00 | 120 |
-| 252 | 64 | 7 | 20.00 | 120 |
+| 0 | 21 | 4 | 3.36 | 80 |
+| 1 | 21 | 4 | 3.36 | 88 |
+| 2 | 21 | 4 | 3.36 | 96 |
+| 4 | 22 | 4 | 3.36 | 112 |
+| 7 | 22 | 4 | 3.36 | 136 |
+| 12 | 24 | 4 | 3.36 | 176 |
+| 20 | 26 | 5 | 6.68 | 240 |
+| 24 | 27 | 5 | 6.68 | 240 |
+| 28 | 28 | 5 | 6.68 | 240 |
+| 60 | 36 | 5 | 6.68 | 240 |
+| 116 | 50 | 6 | 20.00 | 240 |
+| 124 | 52 | 6 | 20.00 | 240 |
+| 252 | 84 | 7 | 20.00 | 240 |
 
 ## Matched-line native enemies
 

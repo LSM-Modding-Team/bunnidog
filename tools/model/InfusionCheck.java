@@ -32,8 +32,8 @@ public final class InfusionCheck {
         var merged = Juice.effects(duplicate, Stats.of(116), 0).stream().filter(s -> s.id().endsWith(":strength")).toList();
         require(merged.size() == 1 && merged.getFirst().amplifier() == 29 && merged.getFirst().ticks() == 1800,
                 "Duplicate Strength takes the strongest/longest contribution once");
-        require(effect(Genome.DEFAULT, Stats.of(0, 0, 0, 112), 0, "regeneration").amplifier() == 3
-                && effect(Genome.DEFAULT, Stats.of(0, 0, 0, 240), 0, "regeneration").amplifier() == 4,
+        require(effect(Genome.DEFAULT, Stats.of(0, 0, 0, 56), 0, "regeneration").amplifier() == 3
+                && effect(Genome.DEFAULT, Stats.of(0, 0, 0, 120), 0, "regeneration").amplifier() == 4,
                 "Recovery uses Senses and its independent exponential thresholds");
         require(effect(Genome.DEFAULT, Stats.of(116), 0, "regeneration").amplifier() == 0,
                 "Strength investment cannot stand in for recovery investment");
@@ -86,14 +86,17 @@ public final class InfusionCheck {
         }
         var strength = ExpeditionInfusions.ENDGAME_STRENGTH.bottle();
         var recovery = ExpeditionInfusions.ENDGAME_RECOVERY.bottle();
-        require(strength.stats().get(Stat.VITALITY) == 116 && recovery.stats().get(Stat.SENSES) == 240,
-                "Distinct donor investments produce the actual 116/240 reference individuals");
+        require(strength.stats().get(Stat.VITALITY) == 116 && recovery.stats().get(Stat.SENSES) == 120,
+                "Distinct donor investments produce the actual 116/120 reference individuals");
         require(effect(strength.genome(), strength.stats(), strength.quality(), "strength").amplifier() == 29
                 && effect(recovery.genome(), recovery.stats(), recovery.quality(), "regeneration").amplifier() == 4,
                 "Endgame retains Strength XXX and specialised Regeneration V");
-        require(effect(strength.genome(), strength.stats(), 1, "strength").ticks()
-                >= 2 * effect(recovery.genome(), recovery.stats(), 1, "regeneration").ticks(),
-                "Endgame's one-strength/two-recovery stock ratio matches effect durations");
+        require(effect(strength.genome(),strength.stats(),1,"strength").ticks()>=effect(recovery.genome(),recovery.stats(),1,"regeneration").ticks()
+                && effect(recovery.genome(),recovery.stats(),1,"regeneration").ticks()>2*32,
+                "Alternating actual drinks can refresh Strength before expiry and keep recovery active through both drinking commitments");
+        require(effect(Genome.DEFAULT,Stats.ZERO,0,"regeneration").ticks()==800
+                && effect(recovery.genome(),recovery.stats(),1,"regeneration").ticks()==1760,
+                "Founders get forty seconds; the specialised golden-carrier reference gets eighty-eight");
     }
 
     private static void savesAndCapture() {
@@ -116,6 +119,12 @@ public final class InfusionCheck {
 
     public static void main(String[] args) {
         potency(); references(); savesAndCapture();
+        require(LanceProfile.SOVEREIGN.damage(1)*LanceProfile.PRISM.cycleTicks()
+                > LanceProfile.PRISM.damage(1)*LanceProfile.SOVEREIGN.cycleTicks(),
+                "Sovereign mode I has a real repeated-shot speed/damage niche");
+        require(LanceProfile.SOVEREIGN.damage(1)<LanceProfile.PRISM.damage(1)
+                && LanceProfile.SOVEREIGN.range()>LanceProfile.PRISM.range(),
+                "Prism retains better damage per cell while Sovereign reaches farther");
         System.out.println("Infusions: stat potency, actual donor hatchlings, saved records and exact capture passed.");
     }
 }

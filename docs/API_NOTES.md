@@ -13,6 +13,39 @@ history; this index is the map. `grep -n "name" docs/API_NOTES.md` finds any nam
 Status words: **COMPILED** = the user's compile accepted it (names and types are right; runtime behaviour may still be open). **SOURCE** = seen in the real NeoForge sources/data, not compiled yet.
 **ASSUMED** = written from memory of 1.21.x, nothing confirms it. **AVOIDED** = never seen anywhere, so our code does not use it.
 
+### Native rebalance evidence and mock-player body ticks
+
+- In the resolved 26.2 sources, `ServerPlayer.tick()` handles its server session;
+  `ServerPlayer.doTick()` reaches the actual player body/effect/food/use tick.
+  Embedded GameTest connections do not drive that body tick automatically.
+  `RebalanceGameTest.pressure` drives it once per test-world tick, checking that
+  a half-finished drink spends nothing and two full 32-tick uses consume exactly
+  two original flask entries. Calling finish directly is not timed-use evidence.
+- The current game rule is `net.minecraft.world.level.gamerules.GameRules.
+  NATURAL_HEALTH_REGENERATION`, read through `level.getGameRules().get(rule)`.
+  Resolved `FoodData`, compiler and the native pressure case verify it.
+- `MobEffectInstance.tickServer(ServerLevel, LivingEntity, Runnable)` performs
+  the actual native effect/duration tick. A controlled missing-health fixture
+  confirms Regeneration I–VI's 0.4/0.8/1.67/3.33/6.67/20 HP/s breakpoints.
+  `LivingHealEvent` exposes the requested healing amount before the health cap;
+  cap observations at current missing HP. `LivingDamageEvent.Post.getHealthDamage()`
+  records actual HP damage separately from absorption expenditure.
+- Native active-effect refresh calls `MobEffect.onEffectStarted`; a newly paid
+  Absorption VIII combat bottle restores its 32-HP buffer even if an equal-level
+  effect is still active. Regeneration does not restore it. Stronger short
+  Resistance can retain a weaker longer effect as hidden state: after Standard
+  V's 80 ticks, still-running paid juice Resistance III returns. Verified against
+  the resolved LivingEntity/MobEffectInstance/AbsorptionMobEffect sources,
+  compiler and `rebalance_defence`, without altering native rules.
+- `prism_lance`/`apex_beam` armour bypass is distinct from Resistance/enchantment
+  bypass; assert actual damage tags. Lance cycle arithmetic must include charge
+  **and** native recovery. Shared pure `LanceProfile` feeds the actual weapon;
+  native equipment cases retain all five proportional payments/target hits.
+- `spawnWithNoFreeWill` removes AI goals/brain, but is not an explicit persistent
+  `setNoAi(true)` profession lock. A Breeder commission fixture sets the native
+  adult state, profession and NoAI, then waits for actual board visibility before
+  testing GENES/READY and payment. `care_stations` keeps all semantic assertions.
+
 ### Native furnace workshops and asynchronous fixture lighting
 
 - `ServerLevel.recipeAccess()` returns the current `RecipeManager`.
@@ -48,6 +81,17 @@ Status words: **COMPILED** = the user's compile accepted it (names and types are
   offsets can leave a valid carer finishing its last work period at that time.
   `ClinicGameTest.firstAid` retains the exact one-guava, emptied-cargo and
   preserved-injury assertions within a bounded 600-tick case.
+- Dressing AI likewise waits for actual completed native pickup/travel/treatment
+  within 600 ticks, retaining one exact dressing spent, the emptied parcel and
+  the actual patient's remaining saved cooldown. A tick-240 snapshot can occur
+  before a valid carer has completed its work/search cycle; it is not an outcome.
+- Native entity-section visibility can lag a same-tick cross-chunk entity move.
+  A loaded-only finder boundary fixture keeps its already-tracked resident in
+  the original loaded section and moves the mock observer instead, asserting
+  the exact 24-block distance. This preserves real inside/outside, cooldown,
+  long-effect and unloaded-search assertions without making the tool load chunks.
+  Resolved `PersistentEntitySectionManager` visibility/onMove and native tests
+  distinguish a boundary predicate from an index-readiness precondition.
 - `TravelBasketItem.capture/release` already preserve a whole native entity and
   reject a duplicate UUID. Capture deliberately releases its old Nest ticket;
   civic rescue therefore retains the original destination separately, excludes

@@ -132,7 +132,7 @@ public final class Juice {
                 self("absorption", "Absorption", 60, 300, 4, Stat.VITALITY)));
         DEFS.put("build:lean", List.of(self("speed", "Speed", 60, 300, 3, Stat.SWIFTNESS)));
         // temperament: loyal is the common one, so most juices have a little Regeneration
-        DEFS.put("temperament:loyal", List.of(self("regeneration", "Regeneration", 20, 120, 3, Stat.SENSES)));
+        DEFS.put("temperament:loyal", List.of(self("regeneration", "Regeneration", 40, 240, 3, Stat.SENSES)));
         DEFS.put("temperament:skittish", List.of(self("invisibility", "Invisibility", 45, 300, 0, null)));
         DEFS.put("temperament:feral", List.of(self("strength", "Strength", 45, 300, 3, Stat.VITALITY)));
         DEFS.put("temperament:stoic", List.of(self("resistance", "Resistance", 60, 300, 2, Stat.VITALITY),
@@ -166,7 +166,7 @@ public final class Juice {
             case "minecraft:strength" -> Math.max(0, stats.get(Stat.VITALITY));
             case "minecraft:resistance" -> Math.max(0, stats.get(Stat.VITALITY)) / 16.0;
             case "minecraft:absorption" -> Math.max(0, stats.get(Stat.VITALITY)) / 4.0;
-            case "minecraft:regeneration" -> Math.max(0, stats.get(Stat.SENSES)) / 4.0;
+            case "minecraft:regeneration" -> Math.max(0, stats.get(Stat.SENSES)) / 2.0;
             case "minecraft:speed" -> Math.max(0, stats.get(Stat.SWIFTNESS)) / 4.0;
             case "minecraft:jump_boost" -> Math.max(0, stats.get(Stat.LEAP)) / 4.0;
             case "minecraft:luck" -> Math.max(0, stats.get(Stat.BLOOM)) / 4.0;

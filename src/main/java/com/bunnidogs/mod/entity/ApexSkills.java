@@ -55,13 +55,14 @@ public final class ApexSkills {
     public void trace(ServerLevel level,Vec3 direction,boolean damage) {
         trace(level,mouth(),direction,damage);
     }
+    public float beamDamage() {return (float)(12.75*apex.getAttributeValue(Attributes.ATTACK_DAMAGE)/12.8);}
     public void trace(ServerLevel level,Vec3 start,Vec3 direction,boolean damage) {
         Vec3 end=start.add(direction.normalize().scale(32));
         if (!level.hasChunksAt(BlockPos.containing(new Vec3(Math.min(start.x,end.x),Math.min(start.y,end.y),Math.min(start.z,end.z))),
                 BlockPos.containing(new Vec3(Math.max(start.x,end.x),Math.max(start.y,end.y),Math.max(start.z,end.z))))) return;
         PacketDistributor.sendToPlayersTrackingEntity(apex,new ApexBeamPayload(start,end,damage ? 0 : 1));
         if (!damage) return;
-        float amount=(float)(12.75*apex.getAttributeValue(Attributes.ATTACK_DAMAGE)/12.8);
+        float amount=beamDamage();
         for (var entity:level.getEntitiesOfClass(LivingEntity.class,new AABB(start,end).inflate(1.25),this::victim))
             if (entity.getBoundingBox().inflate(1.25).clip(start,end).isPresent()) entity.hurtServer(level,source("apex_beam"),amount);
     }

@@ -338,7 +338,7 @@ Native smithing preserves names, wear, enchantments and other explicit component
 | Upgrade | Actual benefit |
 | --- | --- |
 | Heartbound piece → Sovereign armor | +3 equipped hearts per piece; retains independent Heartbound 60/45/30/15-second heart recovery. Mixed old/new sets work |
-| Prism Lance → Sovereign Lance | 24-tick charge, 48-block piercing reach, 24-tick cooldown; powers 1–5 deal 45–225 damage and consume 1–5 Prism Cells/wear |
+| Prism Lance → Sovereign Lance | 24-tick charge, 48-block piercing reach, 24-tick cooldown; powers 1–5 deal 56–280 damage and consume 1–5 Prism Cells/wear |
 | Armored Elytra → Sovereign Elytra | Native glider, 10 armor/4 toughness, durability 1,296; same real cells, three wear and 30-tick burst cooldown |
 | Core + parts → Concord Standard | 30-tick charge; powers 1–5 heal 5–25 hearts and grant four-second Resistance I–V to up to 16 allies, spending 1–5 Heart Spools/wear; five-second cooldown |
 
@@ -348,7 +348,9 @@ healing credit for self-healing. Interrupted charges spend nothing. Native fuel,
 cooldown, permission and whole-item checks remain authoritative.
 
 All new text is English plus the shared neutral Peruvian Spanish source.
-Current protocol **46** requires matching client/server content. Original ordinary Apex
+Current protocol **50** requires matching client/server content. The targeted lance/recovery
+rebalance is implemented but pending human fight testing; see `STATS_REBALANCING_PLAN.md`.
+Original ordinary Apex
 values and old gear IDs/saves remain compatible.
 
 ## Evidence and remaining review

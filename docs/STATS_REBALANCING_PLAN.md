@@ -1,14 +1,27 @@
 # Stats rebalancing: earned power across the whole journey
 
-Status: the first stat-potency and reproducible-kit pass is implemented in
-[INFUSION_SPECS.md](INFUSION_SPECS.md); its coefficients still need ordinary
-Survival review. The rest remains an action plan, updated after the acquisition
-audit and lunar corrections in `a1c0687`. The older
-[scale audit](PROGRESSION_SCALE_AUDIT.md) records implemented behaviour and
-quantities, while [raw-material acquisition](RAW_MATERIAL_ACQUISITION.md)
-records actual sources and their limitations. Only the explicitly recorded
-infusion/kit slice ships; proposed reward, duration and encounter changes below
-remain planning.
+Status: **the implementation candidate is complete; human balance acceptance is
+pending.** [INFUSION_SPECS.md](INFUSION_SPECS.md) records current formulas and
+save policy. This revision expands the initial potency plan with recovery
+duration, attainable specialist references, flask order, actual native defensive
+semantics and the Prism/Sovereign comparison. Its evidence is in
+[rebalance observations](audits/rebalance-observations.md), with exact native
+records in the adjacent JSON. No natural Survival run is claimed.
+
+The [scale audit](PROGRESSION_SCALE_AUDIT.md) retains earlier findings;
+[raw-material acquisition](RAW_MATERIAL_ACQUISITION.md) supplies the actual
+sources and limits. The latest user request ends after this finite batch is
+validated and pushed. Do not turn the human-test queue into an endless numeric
+retuning loop or restart unrelated roadmap work during delivery.
+
+| Decision | Implemented candidate | Acceptance |
+| --- | --- | --- |
+| Earned infusion power | Rolled effect-specific stats, real plain-seed/golden-carrier kit donors, Strength XXX retained | Human founder selection, setup and refill journey pending |
+| Recovery investment | Senses contributes half its value to potency; bat-ear/short-leg donors reach III/V at S24/S120 | Human progression and VI breakpoint pending |
+| Recovery upkeep | Loyal duration 40–240 seconds before ordinary stat/quality rules; endgame reference 88 seconds | Human travel/drinking pressure pending |
+| Flask scheduling | New kits alternate Strength/recovery, 16/16 late and 48/48 endgame | Human stock use and manual refill pending |
+| Lance upgrade | Sovereign deals 56×mode; Prism retains better damage per cell, Sovereign better cycle damage/range | Human interruptions, line targets and ammo burn pending |
+| Enemy/companion attributes, acquisition and rewards | Retain actual current values after source/mitigation review; no unsupported global multiplier or bill change | Human field/night/moon/wing/finale comparisons pending |
 
 ## 1. What the findings change
 
@@ -62,7 +75,7 @@ ordinary-fertility samples with Bloom 60. That does not demonstrate a breedable
 line or affordable supply. Do not fix the discrepancy by weakening the user's
 requested Strength baseline or by making every parent require Dragon Eggs.
 
-## 3. Proposed first-pass stat-to-infusion rules
+## 3. Implemented candidate stat-to-infusion rules
 
 Keep the actual rolled genome, stats and feeding quality as separate data.
 Genes continue to decide which effects exist. A stat must never grant an absent
@@ -74,8 +87,11 @@ Use an **effect-specific potency input** rather than raising seed quality
 globally. This must not feed back into litter size, drift or mutation. Feeding
 quality still accelerates development and improves the actual seed/carrier.
 Developed stats then let an established line produce useful drinks from ordinary
-renewable food. Keep existing duration rules for the initial comparison so the
-effect of the potency change can be understood separately.
+renewable food. The first slice held duration steady. The subsequent supply
+comparison exposed a recovery refill mismatch, so this candidate doubles only
+loyal Regeneration's base/maximum duration from 20/120 to **40/240 seconds**.
+Its existing nonnegative stat duration bonus and quality multiplier still apply;
+Strength and the other effects retain their durations.
 
 The following is the implemented first prototype, not play-validated final tuning.
 `Q` is the infusion's actual saved quality, including the existing richer-carrier
@@ -85,7 +101,7 @@ and Bloom of its **rolled individual**, not invented kit parents.
 | Effect | Candidate potency input P | Level rule / reason |
 | --- | --- | --- |
 | Strength | Q + V | 1 + floor(P/4). Makes the existing Vitality association affect potency and supplies an honest route to XXX. Ember-coat Strength uses the same potency stat as feral Strength. |
-| Regeneration | Q + S/4 | 1 + floor(log2(1 + P/4)), retaining a separate healing curve. Compare actual healing and survival before adopting its coefficient; do not call the existing nerf validated. |
+| Regeneration | Q + S/2 | 1 + floor(log2(1 + P/4)), retaining a separate healing curve. This halves the stat investment relative to the first prototype; it does not make Strength investment heal. Human acceptance is pending. |
 | Resistance | Q + V/16 | Existing level rule with the existing III limit for juice. Strong animals can support ordinary quality without making long Resistance V available. |
 | Absorption | Q + V/4 | Existing linear level rule, four buffer HP per level. Measure actual refresh behaviour and consumed buffer; do not count it as healing per second. Snow-coat Absorption also gets this potency association. |
 | Speed / Jump Boost | Q + W/4 / Q + L/4, respectively | Existing linear level rule initially. Test travel, room control and recovery from knockback; do not give them Strength's stat coefficient or impose a new ceiling. |
@@ -106,8 +122,8 @@ exist in Survival:
 | Q4, Vitality 60 | Strength XVII | Developed physical stats are useful before the final line |
 | Q0, Vitality 116 | Strength XXX | Once established, the donor line does not need an Egg or sixteen Netherite Ingots for every drink |
 | Q4, Vitality 112 | Strength XXX | Higher feed/carrier quality remains an alternative contribution |
-| Q0, Senses 112 | Regeneration IV, about 3.33 HP/s | The offensive milestone does not automatically mean maximum recovery |
-| Q0, Senses 240 | Regeneration V, about 6.67 HP/s | A specialised recovery line has its own investment |
+| Q0, Senses 56 | Regeneration IV, about 3.33 HP/s | The offensive milestone does not automatically mean maximum recovery |
+| Q0, Senses 120 | Regeneration V, about 6.67 HP/s | A specialised recovery line has its own investment |
 | Q1, Vitality 116, with a Resistance allele | Resistance III | A mature defensive line can use a renewable golden carrier; genes still gate the effect |
 
 Do not turn these rows into a kit with every stat copied from the largest row.
@@ -117,8 +133,11 @@ expressed simultaneously. Captured brood retain their real stats/quality zero
 and remain a valid paid source, without being declared endgame merely because
 their combat AI was dangerous. No capture-specific deletion or fake quality tax.
 
-Before accepting the prototype, roll the existing archive and captured-seed
-sources through it too. Archive stats listed in loot are parent records; drift
+The native source check rolls four actual ordinary and four Crown archive
+records through the candidate, retaining every exact parent/child record in
+[the source observations](audits/infusion-observations.md). Exact captured
+individuals and carrier independence also have focused coverage. These are
+samples, not population frequencies. Archive stats listed in loot are parent records; drift
 can make the rolled individual much stronger. A rare single-use XXX drink is
 acceptable; accidental unlimited endgame supply from an assumed inheritance of
 archive quality is not an implementation rule. Descendants recompute quality.
@@ -158,14 +177,59 @@ is a conditional capacity calculation, not a measured farm rate. Actual genes,
 cooldowns, crowding, food, stock movement, hatching some seeds and tool/station
 access reduce or change it. One seed remains one infusion, not a drink per pup.
 
-Evaluate that replenishment against actual consumption. A Q0 loyal recovery
-drink with Senses above the current duration-stat threshold lasts 40 seconds;
-100% uptime would consume 90/hour before any other drinks or losses. Four average
-pairs cannot supply that indefinitely. More pairs, longer-quality carriers,
-selective use and pre-stocked expeditions are real choices. Do not claim a
-96-drink flask is cheap merely because it fits one slot, or require nonstop
-recovery drinking to survive routine land travel. Address duration or production
-only after this comparison, rather than hiding the mismatch with kit stock.
+The original recovery reference needed 39 Q4 plus two plain selected parent
+generations and then produced S240/V for only 44 seconds with a golden carrier.
+The candidate instead uses bat ears, short legs, loyal temperament and average
+fertility: +3 Senses at Q0 or +9 at Q4, with genuine negative movement drift.
+Thirteen retained Q4 generations give S117 parents; their next plain seed rolls
+S120/V. Late recovery needs two Q4 plus one plain parent generation and rolls
+S24/III. This changes the kit's reference genotype, not breeding or mutation rules.
+The separate Strength reference remains nine Q4 plus one plain generation,
+followed by a plain production seed rolling V116/XXX.
+
+Those zero-founder routes are conditional accounting, not a requirement or a
+speedrun. Starting both endgame lines this way spends 22 Q4 breeding events:
+44 Netherite guavas, requiring 352 Netherite Ingots, 352 Diamonds, 352 Gold and
+44 guavas, before selection, maturation, other supplies and losses. Ordinary
+ruins/archives/captures can supply developed stock; assembling their necessary
+expressed genes remains real work. Do not describe every player as freshly
+mining all those ingots, or assume a useful archive genome appears on demand.
+No Q4 payment is required on subsequent plain-fed refill seeds.
+
+Current golden-carrier Strength lasts **99 seconds** and recovery **88 seconds**.
+Independent full uptime needs 36.36 Strength and 40.91 recovery drinks/hour.
+The flask is a fixed stack, so independent selection is not its operating model.
+New kits alternate the two drinks; repeating the pair every 88 seconds needs
+40.91 drinks of **each** family/hour. At the conditional twelve-seed capacity,
+round each family separately: **four Strength pairs plus four recovery pairs**
+(sixteen adults), not seven interchangeable pairs. Plain carriers give 90/80
+seconds and need 45 of each/hour in the alternating flask, also four plus four
+ideal pairs, but their combat Resistance is II instead of golden-carrier III.
+
+The previous Strength/recovery/recovery stack would waste the longer recovery
+buff and require extra paid drinking, so retaining that order would defeat the
+duration change. New late/endgame kits contain **16/16 and 48/48** respectively;
+the totals remain **32/96**, along with all apples, ammo, gear and real boxes.
+The 48 endgame pairs have a **70.4-minute ideal overlap budget** at 88 seconds
+per pair. Startup, imperfect refreshes, interruptions, losses and expeditions
+without continuous buff use change it. This is arithmetic, not measured survival
+time or farm throughput. Each drink still commits 32 native use ticks. Existing
+flasks keep their original frozen order; deliberately refill or replace a test
+kit to obtain the new order.
+
+Seed capacity is not the whole refill bill. A golden carrier's ordinary recipe
+uses one fruit and **eight Gold Ingots**; two plain parent feedings add two more
+fruits per produced seed. At 81.82 total drinks/hour in the ideal alternating
+golden reference, that is about **245.45 guavas and 654.55 Gold Ingots/hour**,
+before any waste, other food or replacement parents. Filling a fresh 96-drink
+flask from scratch accordingly uses 288 guavas and 768 Gold, breeding 96 seeds
+and preparing 96 carrier bottles. Glass is returned on drinking, including the
+real flask path; full inventories drop it. Recovered glass can be reused, while
+discarded/lost bottles need replacement. Carriers can be crafted by the existing shapeless fruit/bottle
+recipe or pressed in a Juicer; infusion still takes five machine seconds per
+drink (another five if pressing there). Parallel stations reduce machine
+occupancy, not fruit/gold demand. Compare established orchard/gold supply and
+plain-carrier Resistance II before calling sustained golden III inexpensive.
 
 Keep Dragon Egg guavas exceptional accelerators/consumables. Nether Stars and
 Beacons have repeatable infrastructure routes, unlike ordinary Java Eggs; price
@@ -180,8 +244,19 @@ plateau, and extreme native amplifiers have shift-wrap issues. A large numeral
 is neither a healing benchmark nor a promise of continuing useful growth.
 Keep the no-new-cap policy; test native effects at their actual breakpoints.
 
-Compare current recovery against candidate III/IV/V/VI profiles in the same
-loadout and mixed encounter, without changing enemy stats between trials.
+The focused native comparison uses III/IV/V/VI profiles with the same actual
+endgame kit, two paid flask drinks and two Astralite Brutes, a Prismmaw and a
+Lifebinder. It drives the mock player's real native body tick once per world
+tick and records actual accepted damage, capped healing, debt, buffer and stock.
+Positions are pinned and attacks scheduled; the player does not attack, eat
+apples, use emergency gear or retreat. Only active Regeneration is overridden
+for the comparison. This checks rate/mitigation interaction; it is neither
+autonomous combat nor a field/wing/finale difficulty verdict. In the initial
+controlled run, III lost substantial health, IV recovered, and V/VI held near
+full health; V/VI being similar under this pressure does not prove VI harmless.
+
+Human testing must compare current recovery in the same
+loadout and actual mixed encounter, without changing enemy stats between trials.
 Include max health, health debt, the ability to finish drinking, damage types,
 effect uptime, hit immunity, absorption, emergency items and retreat options.
 The existing logarithmic change is provisional balance, not proof that the old
@@ -203,7 +278,13 @@ affected allies rather than assuming every activation restores 50 HP to sixteen.
 
 Absorption, ordinary/enchanted apples, Heartbound hearts, Sovereign hearts,
 Homeward/Cataclysm/normal Totems and temporary heart-debt recovery must be compared
-as different defenses. A health buffer does not replenish itself; a Totem is
+as different defenses. Native checks confirm that Regeneration heals HP, not
+spent absorption. A newly paid combat drink **does refill its 32-HP absorption
+buffer even while the previous effect is active**. At a theoretical uninterrupted
+32-tick drinking cadence that is 20 buffer HP/s, costing 37.5 combat bottles/minute;
+real item commitment, damage tags, ammo/seed supply and interruptions matter.
+Keep this existing native behaviour in this candidate; test deliberate buffer
+spam before deciding whether it needs a separate change. A Totem is
 not an extra permanent health pool. Preserve the user's requested apple stocks,
 two Shulkers and mostly-Totem endgame inventories in every reference run.
 
@@ -245,9 +326,15 @@ ammo. Prism/Sovereign beams have charge/recovery, penetration and line targets,
 not melee Strength scaling. A power-five shot spends five units, so 64 units
 are twelve complete shots plus four. Compare actual targets hit, interrupted
 uses, area control and refilling trips before changing weapon damage or ammo.
-Sovereign power one currently trades some per-shot damage for a faster shot and
-range versus Prism; compare the whole mode system rather than requiring every
-single stat of an upgrade to be larger. Flag any mode with no useful niche.
+The initial Sovereign I's 45 damage over a 24+24-tick cycle gave **18.75 raw
+DPS**, below Prism's 64 over 32+30 ticks (**20.65**). The candidate changes only
+Sovereign damage to **56×mode** (56/112/168/224/280). Its mode-I cycle now gives
+**23.33 raw DPS**, a real speed/range advantage; Prism still spends one cell
+for 64 rather than 56 damage. Range/charge/recovery, costs, wear, penetration,
+native cancellation and mode selection remain. There is no melee Strength
+multiplier on either beam. Native equipment cases check actual targets and all
+five exact payments. Human tests must include multiple line targets, charge
+interruptions, recovery, bosses and per-cell supply, not nominal DPS alone.
 
 ## 7. Raw supply and rewards: direction, not automatic blanket changes
 
@@ -279,30 +366,48 @@ building bill. Core rewards remain separate from generic material resupply:
 solo repeat victories and a party sharing its personal Cores have different
 upgrade pacing. Keep the existing physical gate and reward ownership rules.
 
-## 8. Implementation order and evidence to collect
+## 8. Implementation record and pending human acceptance
 
-1. **Define attainable donor families and reference inventories.** Use actual
+1. **Implemented: donor families and reference inventories.** Use actual
    expressed genes, starting routes and breeding/capture/archive records. Include
    ordinary renewable feeding, replacement parents and the split between buffs,
    recovery, movement and utility. Expose current and proposed effect results
    to development tools; do not add a player tutorial/HUD or reveal animal stats
    without the real instrument.
-2. **Prototype the stat-to-infusion table and honest kits together.** Demonstrate
+2. **Implemented candidate: stat-to-infusion table and honest kits together.** Demonstrate
    a renewable Strength-XXX supply with a source account. Keep kits' requested
    power and inventory organisation; replace fake quality 116 with attainable
    records and appropriate specialised donor stats. Preserve one frozen rolled
    child per bottle, exact capture identity and seed/juice payment. Never claim
    that changing the kit proves the line's natural acquisition time.
-3. **Calibrate recovery and production together.** Compare healing breakpoints
+3. **Implemented candidate, human calibration pending: recovery and production.** Compare healing breakpoints
    in real mixed-role fights, then duration/refill capacity. Do not simultaneously
    nerf recovery, raise food costs and strengthen enemies; that obscures the
    cause. Keep regen's provisional status explicit until this comparison exists.
-4. **Adjust targeted equipment/encounter mismatches.** Use the field/night/moon/
+4. **Implemented lance correction; encounter acceptance pending.** Use the field/night/moon/
    room/boss references above. Change a demonstrated problem's coefficient,
    cadence or reward rather than adding another global health multiplier.
-5. **Reallocate specific rewards and operating costs.** Review ordinary ruin
-   treasure and Crown bulk shipments against repeat extraction and supply burn.
-   Keep recipe totals as demand bookkeeping, with raw acquisition in the decision.
+5. **Reviewed and retained: rewards, recipes and enemy/companion attributes.**
+   The native acquisition audit and bills already include rich ruins, full
+   self-blast payouts, finite archive alternatives and earned shipments. These
+   do not establish a specific reward shortage or excess once corrected drink
+   supply is available. Changing them now would mix several unsupported causes.
+   Record actual burn/recovered yield in the journeys below before reallocating
+   a named payout. These retained values are part of the candidate, not an
+   unimplemented promise to multiply them later.
+
+All rows below remain **pending human test**. Use a fresh matching protocol-50
+client/server and normal stocked inventories; the operator kit is a combat
+reference, not a substitute for the first row's acquisition history.
+
+| Human trial | Record / acceptance question |
+| --- | --- |
+| First household through renewable drinks | Founder acquisition/genes, ordinary guavas/orchard, real training/building, failed selections, parent raising, loaded waiting, pressing/infusion and seed transport; can useful early buffs be made before realm loot exists? |
+| Establish endgame donor families, then refill | Keep setup separate from consumable seeds; record actual archive/capture inputs, Q4 acceleration if used, golden-carrier supply and output of each family; is III/V progression useful without compulsory dozens of rich generations? |
+| Full daytime and night journeys | Use III/IV/V/VI recovery with the same gear; mine/loot while new mixed roles arrive, finish both 1.6-second drinks, count real overlap gaps, food, ammo, Totems, damage, debt and returned stock. Night weight is not population. |
+| First lunar foothold and repeat extraction | Recover both mined minerals, include flight/void risk and Blastmaw collection; compare first tool with later Fortune mining without counting a later dungeon shipment as bootstrap. |
+| Crown wings and actual finale, solo and co-op | Keep the real remaining expedition stock, nine kills per wing, equipment, warnings, waves/summons and emergency options; record roles, duration, interruptions and deaths. No refill between phases unless the player physically retrieves stock. |
+| Defence and weapon stress cases | Try repeated combat-bottle absorption refresh, finite high-quality archive recovery/VI, overlapping Standard uses, line targets and Sovereign modes I–V versus Prism; record actual payments and useful results. |
 
 For each comparison record stage, gear/enchants, effect levels and duration,
 simultaneous roles/equipment, actual active/loaded time, materials recovered,
@@ -314,8 +419,8 @@ Use focused pure/native checks for changed potency arithmetic, inheritance,
 capture/archive inputs, real effect ticks, kit contents and payment/save behaviour.
 Do not repeat every passing check for each numeric candidate or run a large
 automated combat matrix as a substitute for ordinary play. One coherent build
-and native release gate follows an implementation batch. This planning update
-itself needs document/link review, not a new local game build.
+and native release gate follows this implementation batch. Passing those gates
+establishes mechanics and regressions, not human acceptance of these trials.
 
 The implemented save policy is recorded in `INFUSION_SPECS.md`: old bottles are
 evaluated from their exact unchanged inputs using the current potency rules.

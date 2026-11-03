@@ -4,8 +4,58 @@ Read `AGENTS.md` for the continuation workflow, `README.md` for build/run comman
 and only the specifications/source relevant to the next batch. Historical sandbox,
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
+Previous sections retain their checkpoint's protocol/evidence; the current
+section below takes precedence.
 
-## Current — local civic defeat and physical basket rescue
+## Current — finite rebalance candidate, human acceptance pending
+
+The latest user request ends after this release is validated and pushed.
+The earlier endless development loop does not apply to this batch.
+[STATS_REBALANCING_PLAN.md](docs/STATS_REBALANCING_PLAN.md) now records the
+implemented candidate, expanded findings and concrete pending human trials.
+
+Recovery potency uses Q + Senses/2; loyal duration is 40–240 seconds under the
+existing duration factor. Real bat-ear/short-leg donor references produce
+late S24/Regeneration III and endgame S120/V, with 65.1/88-second golden-carrier
+drinks. Strength retains its V116/XXX reference. New kits alternate Strength/
+recovery, 16/16 late and 48/48 endgame, preserving 32/96 totals and all supplies,
+apples, gear and actual Shulker contents. Old saved inputs and flask order stay
+exact and are evaluated using current rules; they are never replaced by kit
+records. Sovereign Lance deals 56×mode, giving mode I a real cycle advantage
+while Prism retains better damage per cell. Both weapons keep native costs,
+wear, charge/recovery and range. Network **50** needs matching client/server.
+
+Three native rebalance cases record conditional donor/refill arithmetic, I–VI
+effect ticks, actual 32-tick paid flask use and controlled mixed-role pressure,
+including accepted damage/healing, debt, absorption, Totems and remaining stock.
+Pinned positions/scheduled attacks are explicit; these do not certify real
+combat, natural throughput or client feel. Native checks also confirm paid
+combat bottles refill absorption while Regeneration does not; Standard V's
+short paid protection returns to the underlying juice Resistance III.
+See [INFUSION_SPECS.md](docs/INFUSION_SPECS.md) and
+[rebalance observations](docs/audits/rebalance-observations.md).
+
+The prior rescue build's CI exposed an old care-station fixture querying before
+its native adult Breeder was ready. The fixture now explicitly establishes its
+adult/profession/NoAI preconditions and waits for board visibility, retaining
+exact GENES/READY/native payment/cargo assertions. Dressing AI now waits for its
+actual completed one-item care parcel and saved cooldown instead of a tick-240
+snapshot. The finder boundary fixture retains the resident in its original
+loaded section and moves the observer, preserving its loaded-only query and
+exact 24-block/outside/cooldown/effect assertions. New kit checks inspect every
+frozen entry in both flask sizes, replacing the obsolete one-to-two requirement.
+
+Java 25 **`build checkBunnidogModel runGameTestServer` passes, including all 294
+required native scenarios**, localization/model gates and maintained pure checks.
+The three audit reports were regenerated from that passing run. GitHub main CI
+remains the direct-JAR publication gate. Human balance acceptance remains pending.
+
+Enemy/companion attributes, recipes, acquisition and rewards were reviewed and
+retained. Natural setup/refill, daytime/night travel, first/repeat moon mining,
+Crown wings/finale, solo/co-op, absorption spam, VI recovery and actual weapon
+ammo use all remain **pending human test**. No new global multiplier is implied.
+
+## Previous — local civic defeat and physical basket rescue
 
 Registered adult residents with a real local claimed Nest now survive native
 combat defeat through the existing downed/injury state. Trained carers fetch

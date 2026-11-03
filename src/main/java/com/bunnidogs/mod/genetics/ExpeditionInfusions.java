@@ -29,7 +29,7 @@ public final class ExpeditionInfusions {
     }
 
     private static Genome recovery() {
-        return fixed(fixed(Genome.DEFAULT, Gene.EARS, "long"), Gene.LEGS, "short");
+        return fixed(fixed(Genome.DEFAULT, Gene.EARS, "bat"), Gene.LEGS, "short");
     }
 
     private static Line develop(Genome genome, int rich, int plain) {
@@ -45,8 +45,8 @@ public final class ExpeditionInfusions {
 
     public static final Line LATE_STRENGTH = develop(strength(), 1, 2);
     public static final Line ENDGAME_STRENGTH = develop(strength(), 9, 1);
-    public static final Line LATE_RECOVERY = develop(recovery(), 9, 0);
-    public static final Line ENDGAME_RECOVERY = develop(recovery(), 39, 2);
+    public static final Line LATE_RECOVERY = develop(recovery(), 2, 1);
+    public static final Line ENDGAME_RECOVERY = develop(recovery(), 13, 0);
 
     public static Infusion bottle(boolean endgame, boolean strength) {
         return (strength ? endgame ? ENDGAME_STRENGTH : LATE_STRENGTH

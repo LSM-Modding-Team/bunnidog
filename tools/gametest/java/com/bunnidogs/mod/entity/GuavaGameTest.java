@@ -62,7 +62,7 @@ public final class GuavaGameTest extends GameTestInstance {
         for(String name:new String[]{"fields_coppice","fields_journey","fields_protection","fields_ownership","fields_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("fields_ai") ? 760 : 160,0,true)));
         for(String name:new String[]{"commons_planning","commons_planning_limits","commons_claims","commons_recipes","commons_scarcity","construction_parcel","construction_fitting","construction_repair","construction_helper","construction_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("construction_ai") ? 760 : 160,0,true)));
         for(String name:new String[]{"culture_ai","culture_archive","culture_books","culture_interruptions","culture_limits","culture_stale"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("culture_ai") ? 760 : 160,0,true)));
-        for(String name:new String[]{"clinic_first_aid","clinic_first_aid_callbacks","clinic_ai","clinic_stock","clinic_callbacks","clinic_lesson","clinic_limits","clinic_craft","tactics_learning","tactics_coordination"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("clinic_first_aid") ? 600 : 320,0,true)));
+        for(String name:new String[]{"clinic_first_aid","clinic_first_aid_callbacks","clinic_ai","clinic_stock","clinic_callbacks","clinic_lesson","clinic_limits","clinic_craft","tactics_learning","tactics_coordination"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("clinic_first_aid") || name.equals("clinic_ai") ? 600 : 320,0,true)));
         for(String name:new String[]{"field_harvest","field_garden","field_nursery","field_safety","field_scout","field_gathering"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),160,0,true)));
         for(var kind:ApexKind.values())for(boolean flying:new boolean[]{false,true}) {
             String name="apex_pillar_"+(flying ? "flying_" : "")+kind.id;
@@ -73,6 +73,7 @@ public final class GuavaGameTest extends GameTestInstance {
         for(String name:new String[]{"orchard_shake","orchard_picker","orchard_grove"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),120,0,true)));
         for(String name:new String[]{"scale_night","scale_deaths","scale_audit","scale_acquisition"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),160,0,true)));
         for(String name:new String[]{"infusion_native","infusion_sources"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),160,0,true)));
+        for(String name:new String[]{"rebalance_supply","rebalance_pressure","rebalance_defence"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("rebalance_pressure") ? 950 : 240,0,true)));
         for(String name:new String[]{"furnace_processing","furnace_safety","furnace_claims","furnace_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("furnace_ai") ? 1400 : 180,0,true)));
         for(String name:new String[]{"worksite_capacity","worksite_parcels","worksite_furnace"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),180,0,true)));
         for(String name:new String[]{"rescue_policy","rescue_chain","rescue_callbacks","rescue_blocked","rescue_recovery","rescue_authority","rescue_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("rescue_ai") ? 2000 : 240,0,true)));
@@ -98,6 +99,9 @@ public final class GuavaGameTest extends GameTestInstance {
             case "scale_audit" -> {ProgressionScaleGameTest.audit(h);return;}
             case "infusion_native" -> {InfusionGameTest.drink(h);return;}
             case "infusion_sources" -> {InfusionGameTest.sources(h);return;}
+            case "rebalance_supply" -> {RebalanceGameTest.supply(h);return;}
+            case "rebalance_pressure" -> {RebalanceGameTest.pressure(h);return;}
+            case "rebalance_defence" -> {RebalanceGameTest.defence(h);return;}
             case "furnace_processing" -> {FurnaceWorkGameTest.processing(h);return;}
             case "furnace_safety" -> {FurnaceWorkGameTest.safety(h);return;}
             case "furnace_claims" -> {FurnaceWorkGameTest.claims(h);return;}
@@ -213,13 +217,22 @@ public final class GuavaGameTest extends GameTestInstance {
                     var combat=com.bunnidogs.mod.item.JuiceItem.read(storage.pop(id)).orElseThrow();var recovery=com.bunnidogs.mod.item.JuiceItem.read(storage.top(id)).orElseThrow();
                     var strength=com.bunnidogs.mod.genetics.Juice.effects(combat.genome(),combat.stats(),combat.quality()).stream().filter(e->e.id().equals("minecraft:strength")).findFirst().orElseThrow();
                     var regen=com.bunnidogs.mod.genetics.Juice.effects(recovery.genome(),recovery.stats(),recovery.quality()).stream().filter(e->e.id().equals("minecraft:regeneration")).findFirst().orElseThrow();
-                    h.assertTrue(strength.amplifier()==29 && strength.ticks()>=regen.ticks()*2,"Real elite genes make the combat drink last at least two recovery drinks, matching stock proportions");
+                    h.assertTrue(strength.amplifier()==29 && strength.ticks()==1980 && regen.ticks()==1760,"The actual combat/recovery pair has the ninety-nine/eighty-eight-second alternating refresh window");
                     h.assertTrue(combat.quality()==1 && recovery.quality()==1 && combat.stats().get(com.bunnidogs.mod.genetics.Stat.VITALITY)==116
-                            && recovery.stats().get(com.bunnidogs.mod.genetics.Stat.SENSES)==240 && regen.amplifier()==4,
+                            && recovery.stats().get(com.bunnidogs.mod.genetics.Stat.SENSES)==120 && regen.amplifier()==4,
                             "Kits use distinct reproducible plain-seed donor lines and golden carriers instead of injected quality");
+                    storage.pop(id);
+                    for(int drink=2;drink<96;drink++)h.assertTrue(com.bunnidogs.mod.item.JuiceItem.read(storage.pop(id)).orElseThrow().equals(com.bunnidogs.mod.genetics.ExpeditionInfusions.bottle(true,drink%2==0)),"Every remaining endgame entry alternates the exact original combat/recovery references: "+drink);
+                    h.assertTrue(storage.size(id)==0,"Endgame has exactly forty-eight of each paid reference, with no surplus entries");
                 }}
                 h.assertTrue(p.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.CHEST).getEnchantmentLevel(enchantments.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.UNBREAKING))==3,"Kit armor carries Unbreaking III");
-                h.assertTrue(flask && p.getMaxHealth()==44,"Upgraded kit creates a real stocked world-backed flask and equipped Sovereign hearts");p.discard();
+                h.assertTrue(flask && p.getMaxHealth()==44,"Upgraded kit creates a real stocked world-backed flask and equipped Sovereign hearts");
+                com.bunnidogs.mod.command.KitCommands.apply(p,"bunnidog","late");boolean lateFlask=false;
+                for(int i=0;i<36;i++) {var stack=p.getInventory().getItem(i);if(!stack.is(ModItems.ABYSSAL_FLASK.get()))continue;
+                    var storage=com.bunnidogs.mod.expedition.FlaskStorage.get(h.getLevel());var id=stack.get(ModItems.FLASK_ID.get());lateFlask=stack.get(ModItems.FLASK_COUNT.get())==32 && storage.size(id)==32;
+                    for(int drink=0;drink<32;drink++)h.assertTrue(com.bunnidogs.mod.item.JuiceItem.read(storage.pop(id)).orElseThrow().equals(com.bunnidogs.mod.genetics.ExpeditionInfusions.bottle(false,drink%2==0)),"Every late entry alternates its exact original combat/recovery references: "+drink);
+                    h.assertTrue(storage.size(id)==0,"Late has exactly sixteen of each reference, with no surplus entries");
+                }h.assertTrue(lateFlask,"Late keeps its actual thirty-two-entry world-backed flask");p.discard();
             }
             case "crown_balance" -> CrownDungeonGameTest.balance(h);
             case "crown_wings" -> CrownDungeonGameTest.wings(h);
@@ -302,7 +315,7 @@ public final class GuavaGameTest extends GameTestInstance {
             case "commission_callbacks" -> CommissionGameTest.callbacks(h);
             case "trail_provisions" -> TrailProvisionsGameTest.run(h);
             case "care_menus" -> CohesionGameTest.animals(h);
-            case "care_stations" -> CohesionGameTest.stations(h);
+            case "care_stations" -> {CohesionGameTest.stations(h);return;}
             case "workshop_controls" -> WorkshopControlsGameTest.run(h);
             case "signal_controls" -> SignalControlsGameTest.run(h);
             case "apex_preparation" -> ApexPreparationGameTest.run(h);

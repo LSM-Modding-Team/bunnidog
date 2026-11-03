@@ -2,9 +2,13 @@
 
 **Current action plan:** [Stats rebalancing](STATS_REBALANCING_PLAN.md)
 incorporates the corrected acquisition findings and full-drop lunar mining.
-It prioritizes an attainable renewable infusion/Strength-XXX route, honest kits,
-separate recovery curves and whole-expedition comparisons. Its candidate values
-are planning only; this audit's existing formulas remain the shipped baseline.
+Its implemented candidate now supplies rolled-stat potency, reproducible
+Strength-XXX donors, revised recovery potency/duration, alternating kit stock and
+a targeted Sovereign correction. [INFUSION_SPECS.md](INFUSION_SPECS.md) records
+current formulas and saves; [native rebalance observations](audits/rebalance-observations.md)
+record conditional supply and controlled pressure. **Human balance testing is
+pending.** Earlier quality-only examples below describe the historical audit
+baseline, not the current formula; the acquisition/bill/encounter findings remain.
 
 **Acquisition correction:** the first version over-weighted crafting bills and
 omitted important raw-material routes. Read [Raw-material acquisition](RAW_MATERIAL_ACQUISITION.md)
@@ -107,12 +111,15 @@ VI (20 HP/s)**, up to a long duration. The endgame kit's quality 116 recovery
 bottles had the same every-tick healing despite their much larger numeral.
 That hid a major power breakpoint in an otherwise linear quality rule.
 
-Implemented correction: Regeneration uses amplifier
+Historical first correction: Regeneration used amplifier
 `floor(log2(1 + quality/4))`. Its level thresholds are quality **0, 4, 12, 28,
-60, 124, 252...**. Strength and the other existing curves are unchanged;
-Regeneration receives no additional level cap. At quality 20 it is now III;
-at quality 116 it is V. Duration/stat rules, saved infusion payloads, native
-healing hooks and Resistance's separate limit remain. The native appendix tests
+60, 124, 252...** at zero Senses. That correction left other effect curves
+unchanged and added no Regeneration level cap. Its quality-only level was III
+at Q20 and V at Q116. Duration/stat rules, saved infusion payloads, native
+healing hooks and Resistance's separate limit remained. Current potency uses
+`Q + max(Senses, 0)/2` in that logarithmic rule and loyal duration is now 40–240
+seconds, with the existing duration factor. Strength separately uses `Q + V`;
+the kit's real Q1/116-stat Strength drink is XXX. The native appendix tests
 actual healing ticks rather than merely asserting that the formula returned a
 number. Existing bottles derive the corrected effects from their saved payload.
 
@@ -237,9 +244,10 @@ an upper encounter inventory, not a promise all patrols/escorts are present or
 that every death is player-attributed. The role materials are an earned second
 income alongside the containers, not interchangeable with their XP bottles.
 
-## 7. The remaining progression contradictions
+## 7. Identified contradictions and the candidate's response
 
-These are identified design debts, not fixes falsely declared complete:
+These findings motivated the current candidate. Implemented mechanics and
+remaining human evidence are distinguished below:
 
 1. **Guava investment must be valued by stage/source.** A single Netherite Guava recursively
    costs eight Netherite Ingots, eight Diamonds, eight Gold Ingots and a fruit.
@@ -254,20 +262,23 @@ These are identified design debts, not fixes falsely declared complete:
    20–33 seeds and Crown archives provide 36–47. Those missed sources change
    the practical choice. Starborn breeding is another route, with its
    own real generations, costs and time. These routes must be priced separately.
-3. **Kit quality is not proof of obtainable progression.** Kits create quality
+3. **Kit quality was not proof of obtainable progression.** The old kits created quality
    116 bottles with Bloom 60 and ordinary fertility, without the parents/costs
    explaining that quality. Even with egg-tier parents, Starborn's
    `0.3*sqrt(Bloom)` bonus would require Bloom **102,400** for quality 116.
    At Bloom 60 it contributes only about 2.32, and ordinary fertility contributes
    zero. Strength XXX is the user's desired endgame baseline, not a cap; the
-   Survival potency/acquisition curve must reach that honestly instead of making
-   a kit counterfeit its affordability. This batch preserves that requested kit
-   baseline and exposes the contradiction rather than silently weakening it.
-4. **Breeding statistics mostly lengthen drinks, not their potency.** Duration
-   doubles at 50 relevant bred points and then caps. Amplifiers use quality.
-   Captured seeds preserve their actor's genes/stats but have quality zero;
-   their innate strength is not automatically a Strength XXX drink. The intended
-   advanced-breeding payoff and capture economics need a deliberate shared rule.
+   Survival potency/acquisition curve must reach that honestly. The candidate
+   replaces those records with real Q0 production seeds, Q1 carriers and
+   separately developed Strength/recovery families. Endgame rolls V116/S120,
+   retaining XXX/V without invented Bloom. Conditional hatchling reproduction
+   is checked; finding/raising/maintaining those families still needs human evidence.
+4. **Bred stats now contribute to effect-specific potency.** The original
+   duration-only rule made investment past fifty points largely ineffective for
+   drinks. Current Strength uses Q+V, recovery Q+S/2 and separate defense/movement
+   coefficients in `INFUSION_SPECS.md`. Captures retain exact genes/stats and Q0;
+   an absent expressed effect is never granted. Recovery's logarithmic curve,
+   40–240-second duration and III/V specialist references remain candidate tuning.
 5. **Projects need throughput comparisons.** A Pack Armoury alone expands to
    117 Moonstone, 72 raw Cinderite, 14 Guava Logs and two Marrow. Its bench job
    costs are additional. A full site supplies roughly 4–7 such lunar stone bills,
@@ -287,9 +298,10 @@ These are identified design debts, not fixes falsely declared complete:
    actual minutes, deaths, supply loss and haul over those journeys before
    making another global enemy/loot multiplier claim.
 
-The ordered next work is now specified in STATS_REBALANCING_PLAN.md, using
-RAW_MATERIAL_ACQUISITION.md as its source basis. Prototype the repeatable
-bred-seed/guava/infusion route and honest endgame kits first, then compare actual
+The implemented candidate and ordered human trials are now specified in
+STATS_REBALANCING_PLAN.md, using RAW_MATERIAL_ACQUISITION.md as their source
+basis. Native checks record the repeatable donor references, recovery, refill
+arithmetic and targeted lance correction. Human trials must still compare actual
 recovery, whole-expedition consumption, finite rewards and shared projects.
 Recipe totals alone cannot price that route. Keep mining and six-hunt gates,
 the user's combat roles and permanent save/stock ownership intact. Do not call
@@ -297,11 +309,12 @@ the accepted intelligence roadmap complete from this equipment audit.
 
 ## Validation and limits
 
-Java 25 build/model/localization gates and all **270 native server scenarios**
-pass. New real-dimension cases exercise night attributes, native spawn-list
+At the original audit checkpoint, Java 25 build/model/localization gates and all
+**270 native server scenarios** passed. Those real-dimension cases exercise night attributes, native spawn-list
 weights, natural non-Astralite armour, normal wild ownership/despawn rules,
 actual dungeon kills/drops, multi-tick corpse lifetime and native effect healing.
 This is server evidence and a code/data audit. It is not a client death-animation
 capture, a natural multi-hour Survival playthrough, or a measured hours-to-endgame
 claim. Existing loot, active encounters, genomes and saved items are preserved;
-this batch does not rewrite old terrain, refill containers or grant resources.
+the rebalance candidate does not rewrite old terrain, refill containers or grant
+resources. Current release validation is recorded in `../START_HERE.md`.

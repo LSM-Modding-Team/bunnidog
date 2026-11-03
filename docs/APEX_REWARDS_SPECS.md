@@ -23,7 +23,7 @@ span inventory stacks and respect Creative mode; interrupted charges pay nothing
 | Tool | Power 1 → 5 | Cost and wear |
 | --- | --- | --- |
 | Blastmaw Launcher | Native explosion strength 3, 6, 9, 12, 15 | 1–5 Volatile Charges and wear |
-| Sovereign Lance | 45, 90, 135, 180, 225 raw piercing damage | 1–5 Prism Cells and wear; 24-tick charge/recovery, 48-block reach |
+| Sovereign Lance | 56, 112, 168, 224, 280 raw piercing damage | 1–5 Prism Cells and wear; 24-tick charge/recovery, 48-block reach |
 | Concord Standard | 5, 10, 15, 20, 25 hearts; Resistance I–V for four seconds | 1–5 Heart Spools and wear; existing 30-tick charge/five-second recovery |
 
 The old fixed 112-damage Sovereign configuration is retired. The ordinary Prism
@@ -32,8 +32,15 @@ five; ordinary gene juices retain their Resistance limit. Other scaling juice
 levels no longer have mod balance caps (Minecraft's native amplifier range still
 applies). Non-scaling utility effects retain their normal behavior.
 
-The operator Bunnidog endgame kit uses quality **116** elite infusions for a
-Strength XXX baseline, with two shorter regeneration drinks per combat drink.
+The operator Bunnidog endgame kit uses real plain-seed specialist donor records
+and golden carriers (quality **1**), retaining Strength XXX with separate
+Regeneration V. New flasks alternate 48 combat/48 recovery drinks; old saved
+flasks retain their exact inputs/order. See [INFUSION_SPECS.md](INFUSION_SPECS.md).
+The rebalance candidate raises Sovereign damage from 45×mode to 56×mode: its
+mode-I charge/recovery cycle yields 23.33 raw DPS versus Prism's 20.65, while
+Prism retains 64 damage/cell versus Sovereign's 56. Native all-mode payments
+are checked; useful multi-target damage, refill pressure and fights remain
+**pending human test** in [the plan](STATS_REBALANCING_PLAN.md).
 The kit equips actual Mending and Unbreaking where supported. Missing armor
 entries in the durability-enchantment tags were fixed; durable tools also expose
 normal enchantability. Book/anvil and XP repair use ordinary Minecraft behavior.
@@ -41,7 +48,7 @@ Gene Siphon insertion accepts **Bunnidog Seeds only** through both native bundle
 click paths; extraction remains available for legacy contents. Capture still
 creates the same exact one-pup seed.
 
-Protocol **31** requires updated client/server content. Native cases exercise all
+Protocol **50** requires updated client/server content. Native cases exercise all
 five actual weapon/support modes, proportional split-stack costs, configuration
 without firing, the real power-20 projectile, seed filtering and kit Mending.
 

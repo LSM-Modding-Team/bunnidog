@@ -7,13 +7,13 @@ and `python3 tools/infusion_audit.py build/game-test/logs/latest.log`.
 
 | Source | Sample / roll seed | Infusion Q | Rolled V / W / L / S / B | Strength | Regeneration | Plain descendant Q |
 | --- | ---: | ---: | --- | ---: | ---: | ---: |
-| ordinary_ruin | 1379 | 27 | 58 / 53 / 83 / 80 / 77 | — | 4 | 2.632 |
+| ordinary_ruin | 1379 | 27 | 56 / 55 / 67 / 73 / 54 | — | 5 | 0 |
 | crown_archive | 1379 | 46 | 103 / 104 / 114 / 109 / 113 | — | — | 0 |
-| ordinary_ruin | 49157 | 31 | 65 / 60 / 86 / 82 / 49 | — | 4 | 0 |
+| ordinary_ruin | 49157 | 20 | 59 / 65 / 76 / 59 / 51 | — | 4 | 2.142 |
 | crown_archive | 49157 | 37 | 79 / 88 / 100 / 115 / 106 | — | 5 | 3.089 |
-| ordinary_ruin | 926481503 | 25 | 55 / 53 / 75 / 78 / 81 | — | 4 | 2.7 |
+| ordinary_ruin | 926481503 | 24 | 60 / 76 / 65 / 78 / 67 | — | 5 | 0 |
 | crown_archive | 926481503 | 46 | 91 / 95 / 106 / 95 / 100 | — | — | 3 |
-| ordinary_ruin | 57120 | 20 | 68 / 65 / 70 / 72 / 48 | — | — | 0 |
+| ordinary_ruin | 57120 | 33 | 67 / 72 / 58 / 79 / 43 | — | 5 | 0 |
 | crown_archive | 57120 | 40 | 80 / 95 / 116 / 112 / 100 | — | — | 0 |
 
 A dash means the rolled genome does not express that effect. High parent stats or quality

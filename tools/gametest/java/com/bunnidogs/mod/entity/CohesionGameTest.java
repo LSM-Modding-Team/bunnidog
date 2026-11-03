@@ -287,8 +287,12 @@ public final class CohesionGameTest {
         var candidate=h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),6.5F,y+1,7.5F);
         var genes=fixed(Genome.DEFAULT,Gene.EARS,"bat").with(Gene.COAT,0,Gene.COAT.alleleNamed("pale").id());
         candidate.setGenome(genes); candidate.setStats(Stats.of(0,0,0,10,0)); candidate.setAge(0); candidate.setParents(Genome.DEFAULT,Genome.DEFAULT); candidate.setHealth(candidate.getMaxHealth()); candidate.setOnGround(true);
-        var breeder=h.spawnWithNoFreeWill(EntityTypes.VILLAGER,4.5F,y+1,8.5F); breeder.setVillagerData(breeder.getVillagerData().withProfession(ModVillagers.BREEDER));
-        player.getInventory().setItem(20,new ItemStack(Items.PAPER,3)); var commissions=CareMenuGameTest.open(h,player,boardPos);
+        var breeder=h.spawnWithNoFreeWill(EntityTypes.VILLAGER,4.5F,y+1,8.5F); breeder.setBaby(false);breeder.setNoAi(true);breeder.setVillagerData(breeder.getVillagerData().withProfession(ModVillagers.BREEDER));
+        player.getInventory().setItem(20,new ItemStack(Items.PAPER,3));var initialCommissions=CareMenuGameTest.open(h,player,boardPos);
+        h.startSequence().thenWaitUntil(()->{
+            h.assertTrue(board.read().status()!=Commissions.Status.BREEDER,"The native adult Breeder must be visible to the board before its qualification checks: alive="+breeder.isAlive()+", baby="+breeder.isBaby()+", profession="+breeder.getVillagerData().profession()+", at="+breeder.position());
+        }).thenExecute(()->{
+        var commissions=initialCommissions;
         var partial=board.read();
         h.assertTrue(partial.status()==Commissions.Status.GENES,
                 "A partially inherited commission reports missing genes: "+partial.status()+", request="+board.request()+", condition="+com.bunnidogs.mod.entity.CommissionCandidate.condition(candidate)+", position="+candidate.position());
@@ -309,6 +313,7 @@ public final class CohesionGameTest {
                 && candidate.carriedBundleCount()==1,"Submitting from the panel pays one actual paper, grants native progress, and retains the animal and cargo");
         h.assertTrue(!commissions.clickMenuButton(player,commissions.buttonId(CarePanels.SUBMIT)) && count(player,Items.PAPER)==2,"Completed requests cannot pay twice through the menu");
         candidate.discard(); breeder.discard();
+        }).thenSucceed();
     }
     public static void journey(GameTestHelper h) {
         int y=361; floor(h,y); var level=h.getLevel(); var player=player(h);

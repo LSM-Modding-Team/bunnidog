@@ -1,5 +1,26 @@
 # Codex working instructions
 
+Latest user request is finite: finish the current release work, implement and
+expand the rebalancing plan, leave human balance acceptance pending, push and
+end. This overrides the earlier endless continuation loop for this task.
+The candidate is recorded in `docs/STATS_REBALANCING_PLAN.md` and
+`docs/INFUSION_SPECS.md`: Regeneration potency Q+S/2, loyal duration 40–240s,
+actual bat-ear/short-leg Q0 donor lines rolling late S24/III and endgame S120/V,
+new kits alternating Strength/recovery 16/16 and 48/48, totals 32/96 unchanged.
+Strength XXX, exact saves, all apples/ammo/gear/two endgame boxes and current
+enemy/companion/recipe/reward values remain. Old flasks keep their frozen order;
+do not rewrite old S240 or administrative bottles. Sovereign Lance is now
+56×mode; Prism remains 64/cell, with both original charge/recovery/range values.
+Network **50** requires matching client/server. Use the generated native
+`docs/audits/rebalance-observations.*` for evidence and the plan's explicit
+human queue for acquisition, refill, field/night/moon/wing/finale and defence
+stress tests. Controlled pinned/scheduled native pressure is not human play.
+Native absorption refresh remains: a paid combat bottle refills its 32-HP
+buffer; Regeneration heals HP only. Preserve distinct short Standard protection.
+Full native release CI is the gate; current validation is in `START_HERE.md`.
+Older batch summaries below retain their historical protocol/evidence; this
+latest candidate supersedes their earlier formula and stock-order statements.
+
 Local civic defeat and physical basket rescue now ship; read
 `docs/CIVIC_RESCUE_SPECS.md`. Preserve actual registered/Nest/owner bounds,
 native downed/injury state, terrain and unbonded player-harm boundaries, learned
@@ -55,7 +76,7 @@ pretend operator samples establish Survival timing. Network 49 needs matching
 client/server. The remaining balance comparisons stay provisional; continue
 useful accepted roadmap work without arbitrary global enemy/reward changes.
 
-The previous request updated planning only. `docs/STATS_REBALANCING_PLAN.md` is the
+Historical planning request (superseded by the implementation above): `docs/STATS_REBALANCING_PLAN.md` was the
 current source-aware rebalance action plan; its effect-specific stat/potency
 formulas are preferred prototypes, not shipped or play-validated values.
 Prioritize an honest renewable Strength-XXX donor/infusion route and corresponding
@@ -319,7 +340,7 @@ loaded terrain/markers/missing seals; retain original site identities, stock and
 existing encounter state. Durable gear must support native Mending. Gene Siphon
 insertion is seed-only. Sneak-use selects persistent power 1–5 on Launcher,
 Sovereign Lance and Standard; costs/wear scale, with native explosion power 3×N,
-Lance damage 45×N, Standard healing five hearts×N and four-second Resistance N.
+Lance damage now 56×N, Standard healing five hearts×N and four-second Resistance N.
 Other scaling juice levels have no mod balance cap except Resistance, within
 native engine representation. Endgame kit Strength XXX is a baseline, not a cap.
 

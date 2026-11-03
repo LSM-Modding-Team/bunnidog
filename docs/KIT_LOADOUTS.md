@@ -49,10 +49,14 @@ potions do not crowd out that stock.
 
 The flask now uses [reproducible specialist donor lines](INFUSION_SPECS.md),
 plain production seeds and golden carriers instead of injected quality 116/24.
-Endgame retains Strength XXX; recovery is a separate Senses-240 Regeneration V
-drink. Late uses Strength VII/Regeneration III. The 32/96 totals and one-to-two
-stock order remain. These conditional breeding references do not measure natural
-founder selection, parent maturation or refill time.
+Endgame retains Strength XXX; recovery is a separate Senses-120 Regeneration V
+drink lasting 88 seconds. Late uses Strength VII/Regeneration III (Senses 24).
+New flasks alternate Strength/recovery, starting with Strength: **16/16 late**
+and **48/48 endgame**, preserving the 32/96 totals. This avoids a wasted second
+recovery drink after its duration increase. Existing frozen flasks keep their
+order. These conditional breeding references do not measure natural founder
+selection, parent maturation or refill time. The whole rebalance candidate is
+**pending human test**, including actual full-loadout Survival fights.
 
 Endgame has **two real Shulkers**: a blue **Equipment** box (backup weapons,
 shield, specialised tools, potions and mod ammo) and a red **Supplies** box

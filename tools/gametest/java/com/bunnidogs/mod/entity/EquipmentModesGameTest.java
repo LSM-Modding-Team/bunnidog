@@ -18,7 +18,7 @@ final class EquipmentModesGameTest {
             p.setItemInHand(InteractionHand.OFF_HAND,new ItemStack(ModItems.PRISM_CELL.get(),1));if(power>1)p.getInventory().setItem(9,new ItemStack(ModItems.PRISM_CELL.get(),power-1));
             for(int i=0;i<30;i++)p.getCooldowns().tick();target.invulnerableTime=0;float hp=target.getHealth();
             ModItems.SOVEREIGN_LANCE.get().use(level,p,InteractionHand.MAIN_HAND);ModItems.SOVEREIGN_LANCE.get().finishUsingItem(weapon,level,p);p.stopUsingItem();
-            h.assertTrue(Math.abs(hp-target.getHealth()-45*power)<.01 && weapon.getDamageValue()==power && !PowerModes.available(p,ModItems.PRISM_CELL.get(),1),"Each actual Sovereign shot pays split-stack ammo/wear and deals its selected linear damage: "+power);
+            h.assertTrue(Math.abs(hp-target.getHealth()-56*power)<.01 && weapon.getDamageValue()==power && !PowerModes.available(p,ModItems.PRISM_CELL.get(),1),"Each actual Sovereign shot pays split-stack ammo/wear and deals its selected linear damage: "+power);
         }
         target.discard();p.getInventory().clearContent();var launcher=new ItemStack(ModItems.FIREBALL_LAUNCHER.get());launcher.set(ModItems.TOOL_POWER.get(),5);p.setItemInHand(InteractionHand.MAIN_HAND,launcher);p.setItemInHand(InteractionHand.OFF_HAND,new ItemStack(ModItems.VOLATILE_CHARGE.get(),2));p.getInventory().setItem(9,new ItemStack(ModItems.VOLATILE_CHARGE.get(),3));
         ModItems.FIREBALL_LAUNCHER.get().use(level,p,InteractionHand.MAIN_HAND);

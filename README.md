@@ -2,7 +2,7 @@
 
 A NeoForge mod for Minecraft 26.2: baby-faced creatures, living warrens and
 inherited traits that shape companions, gardens and breeding lines. Client and
-server both need the current mod (network **49**).
+server both need the current mod (network **50**).
 
 Interact with a bunnidog to choose **Care, Orders or Work** beside the visible
 animal. Calm animals stay and face you while you interact. Ordinary held items
@@ -28,6 +28,11 @@ Registered adult citizens with a Nest can survive combat defeat. Trained Family
 care residents can fetch a real Travel Basket, carry a quiet housemate home and
 provide separate paid guava first aid. Stock the basket or its normal recipe
 materials; unsafe or interrupted rescues keep the animal recoverable.
+
+The current rebalance candidate retains earned Strength XXX, improves specialist
+recovery and alternates combat/recovery drinks in new kits. Sovereign Lance gains
+a stronger repeated-shot role. The implementation has native checks; **Survival
+balance remains pending human test** in [the plan](docs/STATS_REBALANCING_PLAN.md).
 
 1. Find guavas and a bunnidog. Care heals with a plain guava; healthy adults need
    no meals. Each adult can claim its own Nest, made from wheat and any planks.
