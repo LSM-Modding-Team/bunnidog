@@ -52,6 +52,19 @@ public final class HearthTreeBlockEntity extends RandomizableContainerBlockEntit
         if(!(b instanceof FeedingTroughBlockEntity || b instanceof NurseryCradleBlockEntity) && !furnace && !level.getBlockState(pos).is(Blocks.COMPOSTER) && !level.getBlockState(pos).is(Blocks.FARMLAND))return false;
         if(!sites.contains(pos) && sites.size()>=12 || furnace && !workshop.link(pos))return false;if(!sites.contains(pos))sites.add(pos.immutable());if(b instanceof FeedingTroughBlockEntity t && !t.getBlockState().getValue(FeedingTroughBlock.TENDING))level.setBlock(pos,t.getBlockState().setValue(FeedingTroughBlock.TENDING,true),3);setChanged();return true;
     }
+    /** Release only this household's permission, including a missing station above the clicked floor. */
+    public boolean unlink(Player player,BlockPos clicked) {
+        if(!attached() || !permitted(player) || !level.hasChunkAt(clicked) || !level.mayInteract(player,clicked))return false;
+        BlockPos pos=clicked;
+        if(!sites.contains(pos)) {
+            if(level.getBlockState(pos).getBlock() instanceof CropBlock && sites.contains(pos.below()))pos=pos.below();
+            else if(sites.contains(pos.above()) && level.hasChunkAt(pos.above()) && level.getBlockState(pos.above()).isAir())pos=pos.above();
+            else return false;
+        }
+        if(pos.distSqr(worldPosition)>24*24 || player.distanceToSqr(net.minecraft.world.phys.Vec3.atCenterOf(pos))>36
+                || !level.getWorldBorder().isWithinBounds(pos) || !level.mayInteract(player,pos))return false;
+        workshop.unlink(pos);sites.remove(pos);setChanged();return true;
+    }
     public int count(Item item) {int n=0;for(var s:items)if(s.is(item))n+=s.getCount();return n;}
     public boolean room(ItemStack add) {int free=0;for(var s:items)if(s.isEmpty())free+=add.getMaxStackSize();else if(ItemStack.isSameItemSameComponents(s,add))free+=s.getMaxStackSize()-s.getCount();return free>=add.getCount();}
     public boolean put(ItemStack add) {if(!attached() || !room(add))return false;ItemStack left;

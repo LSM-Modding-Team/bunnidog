@@ -55,6 +55,33 @@ exists.
 
 ## Native furnace workshops
 
+### Releasing a work site
+
+Crouch-use the bound Steward Staff on a linked site to withdraw that household's
+permission and reclaim one of its twelve link slots. A crop selects its linked
+soil; for a destroyed station, crouch-use the surviving floor beneath its empty
+cell. The floor shortcut cannot select an occupied replacement. Crouch-use on
+the Hearth retains the existing survey action. Brief feedback reports the result.
+Only the actual keeper with building permission, local reach and native
+interaction permission can release a site; native right-click cancellation
+runs first. No new menu or automatic removal is involved.
+
+Unlinking leaves blocks, contents, crops and shared Tending settings intact.
+It releases only the matching original furnace token/community metadata, keeping
+native input/fuel/output, cooking timers, XP and unrelated extension data. A
+later explicit link gets a fresh token, including on the same surviving furnace.
+Another household may deliberately link the released container. Old paid
+parcels cannot target that new contract.
+
+Carried furnace supplies, trough food, field seeds and nursery seeds return
+physically to their original stores when the permission disappears. Stale jobs
+revalidate before delivery; changing a Cradle to manual care also refuses an
+in-flight autonomous seed. Exact components and ordinary original-owner/death
+recovery remain. The three native `worksite_*` cases cover saved capacity,
+missing/replaced cells, protected Staff dispatch and real in-flight parcels.
+
+### Operating the original native container
+
 The existing Staff can explicitly link a nearby Furnace, Blast Furnace or Smoker
 as one of the original twelve work sites. It donates that actual native
 container, not every replacement later placed at the same coordinates. A saved

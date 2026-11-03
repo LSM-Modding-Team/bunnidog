@@ -39,6 +39,16 @@ public final class CivicWorkshop {
         links.put(at.immutable(), token); home.setChanged(); return true;
     }
 
+    /** Release the original container without touching its native contents, cooking or XP. */
+    void unlink(BlockPos at) {
+        var furnace = resolve(at, token(at));
+        if (furnace != null) {
+            var data = furnace.getPersistentData();
+            data.remove(TOKEN); data.remove(SITE); furnace.setChanged();
+        }
+        links.remove(at);
+    }
+
     /** Identity only: a powered/locked but surviving furnace still owns its in-flight parcels. */
     public AbstractFurnaceBlockEntity resolve(BlockPos at, String token) {
         if (!home.attached() || at == null || token == null || !token.equals(links.get(at))

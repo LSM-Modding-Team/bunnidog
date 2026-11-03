@@ -1,5 +1,14 @@
 # Codex working instructions
 
+Work-site permissions can now be deliberately withdrawn by crouch-using the
+bound Staff; read `docs/HOUSEHOLD_COMMONS_SPECS.md`. Preserve the twelve-site
+bound, missing-station floor/crop selection, original furnace token release,
+native inventories/timers/XP and unrelated metadata. Stale field/trough/nursery/
+furnace parcels return to their original home; manual Cradle care also blocks
+in-flight nursery seeds. Native interaction/ownership/reach protections and the
+existing Hearth survey remain. Build/localization and three focused native
+worksite cases pass; full CI remains the gate. Continue the accepted roadmap.
+
 Fresh wild glades now ship paid stone/furnace/charcoal/light work; read
 `docs/WILD_FAMILY_SPECS.md`. Preserve the twelve original stone permissions,
 real carried/worn shared pickaxe, native marked drops/hauling/recipes/cooking,
@@ -21,9 +30,9 @@ native-furnace section in `docs/HOUSEHOLD_COMMONS_SPECS.md`. Preserve actual
 input/fuel/output walking parcels, native cooking/fuel/XP, saved original furnace
 tokens/community ownership, reserves, shared work fronts and exact callback
 revalidation. Locks/redstone/unloaded neighbours pause transfers; vanilla cooking
-remains native. Primitive discovery is charcoal-only. This does not yet implement
-the wild site's first self-made stone/furnace/light infrastructure or complete
-craft/build education. Network 49 remains current; pursue the remaining roadmap.
+remains native. Primitive discovery is charcoal-only. The following wild-workshop
+batch supplies fresh sites' first stone/furnace/light infrastructure; broader
+craft/build education remains open. Network 49 remains current; pursue the roadmap.
 
 The autonomous continuation resumes implementation. The first stat/kit prototype
 now ships; read `docs/INFUSION_SPECS.md`. Preserve effect-specific potency from

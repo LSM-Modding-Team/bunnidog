@@ -20,6 +20,9 @@ Every action uses real supplies.
 Household craftspeople can operate a Furnace, Blast Furnace or Smoker explicitly
 linked with the Steward Staff. They carry real inputs and fuel to it; couriers
 bring the cooked/refined results home. Native cooking and fuel still apply.
+Crouch-use the Staff on a linked work site to release it and recover its link
+allowance. For a missing station, use its surviving floor. Supplies already on
+the way return to their original Hearth.
 
 1. Find guavas and a bunnidog. Care heals with a plain guava; healthy adults need
    no meals. Each adult can claim its own Nest, made from wheat and any planks.

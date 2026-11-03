@@ -74,6 +74,7 @@ public final class GuavaGameTest extends GameTestInstance {
         for(String name:new String[]{"scale_night","scale_deaths","scale_audit","scale_acquisition"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),160,0,true)));
         for(String name:new String[]{"infusion_native","infusion_sources"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),160,0,true)));
         for(String name:new String[]{"furnace_processing","furnace_safety","furnace_claims","furnace_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("furnace_ai") ? 1400 : 180,0,true)));
+        for(String name:new String[]{"worksite_capacity","worksite_parcels","worksite_furnace"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),180,0,true)));
         for(String name:new String[]{"review_launcher","review_shield","review_crown_beam","review_crown_pack","lunar_forge","barding","crown_boundary","lunar_masonry","route_watch_safety","route_food","route_double","route_pause","route_observation","route_transfer","route_changes","route_limits","route_ai","hearth_conservation","hearth_gestures","hearth_ai","hearth_household","hearth_family","hunt_progress","entry_materials","kit_supplies","moon_mining","astralite_smith","equipment_modes","equipment_support","kit_loadouts","crown_wings","crown_balance","crown_gate","crown_boss","crown_rematch","crown_gear","crown_attacks","crown_support","crown_worldgen","crown_citadel_proto","crown_abandon"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),240,0,true)));
         for(String name:new String[]{"exp_armor","exp_smith","exp_vacuum","exp_flask","exp_launcher","exp_totem","realm_travel","realm_harness","realm_ecology","realm_ward","realm_lance","realm_ruin","apex_followup_blast","apex_anvil_arc","apex_critical_meals","apex_multilayer_dive","apex_client_death","apex_swimming","apex_final_blast","apex_debts","apex_brood_tools"})
             event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id(name.equals("apex_final_blast") || name.equals("exp_totem") ? "apex_blast_arena" : "apex_arena"),name.equals("apex_multilayer_dive") ? 260 : name.equals("exp_totem") ? 200 : 100,0,true)));
@@ -100,6 +101,9 @@ public final class GuavaGameTest extends GameTestInstance {
             case "furnace_safety" -> {FurnaceWorkGameTest.safety(h);return;}
             case "furnace_claims" -> {FurnaceWorkGameTest.claims(h);return;}
             case "furnace_ai" -> {FurnaceWorkGameTest.ai(h);return;}
+            case "worksite_capacity" -> {WorksiteLinksGameTest.capacity(h);return;}
+            case "worksite_parcels" -> {WorksiteLinksGameTest.parcels(h);return;}
+            case "worksite_furnace" -> {WorksiteLinksGameTest.furnace(h);return;}
             case "scale_acquisition" -> {try{AcquisitionAuditGameTest.run(h);}catch(Exception e){throw new RuntimeException(e);}return;}
             case "fields_coppice" -> {CivicFieldsGameTest.coppice(h);return;}
             case "fields_journey" -> {CivicFieldsGameTest.journey(h);return;}

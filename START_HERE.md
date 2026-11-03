@@ -5,7 +5,23 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
-## Current — primitive wild workshops and a usable old-glade approach
+## Current — withdraw obsolete household work permissions
+
+Crouch-use the Staff on a linked work site to release its permission and reclaim
+a twelve-site slot. A missing station can be released from its surviving floor;
+crop selection uses the original linked soil. Native interaction/ownership and
+reach checks apply. Existing blocks, stock and station settings remain intact.
+Furnaces release only their matching original identity, so deliberate relinking
+gets a fresh contract while old cargo returns home. Stale trough/Cradle/field
+deliveries also respect removal; manual Cradle care blocks in-flight nursery
+seeds. See `docs/HOUSEHOLD_COMMONS_SPECS.md`.
+
+Java 25 build/localization and all three focused `worksite_*` native cases pass,
+including exact native furnace timers/XP and saved link capacity. Network 49
+remains current. Full native CI is the release gate. The prior wild-workshop
+batch `a279ff0` passed full build/model/native CI and published its direct JAR.
+
+## Previous — primitive wild workshops and a usable old-glade approach
 
 Fresh glades now offer twelve finite natural stone blocks and actual empty
 furnace/light work plots. Residents craft a real shared Wooden Pickaxe, carry it,
@@ -53,7 +69,7 @@ from rerouting an old paid parcel. Transient/shared claims and persistent cargo
 keep one work front. Native cancellation, reentrant callbacks, locks, redstone,
 loaded-neighbour bounds, original-owner recovery and one death parcel remain
 authoritative. See `docs/HOUSEHOLD_COMMONS_SPECS.md`. This advances professions;
-the wild family's first self-built furnace/stone/light chain is still unfinished.
+the following wild-workshop batch supplies the first furnace/stone/light chain.
 No new screen, profession selector, inherited skill or stat shortcut is added.
 
 Java 25 build/localization and all four focused `furnace_*` native cases pass,

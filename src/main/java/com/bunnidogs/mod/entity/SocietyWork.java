@@ -134,7 +134,7 @@ public final class SocietyWork {
             if(!Objects.equals(aidOwner,h.owner()))return List.of();var patient=firstAidCargo ? rescuePatient(new Patient(aidPatient,aidBed),false) : medicalPatient(new Patient(aidPatient,aidBed));
             jobs.add(nurse() && patient!=null ? new Job(Kind.CARE,patient.blockPosition().immutable(),-1,l.getBlockState(patient.blockPosition()),new Patient(patient.getUUID(),patient.homeNest())) : at(Kind.DELIVER,at));return jobs;
         }
-        if(!cargo.isEmpty())return List.of(at(Kind.DELIVER,destination!=null && l.hasChunkAt(destination) && (destination.equals(at) || h.wild().natural() && destination.equals(h.wild().nursery()) || l.getBlockEntity(destination) instanceof FeedingTroughBlockEntity || l.getBlockEntity(destination) instanceof NurseryCradleBlockEntity) ? destination : at));
+        if(!cargo.isEmpty())return List.of(at(Kind.DELIVER,destination!=null && l.hasChunkAt(destination) && (destination.equals(at) || h.wild().natural() && destination.equals(h.wild().nursery()) || h.sites().contains(destination) && (l.getBlockEntity(destination) instanceof FeedingTroughBlockEntity || l.getBlockEntity(destination) instanceof NurseryCradleBlockEntity c && !c.manualHatchOnly())) ? destination : at));
         boolean hungry=workSinceMeal>=6;
         if(hungry && mealSlot(h)>=0)return List.of(at(Kind.MEAL,at));
         boolean grow=harvestReady(),garden=gardener(),nurse=nurse();
@@ -441,7 +441,7 @@ public final class SocietyWork {
                 if(job.target().equals(h.getBlockPos()))ok=returnSupplies();
                 else if(l.getBlockEntity(job.target()) instanceof FeedingTroughBlockEntity t && h.sites().contains(job.target()) && t.getBlockState().getValue(FeedingTroughBlock.TENDING) && !t.residentsPaused()) {int inserted=t.insert(cargo);if(grownCargo && inserted>0)h.evidence("haul",inserted);cargo.shrink(inserted);ok=inserted>0;}
                 else if(h.wild().natural() && job.target().equals(h.wild().nursery()))ok=plantSoil(h,job.target());
-                else if(l.getBlockEntity(job.target()) instanceof NurseryCradleBlockEntity c && c.seed().isEmpty() && communitySeed(cargo,h) && c.insert(cargo)) {cargo.shrink(1);ok=true;}
+                else if(h.sites().contains(job.target()) && l.getBlockEntity(job.target()) instanceof NurseryCradleBlockEntity c && !c.manualHatchOnly() && c.seed().isEmpty() && communitySeed(cargo,h) && c.insert(cargo)) {cargo.shrink(1);ok=true;}
                 if(ok) {if(cargo.isEmpty()) {destination=null;grownCargo=false;buildingCargo=fieldCargo=miningCargo=false;parcelOwner=null;furnaceSlot=-1;furnaceToken=null;}learned=Learning.Routine.DELIVERY;}
             }
             case COMPOST -> {if(!gardener() || !h.sites().contains(job.target()) || !job.expected().is(Blocks.COMPOSTER) || !grief(l,job.target()))break;
