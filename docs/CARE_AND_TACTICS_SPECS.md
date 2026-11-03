@@ -3,8 +3,10 @@
 This continuation integrates two remaining I3 journeys with the focused Hearth
 household and chosen combat party. It adds actual paid treatment, personal combat
 experience and gene-dependent coordination. Shared records, finite public plans and local professions now ship in
-[HOUSEHOLD_COMMONS_SPECS.md](HOUSEHOLD_COMMONS_SPECS.md). Full citizen pickup/transport
-rescue, broader clinics and autonomous wild civilization remain future work. Ordinary Apex combat numbers are unchanged.
+[HOUSEHOLD_COMMONS_SPECS.md](HOUSEHOLD_COMMONS_SPECS.md). Local civic defeat and
+physical basket rescue now ship in [CIVIC_RESCUE_SPECS.md](CIVIC_RESCUE_SPECS.md).
+Broader clinics and autonomous wild civilization remain future work. Ordinary
+Apex combat numbers are unchanged.
 
 ## Supplies, a resting friend and an actual carer
 
@@ -60,9 +62,9 @@ preempt expansion work, within the existing work/meal budget.
 
 A Family care resident can now notice a quiet, downed housemate resting within
 three blocks of its original claimed Nest. The patient must share the actual
-Hearth and the Hearth owner's keeper bond. This deliberately covers a companion
-brought home; it does not change ordinary civilian death policy or perform a
-pickup/transport from a battlefield.
+Hearth; an existing keeper bond must agree with the Hearth owner. A player bond
+is not required for a registered citizen. A companion brought home and a citizen
+returned through the paid basket-rescue chain use this same separate treatment.
 
 The carer checks both walking legs, collects one real ordinary guava from the
 Hearth journal and carries the saved ration to the patient's actual location.
@@ -131,7 +133,8 @@ discovery, long-term economy or solo/co-op pacing.
 
 Shared routes, records and finite household planning now ship. Native first-aid
 coverage adds actual walking ration delivery and native heal veto/reentry/patient
-movement, including real farm-provenance components. The full suite has 234
-scenarios. Primitive wild bootstrap and full civic rescue remain unfinished: the
-latter still needs civilian downed policy and actual safe pickup/transport.
-Wound treatment and at-home first aid do not replace those missing stages.
+movement, including real farm-provenance components. Local civilian downed policy
+and safe paid basket pickup/transport now supplement that care in
+[CIVIC_RESCUE_SPECS.md](CIVIC_RESCUE_SPECS.md). Complete wild self-sufficiency,
+broader civic institutions and natural/client acceptance remain unfinished;
+these local journeys do not establish the full civilization roadmap.

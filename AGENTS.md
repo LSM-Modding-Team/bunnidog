@@ -1,5 +1,16 @@
 # Codex working instructions
 
+Local civic defeat and physical basket rescue now ship; read
+`docs/CIVIC_RESCUE_SPECS.md`. Preserve actual registered/Nest/owner bounds,
+native downed/injury state, terrain and unbonded player-harm boundaries, learned
+Family care/Bloom limits, real empty/occupied baskets, native recipe payments,
+all walking legs and separate paid first aid. Original patient/Nest/site/owner
+references, native callback custody, local automatic Nest-search courtesy,
+source-loss/full-inventory/death recovery and native release keep the same body.
+Do not grant primitive basket ingredients or skills. Seven focused native cases
+and build/localization pass; full regression remains the gate. Broader civic
+institutions, wild supplies and natural/client/co-op acceptance remain open.
+
 Work-site permissions can now be deliberately withdrawn by crouch-using the
 bound Staff; read `docs/HOUSEHOLD_COMMONS_SPECS.md`. Preserve the twelve-site
 bound, missing-station floor/crop selection, original furnace token release,

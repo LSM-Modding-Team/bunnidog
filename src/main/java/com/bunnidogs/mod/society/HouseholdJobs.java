@@ -19,9 +19,11 @@ public final class HouseholdJobs {
         var kind=job.kind();
         UUID personal=switch(kind) {
             case MEAL,DELIVER,CARE,STUDY_ROUTE -> dog.getUUID();
-            case MEDICINE,FETCH_AID,TEACH -> job.patient()==null ? null : job.patient().id();
+            case MEDICINE,FETCH_AID,FETCH_RESCUE,PICKUP_RESCUE,RELEASE_RESCUE,TEACH -> job.patient()==null ? null : job.patient().id();
             default -> null;
         };
+        if(kind==SocietyWork.Kind.MEDICINE || kind==SocietyWork.Kind.FETCH_AID || kind==SocietyWork.Kind.FETCH_RESCUE || kind==SocietyWork.Kind.PICKUP_RESCUE || kind==SocietyWork.Kind.RELEASE_RESCUE)
+            return new Key(SocietyWork.Kind.MEDICINE,home.getBlockPos(),-1,personal);
         if(SocietyWork.furnaceJob(kind))return new Key(SocietyWork.Kind.FETCH_FURNACE,kind==SocietyWork.Kind.FETCH_FURNACE ? job.destination() : job.target(),-1,null);
         if(kind==SocietyWork.Kind.FETCH_PICKAXE || kind==SocietyWork.Kind.MINE_STONE)return new Key(SocietyWork.Kind.MINE_STONE,kind==SocietyWork.Kind.FETCH_PICKAXE ? job.destination() : job.target(),-1,null);
         return new Key(kind,kind==SocietyWork.Kind.GATHER_FIELD ? BlockPos.ZERO : job.destination()!=null ? job.destination() : job.target(),kind==SocietyWork.Kind.CRAFT || kind==SocietyWork.Kind.TEACH ? -1 : job.index(),personal);
@@ -31,7 +33,7 @@ public final class HouseholdJobs {
         return level.getEntity(claim.actor) instanceof Bunnidog dog && dog.isAlive() && dog.society().belongs(home) && !dog.workPaused() && !dog.trail().ordered() && !dog.combat().downed();
     }
     public boolean available(Bunnidog dog,SocietyWork.Job job) {
-        if((job.kind()==SocietyWork.Kind.MEDICINE || job.kind()==SocietyWork.Kind.FETCH_AID) && job.patient()!=null && home.residents().stream().anyMatch(other->other!=dog && job.patient().id().equals(other.society().treatingPatient())))return false;
+        if((job.kind()==SocietyWork.Kind.MEDICINE || job.kind()==SocietyWork.Kind.FETCH_AID || job.kind()==SocietyWork.Kind.FETCH_RESCUE || job.kind()==SocietyWork.Kind.PICKUP_RESCUE || job.kind()==SocietyWork.Kind.RELEASE_RESCUE) && job.patient()!=null && home.residents().stream().anyMatch(other->other!=dog && job.patient().id().equals(other.society().treatingPatient())))return false;
         var failed=unreachable.get(new Rejected(dog.getUUID(),key(dog,job)));if(failed!=null && failed.until>home.getLevel().getGameTime())return false;
         if(job.kind()==SocietyWork.Kind.FETCH_SEED || job.kind()==SocietyWork.Kind.SOW_FIELD) {var target=job.destination()!=null ? job.destination() : job.target();if(home.residents().stream().anyMatch(other->other!=dog && target.equals(other.society().fieldTarget())))return false;}
         if(job.kind()==SocietyWork.Kind.FETCH_BUILD || job.kind()==SocietyWork.Kind.BUILD) {var target=job.destination()!=null ? job.destination() : job.target();if(home.residents().stream().anyMatch(other->other!=dog && target.equals(other.society().buildTarget())))return false;}

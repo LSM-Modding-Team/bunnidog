@@ -9,7 +9,7 @@ import net.minecraft.world.level.storage.*;
 
 /** A finite saved public instruction, made from actual local needs; no executable scripts or virtual resources. */
 public final class HearthAgenda {
-    public enum Need { FOOD,CARE,TOOL,HOUSING,FAMILY,ROOTS,RESERVE,WORKSHOP }
+    public enum Need { FOOD,CARE,TOOL,HOUSING,FAMILY,ROOTS,RESERVE,WORKSHOP,RESCUE }
     private final HearthTreeBlockEntity home;
     private Need need;
     private UUID author;
@@ -26,6 +26,7 @@ public final class HearthAgenda {
         long now=home.getLevel().getGameTime();if(observedAt==now)return observed;observedAt=now;affordable.clear();observed=scanNeed();return observed;
     }
     private Need scanNeed() {
+        if(CivicRescue.needsBasket(home))return Need.RESCUE;
         if(home.count(ModItems.GUAVA.get())<16)return Need.FOOD;
         if(home.residents().stream().anyMatch(d->(d.clinic().ready() || d.combat().canResidentAid()) && d.homeNest()!=null && d.homeNest().distSqr(d.blockPosition())<=9))return Need.CARE;
         if(home.count(Items.WOODEN_AXE)==0)return Need.TOOL;
@@ -39,6 +40,10 @@ public final class HearthAgenda {
         boolean axe=home.count(Items.WOODEN_AXE)==0;
         boolean nest=purpose==Need.HOUSING && home.construction().cells().stream().anyMatch(c->c.item()==ModItems.NEST.get() && home.construction().canBuild(c)) && CivicRecipes.count(home,ModItems.NEST.get())==0;
         if(purpose==Need.CARE && home.count(ModItems.HEARTH_POULTICE.get())<4)result.add(CivicRecipes.RecipeId.DRESSING);
+        if(purpose==Need.RESCUE) {
+            if(CivicRecipes.count(home,ModItems.GUAVA_PLANKS.get())<6)result.add(CivicRecipes.RecipeId.PLANKS);
+            result.add(CivicRecipes.RecipeId.BASKET);
+        }
         if((purpose==Need.FOOD || purpose==Need.TOOL) && axe) {
             if(CivicRecipes.count(home,ModItems.GUAVA_PLANKS.get())<3)result.add(CivicRecipes.RecipeId.PLANKS);
             if(CivicRecipes.count(home,Items.STICK)<2) {if(CivicRecipes.count(home,ModItems.GUAVA_PLANKS.get())<2 && !result.contains(CivicRecipes.RecipeId.PLANKS))result.add(CivicRecipes.RecipeId.PLANKS);result.add(CivicRecipes.RecipeId.STICKS);}
@@ -74,6 +79,7 @@ public final class HearthAgenda {
     }
     private int plankTarget() {
         if(need==Need.HOUSING)return 8;if(need==Need.ROOTS)return 4;
+        if(need==Need.RESCUE)return 6;
         if(need==Need.WORKSHOP)return home.wild().works().needsTorches() && CivicRecipes.count(home,Items.CHARCOAL)==0 ? 12 : 5;
         return CivicRecipes.count(home,Items.STICK)<2 ? 5 : 3;
     }
@@ -87,6 +93,7 @@ public final class HearthAgenda {
         case PICKAXE -> home.wild().works().needsPickaxe();
         case FURNACE -> home.wild().works().needsFurnace();
         case TORCH -> home.wild().works().needsTorches();
+        case BASKET -> CivicRescue.needsBasket(home);
         default -> false;
     };}
     /** Follow a still-relevant instruction after the author leaves; completion never comes from the record. */
@@ -98,7 +105,7 @@ public final class HearthAgenda {
         }
         return switch(need) {
             case FOOD -> switch(job.kind()) {case PRUNE,HAUL -> 30;default -> 0;};
-            case CARE -> switch(job.kind()) {case CARE,MEDICINE,FETCH_AID -> 35;default -> 0;};
+            case CARE,RESCUE -> switch(job.kind()) {case CARE,MEDICINE,FETCH_AID,FETCH_RESCUE,PICKUP_RESCUE,RELEASE_RESCUE -> 35;default -> 0;};
             case HOUSING -> switch(job.kind()) {case FETCH_BUILD,BUILD,HARVEST_FIELD,GATHER_FIELD,FETCH_SEED,SOW_FIELD -> 25;default -> 0;};
             case FAMILY -> switch(job.kind()) {case SEED,NURTURE,HATCH -> 25;default -> 0;};
             case ROOTS -> switch(job.kind()) {case TEND,COMPOST -> 25;default -> 0;};

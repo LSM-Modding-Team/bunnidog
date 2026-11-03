@@ -36,11 +36,26 @@ Status words: **COMPILED** = the user's compile accepted it (names and types are
   delay is insufficient for a freshly enclosed dark room. `CaveSightGameTest`
   retains actual dark/bright checks and exact native payments; the resolved
   source, compiler and focused native case verify this pattern.
+- The storm fixture likewise waits for queued light work in every modified
+  chunk column and the real covered/exposed sky results. Its initial Nest path
+  and POI ticket must also become ready; accept `MOVED` or an already-owned
+  `ALREADY_HOME`, then assert the actual claim. Asynchronous light completion can
+  occur before a newly placed Nest's native POI update. `StormShelterGameTest`
+  preserves actual weather/path/arbitration/stock assertions within a bounded
+  1,200-tick case rather than assuming two ticks initialize everything.
 - Goal-driven first aid must wait for actual completed pickup/travel/treatment,
   rather than inspecting an arbitrary tick-280 snapshot. Native navigation/search
   offsets can leave a valid carer finishing its last work period at that time.
   `ClinicGameTest.firstAid` retains the exact one-guava, emptied-cargo and
   preserved-injury assertions within a bounded 600-tick case.
+- `TravelBasketItem.capture/release` already preserve a whole native entity and
+  reject a duplicate UUID. Capture deliberately releases its old Nest ticket;
+  civic rescue therefore retains the original destination separately, excludes
+  it from automatic household Nest searches while occupied and reclaims only a
+  still-free real POI after release. Hold the actual basket outside recoverable
+  Society cargo through native removal/spawn callbacks; restore or drop that one
+  item afterward. Native spawn refusal keeps its original bucket data. Verified
+  by the seven actual `rescue_*` cases, including reentrant death notifications.
 
 ### Great Warren / AX6 (2026-10-25)
 

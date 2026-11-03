@@ -138,7 +138,7 @@ public final class CompanionCombat {
         dog.getNavigation().stop(); regrouping=true; quiet=0;
         if (selected() && dog.trail().order()==Trail.Order.WAIT && dog.trail().keeperPlayer()!=null) dog.trail().combatFollow();
     }
-    public boolean managesMovement() { return bonded() && (dog.trail().ordered() || injured); }
+    public boolean managesMovement() { return downed || bonded() && (dog.trail().ordered() || injured); }
     boolean fighting() { return target!=null && eligible() && !regrouping; }
     Mob target() { return target; }
     private boolean eligible() {
@@ -193,7 +193,7 @@ public final class CompanionCombat {
         if (selected() && keeper!=null && dog.tickCount%100==0) CombatRoster.get(level).saw(dog);
         if (selected() && dog.trail().order()==Trail.Order.WAIT && hold==null) hold=dog.blockPosition().immutable();
         if (downed) {
-            clearTarget(); dog.getNavigation().stop(); dog.setDeltaMovement(0,dog.getDeltaMovement().y,0);
+            clearTarget(); dog.setTarget(null); dog.getNavigation().stop(); dog.setDeltaMovement(0,dog.getDeltaMovement().y,0);
         } else if (injured && safeRest()) {
             if (recovery<Combat.recoveryTicks(dog.stats())) recovery++;
             if (recovery>=Combat.recoveryTicks(dog.stats()) && Sampling.healthy(dog.getHealth(),dog.getMaxHealth())) {
@@ -303,10 +303,11 @@ public final class CompanionCombat {
                 || source.is(DamageTypes.OUTSIDE_BORDER);
     }
     boolean protects(DamageSource source) {
-        return bonded() && !terrain(source) && (downed || source.getEntity() instanceof Player && !source.is(DamageTypeTags.IS_EXPLOSION));
+        return !terrain(source) && (bonded() && (downed || source.getEntity() instanceof Player && !source.is(DamageTypeTags.IS_EXPLOSION))
+                || downed && !(source.getEntity() instanceof Player) && CivicRescue.citizen(dog));
     }
     boolean defeat(DamageSource source) {
-        if (!bonded() || dog.isBaby() || terrain(source) || !(source.getEntity() instanceof LivingEntity
+        if ((!bonded() && (source.getEntity() instanceof Player || !CivicRescue.citizen(dog))) || dog.isBaby() || terrain(source) || !(source.getEntity() instanceof LivingEntity
                 || source.is(DamageTypeTags.IS_EXPLOSION) || source.is(DamageTypes.WITHER)
                 || source.is(DamageTypes.MAGIC) || source.is(DamageTypes.INDIRECT_MAGIC) || source.is(DamageTypes.DRAGON_BREATH)
                 || source.is(DamageTypes.ON_FIRE) && danger>0)) return false;

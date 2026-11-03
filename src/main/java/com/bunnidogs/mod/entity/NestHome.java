@@ -88,9 +88,10 @@ public final class NestHome {
     private void look(ServerLevel level) {
         this.timer = Home.lookDelay(this.dog.getRandom().nextInt(Home.LOOK_JITTER + 1));
         PoiManager pois = level.getPoiManager();
+        var rescueBeds = CivicRescue.reservedNests(this.dog);
         Optional<BlockPos> taken = pois.take(
                 holder -> holder.is(ModPoi.NEST.getKey()),
-                (holder, pos) -> !this.rejected.contains(pos.asLong()),
+                (holder, pos) -> !this.rejected.contains(pos.asLong()) && !rescueBeds.contains(pos),
                 this.dog.blockPosition(), Home.SEARCH_RADIUS);
         if (taken.isEmpty()) {
             return;

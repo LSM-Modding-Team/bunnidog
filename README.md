@@ -24,6 +24,11 @@ Crouch-use the Staff on a linked work site to release it and recover its link
 allowance. For a missing station, use its surviving floor. Supplies already on
 the way return to their original Hearth.
 
+Registered adult citizens with a Nest can survive combat defeat. Trained Family
+care residents can fetch a real Travel Basket, carry a quiet housemate home and
+provide separate paid guava first aid. Stock the basket or its normal recipe
+materials; unsafe or interrupted rescues keep the animal recoverable.
+
 1. Find guavas and a bunnidog. Care heals with a plain guava; healthy adults need
    no meals. Each adult can claim its own Nest, made from wheat and any planks.
 2. Offer a guava to each of two ready adults and choose Courtship. Keep them

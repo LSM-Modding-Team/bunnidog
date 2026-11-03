@@ -1,6 +1,7 @@
 package com.bunnidogs.mod.entity;
 
 import com.bunnidogs.mod.block.FeedingTroughBlockEntity;
+import com.bunnidogs.mod.block.NestBlock;
 import com.bunnidogs.mod.genetics.Genome;
 import com.bunnidogs.mod.registry.ModBlocks;
 import com.bunnidogs.mod.registry.ModEntities;
@@ -28,9 +29,19 @@ public final class StormShelterGameTest {
         trough.insert(new ItemStack(ModItems.GUAVA.get(),4));
         var dog = h.spawnWithNoFreeWill(ModEntities.BUNNIDOG.get(),5.5F,1,3.5F);
         dog.setAge(0); dog.setGenome(Genome.DEFAULT); dog.setHealth(dog.getMaxHealth());
-        h.startSequence().thenExecuteAfter(2,() -> {}).thenWaitUntil(() -> {
+        var home=h.absolutePos(new BlockPos(1,1,3));
+        var light=level.getChunkSource().getLightEngine();var pending=new java.util.ArrayList<java.util.concurrent.CompletableFuture<?>>();
+        var low=h.absolutePos(BlockPos.ZERO);var high=h.absolutePos(new BlockPos(7,8,7));
+        for(int x=low.getX()>>4;x<=high.getX()>>4;x++)for(int z=low.getZ()>>4;z<=high.getZ()>>4;z++)pending.add(light.waitForPendingTasks(x,z));
+        var settled=java.util.concurrent.CompletableFuture.allOf(pending.toArray(java.util.concurrent.CompletableFuture[]::new));
+        h.startSequence().thenWaitUntil(() -> {
+            light.tryScheduleUpdate();h.assertTrue(settled.isDone(),"Native roof/sky lighting work must settle before the storm fixture");settled.join();
             h.assertTrue(!level.canSeeSky(h.absolutePos(new BlockPos(3,1,3))) && level.canSeeSky(dog.blockPosition()),
                     "Native lighting must recognize both the new roof and the exposed starting spot");
+        }).thenWaitUntil(() -> {
+            var result=dog.moveHomeTo(level,home);
+            h.assertTrue((result==NestHome.MoveResult.MOVED || result==NestHome.MoveResult.ALREADY_HOME) && NestBlock.claimed(level,home),
+                    "The actual home path and native Nest POI must become ready: "+result);
         }).thenExecute(() -> {
             var clock = level.dimensionType().defaultClock().orElseThrow();
             long previous = level.clockManager().getTotalTicks(clock);
@@ -38,8 +49,7 @@ public final class StormShelterGameTest {
             try {
                 level.clockManager().setTotalTicks(clock,1000);
                 level.setRainLevel(0); level.setThunderLevel(0);
-                var home = h.absolutePos(new BlockPos(1,1,3));
-                h.assertTrue(dog.moveHomeTo(level,home) == NestHome.MoveResult.MOVED,"Shelter needs a real claimed home");
+                h.assertTrue(home.equals(dog.homeNest()),"Shelter needs the actual claimed home");
                 h.assertTrue(!new StormShelterGoal(dog).canUse(),"Clear weather must keep ordinary idle routines");
                 level.setRainLevel(1); level.setThunderLevel(1);
                 h.assertTrue(level.isRainingAt(dog.blockPosition()) && level.canSeeSky(dog.blockPosition()),

@@ -83,6 +83,14 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
   founders, broader education, self-made initial stores/Nests and specialist
   replacement remain open.
 
+- Local civic defeat and physical rescue now use real paid baskets, actual
+  pickup/carry/release, original Nest/site/owner references and separate paid
+  first aid. Native stock/recipes, learned care/genetic limits, interruptions,
+  source loss and ordinary manual recovery remain. See
+  [CIVIC_RESCUE_SPECS.md](CIVIC_RESCUE_SPECS.md). This closes the local transport
+  implementation gap; broader clinics, primitive transport supplies and natural
+  settlement continuity remain open. The dated baseline percentages are unchanged.
+
 ## Remaining acceptance criteria for full completion
 
 The latest user request makes full completion the target. These are finite gaps
@@ -97,7 +105,7 @@ increments. Newly reported regressions still take priority.
 | Wild family bootstrap | Preserve real natural food/wood/stone/tools, crops/furnace/light and the soil nursery. Finish the self-made initial cache/Nests, independent missing-specialist recovery and natural multi-generation continuity without player provisioning or inherited skills. |
 | Living settlements | Fresh qualified wilderness sites, explicit finite reserves, actual resident-led infrastructure, missing-specialist recovery, relationships and protected player adoption; never activate old builds implicitly. |
 | Communities | Two independently functioning households must negotiate and physically exchange real goods/knowledge with bounded loaded routes and actual return/ownership behavior. |
-| Civic rescue | Actual safe pickup/transport/care of an incapacitated citizen, with paid materials, original authority and interruption/death/unload recovery. Existing wound care remains distinct. |
+| Civic rescue | Preserve the implemented local paid pickup/transport/first-aid chain and original authority. Extend broader recovery institutions and primitive supplies; establish natural/client/co-op and interruption/unload acceptance. Existing wound care remains distinct. |
 | Companion breeding / signatures | Finish purposeful combat offspring/seed comparisons and a bounded useful set of physical signature moves/encounter integration; keep accepted Apex tuning. |
 | Advanced expression / tuning | Useful advanced public works and cultural differences, plus measured loaded-area CPU/entity budgets and actual natural/client/multiplayer acceptance. |
 

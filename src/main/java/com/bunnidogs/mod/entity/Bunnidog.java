@@ -1245,13 +1245,13 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             }
             @Override
             public boolean canUse() {
-                return Bunnidog.this.temperament() == Temperament.FERAL && !Bunnidog.this.combat().bonded()
+                return Bunnidog.this.temperament() == Temperament.FERAL && !Bunnidog.this.combat().bonded() && !Bunnidog.this.combat().recovering()
                         && Bunnidog.this.getTarget() != Bunnidog.this.huntingTarget
                         && Bunnidog.this.getTarget() != Bunnidog.this.guardingTarget && super.canUse();
             }
             @Override
             public boolean canContinueToUse() {
-                return Bunnidog.this.temperament() == Temperament.FERAL && !Bunnidog.this.combat().bonded()
+                return Bunnidog.this.temperament() == Temperament.FERAL && !Bunnidog.this.combat().bonded() && !Bunnidog.this.combat().recovering()
                         && Bunnidog.this.getTarget() != Bunnidog.this.huntingTarget
                         && Bunnidog.this.getTarget() != Bunnidog.this.guardingTarget && super.canContinueToUse();
             }
@@ -1259,7 +1259,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this) {
             @Override
             public boolean canUse() {
-                return Bunnidog.this.temperament() == Temperament.FERAL && !Bunnidog.this.combat().bonded() && super.canUse();
+                return Bunnidog.this.temperament() == Temperament.FERAL && !Bunnidog.this.combat().bonded() && !Bunnidog.this.combat().recovering() && super.canUse();
             }
         });
         // Breeding (Phase 2): mate with another bunnidog in love, follow a guava, pups follow an adult.

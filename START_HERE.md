@@ -5,7 +5,30 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
-## Current — withdraw obsolete household work permissions
+## Current — local civic defeat and physical basket rescue
+
+Registered adult residents with a real local claimed Nest now survive native
+combat defeat through the existing downed/injury state. Trained carers fetch
+real empty Travel Baskets, walk to quiet original housemates, capture and carry
+the same native body, release at the original Nest and return the empty basket.
+First aid remains a separate actual guava payment, retaining aftercare. Ordinary
+terrain/player-harm boundaries and the bonded-companion rules remain.
+
+Native recipe/stock handoffs can make a needed basket from actual materials.
+Saved original patient/Nest/site/owner parcels, safe loaded paths, job claims,
+local rescue-destination courtesy, native callback custody, source-loss/death
+and manual recovery preserve the real body and supplies. No skill, player bond
+or material is gifted. See `docs/CIVIC_RESCUE_SPECS.md` for precise limits.
+
+Java 25 build/localization and all seven focused `rescue_*` native scenarios
+pass, including autonomous native walking and paid first aid. The full native
+run passed 290 of 291 cases; an asynchronous storm-fixture startup was then
+corrected to wait for actual lighting and Nest readiness, retaining its weather,
+path, stock and goal-arbitration checks. Full CI remains the release gate.
+Network 49 remains current. Broader institutions, primitive basket
+materials and natural/client/co-op acceptance remain unfinished.
+
+## Previous — withdraw obsolete household work permissions
 
 Crouch-use the Staff on a linked work site to release its permission and reclaim
 a twelve-site slot. A missing station can be released from its surviving floor;
@@ -20,6 +43,7 @@ Java 25 build/localization and all three focused `worksite_*` native cases pass,
 including exact native furnace timers/XP and saved link capacity. Network 49
 remains current. Full native CI is the release gate. The prior wild-workshop
 batch `a279ff0` passed full build/model/native CI and published its direct JAR.
+The unlinking batch `5c638c5` also passed full CI and direct-JAR publication.
 
 ## Previous — primitive wild workshops and a usable old-glade approach
 
