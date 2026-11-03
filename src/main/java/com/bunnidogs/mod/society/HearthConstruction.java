@@ -24,7 +24,7 @@ public final class HearthConstruction {
         return CivicAnnex.cells(rotation,radii[rotation],home.wild().doorHalf()).stream().map(c->{boolean nest=c.material()==CivicAnnex.Material.NEST;return new HearthTreeBlockEntity.Cell(home.getBlockPos().offset(c.x(),c.y(),c.z()),nest ? ModBlocks.NEST.get().defaultBlockState() : ModBlocks.GUAVA_PLANKS.get().defaultBlockState(),nest ? ModItems.NEST.get() : ModItems.GUAVA_PLANKS.get());}).toList();
     }
     public List<HearthTreeBlockEntity.Cell> base() {return room(base);}
-    public List<HearthTreeBlockEntity.Cell> cells() {var result=new ArrayList<HearthTreeBlockEntity.Cell>();for(int r=0;r<4;r++)if((approved&(1<<r))!=0)result.addAll(room(r));return List.copyOf(result);}
+    public List<HearthTreeBlockEntity.Cell> cells() {var result=new ArrayList<HearthTreeBlockEntity.Cell>(home.wild().works().cells());for(int r=0;r<4;r++)if((approved&(1<<r))!=0)result.addAll(room(r));return List.copyOf(result);}
     public HearthTreeBlockEntity.Cell cell(BlockPos at) {return cells().stream().filter(c->c.pos().equals(at)).findFirst().orElse(null);}
     public boolean fits(int rotation,int radius) {
         if(!home.attached())return false;var level=home.getLevel();var center=CivicAnnex.turn(0,0,8,CivicAnnex.Material.PLANK,rotation);var at=home.getBlockPos().offset(center.x(),0,center.z());
@@ -33,9 +33,29 @@ public final class HearthConstruction {
             for(int y=0;y<4;y++) {var p=at.offset(x,y,z);if(!level.getBlockState(p).isAir())return false;}
         }
         // The two-block doorway must have a real clear approach back toward the common store.
+        boolean straight=true;
         for(int step=radius+1;step<=7;step++) {var p=CivicAnnex.turn(0,0,8-step,CivicAnnex.Material.PLANK,rotation);var stand=home.getBlockPos().offset(p.x(),0,p.z());
-            if(!level.hasChunkAt(stand) || !level.getWorldBorder().isWithinBounds(stand) || !level.getBlockState(stand).isAir() || !level.getBlockState(stand.above()).isAir() || !level.getBlockState(stand.below()).isFaceSturdy(level,stand.below(),Direction.UP))return false;
-        }return true;
+            if(!standing(stand)) {straight=false;break;}
+        }
+        // Old glades put their third Nest on the straight approach. Walking around it uses the same original land.
+        return straight || home.wild().natural() && rotation==0 && radius==2 && gladeApproach(at,radius);
+    }
+    private boolean standing(BlockPos at) {
+        var level=home.getLevel();return level.hasChunksAt(at.below(),at.above()) && level.getWorldBorder().isWithinBounds(at)
+                && level.getBlockState(at).isAir() && level.getBlockState(at.above()).isAir()
+                && level.getBlockState(at.below()).isFaceSturdy(level,at.below(),Direction.UP);
+    }
+    private boolean gladeApproach(BlockPos room,int radius) {
+        var origin=home.getBlockPos();var target=room.north(radius+1);var seen=new HashSet<BlockPos>();var queue=new ArrayDeque<BlockPos>();
+        for(var direction:Direction.Plane.HORIZONTAL) {var at=origin.relative(direction);if(standing(at)) {seen.add(at);queue.add(at);}}
+        while(!queue.isEmpty() && seen.size()<=285) {
+            var at=queue.removeFirst();if(at.equals(target))return true;
+            for(var direction:Direction.Plane.HORIZONTAL) {
+                var next=at.relative(direction);int x=next.getX()-origin.getX(),z=next.getZ()-origin.getZ();
+                if(x<-7 || x>7 || z<-8 || z>10 || Math.abs(next.getX()-room.getX())<=radius && Math.abs(next.getZ()-room.getZ())<=radius || seen.contains(next) || !standing(next))continue;
+                seen.add(next);queue.addLast(next);
+            }
+        }return false;
     }
     void wildSurvey() {
         if(!home.attached() || !home.wild().natural() || home.authorized() || !home.orchardSafe())return;

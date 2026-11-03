@@ -24,6 +24,7 @@ public final class WildFamilyFeature extends Feature<NoneFeatureConfiguration> {
         for(int x=-7;x<=7;x++)for(int z=-8;z<=10;z++)for(int y=0;y<4;y++)if(!world.getBlockState(at.offset(x,y,z)).isAir())world.setBlock(at.offset(x,y,z),Blocks.AIR.defaultBlockState(),2);
         world.setBlock(at,ModBlocks.HEARTH_TREE.get().defaultBlockState(),2);
         if(!(world.getBlockEntity(at) instanceof HearthTreeBlockEntity home) || !home.wild().configure(seed))return false;
+        for(var stone:home.wild().works().stones())world.setBlock(stone,Blocks.STONE.defaultBlockState(),2);
         for(var pos:home.wild().timber())world.setBlock(pos,ModBlocks.GUAVA_LOG.get().defaultBlockState(),2);
         for(var pos:home.wild().fruit()) {
             world.setBlock(pos.above(),ModBlocks.GUAVA_LEAVES.get().defaultBlockState().setValue(LeavesBlock.PERSISTENT,true),2);

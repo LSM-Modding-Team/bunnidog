@@ -74,6 +74,15 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
   This advances workshop professions; resident-made first stone/furnace/light
   infrastructure and broader craft/build education remain open.
 
+- New wild glades now close the actual stone/furnace/charcoal/light chain through
+  finite original deposits, real carried/worn tools, native recipes/cooking and
+  paid supported construction. Old glades retain their original geometry and
+  receive a walking detour for the old Nest-blocked original room, without new
+  quarry/workshop permissions. See [WILD_FAMILY_SPECS.md](WILD_FAMILY_SPECS.md).
+  Controlled native autonomous completion includes real crop regrowth; random
+  founders, broader education, self-made initial stores/Nests and specialist
+  replacement remain open.
+
 ## Remaining acceptance criteria for full completion
 
 The latest user request makes full completion the target. These are finite gaps
@@ -85,7 +94,7 @@ increments. Newly reported regressions still take priority.
 | Existing-work integration / professions | Finish clear practical craft/build education and forecasts, broader actual workshop operation and specialist handoffs; preserve useful limited animals. |
 | Construction | More plan composition than cardinal rooms; safe durable repair/revision under interference; reconcile cross-chunk hard-crash receipts without duplicating/refunding unrelated stock. |
 | Planning / culture | Broader bounded dependency coordination and discovery, construction/recipe knowledge handoffs and essential-role replacement beyond the current finite recipes/routes. |
-| Wild family bootstrap | A new family must obtain natural food/wood/seeds, make a primitive cache/tools, use actual crops/furnace/light and finish a real next generation without player provisioning or inherited skills. Avoid the metal-Hearth/glass-Cradle/teacher circular dependencies. |
+| Wild family bootstrap | Preserve real natural food/wood/stone/tools, crops/furnace/light and the soil nursery. Finish the self-made initial cache/Nests, independent missing-specialist recovery and natural multi-generation continuity without player provisioning or inherited skills. |
 | Living settlements | Fresh qualified wilderness sites, explicit finite reserves, actual resident-led infrastructure, missing-specialist recovery, relationships and protected player adoption; never activate old builds implicitly. |
 | Communities | Two independently functioning households must negotiate and physically exchange real goods/knowledge with bounded loaded routes and actual return/ownership behavior. |
 | Civic rescue | Actual safe pickup/transport/care of an incapacitated citizen, with paid materials, original authority and interruption/death/unload recovery. Existing wound care remains distinct. |
@@ -94,7 +103,8 @@ increments. Newly reported regressions still take priority.
 
 The first wild glade now closes the player-supplied food/wood, taught primitive
 routine and glass-Cradle circles through actual work and a soil nursery. Its
-initial empty root cache/Nests remain generated infrastructure. Next: finish the
-self-made cache and actual stone/furnace/light workshop dependencies, then
-specialist replacement and protected adoption before inter-community trade.
+initial empty root cache/Nests remain generated infrastructure. Native stone/
+furnace/light dependencies now ship for fresh sites. Next: finish self-made
+initial infrastructure, specialist replacement and protected adoption before
+inter-community trade.
 Natural multi-generation/client evidence remains outstanding.

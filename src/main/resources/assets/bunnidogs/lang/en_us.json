@@ -2533,6 +2533,8 @@
   "care.bunnidogs.commons.working.fetch_furnace": "Fetching furnace supplies",
   "care.bunnidogs.commons.working.load_furnace": "Loading the furnace",
   "care.bunnidogs.commons.working.empty_furnace": "Collecting furnace output",
+  "care.bunnidogs.commons.working.fetch_pickaxe": "Fetching the shared pickaxe",
+  "care.bunnidogs.commons.working.mine_stone": "Quarrying the glade stones",
   "tooltip.bunnidogs.ground_remnant": "Ground apex remnant",
   "block.bunnidogs.crown_socket": "Keystone Seat",
   "message.bunnidogs.crown.archive_locked": "The archive has one empty keystone seat.",

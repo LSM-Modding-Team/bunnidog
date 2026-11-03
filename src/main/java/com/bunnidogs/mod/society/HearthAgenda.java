@@ -9,7 +9,7 @@ import net.minecraft.world.level.storage.*;
 
 /** A finite saved public instruction, made from actual local needs; no executable scripts or virtual resources. */
 public final class HearthAgenda {
-    public enum Need { FOOD,CARE,TOOL,HOUSING,FAMILY,ROOTS,RESERVE }
+    public enum Need { FOOD,CARE,TOOL,HOUSING,FAMILY,ROOTS,RESERVE,WORKSHOP }
     private final HearthTreeBlockEntity home;
     private Need need;
     private UUID author;
@@ -29,6 +29,7 @@ public final class HearthAgenda {
         if(home.count(ModItems.GUAVA.get())<16)return Need.FOOD;
         if(home.residents().stream().anyMatch(d->(d.clinic().ready() || d.combat().canResidentAid()) && d.homeNest()!=null && d.homeNest().distSqr(d.blockPosition())<=9))return Need.CARE;
         if(home.count(Items.WOODEN_AXE)==0)return Need.TOOL;
+        if(home.wild().works().needsFurnace() || home.wild().works().needsTorches())return Need.WORKSHOP;
         if(home.construction().cells().stream().anyMatch(home.construction()::canBuild))return Need.HOUSING;
         if(home.sites().stream().anyMatch(at->home.getLevel().hasChunkAt(at) && home.getLevel().getBlockEntity(at) instanceof com.bunnidogs.mod.block.NurseryCradleBlockEntity cradle && cradle.seed().isPresent()))return Need.FAMILY;
         return home.ripe() ? Need.ROOTS : Need.RESERVE;
@@ -47,6 +48,19 @@ public final class HearthAgenda {
             if(CivicRecipes.count(home,ModItems.GUAVA_PLANKS.get())<8)result.add(CivicRecipes.RecipeId.PLANKS);
             if(nest)result.add(CivicRecipes.RecipeId.NEST);
         }
+        if(purpose==Need.WORKSHOP) {
+            if(home.wild().works().needsTorches() && CivicRecipes.count(home,Items.CHARCOAL)==0 && CivicRecipes.count(home,ModItems.GUAVA_PLANKS.get())<12)result.add(CivicRecipes.RecipeId.PLANKS);
+            if(home.wild().works().needsPickaxe()) {
+                if(CivicRecipes.count(home,ModItems.GUAVA_PLANKS.get())<5)result.add(CivicRecipes.RecipeId.PLANKS);
+                if(CivicRecipes.count(home,Items.STICK)<2)result.add(CivicRecipes.RecipeId.STICKS);
+                result.add(CivicRecipes.RecipeId.PICKAXE);
+            }
+            if(home.wild().works().needsFurnace())result.add(CivicRecipes.RecipeId.FURNACE);
+            if(home.wild().works().needsTorches()) {
+                if(CivicRecipes.count(home,Items.STICK)<1)result.add(CivicRecipes.RecipeId.STICKS);
+                result.add(CivicRecipes.RecipeId.TORCH);
+            }
+        }
         if(purpose==Need.ROOTS && CivicRecipes.count(home,ModItems.GRAFTING_FRAME.get())==0) {
             if(CivicRecipes.count(home,ModItems.GUAVA_PLANKS.get())<4)result.add(CivicRecipes.RecipeId.PLANKS);result.add(CivicRecipes.RecipeId.FRAME);
         }
@@ -58,13 +72,21 @@ public final class HearthAgenda {
                 || !planner.learning().knowledge().independent(planner.mind(),Learning.Routine.GARDEN) || CapabilityRules.potential(planner.mind(),CapabilityRules.Task.PLANNING)!=CapabilityRules.Potential.INDEPENDENT || !wantsPlan())return false;
         need=observedNeed();steps=dependencies(need);author=planner.getUUID();made=home.getLevel().getGameTime();home.setChanged();return true;
     }
+    private int plankTarget() {
+        if(need==Need.HOUSING)return 8;if(need==Need.ROOTS)return 4;
+        if(need==Need.WORKSHOP)return home.wild().works().needsTorches() && CivicRecipes.count(home,Items.CHARCOAL)==0 ? 12 : 5;
+        return CivicRecipes.count(home,Items.STICK)<2 ? 5 : 3;
+    }
     private boolean missing(CivicRecipes.RecipeId step) {return switch(step) {
-        case PLANKS -> CivicRecipes.count(home,ModItems.GUAVA_PLANKS.get())<(need==Need.HOUSING ? 8 : need==Need.ROOTS ? 4 : CivicRecipes.count(home,Items.STICK)<2 ? 5 : 3);
+        case PLANKS -> CivicRecipes.count(home,ModItems.GUAVA_PLANKS.get())<plankTarget();
         case STICKS -> CivicRecipes.count(home,Items.STICK)<2;
         case AXE -> home.count(Items.WOODEN_AXE)==0;
         case NEST -> CivicRecipes.count(home,ModItems.NEST.get())==0;
         case FRAME -> CivicRecipes.count(home,ModItems.GRAFTING_FRAME.get())==0;
         case DRESSING -> home.count(ModItems.HEARTH_POULTICE.get())<4;
+        case PICKAXE -> home.wild().works().needsPickaxe();
+        case FURNACE -> home.wild().works().needsFurnace();
+        case TORCH -> home.wild().works().needsTorches();
         default -> false;
     };}
     /** Follow a still-relevant instruction after the author leaves; completion never comes from the record. */
@@ -80,6 +102,11 @@ public final class HearthAgenda {
             case HOUSING -> switch(job.kind()) {case FETCH_BUILD,BUILD,HARVEST_FIELD,GATHER_FIELD,FETCH_SEED,SOW_FIELD -> 25;default -> 0;};
             case FAMILY -> switch(job.kind()) {case SEED,NURTURE,HATCH -> 25;default -> 0;};
             case ROOTS -> switch(job.kind()) {case TEND,COMPOST -> 25;default -> 0;};
+            case WORKSHOP -> switch(job.kind()) {
+                case FETCH_PICKAXE,MINE_STONE,FETCH_FURNACE,LOAD_FURNACE,EMPTY_FURNACE -> 25;
+                case FETCH_BUILD,BUILD -> home.wild().works().workCell(job.destination()!=null ? job.destination() : job.target()) ? 25 : 0;
+                default -> 0;
+            };
             default -> 0;
         };
     }

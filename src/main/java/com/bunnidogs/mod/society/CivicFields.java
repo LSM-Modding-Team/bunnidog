@@ -48,7 +48,7 @@ public final class CivicFields {
     private static boolean nearWorkPlot(HearthTreeBlockEntity home,BlockPos item) {
         var level=home.getLevel();
         if(home.sites().stream().anyMatch(pos->pos.distSqr(item)<=9 && level.hasChunkAt(pos) && level.getBlockState(pos).is(Blocks.FARMLAND) && !level.hasNeighborSignal(pos)))return true;
-        if(home.wild().natural() && java.util.stream.Stream.concat(home.wild().timber().stream(),home.wild().fruit().stream()).anyMatch(pos->pos.distSqr(item)<=9 && level.hasChunksAt(pos.offset(-1,-1,-1),pos.offset(1,1,1)) && !level.hasNeighborSignal(pos)))return true;
+        if(home.wild().natural() && java.util.stream.Stream.concat(java.util.stream.Stream.concat(home.wild().timber().stream(),home.wild().fruit().stream()),home.wild().works().enabled() ? home.wild().works().stones().stream() : java.util.stream.Stream.empty()).anyMatch(pos->pos.distSqr(item)<=9 && level.hasChunksAt(pos.offset(-1,-1,-1),pos.offset(1,1,1)) && !level.hasNeighborSignal(pos)))return true;
         return home.authorized() && home.orchard().stream().anyMatch(pos->pos.distSqr(item)<=9 && level.hasChunkAt(pos) && level.getBlockState(pos).is(ModBlocks.GUAVA_COPPICE.get()) && !level.hasNeighborSignal(pos));
     }
     public static boolean available(HearthTreeBlockEntity home,ItemEntity item) {

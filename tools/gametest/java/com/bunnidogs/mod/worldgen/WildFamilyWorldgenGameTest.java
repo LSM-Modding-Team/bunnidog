@@ -31,6 +31,9 @@ public final class WildFamilyWorldgenGameTest {
         var home=(HearthTreeBlockEntity)region.getBlockEntity(at);h.assertTrue(home!=null && !home.hasLevel() && home.wild().natural() && home.isEmpty(),"A detached common cache initializes only saved data, with no level access or free supplies");
         var data=home.saveWithFullMetadata(level.registryAccess());var copy=(HearthTreeBlockEntity)BlockEntity.loadStatic(at,home.getBlockState(),data,level.registryAccess());
         h.assertTrue(copy!=null && copy.site().equals(home.site()) && copy.wild().founders().equals(home.wild().founders()) && copy.owner().equals(home.owner()),"Native detached saves preserve the exact site identity and three genomes");
+        h.assertTrue(copy.wild().works().enabled() && home.wild().works().stones().size()==12 && home.wild().works().stones().stream().allMatch(pos->region.getBlockState(pos).is(Blocks.STONE))
+                && home.wild().works().cells().stream().allMatch(cell->region.getBlockState(cell.pos()).isAir()),"Fresh detached generation provides finite natural stone and empty workshop plots, never a free furnace or lights");
+        com.bunnidogs.mod.entity.WildWorksGameTest.preview(region,home,"wild_glade_generated.json","Actual registered feature in WorldGenRegion with unfinished detached ProtoChunks; no client rendering.");
         h.assertTrue(!WildFamilyFeature.generate(region,at,1) && region.getBlockEntity(at)==home && region.getBlockState(home.wild().beds().getFirst()).is(ModBlocks.NEST.get()),"Replaying the feature cannot replace existing homes, reset founders or duplicate infrastructure");h.succeed();
     }
 }

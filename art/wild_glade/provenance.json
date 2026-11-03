@@ -1,0 +1,23 @@
+{
+  "renderer": "Pillow native block-cell map; schematic colors/glyphs, not client geometry, textures or lighting.",
+  "sources": [
+    {
+      "file": "generated.json",
+      "sha256": "4cfb12418a6060e4d5f03a3585ca9bcc345f759ea57d5d0f863adf7e60e0040d",
+      "evidence": "Actual registered feature in WorldGenRegion with unfinished detached ProtoChunks; no client rendering.",
+      "native_cells": 317
+    },
+    {
+      "file": "start.json",
+      "sha256": "90ea6bfd4da641628ad47ce9ad3366a89a7bc0a55684f40d3ee326b2efc0cdd9",
+      "evidence": "Controlled native site before work: empty inventory, selected capable zero-point founders and no supplied tools/materials.",
+      "native_cells": 317
+    },
+    {
+      "file": "completed.json",
+      "sha256": "e5fa8aa5e17fc7196ee3d416db6fe9553461d5e6216574cb60ff98c53c645714",
+      "evidence": "Controlled native work chain from empty stores; selected capable zero-point founders, actual native stock and world actions; not natural timing.",
+      "native_cells": 311
+    }
+  ]
+}

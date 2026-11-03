@@ -75,8 +75,9 @@ food cooking. Personal Diet still controls meals; a craftsperson can prepare
 donated food for the warehouse/player without becoming able to eat it. Native
 furnace types must actually accept the recipe. Primitive independently capable
 natural residents can discover charcoal work, not advanced metal/glass/food
-processing merely from site membership. This does not yet build the wild site's
-first furnace or mine its stone.
+processing merely from site membership. Fresh wild glades now build their own
+first furnace and mine finite original stone through the paid path in
+[WILD_FAMILY_SPECS.md](WILD_FAMILY_SPECS.md); older glades gain no new plots.
 
 These are bounded needs, not a new factory manager. Charcoal/glass/cooked-food
 targets are sixteen stored items; refined minerals target thirty-two, with a

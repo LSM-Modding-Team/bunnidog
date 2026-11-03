@@ -1,5 +1,21 @@
 # Codex working instructions
 
+Fresh wild glades now ship paid stone/furnace/charcoal/light work; read
+`docs/WILD_FAMILY_SPECS.md`. Preserve the twelve original stone permissions,
+real carried/worn shared pickaxe, native marked drops/hauling/recipes/cooking,
+supported paid workshop cells, primitive-only charcoal and first-workshop
+reserves. New layouts clear the original approach; legacy homes use a bounded
+walking detour around the original Nest without new quarry/workshop plots.
+Old Nest positions and player edits remain intact. Generated initial caches/
+Nests are still infrastructure, not resident-made. Actual autonomous fixtures
+include native crop growth/rations, not a Survival-rate claim. Inspect the
+actual native cell snapshots in `art/wild_glade/overview.png`; it is schematic,
+not client evidence. Keep asynchronous native lighting fixtures gated on real
+queued work/brightness, rather than assuming five simulation ticks suffice.
+Java 25 build/model/localization and all 281 native cases pass; preserve actual
+outcome-based native first-aid checks too. Natural multi-generation/client
+acceptance and the initial resident-made cache/Nest remain separate gaps.
+
 Resident furnace workshops now ship through explicit Staff links; read the
 native-furnace section in `docs/HOUSEHOLD_COMMONS_SPECS.md`. Preserve actual
 input/fuel/output walking parcels, native cooking/fuel/XP, saved original furnace

@@ -1,0 +1,23 @@
+{
+  "scope": "Controlled native functional observations with three selected capable zero-point founders, empty stores, actual generated resources, native meal payments and crop/coppice regrowth. Excludes natural founder selection, player work and long-term Survival rates. GameTest executes native ticks faster than wall time. Geometry/stock evidence is in WildWorksGameTest and art/wild_glade/.",
+  "observations": [
+    {
+      "run": "focused_wild_works",
+      "loaded_ticks": 25378,
+      "guavas_left": 0,
+      "logs_left": 3,
+      "planks_left": 11,
+      "suite_passed": true,
+      "native_required_cases": 4
+    },
+    {
+      "run": "full_native_release",
+      "loaded_ticks": 26126,
+      "guavas_left": 0,
+      "logs_left": 2,
+      "planks_left": 15,
+      "suite_passed": true,
+      "native_required_cases": 281
+    }
+  ]
+}

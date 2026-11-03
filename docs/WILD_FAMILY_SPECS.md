@@ -1,4 +1,4 @@
-# Wild family glades — first bootstrap
+# Wild family glades — primitive workshops
 
 This returns to the original Generations direction: exploring can reveal a family
 whose inherited bodies and minds affect how it actually lives. This is the first
@@ -15,6 +15,14 @@ changes nothing. It will not activate an older warren or player Hearth.
 The finite starting landscape contains an **empty** common root cache (the
 existing Hearth Tree), three Nests, three fallen guava logs, three hanging fruit,
 four mature Coppices, three mature wheat plants and a separate farmland nursery.
+Fresh glades also contain two small natural stone outcrops (twelve original
+blocks) and empty, bounded plots for a furnace and four supported torches.
+No tool, cobblestone stock, furnace, charcoal or lights are supplied. A new site's
+third Nest sits beside the central building approach. Old saves retain their
+original Nest coordinates and no new quarry/workshop permissions; their original
+room can now use a bounded loaded walking detour around the old central Nest.
+This changes no old blocks or approved room boundaries.
+
 These natural starting objects are provided by generation. The residents have
 not crafted the initial cache/Nests; construction of a primitive cache from raw
 materials remains open. There is no stocked inventory, tool, glass Cradle,
@@ -48,7 +56,8 @@ Player-established households retain their existing learning/stat requirements.
 - A capable beginner can carry **one** marked item home without the advanced
   Senses requirement. Existing trained/bred bulk haulers retain their advantage.
 - Primitive crafting is limited to the existing native Planks, Sticks, Wooden
-  Axe, Nest and Coppice recipes, with real exact inputs, outputs and remainders.
+  Axe/Pickaxe, Furnace, Torch, Nest and Coppice recipes, with real exact inputs,
+  outputs and remainders.
   Native recipes still determine affordability. No free grafting frames,
   dressings or incense knowledge.
 - The paid axe unlocks normal Coppice pruning. Real grain crops yield native
@@ -62,6 +71,44 @@ Player-established households retain their existing learning/stat requirements.
 Shared claims, physical travel, safety AI, ration/rest budgets, public need plans
 and actual world permissions retain priority. Advanced growth, medical care,
 grafting and ordinary store routes do not gain a zero-stat shortcut.
+
+## Stone, a native furnace and actual light
+
+The finite stone permission belongs only to the twelve generated cells of a new
+site. A miner fetches one actual shared Wooden Pickaxe, carries it to exposed
+stone and uses the native stone loot with that tool. Each success wears the
+actual carried pickaxe. Paid tools survive native animal saves, return to the
+original common store and drop once on death. Named/private tools remain
+excluded; normal wear does not make a shared tool unusable to the crew.
+
+Cobblestone becomes real marked ground output. A hauler must collect it and walk
+it home before the actual eight-cobblestone Furnace recipe is affordable. A
+builder then carries that real furnace to the original supported plot. Only the
+crew's own successful, empty new furnace is linked for operation. There is no
+remote mining credit or automatic ownership of a replacement container.
+
+Primitive workers can supply their furnace with real logs and wood fuel,
+following the native workshop path in [HOUSEHOLD_COMMONS_SPECS.md](HOUSEHOLD_COMMONS_SPECS.md).
+Native loaded cooking makes charcoal; a courier carries it home, and the native
+charcoal/stick recipe pays for four torches. Builders carry and place each light
+on its actual supported plot. Metal/glass/food processing still needs ordinary
+learned/physical qualifications rather than primitive membership alone.
+
+Quarrying never excavates arbitrary terrain. Protection/cancellation and callback
+revalidation precede payment; deposits with obstructions above them wait. Spent
+cell permissions survive saves and cannot be renewed by placing another stone.
+Observed lost originals retire conservatively. The existing loaded-site index
+performs bounded observation; it never acquires a missing chunk. Player-removed
+finished workshop cells retain the usual deliberate-repair rule, while confirmed
+explosion losses use the existing paid repair receipts.
+
+Real dependencies come ahead of surplus room materials. The first workshop keeps
+a twelve-plank preparation target/reserve, prices its own sticks ahead of roof
+surplus and leaves actual instructions through the existing capable planner.
+The reserve applies only to new glades with unfinished workshop cells. It grants
+no stock, role, skill or resource. The original six-operation ration budget still
+applies, so the family can exhaust its first harvest and wait for actual fruit/
+coppice regrowth. Healthy idle adults do not gain a new starvation timer.
 
 ## A soil nursery, not a glass prerequisite
 
@@ -83,7 +130,7 @@ terrain. A wild glade cannot gift the player's Living Keystone progression.
 
 ## Evidence and remaining work
 
-Eight native scenarios cover detached WorldGenRegion/ProtoChunk configuration
+The original eight native scenarios cover detached WorldGenRegion/ProtoChunk configuration
 and native saves; empty genesis/private stores/no founder respawn or spawn-veto retry; physical
 fallen-wood hauling and native tool/material recipes; actual parental courtship,
 soil planting and membership-bearing birth; native spawn refusal/retry; inherited
@@ -92,8 +139,30 @@ The paid nursery scenario supplies its food fixture; the materials scenario
 separately exercises real harvesting/hauling. Natural long-term pacing is not
 established by a shortened goal test.
 
-Still unfinished: self-made initial cache, actual stone/furnace/light workshop
-chain, broader craft/build education and records, essential-specialist recovery,
+Four additional `wild_works_*` native cases cover the empty-stock tool → stone →
+furnace → charcoal → light chain, native tool custody/wear/saves, permission and
+callback refusals, spent-deposit replay, old-save isolation and actual unsupervised
+completion. The controlled work chain provisions no materials beyond the generated
+landscape. Its selected capable founders are a test condition, not a new natural
+founder selection rule.
+
+One autonomous native observation completed after **25,378 loaded ticks** (about
+21.1 minutes at the normal 20 TPS). It included native fruit/coppice growth and
+the original meal payments, with zero guavas left. The native test server executes
+those ticks faster than wall time. This is one controlled functional observation,
+not a measured Survival rate or a guarantee for random founder minds. Slow crop
+growth, actual loaded waiting and missing specialists remain meaningful.
+The full 281-case native gate also completed this chain in 26,126 loaded ticks.
+Exact recorded checkpoints are retained in
+[`audits/wild-workshop-observations.json`](audits/wild-workshop-observations.json).
+
+`art/wild_glade/overview.png` maps the actual detached generation snapshot and
+the same controlled site before/after work. Its adjacent JSON/provenance and
+`art/preview_wild_glade.py` reproduce the schematic. It is block-position evidence,
+not client geometry, texture, animation or lighting acceptance.
+
+Still unfinished: self-made initial cache/Nests, broader craft/build education
+and records, essential-specialist recovery,
 composed public works, adoption/relationships, civic rescue and independent
 inter-community exchange. Glade frequency, survival over multiple generations,
 natural chunk order, graphical client appearance and multiplayer budgets need

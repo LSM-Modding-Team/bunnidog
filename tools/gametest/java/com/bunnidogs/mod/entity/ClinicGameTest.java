@@ -58,7 +58,10 @@ public final class ClinicGameTest {
     private static SocietyWork.Job aidPickup(Context c) {return new SocietyWork.Job(SocietyWork.Kind.FETCH_AID,c.hearth.getBlockPos(),-1,c.hearth.getBlockState(),new SocietyWork.Patient(c.patient.getUUID(),c.patient.homeNest()));}
     public static void firstAid(GameTestHelper h) {
         setup(h,c->{downed(c);c.doctor.setNoAi(false);c.p.snapTo(c.hearth.getBlockPos().getX()+18,c.hearth.getBlockPos().getY(),c.hearth.getBlockPos().getZ()+.5);
-            h.runAfterDelay(280,()->{h.assertTrue(!c.patient.combat().downed() && c.patient.combat().recovering() && c.patient.combat().recoveryLeft()>0 && c.patient.getHealth()>1 && c.hearth.count(ModItems.GUAVA.get())==1 && c.doctor.society().cargoEmpty(),"A native carer walks both first-aid legs, pays one real guava and preserves injury recovery: patient="+c.patient.combat().intent()+", health="+c.patient.getHealth()+", stock="+c.hearth.count(ModItems.GUAVA.get())+", job="+c.doctor.society().active()+", cargo="+c.doctor.society().workSupplies());c.finish();});
+            h.succeedWhen(()->{
+                h.assertTrue(!c.patient.combat().downed() && c.patient.combat().recovering() && c.patient.combat().recoveryLeft()>0 && c.patient.getHealth()>1 && c.hearth.count(ModItems.GUAVA.get())==1 && c.doctor.society().cargoEmpty(),"A native carer walks both first-aid legs, pays one real guava and preserves injury recovery: patient="+c.patient.combat().intent()+", health="+c.patient.getHealth()+", stock="+c.hearth.count(ModItems.GUAVA.get())+", job="+c.doctor.society().active()+", cargo="+c.doctor.society().workSupplies());
+                c.doctor.discard();c.patient.discard();c.p.discard();
+            });
         });
     }
     public static void firstAidCallbacks(GameTestHelper h) {

@@ -16,14 +16,16 @@ public final class WildHearth {
     private boolean natural;
     private int attempts,timberTaken;
     private boolean hatching;
-    public WildHearth(HearthTreeBlockEntity home) {this.home=home;}
+    private final WildWorks works;
+    public WildWorks works() {return works;}
+    public WildHearth(HearthTreeBlockEntity home) {this.home=home;works=new WildWorks(home);}
     public boolean natural() {return natural;}
     public List<Genome> founders() {return founders;}
     public int doorHalf() {return founders.stream().anyMatch(g->Carrying.capacity(g)>=3) ? 1 : 0;}
     public BlockPos nursery() {return home.getBlockPos().north(5);}
     public List<BlockPos> timber() {return List.of(home.getBlockPos().offset(-3,0,0),home.getBlockPos().offset(-3,0,1),home.getBlockPos().offset(-3,0,2));}
     public List<BlockPos> fruit() {return List.of(home.getBlockPos().offset(-3,0,-2),home.getBlockPos().offset(0,0,-2),home.getBlockPos().offset(3,0,-2));}
-    public List<BlockPos> beds() {return List.of(home.getBlockPos().offset(-1,0,2),home.getBlockPos().offset(1,0,2),home.getBlockPos().offset(0,0,3));}
+    public List<BlockPos> beds() {return List.of(home.getBlockPos().offset(-1,0,2),home.getBlockPos().offset(1,0,2),home.getBlockPos().offset(works.enabled() ? -2 : 0,0,3));}
     public List<BlockPos> fields() {return List.of(home.getBlockPos().offset(5,0,0),home.getBlockPos().offset(5,0,1),home.getBlockPos().offset(5,0,2));}
     public boolean timberAvailable(BlockPos pos) {int i=timber().indexOf(pos);return natural && i>=0 && (timberTaken&(1<<i))==0;}
     public void timberUsed(BlockPos pos) {int i=timber().indexOf(pos);if(i>=0) {timberTaken|=1<<i;home.setChanged();}}
@@ -49,11 +51,12 @@ public final class WildHearth {
     /** Configure only data: worldgen block entities may have no attached Level. */
     public boolean configure(long seed) {var rolled=new ArrayList<Genome>();for(int i=0;i<3;i++)rolled.add(Genome.randomFounder(Lineage.MEADOW,new Random(seed+i*7919L)));return configure(rolled);}
     public boolean configure(List<Genome> genomes) {
-        if(natural || home.owner()!=null || genomes.size()!=3)return false;natural=true;founders=List.copyOf(genomes);home.wildOwner();home.setChanged();return true;
+        if(natural || home.owner()!=null || genomes.size()!=3)return false;natural=true;founders=List.copyOf(genomes);works.configure();home.wildOwner();home.setChanged();return true;
     }
     public void tick() {
         if(!natural || !home.attached() || !(home.getLevel() instanceof ServerLevel level))return;
         if(!level.hasChunksAt(home.getBlockPos().offset(-8,-1,-8),home.getBlockPos().offset(8,4,11)))return;
+        works.observe();
         for(var field:fields())if(!home.sites().contains(field.below()))home.link(field.below());
         for(int i=0;i<founders.size();i++)if((attempts&(1<<i))==0) {
             var at=beds().get(i).south();if(!level.getBlockState(at).isAir() || !level.getBlockState(at.above()).isAir() || !level.getBlockState(at.below()).isFaceSturdy(level,at.below(),Direction.UP))continue;
@@ -63,9 +66,9 @@ public final class WildHearth {
         }
         if(!home.authorized())home.construction().wildSurvey();
     }
-    public void save(ValueOutput out) {if(natural) {out.putBoolean("NaturalHousehold",true);out.putInt("FounderAttempts",attempts);out.putInt("FallenWoodUsed",timberTaken);out.store("WildFounders",com.mojang.serialization.Codec.STRING.listOf(),founders.stream().map(Genome::toString).toList());}}
+    public void save(ValueOutput out) {if(natural) {out.putBoolean("NaturalHousehold",true);out.putInt("FounderAttempts",attempts);out.putInt("FallenWoodUsed",timberTaken);out.store("WildFounders",com.mojang.serialization.Codec.STRING.listOf(),founders.stream().map(Genome::toString).toList());works.save(out);}}
     public void load(ValueInput in) {
         natural=in.getBooleanOr("NaturalHousehold",false);attempts=in.getIntOr("FounderAttempts",0)&7;timberTaken=in.getIntOr("FallenWoodUsed",0)&7;hatching=false;
-        founders=in.read("WildFounders",com.mojang.serialization.Codec.STRING.listOf()).orElse(List.of()).stream().map(Genome::parse).flatMap(Optional::stream).limit(3).toList();if(founders.size()!=3) {natural=false;founders=List.of();}
+        founders=in.read("WildFounders",com.mojang.serialization.Codec.STRING.listOf()).orElse(List.of()).stream().map(Genome::parse).flatMap(Optional::stream).limit(3).toList();if(founders.size()!=3) {natural=false;founders=List.of();}works.load(in,natural);
     }
 }

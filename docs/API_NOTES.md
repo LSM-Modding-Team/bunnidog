@@ -13,6 +13,35 @@ history; this index is the map. `grep -n "name" docs/API_NOTES.md` finds any nam
 Status words: **COMPILED** = the user's compile accepted it (names and types are right; runtime behaviour may still be open). **SOURCE** = seen in the real NeoForge sources/data, not compiled yet.
 **ASSUMED** = written from memory of 1.21.x, nothing confirms it. **AVOIDED** = never seen anywhere, so our code does not use it.
 
+### Native furnace workshops and asynchronous fixture lighting
+
+- `ServerLevel.recipeAccess()` returns the current `RecipeManager`.
+  `getRecipeFor(RecipeType<T>, new SingleRecipeInput(stack), level)` and
+  `AbstractCookingRecipe.assemble(input)` resolve the actual furnace type's
+  loaded recipe. `ItemStack.getBurnTime(recipeType, level.fuelValues())` respects
+  its native fuel rules. Verified against the resolved 26.2.0.88 sources,
+  compiler and actual Furnace/Blast Furnace/Smoker scenarios.
+- `AbstractFurnaceBlockEntity.serverTick(level, pos, state, entity)` is the real
+  native cooking path; production leaves it to the normal block ticker.
+  Native slot 0/1/2 journals preserve input/fuel/output. Ordinary output extraction
+  does not pop the native saved recipe XP, matching hopper behaviour.
+  `BaseContainerBlockEntity.isLocked()` is public; native `LockCode` persists
+  through the `lock` predicate codec. Saved `getPersistentData()` tokens can
+  identify the same original container without adding a parallel inventory.
+- `ThreadedLevelLightEngine.waitForPendingTasks(chunkX, chunkZ)` returns a future
+  after queued light work, and `tryScheduleUpdate()` schedules pending updates.
+  Native GameTest simulation can advance many ticks before the asynchronous
+  lighting worker finishes. Poll the future and actual computed brightness in a
+  `GameTestSequence`, joining only after `isDone()`. A fixed five-tick startup
+  delay is insufficient for a freshly enclosed dark room. `CaveSightGameTest`
+  retains actual dark/bright checks and exact native payments; the resolved
+  source, compiler and focused native case verify this pattern.
+- Goal-driven first aid must wait for actual completed pickup/travel/treatment,
+  rather than inspecting an arbitrary tick-280 snapshot. Native navigation/search
+  offsets can leave a valid carer finishing its last work period at that time.
+  `ClinicGameTest.firstAid` retains the exact one-guava, emptied-cargo and
+  preserved-injury assertions within a bounded 600-tick case.
+
 ### Great Warren / AX6 (2026-10-25)
 
 - `TeleportTransition(ServerLevel, Vec3, Vec3, yaw, pitch, PostTeleportTransition)`

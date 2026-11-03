@@ -32,10 +32,11 @@ public final class SocietyWork {
     private BlockPos aidBed;
     private boolean medicalBusy,operating;
     private boolean buildingCargo,fieldCargo,firstAidCargo;
+    private boolean miningCargo;
     private int furnaceSlot=-1;
     private String furnaceToken;
     private UUID parcelOwner;
-    public enum Kind { MEAL, CRAFT, BUILD, PLANT, PRUNE, HAUL, SUPPLY, DELIVER, COMPOST, COURT, SEED, NURTURE, HATCH, TEND, TEACH, MEDICINE, CARE, RECORD_ROUTE, STUDY_ROUTE, FETCH_BUILD, FETCH_SEED, SOW_FIELD, HARVEST_FIELD, GATHER_FIELD, PLAN, FETCH_AID, CLIP_WOOD, PICK_FRUIT, HATCH_SOIL, FETCH_FURNACE, LOAD_FURNACE, EMPTY_FURNACE }
+    public enum Kind { MEAL, CRAFT, BUILD, PLANT, PRUNE, HAUL, SUPPLY, DELIVER, COMPOST, COURT, SEED, NURTURE, HATCH, TEND, TEACH, MEDICINE, CARE, RECORD_ROUTE, STUDY_ROUTE, FETCH_BUILD, FETCH_SEED, SOW_FIELD, HARVEST_FIELD, GATHER_FIELD, PLAN, FETCH_AID, CLIP_WOOD, PICK_FRUIT, HATCH_SOIL, FETCH_FURNACE, LOAD_FURNACE, EMPTY_FURNACE, FETCH_PICKAXE, MINE_STONE }
     public record Patient(UUID id,BlockPos bed) {}
     public record Job(Kind kind,BlockPos target,int index,BlockState expected,Patient patient,BlockPos destination) {
         public Job(Kind kind,BlockPos target,int index,BlockState expected) {this(kind,target,index,expected,null,null);}
@@ -53,6 +54,8 @@ public final class SocietyWork {
     public BlockPos buildTarget() {return buildingCargo && !cargo.isEmpty() ? destination : null;}
     public BlockPos fieldTarget() {return fieldCargo && !cargo.isEmpty() ? destination : null;}
     public BlockPos furnaceTarget() {return furnaceSlot>=0 && !cargo.isEmpty() ? destination : null;}
+    public boolean miningTool() {return miningCargo && WildForaging.usablePickaxe(cargo);}
+    public BlockPos miningTarget() {return miningTool() ? destination : null;}
     public static boolean furnaceJob(Kind kind) {return kind==Kind.FETCH_FURNACE || kind==Kind.LOAD_FURNACE || kind==Kind.EMPTY_FURNACE;}
     public UUID treatingPatient() {return !cargo.isEmpty() ? aidPatient : null;}
     public boolean child() {return child;}
@@ -86,10 +89,10 @@ public final class SocietyWork {
     public boolean gathers() {return knows(Learning.Routine.DELIVERY) && Supplying.qualified(dog.stats()) || pioneer(Learning.Routine.DELIVERY);}
     public int gatheringLimit() {return knows(Learning.Routine.DELIVERY) && Supplying.qualified(dog.stats()) ? 8 : 1;}
     private boolean familyNurse() {return nurse() || pioneer(Learning.Routine.NURSERY);}
-    private boolean recipeAllowed(CivicRecipes.RecipeId recipe) {return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.GARDEN) || pioneer(Learning.Routine.GARDEN) && switch(recipe) {case PLANKS,STICKS,AXE,NEST,COPPICE->true;default->false;};}
+    private boolean recipeAllowed(CivicRecipes.RecipeId recipe) {return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.GARDEN) || pioneer(Learning.Routine.GARDEN) && switch(recipe) {case PLANKS,STICKS,AXE,NEST,COPPICE,PICKAXE,FURNACE,TORCH->true;default->false;};}
     private Job active;
     public Job active() {return active;}
-    boolean claim(Job job) {var h=hearth();if(h==null || !h.jobs().claim(dog,job))return false;active=job;return true;}
+    boolean claim(Job job) {var h=hearth();if(h==null || !h.jobs().claim(dog,job))return false;active=job;if(miningCargo && job.kind()==Kind.MINE_STONE)destination=job.target();return true;}
     boolean owns(Job job) {var h=hearth();return h!=null && h.jobs().owns(dog,job);}
     void release() {var h=hearth();if(h!=null)h.jobs().release(dog);active=null;}
     public Job plan() {var offered=offers();return offered.isEmpty() ? null : offered.getFirst();}
@@ -100,6 +103,17 @@ public final class SocietyWork {
     public List<Job> offers() {
         if(!ready() || dog.courierLore().apprenticing() || dog.deliveries().watching() || !dog.deliveries().cargo().isEmpty())return List.of();
         var h=hearth();var l=(ServerLevel)dog.level();var at=h.getBlockPos();var jobs=new ArrayList<Job>();
+        if(!cargo.isEmpty() && miningCargo) {
+            if(destination!=null && !l.hasChunkAt(destination))return List.of();
+            if(!l.hasChunksAt(at.offset(-1,-1,-1),at.offset(1,1,1)))return List.of();
+            if(h.isLocked() || l.hasNeighborSignal(at))return List.of();
+            if(miningTool() && Objects.equals(parcelOwner,h.owner()) && harvestReady() && workSinceMeal<6 && h.wild().works().needsStone()) {
+                for(var stone:h.wild().works().stones())if(h.wild().works().canMine(stone))jobs.add(at(Kind.MINE_STONE,stone));
+                jobs.removeIf(job->!h.jobs().available(dog,job));
+                if(!jobs.isEmpty())return List.copyOf(jobs);
+            }
+            return List.of(at(Kind.DELIVER,at));
+        }
         if(!cargo.isEmpty() && furnaceSlot>=0) {
             if(destination!=null && !l.hasChunkAt(destination))return List.of();
             if(destination!=null && h.workshop().resolve(destination,furnaceToken)!=null && Objects.equals(parcelOwner,h.owner())) {
@@ -169,12 +183,14 @@ public final class SocietyWork {
         if(hungry && craft && h.count(Items.WOODEN_AXE)==0 && h.orchard().stream().anyMatch(pos->l.hasChunkAt(pos) && l.getBlockState(pos).is(ModBlocks.GUAVA_COPPICE.get()) && l.getBlockState(pos).getValue(CoppiceBlock.AGE)==7))
             for(var recipe:List.of(CivicRecipes.RecipeId.PLANKS,CivicRecipes.RecipeId.STICKS,CivicRecipes.RecipeId.AXE))if(recipeAllowed(recipe) && recipeNeeded(h,recipe) && CivicRecipes.prepare(h,recipe).isPresent())jobs.add(new Job(Kind.CRAFT,at,recipe.ordinal(),l.getBlockState(at)));
         if(h.wild().natural() && grow) {
+            if(!hungry && h.wild().works().needsStone() && WildForaging.pickaxeSlot(h)>=0)
+                for(var stone:h.wild().works().stones())if(h.wild().works().canMine(stone))jobs.add(new Job(Kind.FETCH_PICKAXE,at,-1,l.getBlockState(at),null,stone));
             for(var pos:h.wild().timber())if(!hungry && h.wild().timberAvailable(pos) && l.hasChunkAt(pos) && l.getBlockState(pos).is(ModBlocks.GUAVA_LOG.get()))jobs.add(at(Kind.CLIP_WOOD,pos));
             for(var pos:h.wild().fruit())if(l.hasChunkAt(pos) && l.getBlockState(pos).is(ModBlocks.GUAVA_FRUIT.get()) && l.getBlockState(pos).getValue(GuavaFruitBlock.AGE)==GuavaFruitBlock.MAX_AGE && (!hungry || dog.canEat(new ItemStack(ModItems.GUAVA.get()))))jobs.add(at(Kind.PICK_FRUIT,pos));
         }
         if(h.authorized()) {
             if(!hungry && Gardening.cultivates(dog.stats()) && knows(Learning.Routine.GARDEN) && h.ripe() && h.count(ModItems.GUAVA.get())>=16 && h.count(Items.BONE_MEAL)>=2 && h.count(ModItems.GRAFTING_FRAME.get())>0)jobs.add(at(Kind.TEND,at));
-            if(!hungry && buildingReady())for(var cell:h.construction().cells())if(h.construction().canBuild(cell) && CivicRecipes.count(h,cell.item())>0) {
+            if(!hungry && buildingReady())for(var cell:h.construction().cells())if(h.construction().canBuild(cell) && buildingMaterialAvailable(h,cell)) {
                 jobs.add(new Job(Kind.FETCH_BUILD,at,-1,l.getBlockState(at),null,cell.pos()));if(jobs.size()>=40)break;
             }
             for(var pos:h.orchard())if(l.hasChunkAt(pos)) {
@@ -205,15 +221,17 @@ public final class SocietyWork {
             case FETCH_AID -> 175;case CARE,MEDICINE -> 150;
             case PLAN -> 105;case HATCH,HATCH_SOIL -> 120;case NURTURE,SEED -> 95;
             case FETCH_FURNACE -> 100;case LOAD_FURNACE -> 120;case EMPTY_FURNACE -> 110;
+            case FETCH_PICKAXE,MINE_STONE -> 120;
             case HAUL -> scarce ? 135 : 70;case SUPPLY -> 100;
             case PRUNE -> scarce ? 130 : 75;case PICK_FRUIT -> scarce ? 130 : 75;case CLIP_WOOD -> h.count(Items.WOODEN_AXE)==0 ? 125 : 60;case GATHER_FIELD -> 105;case HARVEST_FIELD -> h.count(Items.WHEAT)<12 ? 110 : 75;case FETCH_SEED,SOW_FIELD -> 90;case PLANT -> 85;
-            case BUILD,FETCH_BUILD -> (job.destination()!=null && h.construction().needsRepair(job.destination()) || h.construction().needsRepair(job.target())) ? 125 : 65;case TEACH -> 45;case RECORD_ROUTE,STUDY_ROUTE -> 35;
+            case BUILD,FETCH_BUILD -> (job.destination()!=null && h.construction().needsRepair(job.destination()) || h.construction().needsRepair(job.target())) ? 125 : h.wild().works().workCell(job.destination()!=null ? job.destination() : job.target()) ? 115 : 65;case TEACH -> 45;case RECORD_ROUTE,STUDY_ROUTE -> 35;
             case COMPOST -> h.count(Items.BONE_MEAL)<2 ? 90 : 40;
             case COURT -> 55;case TEND -> 60;
             case CRAFT -> switch(CivicRecipes.RecipeId.values()[job.index()]) {
-                case DRESSING -> 150;case AXE -> h.count(Items.WOODEN_AXE)==0 ? 145 : 40;case STICKS -> h.count(Items.WOODEN_AXE)==0 ? 142 : 40;
+                case DRESSING -> 150;case AXE -> h.count(Items.WOODEN_AXE)==0 ? 145 : 40;case STICKS -> h.count(Items.WOODEN_AXE)==0 ? 142 : h.wild().works().needsPickaxe() || h.wild().works().needsTorches() ? 122 : 40;
                 case PLANKS -> h.count(Items.WOODEN_AXE)==0 ? 140 : 80;
                 case NEST -> 90;case COPPICE -> 90;case FRAME -> h.count(ModItems.GRAFTING_FRAME.get())==0 ? 80 : 50;case INCENSE -> 20;
+                case PICKAXE -> 125;case FURNACE -> 125;case TORCH -> 100;
             };
             default -> 200;
         };
@@ -223,14 +241,17 @@ public final class SocietyWork {
     }
     private WorkSpecialty lastSpecialty;
     private boolean recipeNeeded(HearthTreeBlockEntity h,CivicRecipes.RecipeId recipe) {return switch(recipe) {
-        case PLANKS -> CivicRecipes.count(h,ModItems.GUAVA_PLANKS.get())<64;
-        case STICKS -> CivicRecipes.count(h,Items.STICK)<2 && h.count(Items.WOODEN_AXE)==0;
+        case PLANKS -> CivicRecipes.count(h,ModItems.GUAVA_PLANKS.get())<(h.wild().works().pending() ? 12 : 64);
+        case STICKS -> CivicRecipes.count(h,Items.STICK)<2 && (h.count(Items.WOODEN_AXE)==0 || h.wild().works().needsPickaxe() || h.wild().works().needsTorches());
         case AXE -> h.count(Items.WOODEN_AXE)==0;
         case FRAME -> CivicRecipes.count(h,ModItems.GRAFTING_FRAME.get())<2;
         case NEST -> CivicRecipes.count(h,ModItems.NEST.get())<4 && h.construction().cells().stream().anyMatch(c->c.item()==ModItems.NEST.get() && h.construction().canBuild(c));
         case INCENSE -> CivicRecipes.count(h,ModItems.HEARTH_INCENSE.get())<8 && h.count(ModItems.GUAVA.get())>24;
         case DRESSING -> dressingNeeded(h);
         case COPPICE -> h.authorized() && h.orchard().stream().anyMatch(p->dog.level().hasChunkAt(p) && dog.level().getBlockState(p).isAir()) && CivicRecipes.count(h,ModItems.GUAVA_COPPICE.get())<2;
+        case PICKAXE -> h.wild().works().needsPickaxe();
+        case FURNACE -> h.wild().works().needsFurnace();
+        case TORCH -> h.wild().works().needsTorches();
     };}
     private boolean canStartFamily(HearthTreeBlockEntity h) {
         var list=h.residents();if(list.size()>=8 || list.stream().anyMatch(Bunnidog::isBaby) || h.count(ModItems.GUAVA.get())<20)return false;
@@ -252,12 +273,16 @@ public final class SocietyWork {
         if(capacity==CapabilityRules.Potential.INDEPENDENT)return true;if(capacity==CapabilityRules.Potential.LIMITED)return false;var h=hearth();
         return h!=null && h.residents().stream().anyMatch(mentor->mentor!=dog && mentor.society().calm() && dog.distanceToSqr(mentor)<=144 && mentor.learning().knowledge().independent(mentor.mind(),Learning.Routine.GARDEN) && CapabilityRules.potential(mentor.mind(),CapabilityRules.Task.BUILDING)==CapabilityRules.Potential.INDEPENDENT && HomeRoutes.visible(dog,mentor));
     }
+    private boolean buildingMaterialAvailable(HearthTreeBlockEntity h,HearthTreeBlockEntity.Cell cell) {
+        int reserve=cell.item()==ModItems.GUAVA_PLANKS.get() && h.wild().works().pending() && !h.wild().works().workCell(cell.pos()) ? 12 : 0;
+        return CivicRecipes.count(h,cell.item())>reserve;
+    }
     private boolean collectBuild(Job job) {
         var h=hearth();var l=(ServerLevel)dog.level();var cell=job.destination()==null ? null : h.construction().cell(job.destination());
-        if(!cargo.isEmpty() || cell==null || !job.target().equals(h.getBlockPos()) || !buildingReady() || !h.construction().canBuild(cell) || l.hasNeighborSignal(h.getBlockPos()))return false;
+        if(!cargo.isEmpty() || cell==null || !job.target().equals(h.getBlockPos()) || !buildingReady() || !h.construction().canBuild(cell) || !buildingMaterialAvailable(h,cell) || l.hasNeighborSignal(h.getBlockPos()))return false;
         medicalBusy=true;
         try {
-            if(!EventHooks.canEntityGrief(l,dog) || !ready() || hearth()!=h || !h.construction().canBuild(cell) || !buildingReady())return false;
+            if(!EventHooks.canEntityGrief(l,dog) || !ready() || hearth()!=h || !h.construction().canBuild(cell) || !buildingMaterialAvailable(h,cell) || !buildingReady())return false;
             try(var tx=net.neoforged.neoforge.transfer.transaction.Transaction.openRoot()) {
                 var resource=net.neoforged.neoforge.transfer.item.ItemResource.of(new ItemStack(cell.item()));
                 if(net.neoforged.neoforge.transfer.item.VanillaContainerWrapper.of(h).extract(resource,1,tx)!=1 || !h.attached())return false;
@@ -275,7 +300,7 @@ public final class SocietyWork {
             // The paid material stays owned by this carrier through permission callbacks and failed edits.
             var material=cargo;cargo=ItemStack.EMPTY;buildingCargo=false;boolean placed=false;
             try {placed=l.setBlock(cell.pos(),cell.state(),3);if(!placed)return false;
-                destination=null;parcelOwner=null;h.construction().placed(cell.pos());h.evidence("build",1);return true;
+                destination=null;parcelOwner=null;h.construction().placed(cell.pos());h.wild().works().placed(cell.pos());h.evidence("build",1);return true;
             } finally {if(!placed) {if(dog.isAlive() && !dog.isRemoved()) {cargo=material;buildingCargo=true;}else dog.spawnAtLocation(l,material);}}
         } finally {medicalBusy=false;}
     }
@@ -336,9 +361,50 @@ public final class SocietyWork {
             cargo=original;destination=h.getBlockPos();parcelOwner=h.owner();grownCargo=false;tx.commit();return true;
         }
     }
+    private boolean collectPickaxe(Job job) {
+        var h=hearth();var l=(ServerLevel)dog.level();
+        if(!cargo.isEmpty() || !harvestReady() || h.isLocked() || !l.hasChunksAt(h.getBlockPos().offset(-1,-1,-1),h.getBlockPos().offset(1,1,1)) || l.hasNeighborSignal(h.getBlockPos()) || !job.target().equals(h.getBlockPos())
+                || job.destination()==null || !h.wild().works().needsStone() || !h.wild().works().canMine(job.destination()))return false;
+        int slot=WildForaging.pickaxeSlot(h);if(slot<0)return false;var tool=h.getItem(slot).copy();
+        if(!EventHooks.canEntityGrief(l,dog) || !ready() || hearth()!=h || !harvestReady() || !cargo.isEmpty() || h.isLocked()
+                || !l.hasChunksAt(h.getBlockPos().offset(-1,-1,-1),h.getBlockPos().offset(1,1,1)) || l.hasNeighborSignal(h.getBlockPos())
+                || !h.wild().works().needsStone() || !h.wild().works().canMine(job.destination()) || !ItemStack.matches(tool,h.getItem(slot)))return false;
+        try(var tx=net.neoforged.neoforge.transfer.transaction.Transaction.openRoot()) {
+            if(net.neoforged.neoforge.transfer.item.VanillaContainerWrapper.of(h).extract(slot,net.neoforged.neoforge.transfer.item.ItemResource.of(tool),1,tx)!=1
+                    || !h.attached() || !ready() || hearth()!=h || !cargo.isEmpty())return false;
+            cargo=tool;miningCargo=true;destination=job.destination();parcelOwner=h.owner();grownCargo=false;tx.commit();return true;
+        }
+    }
+    private boolean mineReady(HearthTreeBlockEntity h,Job job,ItemStack tool) {
+        return ready() && hearth()==h && harvestReady() && miningTool() && Objects.equals(parcelOwner,h.owner()) && ItemStack.matches(cargo,tool)
+                && !h.isLocked() && dog.level().hasChunksAt(h.getBlockPos().offset(-1,-1,-1),h.getBlockPos().offset(1,1,1))
+                && !dog.level().hasNeighborSignal(h.getBlockPos()) && h.wild().works().needsStone() && h.wild().works().canMine(job.target())
+                && cargo.isCorrectToolForDrops(job.expected());
+    }
+    private boolean mineStone(Job job) {
+        var h=hearth();var l=(ServerLevel)dog.level();var exact=cargo.copy();
+        if(!mineReady(h,job,exact))return false;
+        boolean allowed=grief(l,job.target());h.wild().works().observe();if(!allowed || !mineReady(h,job,exact))return false;
+        boolean canceled=EventHooks.onBlockPlace(dog,BlockSnapshot.create(l.dimension(),l,job.target()),Direction.UP);h.wild().works().observe();if(canceled || !mineReady(h,job,exact))return false;
+        var drops=Block.getDrops(job.expected(),l,job.target(),null,dog,exact);
+        h.wild().works().observe();
+        if(!mineReady(h,job,exact) || !h.wild().works().reserveStone(job.target()))return false;
+        var tool=cargo;var owner=parcelOwner;var target=destination;cargo=ItemStack.EMPTY;miningCargo=false;boolean changed=false;
+        try {
+            changed=l.setBlock(job.target(),Blocks.AIR.defaultBlockState(),3);if(!changed)return false;
+            tool.setDamageValue(tool.getDamageValue()+1);if(tool.getDamageValue()>=tool.getMaxDamage())tool.shrink(1);
+            CivicFields.scatter(h,job.target(),drops);return true;
+        } finally {
+            if(!changed)h.wild().works().unreserveStone(job.target());
+            if(!tool.isEmpty()) {
+                if(dog.isAlive() && !dog.isRemoved() && cargo.isEmpty()) {cargo=tool;miningCargo=true;parcelOwner=owner;destination=target;}
+                else dog.spawnAtLocation(l,tool);
+            } else if(cargo.isEmpty()) {parcelOwner=null;destination=null;}
+        }
+    }
     /** Called by the goal only after walking to the target and completing a visible work period. */
     public boolean perform(Job job) {
-        if(operating || medicalBusy || !cargo.isEmpty() && job.kind()!=Kind.DELIVER && job.kind()!=Kind.BUILD && job.kind()!=Kind.CARE && job.kind()!=Kind.SOW_FIELD && job.kind()!=Kind.LOAD_FURNACE || !ready() || !hearth().jobs().available(dog,job) || dog.distanceToSqr(Vec3.atCenterOf(job.target()))>16 || !dog.level().hasChunkAt(job.target()))return false;
+        if(operating || medicalBusy || !cargo.isEmpty() && job.kind()!=Kind.DELIVER && job.kind()!=Kind.BUILD && job.kind()!=Kind.CARE && job.kind()!=Kind.SOW_FIELD && job.kind()!=Kind.LOAD_FURNACE && job.kind()!=Kind.MINE_STONE || !ready() || !hearth().jobs().available(dog,job) || dog.distanceToSqr(Vec3.atCenterOf(job.target()))>16 || !dog.level().hasChunkAt(job.target()))return false;
         operating=true;
         try {
         var h=hearth();var l=(ServerLevel)dog.level();boolean ok=false;Learning.Routine learned=null;
@@ -347,6 +413,8 @@ public final class SocietyWork {
             case FETCH_FURNACE -> {ok=collectFurnaceSupply(job);}
             case LOAD_FURNACE -> {ok=loadFurnace(job);learned=Learning.Routine.GARDEN;}
             case EMPTY_FURNACE -> {ok=emptyFurnace(job);}
+            case FETCH_PICKAXE -> {ok=collectPickaxe(job);}
+            case MINE_STONE -> {ok=mineStone(job);learned=Learning.Routine.HARVEST;}
             case RECORD_ROUTE -> {ok=dog.courierLore().record(h,job.index());}
             case STUDY_ROUTE -> {ok=dog.courierLore().study(h,job.index());}
             case FETCH_AID -> {ok=collectAid(job);}
@@ -374,7 +442,7 @@ public final class SocietyWork {
                 else if(l.getBlockEntity(job.target()) instanceof FeedingTroughBlockEntity t && h.sites().contains(job.target()) && t.getBlockState().getValue(FeedingTroughBlock.TENDING) && !t.residentsPaused()) {int inserted=t.insert(cargo);if(grownCargo && inserted>0)h.evidence("haul",inserted);cargo.shrink(inserted);ok=inserted>0;}
                 else if(h.wild().natural() && job.target().equals(h.wild().nursery()))ok=plantSoil(h,job.target());
                 else if(l.getBlockEntity(job.target()) instanceof NurseryCradleBlockEntity c && c.seed().isEmpty() && communitySeed(cargo,h) && c.insert(cargo)) {cargo.shrink(1);ok=true;}
-                if(ok) {if(cargo.isEmpty()) {destination=null;grownCargo=false;buildingCargo=fieldCargo=false;parcelOwner=null;furnaceSlot=-1;furnaceToken=null;}learned=Learning.Routine.DELIVERY;}
+                if(ok) {if(cargo.isEmpty()) {destination=null;grownCargo=false;buildingCargo=fieldCargo=miningCargo=false;parcelOwner=null;furnaceSlot=-1;furnaceToken=null;}learned=Learning.Routine.DELIVERY;}
             }
             case COMPOST -> {if(!gardener() || !h.sites().contains(job.target()) || !job.expected().is(Blocks.COMPOSTER) || !grief(l,job.target()))break;
                 int n=job.expected().getValue(ComposterBlock.LEVEL);
@@ -457,7 +525,7 @@ public final class SocietyWork {
             if(ok && cargo.isEmpty())clearMedicine();return ok;
         } finally {medicalBusy=false;}
     }
-    private void clearMedicine() {buildingCargo=fieldCargo=firstAidCargo=false;furnaceSlot=-1;furnaceToken=null;parcelOwner=null;aidPatient=null;aidBed=null;aidOwner=null;destination=null;grownCargo=false;}
+    private void clearMedicine() {buildingCargo=fieldCargo=firstAidCargo=miningCargo=false;furnaceSlot=-1;furnaceToken=null;parcelOwner=null;aidPatient=null;aidBed=null;aidOwner=null;destination=null;grownCargo=false;}
     private boolean returnSupplies() {
         var h=hearth();if(h==null || parcelOwner!=null && !parcelOwner.equals(h.owner()))return false;var original=cargo.copy();boolean grown=grownCargo;
         if(!EventHooks.canEntityGrief((ServerLevel)dog.level(),dog) || !ready() || hearth()!=h || !ItemStack.matches(cargo,original))return false;
@@ -501,7 +569,7 @@ public final class SocietyWork {
         seed.set(ModItems.HEARTH_SITE.get(),h.site().toString());seed.set(ModItems.HEARTH_LINK.get(),GlobalPos.of(a.level().dimension(),h.getBlockPos()));return h.put(seed);
     }
     public static HearthTreeBlockEntity seedHome(ServerLevel l,ItemStack seed) {var p=seed.get(ModItems.HEARTH_LINK.get());return p!=null && p.dimension().equals(l.dimension()) && l.hasChunkAt(p.pos()) && l.getBlockEntity(p.pos()) instanceof HearthTreeBlockEntity h && communitySeed(seed,h) ? h : null;}
-    public void returnCargo() {if(cargo.isEmpty())return;var h=hearth();if(h==null || !h.put(cargo))dog.spawnAtLocation((ServerLevel)dog.level(),cargo);cargo=ItemStack.EMPTY;destination=null;grownCargo=false;buildingCargo=fieldCargo=false;furnaceSlot=-1;furnaceToken=null;parcelOwner=null;}
-    public void save(ValueOutput o) {if(furnaceSlot>=0 && furnaceToken!=null && !cargo.isEmpty()) {o.putInt("SocietyFurnaceSlot",furnaceSlot);o.putString("SocietyFurnaceToken",furnaceToken);}o.putBoolean("SocietyFirstAidParcel",firstAidCargo);o.putBoolean("SocietyFieldParcel",fieldCargo);o.putBoolean("SocietyBuildParcel",buildingCargo);if(parcelOwner!=null)o.putString("SocietyParcelOwner",parcelOwner.toString());if(lastSpecialty!=null)o.putString("SocietySpecialty",lastSpecialty.name());if(aidPatient!=null) {o.putString("SocietyAidPatient",aidPatient.toString());if(aidBed!=null)o.store("SocietyAidBed",BlockPos.CODEC,aidBed);if(aidOwner!=null)o.putString("SocietyAidOwner",aidOwner.toString());}if(home!=null && site!=null) {o.store("SocietyHome",GlobalPos.CODEC,home);o.putString("SocietySite",site.toString());o.putBoolean("SocietyBorn",child);o.putInt("SocietyTeaching",residentLessons);o.putInt("SocietyMeals",workSinceMeal);o.putInt("SocietyWait",(int)Math.clamp(nextWork-dog.level().getGameTime(),0L,80L));}if(!cargo.isEmpty()) {o.store("SocietyCargo",ItemStack.CODEC,cargo);if(destination!=null)o.store("SocietyDestination",BlockPos.CODEC,destination);o.putBoolean("SocietyGrownCargo",grownCargo);}}
-    public void load(ValueInput i) {release();try {lastSpecialty=WorkSpecialty.valueOf(i.getStringOr("SocietySpecialty",""));}catch(IllegalArgumentException e){lastSpecialty=null;}buildingCargo=i.getBooleanOr("SocietyBuildParcel",false);fieldCargo=!buildingCargo && i.getBooleanOr("SocietyFieldParcel",false);firstAidCargo=!buildingCargo && !fieldCargo && i.getBooleanOr("SocietyFirstAidParcel",false);try {parcelOwner=UUID.fromString(i.getStringOr("SocietyParcelOwner",""));}catch(IllegalArgumentException e){parcelOwner=null;}medicalBusy=false;aidBed=i.read("SocietyAidBed",BlockPos.CODEC).orElse(null);try {aidPatient=UUID.fromString(i.getStringOr("SocietyAidPatient",""));}catch(IllegalArgumentException e){aidPatient=null;}try {aidOwner=UUID.fromString(i.getStringOr("SocietyAidOwner",""));}catch(IllegalArgumentException e){aidOwner=null;}home=i.read("SocietyHome",GlobalPos.CODEC).orElse(null);try {site=UUID.fromString(i.getStringOr("SocietySite",""));}catch(IllegalArgumentException e) {site=null;home=null;}child=i.getBooleanOr("SocietyBorn",false);residentLessons=i.getIntOr("SocietyTeaching",0)&((1<<Learning.Routine.values().length)-1);workSinceMeal=Math.clamp(i.getIntOr("SocietyMeals",0),0,6);cargo=i.read("SocietyCargo",ItemStack.CODEC).orElse(ItemStack.EMPTY);destination=i.read("SocietyDestination",BlockPos.CODEC).orElse(null);grownCargo=i.getBooleanOr("SocietyGrownCargo",false);nextWork=dog.level().getGameTime()+Math.clamp(i.getIntOr("SocietyWait",0),0,80);furnaceSlot=i.getIntOr("SocietyFurnaceSlot",-1);furnaceToken=i.getStringOr("SocietyFurnaceToken","");if(furnaceSlot<0 || furnaceSlot>1 || furnaceToken.isEmpty() || cargo.isEmpty() || buildingCargo || fieldCargo || aidPatient!=null) {furnaceSlot=-1;furnaceToken=null;}}
+    public void returnCargo() {if(cargo.isEmpty())return;var h=hearth();if(h==null || !h.put(cargo))dog.spawnAtLocation((ServerLevel)dog.level(),cargo);cargo=ItemStack.EMPTY;destination=null;grownCargo=false;buildingCargo=fieldCargo=miningCargo=false;furnaceSlot=-1;furnaceToken=null;parcelOwner=null;}
+    public void save(ValueOutput o) {o.putBoolean("SocietyMiningParcel",miningCargo);if(furnaceSlot>=0 && furnaceToken!=null && !cargo.isEmpty()) {o.putInt("SocietyFurnaceSlot",furnaceSlot);o.putString("SocietyFurnaceToken",furnaceToken);}o.putBoolean("SocietyFirstAidParcel",firstAidCargo);o.putBoolean("SocietyFieldParcel",fieldCargo);o.putBoolean("SocietyBuildParcel",buildingCargo);if(parcelOwner!=null)o.putString("SocietyParcelOwner",parcelOwner.toString());if(lastSpecialty!=null)o.putString("SocietySpecialty",lastSpecialty.name());if(aidPatient!=null) {o.putString("SocietyAidPatient",aidPatient.toString());if(aidBed!=null)o.store("SocietyAidBed",BlockPos.CODEC,aidBed);if(aidOwner!=null)o.putString("SocietyAidOwner",aidOwner.toString());}if(home!=null && site!=null) {o.store("SocietyHome",GlobalPos.CODEC,home);o.putString("SocietySite",site.toString());o.putBoolean("SocietyBorn",child);o.putInt("SocietyTeaching",residentLessons);o.putInt("SocietyMeals",workSinceMeal);o.putInt("SocietyWait",(int)Math.clamp(nextWork-dog.level().getGameTime(),0L,80L));}if(!cargo.isEmpty()) {o.store("SocietyCargo",ItemStack.CODEC,cargo);if(destination!=null)o.store("SocietyDestination",BlockPos.CODEC,destination);o.putBoolean("SocietyGrownCargo",grownCargo);}}
+    public void load(ValueInput i) {release();try {lastSpecialty=WorkSpecialty.valueOf(i.getStringOr("SocietySpecialty",""));}catch(IllegalArgumentException e){lastSpecialty=null;}buildingCargo=i.getBooleanOr("SocietyBuildParcel",false);fieldCargo=!buildingCargo && i.getBooleanOr("SocietyFieldParcel",false);firstAidCargo=!buildingCargo && !fieldCargo && i.getBooleanOr("SocietyFirstAidParcel",false);try {parcelOwner=UUID.fromString(i.getStringOr("SocietyParcelOwner",""));}catch(IllegalArgumentException e){parcelOwner=null;}medicalBusy=false;aidBed=i.read("SocietyAidBed",BlockPos.CODEC).orElse(null);try {aidPatient=UUID.fromString(i.getStringOr("SocietyAidPatient",""));}catch(IllegalArgumentException e){aidPatient=null;}try {aidOwner=UUID.fromString(i.getStringOr("SocietyAidOwner",""));}catch(IllegalArgumentException e){aidOwner=null;}home=i.read("SocietyHome",GlobalPos.CODEC).orElse(null);try {site=UUID.fromString(i.getStringOr("SocietySite",""));}catch(IllegalArgumentException e) {site=null;home=null;}child=i.getBooleanOr("SocietyBorn",false);residentLessons=i.getIntOr("SocietyTeaching",0)&((1<<Learning.Routine.values().length)-1);workSinceMeal=Math.clamp(i.getIntOr("SocietyMeals",0),0,6);cargo=i.read("SocietyCargo",ItemStack.CODEC).orElse(ItemStack.EMPTY);destination=i.read("SocietyDestination",BlockPos.CODEC).orElse(null);grownCargo=i.getBooleanOr("SocietyGrownCargo",false);nextWork=dog.level().getGameTime()+Math.clamp(i.getIntOr("SocietyWait",0),0,80);miningCargo=i.getBooleanOr("SocietyMiningParcel",false) && !buildingCargo && !fieldCargo && aidPatient==null && WildForaging.usablePickaxe(cargo);furnaceSlot=i.getIntOr("SocietyFurnaceSlot",-1);furnaceToken=i.getStringOr("SocietyFurnaceToken","");if(furnaceSlot<0 || furnaceSlot>1 || furnaceToken.isEmpty() || cargo.isEmpty() || buildingCargo || fieldCargo || miningCargo || aidPatient!=null) {furnaceSlot=-1;furnaceToken=null;}}
 }

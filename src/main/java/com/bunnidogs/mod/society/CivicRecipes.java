@@ -16,7 +16,7 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 /** Finite practical recipe vocabulary, executed by the real recipe manager and common-store journal. */
 public final class CivicRecipes {
-    public enum RecipeId { PLANKS,STICKS,AXE,FRAME,NEST,INCENSE,DRESSING,COPPICE }
+    public enum RecipeId { PLANKS,STICKS,AXE,FRAME,NEST,INCENSE,DRESSING,COPPICE,PICKAXE,FURNACE,TORCH }
     public record Plan(RecipeId id,CraftingRecipe recipe,CraftingInput input,ItemStack result,List<ItemStack> remainders) {}
     private CivicRecipes() {}
     public static boolean ordinary(ItemStack stack) {if(stack.isEmpty())return false;var plain=stack.copyWithCount(1);plain.remove(ModItems.FARM_ORIGIN.get());return ItemStack.isSameItemSameComponents(plain,new ItemStack(stack.getItem()));}
@@ -35,6 +35,9 @@ public final class CivicRecipes {
             case INCENSE -> {key="bunnidogs:hearth_incense";pattern="GGGP";width=2;legend=Map.of('P',planks,'G',item(ModItems.GUAVA.get()));}
             case DRESSING -> {key="bunnidogs:hearth_poultice";pattern=" G BPH";width=3;legend=Map.of('G',item(ModItems.GUAVA.get()),'B',item(Items.BONE_MEAL),'P',item(Items.PAPER),'H',item(Items.HONEYCOMB));}
             case COPPICE -> {key="bunnidogs:guava_coppice";pattern="BS";width=2;legend=Map.of('B',item(Items.BONE_MEAL),'S',item(ModItems.GUAVA_SAPLING.get()));}
+            case PICKAXE -> {key="minecraft:wooden_pickaxe";pattern="PPP S  S ";width=3;legend=Map.of('P',planks,'S',item(Items.STICK));}
+            case FURNACE -> {key="minecraft:furnace";pattern="CCCC CCCC";width=3;legend=Map.of('C',item(Items.COBBLESTONE));}
+            case TORCH -> {key="minecraft:torch";pattern="CS";width=1;legend=Map.of('C',stack->stack.is(Items.COAL) || stack.is(Items.CHARCOAL),'S',item(Items.STICK));}
             default -> throw new IllegalStateException();
         }
         var reference=level.recipeAccess().byKey(ResourceKey.create(Registries.RECIPE,Identifier.parse(key))).orElse(null);

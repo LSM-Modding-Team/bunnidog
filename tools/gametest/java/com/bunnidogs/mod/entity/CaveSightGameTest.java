@@ -39,8 +39,14 @@ public final class CaveSightGameTest {
         player.setPos(Vec3.atBottomCenterOf(h.absolutePos(new BlockPos(3,floor+1,2)))); player.setShiftKeyDown(true);
         var berries=new ItemStack(Items.GLOW_BERRIES,3); berries.set(DataComponents.CUSTOM_NAME,Component.literal("Keeper's exact berries"));
         player.setItemInHand(InteractionHand.MAIN_HAND,berries);
-        h.runAfterDelay(5,()->{
-            h.assertTrue(dog.caveSightStatus(player)==CaveSight.Status.READY,"Actual dim-room guidance must become ready after native light updates");
+        var light=level.getChunkSource().getLightEngine();var column=player.chunkPosition();
+        var settled=new java.util.concurrent.CompletableFuture<?>[]{light.waitForPendingTasks(column.x(),column.z())};
+        h.startSequence().thenWaitUntil(()->{
+            light.tryScheduleUpdate();
+            h.assertTrue(settled[0].isDone(),"Native room lighting must settle before the paid interaction");settled[0].join();
+            h.assertTrue(dog.caveSightStatus(player)==CaveSight.Status.READY,"Actual dim-room guidance must become ready after native light updates: "
+                    +dog.caveSightStatus(player)+", light="+level.getMaxLocalRawBrightness(player.blockPosition()));
+        }).thenExecute(()->{
             dog.setStats(Stats.of(0,0,0,19,0)); player.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
             h.assertTrue(berries.getCount()==3&&!player.hasEffect(MobEffects.NIGHT_VISION),"Undeveloped sight never spends the offered fruit"); dog.setStats(Stats.of(0,0,0,20,0));
             player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION,2400,1)); player.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
@@ -82,12 +88,17 @@ public final class CaveSightGameTest {
             player.removeEffect(MobEffects.NIGHT_VISION); dog.load(TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),saved));
             // Keep the source in the player's chunk column; cross-border lighting can lag during the large native batch.
             h.setBlock(3,floor+4,2,Blocks.SEA_LANTERN);
-            h.succeedWhen(()->{
-                h.assertTrue(dog.caveSightStatus(player)==CaveSight.Status.BRIGHT,"A real nearby light prevents redundant cave guidance: "
-                        +dog.caveSightStatus(player)+", light="+level.getMaxLocalRawBrightness(player.blockPosition()));
-                player.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
-                h.assertTrue(!player.hasEffect(MobEffects.NIGHT_VISION)&&dog.caveSightWait()==0,"Bright refusals give no effect or recovery");
-            });
-        });
+            settled[0]=light.waitForPendingTasks(column.x(),column.z());
+        }).thenWaitUntil(()->{
+            light.tryScheduleUpdate();
+            h.assertTrue(settled[0].isDone(),"Native lantern lighting must settle before the bright-room refusal");settled[0].join();
+            h.assertTrue(dog.caveSightStatus(player)==CaveSight.Status.BRIGHT,"A real nearby light prevents redundant cave guidance: "
+                    +dog.caveSightStatus(player)+", light="+level.getMaxLocalRawBrightness(player.blockPosition())
+                    +", source="+h.getBlockState(new BlockPos(3,floor+4,2)));
+        }).thenExecute(()->{
+            player.interactOn(dog,InteractionHand.MAIN_HAND,Vec3.ZERO);
+            h.assertTrue(!player.hasEffect(MobEffects.NIGHT_VISION)&&dog.caveSightWait()==0,"Bright refusals give no effect or recovery");
+            dog.discard();player.discard();
+        }).thenSucceed();
     }
 }

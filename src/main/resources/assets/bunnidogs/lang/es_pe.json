@@ -2533,6 +2533,8 @@
   "care.bunnidogs.commons.working.fetch_furnace": "Buscando insumos del horno",
   "care.bunnidogs.commons.working.load_furnace": "Cargando el horno",
   "care.bunnidogs.commons.working.empty_furnace": "Recogiendo lo procesado",
+  "care.bunnidogs.commons.working.fetch_pickaxe": "Buscando el pico común",
+  "care.bunnidogs.commons.working.mine_stone": "Picando las piedras del claro",
   "tooltip.bunnidogs.ground_remnant": "Vestigio de ápex terrestre",
   "block.bunnidogs.crown_socket": "Asiento de piedra llave",
   "message.bunnidogs.crown.archive_locked": "Al archivo le falta una piedra llave.",

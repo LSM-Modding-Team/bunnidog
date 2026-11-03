@@ -16,6 +16,13 @@ import net.neoforged.neoforge.event.EventHooks;
 /** Finite known fallen wood, renewable fruit, physical output; never general tree/player-build demolition. */
 public final class WildForaging {
     private WildForaging() {}
+    public static boolean usablePickaxe(ItemStack stack) {
+        if(!stack.is(net.minecraft.world.item.Items.WOODEN_PICKAXE) || stack.getCount()!=1 || stack.getDamageValue()>=stack.getMaxDamage())return false;
+        var plain=stack.copy();plain.setDamageValue(0);return CivicRecipes.ordinary(plain);
+    }
+    public static int pickaxeSlot(HearthTreeBlockEntity home) {
+        for(int slot=0;slot<home.getContainerSize();slot++)if(usablePickaxe(home.getItem(slot)))return slot;return -1;
+    }
     public static boolean harvest(Bunnidog dog,HearthTreeBlockEntity home,SocietyWork.Job job) {
         if(!home.wild().natural() || !(dog.level() instanceof ServerLevel level))return false;
         boolean wood=job.kind()==SocietyWork.Kind.CLIP_WOOD;

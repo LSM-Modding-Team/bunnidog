@@ -5,7 +5,42 @@ and only the specifications/source relevant to the next batch. Historical sandbo
 upload and approval routines in `docs/history/` do not apply. User requests and
 standing design latitude determine scope; a feature or push is a checkpoint.
 
-## Current — resident-operated native furnace workshops
+## Current — primitive wild workshops and a usable old-glade approach
+
+Fresh glades now offer twelve finite natural stone blocks and actual empty
+furnace/light work plots. Residents craft a real shared Wooden Pickaxe, carry it,
+mine native cobblestone with actual wear, haul the drops and pay native recipes
+for their own furnace and four supported torches. Native furnace cooking supplies
+real charcoal through separate paid supply/output journeys. No stock or skills
+are gifted; original caches/Nests remain generated starting infrastructure.
+
+The original Nest-blocked approach was preventing first-room authorization.
+New sites keep it clear; old glades can walk a bounded detour through their same
+original footprint, preserving their saved Nests and receiving no new quarry/
+workshop plots. Missing originals retire their finite permissions; loaded-only
+observations, native callback/stock revalidation, actual tool custody, first-job
+reserves and conservative repair rules remain. See `docs/WILD_FAMILY_SPECS.md`.
+
+Focused native checks prove the paid empty-store chain, exact tools/saves,
+protection, spent deposits, legacy isolation and unsupervised completion with
+native growth/rations. The inspected three-part native cell-map preview lives
+in `art/wild_glade/overview.png`. Functional native runs included 9,782 and
+25,378 loaded ticks, illustrating variable waiting; these selected capable
+founder fixtures do not establish natural Survival timing or client feel.
+Network 49 remains current. Java 25 build, model/localization and all **281**
+required native cases pass. The source observations in
+`docs/audits/wild-workshop-observations.json` distinguish actual loaded-tick
+observations from natural rates. Initial self-made stores/Nests, specialist recovery, adoption and broader
+civilization remain unfinished.
+
+The existing cave-guidance fixture now waits on native asynchronous lighting
+work and actual brightness for both its dark and lit phases. This fixes the
+five-tick startup assumption and retains the actual native effect/payment tests;
+cave gameplay values are unchanged.
+The first-aid fixture likewise waits for actual completed native care while
+retaining its exact ration, cargo and injury-recovery assertions.
+
+## Previous — resident-operated native furnace workshops
 
 The Staff now explicitly links actual Furnaces, Blast Furnaces and Smokers.
 Qualified craftspeople fetch real inputs/fuel, walk both supply legs and use
@@ -25,6 +60,9 @@ Java 25 build/localization and all four focused `furnace_*` native cases pass,
 including all furnace types and actual autonomous walking/cooking. Network 49
 remains current. Natural long-term staffing, throughput and client feel remain
 play review; full native CI remains the release gate.
+
+Full native CI, model/build gates and direct-JAR publication passed for
+`ae58a5f`, including the four furnace cases.
 
 ## Previous — bred infusion potency and reproducible kit donors
 
