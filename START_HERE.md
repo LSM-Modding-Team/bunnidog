@@ -37,7 +37,11 @@ waits for the actual milestone within its original bound. The corrected full
 run passed 298/299; its last old courier snapshot inspected a real paid parcel
 still walking at tick 210. It now waits for the actual first eight-item arrival
 within 480 ticks, retaining exact source/destination/empty-parcel assertions,
-and its focused native case passes. Full main CI remains the publication gate.
+and its focused native case passes. The first main CI run passed 298/299, exposing
+an older ritual fixture's immediate spawn-index lookup. It now checks the actual
+body captured from the native spawn callback, exact payment/Keystone and actual
+unpaid-body removal; its focused native case passes. Full main CI remains the
+publication gate.
 See [WORKSHOP_LEARNING_SPECS.md](docs/WORKSHOP_LEARNING_SPECS.md).
 
 Physical recipe/build culture, richer plans, self-made initial caches/Nests,

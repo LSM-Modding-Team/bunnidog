@@ -123,6 +123,12 @@ Status words: **COMPILED** = the user's compile accepted it (names and types are
   long-effect and unloaded-search assertions without making the tool load chunks.
   Resolved `PersistentEntitySectionManager` visibility/onMove and native tests
   distinguish a boundary predicate from an index-readiness precondition.
+- Ritual fixtures retain the exact Apex supplied by `EntityJoinLevelEvent`.
+  After a refused payment, assert that actual body is removed; after a successful
+  summon, assert one actual live body and the exact source/fuel/Keystone state.
+  A same-tick index query outside the small template can omit a newly added
+  body before native section visibility activates. This stronger identity check
+  avoids mistaking delayed indexing for a failed summon or an unpaid-body cleanup.
 - `TravelBasketItem.capture/release` already preserve a whole native entity and
   reject a duplicate UUID. Capture deliberately releases its old Nest ticket;
   civic rescue therefore retains the original destination separately, excludes

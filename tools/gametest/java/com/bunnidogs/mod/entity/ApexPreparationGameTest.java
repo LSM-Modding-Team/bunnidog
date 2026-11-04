@@ -32,10 +32,14 @@ public final class ApexPreparationGameTest {
             var nested=new AtomicReference<ApexRitual.Status>();Consumer<EntityJoinLevelEvent> reject=e->{if(e.getEntity() instanceof Apex && e.getLevel()==l) {nested.set(ApexRitual.summon(p,pos,source));e.setCanceled(true);}};
             menu=arm(h,p,pos);NeoForge.EVENT_BUS.addListener(reject);try {menu.clickMenuButton(p,menu.buttonId(ApexPanel.SUMMON));}finally {NeoForge.EVENT_BUS.unregister(reject);}
             h.assertTrue(nested.get()==ApexRitual.Status.BUSY && source.getCount()==2 && fuel.getCount()==initial,"Canceled/reentrant spawning cannot charge or create a free boss");
-            Consumer<EntityJoinLevelEvent> steal=e->{if(e.getEntity() instanceof Apex && e.getLevel()==l)p.getInventory().setItem(7,ItemStack.EMPTY);};
+            var unpaid=new AtomicReference<Apex>();Consumer<EntityJoinLevelEvent> steal=e->{if(e.getEntity() instanceof Apex actor && e.getLevel()==l) {unpaid.set(actor);p.getInventory().setItem(7,ItemStack.EMPTY);}};
             menu=arm(h,p,pos);NeoForge.EVENT_BUS.addListener(steal);try {menu.clickMenuButton(p,menu.buttonId(ApexPanel.SUMMON));}finally {NeoForge.EVENT_BUS.unregister(steal);}
-            h.assertTrue(source.getCount()==2 && l.getEntitiesOfClass(Apex.class,new AABB(pos).inflate(5)).isEmpty(),"Fuel removed by a spawn callback removes the unpaid Apex");p.getInventory().setItem(7,fuel);
-            menu=arm(h,p,pos);h.assertTrue(menu.clickMenuButton(p,menu.buttonId(ApexPanel.SUMMON)),"A revalidated deliberate summon commits");var bosses=l.getEntitiesOfClass(Apex.class,new AABB(pos).inflate(5));h.assertTrue(bosses.size()==1 && source.getCount()==1 && fuel.getCount()==initial-1 && ((com.bunnidogs.mod.society.CrucibleHeartBlockEntity)l.getBlockEntity(pos)).ready(),"A successful ritual spends one source and incense and retains its actual Keystone");bosses.forEach(Apex::discard);p.discard();
+            h.assertTrue(source.getCount()==2 && unpaid.get()!=null && unpaid.get().isRemoved() && l.getEntitiesOfClass(Apex.class,new AABB(pos).inflate(5)).isEmpty(),"Fuel removed by a spawn callback removes the actual unpaid Apex");p.getInventory().setItem(7,fuel);
+            // Entity-section visibility can activate after this same-tick callback. Keep the actual spawned body
+            // authoritative for both removal and payment, rather than depending on immediate index visibility.
+            var bosses=new java.util.ArrayList<Apex>();Consumer<EntityJoinLevelEvent> capture=e->{if(e.getEntity() instanceof Apex actor && e.getLevel()==l)bosses.add(actor);};
+            menu=arm(h,p,pos);NeoForge.EVENT_BUS.addListener(capture);try {h.assertTrue(menu.clickMenuButton(p,menu.buttonId(ApexPanel.SUMMON)),"A revalidated deliberate summon commits");}finally {NeoForge.EVENT_BUS.unregister(capture);}
+            h.assertTrue(bosses.size()==1 && bosses.getFirst().isAlive() && !bosses.getFirst().isRemoved() && source.getCount()==1 && fuel.getCount()==initial-1 && ((com.bunnidogs.mod.society.CrucibleHeartBlockEntity)l.getBlockEntity(pos)).ready(),"A successful ritual spends one source and incense and retains its actual Keystone: actors="+bosses.size()+", source="+source.getCount()+", fuel="+fuel.getCount());bosses.forEach(Apex::discard);p.discard();
         }finally {l.getServer().setDifficulty(previous,true);}
     }
 }
