@@ -72,6 +72,7 @@ public final class BunnidogLearning {
     public boolean begin(Player player, Learning.Routine routine) {
         if (!canBegin(player, routine) || dog.level().isClientSide()) return false;
         dog.courierLore().cancel();
+        dog.workshopLessons().cancel();
         observation.clear();lesson = routine; teacher = player.getUUID(); until = dog.level().getGameTime() + SESSION_TICKS; observed=routine==Learning.Routine.SCOUT ? Activity.WATCHING : Activity.SEARCHING;
         dog.setPersistenceRequired();
         player.sendOverlayMessage(net.minecraft.network.chat.Component.translatable("message.bunnidogs.learning.started",
@@ -85,7 +86,7 @@ public final class BunnidogLearning {
                 && player.hasLineOfSight(dog) && !dog.trail().ordered() && !dog.workPaused();
     }
     public boolean canWork(Learning.Routine routine) {
-        if (opaqueKnowledge != null || dog.courierLore().occupied() || dog.deliveries().watching() || !dog.deliveries().cargo().isEmpty()) return false;
+        if (opaqueKnowledge != null || dog.courierLore().occupied() || dog.workshopLessons().apprenticing() || dog.deliveries().watching() || !dog.deliveries().cargo().isEmpty()) return false;
         // A lesson focuses one routine, so other chores cannot consume its shared work/rest window.
         if (lesson != null) return lesson == routine && guided()
                 && CapabilityRules.potential(dog.mind(), routine.task()) != CapabilityRules.Potential.LIMITED;
@@ -151,7 +152,13 @@ public final class BunnidogLearning {
     void deliveryPractice() {
         if(opaqueKnowledge==null && !dog.level().isClientSide() && CapabilityRules.potential(dog.mind(),Learning.Routine.DELIVERY.task())!=CapabilityRules.Potential.LIMITED)knowledge=knowledge.practice(dog.mind(),Learning.Routine.DELIVERY);
     }
-    public void cancel() { lesson = null; teacher = null; until = 0; observed=Activity.SEARCHING; observation.clear(); }
+    void workshopPractice(Learning.Routine routine) {
+        if(!canDiscover() || !routine.workshop() || dog.level().isClientSide())return;
+        knowledge=knowledge.practice(dog.mind(),routine);
+        if(knowledge.knows(routine))dog.society().taught(routine);
+        ((ServerLevel)dog.level()).sendParticles(ParticleTypes.HAPPY_VILLAGER,dog.getX(),dog.getY()+.6,dog.getZ(),4,.2,.2,.2,0);
+    }
+    public void cancel() { lesson = null; teacher = null; until = 0; observed=Activity.SEARCHING; observation.clear();dog.workshopLessons().cancel(); }
     void tick() {
         observation.tick();
         if (lesson == null) return;

@@ -31,7 +31,7 @@ public final class CourierLore {
     public void cancel() {teacher=null;example=null;witnessed=0;}
     void reset() {cancel();guide=null;search=guideSearch=0;atDesk=busy=false;}
     private boolean receptive() {
-        return dog.deliveries().readyBody() && dog.deliveries().cargo().isEmpty() && dog.society().cargoEmpty() && !dog.deliveries().watching()
+        return dog.deliveries().readyBody() && dog.deliveries().cargo().isEmpty() && dog.society().cargoEmpty() && !dog.workshopLessons().apprenticing() && !dog.deliveries().watching()
                 && dog.learning().lesson()==null && Supplying.qualified(dog.stats()) && CapabilityRules.potential(dog.mind(),CapabilityRules.Task.DELIVERY)!=CapabilityRules.Potential.LIMITED;
     }
     private static boolean expert(Bunnidog teacher,HearthTreeBlockEntity home) {
@@ -52,7 +52,7 @@ public final class CourierLore {
         var home=dog.society().hearth();if(home==null)return;
         if(dog.learning().knowledge().knows(Learning.Routine.DELIVERY) && archiveJob(home)!=null)return;
         for(var mentor:home.residents())if(mentor!=dog && dog.distanceToSqr(mentor)<=64 && HomeRoutes.visible(dog,mentor) && expert(mentor,home)
-                && home.residents().stream().noneMatch(other->mentor.getUUID().equals(other.courierLore().teacher))) {teacher=mentor.getUUID();break;}
+                && home.residents().stream().noneMatch(other->mentor.getUUID().equals(other.courierLore().teacher) || mentor.getUUID().equals(other.workshopLessons().teacher()))) {teacher=mentor.getUUID();break;}
     }
     boolean guided(DeliveryMemory.Route route) {
         if(!(dog.level() instanceof ServerLevel level) || !dog.learning().knowledge().knows(Learning.Routine.DELIVERY))return false;

@@ -109,6 +109,12 @@ and communication can learn in one. These are prototype pacing values, not
 natural Survival balance evidence. Practice does not improve DNA or bred
 points, and capacity beyond the supported threshold cannot be ground past.
 
+Workshop residents can learn from one locally followed expert's actual paid
+work, using the same personal practice rule. Original pickup/completion witnesses
+are required for construction and furnace supply; native recipes teach only
+after commit. No claim, waiting, failure or reload grants experience. See
+[WORKSHOP_LEARNING_SPECS.md](WORKSHOP_LEARNING_SPECS.md) for session/authority bounds.
+
 ## Inspection and breeding
 
 Calipers, sample, seed, book/Registry and Genetics Table windows have a **Mind**

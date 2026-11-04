@@ -62,6 +62,23 @@ a limited mind cannot acquire or perform it through repetition. New workshop
 skills do not upload Gardening or one another. The existing personal practice
 gain, complementary capacities and physical stats remain meaningful.
 
+An unoccupied adult beginner can also follow a same-household expert's own
+started Crafting or Building job. Each expert has at most one walking pupil
+across courier and workshop apprenticeship. Selection requires actual local
+sight and an owned work claim; observing a public offer grants nothing. The
+pupil uses native safe loaded walking, keeps no competing job or parcel, and
+the requested Lessons view reports Watching or Walking. Its Stop action and
+direct keeper instruction interrupt the session.
+
+Only the expert's committed native operation grants practice. A recipe must be
+visible when its real transaction commits. Building and furnace supply require
+both the original material pickup and completion, with the same exact parcel
+and destination; construction also needs its actual placement receipt. Pickup,
+waiting, cancellation and an unseen completion grant nothing. Capacity, safety,
+household identity/authority and sight are rechecked after native callbacks.
+The twelve-hundred-tick session and its parcel witness are transient; pupil
+reload retires them without altering either participant's stock or saved skill.
+
 Crafting potential explicitly combines memory, reasoning, handling and
 communication. Its independent thresholds preserve the former practical
 gardener/craftsperson capacity, while supported crafting also requires the old
@@ -113,8 +130,14 @@ measurement bounds and actual autonomous walking/work. The existing workshop
 controls case also remains in that focused selector. Current full validation
 status is in `../START_HERE.md`.
 
+Four native `apprentice_*` scenarios additionally cover one-pupil selection,
+paid recipe observation and independent work after expert loss, callback veto
+and departure, limiting splices, original two-leg placement, reload without an
+old witness, and actual native pupil/expert movement and paid work. Java 25
+build/model/localization and all 303 native cases pass for this checkpoint.
+
 This is practical education and supervised replacement. Physical recipe/build
-records, apprentices watching a distant expert's own complete work, arbitrary
+records, remote instruction, arbitrary
 crafting, self-made initial caches/Nests, protected adoption, multi-generation
 natural survival and inter-community exchange remain separate work. Native
 functional success does not certify natural staffing rates or client feel.

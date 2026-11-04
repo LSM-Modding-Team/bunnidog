@@ -16,6 +16,13 @@ Calipers purpose pages preserve the twelve-control/row bound; eight actual
 genetic potential/forecast rows fit the existing reader. Network **51** is
 current; the following protocol-50 summaries are historical. Native/pure and
 inspected headless page evidence are separate from natural/client/co-op review.
+Local workshop apprenticeship now follows one real working expert through native
+safe walking. Keep started claims, exact paid native outcomes, original visible
+pickup/completion for parcels, callback-time sight/capacity/authority and transient
+sessions/witnesses. Share the one-pupil courtesy across courier/workshop lessons;
+orders, player lessons, unsafe state and reload interrupt without granting skill
+or copying material. Four focused apprenticeship cases and all 303 native cases
+pass locally; full main CI remains the direct-JAR publication gate.
 The candidate is recorded in `docs/STATS_REBALANCING_PLAN.md` and
 `docs/INFUSION_SPECS.md`: Regeneration potency Q+S/2, loyal duration 40–240s,
 actual bat-ear/short-leg Q0 donor lines rolling late S24/III and endgame S120/V,

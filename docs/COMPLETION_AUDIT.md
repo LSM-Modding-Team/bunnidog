@@ -47,6 +47,10 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
   with real paid lessons, resident supervision and expert-loss replacement.
   Original inventory/parcel/native permission paths, independent/supported/limited
   capacity and old-worker migration remain. See [WORKSHOP_LEARNING_SPECS.md](WORKSHOP_LEARNING_SPECS.md).
+  A local beginner now follows one real working expert, witnesses paid completion
+  (both original parcel legs for building/furnaces), and retains personal skill
+  after expert loss. Sessions use actual safe walking and share courier pupil
+  courtesy; four native apprenticeship cases and the full 303-case run pass.
   This advances I3/I4/I6; physical recipe records, richer plans and natural
   multi-generation continuity remain open.
 

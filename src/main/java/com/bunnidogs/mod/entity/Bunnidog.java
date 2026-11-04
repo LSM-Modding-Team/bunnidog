@@ -203,6 +203,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     private final BunnidogLearning learning = new BunnidogLearning(this);
     private final CourierLore courierLore=new CourierLore(this);
     public CourierLore courierLore() {return courierLore;}
+    private final WorkshopApprenticeship workshopLessons=new WorkshopApprenticeship(this);
+    public WorkshopApprenticeship workshopLessons() {return workshopLessons;}
     private final BunnidogConversation conversation = new BunnidogConversation(this);
     private int biteWait;
     private boolean handCaring;
@@ -395,6 +397,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
             this.learning.tick();
             this.deliveries.tick();
             this.courierLore.tick();
+            this.workshopLessons.tick();
             if (!this.entityData.get(DATA_FLEECE_READY) && this.level().getGameTime() >= this.nextFleeceTick) {
                 this.entityData.set(DATA_FLEECE_READY,true);
             }
@@ -1175,6 +1178,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.deliveries.load(input);
         this.learning.restore(input, decodedGenome.isPresent() && !Genome.isFullCode(savedGenome));
         this.courierLore.reset();
+        this.workshopLessons.reset();
         if (!this.level().isClientSide()) this.applyAdaptations();
         this.highestShowAward = Math.max(0, input.getIntOr("ShowAward", 0));
         this.guardEnabled = input.getBooleanOr("GuardNest",false);
@@ -1266,8 +1270,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.goalSelector.addGoal(4, new TrailGoal(this));
         this.goalSelector.addGoal(4, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new TemptGoal(this, 1.1D, this::canEat, false) {
-            @Override public boolean canUse() { return Bunnidog.this.society().active()==null && !Bunnidog.this.courierLore().occupied() && Bunnidog.this.learning().lesson() == null && !Bunnidog.this.deliveries().watching() && super.canUse(); }
-            @Override public boolean canContinueToUse() { return Bunnidog.this.society().active()==null && !Bunnidog.this.courierLore().occupied() && Bunnidog.this.learning().lesson() == null && !Bunnidog.this.deliveries().watching() && super.canContinueToUse(); }
+            @Override public boolean canUse() { return Bunnidog.this.society().active()==null && !Bunnidog.this.courierLore().occupied() && !Bunnidog.this.workshopLessons().apprenticing() && Bunnidog.this.learning().lesson() == null && !Bunnidog.this.deliveries().watching() && super.canUse(); }
+            @Override public boolean canContinueToUse() { return Bunnidog.this.society().active()==null && !Bunnidog.this.courierLore().occupied() && !Bunnidog.this.workshopLessons().apprenticing() && Bunnidog.this.learning().lesson() == null && !Bunnidog.this.deliveries().watching() && super.canContinueToUse(); }
         });
         this.goalSelector.addGoal(6, new FollowParentGoal(this, 1.1D));
         // H2: a dog with a home (a claimed Nest, see NestHome and docs/HOME_SPECS.md) walks back once something (a guava, a scare, a
@@ -1277,6 +1281,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         // A short healing meal near the Nest can interrupt night waiting; player control remains above it.
         this.goalSelector.addGoal(6,new DeliveryObservationGoal(this));
         this.goalSelector.addGoal(6,new CourierLessonGoal(this));
+        this.goalSelector.addGoal(6,new WorkshopLessonGoal(this));
         this.goalSelector.addGoal(6,new DeliveryGoal(this));
         this.goalSelector.addGoal(6, new TroughGoal(this));
         this.goalSelector.addGoal(7, new NightHomeGoal(this));

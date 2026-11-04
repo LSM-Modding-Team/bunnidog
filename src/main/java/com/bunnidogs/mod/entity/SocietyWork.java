@@ -85,7 +85,7 @@ public final class SocietyWork {
     private boolean knows(Learning.Routine r) {return dog.learning().canWork(r);}
     private Job at(Kind k,BlockPos p) {return new Job(k,p.immutable(),-1,dog.level().getBlockState(p));}
     /** Primitive discovery belongs only to this natural household, within independent inherited capacity. */
-    public boolean pioneer(Learning.Routine routine) {var h=hearth();return h!=null && h.wild().natural() && dog.learning().canDiscover() && !dog.courierLore().occupied() && !dog.deliveries().watching() && dog.deliveries().cargo().isEmpty() && CapabilityRules.potential(dog.mind(),routine.task())==CapabilityRules.Potential.INDEPENDENT;}
+    public boolean pioneer(Learning.Routine routine) {var h=hearth();return h!=null && h.wild().natural() && dog.learning().canDiscover() && !dog.courierLore().occupied() && !dog.workshopLessons().apprenticing() && !dog.deliveries().watching() && dog.deliveries().cargo().isEmpty() && CapabilityRules.potential(dog.mind(),routine.task())==CapabilityRules.Potential.INDEPENDENT;}
     private boolean harvestReady() {return knows(Learning.Routine.HARVEST) || pioneer(Learning.Routine.HARVEST);}
     private boolean gardener() {return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.GARDEN) || pioneer(Learning.Routine.GARDEN);}
     private boolean artisan() {return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.CRAFT) || pioneer(Learning.Routine.CRAFT);}
@@ -105,7 +105,7 @@ public final class SocietyWork {
     }
     /** Read-only bounded offers. The movement goal acquires a short exclusive claim only when it starts. */
     public List<Job> offers() {
-        if(!ready() || dog.courierLore().apprenticing() || dog.deliveries().watching() || !dog.deliveries().cargo().isEmpty())return List.of();
+        if(!ready() || dog.courierLore().apprenticing() || dog.workshopLessons().apprenticing() || dog.deliveries().watching() || !dog.deliveries().cargo().isEmpty())return List.of();
         var h=hearth();var l=(ServerLevel)dog.level();var at=h.getBlockPos();var jobs=new ArrayList<Job>();
         if(!cargo.isEmpty() && rescueCargo) {
             if(!rescueReady(h))return List.of();
@@ -433,10 +433,10 @@ public final class SocietyWork {
     }
     /** Called by the goal only after walking to the target and completing a visible work period. */
     public boolean perform(Job job) {
-        if(operating || medicalBusy || !lessonAllows(job) || job.kind()!=Kind.DELIVER && job.kind()!=Kind.MEAL && !dog.learning().witnesses(job.target(),job.destination()==null ? job.target() : job.destination()) || !cargo.isEmpty() && job.kind()!=Kind.DELIVER && job.kind()!=Kind.BUILD && job.kind()!=Kind.CARE && job.kind()!=Kind.SOW_FIELD && job.kind()!=Kind.LOAD_FURNACE && job.kind()!=Kind.MINE_STONE && job.kind()!=Kind.PICKUP_RESCUE && job.kind()!=Kind.RELEASE_RESCUE || !ready() || !hearth().jobs().available(dog,job) || dog.distanceToSqr(Vec3.atCenterOf(job.target()))>16 || !dog.level().hasChunkAt(job.target()))return false;
+        if(operating || medicalBusy || dog.workshopLessons().apprenticing() || !lessonAllows(job) || job.kind()!=Kind.DELIVER && job.kind()!=Kind.MEAL && !dog.learning().witnesses(job.target(),job.destination()==null ? job.target() : job.destination()) || !cargo.isEmpty() && job.kind()!=Kind.DELIVER && job.kind()!=Kind.BUILD && job.kind()!=Kind.CARE && job.kind()!=Kind.SOW_FIELD && job.kind()!=Kind.LOAD_FURNACE && job.kind()!=Kind.MINE_STONE && job.kind()!=Kind.PICKUP_RESCUE && job.kind()!=Kind.RELEASE_RESCUE || !ready() || !hearth().jobs().available(dog,job) || dog.distanceToSqr(Vec3.atCenterOf(job.target()))>16 || !dog.level().hasChunkAt(job.target()))return false;
         operating=true;
         try {
-        var h=hearth();var l=(ServerLevel)dog.level();boolean ok=false;Learning.Routine learned=null;
+        var h=hearth();var l=(ServerLevel)dog.level();var spent=job.kind()==Kind.BUILD || job.kind()==Kind.LOAD_FURNACE ? cargo.copy() : ItemStack.EMPTY;boolean ok=false;Learning.Routine learned=null;
         if(job.kind()!=Kind.DELIVER && job.kind()!=Kind.GATHER_FIELD && job.kind()!=Kind.LOAD_FURNACE && job.kind()!=Kind.EMPTY_FURNACE && !l.getBlockState(job.target()).equals(job.expected()))return false;
         switch(job.kind()) {
             case FETCH_FURNACE -> {ok=collectFurnaceSupply(job);}
@@ -488,7 +488,7 @@ public final class SocietyWork {
             case HATCH -> {if(Gardening.nurses(dog.stats()) && knows(Learning.Routine.NURSERY) && h.sites().contains(job.target()) && l.getBlockEntity(job.target()) instanceof NurseryCradleBlockEntity c && !c.manualHatchOnly() && communitySeed(c.storedSeed(),h))ok=c.hatch().status()==NurseryHatching.Status.HATCHED;learned=Learning.Routine.NURSERY;}
             case TEND -> {if(Gardening.cultivates(dog.stats()) && knows(Learning.Routine.GARDEN))ok=h.tend();learned=Learning.Routine.GARDEN;}
         }
-        if(ok) {lastSpecialty=specialty(job.kind());if(learned!=null) {if(pioneer(learned))dog.learning().pioneerPractice(learned);else dog.learning().completed(learned);}if(job.kind()!=Kind.MEAL)workSinceMeal++;nextWork=l.getGameTime()+80;l.sendParticles(net.minecraft.core.particles.ParticleTypes.HAPPY_VILLAGER,dog.getX(),dog.getY()+.4,dog.getZ(),2,.15,.1,.15,0);}
+        if(ok) {WorkshopApprenticeship.completed(dog,h,job,spent);lastSpecialty=specialty(job.kind());if(learned!=null) {if(pioneer(learned))dog.learning().pioneerPractice(learned);else dog.learning().completed(learned);}if(job.kind()!=Kind.MEAL)workSinceMeal++;nextWork=l.getGameTime()+80;l.sendParticles(net.minecraft.core.particles.ParticleTypes.HAPPY_VILLAGER,dog.getX(),dog.getY()+.4,dog.getZ(),2,.15,.1,.15,0);}
         return ok;
         } finally {operating=false;}
     }

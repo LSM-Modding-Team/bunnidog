@@ -42,6 +42,11 @@ guidance; see [WORKSHOP_LEARNING_SPECS.md](WORKSHOP_LEARNING_SPECS.md). Old adul
 Garden masters retain their former jobs once. New residents must learn the
 appropriate routine through actual paid work; Garden knowledge alone no longer
 grants those professions. Original recipes, body needs and site authority remain.
+One local apprentice can follow an expert's actual started workshop job without
+competing for its work front. Paid completion and, for carried materials, both
+witnessed legs teach personal experience; the pupil owns no duplicate material.
+Expert loss does not erase learned skills. Courier/workshop pupils share the
+one-pupil courtesy bound, and direct keeper orders remain authoritative.
 
 The finite civic recipe vocabulary currently includes guava planks, native
 sticks/wooden axes, Grafting Frames, Nests, Hearth Incense, dressings and Coppices.

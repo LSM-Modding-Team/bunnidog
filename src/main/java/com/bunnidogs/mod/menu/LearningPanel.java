@@ -46,9 +46,9 @@ public final class LearningPanel {
         }
         if(!delivery.cargo().isEmpty())controls.add(new CareView.Control(UNLOAD_ROUTE,Component.translatable("care.bunnidogs.delivery.unload"),delivery.authorized(player)));
         var lesson = dog.learning().lesson();
-        if (lesson!=null) controls.add(new CareView.Control(STOP, TextComponents.t("Stop lesson"), dog.learning().authorized(player)));
+        if (lesson!=null || dog.workshopLessons().apprenticing()) controls.add(new CareView.Control(STOP, TextComponents.t("Stop lesson"), dog.learning().authorized(player)));
         controls.add(new CareView.Control(CarePanels.BACK, Component.translatable("care.bunnidogs.button.back"), true));
-        Component next=delivery.watching() ? Component.translatable("care.bunnidogs.delivery.watching") : dog.courierLore().apprenticing() ? Component.translatable("care.bunnidogs.courier.apprentice") : lesson==null ? blocker(dog) : activity(dog);
+        Component next=delivery.watching() ? Component.translatable("care.bunnidogs.delivery.watching") : dog.workshopLessons().apprenticing() ? workshopActivity(dog) : dog.courierLore().apprenticing() ? Component.translatable("care.bunnidogs.courier.apprentice") : lesson==null ? blocker(dog) : activity(dog);
         return new CareView(TextComponents.t("Learning: %s", dog.getDisplayName()), next, rows, controls);
     }
     public static CareView workshop(Player player,Bunnidog dog) {
@@ -58,10 +58,11 @@ public final class LearningPanel {
             boolean independent=dog.learning().knowledge().independent(dog.mind(),routine);
             controls.add(new CareView.Control(teachId(routine),independent ? AnimalPanels.text("learned_label",name(routine)) : TextComponents.t(known ? "Guide %s" : "Teach %s",name(routine)),dog.learning().canBegin(player,routine) && dog.learning().lesson()!=routine,CareView.Control.PRIMARY,lessonReason(player,dog,routine)));
         }
-        if(dog.learning().lesson()!=null)controls.add(new CareView.Control(STOP,TextComponents.t("Stop lesson"),dog.learning().authorized(player)));
+        if(dog.learning().lesson()!=null || dog.workshopLessons().apprenticing())controls.add(new CareView.Control(STOP,TextComponents.t("Stop lesson"),dog.learning().authorized(player)));
         controls.add(AnimalPanels.back());
-        return new CareView(Component.translatable("care.bunnidogs.learning.workshop"),dog.learning().lesson()!=null ? activity(dog) : dog.society().practiceReady() ? Component.empty() : dog.society().hearth()==null ? Component.translatable("care.bunnidogs.learning.need_household") : AnimalPanels.text("lesson_unavailable"),java.util.List.of(),controls);
+        return new CareView(Component.translatable("care.bunnidogs.learning.workshop"),dog.workshopLessons().apprenticing() ? workshopActivity(dog) : dog.learning().lesson()!=null ? activity(dog) : dog.society().practiceReady() ? Component.empty() : dog.society().hearth()==null ? Component.translatable("care.bunnidogs.learning.need_household") : AnimalPanels.text("lesson_unavailable"),java.util.List.of(),controls);
     }
+    public static Component workshopActivity(Bunnidog dog) {var lesson=dog.workshopLessons();return lesson.routine()==null ? Component.empty() : AnimalPanels.text("practice."+lesson.activity().name().toLowerCase(java.util.Locale.ROOT),name(lesson.routine()));}
     private static Component deliveryReason(Player p,Bunnidog dog) {
         if(dog.deliveries().canObserve(p))return Component.empty();
         if(!dog.deliveries().authorized(p))return AnimalPanels.text("keeper_only");

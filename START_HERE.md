@@ -9,6 +9,21 @@ section below takes precedence.
 
 ## Current — sustained development and practical workshop education
 
+Local workshop apprenticeship now lets one beginner follow an actual working
+expert and retain its personally learned skill after the expert is gone. Paid
+recipes teach after commit; building/furnace parcels require both witnessed
+original legs, with exact material/destination and actual placement receipts.
+Sessions use native safe loaded walking, share courier pupil courtesy and clear
+on reload or keeper interruption. Their brief state and Stop action use the
+existing requested Lessons view; no new statistics or profession selectors.
+
+Java 25 `build checkBunnidogModel runGameTestServer` passes with **all 303 required
+native cases**, including four new apprenticeship cases. The earlier workshop
+checkpoint `7845fe5` passed full main CI and published its verified direct JAR.
+The next main CI remains this checkpoint's publication gate. Native fixtures
+prove functional contracts; natural staffing/Survival/client/co-op review remains
+pending. Protocol **51** remains current.
+
 The latest user request resumes the polish/expansion loop with periodic validated
 pushes. The previous finite rebalance release is complete; its gameplay balance
 remains pending human testing. Continue useful intelligence/civilization work.
@@ -40,8 +55,7 @@ within 480 ticks, retaining exact source/destination/empty-parcel assertions,
 and its focused native case passes. The first main CI run passed 298/299, exposing
 an older ritual fixture's immediate spawn-index lookup. It now checks the actual
 body captured from the native spawn callback, exact payment/Keystone and actual
-unpaid-body removal; its focused native case passes. Full main CI remains the
-publication gate.
+unpaid-body removal; its focused case and the corrected full main CI pass.
 See [WORKSHOP_LEARNING_SPECS.md](docs/WORKSHOP_LEARNING_SPECS.md).
 
 Physical recipe/build culture, richer plans, self-made initial caches/Nests,
