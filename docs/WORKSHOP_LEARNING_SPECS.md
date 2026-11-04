@@ -136,8 +136,9 @@ and departure, limiting splices, original two-leg placement, reload without an
 old witness, and actual native pupil/expert movement and paid work. Java 25
 build/model/localization and all 303 native cases pass for this checkpoint.
 
-This is practical education and supervised replacement. Physical recipe/build
-records, remote instruction, arbitrary
+This is practical education and supervised replacement. A first paid physical
+craft procedure now ships in [WORKSHOP_RECORDS_SPECS.md](WORKSHOP_RECORDS_SPECS.md).
+Broader recipe/build records, remote instruction, arbitrary
 crafting, self-made initial caches, protected adoption, multi-generation
 natural survival and inter-community exchange remain separate work. Native
 functional success does not certify natural staffing rates or client feel.

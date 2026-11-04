@@ -50,6 +50,18 @@
       "planks_left": 12,
       "suite_passed": true,
       "native_required_cases": 14
+    },
+    {
+      "run": "paid_rest_full_main_ci_4d2cadc",
+      "milestone": "first built-and-claimed paid Nest plus furnace/four lights",
+      "loaded_ticks": 24370,
+      "paid_initial_nests": 1,
+      "guavas_left": 0,
+      "logs_left": 2,
+      "planks_left": 11,
+      "suite_passed": true,
+      "native_required_cases": 305,
+      "workflow_run": 41763903161
     }
   ]
 }

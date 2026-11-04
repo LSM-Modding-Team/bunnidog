@@ -57,6 +57,12 @@ group tactics now ship. [COURIER_CULTURE_SPECS.md](COURIER_CULTURE_SPECS.md) add
 witnessed resident-to-resident route apprenticeship, local expert guidance and
 paid physical route notes. These records outlast a teacher without uploading
 skills or generating stock. They are a focused I4/I6 slice, not a general school.
+Distinct practical Crafting/Building and local workshop apprenticeship now add
+real expert-loss replacement. [WORKSHOP_RECORDS_SPECS.md](WORKSHOP_RECORDS_SPECS.md)
+preserves actual paid craft procedures in books; beginners still learn through
+their own work. Fresh wild families also build their first paid Nests instead
+of receiving generated beds. The initial cache, broader construction culture
+and complete natural staffing/continuity remain open.
 
 Use [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md) as the accepted gap reference.
 Shared job claims, finite public dependency plans, fitted construction crews and

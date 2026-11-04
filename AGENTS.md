@@ -13,8 +13,8 @@ without a personal-home circle. Timed lectures and material pickup grant no
 workshop skill. Retain original stock, actual parcels/receipts, callback
 revalidation and zero-stat bounded primitive discovery. Workshop choice and
 Calipers purpose pages preserve the twelve-control/row bound; eight actual
-genetic potential/forecast rows fit the existing reader. Network **51** is
-current; the following protocol-50 summaries are historical. Native/pure and
+genetic potential/forecast rows fit the existing reader. Network **52** is
+current; the following protocol-51/50 summaries are historical. Native/pure and
 inspected headless page evidence are separate from natural/client/co-op review.
 Local workshop apprenticeship now follows one real working expert through native
 safe walking. Keep started claims, exact paid native outcomes, original visible
@@ -31,6 +31,18 @@ recipes still do not. Missing PrimitiveRestPlots in either older glade revision
 grants no new plot and changes no old bed. Clear cached work cells on load.
 Controlled three-bed payments and autonomous first claimed bed/workshop evidence
 are separate; all-three/multi-generation natural continuity remains human review.
+Paid physical craft records now ship; read `docs/WORKSHOP_RECORDS_SPECS.md`.
+Keep actual committed native examples, original site/owner/author, paid blank
+Book-and-Quill slot journals, named covers/private pages, eight-book bounds and
+opaque future item/body records. A book permits only its specific practical
+attempt for an independently capable Bloom-ready beginner; it uploads no skill
+and cannot make supported/limited minds independent. Revalidate its presence and
+authority after callbacks before recipe payment; retain exact actual stock and
+native remainder transactions. Missing CraftProven gives old masters no proof;
+only another successful recipe records a new example. No inherited education.
+Java 25 build/model/localization and all 309 native cases pass, with a focused
+follow-up for powered stock and unknown future proof retention. Main CI remains
+this record checkpoint's publication gate; earlier education/rest CI passed.
 The candidate is recorded in `docs/STATS_REBALANCING_PLAN.md` and
 `docs/INFUSION_SPECS.md`: Regeneration potency Q+S/2, loyal duration 40–240s,
 actual bat-ear/short-leg Q0 donor lines rolling late S24/III and endgame S120/V,

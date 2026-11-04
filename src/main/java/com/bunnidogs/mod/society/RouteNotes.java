@@ -29,7 +29,7 @@ public record RouteNotes(UUID hearth,UUID author,DeliveryMemory.Route route) {
             .apply(i,(version,hearth,author,route)->new RouteNotes(hearth,author,route)))
             .validate(n->recordable(n.route.filter()) ? DataResult.success(n) : DataResult.error(()->"Container and nested-record filters cannot be archived"));
     public static boolean recordable(ItemStack filter) {
-        return !filter.isEmpty() && filter.getHoverName().getString().length()<=256 && !filter.has(ModItems.ROUTE_NOTES_DATA.get()) && !filter.has(DataComponents.CONTAINER)
+        return !filter.isEmpty() && filter.getHoverName().getString().length()<=256 && !filter.has(ModItems.ROUTE_NOTES_DATA.get()) && !filter.has(ModItems.CRAFT_NOTES_DATA.get()) && !filter.has(DataComponents.CONTAINER)
                 && !filter.has(DataComponents.BUNDLE_CONTENTS) && !filter.has(DataComponents.CHARGED_PROJECTILES)
                 && !filter.has(DataComponents.WRITTEN_BOOK_CONTENT) && !filter.has(DataComponents.WRITABLE_BOOK_CONTENT) && !filter.has(DataComponents.CUSTOM_DATA);
     }

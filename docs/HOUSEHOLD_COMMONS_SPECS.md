@@ -47,6 +47,11 @@ competing for its work front. Paid completion and, for carried materials, both
 witnessed legs teach personal experience; the pupil owns no duplicate material.
 Expert loss does not erase learned skills. Courier/workshop pupils share the
 one-pupil courtesy bound, and direct keeper orders remain authoritative.
+Residents can also write a recipe they actually completed in a paid physical
+book. A capable independent beginner can follow that original local record after
+expert loss, gaining skill only through its own real paid recipe. Full-store
+native slot replacement, named covers, actual examples and original authority
+remain; see [WORKSHOP_RECORDS_SPECS.md](WORKSHOP_RECORDS_SPECS.md).
 
 The finite civic recipe vocabulary currently includes guava planks, native
 sticks/wooden axes, Grafting Frames, Nests, Hearth Incense, dressings and Coppices.

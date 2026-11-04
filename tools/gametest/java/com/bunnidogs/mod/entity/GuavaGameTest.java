@@ -77,6 +77,7 @@ public final class GuavaGameTest extends GameTestInstance {
         for(String name:new String[]{"rebalance_supply","rebalance_pressure","rebalance_defence"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("rebalance_pressure") ? 950 : 240,0,true)));
         for(String name:new String[]{"workshop_teaching","workshop_building","workshop_replacement","workshop_migration","workshop_walking"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("workshop_walking") ? 900 : 360,0,true)));
         for(String name:new String[]{"apprentice_recipe","apprentice_rules","apprentice_parcel","apprentice_walking"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("apprentice_walking") ? 1200 : 600,0,true)));
+        for(String name:new String[]{"notes_recipe","notes_safety","notes_boundaries","notes_walking"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("notes_walking") ? 1200 : 240,0,true)));
         for(String name:new String[]{"furnace_processing","furnace_safety","furnace_claims","furnace_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("furnace_ai") ? 1400 : 180,0,true)));
         for(String name:new String[]{"worksite_capacity","worksite_parcels","worksite_furnace"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),180,0,true)));
         for(String name:new String[]{"rescue_policy","rescue_chain","rescue_callbacks","rescue_blocked","rescue_recovery","rescue_authority","rescue_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("rescue_ai") ? 2000 : 240,0,true)));
@@ -114,6 +115,10 @@ public final class GuavaGameTest extends GameTestInstance {
             case "apprentice_rules" -> {WorkshopApprenticeGameTest.rules(h);return;}
             case "apprentice_parcel" -> {WorkshopApprenticeGameTest.parcel(h);return;}
             case "apprentice_walking" -> {WorkshopApprenticeGameTest.walking(h);return;}
+            case "notes_recipe" -> {WorkshopNotesGameTest.recipe(h);return;}
+            case "notes_safety" -> {WorkshopNotesGameTest.safety(h);return;}
+            case "notes_boundaries" -> {WorkshopNotesGameTest.boundaries(h);return;}
+            case "notes_walking" -> {WorkshopNotesGameTest.walking(h);return;}
             case "furnace_processing" -> {FurnaceWorkGameTest.processing(h);return;}
             case "furnace_safety" -> {FurnaceWorkGameTest.safety(h);return;}
             case "furnace_claims" -> {FurnaceWorkGameTest.claims(h);return;}

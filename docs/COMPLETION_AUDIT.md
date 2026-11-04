@@ -43,6 +43,13 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
 
 ## Progress after this reference
 
+- Paid physical workshop records now preserve actual resident-made recipes and
+  original local authority. A capable beginner can do the recorded paid work
+  after expert loss; no experience comes from reading alone. Full-store native
+  book payments, exact examples, future records, limits and autonomous walking
+  have focused native evidence. See [WORKSHOP_RECORDS_SPECS.md](WORKSHOP_RECORDS_SPECS.md).
+  General recipe/build culture and full staffing continuity remain unfinished.
+
 - Fresh wild glades now have empty initial Nest plots. Residents pay the native
   wheat/plank recipe, carry the original Nest and actually place it. Primitive
   real harvest/replant work can teach Gardening without borrowing Crafting

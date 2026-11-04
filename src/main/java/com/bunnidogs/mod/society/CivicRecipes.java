@@ -64,6 +64,6 @@ public final class CivicRecipes {
             for(var remaining:current.remainders)if(!remaining.isEmpty() && items.insert(ItemResource.of(remaining),remaining.getCount(),tx)!=remaining.getCount())return false;
             if(!home.attached() || dog.society().hearth()!=home || !dog.society().canCraft(id))return false;tx.commit();
         }
-        if(id==RecipeId.FRAME)home.evidence("frame",1);return true;
+        dog.workshopLore().completed(home,current);if(id==RecipeId.FRAME)home.evidence("frame",1);return true;
     }
 }

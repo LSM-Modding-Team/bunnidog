@@ -7,7 +7,32 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 Previous sections retain their checkpoint's protocol/evidence; the current
 section below takes precedence.
 
-## Current — paid first Nests in fresh wild families
+## Current — physical workshop recipes survive expert loss
+
+An expert can write an actual completed recipe in one paid blank Book and Quill
+at its original Hearth. Native readable Workshop Notes retain named covers,
+actual ingredient/result types and quantities, and original site/owner/author.
+An independently capable Bloom-ready beginner can attempt that recorded recipe
+after expert loss, learning only through its own committed paid work. Supported
+and limited minds retain their real guidance limits; no skill or stock is uploaded
+from reading. Original books/authority, callbacks, locks/redstone, private pages,
+full-store slot payments and bounded opaque future records remain meaningful.
+
+Java 25 **`build checkBunnidogModel runGameTestServer` passes, with all 309 required
+native scenarios**. Four new `notes_*` cases cover actual native writing/walking,
+later work after expert loss, exact book/native saves, payments, interruptions,
+limits, archive bounds and household isolation. The follow-up boundary case also
+passes with actual redstone pause and opaque future body examples retained across
+reload plus another paid recipe. Main CI remains this checkpoint's publication
+gate. New item/component content requires matching network **52**.
+See [WORKSHOP_RECORDS_SPECS.md](docs/WORKSHOP_RECORDS_SPECS.md).
+
+Construction records, broader culture, the initial resident-made cache and full
+natural staffing/continuity remain unfinished. Client/co-op/Survival evidence
+and the separate rebalance candidate remain pending human test. Continue the
+accepted intelligence/civilization work after this checkpoint.
+
+## Previous — paid first Nests in fresh wild families
 
 Fresh natural glades now supply empty original rest plots. Residents make their
 first Nests through the actual three-wheat/three-plank recipe, original carried
@@ -24,8 +49,9 @@ first built-and-claimed Nest plus the furnace/four lights, observed in 29,962 an
 120,000 ticks with two beds; it remains separate from the passing first-bed
 contract. None of these observations establishes natural Survival pacing.
 The actual detached/native cell preview was regenerated and inspected in
-`art/wild_glade/overview.png`. Full main CI remains this checkpoint's publication
-gate; protocol **51** remains current. See [WILD_FAMILY_SPECS.md](docs/WILD_FAMILY_SPECS.md).
+`art/wild_glade/overview.png`. Its full main CI in `4d2cadc` passed all **305**
+required native cases and published the verified direct JAR. That checkpoint used
+protocol **51**. See [WILD_FAMILY_SPECS.md](docs/WILD_FAMILY_SPECS.md).
 
 The initial root cache remains generated. Full settlement staffing, natural
 multi-generation continuity, client/co-op and the shipped rebalance candidate

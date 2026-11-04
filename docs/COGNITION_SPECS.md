@@ -114,6 +114,10 @@ work, using the same personal practice rule. Original pickup/completion witnesse
 are required for construction and furnace supply; native recipes teach only
 after commit. No claim, waiting, failure or reload grants experience. See
 [WORKSHOP_LEARNING_SPECS.md](WORKSHOP_LEARNING_SPECS.md) for session/authority bounds.
+Paid [workshop records](WORKSHOP_RECORDS_SPECS.md) preserve an actual local recipe
+after expert loss. An independently capable beginner may attempt that recorded
+recipe; only committed real work earns personal practice. A book cannot upload
+skills, erase supported/limited minds or bypass physical/authority requirements.
 
 ## Inspection and breeding
 

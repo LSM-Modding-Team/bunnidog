@@ -205,6 +205,8 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
     public CourierLore courierLore() {return courierLore;}
     private final WorkshopApprenticeship workshopLessons=new WorkshopApprenticeship(this);
     public WorkshopApprenticeship workshopLessons() {return workshopLessons;}
+    private final WorkshopLore workshopLore=new WorkshopLore(this);
+    public WorkshopLore workshopLore() {return workshopLore;}
     private final BunnidogConversation conversation = new BunnidogConversation(this);
     private int biteWait;
     private boolean handCaring;
@@ -1115,6 +1117,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.companionCombat.save(output);
         this.clinic.save(output);
         this.learning.save(output);
+        this.workshopLore.save(output);
         this.society.save(output);
         this.deliveries.save(output);
         if (this.biteWait>0) output.putInt("CombatBiteWait",this.biteWait);
@@ -1179,6 +1182,7 @@ public class Bunnidog extends Animal implements net.neoforged.neoforge.common.IS
         this.learning.restore(input, decodedGenome.isPresent() && !Genome.isFullCode(savedGenome));
         this.courierLore.reset();
         this.workshopLessons.reset();
+        this.workshopLore.load(input);
         if (!this.level().isClientSide()) this.applyAdaptations();
         this.highestShowAward = Math.max(0, input.getIntOr("ShowAward", 0));
         this.guardEnabled = input.getBooleanOr("GuardNest",false);
