@@ -7,7 +7,37 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 Previous sections retain their checkpoint's protocol/evidence; the current
 section below takes precedence.
 
-## Current — physical wild workbenches and material handoffs
+## Current — ordinary craftspeople can furnish a primitive home
+
+Trained independent craftspeople in new workbench glades can now assemble only
+their original nine table/furnace/light/Nest plots. This breaks the first-bed
+dependency on a rare architect while retaining actual paid materials, walking,
+original permissions/receipts and callback capacity checks. Rooms, walls, roofs,
+annexes and general repairs keep Building requirements. Craft-only assemblers
+receive no Building experience; potential alone still grants no learned skill.
+
+The read-only [founder audit](docs/audits/founder-role-coverage.md) samples the
+actual frozen-genome roll path: 1.94% of 100,000 three-founder groups contain an
+independent architect, versus 65.234% a craftsperson. Weights, allele inheritance,
+capacity thresholds and bred stats remain unchanged. These are opportunity
+figures, not natural Survival success rates.
+
+Java 25 **`build checkBunnidogModel runGameTestServer` passes with all 315 required
+native scenarios**. Three new ordinary-profile cases prove paid first table/Nest,
+no room access or architecture experience, actual experience requirements,
+callback capacity loss/original parcel recovery and native autonomous work.
+The extended readiness case also passes: even a real nearby foreman cannot
+turn zero-Bloom furniture assembly into architecture experience.
+The ordinary helper reference completed its first paid table/tool/claimed bed
+in 8,554 and 8,161 loaded ticks, retaining zero bred points and Building progress.
+These controlled references do not establish natural rates. Main CI remains this
+checkpoint's publication gate; protocol **52** remains current.
+
+Initial self-made storage, broader culture/specialist recovery and natural
+multi-generation/client/co-op acceptance remain open. The shipped rebalance
+candidate remains pending its separate human trials.
+
+## Previous — physical wild workbenches and material handoffs
 
 Fresh glades now build a real vanilla Crafting Table from four actual planks
 before larger recipes. The table travels in the original saved building parcel
@@ -28,8 +58,8 @@ placement/permission/power/workspace-loss callbacks, both work-target witnesses,
 old plots/cached saves and actual multi-worker handoffs. The autonomous native
 family also built its table/furnace/lights and claimed its first paid Nest in
 27,852 loaded ticks, including real growth/meals/night rest. The native cell-map
-preview was regenerated and inspected. Main CI remains this checkpoint's direct
-JAR gate; protocol **52** remains current.
+preview was regenerated and inspected. Its full main CI in `a697e6b` passed and
+published the verified direct JAR; protocol **52** remains current.
 See [WILD_FAMILY_SPECS.md](docs/WILD_FAMILY_SPECS.md).
 
 The root cache remains generated infrastructure. Full natural staffing and

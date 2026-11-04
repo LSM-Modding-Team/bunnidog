@@ -90,6 +90,13 @@ capacity rule. No body stat, gene order or inheritance law changes.
 
 ## Bounded menus and deliberate measurement
 
+In new wild workbench sites, a personally trained independent craftsperson can
+assemble the original primitive table/furnace/light/Nest plots without being an
+architect. Those actual paid furniture actions give no Building experience to
+a craft-only assembler. Room construction and broader repairs retain their
+existing Building requirements, including Bloom readiness even with a nearby
+foreman. See [WILD_FAMILY_SPECS.md](WILD_FAMILY_SPECS.md).
+
 Workshop lessons occupy their own short choice page, with the usual Back/Close
 history and brief live state. This preserves the native twelve-control limit,
 including an animal with an existing delivery route. It is education, not a

@@ -1,0 +1,106 @@
+{
+  "scope": "Genetic potential coverage only, with current weights/thresholds unchanged. Excludes learned experience, materials, health/body readiness, protected land, travel, weather, growth, losses and actual Survival/client success. Weighted independent-allele/founder model is separate from actual correlated Java Random founder-roll samples.",
+  "routine_bits": [
+    "HARVEST",
+    "DELIVERY",
+    "CRAFT",
+    "BUILD",
+    "GARDEN",
+    "NURSERY"
+  ],
+  "model": "Enumerate all 65,536 current cognitive genotypes through actual CapabilityRules, weight actual founder alleles, then convolve three independent draws exactly. Model numerators/denominators are strings to preserve integer precision.",
+  "individual": [
+    {
+      "routine": "HARVEST",
+      "numerator": "593041705",
+      "denominator": "815730721",
+      "percent": "72.70067067"
+    },
+    {
+      "routine": "DELIVERY",
+      "numerator": "335392864",
+      "denominator": "815730721",
+      "percent": "41.11563478"
+    },
+    {
+      "routine": "CRAFT",
+      "numerator": "240470116",
+      "denominator": "815730721",
+      "percent": "29.47910503"
+    },
+    {
+      "routine": "BUILD",
+      "numerator": "5434180",
+      "denominator": "815730721",
+      "percent": "0.66617327"
+    },
+    {
+      "routine": "GARDEN",
+      "numerator": "240470116",
+      "denominator": "815730721",
+      "percent": "29.47910503"
+    },
+    {
+      "routine": "NURSERY",
+      "numerator": "176394157",
+      "denominator": "815730721",
+      "percent": "21.62406692"
+    }
+  ],
+  "three_founder_independent_draw_model": [
+    {
+      "required_mask": 7,
+      "numerator": "352432790618980139925650236",
+      "denominator": "542800770374370512771595361",
+      "percent": "64.92857230"
+    },
+    {
+      "required_mask": 15,
+      "numerator": "10775875012141541114526940",
+      "denominator": "542800770374370512771595361",
+      "percent": "1.98523576"
+    },
+    {
+      "required_mask": 55,
+      "numerator": "267720488649767372114946556",
+      "denominator": "542800770374370512771595361",
+      "percent": "49.32205392"
+    },
+    {
+      "required_mask": 63,
+      "numerator": "10775875012141541114526940",
+      "denominator": "542800770374370512771595361",
+      "percent": "1.98523576"
+    }
+  ],
+  "actual_roll_sampling": {
+    "master_seed_hex": "42554E4E49",
+    "site_seed_generator": "new java.util.Random(masterSeed).nextLong()",
+    "actual_path": "Genome.randomFounder(Lineage.MEADOW, new Random(siteSeed + founderIndex * 7919L)), matching WildHearth.configure",
+    "counts": {
+      "actual_roll_sites": 100000,
+      "workshop_coverage": 1940,
+      "all_six_coverage": 1940,
+      "with_builder": 1940,
+      "with_craft": 65234,
+      "primitive_furnishing": 65234,
+      "primitive_care_coverage": 49723
+    }
+  },
+  "controlled_helper_profile": {
+    "memory": 2.25,
+    "reasoning": 2.0,
+    "handling": 1.75,
+    "communication": 2.0,
+    "signature": 55,
+    "evidence": "A fixed ordinary helper reference, not a random founder survival sample. Three native cases prove actual paid furnishing, capacity/room limits and autonomous first table/tool/claimed Nest."
+  },
+  "source_sha256": {
+    "src/main/java/com/bunnidogs/mod/genetics/CapabilityRules.java": "77dcf8b3d8f1cf8729f81781abc93539cff244301ae1d64383f53cb03c86ec16",
+    "src/main/java/com/bunnidogs/mod/genetics/CognitiveGene.java": "1753a8dbc803b0386a8b5471e92757f263c42124f2f22162ca886dbec57a1f4d",
+    "src/main/java/com/bunnidogs/mod/genetics/Genome.java": "99cf0dca8b93e305532901505bd86e6d504de7d0b1aa28e4baad507e5f05ec8e",
+    "src/main/java/com/bunnidogs/mod/genetics/Founders.java": "c2d881a28e2370e6d8a6fdca50b5b67599586e57bad6392dcf157d049500c988",
+    "src/main/java/com/bunnidogs/mod/genetics/Cognition.java": "712d37b9d6a891b4fd661fad3092c315748221b19e267fb5cba846c3dfabc6f2",
+    "src/main/java/com/bunnidogs/mod/society/WildHearth.java": "8455a00b5cfc4678fc204ac86c199bc25c971a7b9695c0251de94bbfcfbbca4f"
+  }
+}

@@ -90,6 +90,30 @@ grafting and ordinary store routes do not gain a zero-stat shortcut.
 
 ## A physical first workbench
 
+Standard primitive furniture now belongs to learned Crafting in new workbench
+glades. A craftsperson qualifies only after personally learning Crafting;
+qualified builders retain their original path. The craftsperson may assemble
+only the original nine table/furnace/light/Nest plots. It uses the same
+real fetched material, native placement callbacks and ownership receipts. This
+exception supplies no new land and does not extend to rooms, walls, roofs,
+annexes or general repairs. Those still require Building. A craft-only assembler
+gains no Building experience, and a limiting splice still refuses placement and
+returns its original parcel safely.
+
+The [founder audit](audits/founder-role-coverage.md) found an architect in only
+1.94% of 100,000 sampled three-founder groups, versus a craftsperson in 65.234%.
+Requiring the architect for first bedding blocked families before they could
+breed one. The corrected task split preserves the original founder weights and
+all inherited capacity thresholds; it changes the complexity required for
+standard furniture, without granting experience or ignoring genetic limits.
+Three native `primitive_*` cases additionally pass with the fixed ordinary
+helper profile `(2.25, 2.0, 1.75, 2.0)`, zero bred points and empty starting
+learning. They cover actual first-table/Nest costs, excluded room work, no
+Building progress, missing experience, a limiting callback with parcel recovery
+and native autonomous first tools/claimed bedding. The complete Java 25
+build/model/localization and all **315** native cases pass. This controlled
+reference is separate from random-founder survival or long-term continuity.
+
 Fresh glades now require an actual native Crafting Table for recipes wider or
 taller than two slots. Making the table itself needs four actual planks in a
 two-by-two recipe, so it does not require a table. The three original fallen

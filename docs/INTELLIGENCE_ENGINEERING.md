@@ -11,6 +11,15 @@
 > [HOUSEHOLD_COMMONS_SPECS.md](HOUSEHOLD_COMMONS_SPECS.md) now implements shared
 > job claims, finite public dependency plans, fitted construction crews/repair
 > and material fields. Primitive wild bootstrap and broader civilization remain.
+>
+> Current wild workbench sites now pay for actual tables/Nests and account for
+> original walking workshop materials. The [founder role audit](audits/founder-role-coverage.md)
+> also separates learned primitive furnishing from architecture: first bedding
+> must not require a rare architect before a family can breed one. Trained
+> independent crafters may assemble only the original primitive plots; rooms
+> retain Building gates. No founder weights, inherited thresholds or skills
+> change. Actual no-player first-table/claimed-bed fixtures now include the
+> ordinary helper profile, not only elite minds. Broader continuity remains open.
 
 Engineering direction, originally planned 2026-10-21 against `0c92ded`.
 The following implementation checkpoint supersedes proposals where explicitly

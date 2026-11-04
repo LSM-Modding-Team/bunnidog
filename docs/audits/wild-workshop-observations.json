@@ -74,6 +74,22 @@
       "suite_passed": true,
       "native_required_cases": 312,
       "note": "Actual native growth/meals/night rest and movement. Walking workshop materials count toward needs; no stocked inputs or tools provided. Not natural founder selection or Survival/client evidence."
+    },
+    {
+      "run": "ordinary_helper_furniture_focused",
+      "milestone": "ordinary helper-profile paid table/tool/first built-and-claimed Nest; no Building experience",
+      "loaded_ticks": 8554,
+      "guavas_left": 0,
+      "suite_passed": true,
+      "native_required_cases": 3
+    },
+    {
+      "run": "ordinary_helper_furniture_full_native",
+      "milestone": "ordinary helper-profile paid table/tool/first built-and-claimed Nest; no Building experience",
+      "loaded_ticks": 8161,
+      "guavas_left": 1,
+      "suite_passed": true,
+      "native_required_cases": 315
     }
   ]
 }

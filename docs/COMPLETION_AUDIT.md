@@ -43,6 +43,14 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
 
 ## Progress after this reference
 
+- The founder-role audit exposed a first-bed architect bottleneck. Personally
+  trained independent craftspeople can now assemble only new glades' original
+  primitive furniture plots, with real payments, original cargo/authority and
+  no room access or Building experience for craft-only workers. Gene weights
+  and inherited thresholds are unchanged. Ordinary helper-profile native work
+  and the full 315-case regression pass. The [capacity audit](audits/founder-role-coverage.md)
+  is separate from functional/natural-world evidence; full continuity remains open.
+
 - Fresh wild families now make, carry and place a native crafting table before
   larger recipes, with actual stock/station reach, sight, safe goal positioning
   and commit-time callback guards. Saved walking tables/furnaces/torches satisfy

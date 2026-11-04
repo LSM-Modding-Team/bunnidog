@@ -54,6 +54,18 @@ native saves; viewing offers reserves nothing. Avoid first-plank duplication
 deadlocks and unnecessary quarry bills. Java 25 build/model/localization and all
 312 native cases pass locally. Prior record CI passed; main CI is this workbench
 checkpoint's publication gate. Natural/client/co-op/balance review remains open.
+The founder-role review now separates primitive furniture from architecture:
+read `docs/audits/founder-role-coverage.md`. Alongside qualified builders,
+personally trained independent crafters at new workbench sites may assemble only
+their original nine primitive plots. Keep all material/cargo/callback/authority bounds, no room/wall/annex
+permission and no Building experience for a craft-only assembler. Capacity
+alone gives no experience, and a limiting splice returns the original parcel.
+Do not weaken founder weights, Building thresholds or inheritance to compensate
+for the former first-bed circle. Three ordinary helper-profile native cases and
+all 315 native cases pass; they are separate from the 100,000 actual-roll capacity
+sample and from natural/client/co-op acceptance. Main CI is this checkpoint's
+publication gate; the workbench checkpoint's CI passed. Keep moving through
+unfinished culture/continuity/storage gaps without claiming civilization complete.
 The candidate is recorded in `docs/STATS_REBALANCING_PLAN.md` and
 `docs/INFUSION_SPECS.md`: Regeneration potency Q+S/2, loyal duration 40–240s,
 actual bat-ear/short-leg Q0 donor lines rolling late S24/III and endgame S120/V,

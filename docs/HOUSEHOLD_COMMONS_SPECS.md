@@ -37,6 +37,12 @@ universal starvation timer.
 
 ## Crafting uses actual recipes
 
+In new wild workbench sites, learned independent Crafting also covers assembly
+of only their original primitive furniture plots. Real carried materials and
+placement protections remain; this supplies neither general room permission
+nor architecture experience. This avoids requiring a rare architect for the
+first bed before a family can breed one, with all cognitive weights/limits intact.
+
 Fresh wild workbench sites additionally require their actual paid native table
 for larger recipes, with stock and station both in reach and sight at commit.
 The goal chooses a real working position for both. Older households retain their

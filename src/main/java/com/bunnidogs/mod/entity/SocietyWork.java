@@ -147,7 +147,7 @@ public final class SocietyWork {
         }
         if(!cargo.isEmpty() && buildingCargo) {
             var cell=destination==null ? null : h.construction().cell(destination);
-            return List.of(cell!=null && buildingReady() && h.construction().canBuild(cell) && cargo.is(cell.item()) && Objects.equals(parcelOwner,h.owner()) ? at(Kind.BUILD,destination) : at(Kind.DELIVER,at));
+            return List.of(cell!=null && buildingReady(cell) && h.construction().canBuild(cell) && cargo.is(cell.item()) && Objects.equals(parcelOwner,h.owner()) ? at(Kind.BUILD,destination) : at(Kind.DELIVER,at));
         }
         if(!cargo.isEmpty() && aidPatient!=null) {
             if(!Objects.equals(aidOwner,h.owner()))return List.of();var patient=firstAidCargo ? rescuePatient(new Patient(aidPatient,aidBed),false) : medicalPatient(new Patient(aidPatient,aidBed));
@@ -214,8 +214,11 @@ public final class SocietyWork {
         }
         if(h.authorized()) {
             if(!hungry && Gardening.cultivates(dog.stats()) && knows(Learning.Routine.GARDEN) && h.ripe() && h.count(ModItems.GUAVA.get())>=16 && h.count(Items.BONE_MEAL)>=2 && h.count(ModItems.GRAFTING_FRAME.get())>0)jobs.add(at(Kind.TEND,at));
-            if(!hungry && buildingReady())for(var cell:h.construction().cells())if(h.construction().canBuild(cell) && buildingMaterialAvailable(h,cell)) {
-                jobs.add(new Job(Kind.FETCH_BUILD,at,-1,l.getBlockState(at),null,cell.pos()));if(jobs.size()>=40)break;
+            if(!hungry) {
+                var cells=buildingReady(null) ? h.construction().cells() : primitiveFurnitureReady() ? h.wild().works().cells() : List.<HearthTreeBlockEntity.Cell>of();
+                for(var cell:cells)if(h.construction().canBuild(cell) && buildingMaterialAvailable(h,cell)) {
+                    jobs.add(new Job(Kind.FETCH_BUILD,at,-1,l.getBlockState(at),null,cell.pos()));if(jobs.size()>=40)break;
+                }
             }
             for(var pos:h.orchard())if(l.hasChunkAt(pos)) {
                 var state=l.getBlockState(pos);
@@ -305,19 +308,22 @@ public final class SocietyWork {
         ItemStack held=ItemStack.EMPTY;for(int slot=0;slot<h.getContainerSize();slot++)if(h.getItem(slot).is(cost) && CivicRecipes.ordinary(h.getItem(slot))) {held=h.takeExact(slot,1);break;}
         if(held.isEmpty())return false;boolean placed=false;try {placed=place(l,p,before,after);return placed;}finally {if(!placed && !h.put(held))Block.popResource(l,h.getBlockPos(),held);}
     }
-    private boolean buildingReady() {
-        return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.BUILD) || pioneer(Learning.Routine.BUILD);
+    private boolean buildingReady(HearthTreeBlockEntity.Cell cell) {
+        if(structuralBuildingReady())return true;
+        return cell!=null && primitiveFurnitureReady() && hearth().wild().works().workCell(cell.pos());
     }
+    private boolean structuralBuildingReady() {return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.BUILD) || pioneer(Learning.Routine.BUILD);}
+    private boolean primitiveFurnitureReady() {var h=hearth();return h!=null && h.wild().works().workbenchPlot() && dog.learning().knowledge().knows(Learning.Routine.CRAFT) && pioneer(Learning.Routine.CRAFT);}
     private boolean buildingMaterialAvailable(HearthTreeBlockEntity h,HearthTreeBlockEntity.Cell cell) {
         int reserve=cell.item()==ModItems.GUAVA_PLANKS.get() && h.wild().works().pending() && !h.wild().works().workCell(cell.pos()) ? 12 : 0;
         return CivicRecipes.count(h,cell.item())>reserve;
     }
     private boolean collectBuild(Job job) {
         var h=hearth();var l=(ServerLevel)dog.level();var cell=job.destination()==null ? null : h.construction().cell(job.destination());
-        if(!cargo.isEmpty() || cell==null || !job.target().equals(h.getBlockPos()) || !buildingReady() || !h.construction().canBuild(cell) || !buildingMaterialAvailable(h,cell) || l.hasNeighborSignal(h.getBlockPos()))return false;
+        if(!cargo.isEmpty() || cell==null || !job.target().equals(h.getBlockPos()) || !buildingReady(cell) || !h.construction().canBuild(cell) || !buildingMaterialAvailable(h,cell) || l.hasNeighborSignal(h.getBlockPos()))return false;
         medicalBusy=true;
         try {
-            if(!EventHooks.canEntityGrief(l,dog) || !ready() || hearth()!=h || !h.construction().canBuild(cell) || !buildingMaterialAvailable(h,cell) || !buildingReady())return false;
+            if(!EventHooks.canEntityGrief(l,dog) || !ready() || hearth()!=h || !h.construction().canBuild(cell) || !buildingMaterialAvailable(h,cell) || !buildingReady(cell))return false;
             try(var tx=net.neoforged.neoforge.transfer.transaction.Transaction.openRoot()) {
                 var resource=net.neoforged.neoforge.transfer.item.ItemResource.of(new ItemStack(cell.item()));
                 if(net.neoforged.neoforge.transfer.item.VanillaContainerWrapper.of(h).extract(resource,1,tx)!=1 || !h.attached())return false;
@@ -327,11 +333,11 @@ public final class SocietyWork {
     }
     private boolean build(Job job) {
         var h=hearth();var l=(ServerLevel)dog.level();var cell=h.construction().cell(job.target());
-        if(!buildingCargo || cell==null || !job.target().equals(destination) || !cargo.is(cell.item()) || cargo.getCount()!=1 || !Objects.equals(parcelOwner,h.owner()) || !buildingReady() || !h.construction().canBuild(cell))return false;
+        if(!buildingCargo || cell==null || !job.target().equals(destination) || !cargo.is(cell.item()) || cargo.getCount()!=1 || !Objects.equals(parcelOwner,h.owner()) || !buildingReady(cell) || !h.construction().canBuild(cell))return false;
         if(!cell.state().getCollisionShape(l,cell.pos()).isEmpty() && !l.getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class,new net.minecraft.world.phys.AABB(cell.pos()),e->e.isAlive() && !e.isSpectator()).isEmpty())return false;
         var exact=cargo.copy();medicalBusy=true;
         try {
-            if(!grief(l,cell.pos()) || EventHooks.onBlockPlace(dog,BlockSnapshot.create(l.dimension(),l,cell.pos()),Direction.UP) || !ready() || hearth()!=h || !h.attached() || !buildingReady() || !h.construction().canBuild(cell) || !ItemStack.matches(cargo,exact)) {h.construction().failed(cell.pos());return false;}
+            if(!grief(l,cell.pos()) || EventHooks.onBlockPlace(dog,BlockSnapshot.create(l.dimension(),l,cell.pos()),Direction.UP) || !ready() || hearth()!=h || !h.attached() || !buildingReady(cell) || !h.construction().canBuild(cell) || !ItemStack.matches(cargo,exact)) {h.construction().failed(cell.pos());return false;}
             // The paid material stays owned by this carrier through permission callbacks and failed edits.
             var material=cargo;cargo=ItemStack.EMPTY;buildingCargo=false;boolean placed=false;
             try {placed=l.setBlock(cell.pos(),cell.state(),3);if(!placed)return false;
@@ -470,7 +476,7 @@ public final class SocietyWork {
             case HARVEST_FIELD -> {if(harvestReady()) {var result=CivicFields.harvest(dog,h,job.target(),job.expected());ok=result!=CivicFields.Harvest.NONE;replanted=result==CivicFields.Harvest.REPLANTED;}learned=Learning.Routine.HARVEST;}
             case GATHER_FIELD -> {if(gathers() && l.getEntity(job.index()) instanceof net.minecraft.world.entity.item.ItemEntity item) {var taken=CivicFields.collect(dog,h,item);if(!taken.isEmpty()) {cargo=taken;destination=h.getBlockPos();parcelOwner=h.owner();grownCargo=cargo.is(ModItems.GUAVA.get());ok=true;}}}
             case FETCH_BUILD -> {ok=collectBuild(job);}
-            case BUILD -> {ok=build(job);learned=Learning.Routine.BUILD;}
+            case BUILD -> {ok=build(job);if(ok && structuralBuildingReady())learned=Learning.Routine.BUILD;}
             case PLANT -> {if(gardener() && h.authorized() && h.orchard().contains(job.target()) && h.count(ModItems.GUAVA_COPPICE.get())>0 && job.expected().isAir() && paidPlace(h,l,job.target(),job.expected(),ModBlocks.GUAVA_COPPICE.get().defaultBlockState(),ModItems.GUAVA_COPPICE.get())) {ok=true;}learned=Learning.Routine.GARDEN;}
             case PRUNE -> {if(harvestReady() && h.orchard().contains(job.target()) && h.count(Items.WOODEN_AXE)>0 && job.expected().is(ModBlocks.GUAVA_COPPICE.get()) && job.expected().getValue(CoppiceBlock.AGE)==7 && h.room(new ItemStack(ModItems.GUAVA_LOG.get(),2)) && h.room(new ItemStack(ModItems.GUAVA.get(),4)) && place(l,job.target(),job.expected(),job.expected().setValue(CoppiceBlock.AGE,0))) {CivicFields.scatter(h,job.target(),List.of(new ItemStack(ModItems.GUAVA_LOG.get(),2),new ItemStack(ModItems.GUAVA.get(),4)));for(int i=0;i<27;i++)if(h.getItem(i).is(Items.WOODEN_AXE)) {var axe=h.getItem(i);axe.setDamageValue(axe.getDamageValue()+1);if(axe.getDamageValue()>=axe.getMaxDamage())axe.shrink(1);h.setChanged();break;}h.evidence("timber",1);h.evidence("harvest",4);ok=true;}learned=Learning.Routine.HARVEST;}
             case HAUL -> {if(knows(Learning.Routine.DELIVERY) && Supplying.qualified(dog.stats()) && h.sites().contains(job.target()) && l.getBlockEntity(job.target()) instanceof FeedingTroughBlockEntity t && t.getBlockState().getValue(FeedingTroughBlock.TENDING) && !t.residentsPaused() && !t.food().isEmpty() && com.bunnidogs.mod.item.GuavaItem.tierOf(t.food())==0 && t.food().getCount()>8 && h.room(t.food().copyWithCount(Math.min(8,t.food().getCount()-8)))) {cargo=t.takeSurplus(t.food().copy(),8);destination=h.getBlockPos();parcelOwner=h.owner();grownCargo=cargo.is(ModItems.GUAVA.get());ok=!cargo.isEmpty();}}

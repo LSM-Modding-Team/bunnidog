@@ -32,6 +32,13 @@ stock grants none. Existing work rest still applies, including during practice.
 | Crafting | A real paid civic recipe or native furnace supply; registered household and Bloom +10. No prior Garden training or personal Nest is required. |
 | Building | Fetch an original paid material, then actually place its authorized cell; household and Bloom +10, independent or locally guided Building capacity. |
 
+New wild workbench sites additionally let personally trained independent crafters
+assemble only their original primitive furniture plots. This uses Crafting
+experience for basic objects, not general architecture; no walls/rooms/annexes
+or Building experience comes from that exception. Founder weights and all
+capacity thresholds remain exact. See the [founder audit](audits/founder-role-coverage.md)
+and [wild family rules](WILD_FAMILY_SPECS.md).
+
 [WORKSHOP_LEARNING_SPECS.md](WORKSHOP_LEARNING_SPECS.md) records the distinct
 practical professions, real resident guidance, callback revalidation and old-worker
 migration. New gardeners do not automatically become craftspeople/builders.
