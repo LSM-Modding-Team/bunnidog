@@ -29,15 +29,16 @@ public final class CivicFields {
         // Keep one renewable grain line ahead of optional meal crops; planted crops retain their own seed type.
         for(var wanted:List.of(Items.WHEAT_SEEDS,Items.BEETROOT_SEEDS,Items.CARROT,Items.POTATO))for(int slot=0;slot<home.getContainerSize();slot++)if(home.getItem(slot).is(wanted) && CivicRecipes.ordinary(home.getItem(slot)))return slot;return -1;
     }
-    public static boolean harvest(Bunnidog dog,HearthTreeBlockEntity home,BlockPos at,BlockState expected) {
-        if(!plot(home,at) || seed(expected)==null || !(expected.getBlock() instanceof CropBlock crop) || !crop.isMaxAge(expected))return false;
+    public enum Harvest { NONE, GATHERED, REPLANTED }
+    public static Harvest harvest(Bunnidog dog,HearthTreeBlockEntity home,BlockPos at,BlockState expected) {
+        if(!plot(home,at) || seed(expected)==null || !(expected.getBlock() instanceof CropBlock crop) || !crop.isMaxAge(expected))return Harvest.NONE;
         var level=(ServerLevel)dog.level();
         if(!EventHooks.canEntityGrief(level,dog) || !CommonHooks.canEntityDestroy(level,at,dog) || EventHooks.onBlockPlace(dog,BlockSnapshot.create(level.dimension(),level,at),Direction.UP)
-                || !dog.society().ready() || dog.society().hearth()!=home || !plot(home,at) || !level.getBlockState(at).equals(expected))return false;
-        var drops=new ArrayList<>(Block.getDrops(expected,level,at,null,dog,ItemStack.EMPTY));if(drops.size()>16)return false;
+                || !dog.society().ready() || dog.society().hearth()!=home || !plot(home,at) || !level.getBlockState(at).equals(expected))return Harvest.NONE;
+        var drops=new ArrayList<>(Block.getDrops(expected,level,at,null,dog,ItemStack.EMPTY));if(drops.size()>16)return Harvest.NONE;
         var sow=drops.stream().filter(stack->stack.is(seed(expected)) && CivicRecipes.ordinary(stack)).findFirst().orElse(null);
-        if(sow!=null)sow.shrink(1);if(!level.setBlock(at,sow==null ? Blocks.AIR.defaultBlockState() : crop.getStateForAge(0),3))return false;
-        scatter(home,at,drops);return true;
+        if(sow!=null)sow.shrink(1);if(!level.setBlock(at,sow==null ? Blocks.AIR.defaultBlockState() : crop.getStateForAge(0),3))return Harvest.NONE;
+        scatter(home,at,drops);return sow==null ? Harvest.GATHERED : Harvest.REPLANTED;
     }
     public static void scatter(HearthTreeBlockEntity home,BlockPos at,List<ItemStack> drops) {
         if(!home.attached())return;var level=(ServerLevel)home.getLevel();if(!level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.BLOCK_DROPS) || level.restoringBlockSnapshots)return;

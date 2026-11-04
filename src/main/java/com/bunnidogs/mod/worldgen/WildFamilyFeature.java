@@ -31,7 +31,6 @@ public final class WildFamilyFeature extends Feature<NoneFeatureConfiguration> {
             world.setBlock(pos,ModBlocks.GUAVA_FRUIT.get().defaultBlockState().setValue(com.bunnidogs.mod.block.GuavaFruitBlock.AGE,com.bunnidogs.mod.block.GuavaFruitBlock.MAX_AGE),2);
         }
         for(var pos:home.orchard())world.setBlock(pos,ModBlocks.GUAVA_COPPICE.get().defaultBlockState().setValue(CoppiceBlock.AGE,7),2);
-        for(var pos:home.wild().beds())world.setBlock(pos,ModBlocks.NEST.get().defaultBlockState(),2);
         for(var pos:home.wild().fields()) {
             world.setBlock(pos.below(),Blocks.FARMLAND.defaultBlockState().setValue(BlockStateProperties.MOISTURE,7),2);
             world.setBlock(pos,Blocks.WHEAT.defaultBlockState().setValue(CropBlock.AGE,7),2);

@@ -138,6 +138,8 @@ build/model/localization and all 303 native cases pass for this checkpoint.
 
 This is practical education and supervised replacement. Physical recipe/build
 records, remote instruction, arbitrary
-crafting, self-made initial caches/Nests, protected adoption, multi-generation
+crafting, self-made initial caches, protected adoption, multi-generation
 natural survival and inter-community exchange remain separate work. Native
 functional success does not certify natural staffing rates or client feel.
+Fresh wild families now pay for their initial Nests through these actual
+construction paths; see [WILD_FAMILY_SPECS.md](WILD_FAMILY_SPECS.md).

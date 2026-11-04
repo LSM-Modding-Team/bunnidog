@@ -30,7 +30,7 @@ public final class WildWorksGameTest {
                 && act(c,dog,SocietyWork.Kind.BUILD,cell.pos(),-1,null);
     }
     private static boolean complete(HearthTreeBlockEntity home) {
-        return home.wild().works().cells().stream().allMatch(cell->{
+        return home.wild().works().cells().stream().filter(cell->cell.item()!=ModItems.NEST.get()).allMatch(cell->{
             var actual=home.getLevel().getBlockState(cell.pos());
             if(actual.hasProperty(AbstractFurnaceBlock.LIT))actual=actual.setValue(AbstractFurnaceBlock.LIT,false);
             return actual.equals(cell.state());
@@ -43,7 +43,8 @@ public final class WildWorksGameTest {
             var cell=new JsonObject();cell.addProperty("x",x);cell.addProperty("y",y);cell.addProperty("z",z);
             cell.addProperty("block",net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString());cells.add(cell);
         }
-        var out=new JsonObject();out.addProperty("evidence",evidence);out.add("cells",cells);
+        var out=new JsonObject();out.addProperty("evidence",evidence);out.add("cells",cells);var rest=new JsonArray();
+        if(home.wild().works().restPlots())for(var at:home.wild().beds()) {var plot=new JsonObject();plot.addProperty("x",at.getX()-origin.getX());plot.addProperty("y",at.getY()-origin.getY());plot.addProperty("z",at.getZ()-origin.getZ());rest.add(plot);}out.add("rest_plots",rest);
         try {java.nio.file.Files.writeString(java.nio.file.Path.of(path),new GsonBuilder().setPrettyPrinting().create().toJson(out)+"\n");}
         catch(java.io.IOException error) {throw new RuntimeException(error);}
     }
@@ -77,7 +78,17 @@ public final class WildWorksGameTest {
                 && act(c,hauler,SocietyWork.Kind.DELIVER,home.getBlockPos(),-1,null) && home.count(Items.CHARCOAL)==1,"Native cooking produces the actual charcoal carried home");
         h.assertTrue(craft(c,worker,CivicRecipes.RecipeId.STICKS) && craft(c,worker,CivicRecipes.RecipeId.TORCH) && home.count(Items.TORCH)==4,"One actual charcoal and stick make four native torches");
         for(var cell:works.cells())if(cell.item()==Items.TORCH)h.assertTrue(build(c,worker,cell),"Each real light is carried and placed on its supported original plot");
-        h.assertTrue(complete(home) && !home.ripe(),"A real furnace and four supported lights finish without granting a Keystone or inherited stats/skills");
+        for(var cell:works.cells())if(cell.item()==ModItems.NEST.get()) {
+            // Advance crop age only in this controlled transaction chain; the AI scenario uses native growth.
+            for(var field:home.wild().fields()) {
+                h.getLevel().setBlock(field,Blocks.WHEAT.defaultBlockState().setValue(CropBlock.AGE,7),2);
+                h.assertTrue(WildFamilyGameTest.act(c,worker,SocietyWork.Kind.HARVEST_FIELD,field),"Real native grain drops and paid replanting supply the next Nest");
+            }
+            WildFamilyGameTest.collectAll(c,hauler);int wheat=home.count(Items.WHEAT),planks=home.count(ModItems.GUAVA_PLANKS.get());
+            h.assertTrue(craft(c,worker,CivicRecipes.RecipeId.NEST) && home.count(Items.WHEAT)==wheat-3 && home.count(ModItems.GUAVA_PLANKS.get())==planks-3
+                    && build(c,worker,cell) && home.construction().owned(cell.pos()),"Every initial Nest costs its actual three wheat/three planks, travels in an original parcel and earns a real placement receipt");
+        }
+        h.assertTrue(complete(home) && home.wild().beds().stream().allMatch(home.construction()::owned) && !home.ripe(),"A real furnace, four supported lights and three resident-made Nests finish without granting a Keystone or inherited stats");
         preview(h.getLevel(),home,"wild_works_completed.json","Controlled native work chain from empty stores; selected capable zero-point founders, actual native stock and world actions; not natural timing.");
         WildFamilyGameTest.clean(c);h.succeed();
     }
@@ -98,7 +109,7 @@ public final class WildWorksGameTest {
     }
     static void legacy(GameTestHelper h) {
         var c=WildFamilyGameTest.setup(h,true);var home=c.home();var data=home.saveWithFullMetadata(h.getLevel().registryAccess());data.remove("PrimitiveWorkshopPlots");data.remove("GladeStoneUsed");
-        data.putBoolean("Authorized",false);data.putInt("AnnexPlots",0);
+        data.remove("PrimitiveRestPlots");data.putBoolean("Authorized",false);data.putInt("AnnexPlots",0);
         h.getLevel().setBlock(home.getBlockPos().offset(-2,0,3),Blocks.AIR.defaultBlockState(),3);
         h.getLevel().setBlock(home.getBlockPos().offset(0,0,3),com.bunnidogs.mod.registry.ModBlocks.NEST.get().defaultBlockState(),3);
         home.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),data));
@@ -113,14 +124,15 @@ public final class WildWorksGameTest {
     static void ai(GameTestHelper h) {
         var c=WildFamilyGameTest.setup(h,true);var home=c.home();c.dogs().forEach(dog->dog.setNoAi(false));
         long started=h.getLevel().getGameTime();
-        for(int checkpoint:new int[]{10000,20000,40000,59000})h.runAfterDelay(checkpoint,()->{
+        for(int checkpoint:new int[]{10000,40000,80000,110000})h.runAfterDelay(checkpoint,()->{
             if(home.residents().isEmpty())return;
-            com.bunnidogs.mod.BunnidogsMod.LOGGER.info("WILD_WORKSHOP_WAIT tick={} guavas={} charcoal={} fruit={} coppices={}",h.getLevel().getGameTime()-started,home.count(ModItems.GUAVA.get()),home.count(Items.CHARCOAL),home.wild().fruit().stream().map(pos->h.getLevel().getBlockState(pos).toString()).toList(),home.orchard().stream().map(pos->h.getLevel().getBlockState(pos).toString()).toList());
+            com.bunnidogs.mod.BunnidogsMod.LOGGER.info("WILD_WORKSHOP_WAIT tick={} guavas={} charcoal={} paid_nests={} fruit={} coppices={}",h.getLevel().getGameTime()-started,home.count(ModItems.GUAVA.get()),home.count(Items.CHARCOAL),home.wild().beds().stream().filter(home.construction()::owned).count(),home.wild().fruit().stream().map(pos->h.getLevel().getBlockState(pos).toString()).toList(),home.orchard().stream().map(pos->h.getLevel().getBlockState(pos).toString()).toList());
         });
         h.succeedWhen(()->{
             h.assertTrue(home.workshop().available(home.wild().works().furnace())!=null && complete(home),
-                    "Actual unsupervised empty-store residents must make stone/furnace/charcoal/lights; guavas="+home.count(ModItems.GUAVA.get())+", logs="+home.count(ModItems.GUAVA_LOG.get())+", planks="+home.count(ModItems.GUAVA_PLANKS.get())+", sticks="+home.count(Items.STICK)+", cobble="+home.count(Items.COBBLESTONE)+", charcoal="+home.count(Items.CHARCOAL)+", torches="+home.count(Items.TORCH)+", plan="+home.agenda().need()+" "+home.agenda().steps()+", jobs="+c.dogs().stream().map(dog->String.valueOf(dog.society().active())+" cargo="+dog.society().workSupplies()+" ready="+dog.society().ready()+" at="+dog.position()).toList());
-            com.bunnidogs.mod.BunnidogsMod.LOGGER.info("WILD_WORKSHOP_COMPLETE loaded_ticks={} guavas_left={} logs_left={} planks_left={}",h.getLevel().getGameTime()-started,home.count(ModItems.GUAVA.get()),home.count(ModItems.GUAVA_LOG.get()),home.count(ModItems.GUAVA_PLANKS.get()));
+                    "Actual unsupervised empty-store residents must make stone/furnace/charcoal/lights and their first Nests; guavas="+home.count(ModItems.GUAVA.get())+", logs="+home.count(ModItems.GUAVA_LOG.get())+", planks="+home.count(ModItems.GUAVA_PLANKS.get())+", sticks="+home.count(Items.STICK)+", cobble="+home.count(Items.COBBLESTONE)+", charcoal="+home.count(Items.CHARCOAL)+", torches="+home.count(Items.TORCH)+", paid_nests="+home.wild().beds().stream().filter(home.construction()::owned).count()+", plan="+home.agenda().need()+" "+home.agenda().steps()+", jobs="+c.dogs().stream().map(dog->String.valueOf(dog.society().active())+" cargo="+dog.society().workSupplies()+" ready="+dog.society().ready()+" night="+dog.homeNight()+" at="+dog.position()).toList());
+            h.assertTrue(home.wild().beds().stream().anyMatch(home.construction()::owned) && c.dogs().stream().anyMatch(dog->dog.homeNest()!=null && home.wild().beds().contains(dog.homeNest()) && home.construction().owned(dog.homeNest())),"Actual native residents build and claim their first paid Nest without a player supplying beds");
+            com.bunnidogs.mod.BunnidogsMod.LOGGER.info("WILD_WORKSHOP_COMPLETE loaded_ticks={} paid_initial_nests={} guavas_left={} logs_left={} planks_left={}",h.getLevel().getGameTime()-started,home.wild().beds().stream().filter(home.construction()::owned).count(),home.count(ModItems.GUAVA.get()),home.count(ModItems.GUAVA_LOG.get()),home.count(ModItems.GUAVA_PLANKS.get()));
             WildFamilyGameTest.clean(c);
         });
     }

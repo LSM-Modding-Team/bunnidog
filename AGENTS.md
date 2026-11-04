@@ -23,6 +23,14 @@ sessions/witnesses. Share the one-pupil courtesy across courier/workshop lessons
 orders, player lessons, unsafe state and reload interrupt without granting skill
 or copying material. Four focused apprenticeship cases and all 303 native cases
 pass locally; full main CI remains the direct-JAR publication gate.
+Fresh glades now reserve empty initial Nest plots instead of generating beds.
+Keep native three-wheat/three-plank costs, original construction parcels and
+receipts, independent primitive limits and no personal-home bootstrap circle.
+Only actual paid native replanting can give primitive Gardening practice; craft
+recipes still do not. Missing PrimitiveRestPlots in either older glade revision
+grants no new plot and changes no old bed. Clear cached work cells on load.
+Controlled three-bed payments and autonomous first claimed bed/workshop evidence
+are separate; all-three/multi-generation natural continuity remains human review.
 The candidate is recorded in `docs/STATS_REBALANCING_PLAN.md` and
 `docs/INFUSION_SPECS.md`: Regeneration potency Q+S/2, loyal duration 40–240s,
 actual bat-ear/short-leg Q0 donor lines rolling late S24/III and endgame S120/V,

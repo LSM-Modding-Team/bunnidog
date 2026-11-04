@@ -1,4 +1,4 @@
-# Wild family glades — primitive workshops
+# Wild family glades — paid primitive workshops and first Nests
 
 This returns to the original Generations direction: exploring can reveal a family
 whose inherited bodies and minds affect how it actually lives. This is the first
@@ -13,19 +13,21 @@ never clears a tree trunk, block entity, solid obstruction or water. A failed pr
 changes nothing. It will not activate an older warren or player Hearth.
 
 The finite starting landscape contains an **empty** common root cache (the
-existing Hearth Tree), three Nests, three fallen guava logs, three hanging fruit,
+existing Hearth Tree), three fallen guava logs, three hanging fruit,
 four mature Coppices, three mature wheat plants and a separate farmland nursery.
 Fresh glades also contain two small natural stone outcrops (twelve original
-blocks) and empty, bounded plots for a furnace and four supported torches.
-No tool, cobblestone stock, furnace, charcoal or lights are supplied. A new site's
-third Nest sits beside the central building approach. Old saves retain their
-original Nest coordinates and no new quarry/workshop permissions; their original
+blocks) and empty, bounded plots for three Nests, a furnace and four supported
+torches. No Nest, tool, cobblestone stock, furnace, charcoal or lights are supplied.
+The third rest plot sits beside the central building approach. Old saves retain
+their original Nest coordinates and original permissions; their original
 room can now use a bounded loaded walking detour around the old central Nest.
 This changes no old blocks or approved room boundaries.
 
-These natural starting objects are provided by generation. The residents have
-not crafted the initial cache/Nests; construction of a primitive cache from raw
-materials remains open. There is no stocked inventory, tool, glass Cradle,
+These natural starting objects are provided by generation. Residents must now
+craft, carry and place their initial Nests, using the native three-wheat and
+three-plank recipe. The common root cache remains generated infrastructure;
+construction of that primitive cache from raw materials remains open.
+There is no stocked inventory, tool, glass Cradle,
 metal-workshop grant, instant food income or progression receipt.
 
 Three normal Meadow founder genomes are frozen once in the original detached
@@ -65,8 +67,17 @@ Player-established households retain their existing learning/stat requirements.
   [WORKSHOP_LEARNING_SPECS.md](WORKSHOP_LEARNING_SPECS.md). Primitive body/capacity
   exceptions, original materials and the six-operation ration budget remain.
 - The paid axe unlocks normal Coppice pruning. Real grain crops yield native
-  drops and spend a returned planting item to replant. Actual wheat can make
-  additional Nests; personal Diet still controls resident meals.
+  drops and spend a returned planting item to replant. That actual successful
+  replanting also practices Gardening for a natural independently capable
+  pioneer; ordinary harvest, a canceled operation or a recipe grants no such
+  experience. Actual wheat makes the first and additional Nests; personal Diet
+  still controls resident meals.
+- Initial rest plots use the existing paid construction parcels, original site
+  and owner, native callbacks and actual placement receipts. A builder does not
+  need a personal home before making its first Nest. Removed Nests are not
+  automatically rebuilt. Missing `PrimitiveRestPlots` in either earlier glade
+  revision means no new rest permission; loading clears cached current cells
+  before resolving the original saved plots. Old beds and stock remain exact.
 - Existing carried construction parcels and inherited building capacity apply
   to the reserved room south of the cache. A broad founder body produces a
   three-wide entrance instead of a single-wide entrance. No new land is silently
@@ -165,9 +176,24 @@ the same controlled site before/after work. Its adjacent JSON/provenance and
 `art/preview_wild_glade.py` reproduce the schematic. It is block-position evidence,
 not client geometry, texture, animation or lighting acceptance.
 
-Still unfinished: self-made initial cache/Nests, broader physical recipe/build culture
-and records, essential-specialist recovery,
-composed public works, adoption/relationships, civic rescue and independent
+Initial Nests are now paid resident construction. The controlled chain proves
+three original Nest recipes, exact ingredient payments, actual parcels and
+owned placement. Its crop age is explicitly advanced for transaction checks;
+the autonomous scenario retains native crop growth, food payments, night rest
+and walking, and proves a first built-and-claimed bed plus the furnace/lights.
+Those are distinct evidence scopes. An exploratory requirement for all three
+beds was still incomplete after 120,000 loaded ticks (two beds); it is not
+reported as a passing multi-generation settlement. New rest plots, native
+harvest/replant practice, canceled placement and both older save revisions have
+dedicated native checks. Current validation is recorded in `../START_HERE.md`.
+Java 25 build/model/localization and all fourteen focused wild cases pass. The
+first claimed paid bed/workshop was observed in 29,962 and 72,961 loaded ticks;
+these include native waiting and are not player-effort estimates. The observation
+appendix retains the failed larger exploratory goal alongside those successes.
+
+Still unfinished: self-made initial cache, broader physical recipe/build culture
+and records, complete essential-specialist redundancy,
+composed public works, adoption/relationships and independent
 inter-community exchange. Glade frequency, survival over multiple generations,
 natural chunk order, graphical client appearance and multiplayer budgets need
 actual world review. Do not raise every stage to 100% for this first slice.

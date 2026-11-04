@@ -28,7 +28,7 @@ def main():
     font = ImageFont.truetype("DejaVuSans.ttf", 16)
     small = ImageFont.truetype("DejaVuSans.ttf", 13)
     title_font = ImageFont.truetype("DejaVuSans.ttf", 24)
-    draw.text((28, 20), "Wild glade: native generation and paid workshop work", font=title_font, fill=(239, 232, 208))
+    draw.text((28, 20), "Wild glade: native generation, paid workshops and first Nests", font=title_font, fill=(239, 232, 208))
     provenance = {"renderer": "Pillow native block-cell map; schematic colors/glyphs, not client geometry, textures or lighting.", "sources": []}
     for panel, (title, path) in enumerate(sources):
         raw = path.read_bytes()
@@ -55,15 +55,21 @@ def main():
                 glyph = str(top["y"] + 1) if name == "stone" else GLYPHS.get(name, "")
                 if glyph:
                     draw.text((px + 6, py + 3), glyph, font=small, fill=(24, 32, 27))
+        for plot in snapshot.get("rest_plots", []):
+            if any(c["block"].endswith(":nest") for c in columns.get((plot["x"], plot["z"]), [])):
+                continue
+            px, py = ox + (plot["x"] + 7) * size, oy + (plot["z"] + 8) * size
+            draw.rectangle((px + 2, py + 2, px + size - 3, py + size - 3), outline=(139, 203, 235), width=2)
         draw.text((ox, oy + 19 * size + 13), "West ←        native 15 × 19 footprint        → East", font=small, fill=(201, 214, 195))
         count = sum(cell["block"].endswith(":stone") for cell in snapshot["cells"])
         furnaces = sum(cell["block"].endswith(":furnace") for cell in snapshot["cells"])
         torches = sum(cell["block"].endswith(":torch") for cell in snapshot["cells"])
-        draw.text((38 + panel * 510, 612), f"{count} stone blocks · {furnaces} furnace · {torches} torches", font=font, fill=(239, 232, 208))
+        nests = sum(cell["block"].endswith(":nest") for cell in snapshot["cells"])
+        draw.text((38 + panel * 510, 612), f"{count} stone · {furnaces} furnace · {torches} torches · {nests} Nests", font=font, fill=(239, 232, 208))
         provenance["sources"].append({"file": path.name, "sha256": hashlib.sha256(raw).hexdigest(),
                                       "evidence": snapshot["evidence"], "native_cells": len(snapshot["cells"])})
     draw.text((30, 670), "H: original cache  N: nest  L: fallen log  C: coppice  g: fruit with leaf support  w: wheat", font=small, fill=(225, 223, 198))
-    draw.text((30, 696), "F: paid native furnace  T: supported torch  1 / 2: actual stone-column height", font=small, fill=(225, 223, 198))
+    draw.text((30, 696), "F: paid native furnace  T: supported torch  Blue outline: empty paid Nest plot  1 / 2: actual stone-column height", font=small, fill=(225, 223, 198))
     draw.text((30, 735), "Generated: actual WorldGenRegion / unfinished ProtoChunks. Controlled pair: the same empty-store site before and after native work.", font=small, fill=(184, 202, 187))
     draw.text((30, 759), "Schematic block map only. Natural founder selection, Survival duration and client appearance remain separate evidence.", font=small, fill=(184, 202, 187))
     ROOT.mkdir(parents=True, exist_ok=True)

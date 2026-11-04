@@ -1,6 +1,7 @@
 package com.bunnidogs.mod.society;
 
 import java.util.*;
+import com.bunnidogs.mod.registry.*;
 import net.minecraft.core.*;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
@@ -11,7 +12,7 @@ public final class WildWorks {
     private final HearthTreeBlockEntity home;
     private final List<BlockPos> stones;
     private List<HearthTreeBlockEntity.Cell> workCells;
-    private boolean enabled;
+    private boolean enabled,restPlots;
     private int stoneTaken;
     public WildWorks(HearthTreeBlockEntity home) {
         this.home=home;var base=home.getBlockPos();
@@ -19,8 +20,9 @@ public final class WildWorks {
                 base.offset(-6,0,-7),base.offset(-5,0,-7),base.offset(-4,0,-7),base.offset(-6,0,-6),base.offset(-5,0,-6),
                 base.offset(3,0,-7),base.offset(4,0,-7),base.offset(5,0,-7),base.offset(4,0,-6),base.offset(5,0,-6));
     }
-    void configure() { enabled=true;stoneTaken=0; }
+    void configure() { enabled=restPlots=true;stoneTaken=0;workCells=null; }
     public boolean enabled() { return enabled && home.wild().natural(); }
+    public boolean restPlots() { return enabled() && restPlots; }
     public List<BlockPos> stones() { return stones; }
     public BlockPos furnace() { return home.getBlockPos().offset(4,0,4); }
     public List<HearthTreeBlockEntity.Cell> cells() {
@@ -30,6 +32,7 @@ public final class WildWorks {
         cells.add(new HearthTreeBlockEntity.Cell(furnace(),Blocks.FURNACE.defaultBlockState().setValue(AbstractFurnaceBlock.FACING,Direction.WEST),Items.FURNACE));
         for(var at:List.of(home.getBlockPos().offset(-6,0,1),home.getBlockPos().offset(6,0,1),home.getBlockPos().offset(-4,0,5),home.getBlockPos().offset(4,0,5)))
             cells.add(new HearthTreeBlockEntity.Cell(at,Blocks.TORCH.defaultBlockState(),Items.TORCH));
+        if(restPlots())for(var at:home.wild().beds())cells.add(new HearthTreeBlockEntity.Cell(at,ModBlocks.NEST.get().defaultBlockState(),ModItems.NEST.get()));
         return workCells=List.copyOf(cells);
     }
     public boolean stoneAvailable(BlockPos at) {
@@ -78,6 +81,6 @@ public final class WildWorks {
         var cell=cells().getFirst();
         if(home.getLevel().getBlockState(at).equals(cell.state()) && home.getLevel().getBlockEntity(at) instanceof net.minecraft.world.level.block.entity.FurnaceBlockEntity furnace && furnace.isEmpty())home.link(at);
     }
-    public void save(ValueOutput out) { out.putBoolean("PrimitiveWorkshopPlots",enabled);out.putInt("GladeStoneUsed",stoneTaken); }
-    public void load(ValueInput in,boolean natural) { enabled=natural && in.getBooleanOr("PrimitiveWorkshopPlots",false);stoneTaken=in.getIntOr("GladeStoneUsed",0)&4095; }
+    public void save(ValueOutput out) { out.putBoolean("PrimitiveWorkshopPlots",enabled);out.putBoolean("PrimitiveRestPlots",restPlots);out.putInt("GladeStoneUsed",stoneTaken); }
+    public void load(ValueInput in,boolean natural) { enabled=natural && in.getBooleanOr("PrimitiveWorkshopPlots",false);restPlots=enabled && in.getBooleanOr("PrimitiveRestPlots",false);stoneTaken=in.getIntOr("GladeStoneUsed",0)&4095;workCells=null; }
 }

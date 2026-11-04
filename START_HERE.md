@@ -7,7 +7,31 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 Previous sections retain their checkpoint's protocol/evidence; the current
 section below takes precedence.
 
-## Current — sustained development and practical workshop education
+## Current — paid first Nests in fresh wild families
+
+Fresh natural glades now supply empty original rest plots. Residents make their
+first Nests through the actual three-wheat/three-plank recipe, original carried
+materials and native paid placement; they need no prior personal Nest. Actual
+primitive harvest-and-replant work can also teach Gardening, keeping Crafting
+experience separate. Both older glade revisions retain their original beds and
+permissions, with no automatic new plots or rebuilding of removed Nests.
+
+Java 25 build/model/localization and **all 14 focused wild scenarios pass**.
+The controlled chain proves all three paid Nests; its crop age is advanced only
+for transaction checks. Actual autonomous goals/growth/meals/night rest prove a
+first built-and-claimed Nest plus the furnace/four lights, observed in 29,962 and
+72,961 loaded ticks. An exploratory all-three goal was still incomplete at
+120,000 ticks with two beds; it remains separate from the passing first-bed
+contract. None of these observations establishes natural Survival pacing.
+The actual detached/native cell preview was regenerated and inspected in
+`art/wild_glade/overview.png`. Full main CI remains this checkpoint's publication
+gate; protocol **51** remains current. See [WILD_FAMILY_SPECS.md](docs/WILD_FAMILY_SPECS.md).
+
+The initial root cache remains generated. Full settlement staffing, natural
+multi-generation continuity, client/co-op and the shipped rebalance candidate
+remain pending human test. Continue the accepted intelligence/culture roadmap.
+
+## Previous — practical workshop education and apprenticeship
 
 Local workshop apprenticeship now lets one beginner follow an actual working
 expert and retain its personally learned skill after the expert is gone. Paid
@@ -20,7 +44,7 @@ existing requested Lessons view; no new statistics or profession selectors.
 Java 25 `build checkBunnidogModel runGameTestServer` passes with **all 303 required
 native cases**, including four new apprenticeship cases. The earlier workshop
 checkpoint `7845fe5` passed full main CI and published its verified direct JAR.
-The next main CI remains this checkpoint's publication gate. Native fixtures
+Its full main CI passed and published the verified direct JAR. Native fixtures
 prove functional contracts; natural staffing/Survival/client/co-op review remains
 pending. Protocol **51** remains current.
 

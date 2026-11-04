@@ -47,6 +47,7 @@ public final class WildFamilyGameTest {
     public static void genesis(GameTestHelper h) {
         var c=setup(h,false);var home=c.home;
         h.assertTrue(home.isEmpty() && home.progress()==0 && !home.ripe(),"Natural infrastructure gives no stored stock or progression receipts");
+        h.assertTrue(home.wild().works().restPlots() && home.wild().beds().stream().allMatch(pos->h.getLevel().getBlockState(pos).isAir()),"Fresh wild families must actually make their first Nests, not receive generated beds");
         for(var dog:c.dogs)h.assertTrue(dog.stats().equals(Stats.ZERO) && dog.learning().knowledge().equals(Learning.EMPTY) && home.wild().founders().contains(dog.genome()),"Founders keep their ordinary frozen genes and start without bred points or education");
         var tag=home.saveWithFullMetadata(h.getLevel().registryAccess());var copy=(HearthTreeBlockEntity)BlockEntity.loadStatic(home.getBlockPos(),home.getBlockState(),tag,h.getLevel().registryAccess());
         h.assertTrue(copy!=null && copy.wild().founders().equals(home.wild().founders()) && copy.owner().equals(home.owner()),"Exact founders and the community's own identity survive native saves");
@@ -70,6 +71,7 @@ public final class WildFamilyGameTest {
         h.assertTrue(t.count(Items.WOODEN_AXE)==1 && d.stats().equals(Stats.ZERO) && d.learning().knowledge().knows(Learning.Routine.CRAFT) && !d.learning().knowledge().knows(Learning.Routine.GARDEN),"Real recipes earn distinct crafting knowledge without invented body points or gardening experience");
         h.assertTrue(!act(c,d,SocietyWork.Kind.CRAFT,t.getBlockPos(),CivicRecipes.RecipeId.FRAME.ordinal()),"Primitive discovery cannot manufacture advanced grafting equipment");
         var field=t.wild().fields().getFirst();h.assertTrue(act(c,d,SocietyWork.Kind.HARVEST_FIELD,field) && l.getBlockState(field).getValue(CropBlock.AGE)==0,"The original native wheat crop yields real materials and consumes its returned replant seed");collectAll(c,d);
+        h.assertTrue(d.learning().knowledge().knows(Learning.Routine.GARDEN),"Spending an actual returned seed to replant lets a capable primitive learn gardening from that real action");
         h.assertTrue(t.count(Items.WHEAT)>=1,"Real wheat, not the farmer's personal Diet, supplies nest making");
         h.assertTrue(act(c,d,SocietyWork.Kind.PRUNE,t.orchard().getFirst()),"The crafted axe unlocks actual renewable Coppice output");collectAll(c,d);
         var old=t.wild().timber().getFirst();l.setBlock(old,ModBlocks.GUAVA_LOG.get().defaultBlockState(),3);h.assertTrue(!act(c,d,SocietyWork.Kind.CLIP_WOOD,old),"A newly placed log never renews the original finite wood permission");
@@ -77,7 +79,8 @@ public final class WildFamilyGameTest {
     }
     static ItemStack plantFamily(Site c) {
         var h=c.h;var t=c.home;var l=h.getLevel();var first=c.dogs.get(0);var second=c.dogs.get(1);
-        for(int i=0;i<2;i++) {var d=c.dogs.get(i);var bed=t.wild().beds().get(i);l.getPoiManager().add(bed,ModPoi.NEST);at(d,bed);h.assertTrue(d.moveHomeTo(l,bed)==NestHome.MoveResult.MOVED,"Both actual parents claim reachable Nests");}
+        // Focused nursery fixtures supply beds; the work-chain/AI scenarios prove their paid native origin.
+        for(int i=0;i<2;i++) {var d=c.dogs.get(i);var bed=t.wild().beds().get(i);l.setBlock(bed,ModBlocks.NEST.get().defaultBlockState(),3);l.getPoiManager().add(bed,ModPoi.NEST);at(d,bed);h.assertTrue(d.moveHomeTo(l,bed)==NestHome.MoveResult.MOVED,"Both actual parents claim reachable Nests");}
         // Food is a fixture input here; the separate materials scenario covers paid harvesting/transport.
         t.put(new ItemStack(ModItems.GUAVA.get(),24));h.assertTrue(act(c,first,SocietyWork.Kind.COURT,t.getBlockPos()) && t.count(ModItems.GUAVA.get())==22,"A primitive nurse pays two real guavas for native courtship");first.spawnChildFromBreeding(l,second);
         int slot=-1;for(int i=0;i<27;i++)if(SocietyWork.communitySeed(t.getItem(i),t))slot=i;h.assertTrue(slot>=0,"Native breeding preserves the actual parental seed at the cache");

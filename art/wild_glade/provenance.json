@@ -3,19 +3,19 @@
   "sources": [
     {
       "file": "generated.json",
-      "sha256": "4cfb12418a6060e4d5f03a3585ca9bcc345f759ea57d5d0f863adf7e60e0040d",
+      "sha256": "72156e92f3aec04892966f7f594062dc2aec1facbd833ed6d3764447fe454599",
       "evidence": "Actual registered feature in WorldGenRegion with unfinished detached ProtoChunks; no client rendering.",
-      "native_cells": 317
+      "native_cells": 314
     },
     {
       "file": "start.json",
-      "sha256": "90ea6bfd4da641628ad47ce9ad3366a89a7bc0a55684f40d3ee326b2efc0cdd9",
+      "sha256": "229fd30ad769c216cdbae9448151339b275d751cc525dcf19f8b3bd02d766eb1",
       "evidence": "Controlled native site before work: empty inventory, selected capable zero-point founders and no supplied tools/materials.",
-      "native_cells": 317
+      "native_cells": 314
     },
     {
       "file": "completed.json",
-      "sha256": "e5fa8aa5e17fc7196ee3d416db6fe9553461d5e6216574cb60ff98c53c645714",
+      "sha256": "ce92615c0a7baac49f03cb6a8f29f3cfcd1025c002962b71b21e57650e6d8868",
       "evidence": "Controlled native work chain from empty stores; selected capable zero-point founders, actual native stock and world actions; not natural timing.",
       "native_cells": 311
     }

@@ -43,6 +43,14 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
 
 ## Progress after this reference
 
+- Fresh wild glades now have empty initial Nest plots. Residents pay the native
+  wheat/plank recipe, carry the original Nest and actually place it. Primitive
+  real harvest/replant work can teach Gardening without borrowing Crafting
+  experience. Old glades receive no new plots or replaced beds. Controlled paid
+  construction and autonomous first-bed/workshop evidence are distinct; the
+  initial root cache, complete staffing and multi-generation continuity remain
+  unfinished. See [WILD_FAMILY_SPECS.md](WILD_FAMILY_SPECS.md).
+
 - Practical workshop education now separates Crafting/Building from Gardening,
   with real paid lessons, resident supervision and expert-loss replacement.
   Original inventory/parcel/native permission paths, independent/supported/limited

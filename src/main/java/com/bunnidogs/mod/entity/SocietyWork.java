@@ -436,7 +436,7 @@ public final class SocietyWork {
         if(operating || medicalBusy || dog.workshopLessons().apprenticing() || !lessonAllows(job) || job.kind()!=Kind.DELIVER && job.kind()!=Kind.MEAL && !dog.learning().witnesses(job.target(),job.destination()==null ? job.target() : job.destination()) || !cargo.isEmpty() && job.kind()!=Kind.DELIVER && job.kind()!=Kind.BUILD && job.kind()!=Kind.CARE && job.kind()!=Kind.SOW_FIELD && job.kind()!=Kind.LOAD_FURNACE && job.kind()!=Kind.MINE_STONE && job.kind()!=Kind.PICKUP_RESCUE && job.kind()!=Kind.RELEASE_RESCUE || !ready() || !hearth().jobs().available(dog,job) || dog.distanceToSqr(Vec3.atCenterOf(job.target()))>16 || !dog.level().hasChunkAt(job.target()))return false;
         operating=true;
         try {
-        var h=hearth();var l=(ServerLevel)dog.level();var spent=job.kind()==Kind.BUILD || job.kind()==Kind.LOAD_FURNACE ? cargo.copy() : ItemStack.EMPTY;boolean ok=false;Learning.Routine learned=null;
+        var h=hearth();var l=(ServerLevel)dog.level();var spent=job.kind()==Kind.BUILD || job.kind()==Kind.LOAD_FURNACE ? cargo.copy() : ItemStack.EMPTY;boolean ok=false,replanted=false;Learning.Routine learned=null;
         if(job.kind()!=Kind.DELIVER && job.kind()!=Kind.GATHER_FIELD && job.kind()!=Kind.LOAD_FURNACE && job.kind()!=Kind.EMPTY_FURNACE && !l.getBlockState(job.target()).equals(job.expected()))return false;
         switch(job.kind()) {
             case FETCH_FURNACE -> {ok=collectFurnaceSupply(job);}
@@ -460,7 +460,7 @@ public final class SocietyWork {
             case SOW_FIELD -> {ok=sowField(job);learned=Learning.Routine.GARDEN;}
             case CLIP_WOOD,PICK_FRUIT -> {ok=harvestReady() && WildForaging.harvest(dog,h,job);learned=Learning.Routine.HARVEST;}
             case HATCH_SOIL -> {ok=familyNurse() && h.wild().hatch(dog,job.target());learned=Learning.Routine.NURSERY;}
-            case HARVEST_FIELD -> {ok=harvestReady() && CivicFields.harvest(dog,h,job.target(),job.expected());learned=Learning.Routine.HARVEST;}
+            case HARVEST_FIELD -> {if(harvestReady()) {var result=CivicFields.harvest(dog,h,job.target(),job.expected());ok=result!=CivicFields.Harvest.NONE;replanted=result==CivicFields.Harvest.REPLANTED;}learned=Learning.Routine.HARVEST;}
             case GATHER_FIELD -> {if(gathers() && l.getEntity(job.index()) instanceof net.minecraft.world.entity.item.ItemEntity item) {var taken=CivicFields.collect(dog,h,item);if(!taken.isEmpty()) {cargo=taken;destination=h.getBlockPos();parcelOwner=h.owner();grownCargo=cargo.is(ModItems.GUAVA.get());ok=true;}}}
             case FETCH_BUILD -> {ok=collectBuild(job);}
             case BUILD -> {ok=build(job);learned=Learning.Routine.BUILD;}
@@ -488,7 +488,7 @@ public final class SocietyWork {
             case HATCH -> {if(Gardening.nurses(dog.stats()) && knows(Learning.Routine.NURSERY) && h.sites().contains(job.target()) && l.getBlockEntity(job.target()) instanceof NurseryCradleBlockEntity c && !c.manualHatchOnly() && communitySeed(c.storedSeed(),h))ok=c.hatch().status()==NurseryHatching.Status.HATCHED;learned=Learning.Routine.NURSERY;}
             case TEND -> {if(Gardening.cultivates(dog.stats()) && knows(Learning.Routine.GARDEN))ok=h.tend();learned=Learning.Routine.GARDEN;}
         }
-        if(ok) {WorkshopApprenticeship.completed(dog,h,job,spent);lastSpecialty=specialty(job.kind());if(learned!=null) {if(pioneer(learned))dog.learning().pioneerPractice(learned);else dog.learning().completed(learned);}if(job.kind()!=Kind.MEAL)workSinceMeal++;nextWork=l.getGameTime()+80;l.sendParticles(net.minecraft.core.particles.ParticleTypes.HAPPY_VILLAGER,dog.getX(),dog.getY()+.4,dog.getZ(),2,.15,.1,.15,0);}
+        if(ok) {WorkshopApprenticeship.completed(dog,h,job,spent);lastSpecialty=specialty(job.kind());if(replanted && pioneer(Learning.Routine.GARDEN))dog.learning().pioneerPractice(Learning.Routine.GARDEN);if(learned!=null) {if(pioneer(learned))dog.learning().pioneerPractice(learned);else dog.learning().completed(learned);}if(job.kind()!=Kind.MEAL)workSinceMeal++;nextWork=l.getGameTime()+80;l.sendParticles(net.minecraft.core.particles.ParticleTypes.HAPPY_VILLAGER,dog.getX(),dog.getY()+.4,dog.getZ(),2,.15,.1,.15,0);}
         return ok;
         } finally {operating=false;}
     }

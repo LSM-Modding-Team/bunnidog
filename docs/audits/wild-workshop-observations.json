@@ -1,5 +1,5 @@
 {
-  "scope": "Controlled native functional observations with three selected capable zero-point founders, empty stores, actual generated resources, native meal payments and crop/coppice regrowth. Excludes natural founder selection, player work and long-term Survival rates. GameTest executes native ticks faster than wall time. Geometry/stock evidence is in WildWorksGameTest and art/wild_glade/.",
+  "scope": "Controlled native functional observations with three selected capable zero-point founders, empty stores, actual generated resources, native meal payments and crop/coppice regrowth. Excludes natural founder selection, player work and long-term Survival rates. GameTest executes native ticks faster than wall time. Geometry/stock evidence is in WildWorksGameTest and art/wild_glade/. Fresh rest-plot revision: controlled transactions prove all three paid Nests, with explicitly advanced crop age. Native walking/growth/ration/night scenarios prove the first claimed paid Nest plus the original furnace/lights; they do not certify all-three or natural multi-generation continuity.",
   "observations": [
     {
       "run": "focused_wild_works",
@@ -18,6 +18,38 @@
       "planks_left": 15,
       "suite_passed": true,
       "native_required_cases": 281
+    },
+    {
+      "run": "paid_rest_exploratory_all_three",
+      "milestone": "all three initial Nests plus workshop",
+      "loaded_ticks": 120000,
+      "paid_initial_nests": 2,
+      "guavas_left": 4,
+      "suite_passed": false,
+      "native_required_cases": 1,
+      "note": "Exploratory larger settlement goal remained incomplete. Current functional scenario requires the first usable paid bed; controlled chain separately proves all three recipe/placement transactions."
+    },
+    {
+      "run": "paid_rest_first_bed_focused",
+      "milestone": "first built-and-claimed paid Nest plus furnace/four lights",
+      "loaded_ticks": 29962,
+      "paid_initial_nests": 1,
+      "guavas_left": 1,
+      "logs_left": 5,
+      "planks_left": 8,
+      "suite_passed": true,
+      "native_required_cases": 1
+    },
+    {
+      "run": "paid_rest_wild_regression",
+      "milestone": "first built-and-claimed paid Nest plus furnace/four lights",
+      "loaded_ticks": 72961,
+      "paid_initial_nests": 1,
+      "guavas_left": 3,
+      "logs_left": 6,
+      "planks_left": 12,
+      "suite_passed": true,
+      "native_required_cases": 14
     }
   ]
 }
