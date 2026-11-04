@@ -123,6 +123,13 @@ public final class CognitionCheck {
         var familiar=Learning.parse("l1.1-2-3-4").orElseThrow();
         require(familiar.progress(Learning.Routine.HARVEST)==1 && familiar.progress(Learning.Routine.DELIVERY)==2 && familiar.progress(Learning.Routine.GARDEN)==3 && familiar.progress(Learning.Routine.NURSERY)==4 && familiar.knows(Learning.Routine.SCOUT),"Old learned work retains exact progress and familiar surveying");
         require(Learning.EMPTY.progress(Learning.Routine.SCOUT)==0 && Learning.EMPTY.practice(fixedMind(3).mind(),Learning.Routine.SCOUT).knows(Learning.Routine.SCOUT),"New scouts need personal experience under the same hereditary learning rules");
+        var workshop=Learning.parse("l2.1-2-6-4-3").orElseThrow();
+        require(workshop.knows(Learning.Routine.CRAFT) && workshop.knows(Learning.Routine.BUILD)
+                && workshop.progress(Learning.Routine.HARVEST)==1 && workshop.progress(Learning.Routine.SCOUT)==3,"Established old gardeners retain their actual former workshop repertoire without changing other progress");
+        require(!familiar.knows(Learning.Routine.CRAFT) && !familiar.knows(Learning.Routine.BUILD)
+                && !Learning.parse("l3.6-6-6-6-6-0-0").orElseThrow().knows(Learning.Routine.CRAFT),"Old beginners and explicit new-schema gardeners gain no free workshop mastery");
+        require(!Learning.EMPTY.practice(Genome.DEFAULT.mind(),Learning.Routine.CRAFT).knows(Learning.Routine.GARDEN)
+                && Learning.EMPTY.practice(fixedMind(0).mind(),Learning.Routine.BUILD).equals(Learning.EMPTY),"Paid workshop learning remains separate from gardening and inherited building limits");
         var practice = Learning.EMPTY.practice(Genome.DEFAULT.mind(), Learning.Routine.HARVEST);
         require(practice.progress(Learning.Routine.HARVEST) == 5 && !practice.knows(Learning.Routine.HARVEST), "A practical helper needs real repeated practice");
         practice = practice.practice(Genome.DEFAULT.mind(), Learning.Routine.HARVEST);

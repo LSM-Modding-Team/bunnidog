@@ -15,9 +15,9 @@ recipes, rewards and current enemy/companion values remain after review.
 Native supply/defence/controlled-pressure observations are recorded; **natural
 Survival, client and solo/co-op balance remain pending human test**. The plan
 lists those trials rather than claiming native checks establish completion.
-The latest request explicitly ends after validation/push of this finite batch;
-do not resume the earlier endless loop. Future continuations can return to the
-unfinished intelligence roadmap below unless new feedback steers them.
+That finite rebalance delivery is complete in `bbc9a8a`; the latest user request
+resumes sustained polish/expansion with periodic validated pushes. Continue the
+unfinished intelligence roadmap while human balance acceptance remains pending.
 
 ## Implemented expedition foundation — Great Warren and the Apex finale
 

@@ -42,7 +42,7 @@ public final class CareMenu extends AbstractContainerMenu {
     private Context published;
     private long changedUntil;
     private boolean acting;
-    private enum Mode { MAIN, CARE, GUAVA, ORDERS, CARGO, ROLES, LEARNING, GOALS, CONFIRM_RITUAL, FAMILY, SEED_FAMILY, FIT, FIT_CHOICES, LITTER, COMBAT, PARTY, TROUGH_WORK, REQUESTS, RELEASE_BOND, MEASURE }
+    private enum Mode { MAIN, CARE, GUAVA, ORDERS, CARGO, ROLES, LEARNING, GOALS, CONFIRM_RITUAL, FAMILY, SEED_FAMILY, FIT, FIT_CHOICES, LITTER, COMBAT, PARTY, TROUGH_WORK, REQUESTS, RELEASE_BOND, MEASURE, WORKSHOP_LESSONS }
     private Mode mode=Mode.MAIN;
     private Mode publishedMode;
     private final java.util.ArrayDeque<Mode> history=new java.util.ArrayDeque<>();
@@ -251,6 +251,7 @@ public final class CareMenu extends AbstractContainerMenu {
             case CARGO -> CarePanels.cargo(owner,dog);
             case ROLES -> RolePanel.view(owner,dog);
             case LEARNING -> LearningPanel.view(owner,dog);
+            case WORKSHOP_LESSONS -> LearningPanel.workshop(owner,dog);
             case COMBAT -> CombatPanel.view(owner,dog);
             case FIT -> FamilyPanels.fit(owner,dog,fitGoal);
             case FIT_CHOICES -> FamilyPanels.choices(owner,dog);
@@ -385,6 +386,7 @@ public final class CareMenu extends AbstractContainerMenu {
             else if (id==CarePanels.TAKE_SUPPLIES && dog!=null)dog.society().takeSupplies(player);
             else if (id==CarePanels.ROLES) navigate(Mode.ROLES);
             else if (id==LearningPanel.OPEN && dog!=null) navigate(Mode.LEARNING);
+            else if (id==LearningPanel.WORKSHOP && dog!=null) navigate(Mode.WORKSHOP_LESSONS);
             else if (LearningPanel.routine(id)!=null && dog!=null) {
                 if (dog.learning().begin(player,LearningPanel.routine(id)) && player.containerMenu==this)
                     player.closeContainer();
@@ -401,7 +403,7 @@ public final class CareMenu extends AbstractContainerMenu {
             else if (CarePanels.backAction(id)) {
                 if (mode==Mode.MEASURE && readingPage>=0) readingPage=-1; else back();
             }
-            else if (mode==Mode.MEASURE && CareReadingPanel.action(id)) readingPage=id-CareReadingPanel.FIRST;
+            else if (mode==Mode.MEASURE && CareReadingPanel.action(id)) readingPage=CareReadingPanel.group(id);
             else if (mode==Mode.PARTY) PartyPanel.act(player,id);
             else if (id==CarePanels.WORK_MODES) navigate(Mode.TROUGH_WORK);
             else if (id==CarePanels.REQUESTS) navigate(Mode.REQUESTS);

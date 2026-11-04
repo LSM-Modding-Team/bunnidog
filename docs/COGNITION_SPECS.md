@@ -29,6 +29,12 @@ stock grants none. Existing work rest still applies, including during practice.
 | Delivery | Move one component-preserving ordinary food between nearby troughs; Supply mode, Senses +20, source above eight, destination below eight, existing four-block range and safe access. |
 | Garden | Existing cultivation, replanting and composting actions; Bloom +10, compatible stock and selected work policy. Food-spending work preserves eight food. |
 | Nursery | Advance an unfinished real Cradle; Bloom +20, Nursery mode and a real plain guava above the eight-food reserve. |
+| Crafting | A real paid civic recipe or native furnace supply; registered household and Bloom +10. No prior Garden training or personal Nest is required. |
+| Building | Fetch an original paid material, then actually place its authorized cell; household and Bloom +10, independent or locally guided Building capacity. |
+
+[WORKSHOP_LEARNING_SPECS.md](WORKSHOP_LEARNING_SPECS.md) records the distinct
+practical professions, real resident guidance, callback revalidation and old-worker
+migration. New gardeners do not automatically become craftspeople/builders.
 
 Ordinary work menus show personally practiced routines. Lessons offer Teach,
 Guide or a learned label without predicting untried genetic potential or listing
@@ -90,11 +96,12 @@ creates that profile. Founder weights are 3/6/3/1 for allele IDs 0/1/2/3 in
 every region; neither a biome nor a body color determines intelligence.
 
 `CapabilityRules` tests the same combinations used by learning and forecasts.
-Building, teaching and planning predicates are reserved foundation rules;
-they do not implement those professions or appear as available jobs.
+Crafting and Building now have practical routines; Teaching/Planning also drive
+the bounded household work in the current commons spec. Capacity still grants
+neither skill nor stock. Broader professions/civilization remain unfinished.
 
-Personal `Learning` now stores five bounded practice values, 0–6, including
-Scouting; [FIELD_LEARNING_SPECS.md](FIELD_LEARNING_SPECS.md) describes actual
+Personal `Learning` now stores seven bounded practice values, 0–6, including
+Scouting, Crafting and Building; [FIELD_LEARNING_SPECS.md](FIELD_LEARNING_SPECS.md) describes actual
 watched field work and the additional I3 gates. One completed
 guided operation gains `clamp(1 + floor(memory + communication), 1, 6)` units.
 A practical helper needs two successful operations; the strongest retention
@@ -143,8 +150,10 @@ the previous plain-Diet migration. These and old g2 records gain grounded Wings.
 Samples, parent snapshots, seeds and old names agree on that same full identity.
 
 An old adult with a legacy genome and no `Learning` field receives familiar
-current routines once. Personal state is then always saved as
-`Learning:"l2.h-d-g-n-s"`, with five decimal 0–6 values. Existing l1 adult records
+current routines once. Personal state is now saved as
+`Learning:"l3.h-d-g-n-s-c-b"`, appending two workshop routines. Old l1/l2 adult
+Garden masters retain the jobs formerly gated by Garden once; explicit l3
+records and old pups gain no new workshop experience. Existing l1 adult records
 retain exact first-four progress and familiar surveying; old pups retain their
 four values without adult Scouting experience. An explicit empty current schema
 does not receive free lessons on later loads. Pups and newly created animals

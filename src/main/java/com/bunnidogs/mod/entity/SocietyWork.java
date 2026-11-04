@@ -72,9 +72,11 @@ public final class SocietyWork {
     public void born(HearthTreeBlockEntity h) {home=GlobalPos.of(dog.level().dimension(),h.getBlockPos());site=h.site();child=true;dog.setPersistenceRequired();}
     private boolean calm() {return dog.acceptsCare() && !dog.homeNight() && dog.isAlive() && !dog.isBaby() && !dog.beingTransported() && !dog.isVehicle() && !dog.trail().ordered() && !dog.workPaused() && !dog.combat().danger() && !dog.combat().downed() && dog.getTarget()==null && !dog.seekingRefuge() && !dog.isInLove() && !dog.isOnFire() && !dog.isInWater() && dog.getHealth()>=dog.getMaxHealth()*.8F;}
     public boolean ready() {var h=hearth();return h!=null && calm() && dog.level().getGameTime()>=nextWork && dog.distanceToSqr(Vec3.atCenterOf(h.getBlockPos()))<24*24;}
+    public int waitTicks() {return (int)Math.clamp(nextWork-dog.level().getGameTime(),0,80);}
+    public boolean practiceReady() {return hearth()!=null && calm() && Gardening.cultivates(dog.stats()) && dog.distanceToSqr(Vec3.atCenterOf(hearth().getBlockPos()))<24*24;}
     public Bunnidog mentor(Learning.Routine routine) {
         var h=hearth();if(h==null || !calm())return null;
-        return h.residents().stream().filter(d->d!=dog && d.distanceToSqr(dog)<=36 && d.society().calm() && d.learning().lesson()==null && d.learning().knowledge().independent(d.mind(),routine) && CapabilityRules.potential(d.mind(),CapabilityRules.Task.TEACHING)==CapabilityRules.Potential.INDEPENDENT && d.getSensing().hasLineOfSight(dog)).findFirst().orElse(null);
+        return h.residents().stream().filter(d->d!=dog && d.distanceToSqr(dog)<=(routine==Learning.Routine.BUILD ? 144 : 36) && d.society().calm() && d.learning().lesson()==null && d.learning().knowledge().independent(d.mind(),routine) && (routine==Learning.Routine.BUILD || CapabilityRules.potential(d.mind(),CapabilityRules.Task.TEACHING)==CapabilityRules.Potential.INDEPENDENT) && HomeRoutes.visible(dog,d)).findFirst().orElse(null);
     }
     public boolean guided(Learning.Routine r) {return CapabilityRules.potential(dog.mind(),r.task())!=CapabilityRules.Potential.LIMITED && mentor(r)!=null;}
     public void completed(Learning.Routine routine,boolean independent) {var h=hearth();if(h!=null && child && independent && (residentLessons&(1<<routine.ordinal()))!=0)h.evidence("continuity",1);}
@@ -86,12 +88,12 @@ public final class SocietyWork {
     public boolean pioneer(Learning.Routine routine) {var h=hearth();return h!=null && h.wild().natural() && dog.learning().canDiscover() && !dog.courierLore().occupied() && !dog.deliveries().watching() && dog.deliveries().cargo().isEmpty() && CapabilityRules.potential(dog.mind(),routine.task())==CapabilityRules.Potential.INDEPENDENT;}
     private boolean harvestReady() {return knows(Learning.Routine.HARVEST) || pioneer(Learning.Routine.HARVEST);}
     private boolean gardener() {return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.GARDEN) || pioneer(Learning.Routine.GARDEN);}
-    private boolean artisan() {return gardener() && dog.mind().handling()>=1.5 && dog.mind().reasoning()>=1.5;}
-    private boolean advancedWorkshop() {return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.GARDEN);}
+    private boolean artisan() {return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.CRAFT) || pioneer(Learning.Routine.CRAFT);}
+    private boolean advancedWorkshop() {return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.CRAFT);}
     public boolean gathers() {return knows(Learning.Routine.DELIVERY) && Supplying.qualified(dog.stats()) || pioneer(Learning.Routine.DELIVERY);}
     public int gatheringLimit() {return knows(Learning.Routine.DELIVERY) && Supplying.qualified(dog.stats()) ? 8 : 1;}
     private boolean familyNurse() {return nurse() || pioneer(Learning.Routine.NURSERY);}
-    private boolean recipeAllowed(CivicRecipes.RecipeId recipe) {return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.GARDEN) || pioneer(Learning.Routine.GARDEN) && switch(recipe) {case PLANKS,STICKS,AXE,NEST,COPPICE,PICKAXE,FURNACE,TORCH->true;default->false;};}
+    private boolean recipeAllowed(CivicRecipes.RecipeId recipe) {return advancedWorkshop() || pioneer(Learning.Routine.CRAFT) && switch(recipe) {case PLANKS,STICKS,AXE,NEST,COPPICE,PICKAXE,FURNACE,TORCH->true;default->false;};}
     private Job active;
     public Job active() {return active;}
     boolean claim(Job job) {var h=hearth();if(h==null || !h.jobs().claim(dog,job))return false;active=job;if(miningCargo && job.kind()==Kind.MINE_STONE)destination=job.target();return true;}
@@ -177,7 +179,7 @@ public final class SocietyWork {
             var archive=dog.courierLore().archiveJob(h);if(archive!=null)jobs.add(archive);
             if(CapabilityRules.potential(dog.mind(),CapabilityRules.Task.TEACHING)==CapabilityRules.Potential.INDEPENDENT)
                 for(var pupil:h.residents())if(pupil!=dog && !pupil.isBaby() && pupil.society().calm())for(var r:Learning.Routine.values())
-                    if(r!=Learning.Routine.SCOUT && dog.learning().knowledge().independent(dog.mind(),r) && pupil.learning().physicallyReady(r) && !pupil.learning().knowledge().knows(r) && CapabilityRules.potential(pupil.mind(),r.task())!=CapabilityRules.Potential.LIMITED) {
+                    if(r!=Learning.Routine.SCOUT && !r.workshop() && dog.learning().knowledge().independent(dog.mind(),r) && pupil.learning().physicallyReady(r) && !pupil.learning().knowledge().knows(r) && CapabilityRules.potential(pupil.mind(),r.task())!=CapabilityRules.Potential.LIMITED) {
                         jobs.add(new Job(Kind.TEACH,pupil.blockPosition(),r.ordinal(),l.getBlockState(pupil.blockPosition()),new Patient(pupil.getUUID(),null)));break;
                     }
             if(nurse)for(var pos:h.sites())if(l.hasChunkAt(pos) && l.getBlockEntity(pos) instanceof NurseryCradleBlockEntity cradle && !cradle.manualHatchOnly()) {
@@ -223,8 +225,18 @@ public final class SocietyWork {
             if(!hungry && (trough.food().isEmpty() || trough.food().is(ModItems.GUAVA.get())) && trough.food().getCount()<8 && h.count(ModItems.GUAVA.get())>24 && trough.canInsert(new ItemStack(ModItems.GUAVA.get())))jobs.add(new Job(Kind.SUPPLY,at,index,l.getBlockState(at)));
         }
         if(!hungry && garden)for(var pos:h.sites())if(l.hasChunkAt(pos) && l.getBlockState(pos).is(Blocks.COMPOSTER) && (l.getBlockState(pos).getValue(ComposterBlock.LEVEL)==8 && h.room(new ItemStack(Items.BONE_MEAL)) || l.getBlockState(pos).getValue(ComposterBlock.LEVEL)<7 && h.count(ModItems.GUAVA.get())>16 && h.count(Items.BONE_MEAL)<16))jobs.add(at(Kind.COMPOST,pos));
-        jobs.removeIf(job->!h.jobs().available(dog,job));jobs.sort(Comparator.comparingDouble((Job job)->priority(h,job)).reversed());return List.copyOf(jobs.stream().limit(16).toList());
+        jobs.removeIf(job->!lessonAllows(job) || !h.jobs().available(dog,job));jobs.sort(Comparator.comparingDouble((Job job)->priority(h,job)).reversed());return List.copyOf(jobs.stream().limit(16).toList());
     }
+    static Learning.Routine routine(Kind kind) {return switch(kind) {
+        case CRAFT,FETCH_FURNACE,LOAD_FURNACE -> Learning.Routine.CRAFT;
+        case BUILD,FETCH_BUILD -> Learning.Routine.BUILD;
+        case PLANT,COMPOST,FETCH_SEED,SOW_FIELD,TEND -> Learning.Routine.GARDEN;
+        case PRUNE,CLIP_WOOD,PICK_FRUIT,FETCH_PICKAXE,MINE_STONE,HARVEST_FIELD -> Learning.Routine.HARVEST;
+        case MEDICINE,CARE,FETCH_AID,FETCH_RESCUE,PICKUP_RESCUE,RELEASE_RESCUE,COURT,SEED,NURTURE,HATCH,HATCH_SOIL -> Learning.Routine.NURSERY;
+        case HAUL,SUPPLY,GATHER_FIELD,EMPTY_FURNACE -> Learning.Routine.DELIVERY;
+        default -> null;
+    };}
+    private boolean lessonAllows(Job job) {var lesson=dog.learning().lesson();return lesson==null || job.kind()==Kind.MEAL || job.kind()==Kind.DELIVER || lesson==routine(job.kind());}
     private static WorkSpecialty specialty(Kind kind) {return switch(kind) {
         case BUILD,FETCH_BUILD -> WorkSpecialty.BUILDER;
         case PLAN -> WorkSpecialty.PLANNER;
@@ -288,9 +300,7 @@ public final class SocietyWork {
         if(held.isEmpty())return false;boolean placed=false;try {placed=place(l,p,before,after);return placed;}finally {if(!placed && !h.put(held))Block.popResource(l,h.getBlockPos(),held);}
     }
     private boolean buildingReady() {
-        if(!gardener())return false;var capacity=CapabilityRules.potential(dog.mind(),CapabilityRules.Task.BUILDING);
-        if(capacity==CapabilityRules.Potential.INDEPENDENT)return true;if(capacity==CapabilityRules.Potential.LIMITED)return false;var h=hearth();
-        return h!=null && h.residents().stream().anyMatch(mentor->mentor!=dog && mentor.society().calm() && dog.distanceToSqr(mentor)<=144 && mentor.learning().knowledge().independent(mentor.mind(),Learning.Routine.GARDEN) && CapabilityRules.potential(mentor.mind(),CapabilityRules.Task.BUILDING)==CapabilityRules.Potential.INDEPENDENT && HomeRoutes.visible(dog,mentor));
+        return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.BUILD) || pioneer(Learning.Routine.BUILD);
     }
     private boolean buildingMaterialAvailable(HearthTreeBlockEntity h,HearthTreeBlockEntity.Cell cell) {
         int reserve=cell.item()==ModItems.GUAVA_PLANKS.get() && h.wild().works().pending() && !h.wild().works().workCell(cell.pos()) ? 12 : 0;
@@ -423,14 +433,14 @@ public final class SocietyWork {
     }
     /** Called by the goal only after walking to the target and completing a visible work period. */
     public boolean perform(Job job) {
-        if(operating || medicalBusy || !cargo.isEmpty() && job.kind()!=Kind.DELIVER && job.kind()!=Kind.BUILD && job.kind()!=Kind.CARE && job.kind()!=Kind.SOW_FIELD && job.kind()!=Kind.LOAD_FURNACE && job.kind()!=Kind.MINE_STONE && job.kind()!=Kind.PICKUP_RESCUE && job.kind()!=Kind.RELEASE_RESCUE || !ready() || !hearth().jobs().available(dog,job) || dog.distanceToSqr(Vec3.atCenterOf(job.target()))>16 || !dog.level().hasChunkAt(job.target()))return false;
+        if(operating || medicalBusy || !lessonAllows(job) || job.kind()!=Kind.DELIVER && job.kind()!=Kind.MEAL && !dog.learning().witnesses(job.target(),job.destination()==null ? job.target() : job.destination()) || !cargo.isEmpty() && job.kind()!=Kind.DELIVER && job.kind()!=Kind.BUILD && job.kind()!=Kind.CARE && job.kind()!=Kind.SOW_FIELD && job.kind()!=Kind.LOAD_FURNACE && job.kind()!=Kind.MINE_STONE && job.kind()!=Kind.PICKUP_RESCUE && job.kind()!=Kind.RELEASE_RESCUE || !ready() || !hearth().jobs().available(dog,job) || dog.distanceToSqr(Vec3.atCenterOf(job.target()))>16 || !dog.level().hasChunkAt(job.target()))return false;
         operating=true;
         try {
         var h=hearth();var l=(ServerLevel)dog.level();boolean ok=false;Learning.Routine learned=null;
         if(job.kind()!=Kind.DELIVER && job.kind()!=Kind.GATHER_FIELD && job.kind()!=Kind.LOAD_FURNACE && job.kind()!=Kind.EMPTY_FURNACE && !l.getBlockState(job.target()).equals(job.expected()))return false;
         switch(job.kind()) {
             case FETCH_FURNACE -> {ok=collectFurnaceSupply(job);}
-            case LOAD_FURNACE -> {ok=loadFurnace(job);learned=Learning.Routine.GARDEN;}
+            case LOAD_FURNACE -> {ok=loadFurnace(job);learned=Learning.Routine.CRAFT;}
             case EMPTY_FURNACE -> {ok=emptyFurnace(job);}
             case FETCH_PICKAXE -> {ok=collectPickaxe(job);}
             case MINE_STONE -> {ok=mineStone(job);learned=Learning.Routine.HARVEST;}
@@ -442,9 +452,9 @@ public final class SocietyWork {
             case RELEASE_RESCUE -> {ok=releaseRescue(job);learned=Learning.Routine.NURSERY;}
             case MEDICINE -> {ok=collectMedicine(job);}
             case CARE -> {ok=firstAidCargo ? aidResident(job) : treatResident(job);learned=Learning.Routine.NURSERY;}
-            case TEACH -> {ok=CapabilityRules.potential(dog.mind(),CapabilityRules.Task.TEACHING)==CapabilityRules.Potential.INDEPENDENT;}
+            case TEACH -> {ok=job.index()>=0 && job.index()<Learning.Routine.values().length && !Learning.Routine.values()[job.index()].workshop() && CapabilityRules.potential(dog.mind(),CapabilityRules.Task.TEACHING)==CapabilityRules.Potential.INDEPENDENT;}
             case MEAL -> {int slot=mealSlot(h);if(slot>=0) {h.takeExact(slot,1);dog.heal(2);workSinceMeal=0;h.evidence("meal",1);ok=true;}}
-            case CRAFT -> {ok=craft(h,job.index());learned=Learning.Routine.GARDEN;}
+            case CRAFT -> {ok=craft(h,job.index());learned=Learning.Routine.CRAFT;}
             case PLAN -> {ok=h.agenda().write(dog);}
             case FETCH_SEED -> {ok=collectFieldSeed(job);}
             case SOW_FIELD -> {ok=sowField(job);learned=Learning.Routine.GARDEN;}
@@ -453,7 +463,7 @@ public final class SocietyWork {
             case HARVEST_FIELD -> {ok=harvestReady() && CivicFields.harvest(dog,h,job.target(),job.expected());learned=Learning.Routine.HARVEST;}
             case GATHER_FIELD -> {if(gathers() && l.getEntity(job.index()) instanceof net.minecraft.world.entity.item.ItemEntity item) {var taken=CivicFields.collect(dog,h,item);if(!taken.isEmpty()) {cargo=taken;destination=h.getBlockPos();parcelOwner=h.owner();grownCargo=cargo.is(ModItems.GUAVA.get());ok=true;}}}
             case FETCH_BUILD -> {ok=collectBuild(job);}
-            case BUILD -> {ok=build(job);learned=Learning.Routine.GARDEN;}
+            case BUILD -> {ok=build(job);learned=Learning.Routine.BUILD;}
             case PLANT -> {if(gardener() && h.authorized() && h.orchard().contains(job.target()) && h.count(ModItems.GUAVA_COPPICE.get())>0 && job.expected().isAir() && paidPlace(h,l,job.target(),job.expected(),ModBlocks.GUAVA_COPPICE.get().defaultBlockState(),ModItems.GUAVA_COPPICE.get())) {ok=true;}learned=Learning.Routine.GARDEN;}
             case PRUNE -> {if(harvestReady() && h.orchard().contains(job.target()) && h.count(Items.WOODEN_AXE)>0 && job.expected().is(ModBlocks.GUAVA_COPPICE.get()) && job.expected().getValue(CoppiceBlock.AGE)==7 && h.room(new ItemStack(ModItems.GUAVA_LOG.get(),2)) && h.room(new ItemStack(ModItems.GUAVA.get(),4)) && place(l,job.target(),job.expected(),job.expected().setValue(CoppiceBlock.AGE,0))) {CivicFields.scatter(h,job.target(),List.of(new ItemStack(ModItems.GUAVA_LOG.get(),2),new ItemStack(ModItems.GUAVA.get(),4)));for(int i=0;i<27;i++)if(h.getItem(i).is(Items.WOODEN_AXE)) {var axe=h.getItem(i);axe.setDamageValue(axe.getDamageValue()+1);if(axe.getDamageValue()>=axe.getMaxDamage())axe.shrink(1);h.setChanged();break;}h.evidence("timber",1);h.evidence("harvest",4);ok=true;}learned=Learning.Routine.HARVEST;}
             case HAUL -> {if(knows(Learning.Routine.DELIVERY) && Supplying.qualified(dog.stats()) && h.sites().contains(job.target()) && l.getBlockEntity(job.target()) instanceof FeedingTroughBlockEntity t && t.getBlockState().getValue(FeedingTroughBlock.TENDING) && !t.residentsPaused() && !t.food().isEmpty() && com.bunnidogs.mod.item.GuavaItem.tierOf(t.food())==0 && t.food().getCount()>8 && h.room(t.food().copyWithCount(Math.min(8,t.food().getCount()-8)))) {cargo=t.takeSurplus(t.food().copy(),8);destination=h.getBlockPos();parcelOwner=h.owner();grownCargo=cargo.is(ModItems.GUAVA.get());ok=!cargo.isEmpty();}}
@@ -636,13 +646,14 @@ public final class SocietyWork {
     }
     public ItemStack deathCargo() {release();var out=cargo;cargo=ItemStack.EMPTY;clearMedicine();return out;}
     private boolean craft(HearthTreeBlockEntity h,int index) {
-        if(!gardener() || dog.mind().handling()<1.5 || dog.mind().reasoning()<1.5)return false;
+        if(!artisan())return false;
         if(index>=0)return index<CivicRecipes.RecipeId.values().length && recipeAllowed(CivicRecipes.RecipeId.values()[index]) && recipeNeeded(h,CivicRecipes.RecipeId.values()[index]) && CivicRecipes.craft(dog,h,CivicRecipes.RecipeId.values()[index]);
         // Compatibility for an already offered generic craft: re-evaluate concrete current needs.
         return Arrays.stream(CivicRecipes.RecipeId.values()).filter(recipe->recipeAllowed(recipe) && recipeNeeded(h,recipe) && CivicRecipes.prepare(h,recipe).isPresent())
                 .map(recipe->new Job(Kind.CRAFT,h.getBlockPos(),recipe.ordinal(),h.getBlockState())).sorted(Comparator.comparingDouble((Job job)->priority(h,job)).reversed())
                 .findFirst().map(job->CivicRecipes.craft(dog,h,CivicRecipes.RecipeId.values()[job.index()])).orElse(false);
     }
+    public boolean canCraft(CivicRecipes.RecipeId recipe) {return ready() && artisan() && recipeAllowed(recipe) && dog.learning().witnesses(hearth().getBlockPos(),hearth().getBlockPos());}
     private boolean dressingNeeded(HearthTreeBlockEntity h) {
         return h.count(ModItems.HEARTH_POULTICE.get())<4 && h.count(ModItems.GUAVA.get())>8 && h.count(Items.BONE_MEAL)>0 && h.count(Items.PAPER)>0 && h.count(Items.HONEYCOMB)>0
                 && h.residents().stream().anyMatch(p->p!=dog && p.clinic().ready() && ClinicCare.restingAtHome(h,p) && HomeRoutes.visible(dog,p));

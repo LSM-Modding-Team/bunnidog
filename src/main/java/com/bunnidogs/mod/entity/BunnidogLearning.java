@@ -36,7 +36,7 @@ public final class BunnidogLearning {
     public Activity activity() {
         if (lesson==null) return Activity.IDLE;
         if (!guided()) return Activity.WAITING_FOR_GUIDE;
-        return (lesson==Learning.Routine.SCOUT ? dog.scoutingWait() : dog.gardeningWait())>0 ? Activity.RESTING : observed;
+        return (lesson==Learning.Routine.SCOUT ? dog.scoutingWait() : lesson.workshop() ? dog.society().waitTicks() : dog.gardeningWait())>0 ? Activity.RESTING : observed;
     }
     void observe(Learning.Routine routine,Activity activity) {
         if (lesson==routine) observed=activity;
@@ -52,12 +52,14 @@ public final class BunnidogLearning {
     }
     public boolean physicallyReady(Learning.Routine routine) {
         if(routine==Learning.Routine.SCOUT) {var status=dog.scoutingBodyStatus();return !dog.isInLove() && (status==Scouting.Status.READY || status==Scouting.Status.RESTING);}
+        if(routine.workshop())return dog.society().practiceReady();
         var status = dog.gardeningStatus();
         if (status != Gardening.Status.READY && status != Gardening.Status.RESTING) return false;
         if (dog.isInLove()) return false;
         return switch (routine) {
             case HARVEST -> true; case DELIVERY -> Supplying.qualified(dog.stats());
             case GARDEN -> Gardening.cultivates(dog.stats()); case NURSERY -> Gardening.nurses(dog.stats());
+            case CRAFT, BUILD -> false; // Household work has its own body/authority context above.
             case SCOUT -> false; // Handled above: field lessons do not require a garden/home/daylight.
         };
     }
@@ -173,6 +175,6 @@ public final class BunnidogLearning {
         String saved = input.getStringOr("Learning", "");
         opaqueKnowledge = !saved.isEmpty() && Learning.parse(saved).isEmpty() ? saved : null;
         knowledge = Learning.parse(saved).orElse(legacyGenome && !dog.isBaby() && saved.isEmpty() ? Learning.LEGACY_FAMILIAR : Learning.EMPTY);
-        if(dog.isBaby() && saved.startsWith("l1."))knowledge=new Learning(knowledge.packed()&0xFFFF);
+        if(dog.isBaby() && (saved.startsWith("l1.") || saved.startsWith("l2.")))knowledge=new Learning(knowledge.packed()&(saved.startsWith("l1.") ? 0xFFFF : 0xFFFFF));
     }
 }

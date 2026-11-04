@@ -2,7 +2,7 @@
 
 A NeoForge mod for Minecraft 26.2: baby-faced creatures, living warrens and
 inherited traits that shape companions, gardens and breeding lines. Client and
-server both need the current mod (network **50**).
+server both need the current mod (network **51**).
 
 Interact with a bunnidog to choose **Care, Orders or Work** beside the visible
 animal. Calm animals stay and face you while you interact. Ordinary held items
@@ -20,6 +20,9 @@ Every action uses real supplies.
 Household craftspeople can operate a Furnace, Blast Furnace or Smoker explicitly
 linked with the Steward Staff. They carry real inputs and fuel to it; couriers
 bring the cooked/refined results home. Native cooking and fuel still apply.
+Crafting and building have separate practical lessons under Work → Lessons →
+Workshop lessons. Residents learn through real paid work; qualified nearby
+housemates can guide a replacement. Established workers retain their abilities.
 Crouch-use the Staff on a linked work site to release it and recover its link
 allowance. For a missing station, use its surviving floor. Supplies already on
 the way return to their original Hearth.

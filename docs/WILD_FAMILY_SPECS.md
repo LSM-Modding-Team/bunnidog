@@ -60,6 +60,10 @@ Player-established households retain their existing learning/stat requirements.
   outputs and remainders.
   Native recipes still determine affordability. No free grafting frames,
   dressings or incense knowledge.
+  Successful recipes now practice distinct Crafting, and actual paid placement
+  practices Building; they no longer silently train Gardening. See
+  [WORKSHOP_LEARNING_SPECS.md](WORKSHOP_LEARNING_SPECS.md). Primitive body/capacity
+  exceptions, original materials and the six-operation ration budget remain.
 - The paid axe unlocks normal Coppice pruning. Real grain crops yield native
   drops and spend a returned planting item to replant. Actual wheat can make
   additional Nests; personal Diet still controls resident meals.
@@ -161,7 +165,7 @@ the same controlled site before/after work. Its adjacent JSON/provenance and
 `art/preview_wild_glade.py` reproduce the schematic. It is block-position evidence,
 not client geometry, texture, animation or lighting acceptance.
 
-Still unfinished: self-made initial cache/Nests, broader craft/build education
+Still unfinished: self-made initial cache/Nests, broader physical recipe/build culture
 and records, essential-specialist recovery,
 composed public works, adoption/relationships, civic rescue and independent
 inter-community exchange. Glade frequency, survival over multiple generations,

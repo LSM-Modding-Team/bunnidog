@@ -2642,5 +2642,10 @@
   "item.bunnidogs.fruit_picker": "Guava Picker",
   "tooltip.bunnidogs.orchard.graft": "Grafts onto living guava branches.",
   "tooltip.bunnidogs.orchard.picker": "Reaches high branches and catches picked fruit.",
-  "tooltip.bunnidogs.orchard.mulch": "Guava trees grow larger bunches in this soil."
+  "tooltip.bunnidogs.orchard.mulch": "Guava trees grow larger bunches in this soil.",
+  "text.bunnidogs.000b821603b66426": "Crafting",
+  "care.bunnidogs.learning.workshop": "Workshop lessons",
+  "care.bunnidogs.learning.need_household": "Needs a household.",
+  "measurement.bunnidogs.workshop": "Workshops",
+  "care.bunnidogs.learning.household": "Household: %s"
 }

@@ -62,7 +62,7 @@ public final class CarePanels {
         id&=255;
         return id==BACK || id==FamilyPanels.BACK_FIT || id==WorkshopPanels.BACK_TABLE || id==ApexPanel.CANCEL;
     }
-    public static boolean readOnly(int id) { return CareReadingPanel.action(id) || id==WORK_MODES || id==REQUESTS || id==AnimalPanels.CARE_MENU || id==AnimalPanels.ORDERS || id==GENETICS || id==CARGO || id==BACK || id==ROLES || id==LearningPanel.OPEN || id==CombatPanel.OPEN || id==PartyPanel.OPEN || id==WorkshopPanels.READ_TABLE || SignalPanels.readOnly(id)
+    public static boolean readOnly(int id) { return CareReadingPanel.action(id) || id==WORK_MODES || id==REQUESTS || id==AnimalPanels.CARE_MENU || id==AnimalPanels.ORDERS || id==GENETICS || id==CARGO || id==BACK || id==ROLES || id==LearningPanel.OPEN || id==LearningPanel.WORKSHOP || id==CombatPanel.OPEN || id==PartyPanel.OPEN || id==WorkshopPanels.READ_TABLE || SignalPanels.readOnly(id)
             || id==ApexPanel.PREPARE || id==ApexPanel.CANCEL || id==ApexPanel.SHOW_RING || id==WorkshopPanels.GOALS || id==WorkshopPanels.BACK_TABLE
             || id==com.bunnidogs.mod.entity.StationMarkers.SHOW_PAD || FamilyPanels.readOnly(id) || id==LitterPanel.LITTER || id==LitterPanel.READ_SEED; }
     public static CareView animal(Player player,Bunnidog dog) {

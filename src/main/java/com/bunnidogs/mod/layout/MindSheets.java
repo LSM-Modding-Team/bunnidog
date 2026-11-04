@@ -10,7 +10,7 @@ import java.util.Locale;
 public final class MindSheets {
     private MindSheets() {}
     private static final List<CapabilityRules.Task> ROUTINES = List.of(CapabilityRules.Task.HARVEST,
-            CapabilityRules.Task.DELIVERY, CapabilityRules.Task.PLANTING, CapabilityRules.Task.NURSERY,CapabilityRules.Task.SCOUTING,CapabilityRules.Task.TACTICS);
+            CapabilityRules.Task.DELIVERY, CapabilityRules.Task.PLANTING, CapabilityRules.Task.NURSERY,CapabilityRules.Task.SCOUTING,CapabilityRules.Task.TACTICS,CapabilityRules.Task.CRAFTING,CapabilityRules.Task.BUILDING);
 
     public static Page.Spread individual(Genome genome, Metrics metrics) {
         return individual(genome, Texts.t("Bunnidog"), metrics);
@@ -34,15 +34,14 @@ public final class MindSheets {
         right.text(0, 0, Texts.t("ROUTINE POTENTIAL"), Page.Tone.HEAD);
         for (int i = 0; i < ROUTINES.size(); i++) {
             var task = ROUTINES.get(i); var potential = CapabilityRules.potential(mind, task);
-            int y = 18 + i * 18;
+            int y = 12 + i * 18;
             line(right, y, task.label(), Page.Tone.HEAD, metrics);
             line(right, y + 9, CapabilityRules.describe(potential), potential == CapabilityRules.Potential.LIMITED ? Page.Tone.MUTED : Page.Tone.GOOD, metrics);
             right.hotspot(0, y, Page.WIDTH, 18, CapabilityRules.requirements(task, false) + " "
                     + Texts.t("With instruction and nearby support: ") + CapabilityRules.requirements(task, true)
                     + Texts.t(" Genes show capacity, not learned experience. Body traits, health, tools, stock and safe paths still matter."), -1);
         }
-        line(right, 135, Texts.t("Potential is not training."), Page.Tone.MUTED, metrics);
-        line(right, 147, Texts.t("Samples store no lessons."), Page.Tone.MUTED, metrics);
+        right.hotspot(0,0,Page.WIDTH,9,Texts.t("Potential is not training.")+" "+Texts.t("Samples store no lessons."),-1);
         return new Page.Spread(left, right);
     }
 
@@ -63,17 +62,16 @@ public final class MindSheets {
         line(left, 147, Texts.t("Hover for mutation rules."), Page.Tone.MUTED, metrics);
         right.text(0, 0, Texts.t("PUP POTENTIAL"), Page.Tone.HEAD);
         for (int i = 0; i < ROUTINES.size(); i++) {
-            var task = ROUTINES.get(i); int y = 14 + i * 20;
+            var task = ROUTINES.get(i); int y = 12 + i * 18;
             double independent = forecast.chance(task, CapabilityRules.Potential.INDEPENDENT);
             double supported = forecast.chance(task, CapabilityRules.Potential.SUPPORTED);
             line(right, y, task.label(), Page.Tone.HEAD, metrics);
             line(right, y + 9, Texts.t("%s alone; %s guided", ForecastSheet.percent(independent),ForecastSheet.percent(supported)), Page.Tone.GOOD, metrics);
-            right.hotspot(0, y, Page.WIDTH, 20, CapabilityRules.requirements(task, false) + " "
+            right.hotspot(0, y, Page.WIDTH, 18, CapabilityRules.requirements(task, false) + " "
                     + Texts.t("Independent %s; supported only %s; beyond capacity %s. These are exact joint genetic odds before mutation, not chances of being born educated.",
                     ForecastSheet.percent(independent), ForecastSheet.percent(supported), ForecastSheet.percent(1 - independent - supported)), -1);
         }
-        line(right, 138, Texts.t("All 12 fixed: %s", ForecastSheet.percent(cross.fullFixedPupChance())), Page.Tone.MUTED, metrics);
-        right.hotspot(0, 138, Page.WIDTH, 18, Texts.t("Registry purity includes eight body and four mind pairs. Existing redstone compares the original seven body pairs."), -1);
+        right.hotspot(0,0,Page.WIDTH,9,Texts.t("All 12 fixed: %s", ForecastSheet.percent(cross.fullFixedPupChance()))+" "+Texts.t("Registry purity includes eight body and four mind pairs. Existing redstone compares the original seven body pairs."), -1);
         return new Page.Spread(left, right);
     }
 

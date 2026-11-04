@@ -67,7 +67,7 @@ public final class WildFamilyGameTest {
         for(var p:t.wild().timber())h.assertTrue(act(c,d,SocietyWork.Kind.CLIP_WOOD,p),"Primitive harvesting removes only known fallen wood");
         h.assertTrue(t.isEmpty() && !l.getEntitiesOfClass(ItemEntity.class,new AABB(t.getBlockPos()).inflate(12)).isEmpty(),"Wood remains in actual ground entities until walked home");collectAll(c,d);h.assertTrue(t.count(ModItems.GUAVA_LOG.get())==3,"Every original log arrives exactly once");
         for(var recipe:List.of(CivicRecipes.RecipeId.PLANKS,CivicRecipes.RecipeId.PLANKS,CivicRecipes.RecipeId.STICKS,CivicRecipes.RecipeId.AXE))h.assertTrue(act(c,d,SocietyWork.Kind.CRAFT,t.getBlockPos(),recipe.ordinal()),"An untrained capable founder learns from real paid native recipes: "+recipe);
-        h.assertTrue(t.count(Items.WOODEN_AXE)==1 && d.stats().equals(Stats.ZERO) && d.learning().knowledge().knows(Learning.Routine.GARDEN),"Practice earns personal knowledge without invented body points");
+        h.assertTrue(t.count(Items.WOODEN_AXE)==1 && d.stats().equals(Stats.ZERO) && d.learning().knowledge().knows(Learning.Routine.CRAFT) && !d.learning().knowledge().knows(Learning.Routine.GARDEN),"Real recipes earn distinct crafting knowledge without invented body points or gardening experience");
         h.assertTrue(!act(c,d,SocietyWork.Kind.CRAFT,t.getBlockPos(),CivicRecipes.RecipeId.FRAME.ordinal()),"Primitive discovery cannot manufacture advanced grafting equipment");
         var field=t.wild().fields().getFirst();h.assertTrue(act(c,d,SocietyWork.Kind.HARVEST_FIELD,field) && l.getBlockState(field).getValue(CropBlock.AGE)==0,"The original native wheat crop yields real materials and consumes its returned replant seed");collectAll(c,d);
         h.assertTrue(t.count(Items.WHEAT)>=1,"Real wheat, not the farmer's personal Diet, supplies nest making");
@@ -108,6 +108,6 @@ public final class WildFamilyGameTest {
     }
     public static void ai(GameTestHelper h) {
         var c=setup(h,true);c.dogs.forEach(d->d.setNoAi(false));
-        h.runAfterDelay(2200,()->{var t=c.home;h.assertTrue(t.count(Items.WOODEN_AXE)==1 && c.dogs.stream().anyMatch(d->d.learning().knowledge().knows(Learning.Routine.GARDEN)),"Actual autonomous goals bootstrap a paid axe from empty stores and zero learned skills; stock="+t.count(ModItems.GUAVA_LOG.get())+" logs, "+t.count(ModItems.GUAVA_PLANKS.get())+" planks, "+t.count(Items.STICK)+" sticks; jobs="+c.dogs.stream().map(d->String.valueOf(d.society().active())).toList());clean(c);h.succeed();});
+        h.succeedWhen(()->{var t=c.home;h.assertTrue(t.count(Items.WOODEN_AXE)==1 && c.dogs.stream().anyMatch(d->d.learning().knowledge().knows(Learning.Routine.CRAFT)),"Actual autonomous goals bootstrap a paid axe from empty stores and zero learned skills; stock="+t.count(ModItems.GUAVA_LOG.get())+" logs, "+t.count(ModItems.GUAVA_PLANKS.get())+" planks, "+t.count(Items.STICK)+" sticks; jobs="+c.dogs.stream().map(d->String.valueOf(d.society().active())).toList());clean(c);});
     }
 }

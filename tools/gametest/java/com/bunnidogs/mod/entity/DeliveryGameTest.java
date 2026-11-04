@@ -99,6 +99,6 @@ public final class DeliveryGameTest {
     }
     public static void ai(GameTestHelper h) {
         var c=setup(h);demonstrate(c);position(c,c.source);c.p.snapTo(Vec3.atBottomCenterOf(c.source.east(25)));c.dog.setNoAi(false);
-        h.runAfterDelay(210,()->{int source=((Container)h.getLevel().getBlockEntity(c.source)).getItem(0).getCount();int target=((Container)h.getLevel().getBlockEntity(c.target)).getItem(0).getCount();h.assertTrue(source==24 && target==40 && c.dog.deliveries().cargo().isEmpty(),"Actual unsupervised native AI walks both legs and delivers once: "+source+" / "+target+" / "+c.dog.deliveries().state());c.dog.discard();c.p.discard();h.succeed();});
+        h.succeedWhen(()->{int source=((Container)h.getLevel().getBlockEntity(c.source)).getItem(0).getCount();int target=((Container)h.getLevel().getBlockEntity(c.target)).getItem(0).getCount();h.assertTrue(source==24 && target==40 && c.dog.deliveries().cargo().isEmpty(),"Actual unsupervised native AI walks both legs and delivers once: "+source+" / "+target+" / "+c.dog.deliveries().state());c.dog.discard();c.p.discard();});
     }
 }

@@ -37,6 +37,12 @@ universal starvation timer.
 
 ## Crafting uses actual recipes
 
+Crafting and Building now have separate practical education and local expert
+guidance; see [WORKSHOP_LEARNING_SPECS.md](WORKSHOP_LEARNING_SPECS.md). Old adult
+Garden masters retain their former jobs once. New residents must learn the
+appropriate routine through actual paid work; Garden knowledge alone no longer
+grants those professions. Original recipes, body needs and site authority remain.
+
 The finite civic recipe vocabulary currently includes guava planks, native
 sticks/wooden axes, Grafting Frames, Nests, Hearth Incense, dressings and Coppices.
 Actual loaded recipe IDs, matching grids, results and remainders are authoritative.

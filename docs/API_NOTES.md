@@ -13,6 +13,33 @@ history; this index is the map. `grep -n "name" docs/API_NOTES.md` finds any nam
 Status words: **COMPILED** = the user's compile accepted it (names and types are right; runtime behaviour may still be open). **SOURCE** = seen in the real NeoForge sources/data, not compiled yet.
 **ASSUMED** = written from memory of 1.21.x, nothing confirms it. **AVOIDED** = never seen anywhere, so our code does not use it.
 
+### Practical workshop learning and bounded purpose pages
+
+- Seven personal routines fit in the existing int as seven four-bit 0–6 values;
+  append Crafting/Building rather than shifting existing fields. Canonical l3
+  is distinct from l1/l2 compatibility: only old adult Garden masters retain
+  former workshop jobs, while new explicit records and old pups gain no new
+  adult experience. Basket/entity saves keep the individual's state; genetic
+  snapshots contain no learning. Pure/native schema and actual-work checks verify it.
+- Append the native CareMenu mode and allocate unused meanings 244–247 without
+  changing existing button IDs. A separate workshop lesson/purpose page preserves
+  CareView's twelve-control/twelve-row codec; its opening action is read-only,
+  while teaching still needs real authority. Noncontiguous Calipers purpose IDs
+  need an explicit group mapping rather than `id - FIRST`. The tool remains
+  mandatory throughout the native menu session. Actual menu/callback tests verify
+  dispatch, Back history and the new measurement path.
+- CivicRecipes' native transaction revalidates the active guide/capacity through
+  `SocietyWork.canCraft` after griefing callbacks and before root commit. Native
+  placement already revalidates `buildingReady` after its permission callback.
+  Practice follows only successful recipe/load/placement; collecting a material
+  or the old timed Teaching job cannot grant the new professions. Paid original
+  parcels can return without retaining an absent lesson instructor.
+- Eight two-line potential/forecast rows use y=12+18×index through y=147 in the
+  existing 130×156 reader pages. Existing training/purity explanations move into
+  header hovers. Maintained localized layout bounds and the actual exported
+  `art/workshop_learning/native-pages.txt`/preview verify the headless geometry;
+  Minecraft client fonts and interaction remain human acceptance.
+
 ### Native rebalance evidence and mock-player body ticks
 
 - In the resolved 26.2 sources, `ServerPlayer.tick()` handles its server session;
@@ -85,6 +112,10 @@ Status words: **COMPILED** = the user's compile accepted it (names and types are
   within 600 ticks, retaining one exact dressing spent, the emptied parcel and
   the actual patient's remaining saved cooldown. A tick-240 snapshot can occur
   before a valid carer has completed its work/search cycle; it is not an outcome.
+- The remembered-route AI fixture waits for its actual first eight-item delivery
+  within 480 ticks, retaining source 24/destination 40/empty-parcel checks. A
+  tick-210 snapshot can catch a valid paid parcel still walking its second leg.
+  This changes neither production route cadence nor native navigation rules.
 - Native entity-section visibility can lag a same-tick cross-chunk entity move.
   A loaded-only finder boundary fixture keeps its already-tracked resident in
   the original loaded section and moves the mock observer instead, asserting

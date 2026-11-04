@@ -1,8 +1,21 @@
 # Codex working instructions
 
-Latest user request is finite: finish the current release work, implement and
-expand the rebalancing plan, leave human balance acceptance pending, push and
-end. This overrides the earlier endless continuation loop for this task.
+Latest user request resumes the sustained polish/expansion loop with periodic
+validated pushes. It supersedes the previous finite rebalance delivery stop.
+Prioritize accepted unfinished professions, practical education, wild continuity
+and civilization. Keep the shipped rebalance candidate pending human testing;
+do not blindly retune it merely to fill another batch.
+Practical Crafting/Building education now uses distinct appended l3 personal
+routines; read `docs/WORKSHOP_LEARNING_SPECS.md`. Preserve exact old l1/l2 adult
+Garden-master job compatibility, old pup/current-beginner/future-opaque data,
+real paid recipes/load/placement, local actual guidance and first-Nest practice
+without a personal-home circle. Timed lectures and material pickup grant no
+workshop skill. Retain original stock, actual parcels/receipts, callback
+revalidation and zero-stat bounded primitive discovery. Workshop choice and
+Calipers purpose pages preserve the twelve-control/row bound; eight actual
+genetic potential/forecast rows fit the existing reader. Network **51** is
+current; the following protocol-50 summaries are historical. Native/pure and
+inspected headless page evidence are separate from natural/client/co-op review.
 The candidate is recorded in `docs/STATS_REBALANCING_PLAN.md` and
 `docs/INFUSION_SPECS.md`: Regeneration potency Q+S/2, loyal duration 40–240s,
 actual bat-ear/short-leg Q0 donor lines rolling late S24/III and endgame S120/V,

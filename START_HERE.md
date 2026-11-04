@@ -7,10 +7,47 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 Previous sections retain their checkpoint's protocol/evidence; the current
 section below takes precedence.
 
-## Current — finite rebalance candidate, human acceptance pending
+## Current — sustained development and practical workshop education
 
-The latest user request ends after this release is validated and pushed.
-The earlier endless development loop does not apply to this batch.
+The latest user request resumes the polish/expansion loop with periodic validated
+pushes. The previous finite rebalance release is complete; its gameplay balance
+remains pending human testing. Continue useful intelligence/civilization work.
+
+Crafting and Building now have separate personal routines, real paid household
+lessons, local resident supervision and expert-loss replacement. Established
+adult Garden masters retain the jobs they previously performed once; new
+gardeners and old pups gain no new workshop skills. Canonical personal learning
+is l3 with the two routines appended; genetics/offspring remain uneducated.
+Household practice can build the first Nest without requiring a personal home
+or earlier gardening lessons. Native recipe, original carried material, actual
+placement, callback guidance/authority and finite primitive rules remain.
+
+Work → Lessons → Workshop lessons stays a short choice page within the original
+twelve-control bound. Requested Calipers gain a Workshops purpose; actual
+individual/seed/Table mind pages include the two professions and exact inherited
+capacity odds. The exported Spanish pure reader preview in
+`art/workshop_learning/mind-pages.png` was inspected; client fonts/feel remain
+human review. Network **51** requires matching client/server.
+
+Java 25 build/model/localization and the six focused `workshop_*` scenarios pass,
+including the existing controls case and five new actual education cases.
+The full run exposed two old wild-family assertions expecting recipes to teach
+Gardening; they now check distinct Crafting. The autonomous first-tool fixture
+waits for the actual milestone within its original bound. The corrected full
+run passed 298/299; its last old courier snapshot inspected a real paid parcel
+still walking at tick 210. It now waits for the actual first eight-item arrival
+within 480 ticks, retaining exact source/destination/empty-parcel assertions,
+and its focused native case passes. Full main CI remains the publication gate.
+See [WORKSHOP_LEARNING_SPECS.md](docs/WORKSHOP_LEARNING_SPECS.md).
+
+Physical recipe/build culture, richer plans, self-made initial caches/Nests,
+protected adoption and natural multi-generation/client/co-op evidence remain
+open; these lessons do not complete civilization.
+
+## Previous — rebalance candidate, human acceptance pending
+
+The prior finite request ended after validation/push of this release in
+`bbc9a8a`; its full GitHub CI and direct-JAR publication passed.
 [STATS_REBALANCING_PLAN.md](docs/STATS_REBALANCING_PLAN.md) now records the
 implemented candidate, expanded findings and concrete pending human trials.
 

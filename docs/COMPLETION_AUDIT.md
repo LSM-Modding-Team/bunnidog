@@ -43,6 +43,13 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
 
 ## Progress after this reference
 
+- Practical workshop education now separates Crafting/Building from Gardening,
+  with real paid lessons, resident supervision and expert-loss replacement.
+  Original inventory/parcel/native permission paths, independent/supported/limited
+  capacity and old-worker migration remain. See [WORKSHOP_LEARNING_SPECS.md](WORKSHOP_LEARNING_SPECS.md).
+  This advances I3/I4/I6; physical recipe records, richer plans and natural
+  multi-generation continuity remain open.
+
 - Household courier culture now supplies witnessed NPC route apprenticeship,
   nearby expert guidance and paid physical route notes that competent residents
   can study after a teacher is gone. See [COURIER_CULTURE_SPECS.md](COURIER_CULTURE_SPECS.md).

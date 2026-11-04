@@ -32,8 +32,8 @@ public final class CareReadingsGameTest {
         h.assertTrue(menu.view().rows().isEmpty() && menu.view().subjectId()<0 && menu.buttonId(CareReadingPanel.FIRST)>=0,
                 "The tool first offers purposes, without dumping every reading");
         CohesionGameTest.preview("Calipers choices",menu.view());
-        for (int page=0;page<5;page++) {
-            h.assertTrue(menu.clickMenuButton(player,menu.buttonId(CareReadingPanel.FIRST+page)),"An explicit reading group opens");
+        for (int page=0;page<6;page++) {
+            h.assertTrue(menu.clickMenuButton(player,menu.buttonId(page==5 ? CareReadingPanel.WORKSHOP : CareReadingPanel.FIRST+page)),"An explicit reading group opens");
             h.assertTrue(!menu.view().rows().isEmpty() && menu.view().rows().size()<=12 && menu.view().controls().size()==1,
                     "Each requested group is bounded and uses a single consistent Back control");
             for (var row:menu.view().rows()) if (row.getContents() instanceof net.minecraft.network.chat.contents.TranslatableContents translated)
@@ -41,6 +41,7 @@ public final class CareReadingsGameTest {
                     h.assertTrue(row.getString().contains(component.getString()),"A measured label must actually display its status, rather than silently discarding the value");
             if (page==0) CohesionGameTest.preview("Measured health",menu.view());
             if (page==2) CohesionGameTest.preview("Measured work",menu.view());
+            if (page==5) CohesionGameTest.preview("Measured workshops",menu.view());
             h.assertTrue(menu.clickMenuButton(player,menu.buttonId(CarePanels.BACK)),"Reading Back returns to purpose choices");
         }
         var after=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,h.getLevel().registryAccess()); dog.saveWithoutId(after);

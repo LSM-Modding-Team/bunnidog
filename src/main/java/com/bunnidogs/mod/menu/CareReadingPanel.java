@@ -17,15 +17,17 @@ import net.minecraft.world.item.Items;
 public final class CareReadingPanel {
     private CareReadingPanel() {}
     public static final int FIRST=231, LAST=235;
-    private static final String[] GROUPS={"health","home","work","field","combat"};
+    public static final int WORKSHOP=247;
+    private static final String[] GROUPS={"health","home","work","field","combat","workshop"};
     private record Reading(int group,Component line) {}
     private static Component t(String key,Object... args) { return Component.translatable("measurement.bunnidogs."+key,args); }
-    public static boolean action(int id) { return id>=FIRST && id<=LAST; }
+    public static boolean action(int id) { return id>=FIRST && id<=LAST || id==WORKSHOP; }
+    public static int group(int id) {return id==WORKSHOP ? 5 : id-FIRST;}
     public static CareView view(Player player,Bunnidog dog,int page) {
         if (!FamilyPanels.hasCalipers(player)) return AnimalPanels.home(player,dog);
         var controls=new ArrayList<CareView.Control>();
         if (page<0) {
-            for (int i=0;i<GROUPS.length;i++) controls.add(new CareView.Control(FIRST+i,t(GROUPS[i]),true));
+            for (int i=0;i<GROUPS.length;i++) controls.add(new CareView.Control(i==5 ? WORKSHOP : FIRST+i,t(GROUPS[i]),true));
             controls.add(new CareView.Control(CarePanels.GENETICS,t("genes"),true));
             controls.add(AnimalPanels.back());
             return new CareView(t("title",dog.getDisplayName()),Component.empty(),List.of(),controls);
@@ -38,6 +40,11 @@ public final class CareReadingPanel {
         if (page==4 && dog.combat().recovering()) rows.add(Component.translatable("care.bunnidogs.combat.recovery",(dog.combat().recoveryLeft()+19)/20));
         if (page==4 && dog.combat().bonded())rows.add(dog.combat().tactics().status());
         if (page==2) workRows(dog,rows);
+        else if(page==5) {
+            for(var routine:new Learning.Routine[]{Learning.Routine.CRAFT,Learning.Routine.BUILD})rows.add(t("practice",TextComponents.t(routine.task().displayName()),LearningPanel.status(dog,routine)));
+            requirement(rows,dog,Component.translatable("care.bunnidogs.learning.workshop"),Stat.BLOOM,Gardening.MIN_CULTIVATION_BLOOM);
+            rows.add(dog.society().hearth()==null ? Component.translatable("care.bunnidogs.learning.need_household") : Component.translatable("care.bunnidogs.learning.household",dog.society().hearth().getDisplayName()));
+        }
         else for (var reading:readings(player,dog)) if (reading.group()==page) rows.add(reading.line());
         controls.add(AnimalPanels.back());
         return new CareView(t("page_title",t(GROUPS[page]),dog.getDisplayName()),Component.empty(),rows,controls);
@@ -105,7 +112,7 @@ public final class CareReadingPanel {
         var work=dog.gardeningStatus();
         careRowLine(rows,"gardening",work==Gardening.Status.RESTING ? recovery(dog.gardeningWait())
                 : Component.translatable("message.bunnidogs.gardening."+work.name().toLowerCase(Locale.ROOT)));
-        for (var routine:Learning.Routine.values()) rows.add(t("practice",TextComponents.t(routine.task().displayName()),LearningPanel.status(dog,routine)));
+        for (var routine:Learning.Routine.values())if(!routine.workshop())rows.add(t("practice",TextComponents.t(routine.task().displayName()),LearningPanel.status(dog,routine)));
         requirement(rows,dog,Component.translatable("work.bunnidogs.mode.garden"),Stat.BLOOM,Gardening.MIN_CULTIVATION_BLOOM);
         requirement(rows,dog,Component.translatable("work.bunnidogs.mode.nursery"),Stat.BLOOM,Gardening.MIN_NURSERY_BLOOM);
         requirement(rows,dog,Component.translatable("work.bunnidogs.mode.gather"),Stat.SENSES,Scavenging.MIN_GATHERING_SENSES);

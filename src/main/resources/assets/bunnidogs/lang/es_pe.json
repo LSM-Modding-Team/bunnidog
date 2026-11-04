@@ -2642,5 +2642,10 @@
   "item.bunnidogs.fruit_picker": "Recolector de guayabas",
   "tooltip.bunnidogs.orchard.graft": "Se injerta en ramas vivas de guayabo.",
   "tooltip.bunnidogs.orchard.picker": "Alcanza ramas altas y recoge sus frutos.",
-  "tooltip.bunnidogs.orchard.mulch": "Los guayabos dan racimos más grandes en este suelo."
+  "tooltip.bunnidogs.orchard.mulch": "Los guayabos dan racimos más grandes en este suelo.",
+  "text.bunnidogs.000b821603b66426": "Artesanía",
+  "care.bunnidogs.learning.workshop": "Lecciones de taller",
+  "care.bunnidogs.learning.need_household": "Necesita un hogar comunitario.",
+  "measurement.bunnidogs.workshop": "Talleres",
+  "care.bunnidogs.learning.household": "Hogar: %s"
 }
