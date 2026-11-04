@@ -663,6 +663,12 @@
     },
     {
       "x": -2,
+      "y": 0,
+      "z": 0,
+      "block": "minecraft:crafting_table"
+    },
+    {
+      "x": -2,
       "y": -1,
       "z": 1,
       "block": "minecraft:dirt"

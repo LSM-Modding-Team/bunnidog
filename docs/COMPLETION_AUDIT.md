@@ -43,6 +43,13 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
 
 ## Progress after this reference
 
+- Fresh wild families now make, carry and place a native crafting table before
+  larger recipes, with actual stock/station reach, sight, safe goal positioning
+  and commit-time callback guards. Saved walking tables/furnaces/torches satisfy
+  current needs, preventing duplicate bills and first-tool plank deadlocks.
+  Older glade revisions retain exact plots/rules. Three focused cases and the
+  full 312-case native gate pass; full natural continuity remains separate.
+
 - Paid physical workshop records now preserve actual resident-made recipes and
   original local authority. A capable beginner can do the recorded paid work
   after expert loss; no experience comes from reading alone. Full-store native
@@ -125,10 +132,10 @@ increments. Newly reported regressions still take priority.
 
 | Area | Evidence still needed before claiming complete |
 | --- | --- |
-| Existing-work integration / professions | Finish clear practical craft/build education and forecasts, broader actual workshop operation and specialist handoffs; preserve useful limited animals. |
+| Existing-work integration / professions | Expand workshop/production professions and dependencies beyond the shipped practical Craft/Build education, forecasts and physical records; preserve useful limited animals. |
 | Construction | More plan composition than cardinal rooms; safe durable repair/revision under interference; reconcile cross-chunk hard-crash receipts without duplicating/refunding unrelated stock. |
 | Planning / culture | Broader bounded dependency coordination and discovery, construction/recipe knowledge handoffs and essential-role replacement beyond the current finite recipes/routes. |
-| Wild family bootstrap | Preserve real natural food/wood/stone/tools, crops/furnace/light and the soil nursery. Finish the self-made initial cache/Nests, independent missing-specialist recovery and natural multi-generation continuity without player provisioning or inherited skills. |
+| Wild family bootstrap | Preserve real natural food/wood/stone/tools, the paid workbench/Nests, crops/furnace/light and soil nursery. Finish the self-made initial cache, independent missing-specialist recovery and natural multi-generation continuity without player provisioning or inherited skills. |
 | Living settlements | Fresh qualified wilderness sites, explicit finite reserves, actual resident-led infrastructure, missing-specialist recovery, relationships and protected player adoption; never activate old builds implicitly. |
 | Communities | Two independently functioning households must negotiate and physically exchange real goods/knowledge with bounded loaded routes and actual return/ownership behavior. |
 | Civic rescue | Preserve the implemented local paid pickup/transport/first-aid chain and original authority. Extend broader recovery institutions and primitive supplies; establish natural/client/co-op and interruption/unload acceptance. Existing wound care remains distinct. |

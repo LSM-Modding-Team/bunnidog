@@ -41,6 +41,8 @@ Society goal must still walk to the actual Hearth, perform the work period and
 commit current exact inputs, result and remainders. Reading, opening the book,
 watching a claim or merely possessing the item grants no experience or stock.
 No prior Garden skill or personal Nest is required.
+New wild workbench sites still require their actual physical table for larger
+recipes; neither a written procedure nor old personal mastery supplies a station.
 
 The book must remain in the original loaded common inventory, with the same
 Hearth site and owner, through callback/commit checks. Removing the only

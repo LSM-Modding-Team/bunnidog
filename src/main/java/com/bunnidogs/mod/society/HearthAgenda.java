@@ -30,7 +30,7 @@ public final class HearthAgenda {
         if(home.count(ModItems.GUAVA.get())<16)return Need.FOOD;
         if(home.residents().stream().anyMatch(d->(d.clinic().ready() || d.combat().canResidentAid()) && d.homeNest()!=null && d.homeNest().distSqr(d.blockPosition())<=9))return Need.CARE;
         if(home.count(Items.WOODEN_AXE)==0)return Need.TOOL;
-        if(home.wild().works().needsFurnace() || home.wild().works().needsTorches())return Need.WORKSHOP;
+        if(home.wild().works().needsWorkbench() || home.wild().works().needsFurnace() || home.wild().works().needsTorches())return Need.WORKSHOP;
         if(home.construction().cells().stream().anyMatch(home.construction()::canBuild))return Need.HOUSING;
         if(home.sites().stream().anyMatch(at->home.getLevel().hasChunkAt(at) && home.getLevel().getBlockEntity(at) instanceof com.bunnidogs.mod.block.NurseryCradleBlockEntity cradle && cradle.seed().isPresent()))return Need.FAMILY;
         return home.ripe() ? Need.ROOTS : Need.RESERVE;
@@ -39,6 +39,7 @@ public final class HearthAgenda {
         var result=new ArrayList<CivicRecipes.RecipeId>();
         boolean axe=home.count(Items.WOODEN_AXE)==0;
         boolean nest=purpose==Need.HOUSING && home.construction().cells().stream().anyMatch(c->c.item()==ModItems.NEST.get() && home.construction().canBuild(c)) && CivicRecipes.count(home,ModItems.NEST.get())==0;
+        if(home.wild().works().needsWorkbench()) {if(CivicRecipes.count(home,ModItems.GUAVA_PLANKS.get())<4)result.add(CivicRecipes.RecipeId.PLANKS);result.add(CivicRecipes.RecipeId.WORKBENCH);}
         if(purpose==Need.CARE && home.count(ModItems.HEARTH_POULTICE.get())<4)result.add(CivicRecipes.RecipeId.DRESSING);
         if(purpose==Need.RESCUE) {
             if(CivicRecipes.count(home,ModItems.GUAVA_PLANKS.get())<6)result.add(CivicRecipes.RecipeId.PLANKS);
@@ -78,6 +79,7 @@ public final class HearthAgenda {
         need=observedNeed();steps=dependencies(need);author=planner.getUUID();made=home.getLevel().getGameTime();home.setChanged();return true;
     }
     private int plankTarget() {
+        if(home.wild().works().needsWorkbench())return 4;
         if(need==Need.HOUSING)return 8;if(need==Need.ROOTS)return 4;
         if(need==Need.RESCUE)return 6;
         if(need==Need.WORKSHOP)return home.wild().works().needsTorches() && CivicRecipes.count(home,Items.CHARCOAL)==0 ? 12 : 5;
@@ -92,6 +94,7 @@ public final class HearthAgenda {
         case DRESSING -> home.count(ModItems.HEARTH_POULTICE.get())<4;
         case PICKAXE -> home.wild().works().needsPickaxe();
         case FURNACE -> home.wild().works().needsFurnace();
+        case WORKBENCH -> home.wild().works().needsWorkbench();
         case TORCH -> home.wild().works().needsTorches();
         case BASKET -> CivicRescue.needsBasket(home);
         default -> false;

@@ -16,7 +16,8 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 /** Finite practical recipe vocabulary, executed by the real recipe manager and common-store journal. */
 public final class CivicRecipes {
-    public enum RecipeId { PLANKS,STICKS,AXE,FRAME,NEST,INCENSE,DRESSING,COPPICE,PICKAXE,FURNACE,TORCH,BASKET }
+    public enum RecipeId { PLANKS,STICKS,AXE,FRAME,NEST,INCENSE,DRESSING,COPPICE,PICKAXE,FURNACE,TORCH,BASKET,WORKBENCH }
+    public static boolean needsWorkbench(RecipeId id) {return switch(id) {case PLANKS,STICKS,INCENSE,COPPICE,TORCH,WORKBENCH->false;default->true;};}
     public record Plan(RecipeId id,CraftingRecipe recipe,CraftingInput input,ItemStack result,List<ItemStack> remainders) {}
     private CivicRecipes() {}
     public static boolean ordinary(ItemStack stack) {if(stack.isEmpty())return false;var plain=stack.copyWithCount(1);plain.remove(ModItems.FARM_ORIGIN.get());return ItemStack.isSameItemSameComponents(plain,new ItemStack(stack.getItem()));}
@@ -39,6 +40,7 @@ public final class CivicRecipes {
             case FURNACE -> {key="minecraft:furnace";pattern="CCCC CCCC";width=3;legend=Map.of('C',item(Items.COBBLESTONE));}
             case TORCH -> {key="minecraft:torch";pattern="CS";width=1;legend=Map.of('C',stack->stack.is(Items.COAL) || stack.is(Items.CHARCOAL),'S',item(Items.STICK));}
             case BASKET -> {key="bunnidogs:travel_basket";pattern="P PPLPPSP";width=3;legend=Map.of('P',planks,'L',item(Items.LEATHER),'S',item(Items.LEAD));}
+            case WORKBENCH -> {key="minecraft:crafting_table";pattern="PPPP";width=2;legend=Map.of('P',planks);}
             default -> throw new IllegalStateException();
         }
         var reference=level.recipeAccess().byKey(ResourceKey.create(Registries.RECIPE,Identifier.parse(key))).orElse(null);

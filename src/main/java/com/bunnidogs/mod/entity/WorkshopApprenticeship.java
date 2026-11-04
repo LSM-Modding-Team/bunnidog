@@ -81,6 +81,10 @@ public final class WorkshopApprenticeship {
             boolean complete=job.kind()==SocietyWork.Kind.CRAFT || paidParcel && job.target().equals(lesson.destination) && !spent.isEmpty() && ItemStack.matches(spent,lesson.material);
             if(paidParcel) {lesson.material=ItemStack.EMPTY;lesson.destination=null;}
             if(!complete || !lesson.sees(mentor,job.target()))continue;
+            if(job.kind()==SocietyWork.Kind.CRAFT && home.wild().works().workbenchPlot()) {
+                if(job.index()<0 || job.index()>=com.bunnidogs.mod.society.CivicRecipes.RecipeId.values().length)continue;
+                if(home.wild().works().requiresWorkbench(com.bunnidogs.mod.society.CivicRecipes.RecipeId.values()[job.index()]) && !lesson.sees(mentor,home.wild().works().workbench()))continue;
+            }
             if(job.kind()==SocietyWork.Kind.BUILD && !home.construction().owned(job.target()))continue;
             pupil.learning().workshopPractice(topic);if(pupil.learning().knowledge().knows(topic))lesson.cancel();
         }

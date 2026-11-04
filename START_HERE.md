@@ -7,7 +7,36 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 Previous sections retain their checkpoint's protocol/evidence; the current
 section below takes precedence.
 
-## Current — physical workshop recipes survive expert loss
+## Current — physical wild workbenches and material handoffs
+
+Fresh glades now build a real vanilla Crafting Table from four actual planks
+before larger recipes. The table travels in the original saved building parcel
+to its bounded plot beside the root cache. Native movement selects a position
+that can reach and see both stock and table; loss/power/obstruction pauses the
+workspace before payment. Guides and apprentices also need the actual table in
+sight. Earlier glade revisions retain their original rules/plots without a new
+table requirement or changed blocks.
+
+Workshop needs now count actual walking tables, furnaces and torches. This
+prevents spending the first tool-making planks on a duplicate table after pickup,
+and avoids duplicate furnace/quarry/torch bills while original parcels travel.
+Native body/home saves preserve that real custody independently of short claims.
+
+Java 25 **`build checkBunnidogModel runGameTestServer` passes, including all 312
+required native scenarios**. Three new workbench cases cover exact payments,
+placement/permission/power/workspace-loss callbacks, both work-target witnesses,
+old plots/cached saves and actual multi-worker handoffs. The autonomous native
+family also built its table/furnace/lights and claimed its first paid Nest in
+27,852 loaded ticks, including real growth/meals/night rest. The native cell-map
+preview was regenerated and inspected. Main CI remains this checkpoint's direct
+JAR gate; protocol **52** remains current.
+See [WILD_FAMILY_SPECS.md](docs/WILD_FAMILY_SPECS.md).
+
+The root cache remains generated infrastructure. Full natural staffing and
+multi-generation continuity, client/co-op/Survival pacing and the separate
+rebalance candidate remain pending human test.
+
+## Previous — physical workshop recipes survive expert loss
 
 An expert can write an actual completed recipe in one paid blank Book and Quill
 at its original Hearth. Native readable Workshop Notes retain named covers,
@@ -23,8 +52,8 @@ native scenarios**. Four new `notes_*` cases cover actual native writing/walking
 later work after expert loss, exact book/native saves, payments, interruptions,
 limits, archive bounds and household isolation. The follow-up boundary case also
 passes with actual redstone pause and opaque future body examples retained across
-reload plus another paid recipe. Main CI remains this checkpoint's publication
-gate. New item/component content requires matching network **52**.
+reload plus another paid recipe. Full main CI in `d5be1df` passed and published
+its verified direct JAR. New item/component content requires network **52**.
 See [WORKSHOP_RECORDS_SPECS.md](docs/WORKSHOP_RECORDS_SPECS.md).
 
 Construction records, broader culture, the initial resident-made cache and full

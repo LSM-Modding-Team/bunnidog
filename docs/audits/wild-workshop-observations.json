@@ -62,6 +62,18 @@
       "suite_passed": true,
       "native_required_cases": 305,
       "workflow_run": 41763903161
+    },
+    {
+      "run": "physical_workbench_full_native",
+      "milestone": "paid physical table plus furnace/four lights and first built-and-claimed paid Nest",
+      "loaded_ticks": 27852,
+      "paid_initial_nests": 1,
+      "guavas_left": 0,
+      "logs_left": 3,
+      "planks_left": 10,
+      "suite_passed": true,
+      "native_required_cases": 312,
+      "note": "Actual native growth/meals/night rest and movement. Walking workshop materials count toward needs; no stocked inputs or tools provided. Not natural founder selection or Survival/client evidence."
     }
   ]
 }

@@ -78,6 +78,9 @@ waiting, cancellation and an unseen completion grant nothing. Capacity, safety,
 household identity/authority and sight are rechecked after native callbacks.
 The twelve-hundred-tick session and its parcel witness are transient; pupil
 reload retires them without altering either participant's stock or saved skill.
+In new wild workbench sites, larger recipes also require an actual reachable,
+visible table. Both a player guide and an observing apprentice must see that
+second work target; seeing only the expert/common store is insufficient.
 
 Crafting potential explicitly combines memory, reasoning, handling and
 communication. Its independent thresholds preserve the former practical

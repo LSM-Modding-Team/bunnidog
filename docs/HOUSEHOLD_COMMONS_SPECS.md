@@ -37,6 +37,13 @@ universal starvation timer.
 
 ## Crafting uses actual recipes
 
+Fresh wild workbench sites additionally require their actual paid native table
+for larger recipes, with stock and station both in reach and sight at commit.
+The goal chooses a real working position for both. Older households retain their
+original saved rules. Local original table/furnace/torch construction parcels
+count toward needs while walking, so pickup does not trigger duplicate recipes
+or another finite quarry bill. See [WILD_FAMILY_SPECS.md](WILD_FAMILY_SPECS.md).
+
 Crafting and Building now have separate practical education and local expert
 guidance; see [WORKSHOP_LEARNING_SPECS.md](WORKSHOP_LEARNING_SPECS.md). Old adult
 Garden masters retain their former jobs once. New residents must learn the

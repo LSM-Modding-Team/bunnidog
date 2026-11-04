@@ -32,7 +32,10 @@ public final class WildFamilyGameTest {
         if(spawn)for(int i=0;i<3;i++)home.wild().tick();var dogs=home.residents();dogs.forEach(d->{d.setNoAi(true);d.setOnGround(true);});h.assertTrue(!spawn || dogs.size()==3,"Three finite natural founder attempts produce actual residents");return new Site(h,home,dogs);
     }
     static void clean(Site c) {c.home.residents().forEach(Bunnidog::discard);c.h.getLevel().getEntitiesOfClass(ItemEntity.class,new AABB(c.home.getBlockPos()).inflate(24)).forEach(ItemEntity::discard);}
-    static void at(Bunnidog dog,BlockPos pos) {SocietyGameTest.rest(dog);dog.snapTo(Vec3.atBottomCenterOf(pos.east()));dog.setOnGround(true);}
+    static void at(Bunnidog dog,BlockPos pos) {SocietyGameTest.rest(dog);var home=dog.society().hearth();var stand=home!=null && home.wild().works().workbenchPlot() && pos.equals(home.getBlockPos()) ? pos.north() : pos.east();dog.snapTo(Vec3.atBottomCenterOf(stand));dog.setOnGround(true);}
+    static boolean build(Site c,Bunnidog dog,HearthTreeBlockEntity.Cell cell) {
+        at(dog,c.home.getBlockPos());return dog.society().perform(new SocietyWork.Job(SocietyWork.Kind.FETCH_BUILD,c.home.getBlockPos(),-1,c.home.getBlockState(),null,cell.pos())) && act(c,dog,SocietyWork.Kind.BUILD,cell.pos());
+    }
     static boolean act(Site c,Bunnidog dog,SocietyWork.Kind kind,BlockPos target,int index) {at(dog,target);return dog.society().perform(new SocietyWork.Job(kind,target,index,c.h.getLevel().getBlockState(target)));}
     static boolean act(Site c,Bunnidog dog,SocietyWork.Kind kind,BlockPos target) {return act(c,dog,kind,target,-1);}
     static void collectAll(Site c,Bunnidog dog) {
@@ -67,7 +70,8 @@ public final class WildFamilyGameTest {
         var c=setup(h,true);var d=c.dogs.getFirst();var t=c.home;var l=h.getLevel();
         for(var p:t.wild().timber())h.assertTrue(act(c,d,SocietyWork.Kind.CLIP_WOOD,p),"Primitive harvesting removes only known fallen wood");
         h.assertTrue(t.isEmpty() && !l.getEntitiesOfClass(ItemEntity.class,new AABB(t.getBlockPos()).inflate(12)).isEmpty(),"Wood remains in actual ground entities until walked home");collectAll(c,d);h.assertTrue(t.count(ModItems.GUAVA_LOG.get())==3,"Every original log arrives exactly once");
-        for(var recipe:List.of(CivicRecipes.RecipeId.PLANKS,CivicRecipes.RecipeId.PLANKS,CivicRecipes.RecipeId.STICKS,CivicRecipes.RecipeId.AXE))h.assertTrue(act(c,d,SocietyWork.Kind.CRAFT,t.getBlockPos(),recipe.ordinal()),"An untrained capable founder learns from real paid native recipes: "+recipe);
+        for(var recipe:List.of(CivicRecipes.RecipeId.PLANKS,CivicRecipes.RecipeId.PLANKS,CivicRecipes.RecipeId.PLANKS,CivicRecipes.RecipeId.STICKS,CivicRecipes.RecipeId.WORKBENCH))h.assertTrue(act(c,d,SocietyWork.Kind.CRAFT,t.getBlockPos(),recipe.ordinal()),"An untrained capable founder learns from real paid hand-sized native recipes: "+recipe);
+        h.assertTrue(!act(c,d,SocietyWork.Kind.CRAFT,t.getBlockPos(),CivicRecipes.RecipeId.AXE.ordinal()) && build(c,d,t.construction().cell(t.wild().works().workbench())) && act(c,d,SocietyWork.Kind.CRAFT,t.getBlockPos(),CivicRecipes.RecipeId.AXE.ordinal()),"The actual paid adjacent workbench must be carried and built before the first larger axe recipe");
         h.assertTrue(t.count(Items.WOODEN_AXE)==1 && d.stats().equals(Stats.ZERO) && d.learning().knowledge().knows(Learning.Routine.CRAFT) && !d.learning().knowledge().knows(Learning.Routine.GARDEN),"Real recipes earn distinct crafting knowledge without invented body points or gardening experience");
         h.assertTrue(!act(c,d,SocietyWork.Kind.CRAFT,t.getBlockPos(),CivicRecipes.RecipeId.FRAME.ordinal()),"Primitive discovery cannot manufacture advanced grafting equipment");
         var field=t.wild().fields().getFirst();h.assertTrue(act(c,d,SocietyWork.Kind.HARVEST_FIELD,field) && l.getBlockState(field).getValue(CropBlock.AGE)==0,"The original native wheat crop yields real materials and consumes its returned replant seed");collectAll(c,d);
@@ -111,6 +115,6 @@ public final class WildFamilyGameTest {
     }
     public static void ai(GameTestHelper h) {
         var c=setup(h,true);c.dogs.forEach(d->d.setNoAi(false));
-        h.succeedWhen(()->{var t=c.home;h.assertTrue(t.count(Items.WOODEN_AXE)==1 && c.dogs.stream().anyMatch(d->d.learning().knowledge().knows(Learning.Routine.CRAFT)),"Actual autonomous goals bootstrap a paid axe from empty stores and zero learned skills; stock="+t.count(ModItems.GUAVA_LOG.get())+" logs, "+t.count(ModItems.GUAVA_PLANKS.get())+" planks, "+t.count(Items.STICK)+" sticks; jobs="+c.dogs.stream().map(d->String.valueOf(d.society().active())).toList());clean(c);});
+        h.succeedWhen(()->{var t=c.home;h.assertTrue(t.count(Items.WOODEN_AXE)==1 && t.construction().owned(t.wild().works().workbench()) && c.dogs.stream().anyMatch(d->d.learning().knowledge().knows(Learning.Routine.CRAFT)),"Actual autonomous goals bootstrap a paid physical workbench and axe from empty stores and zero learned skills; stock="+t.count(ModItems.GUAVA_LOG.get())+" logs, "+t.count(ModItems.GUAVA_PLANKS.get())+" planks, "+t.count(Items.STICK)+" sticks; jobs="+c.dogs.stream().map(d->String.valueOf(d.society().active())).toList());clean(c);});
     }
 }

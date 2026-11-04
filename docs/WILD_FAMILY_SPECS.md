@@ -16,8 +16,9 @@ The finite starting landscape contains an **empty** common root cache (the
 existing Hearth Tree), three fallen guava logs, three hanging fruit,
 four mature Coppices, three mature wheat plants and a separate farmland nursery.
 Fresh glades also contain two small natural stone outcrops (twelve original
-blocks) and empty, bounded plots for three Nests, a furnace and four supported
-torches. No Nest, tool, cobblestone stock, furnace, charcoal or lights are supplied.
+blocks) and empty, bounded plots for a native crafting table, three Nests, a
+furnace and four supported torches. No table, Nest, tool, cobblestone stock,
+furnace, charcoal or lights are supplied.
 The third rest plot sits beside the central building approach. Old saves retain
 their original Nest coordinates and original permissions; their original
 room can now use a bounded loaded walking detour around the old central Nest.
@@ -58,7 +59,7 @@ Player-established households retain their existing learning/stat requirements.
 - A capable beginner can carry **one** marked item home without the advanced
   Senses requirement. Existing trained/bred bulk haulers retain their advantage.
 - Primitive crafting is limited to the existing native Planks, Sticks, Wooden
-  Axe/Pickaxe, Furnace, Torch, Nest and Coppice recipes, with real exact inputs,
+  Crafting Table, Axe/Pickaxe, Furnace, Torch, Nest and Coppice recipes, with real exact inputs,
   outputs and remainders.
   Native recipes still determine affordability. No free grafting frames,
   dressings or incense knowledge.
@@ -86,6 +87,44 @@ Player-established households retain their existing learning/stat requirements.
 Shared claims, physical travel, safety AI, ration/rest budgets, public need plans
 and actual world permissions retain priority. Advanced growth, medical care,
 grafting and ordinary store routes do not gain a zero-stat shortcut.
+
+## A physical first workbench
+
+Fresh glades now require an actual native Crafting Table for recipes wider or
+taller than two slots. Making the table itself needs four actual planks in a
+two-by-two recipe, so it does not require a table. The three original fallen
+logs provide twelve planks: four for the table, two for four shared sticks,
+three for the axe and three for the pick. Real walking, work and meal budgets
+still apply; this arithmetic is not an elapsed-time or free-stock grant.
+
+A builder fetches the real table, carries it to its original plot two blocks
+west of the root and places it through the existing native protection/receipt
+path. Stock alone supplies no workspace. Larger recipes require actual loaded,
+unpowered table presence, with stock and table both within the animal's reach
+and sight. The movement goal chooses a real working position for both targets
+and looks at the physical table. Permission callbacks revalidate that workspace
+before native ingredient/result/remainder commit. A player guide or observing
+resident must also see the table to teach those larger recipes.
+
+The plot is saved only in new `PrimitiveWorkbenchPlot` sites. Missing that flag
+preserves all earlier glade/household crafting rules and original plots; it adds
+no table, land or new dependency to old saves. Loading clears the cached plot
+list before resolving that saved revision. A table supplied on the already
+authorized plot provides workspace, without giving construction receipts or
+skills. Deliberately removed crew-built tables are not silently rebuilt.
+
+Local actual construction parcels count toward workshop needs. A walking table
+prevents spending the final four planks on a spare; a walking furnace prevents
+another furnace/quarry bill; stored torches plus their actual carried parcels
+satisfy the original four light plots. These are original saved materials in
+real local bodies, not reservations created by viewing offers or virtual stock.
+Returned parcels still recover through the same original inventory journal.
+Three native workbench cases cover the paid native table, callback/power loss,
+actual two-target observation, cached old-revision isolation and multi-worker
+table/furnace/torch handoffs through saves. The complete Java 25 build/model/
+localization and all **312** native cases pass for this checkpoint. Autonomous
+native goals also complete the paid table/furnace/lights and first claimed Nest
+with actual growth/rations/night rest; current observations are in the appendix.
 
 ## Stone, a native furnace and actual light
 
@@ -197,3 +236,6 @@ composed public works, adoption/relationships and independent
 inter-community exchange. Glade frequency, survival over multiple generations,
 natural chunk order, graphical client appearance and multiplayer budgets need
 actual world review. Do not raise every stage to 100% for this first slice.
+In particular, observe table crowding/sight and real food/wood waits with naturally
+rolled founders. The flat-site native fixtures do not establish a self-sustaining
+population or general client navigation feel.

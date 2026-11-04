@@ -43,6 +43,17 @@ only another successful recipe records a new example. No inherited education.
 Java 25 build/model/localization and all 309 native cases pass, with a focused
 follow-up for powered stock and unknown future proof retention. Main CI remains
 this record checkpoint's publication gate; earlier education/rest CI passed.
+Fresh wild sites now build a paid native crafting table before larger recipes.
+Read the physical-workbench section of `docs/WILD_FAMILY_SPECS.md`. Preserve
+four real planks, original walking construction cargo, loaded unpowered table
+presence, reach/sight of stock and station, actual goal positioning and callback
+revalidation. Pupil/player guides must see both targets. Missing
+PrimitiveWorkbenchPlot preserves every older glade's rules and plots.
+Count actual local walking table/furnace/torch parcels in workshop needs, including
+native saves; viewing offers reserves nothing. Avoid first-plank duplication
+deadlocks and unnecessary quarry bills. Java 25 build/model/localization and all
+312 native cases pass locally. Prior record CI passed; main CI is this workbench
+checkpoint's publication gate. Natural/client/co-op/balance review remains open.
 The candidate is recorded in `docs/STATS_REBALANCING_PLAN.md` and
 `docs/INFUSION_SPECS.md`: Regeneration potency Q+S/2, loyal duration 40–240s,
 actual bat-ear/short-leg Q0 donor lines rolling late S24/III and endgame S120/V,

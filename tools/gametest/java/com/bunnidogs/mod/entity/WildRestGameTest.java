@@ -31,7 +31,7 @@ final class WildRestGameTest {
     static void legacy(GameTestHelper h) {
         var c=WildFamilyGameTest.setup(h,true);var home=c.home();var works=home.wild().works();var bed=home.wild().beds().getFirst();
         h.assertTrue(works.restPlots() && works.cells().stream().anyMatch(cell->cell.pos().equals(bed)),"The new site's actual rest plots are cached before compatibility loading");
-        h.getLevel().setBlock(bed,ModBlocks.NEST.get().defaultBlockState(),3);var original=h.getLevel().getBlockEntity(bed);var saved=home.saveWithFullMetadata(h.getLevel().registryAccess());saved.remove("PrimitiveRestPlots");
+        h.getLevel().setBlock(bed,ModBlocks.NEST.get().defaultBlockState(),3);var original=h.getLevel().getBlockEntity(bed);var saved=home.saveWithFullMetadata(h.getLevel().registryAccess());saved.remove("PrimitiveRestPlots");saved.remove("PrimitiveWorkbenchPlot");
         home.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),saved));home.wild().tick();
         h.assertTrue(works.enabled() && !works.restPlots() && works.cells().size()==5 && works.cells().stream().noneMatch(cell->cell.item()==ModItems.NEST.get())
                 && h.getLevel().getBlockState(bed).is(ModBlocks.NEST.get()) && h.getLevel().getBlockEntity(bed)==original && !home.construction().owned(bed),"A workshop-era save retains its original Nest and five workshop plots; missing rest revision clears cached new plots without fabricating ownership");

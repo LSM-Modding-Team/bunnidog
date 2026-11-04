@@ -13,10 +13,10 @@ PALETTE = {
     "water": (61, 116, 169), "stone": (139, 145, 145), "hearth_tree": (137, 92, 50),
     "nest": (197, 166, 101), "guava_log": (128, 91, 57), "guava_coppice": (77, 141, 73),
     "guava_leaves": (66, 111, 65), "guava_fruit": (190, 107, 88), "wheat": (197, 179, 86),
-    "furnace": (100, 106, 111), "torch": (255, 213, 113), "guava_planks": (164, 121, 75),
+    "furnace": (100, 106, 111), "torch": (255, 213, 113), "guava_planks": (164, 121, 75), "crafting_table": (181, 132, 76),
 }
 GLYPHS = {"hearth_tree": "H", "nest": "N", "guava_log": "L", "guava_coppice": "C",
-          "guava_leaves": "g", "guava_fruit": "g", "wheat": "w", "furnace": "F", "torch": "T"}
+          "guava_leaves": "g", "guava_fruit": "g", "wheat": "w", "furnace": "F", "torch": "T", "crafting_table": "B"}
 
 
 def main():
@@ -65,10 +65,11 @@ def main():
         furnaces = sum(cell["block"].endswith(":furnace") for cell in snapshot["cells"])
         torches = sum(cell["block"].endswith(":torch") for cell in snapshot["cells"])
         nests = sum(cell["block"].endswith(":nest") for cell in snapshot["cells"])
-        draw.text((38 + panel * 510, 612), f"{count} stone · {furnaces} furnace · {torches} torches · {nests} Nests", font=font, fill=(239, 232, 208))
+        benches = sum(cell["block"].endswith(":crafting_table") for cell in snapshot["cells"])
+        draw.text((38 + panel * 510, 612), f"{count} stone · {benches} table · {furnaces} furnace · {torches} torches · {nests} Nests", font=font, fill=(239, 232, 208))
         provenance["sources"].append({"file": path.name, "sha256": hashlib.sha256(raw).hexdigest(),
                                       "evidence": snapshot["evidence"], "native_cells": len(snapshot["cells"])})
-    draw.text((30, 670), "H: original cache  N: nest  L: fallen log  C: coppice  g: fruit with leaf support  w: wheat", font=small, fill=(225, 223, 198))
+    draw.text((30, 670), "H: original cache  B: paid crafting table  N: nest  L: fallen log  C: coppice  g: fruit with leaf support  w: wheat", font=small, fill=(225, 223, 198))
     draw.text((30, 696), "F: paid native furnace  T: supported torch  Blue outline: empty paid Nest plot  1 / 2: actual stone-column height", font=small, fill=(225, 223, 198))
     draw.text((30, 735), "Generated: actual WorldGenRegion / unfinished ProtoChunks. Controlled pair: the same empty-store site before and after native work.", font=small, fill=(184, 202, 187))
     draw.text((30, 759), "Schematic block map only. Natural founder selection, Survival duration and client appearance remain separate evidence.", font=small, fill=(184, 202, 187))
