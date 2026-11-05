@@ -7,7 +7,33 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 Previous sections retain their checkpoint's protocol/evidence; the current
 section below takes precedence.
 
-## Current — resident-made first cache
+## Current — live hauling authority and family-aware workshop observation
+
+Ground pickup now rechecks actual inherited hauling capacity, the original
+household owner, source ownership and current need after native permission
+callbacks. Losing that role or transferring authority preserves the original
+ground item. Returning cargo also retains its original owner through callback
+and commit, leaving the real parcel recoverable if the cache owner changes.
+The native capacity/owner pickup cases failed before the fixes. With pickup
+fixed, the same authority case then reproduced the separate return bug; it
+passes after that fix as well. No material, learning or genetic point is granted.
+
+The `01fde59` first-cache main CI passed 330/331. Its workshop reference stopped
+at 120,000 ticks with two paid beds, sixteen guavas and seven cobblestone: family
+preparation was correctly deferring the eighth optional stone. The reference
+now uses the existing 300,000-tick family observation window. The controlled
+policy case proves that real paid courtship releases that exact quarry job.
+Game growth, food reserves, recipes and rations remain unchanged.
+
+Java 25 **`build checkBunnidogModel runGameTestServer` passes all 333 required
+native cases**. The ordinary family installed its actual cache at 1,365 loaded
+ticks and produced two pups at 143,829, with eighteen guavas remaining. The
+separate workshop completed at 55,767 ticks. Main CI is the public JAR gate.
+Protocol **53** stays; human natural/client/co-op/multi-generation acceptance and
+the existing rebalance candidate remain pending. The first-cache implementation
+and inspected native previews are described below.
+
+## Previous — resident-made first cache
 
 New wild glades begin with a natural marker and zero working inventory slots.
 Residents use actual marked ground delivery, native hand recipes and compatible

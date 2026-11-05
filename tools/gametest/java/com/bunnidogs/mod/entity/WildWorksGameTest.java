@@ -127,9 +127,9 @@ public final class WildWorksGameTest {
         var c=WildFamilyGameTest.setup(h,true,true,true);var home=c.home();h.assertTrue(home.camp().bare() && home.getContainerSize()==0,"The workshop reference begins before its actual first cache");c.dogs().forEach(dog->dog.setNoAi(false));
         preview(h.getLevel(),home,"wild_camp_start.json","Native autonomous new-camp reference before work: four original logs, no usable cache, selected capable zero-point founders, empty education and no supplied stock/tools/food.");
         long started=h.getLevel().getGameTime();
-        for(int checkpoint:new int[]{10000,40000,80000,110000})h.runAfterDelay(checkpoint,()->{
+        for(int checkpoint:new int[]{10000,40000,80000,110000,180000,260000})h.runAfterDelay(checkpoint,()->{
             if(home.residents().isEmpty())return;
-            com.bunnidogs.mod.BunnidogsMod.LOGGER.info("WILD_WORKSHOP_WAIT tick={} guavas={} charcoal={} paid_nests={} fruit={} coppices={}",h.getLevel().getGameTime()-started,home.count(ModItems.GUAVA.get()),home.count(Items.CHARCOAL),home.wild().beds().stream().filter(home.construction()::owned).count(),home.wild().fruit().stream().map(pos->h.getLevel().getBlockState(pos).toString()).toList(),home.orchard().stream().map(pos->h.getLevel().getBlockState(pos).toString()).toList());
+            com.bunnidogs.mod.BunnidogsMod.LOGGER.info("WILD_WORKSHOP_WAIT tick={} guavas={} cobble={} charcoal={} paid_nests={} housed_ready_parents={} fruit={} coppices={}",h.getLevel().getGameTime()-started,home.count(ModItems.GUAVA.get()),home.count(Items.COBBLESTONE),home.count(Items.CHARCOAL),home.wild().beds().stream().filter(home.construction()::owned).count(),home.residents().stream().filter(d->d.readyForPen() && d.homeNest()!=null).count(),home.wild().fruit().stream().map(pos->h.getLevel().getBlockState(pos).toString()).toList(),home.orchard().stream().map(pos->h.getLevel().getBlockState(pos).toString()).toList());
         });
         h.succeedWhen(()->{
             h.assertTrue(home.workshop().available(home.wild().works().furnace())!=null && complete(home),

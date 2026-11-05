@@ -43,6 +43,14 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
 
 ## Progress after this reference
 
+- Actual ground pickup and cargo returns now retain live hauling capacity and
+  original owner authority after native protection callbacks. Two reproductions
+  and the separate staged return failure pass after the fixes; all 333 required
+  native cases pass locally. Family preparation also has a direct seven-stone
+  policy check: actual paid courtship releases the eighth quarry job. The
+  workshop observation bound matches the existing family window; game growth
+  and reserves remain unchanged. Natural/client/co-op acceptance stays open.
+
 - New natural camps now make their first usable storage from real ground
   resources. A bare marker exposes zero inventory slots; native hand recipes,
   compatible ground meals and real cargo lead to a paid same-entity cache

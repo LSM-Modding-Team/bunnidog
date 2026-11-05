@@ -267,6 +267,53 @@
       "suite_passed": true,
       "native_required_cases": 331,
       "note": "Separate selected capable-founder profile, zero points/empty initial learning and no supplied stock. Actual before/after block snapshots in art/wild_glade/camp_start.json and camp_completed.json."
+    },
+    {
+      "run": "primitive_cache_main_ci_01fde59",
+      "milestone": "first cache/workshop/first claimed Nest",
+      "loaded_ticks": 120000,
+      "guavas_left": 16,
+      "cobblestone": 7,
+      "paid_initial_nests": 2,
+      "suite_passed": false,
+      "native_required_cases": 331,
+      "native_required_passed": 330,
+      "workflow_run": 42022926741,
+      "note": "Food preparation after two actual paid homes defers optional eighth stone. Logs 15/planks 12/sticks 4/axe 1 remained. The observation cutoff was shorter than the already accepted family window. New controlled seven-stone case proves actual courtship releases quarry work; workshop observation now matches the existing 300000-tick family bound without changing growth, costs or rations."
+    },
+    {
+      "run": "live_haul_authority_full_native_family",
+      "milestone": "ordinary helper first cache and native litter with original pickup/return authority",
+      "first_cache_at": 1365,
+      "two_claimed_homes_at": 79978,
+      "food_reserve_at": 118161,
+      "parental_seed_planted_at": 119412,
+      "loaded_ticks": 143829,
+      "pups": 2,
+      "guavas_left": 18,
+      "suite_passed": true,
+      "native_required_cases": 333,
+      "note": "New capacity/owner pickup reproductions failed before fixes. After pickup was fixed, the authority case reproduced the separate old-owner cargo return; it then passed after that fix. No supplied stock, skills or points in this autonomous family reference."
+    },
+    {
+      "run": "live_haul_authority_full_native_workshop",
+      "milestone": "first paid cache/table/tool/stone/furnace/charcoal/lights/claimed Nest",
+      "loaded_ticks": 55767,
+      "paid_initial_nests": 1,
+      "guavas_left": 1,
+      "logs_left": 3,
+      "planks_left": 12,
+      "suite_passed": true,
+      "native_required_cases": 333,
+      "note": "Separate selected capable zero-point founders. Workshop has the existing family observation window to include real family food waits; this observed run completed earlier. No native growth/food/recipe/ration changes."
+    },
+    {
+      "run": "live_haul_authority_full_native_furniture",
+      "milestone": "ordinary helper first paid cache/table/tool/claimed Nest",
+      "loaded_ticks": 81599,
+      "guavas_left": 4,
+      "suite_passed": true,
+      "native_required_cases": 333
     }
   ]
 }

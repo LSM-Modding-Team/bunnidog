@@ -59,6 +59,22 @@ An injured or interrupted sole specialist's potential cannot freeze healthy
 complementary workers indefinitely. Its actual recovery re-enables preparation;
 the household gains neither healing nor a new permanent reservation.
 
+Actual pickup rechecks inherited hauling capacity, original household owner,
+source ownership, reach/sight and stage-appropriate need after native protection
+callbacks. Losing the role cannot withdraw the original item or teach practice.
+Transferring household/item ownership during the callback also cannot silently
+change the pending action's authority. Returning cargo likewise retains its
+original owner through callback/commit; a changed cache owner leaves the actual
+parcel on its carrier for safe later recovery. Source/parcel saves and original
+component identity remain authoritative.
+
+Family preparation also defers an optional eighth quarry stone even when seven
+real cobblestone and a usable shared pickaxe exist. Paid courtship releases that
+work again. Its native policy fixture supplies those explicit inputs; autonomous
+references still produce their own. The workshop reference now uses the same
+300,000-tick observation bound as family continuity, because its two actual paid
+homes may enter this real food wait. No growth, recipe or ration is accelerated.
+
 ## Crafting uses actual recipes
 
 New natural camps first use their actual marked ground resources for delivery,

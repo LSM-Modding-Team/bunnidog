@@ -737,17 +737,17 @@ public final class SocietyWork {
     }
     private void clearMedicine() {buildingCargo=fieldCargo=firstAidCargo=miningCargo=rescueCargo=false;furnaceSlot=-1;furnaceToken=null;parcelOwner=null;aidPatient=null;aidBed=null;aidOwner=null;destination=null;grownCargo=false;}
     private boolean returnSupplies() {
-        var h=hearth();if(h==null || parcelOwner!=null && !parcelOwner.equals(h.owner()))return false;var original=cargo.copy();boolean grown=grownCargo;
+        var h=hearth();if(h==null || parcelOwner!=null && !parcelOwner.equals(h.owner()))return false;var owner=h.owner();var original=cargo.copy();boolean grown=grownCargo;
         if(h.camp().bare()) {
-            var owner=h.owner();java.util.function.BooleanSupplier owned=()->ready() && hearth()==h && Objects.equals(parcelOwner,owner) && Objects.equals(owner,h.owner()) && ItemStack.matches(cargo,original);
+            java.util.function.BooleanSupplier owned=()->ready() && hearth()==h && Objects.equals(parcelOwner,owner) && Objects.equals(owner,h.owner()) && ItemStack.matches(cargo,original);
             Runnable pay=()->cargo=ItemStack.EMPTY;
             Runnable refund=()->{if(dog.isAlive() && !dog.isRemoved() && cargo.isEmpty())cargo=original;else dog.spawnAtLocation((ServerLevel)dog.level(),original);};
             boolean ok=original.is(ModItems.ROOT_CACHE.get()) && canInstallCache() ? h.camp().install(dog,owned,pay,refund) : h.camp().deposit(dog,original,owned,pay,refund);
             if(ok && grown)h.evidence("haul",original.getCount());return ok;
         }
-        if(!EventHooks.canEntityGrief((ServerLevel)dog.level(),dog) || !ready() || hearth()!=h || !ItemStack.matches(cargo,original))return false;
+        if(!EventHooks.canEntityGrief((ServerLevel)dog.level(),dog) || !ready() || hearth()!=h || !Objects.equals(owner,h.owner()) || !ItemStack.matches(cargo,original))return false;
         try(var tx=net.neoforged.neoforge.transfer.transaction.Transaction.openRoot()) {
-            if(net.neoforged.neoforge.transfer.item.VanillaContainerWrapper.of(h).insert(net.neoforged.neoforge.transfer.item.ItemResource.of(original),original.getCount(),tx)!=original.getCount() || !h.attached() || !ready() || !ItemStack.matches(cargo,original))return false;
+            if(net.neoforged.neoforge.transfer.item.VanillaContainerWrapper.of(h).insert(net.neoforged.neoforge.transfer.item.ItemResource.of(original),original.getCount(),tx)!=original.getCount() || !h.attached() || !ready() || hearth()!=h || !Objects.equals(owner,h.owner()) || !ItemStack.matches(cargo,original))return false;
             cargo=ItemStack.EMPTY;tx.commit();
         }
         if(grown)h.evidence("haul",original.getCount());return true;

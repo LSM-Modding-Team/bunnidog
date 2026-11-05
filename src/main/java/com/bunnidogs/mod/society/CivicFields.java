@@ -71,10 +71,13 @@ public final class CivicFields {
         return dog.level().clip(new net.minecraft.world.level.ClipContext(dog.getEyePosition(),item.getBoundingBox().getCenter(),net.minecraft.world.level.ClipContext.Block.COLLIDER,net.minecraft.world.level.ClipContext.Fluid.NONE,dog)).getType()==net.minecraft.world.phys.HitResult.Type.MISS;
     }
     public static ItemStack collect(Bunnidog dog,HearthTreeBlockEntity home,ItemEntity item) {
-        if(!dog.society().gathers() || !available(home,item) || dog.distanceToSqr(item)>9 || !visible(dog,item) || !EventHooks.canEntityGrief((ServerLevel)dog.level(),dog) || !available(home,item) || dog.distanceToSqr(item)>9 || !visible(dog,item) || !dog.society().ready())return ItemStack.EMPTY;
+        if(!dog.society().gathers() || !available(home,item) || dog.distanceToSqr(item)>9 || !visible(dog,item))return ItemStack.EMPTY;var owner=home.owner();
+        if(!EventHooks.canEntityGrief((ServerLevel)dog.level(),dog) || !dog.society().gathers() || !Objects.equals(owner,home.owner()) || !available(home,item)
+                || dog.distanceToSqr(item)>9 || !visible(dog,item) || !dog.society().ready() || dog.society().hearth()!=home
+                || home.camp().bare() && !home.camp().needsHaul(dog,item))return ItemStack.EMPTY;
         var exact=item.getItem().copyWithCount(Math.min(dog.society().gatheringLimit(),item.getItem().getCount()));
         try(var tx=Transaction.openRoot()) {
-            if(new Ground(item).extract(ItemResource.of(exact),exact.getCount(),tx)!=exact.getCount() || !home.attached() || dog.society().hearth()!=home)return ItemStack.EMPTY;tx.commit();
+            if(new Ground(item).extract(ItemResource.of(exact),exact.getCount(),tx)!=exact.getCount() || !home.attached() || dog.society().hearth()!=home || !dog.society().gathers() || !Objects.equals(owner,home.owner()))return ItemStack.EMPTY;tx.commit();
         }
         dog.take(item,exact.getCount());if(item.getItem().isEmpty())item.discard();exact.remove(ModItems.FARM_ORIGIN.get());return exact;
     }

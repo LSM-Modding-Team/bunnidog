@@ -5,6 +5,18 @@ validated pushes. It supersedes the previous finite rebalance delivery stop.
 Prioritize accepted unfinished professions, practical education, wild continuity
 and civilization. Keep the shipped rebalance candidate pending human testing;
 do not blindly retune it merely to fill another batch.
+Current pickup/return authority polish passes Java 25 build/model/localization
+and all 333 native cases. Native pickup must recheck live hauling capacity and
+original authority after protection; returns retain that owner through commit.
+Both pickup cases failed before the fix; a partial fix then reproduced the
+separate actual cargo-return bug. Keep real source/parcel recovery and no copied
+learning/material. The 01fde59 CI passed 330/331; its workshop had two beds,
+sixteen guavas and seven stone at the former 120000-tick cutoff. Its observation
+now matches the existing 300000-tick family window, with a controlled native
+check proving paid courtship releases the optional eighth stone. Preserve actual
+growth/rations/reserves; no runtime rebalance was made for that deadline.
+The full 333 run repeats cache at 1365 ticks, two pups at 143829, and workshop at
+55767. Main CI remains the direct-JAR gate; human acceptance stays pending.
 The active first-cache implementation now starts new glades with a zero-slot
 marker. Preserve real ground delivery/crafting/compatible meals, original paid
 cargo, same-entity installation, old complete defaults/stock and four finite

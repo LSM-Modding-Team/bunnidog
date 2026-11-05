@@ -5,13 +5,19 @@ Residents make their actual first Root Cache from original ground materials,
 carry it and install it before ordinary common storage opens. The original
 site, community owner, frozen founders and block entity survive that transition.
 Existing glades and player Hearths retain complete storage by default.
-Java 25 build/model/localization and all 331 required native cases pass. The
-ordinary family installs its cache at 1,226 loaded ticks and produces two actual
-pups at 142,070; the separate workshop reference completes at 23,042. The native
+Java 25 build/model/localization and all 333 required native cases pass. The
+ordinary family installs its cache at 1,365 loaded ticks and produces two actual
+pups at 143,829; the separate workshop reference completes at 55,767. The native
 generated/before/after cell map and actual exported marker/cache geometry are
 inspected headlessly. Main CI remains the public JAR gate; natural pacing and
 multiple generations remain pending human test. Protocol 53 requires matching
 client/server content.
+
+The earlier 331-case CI passed 330 and reached its workshop's old 120,000-tick
+bound during actual family food preparation. The workshop now has the existing
+300,000-tick family observation window; a controlled policy check proves real
+courtship releases its optional eighth quarry stone. This changes no game
+growth, ration, food threshold or recipe.
 
 ## The real circle and material bill
 

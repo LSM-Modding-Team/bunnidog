@@ -73,10 +73,12 @@ public final class GuavaGameTest extends GameTestInstance {
         for(String name:new String[]{"primitive_cache_payment","primitive_cache_safety","primitive_cache_callbacks","primitive_cache_meals","primitive_cache_player_legacy","primitive_cache_shared_learning"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_food_tool"),new GuavaGameTest("primitive_food_tool",new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"civic_tool_custody","civic_tool_callbacks"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
+        for(String name:new String[]{"civic_haul_capacity","civic_haul_authority"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_material_demand"),new GuavaGameTest("primitive_material_demand",new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_diet_meals"),new GuavaGameTest("primitive_diet_meals",new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"wild_harvest_capacity","wild_harvest_receipt"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
-        for(String name:new String[]{"wild_works_chain","wild_works_safety","wild_works_legacy","wild_works_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(name.equals("wild_works_ai") ? industry : environment,id("crown_arena"),name.equals("wild_works_ai") ? 120000 : 240,0,true)));
+        // Its two paid homes can defer optional quarry work until the same actual family reserve as continuity.
+        for(String name:new String[]{"wild_works_chain","wild_works_safety","wild_works_legacy","wild_works_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(name.equals("wild_works_ai") ? industry : environment,id("crown_arena"),name.equals("wild_works_ai") ? 300000 : 240,0,true)));
         for(String name:new String[]{"wild_rest_safety","wild_rest_legacy"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"fields_coppice","fields_journey","fields_protection","fields_ownership","fields_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("fields_ai") ? 760 : 160,0,true)));
         for(String name:new String[]{"commons_planning","commons_planning_limits","commons_claims","commons_recipes","commons_scarcity","construction_parcel","construction_fitting","construction_repair","construction_helper","construction_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("construction_ai") ? 760 : 160,0,true)));
@@ -234,6 +236,8 @@ public final class GuavaGameTest extends GameTestInstance {
             case "primitive_cache_callbacks" -> {PrimitiveCacheGameTest.callbacks(h);return;}
             case "primitive_cache_meals" -> {PrimitiveCacheGameTest.meals(h);return;}
             case "primitive_cache_shared_learning" -> {PrimitiveCacheGameTest.sharedLearning(h);return;}
+            case "civic_haul_capacity" -> {CivicHaulGameTest.capacity(h);return;}
+            case "civic_haul_authority" -> {CivicHaulGameTest.authority(h);return;}
             case "primitive_cache_player_legacy" -> {PrimitiveCacheGameTest.playerLegacy(h);return;}
             case "primitive_food_tool" -> {PrimitiveFurnitureGameTest.foodTool(h);return;}
             case "civic_tool_custody" -> {CivicToolGameTest.custody(h);return;}
