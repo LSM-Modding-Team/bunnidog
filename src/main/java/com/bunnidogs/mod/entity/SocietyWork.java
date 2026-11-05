@@ -832,6 +832,7 @@ public final class SocietyWork {
         return (hit.getType()==net.minecraft.world.phys.HitResult.Type.MISS || hit.getBlockPos().equals(at)) && dog.learning().witnesses(h.getBlockPos(),at);
     }
     public boolean canCraft(CivicRecipes.RecipeId recipe) {return ready() && (artisan() && recipeAllowed(recipe) || dog.workshopLore().guides(hearth(),recipe)) && atWorkbench(recipe) && dog.learning().witnesses(hearth().getBlockPos(),hearth().getBlockPos());}
+    public boolean craftNeeded(CivicRecipes.RecipeId recipe) {var h=hearth();return h!=null && recipeNeeded(h,recipe);}
     private boolean dressingNeeded(HearthTreeBlockEntity h) {
         return h.count(ModItems.HEARTH_POULTICE.get())<4 && h.count(ModItems.GUAVA.get())>8 && h.count(Items.BONE_MEAL)>0 && h.count(Items.PAPER)>0 && h.count(Items.HONEYCOMB)>0
                 && h.residents().stream().anyMatch(p->p!=dog && p.clinic().ready() && ClinicCare.restingAtHome(h,p) && HomeRoutes.visible(dog,p));

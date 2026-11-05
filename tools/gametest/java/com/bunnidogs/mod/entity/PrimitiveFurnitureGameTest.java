@@ -61,6 +61,7 @@ final class PrimitiveFurnitureGameTest {
     }
     static void family(GameTestHelper h) {
         var c=setup(h,true);h.assertTrue(c.home().getContainerSize()==0 && c.home().camp().bare(),"The actual family reference begins without a functioning cache");c.dogs().forEach(d->d.setNoAi(false));long started=h.getLevel().getGameTime();
+        for(int checkpoint:new int[]{2000,5000,10000,40000,200000})h.runAfterDelay(checkpoint,()->familyTrace(c,h.getLevel().getGameTime()-started));
         var maximum=new int[1];var milestones=new long[]{-1,-1,-1,-1};
         h.succeedWhen(()->{
             var home=c.home();maximum[0]=Math.max(maximum[0],home.count(ModItems.GUAVA.get()));var pups=home.residents().stream().filter(d->d.isBaby() && d.society().child()).toList();
@@ -73,6 +74,10 @@ final class PrimitiveFurnitureGameTest {
             h.assertTrue(pups.stream().allMatch(d->d.learning().knowledge().equals(Learning.EMPTY) && d.society().belongs(home)) && c.dogs().stream().allMatch(d->d.genome().equals(Genome.DEFAULT) && d.stats().equals(Stats.ZERO) && d.learning().knowledge().progress(Learning.Routine.BUILD)==0),"Native children keep actual parented membership and empty learning; their parents acquire neither elite genes nor architecture/bred points");
             com.bunnidogs.mod.BunnidogsMod.LOGGER.info("PRIMITIVE_FAMILY_COMPLETE loaded_ticks={} pups={} guavas_left={}",h.getLevel().getGameTime()-started,pups.size(),home.count(ModItems.GUAVA.get()));WildFamilyGameTest.clean(c);
         });
+    }
+    private static void familyTrace(WildFamilyGameTest.Site c,long elapsed) {
+        var home=c.home();var level=c.h().getLevel();if(home.residents().isEmpty())return;
+        com.bunnidogs.mod.BunnidogsMod.LOGGER.info("PRIMITIVE_FAMILY_WAIT tick={} cached={} stock={} table={} timber_remaining={} coppices={} ground={} workers={}",elapsed,home.cached(),java.util.stream.IntStream.range(0,home.getContainerSize()).mapToObj(i->home.getItem(i).toString()).filter(s->!s.equals("0 minecraft:air")).toList(),level.getBlockState(home.wild().works().workbench()),home.wild().timber().stream().filter(home.wild()::timberAvailable).count(),home.orchard().stream().map(level::getBlockState).toList(),level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class,new net.minecraft.world.phys.AABB(home.getBlockPos()).inflate(24)).stream().map(e->e.getItem()+" at="+e.position()+" available="+com.bunnidogs.mod.society.CivicFields.available(home,e)).toList(),c.dogs().stream().map(d->"job="+d.society().active()+" cargo="+d.society().workSupplies()+" at="+d.position()+" ready="+d.society().ready()+" night="+d.homeNight()+" learning="+d.learning().knowledge()+" offers="+d.society().offers()).toList());
     }
     static void familyReserve(GameTestHelper h) {
         var c=setup(h);var home=c.home();var worker=c.dogs().get(2);var level=h.getLevel();

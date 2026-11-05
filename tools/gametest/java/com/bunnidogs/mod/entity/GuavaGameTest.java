@@ -77,6 +77,7 @@ public final class GuavaGameTest extends GameTestInstance {
         for(String name:new String[]{"civic_haul_capacity","civic_haul_authority"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"civic_recovery_stock","civic_recovery_authority","civic_recovery_tools","civic_recovery_axe"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("civic_recovery_ai"),new GuavaGameTest("civic_recovery_ai",new TestData<>(environment,id("crown_arena"),600,0,true)));
+        for(String name:new String[]{"civic_recovery_recipe_axe","civic_recovery_recipe_pickaxe","civic_recovery_recipe_authority"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"hearth_pause_power","hearth_pause_lock","hearth_pause_meals"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_material_demand"),new GuavaGameTest("primitive_material_demand",new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_diet_meals"),new GuavaGameTest("primitive_diet_meals",new TestData<>(environment,id("crown_arena"),300,0,true)));
@@ -251,6 +252,9 @@ public final class GuavaGameTest extends GameTestInstance {
             case "civic_recovery_authority" -> {CivicRecoveryGameTest.authority(h);return;}
             case "civic_recovery_tools" -> {CivicRecoveryGameTest.tools(h);return;}
             case "civic_recovery_axe" -> {CivicRecoveryGameTest.axe(h);return;}
+            case "civic_recovery_recipe_axe" -> {CivicRecoveryGameTest.recipeCallback(h,false);return;}
+            case "civic_recovery_recipe_pickaxe" -> {CivicRecoveryGameTest.recipeCallback(h,true);return;}
+            case "civic_recovery_recipe_authority" -> {CivicRecoveryGameTest.recipeAuthority(h);return;}
             case "hearth_pause_power" -> {HearthPauseGameTest.pause(h,false);return;}
             case "hearth_pause_lock" -> {HearthPauseGameTest.pause(h,true);return;}
             case "hearth_pause_meals" -> {HearthPauseGameTest.meals(h);return;}

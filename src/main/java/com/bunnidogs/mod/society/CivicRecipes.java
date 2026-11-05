@@ -64,15 +64,15 @@ public final class CivicRecipes {
     public static boolean craft(Bunnidog dog,HearthTreeBlockEntity home,RecipeId id) {
         if(home.camp().bare())return home.camp().craft(dog,id);
         var plan=prepare(home,id).orElse(null);if(plan==null)return false;
-        var level=(ServerLevel)dog.level();
-        if(!EventHooks.canEntityGrief(level,dog) || !dog.society().canCraft(id) || dog.society().hearth()!=home || level.hasNeighborSignal(home.getBlockPos()))return false;
+        var level=(ServerLevel)dog.level();var owner=home.owner();
+        if(!EventHooks.canEntityGrief(level,dog) || !Objects.equals(owner,home.owner()) || !dog.society().canCraft(id) || dog.society().hearth()!=home || !dog.society().craftNeeded(id) || level.hasNeighborSignal(home.getBlockPos()))return false;
         // Callbacks may change the recipe or stock. Only the freshly validated exact inputs are authoritative.
         var current=prepare(home,id).orElse(null);if(current==null)return false;var items=VanillaContainerWrapper.of(home);
         try(var tx=Transaction.openRoot()) {
             for(var input:current.input.items())if(!input.isEmpty() && items.extract(ItemResource.of(input),1,tx)!=1)return false;
             if(items.insert(ItemResource.of(current.result),current.result.getCount(),tx)!=current.result.getCount())return false;
             for(var remaining:current.remainders)if(!remaining.isEmpty() && items.insert(ItemResource.of(remaining),remaining.getCount(),tx)!=remaining.getCount())return false;
-            if(!home.attached() || dog.society().hearth()!=home || !dog.society().canCraft(id))return false;tx.commit();
+            if(!home.attached() || !Objects.equals(owner,home.owner()) || dog.society().hearth()!=home || !dog.society().canCraft(id))return false;tx.commit();
         }
         dog.workshopLore().completed(home,current);if(id==RecipeId.FRAME)home.evidence("frame",1);return true;
     }

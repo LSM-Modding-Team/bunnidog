@@ -5,6 +5,20 @@ validated pushes. It supersedes the previous finite rebalance delivery stop.
 Prioritize accepted unfinished professions, practical education, wild continuity
 and civilization. Keep the shipped rebalance candidate pending human testing;
 do not blindly retune it merely to fill another batch.
+Current recipe follow-up passes Java 25 build/model/localization and all 349
+native cases. Actual recovered axe/pickaxe during native permission and a
+changed-owner recipe all fail before the fix and pass after. Installed crafting
+rechecks live need after permission, before original input/output journals, and
+retains original owner through commit. All eight recovery/crafting cases pass.
+Full family repeats cache1637, two homes82149, reserve142204, seed143684,
+two pups166074/guavas18; workshop48729/furniture9596. Keep native growth,
+costs, rations, path/safety and human acceptance pending as before.
+5452ca7 passed 346 locally but main CI 42051452865 passed 345/346, failing
+primitive_family after cache1655, no homes at300000, guavas15/max16,
+wheat13/planks1. No JAR published. Original early stock/tool/coppice/offers were
+absent, so cause remains unproven. New bounded family traces preserve them.
+A separate diagnostic family passed at198942; that alone does not resolve CI.
+Main CI remains the direct-JAR publication gate; retain this failed evidence.
 Current original-cargo recovery/idle-body cooperation/companion-detour batch
 passes Java 25 build/model/localization and all 346 native cases. Read
 docs/CARGO_RECOVERY_SPECS.md. Preserve original saved site/parcel owner, one

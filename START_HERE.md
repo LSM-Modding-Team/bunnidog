@@ -7,7 +7,29 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 Previous sections retain their checkpoint's protocol/evidence; the current
 section below takes precedence.
 
-## Current — original cargo recovery and safe cooperation
+## Current — paid recipes retain live need and original authority
+
+Another resident can recover the actual missing tool while a crafter is inside
+native permission callbacks. Installed crafting now rechecks that live need
+before paying the stale replacement bill. It also retains the original owner
+through payment/commit. New axe, pickaxe and transferred-owner native cases all
+fail before these checks and pass afterward, preserving inputs and learning.
+
+Java 25 **`build checkBunnidogModel runGameTestServer` passes all 349 required
+native cases**. The ordinary family reaches cache at 1,637, two homes at 82,149
+and two pups at 166,074 loaded ticks, leaving eighteen guavas. The workshop
+finishes at 48,729; furniture at 9,596. All eight recovery/crafting cases pass.
+
+The previous `5452ca7` CI passed 345/346 but timed out its ordinary family after
+an actual cache, without homes. Its earlier full material/tool/offer states
+were absent, so its cause remains unproven. New bounded family snapshots and
+the retained failed audit make further investigation reviewable. A later local
+success alone does not resolve that CI failure. Main CI remains the public JAR
+gate; `4ee8af8` remains the last verified direct JAR until that gate passes.
+Protocol 53 and natural/client/co-op/multi-generation/rebalance human acceptance
+remain. See [CARGO_RECOVERY_SPECS.md](docs/CARGO_RECOVERY_SPECS.md).
+
+## Previous — original cargo recovery and safe cooperation
 
 Public household cargo now keeps its saved original site/owner through native
 death drops and item saves. Another qualified resident can recover the same

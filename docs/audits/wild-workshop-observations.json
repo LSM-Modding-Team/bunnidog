@@ -426,6 +426,70 @@
       "suite_passed": true,
       "native_required_cases": 346,
       "note": "One explicit original public worn-axe fixture isolates recovery. Carrier picks actual item, native death-drop handler replay/save/reload preserves it, original carrier is removed, intact survivor AI returns exactly one tool. Does not claim a complete native combat-death simulation or naturally observed mortality."
+    },
+    {
+      "run": "original_cargo_main_ci_5452ca7",
+      "workflow_run": 42051452865,
+      "suite_passed": false,
+      "native_required_cases": 346,
+      "native_required_passed": 345,
+      "failed_cases": [
+        "primitive_family"
+      ],
+      "first_cache_at": 1655,
+      "loaded_ticks": 300000,
+      "pups": 0,
+      "claimed_homes": 0,
+      "guavas_left": 15,
+      "max_guavas": 16,
+      "wheat": 13,
+      "planks_left": 1,
+      "workshop_loaded_ticks": 83434,
+      "furniture_loaded_ticks": 54635,
+      "note": "Full ordinary family stock/tool/coppice/offer snapshots were absent before this failure; its cause remains unproven. Workshop/furniture and recovery/clearance/detour cases passed. Native deadline, food yield and finite initial supplies are unchanged; diagnostic snapshots now cover the family reference."
+    },
+    {
+      "run": "recipe_callback_diagnostic_family",
+      "first_cache_at": 1394,
+      "two_claimed_homes_at": 118911,
+      "food_reserve_at": 166300,
+      "parental_seed_planted_at": 167507,
+      "loaded_ticks": 198942,
+      "pups": 2,
+      "guavas_left": 19,
+      "suite_passed": true,
+      "native_required_cases": 1,
+      "note": "Focused native family with actual early/late stock/tool/coppice/actor snapshots after stale recipe need/authority fixes. Its success does not by itself explain or fix the previous main-CI family failure."
+    },
+    {
+      "run": "recipe_need_authority_full_native_family",
+      "first_cache_at": 1637,
+      "two_claimed_homes_at": 82149,
+      "food_reserve_at": 142204,
+      "parental_seed_planted_at": 143684,
+      "loaded_ticks": 166074,
+      "pups": 2,
+      "guavas_left": 18,
+      "suite_passed": true,
+      "native_required_cases": 349,
+      "note": "Three callback-time axe/pickaxe/owner reproductions fail before checks and pass after. Eight recovery/crafting cases pass. Bounded family snapshots now preserve stock/tool/coppice/offers. This local success does not establish the cause of the prior main-CI family failure."
+    },
+    {
+      "run": "recipe_need_authority_full_native_workshop",
+      "loaded_ticks": 48729,
+      "paid_initial_nests": 1,
+      "guavas_left": 4,
+      "logs_left": 6,
+      "planks_left": 12,
+      "suite_passed": true,
+      "native_required_cases": 349
+    },
+    {
+      "run": "recipe_need_authority_full_native_furniture",
+      "loaded_ticks": 9596,
+      "guavas_left": 0,
+      "suite_passed": true,
+      "native_required_cases": 349
     }
   ]
 }

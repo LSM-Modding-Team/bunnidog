@@ -36,6 +36,16 @@ real custody. An injured, paused or otherwise unsafe carrier cannot indefinitely
 freeze a healthy craftsperson. The original gear stays aboard while an eligible
 replacement remains an ordinary paid recipe, without repair or duplication.
 
+Native permission callbacks can complete another resident's original recovery.
+Installed-storage crafting now rechecks current need after those callbacks,
+before paying a formerly missing tool's recipe. It also keeps the original
+household owner through payment/commit. Separate axe/pickaxe cases reproduced
+spending three planks/two sticks after the original tool had been recovered;
+an owner-transfer case likewise reproduced a stale paid recipe. All three now
+refuse while preserving exact inputs, the original worn tool and learning.
+The need check precedes the output journal, so a recipe does not invalidate
+itself merely by producing its intended result.
+
 ## Physical cooperation at the first cache
 
 The cache's full collision shape must still be clear after placement callbacks.
@@ -76,3 +86,18 @@ The autonomous worn-axe return takes 196 loaded ticks in that run, preserving
 damage five; separate ordinary first-family and workshop observations are in
 [WILD_FAMILY_SPECS.md](WILD_FAMILY_SPECS.md) and the chronological audit JSON.
 Main CI remains the direct-JAR publication gate. Rebalance stays pending human test.
+
+The `5452ca7` main CI passed 345/346. Its ordinary family installed the cache at
+1,655 ticks but reached the 300,000-tick observation limit without homes, with
+fifteen guavas (maximum sixteen), thirteen wheat and one plank. Its original
+failure log lacked the earlier full inventory, tool/coppice state and actor
+offers; it does not establish the cause. A subsequent diagnostic family run
+completed at 198,942 ticks, which alone does not resolve that failure. New
+bounded early/late snapshots retain those actual states for the next full run.
+Keep natural pacing/material loss and specialist continuity pending human test.
+
+The follow-up Java 25 build/model/localization and all 349 required native cases
+pass locally, including all eight recovery/crafting cases. The ordinary family
+completes at 166,074 loaded ticks with two pups and eighteen guavas, and the
+workshop at 48,729. These successes preserve the preceding CI failure as an
+unresolved observation; they do not establish its cause or natural-world rates.
