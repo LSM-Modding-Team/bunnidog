@@ -73,6 +73,9 @@ food/tools/learning. Real food reserves, hungry wood/table recovery, private-too
 custody and usable material demand close further dependency gaps. Initial
 self-made storage, missing-specialist recovery and natural multi-generation
 acceptance remain open; these references do not certify civilization or pacing.
+The next [primitive cache direction](PRIMITIVE_CACHE_PLAN.md) records the real
+ground-stock/meal/crafting circle and sixteen-plank bootstrap bill. It is planned,
+not an already-built cache or a new cost in this release.
 
 Use [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md) as the accepted gap reference.
 Shared job claims, finite public dependency plans, fitted construction crews and

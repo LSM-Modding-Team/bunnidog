@@ -22,14 +22,25 @@ public final class WildForaging {
     public static int pickaxeSlot(HearthTreeBlockEntity home) {
         return CivicTools.pickaxeSlot(home);
     }
+    private static boolean ready(Bunnidog dog,HearthTreeBlockEntity home,SocietyWork.Job job,ServerLevel level) {
+        var pos=job.target();
+        return home.wild().natural() && home.attached() && dog.society().hearth()==home && dog.society().harvestReadyAt(pos)
+                && level.hasChunksAt(pos.offset(-1,-1,-1),pos.offset(1,1,1)) && level.getWorldBorder().isWithinBounds(pos)
+                && job.expected().canSurvive(level,pos) && level.getBlockState(pos).equals(job.expected()) && !level.hasNeighborSignal(pos);
+    }
     public static boolean harvest(Bunnidog dog,HearthTreeBlockEntity home,SocietyWork.Job job) {
-        if(!home.wild().natural() || !(dog.level() instanceof ServerLevel level))return false;
+        if(!(dog.level() instanceof ServerLevel level) || !ready(dog,home,job,level))return false;
         boolean wood=job.kind()==SocietyWork.Kind.CLIP_WOOD;
         if(wood ? !home.wild().timberAvailable(job.target()) || !job.expected().is(ModBlocks.GUAVA_LOG.get()) : !home.wild().fruit().contains(job.target()) || !job.expected().is(ModBlocks.GUAVA_FRUIT.get()) || job.expected().getValue(GuavaFruitBlock.AGE)!=GuavaFruitBlock.MAX_AGE)return false;
-        if(!level.hasChunksAt(job.target().offset(-1,-1,-1),job.target().offset(1,1,1)) || !job.expected().canSurvive(level,job.target()) || level.hasNeighborSignal(job.target()) || !EventHooks.canEntityGrief(level,dog) || !CommonHooks.canEntityDestroy(level,job.target(),dog) || EventHooks.onBlockPlace(dog,BlockSnapshot.create(level.dimension(),level,job.target()),Direction.UP)
-                || !home.attached() || dog.society().hearth()!=home || !dog.society().ready() || !level.getBlockState(job.target()).equals(job.expected()) || level.hasNeighborSignal(job.target()))return false;
+        if(!EventHooks.canEntityGrief(level,dog) || !CommonHooks.canEntityDestroy(level,job.target(),dog) || EventHooks.onBlockPlace(dog,BlockSnapshot.create(level.dimension(),level,job.target()),Direction.UP)
+                || !ready(dog,home,job,level))return false;
         var drops=wood ? Block.getDrops(job.expected(),level,job.target(),null,dog,ItemStack.EMPTY) : List.of(new ItemStack(ModItems.GUAVA.get(),GuavaFruitBlock.fruitCount(job.expected())));
-        if(!level.setBlock(job.target(),wood ? Blocks.AIR.defaultBlockState() : job.expected().setValue(GuavaFruitBlock.AGE,0),3))return false;
-        if(wood)home.wild().timberUsed(job.target());CivicFields.scatter(home,job.target(),drops);return true;
+        if(!ready(dog,home,job,level) || wood && !home.wild().reserveTimber(job.target()))return false;
+        boolean changed=false;
+        try {
+            if(!ready(dog,home,job,level))return false;
+            changed=level.setBlock(job.target(),wood ? Blocks.AIR.defaultBlockState() : job.expected().setValue(GuavaFruitBlock.AGE,0),3);
+            if(!changed)return false;CivicFields.scatter(home,job.target(),drops);return true;
+        } finally {if(wood && !changed)home.wild().unreserveTimber(job.target());}
     }
 }

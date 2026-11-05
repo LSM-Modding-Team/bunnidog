@@ -197,6 +197,19 @@
       "suite_passed": true,
       "native_required_cases": 322,
       "note": "The autonomous reference retains the ordinary plain Diet. The separate native Grazer case proves original crop-to-meal work and explicitly supplied meal-choice/bedding-reserve inputs. The later focused roster case waits for actual native UUID indexing, retaining the original party assertions and actual quiet time."
+    },
+    {
+      "run": "live_harvest_receipts_full_native_family",
+      "milestone": "ordinary helper first litter with live harvest eligibility and original timber receipts",
+      "two_claimed_homes_at": 70052,
+      "food_reserve_at": 117109,
+      "parental_seed_planted_at": 118314,
+      "loaded_ticks": 142605,
+      "pups": 2,
+      "guavas_left": 15,
+      "suite_passed": true,
+      "native_required_cases": 324,
+      "note": "Normal native growth/walking/meals/night rest and unchanged ordinary founder profile. Separate native checks reproduce/fix capacity loss and reentrant timber replacement. Exact orchard transaction checks use a native scoped zero-random-growth environment, restoring the original rule afterward; this autonomous reference retains normal growth."
     }
   ]
 }

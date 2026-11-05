@@ -51,6 +51,15 @@ alone gives no skill; limited minds remain limited. Unknown future learning data
 cannot be overwritten. Successful work earns ordinary saved personal practice.
 Player-established households retain their existing learning/stat requirements.
 
+Native field, fruit and fallen-wood harvests recheck live capacity, guidance,
+reach and actual source after permission and loot callbacks. Limiting/moving a
+worker during such a callback refuses before world output or practice. A finite
+fallen-log receipt is reserved before removal notifications: even a callback
+replacing that cell with the same log and invoking another real worker cannot
+spend the original permission again. Refusal before an edit can release the
+receipt only while that original source remains. Native saves retain the same
+spent bits; this grants no general tree or replacement-block permission.
+
 - Harvesters spend a longer visible work period clipping the three known fallen
   logs, or pick the actual hanging ripe fruit. Used-log permissions persist:
   placing another log there never authorizes demolition of a player structure.
@@ -247,6 +256,12 @@ survive ordinary native saves/unloads; unloaded work pauses without forcing
 terrain. A wild glade cannot gift the player's Living Keystone progression.
 
 ## Evidence and remaining work
+
+Two `wild_harvest_*` native cases reproduced the previous capacity/receipt bugs
+before the fix. They now cover current capacity/reach at all three harvest paths,
+successful later retry, actual neighbor-notification reentry, one marked timber
+output and receipt persistence protecting the replacement log. These controlled
+callback cases are separate from natural growth/Survival observations.
 
 The native `primitive_diet_meals` case exercises an ordinary helper with the
 existing Grazer allele, keeping zero bred points and empty initial learning.

@@ -73,7 +73,7 @@ public final class OrchardPickingGameTest {
         pulse(h,source,() -> {
             h.assertTrue(level.getBlockState(fruit).is(ModBlocks.GUAVA_FRUIT.get()) && level.getBlockState(fruit).getValue(GuavaFruitBlock.AGE) == 0
                     && shears.getDamageValue() == 1 && products(h,fruit,hopper,ModItems.GUAVA.get()) == 3,
-                    "One shears pulse must reset a ripe bunch, pay three guavas and wear exactly once");
+                    "One shears pulse must reset a ripe bunch, pay three guavas and wear exactly once; state="+level.getBlockState(fruit)+", wear="+shears.getDamageValue()+", guavas="+products(h,fruit,hopper,ModItems.GUAVA.get()));
             pulse(h,source,() -> {
                 h.assertTrue(shears.getDamageValue() == 1 && products(h,fruit,hopper,ModItems.GUAVA.get()) == 3,"Unripe pulses must retain shears without duplicate food or wear");
                 level.setBlock(fruit,ripe,3);

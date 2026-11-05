@@ -7,7 +7,39 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 Previous sections retain their checkpoint's protocol/evidence; the current
 section below takes precedence.
 
-## Current — compatible field meals and real bedding reserves
+## Current — live harvest eligibility and original timber receipts
+
+Field, fallen-wood and hanging-fruit work now rechecks actual inherited capacity,
+guidance, reach and source state after permission/loot callbacks. Orchard pruning
+uses the same live check. A callback cannot finish a harvest after limiting or
+moving the worker. Original timber permission is recorded before native removal
+notifications; replacing the block and reentering with another worker cannot
+spend it twice. An edit refused before world mutation can release that receipt
+only while the original source remains.
+
+Both new native cases reproduced the old failures and now pass. They cover all
+three harvest paths, movement/capacity loss, actual reentrant block replacement,
+one real output and native receipt reload. Java 25 **`build checkBunnidogModel
+runGameTestServer` passes all 324 required native cases**, including the orchard
+and roster follow-ups. The ordinary helper reference repeated two pups at
+142,605 loaded ticks, with fifteen guavas remaining.
+Protocol **52** remains current; no yield, genotype, skill or food cost changes.
+
+[PRIMITIVE_CACHE_PLAN.md](docs/PRIMITIVE_CACHE_PLAN.md) records the next actual
+ground-stock dependency and material bill. It is planned; the starting root
+cache remains generated infrastructure. Natural/client/co-op continuity and
+the rebalance candidate remain pending human test.
+
+The `301c7f1` CI passed the corrected roster case but failed an old orchard
+dispenser's compound six-tick snapshot. Its log did not include the actual age,
+wear or stock. Diagnostics now include those values, and the exact orchard
+transaction checks use a separate native environment with random growth paused
+and the prior rule automatically restored. Normal wild growth references remain
+separate and unchanged. All five focused orchard cases pass. The roster basket
+also releases within its actual eight-wide simulated template before waiting
+for native UUID visibility. Full main CI remains the publication gate.
+
+## Previous — compatible field meals and real bedding reserves
 
 Hungry capable workers can now harvest mature crops their actual Diet accepts,
 then walk the real output home and pay the existing ration. Inedible material

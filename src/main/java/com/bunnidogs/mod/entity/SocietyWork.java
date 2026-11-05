@@ -87,6 +87,7 @@ public final class SocietyWork {
     /** Primitive discovery belongs only to this natural household, within independent inherited capacity. */
     public boolean pioneer(Learning.Routine routine) {var h=hearth();return h!=null && h.wild().natural() && dog.learning().canDiscover() && !dog.courierLore().occupied() && !dog.workshopLessons().apprenticing() && !dog.deliveries().watching() && dog.deliveries().cargo().isEmpty() && CapabilityRules.potential(dog.mind(),routine.task())==CapabilityRules.Potential.INDEPENDENT;}
     private boolean harvestReady() {return knows(Learning.Routine.HARVEST) || pioneer(Learning.Routine.HARVEST);}
+    public boolean harvestReadyAt(BlockPos pos) {return ready() && harvestReady() && dog.level().hasChunkAt(pos) && dog.distanceToSqr(Vec3.atCenterOf(pos))<=16 && dog.learning().witnesses(pos,pos);}
     private boolean gardener() {return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.GARDEN) || pioneer(Learning.Routine.GARDEN);}
     private boolean artisan() {return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.CRAFT) || pioneer(Learning.Routine.CRAFT);}
     private boolean advancedWorkshop() {return Gardening.cultivates(dog.stats()) && knows(Learning.Routine.CRAFT);}
@@ -357,11 +358,11 @@ public final class SocietyWork {
     private boolean place(ServerLevel l,BlockPos p,BlockState before,BlockState next) {return grief(l,p) && !EventHooks.onBlockPlace(dog,BlockSnapshot.create(l.dimension(),l,p),Direction.UP) && ready() && hearth()!=null && hearth().attached() && l.getBlockState(p).equals(before) && next.canSurvive(l,p) && l.setBlock(p,next,3);}
     private boolean pruneReady(HearthTreeBlockEntity h,ServerLevel l,Job job,UUID owner) {
         var pos=job.target();var root=h.getBlockPos();
-        return ready() && harvestReady() && hearth()==h && h.attached() && h.authorized() && Objects.equals(h.owner(),owner)
+        return harvestReadyAt(pos) && hearth()==h && h.attached() && h.authorized() && Objects.equals(h.owner(),owner)
                 && !h.isLocked() && l.hasChunksAt(root.offset(-1,-1,-1),root.offset(1,1,1)) && !l.hasNeighborSignal(root)
                 && l.hasChunksAt(pos.offset(-1,-1,-1),pos.offset(1,1,1)) && l.getWorldBorder().isWithinBounds(pos) && !l.hasNeighborSignal(pos)
                 && h.orchard().contains(pos) && job.expected().is(ModBlocks.GUAVA_COPPICE.get()) && job.expected().getValue(CoppiceBlock.AGE)==7
-                && l.getBlockState(pos).equals(job.expected()) && job.expected().canSurvive(l,pos) && dog.learning().witnesses(pos,pos)
+                && l.getBlockState(pos).equals(job.expected()) && job.expected().canSurvive(l,pos)
                 && h.room(new ItemStack(ModItems.GUAVA_LOG.get(),2)) && h.room(new ItemStack(ModItems.GUAVA.get(),4));
     }
     private boolean prune(Job job) {

@@ -5,6 +5,24 @@ validated pushes. It supersedes the previous finite rebalance delivery stop.
 Prioritize accepted unfinished professions, practical education, wild continuity
 and civilization. Keep the shipped rebalance candidate pending human testing;
 do not blindly retune it merely to fill another batch.
+Field/wood/fruit harvesting now rechecks live capacity, guidance and reach after
+native permission/loot callbacks. Preserve `harvestReadyAt` for real outcomes,
+including pruning. Reserve original timber permission before native block
+notifications; reentrant replacement cannot spend it twice. Retain the original
+save bits, loaded bounds, no new tree permission and conservative failed-edit
+release. Two new native cases failed before the fix and pass after it.
+Java 25 build/model/localization and all 324 native cases pass locally; the full
+run repeats two actual pups at 142,605 loaded ticks. Main CI remains the gate.
+`301c7f1` CI passed the corrected roster but failed the
+old orchard six-tick compound snapshot without value diagnostics. Dedicated
+orchard transaction tests now pause random growth through native scoped game
+rules; normal wild growth stays unchanged. All five focused orchard cases pass.
+Keep the roster's released body inside its actual simulated template and wait
+for native indexing; do not alter basket gameplay or party limits for a fixture.
+The next `docs/PRIMITIVE_CACHE_PLAN.md` records the real ground-stock/meal/crafting
+circle and sixteen-plank bill. It is not implemented. A generated functioning
+cache with an added payment does not satisfy that goal. Preserve old defaults,
+native ground/cargo custody and no invisible materials when implementing it.
 Compatible native field food now remains available to a hungry capable worker;
 inedible material farming/planting waits. Preserve actual inherited Diet, native
 harvest/replant/haul/payment and six-operation rations. Meals prefer compatible

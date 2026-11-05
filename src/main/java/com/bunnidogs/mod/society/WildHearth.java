@@ -29,6 +29,14 @@ public final class WildHearth {
     public List<BlockPos> fields() {return List.of(home.getBlockPos().offset(5,0,0),home.getBlockPos().offset(5,0,1),home.getBlockPos().offset(5,0,2));}
     public boolean timberAvailable(BlockPos pos) {int i=timber().indexOf(pos);return natural && i>=0 && (timberTaken&(1<<i))==0;}
     public void timberUsed(BlockPos pos) {int i=timber().indexOf(pos);if(i>=0) {timberTaken|=1<<i;home.setChanged();}}
+    public boolean reserveTimber(BlockPos pos) {
+        if(!timberAvailable(pos) || !home.attached() || !home.getLevel().hasChunkAt(pos) || !home.getLevel().getBlockState(pos).is(ModBlocks.GUAVA_LOG.get()))return false;
+        timberUsed(pos);return true;
+    }
+    public void unreserveTimber(BlockPos pos) {
+        int index=timber().indexOf(pos);
+        if(natural && index>=0 && home.attached() && home.getLevel().hasChunkAt(pos) && home.getLevel().getBlockState(pos).is(ModBlocks.GUAVA_LOG.get())) {timberTaken&=~(1<<index);home.setChanged();}
+    }
     public boolean emptyNursery() {var p=nursery();return natural && home.attached() && home.getLevel().hasChunksAt(p.offset(-1,-1,-1),p.offset(1,1,1)) && home.getLevel().getWorldBorder().isWithinBounds(p) && !home.getLevel().hasNeighborSignal(p) && home.getLevel().getBlockState(p).isAir() && home.getLevel().getBlockState(p.below()).is(net.minecraft.world.level.block.Blocks.FARMLAND);}
     public boolean hatch(com.bunnidogs.mod.entity.Bunnidog worker,BlockPos at) {
         if(hatching || !natural || !at.equals(nursery()) || !home.attached() || worker.society().hearth()!=home || !worker.society().ready() || !(home.getLevel() instanceof ServerLevel level) || !level.hasChunksAt(at.offset(-1,-1,-1),at.offset(1,1,1)) || level.hasNeighborSignal(at))return false;

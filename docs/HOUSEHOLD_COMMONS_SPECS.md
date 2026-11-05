@@ -101,6 +101,12 @@ stripped for that classification, and exact source components still determine
 the extraction. No parallel profession inventory or credited resource counter
 exists.
 
+Field and primitive harvests recheck the worker's real capacity, target guidance,
+reach and source again after native permission/loot callbacks. A limiting splice
+or movement cannot complete a stale harvest. Original finite wood permissions
+are paid before block notifications, like quarry permissions; an identical
+replacement cannot reopen that original receipt through another worker.
+
 Shared native axes follow the same private-gear policy. Ordinary damage is
 allowed, while names, enchantments and other custom components exclude a tool.
 Food-tool recovery, replacement production and public plans use that same usable
