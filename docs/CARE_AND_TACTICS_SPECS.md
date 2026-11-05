@@ -60,6 +60,15 @@ preempt expansion work, within the existing work/meal budget.
 
 ## Paid first aid at home
 
+The native walking goal chooses work positions using the patient's actual body
+range and eye sight. It continues moving until those conditions hold before
+starting its work period. A raised approach can put the block center inside
+2.5 blocks while leaving the body just outside; the previous goal stopped there
+and retained its ration indefinitely. A focused native reproduction fails
+before this fix and completes afterward with the same original paid guava,
+600-tick deadline, actual 2.5-block range and saved injury recovery. Ordinary
+dressing care uses the same body/sight work-front check.
+
 A Family care resident can now notice a quiet, downed housemate resting within
 three blocks of its original claimed Nest. The patient must share the actual
 Hearth; an existing keeper bond must agree with the Hearth owner. A player bond

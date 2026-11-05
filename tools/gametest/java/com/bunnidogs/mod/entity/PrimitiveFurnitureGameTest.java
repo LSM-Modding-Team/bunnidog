@@ -10,6 +10,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityMobGriefingEvent;
+import net.neoforged.neoforge.event.level.BlockEvent.EntityPlaceEvent;
 
 /** Ordinary helper-profile craftspeople furnish original primitive plots without acquiring architecture. */
 final class PrimitiveFurnitureGameTest {
@@ -41,6 +42,14 @@ final class PrimitiveFurnitureGameTest {
         Consumer<EntityMobGriefingEvent> splice=e->{if(e.getEntity()==dog)dog.setGenome(new Genome(dog.genome().packed(),0));};NeoForge.EVENT_BUS.addListener(splice);
         try {h.assertTrue(!WildFamilyGameTest.act(c,dog,SocietyWork.Kind.BUILD,at) && ItemStack.matches(exact,dog.society().workSupplies()) && !home.construction().owned(at),"A callback limiting craft capacity invalidates primitive placement before payment while retaining the original parcel");}finally {NeoForge.EVENT_BUS.unregister(splice);}
         h.assertTrue(WildFamilyGameTest.act(c,dog,SocietyWork.Kind.DELIVER,home.getBlockPos()) && home.count(Items.CRAFTING_TABLE)==1 && dog.learning().knowledge().progress(Learning.Routine.BUILD)==0,"Safety recovery returns the exact table even after capacity loss, without fictitious architecture");WildFamilyGameTest.clean(c);h.succeed();
+    }
+    static void collision(GameTestHelper h) {
+        var c=setup(h);var home=c.home();var dog=c.dogs().getFirst();var other=c.dogs().get(1);var at=home.wild().works().workbench();home.put(new ItemStack(ModItems.GUAVA_LOG.get(),2));
+        h.assertTrue(craft(c,dog,CivicRecipes.RecipeId.PLANKS) && craft(c,dog,CivicRecipes.RecipeId.PLANKS) && craft(c,dog,CivicRecipes.RecipeId.WORKBENCH),"Actual paid native recipes train a primitive craftsperson and produce its original table");WildFamilyGameTest.at(dog,home.getBlockPos());
+        h.assertTrue(dog.society().perform(new SocietyWork.Job(SocietyWork.Kind.FETCH_BUILD,home.getBlockPos(),-1,home.getBlockState(),null,at)),"The actual paid table enters one original walking parcel");var exact=dog.society().workSupplies();var old=other.position();float health=other.getHealth();boolean[] called={false};
+        Consumer<EntityPlaceEvent> enter=e->{if(e.getEntity()==dog) {called[0]=true;other.snapTo(net.minecraft.world.phys.Vec3.atBottomCenterOf(at));}};NeoForge.EVENT_BUS.addListener(enter);
+        try {h.assertTrue(!WildFamilyGameTest.act(c,dog,SocietyWork.Kind.BUILD,at) && called[0] && h.getLevel().getBlockState(at).isAir() && !home.construction().owned(at) && ItemStack.matches(exact,dog.society().workSupplies()) && other.getHealth()==health,"A real resident entering the paid workbench cell during native placement callbacks refuses before material debit, solid collision or construction credit");}finally {NeoForge.EVENT_BUS.unregister(enter);other.snapTo(old);}
+        h.runAfterDelay(205,()->{h.assertTrue(WildFamilyGameTest.act(c,dog,SocietyWork.Kind.BUILD,at) && home.construction().owned(at) && dog.society().cargoEmpty() && other.isAlive() && other.getHealth()==health && dog.learning().knowledge().progress(Learning.Routine.BUILD)==0,"After the actual failed-site backoff and cleared body, the same original table is placed once without architecture experience");WildFamilyGameTest.clean(c);h.succeed();});
     }
     static void ai(GameTestHelper h) {
         var c=setup(h,true);h.assertTrue(c.home().getContainerSize()==0 && c.home().camp().bare(),"The autonomous reference starts before its first paid cache");c.dogs().forEach(d->d.setNoAi(false));long started=h.getLevel().getGameTime();

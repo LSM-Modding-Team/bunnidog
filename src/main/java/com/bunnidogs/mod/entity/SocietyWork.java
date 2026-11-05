@@ -71,7 +71,11 @@ public final class SocietyWork {
     public void settle(HearthTreeBlockEntity h) {if(home==null && h.wild().natural()) {home=GlobalPos.of(dog.level().dimension(),h.getBlockPos());site=h.site();child=false;dog.setPersistenceRequired();}}
     public void born(HearthTreeBlockEntity h) {home=GlobalPos.of(dog.level().dimension(),h.getBlockPos());site=h.site();child=true;dog.setPersistenceRequired();}
     private boolean calm() {return dog.acceptsCare() && !dog.homeNight() && dog.isAlive() && !dog.isBaby() && !dog.beingTransported() && !dog.isVehicle() && !dog.trail().ordered() && !dog.workPaused() && !dog.combat().danger() && !dog.combat().downed() && dog.getTarget()==null && !dog.seekingRefuge() && !dog.isInLove() && !dog.isOnFire() && !dog.isInWater() && dog.getHealth()>=dog.getMaxHealth()*.8F;}
-    public boolean ready() {var h=hearth();return h!=null && calm() && dog.level().getGameTime()>=nextWork && dog.distanceToSqr(Vec3.atCenterOf(h.getBlockPos()))<24*24;}
+    public boolean ready() {
+        var h=hearth();if(h==null || !h.attached() || !calm() || dog.level().getGameTime()<nextWork || dog.distanceToSqr(Vec3.atCenterOf(h.getBlockPos()))>=24*24)return false;
+        var root=h.getBlockPos();var level=dog.level();
+        return !h.isLocked() && level.hasChunksAt(root.offset(-1,-1,-1),root.offset(1,1,1)) && !level.hasNeighborSignal(root);
+    }
     public int waitTicks() {return (int)Math.clamp(nextWork-dog.level().getGameTime(),0,80);}
     public boolean practiceReady() {return hearth()!=null && calm() && Gardening.cultivates(dog.stats()) && dog.distanceToSqr(Vec3.atCenterOf(hearth().getBlockPos()))<24*24;}
     public Bunnidog mentor(Learning.Routine routine) {
@@ -106,6 +110,7 @@ public final class SocietyWork {
     public Job active() {return active;}
     private CivicRecipes.RecipeId craftRecipe(Job job) {return job.kind()==Kind.CRAFT && job.index()>=0 && job.index()<CivicRecipes.RecipeId.values().length ? CivicRecipes.RecipeId.values()[job.index()] : null;}
     public BlockPos workTarget(Job job) {var recipe=craftRecipe(job);var h=hearth();if(h!=null && h.camp().bare() && job.target().equals(h.getBlockPos()) && (recipe!=null || job.kind()==Kind.MEAL || job.kind()==Kind.DELIVER))return h.camp().mat();return recipe!=null && h!=null && h.wild().works().requiresWorkbench(recipe) ? h.wild().works().workbench() : job.target();}
+    public boolean workspaceStand(Job job,Vec3 feet) {var h=hearth();return h==null || !h.camp().bare() || job.kind()!=Kind.DELIVER || !cargo.is(ModItems.ROOT_CACHE.get()) || !canInstallCache() || h.camp().cacheStand(dog,feet);}
     public boolean workspaceAvailable(Job job) {var recipe=craftRecipe(job);var h=hearth();if(h!=null && h.camp().bare())return h.camp().available();return recipe==null || h!=null && h.wild().works().craftingAvailable(recipe);}
     boolean claim(Job job) {var h=hearth();if(h==null || !h.jobs().claim(dog,job))return false;active=job;if(miningCargo && job.kind()==Kind.MINE_STONE)destination=job.target();return true;}
     boolean owns(Job job) {var h=hearth();return h!=null && h.jobs().owns(dog,job);}
@@ -124,6 +129,14 @@ public final class SocietyWork {
         }
         // Preserve breeding guavas with compatible surplus; bedding grain is still a real last-resort meal.
         return guava>=0 ? guava : grain;
+    }
+    private boolean meal(HearthTreeBlockEntity h) {
+        if(h.camp().bare())return h.camp().eat(dog);int slot=mealSlot(h);if(slot<0)return false;
+        var owner=h.owner();var original=h.getItem(slot).copy();
+        if(!EventHooks.canEntityGrief((ServerLevel)dog.level(),dog) || !ready() || hearth()!=h || !h.attached() || !h.cached()
+                || !Objects.equals(owner,h.owner()) || mealSlot(h)!=slot || !ItemStack.matches(original,h.getItem(slot)))return false;
+        var paid=h.takeExact(slot,1);if(paid.isEmpty())return false;
+        dog.heal(2);h.evidence("meal",1);return true;
     }
     /** Read-only bounded offers. The movement goal acquires a short exclusive claim only when it starts. */
     public List<Job> offers() {
@@ -444,7 +457,8 @@ public final class SocietyWork {
         if(!cell.state().getCollisionShape(l,cell.pos()).isEmpty() && !l.getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class,new net.minecraft.world.phys.AABB(cell.pos()),e->e.isAlive() && !e.isSpectator()).isEmpty())return false;
         var exact=cargo.copy();medicalBusy=true;
         try {
-            if(!grief(l,cell.pos()) || EventHooks.onBlockPlace(dog,BlockSnapshot.create(l.dimension(),l,cell.pos()),Direction.UP) || !ready() || hearth()!=h || !h.attached() || !buildingReady(cell) || !h.construction().canBuild(cell) || !ItemStack.matches(cargo,exact)) {h.construction().failed(cell.pos());return false;}
+            if(!grief(l,cell.pos()) || EventHooks.onBlockPlace(dog,BlockSnapshot.create(l.dimension(),l,cell.pos()),Direction.UP) || !ready() || hearth()!=h || !h.attached() || !buildingReady(cell) || !h.construction().canBuild(cell) || !ItemStack.matches(cargo,exact)
+                    || !l.isUnobstructed(cell.state(),cell.pos(),net.minecraft.world.phys.shapes.CollisionContext.of(dog))) {h.construction().failed(cell.pos());return false;}
             // The paid material stays owned by this carrier through permission callbacks and failed edits.
             var material=cargo;cargo=ItemStack.EMPTY;buildingCargo=false;boolean placed=false;
             try {placed=l.setBlock(cell.pos(),cell.state(),3);if(!placed)return false;
@@ -573,7 +587,7 @@ public final class SocietyWork {
             case MEDICINE -> {ok=collectMedicine(job);}
             case CARE -> {ok=firstAidCargo ? aidResident(job) : treatResident(job);learned=Learning.Routine.NURSERY;}
             case TEACH -> {ok=job.index()>=0 && job.index()<Learning.Routine.values().length && !Learning.Routine.values()[job.index()].workshop() && CapabilityRules.potential(dog.mind(),CapabilityRules.Task.TEACHING)==CapabilityRules.Potential.INDEPENDENT;}
-            case MEAL -> {if(h.camp().bare()) {ok=h.camp().eat(dog);if(ok)workSinceMeal=0;}else {int slot=mealSlot(h);if(slot>=0) {h.takeExact(slot,1);dog.heal(2);workSinceMeal=0;h.evidence("meal",1);ok=true;}}}
+            case MEAL -> {ok=meal(h);if(ok)workSinceMeal=0;}
             case CRAFT -> {ok=craft(h,job.index());learned=Learning.Routine.CRAFT;}
             case PLAN -> {ok=h.agenda().write(dog);}
             case FETCH_SEED -> {ok=collectFieldSeed(job);}
@@ -625,7 +639,7 @@ public final class SocietyWork {
         var h=hearth();if(ref==null || ref.bed()==null || h==null || !(dog.level() instanceof ServerLevel l) || !(l.getEntity(ref.id()) instanceof Bunnidog patient))return null;
         return patient!=dog && ref.bed().equals(patient.homeNest()) && ClinicCare.restingAtHome(h,patient) ? patient : null;
     }
-    Bunnidog carePatient(Job job) {var h=hearth();return job.kind()==Kind.FETCH_RESCUE ? h==null ? null : CivicRescue.patient(dog,h,job.patient()) : job.kind()==Kind.FETCH_AID ? rescuePatient(job.patient(),false) : medicalPatient(job.patient());}
+    Bunnidog carePatient(Job job) {var h=hearth();return job.kind()==Kind.FETCH_RESCUE ? h==null ? null : CivicRescue.patient(dog,h,job.patient()) : job.kind()==Kind.FETCH_AID || job.kind()==Kind.CARE && firstAidCargo ? rescuePatient(job.patient(),false) : medicalPatient(job.patient());}
     private Bunnidog rescuePatient(Patient ref,boolean receiving) {
         var h=hearth();if(h==null || ref==null || ref.bed()==null || !(dog.level() instanceof ServerLevel l) || !(l.getEntity(ref.id()) instanceof Bunnidog patient) || patient==dog || !patient.society().belongs(h))return null;
         if(patient.trail().keeper()!=null && !Objects.equals(patient.trail().keeper(),h.owner()) || !ref.bed().equals(patient.homeNest()) || !l.hasChunkAt(ref.bed()) || !l.getBlockState(ref.bed()).is(ModBlocks.NEST.get()) || !NestBlock.claimed(l,ref.bed()) || ref.bed().distSqr(h.getBlockPos())>24*24 || patient.distanceToSqr(Vec3.atCenterOf(ref.bed()))>9)return null;

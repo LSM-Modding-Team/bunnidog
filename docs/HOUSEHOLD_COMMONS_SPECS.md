@@ -77,6 +77,19 @@ homes may enter this real food wait. No growth, recipe or ration is accelerated.
 
 ## Crafting uses actual recipes
 
+The original Hearth's native lock or root redstone pauses resident work, including
+ordinary pickup/returns, meals and primitive harvesting. Readiness also requires
+the loaded immediate neighbourhood before querying signal; it never loads that
+area to continue working. Existing original parcels and explicit owner recovery
+remain intact while work is paused.
+
+Meals from installed storage retain one exact original ordinary compatible slot
+through native permission, owner, Diet and pause rechecks. Payment must actually
+remove its item before healing, resetting the operation ration or recording a
+meal. A callback changing the source/food eligibility or another real eater's
+payment invalidates the outer original bill. Ground meals retain their separate
+original item-entity journal. No education or body point comes from eating.
+
 New natural camps first use their actual marked ground resources for delivery,
 meals and hand crafting. The marker has no usable inventory until someone carries
 and installs its paid three-plank Root Cache. This uses the same original block
@@ -92,6 +105,12 @@ of only their original primitive furniture plots. Real carried materials and
 placement protections remain; this supplies neither general room permission
 nor architecture experience. This avoids requiring a rare architect for the
 first bed before a family can breed one, with all cognitive weights/limits intact.
+
+Native body clearance is rechecked after permission callbacks before paid
+furniture placement or first-cache collision expansion. An entering resident
+keeps the original parcel unspent. The installer must stand outside the future
+cache shape; dual-target fronts can try one bounded second ring while retaining
+their current reach, sight, loaded terrain and native safe paths.
 
 Fresh wild workbench sites additionally require their actual paid native table
 for larger recipes, with stock and station both in reach and sight at commit.

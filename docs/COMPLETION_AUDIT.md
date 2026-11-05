@@ -43,6 +43,15 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
 
 ## Progress after this reference
 
+- Native Hearth locks/root power now pause resident work consistently. Meals pay
+  exact original compatible food after protection/callback checks. Cache/furniture
+  placement rechecks body clearance before paying or expanding solid collision;
+  real blocked parcels remain recoverable. Care walks into actual patient body
+  range and sight rather than stopping at a misleading block center. Six new
+  native cases reproduce these paths and all 339 required cases pass locally.
+  The same ordinary family reaches two actual pups at 149,684 loaded ticks;
+  natural/client/co-op and multi-generation review remain separate.
+
 - Actual ground pickup and cargo returns now retain live hauling capacity and
   original owner authority after native protection callbacks. Two reproductions
   and the separate staged return failure pass after the fixes; all 333 required

@@ -59,9 +59,17 @@ public final class ClinicGameTest {
     public static void firstAid(GameTestHelper h) {
         setup(h,c->{downed(c);c.doctor.setNoAi(false);c.p.snapTo(c.hearth.getBlockPos().getX()+18,c.hearth.getBlockPos().getY(),c.hearth.getBlockPos().getZ()+.5);
             h.succeedWhen(()->{
-                h.assertTrue(!c.patient.combat().downed() && c.patient.combat().recovering() && c.patient.combat().recoveryLeft()>0 && c.patient.getHealth()>1 && c.hearth.count(ModItems.GUAVA.get())==1 && c.doctor.society().cargoEmpty(),"A native carer walks both first-aid legs, pays one real guava and preserves injury recovery: patient="+c.patient.combat().intent()+", health="+c.patient.getHealth()+", stock="+c.hearth.count(ModItems.GUAVA.get())+", job="+c.doctor.society().active()+", cargo="+c.doctor.society().workSupplies());
+                h.assertTrue(!c.patient.combat().downed() && c.patient.combat().recovering() && c.patient.combat().recoveryLeft()>0 && c.patient.getHealth()>1 && c.hearth.count(ModItems.GUAVA.get())==1 && c.doctor.society().cargoEmpty(),"A native carer walks both first-aid legs, pays one real guava and preserves injury recovery: patient="+c.patient.combat().intent()+", health="+c.patient.getHealth()+", stock="+c.hearth.count(ModItems.GUAVA.get())+", job="+c.doctor.society().active()+", cargo="+c.doctor.society().workSupplies()+", doctor_at="+c.doctor.position()+", ready="+c.doctor.society().ready()+", night="+c.doctor.homeNight()+", patient_at="+c.patient.position()+", patient_ready="+c.patient.combat().canResidentAid()+", distance="+c.doctor.distanceToSqr(c.patient)+", sight="+HomeRoutes.visible(c.doctor,c.patient)+", lock="+c.hearth.isLocked()+", power="+h.getLevel().hasNeighborSignal(c.hearth.getBlockPos()));
                 c.doctor.discard();c.patient.discard();c.p.discard();
             });
+        });
+    }
+    public static void firstAidReach(GameTestHelper h) {
+        setup(h,c->{
+            downed(c);c.doctor.snapTo(Vec3.atBottomCenterOf(c.hearth.getBlockPos().south()));h.assertTrue(c.doctor.society().perform(aidPickup(c)),"The carer withdraws one real owned first-aid ration before approaching its patient");c.rest();
+            var target=c.patient.blockPosition();h.getLevel().setBlock(target.west(2),Blocks.STONE.defaultBlockState(),3);c.doctor.snapTo(c.patient.position().add(-2.35,1,0));c.doctor.setOnGround(true);c.p.snapTo(c.hearth.getBlockPos().getX()+18,c.hearth.getBlockPos().getY(),c.hearth.getBlockPos().getZ()+.5);
+            h.assertTrue(c.doctor.distanceToSqr(Vec3.atCenterOf(target))<=6.25 && c.doctor.distanceToSqr(c.patient)>6.25 && HomeRoutes.visible(c.doctor,c.patient),"The actual raised approach reaches the target block's center before it reaches the real patient's body; both remain visible");c.doctor.setNoAi(false);
+            h.succeedWhen(()->{h.assertTrue(!c.patient.combat().downed() && c.patient.combat().recovering() && c.patient.combat().recoveryLeft()>0 && c.patient.getHealth()>1 && c.hearth.count(ModItems.GUAVA.get())==1 && c.doctor.society().cargoEmpty(),"The native carer must continue into actual body range, then pay its original ration once: doctor="+c.doctor.position()+", body_distance="+c.doctor.distanceToSqr(c.patient)+", job="+c.doctor.society().active()+", cargo="+c.doctor.society().workSupplies()+", patient="+c.patient.combat().intent());c.finish();});
         });
     }
     public static void firstAidCallbacks(GameTestHelper h) {

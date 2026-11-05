@@ -5,7 +5,19 @@ validated pushes. It supersedes the previous finite rebalance delivery stop.
 Prioritize accepted unfinished professions, practical education, wild continuity
 and civilization. Keep the shipped rebalance candidate pending human testing;
 do not blindly retune it merely to fill another batch.
-Current pickup/return authority polish passes Java 25 build/model/localization
+Current Hearth pause/meal/placement/care polish passes Java 25 build/model/
+localization and all 339 native cases. Keep native lock/root power/loaded-bound
+pauses in actual readiness, exact original paid meal slots and post-callback
+Diet/authority checks. Cache growth and paid furniture must recheck native body
+clearance before payment; native reproductions failed before the fixes. Installer
+stand choice clears its actual future shape, with only a bounded second ring for
+dual-target work inside existing reach/sight. Care movement uses actual patient
+body range/eye sight, never merely the target block center: the raised approach
+reproduces the retained-ration loop before the fix, and completes afterward with
+the same price/range/deadline. The full run repeats cache at 1364 ticks, two pups
+at 149684 and workshop at 54558. Main CI is the JAR gate; 75a4f81's full 333 CI
+and direct release passed. All natural/client/co-op/rebalance review stays pending.
+Previous pickup/return authority polish passes Java 25 build/model/localization
 and all 333 native cases. Native pickup must recheck live hauling capacity and
 original authority after protection; returns retain that owner through commit.
 Both pickup cases failed before the fix; a partial fix then reproduced the

@@ -67,13 +67,15 @@ public final class GuavaGameTest extends GameTestInstance {
         for(String name:new String[]{"wild_genesis","wild_founder_veto","wild_materials","wild_nursery","wild_nursery_veto","wild_limits","wild_worldgen","wild_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("wild_ai") ? 3600 : 180,0,true)));
         for(String name:new String[]{"wild_bench_safety","wild_bench_legacy","wild_bench_handoffs"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"primitive_furniture","primitive_limits","primitive_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(name.equals("primitive_ai") ? furniture : environment,id("crown_arena"),name.equals("primitive_ai") ? 120000 : 240,0,true)));
+        event.registerTest(id("primitive_placement_collision"),new GuavaGameTest("primitive_placement_collision",new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_family"),new GuavaGameTest("primitive_family",new TestData<>(continuity,id("crown_arena"),300000,0,true)));
         event.registerTest(id("primitive_family_reserve"),new GuavaGameTest("primitive_family_reserve",new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_family_carer"),new GuavaGameTest("primitive_family_carer",new TestData<>(environment,id("crown_arena"),300,0,true)));
-        for(String name:new String[]{"primitive_cache_payment","primitive_cache_safety","primitive_cache_callbacks","primitive_cache_meals","primitive_cache_player_legacy","primitive_cache_shared_learning"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
+        for(String name:new String[]{"primitive_cache_payment","primitive_cache_safety","primitive_cache_callbacks","primitive_cache_meals","primitive_cache_player_legacy","primitive_cache_shared_learning","primitive_cache_collision"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_food_tool"),new GuavaGameTest("primitive_food_tool",new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"civic_tool_custody","civic_tool_callbacks"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"civic_haul_capacity","civic_haul_authority"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
+        for(String name:new String[]{"hearth_pause_power","hearth_pause_lock","hearth_pause_meals"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_material_demand"),new GuavaGameTest("primitive_material_demand",new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_diet_meals"),new GuavaGameTest("primitive_diet_meals",new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"wild_harvest_capacity","wild_harvest_receipt"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
@@ -84,6 +86,7 @@ public final class GuavaGameTest extends GameTestInstance {
         for(String name:new String[]{"commons_planning","commons_planning_limits","commons_claims","commons_recipes","commons_scarcity","construction_parcel","construction_fitting","construction_repair","construction_helper","construction_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("construction_ai") ? 760 : 160,0,true)));
         for(String name:new String[]{"culture_ai","culture_archive","culture_books","culture_interruptions","culture_limits","culture_stale"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("culture_ai") ? 760 : 160,0,true)));
         for(String name:new String[]{"clinic_first_aid","clinic_first_aid_callbacks","clinic_ai","clinic_stock","clinic_callbacks","clinic_lesson","clinic_limits","clinic_craft","tactics_learning","tactics_coordination"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("clinic_first_aid") || name.equals("clinic_ai") ? 600 : 320,0,true)));
+        event.registerTest(id("clinic_first_aid_reach"),new GuavaGameTest("clinic_first_aid_reach",new TestData<>(environment,id("crown_arena"),600,0,true)));
         for(String name:new String[]{"field_harvest","field_garden","field_nursery","field_safety","field_scout","field_gathering"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),160,0,true)));
         for(var kind:ApexKind.values())for(boolean flying:new boolean[]{false,true}) {
             String name="apex_pillar_"+(flying ? "flying_" : "")+kind.id;
@@ -227,6 +230,7 @@ public final class GuavaGameTest extends GameTestInstance {
             case "wild_bench_handoffs" -> {WildWorkbenchGameTest.handoffs(h);return;}
             case "primitive_furniture" -> {PrimitiveFurnitureGameTest.furniture(h);return;}
             case "primitive_limits" -> {PrimitiveFurnitureGameTest.limits(h);return;}
+            case "primitive_placement_collision" -> {PrimitiveFurnitureGameTest.collision(h);return;}
             case "primitive_ai" -> {PrimitiveFurnitureGameTest.ai(h);return;}
             case "primitive_family" -> {PrimitiveFurnitureGameTest.family(h);return;}
             case "primitive_family_reserve" -> {PrimitiveFurnitureGameTest.familyReserve(h);return;}
@@ -236,8 +240,13 @@ public final class GuavaGameTest extends GameTestInstance {
             case "primitive_cache_callbacks" -> {PrimitiveCacheGameTest.callbacks(h);return;}
             case "primitive_cache_meals" -> {PrimitiveCacheGameTest.meals(h);return;}
             case "primitive_cache_shared_learning" -> {PrimitiveCacheGameTest.sharedLearning(h);return;}
+            case "primitive_cache_collision" -> {PrimitiveCacheGameTest.collision(h);return;}
             case "civic_haul_capacity" -> {CivicHaulGameTest.capacity(h);return;}
             case "civic_haul_authority" -> {CivicHaulGameTest.authority(h);return;}
+            case "hearth_pause_power" -> {HearthPauseGameTest.pause(h,false);return;}
+            case "hearth_pause_lock" -> {HearthPauseGameTest.pause(h,true);return;}
+            case "hearth_pause_meals" -> {HearthPauseGameTest.meals(h);return;}
+            case "clinic_first_aid_reach" -> {ClinicGameTest.firstAidReach(h);return;}
             case "primitive_cache_player_legacy" -> {PrimitiveCacheGameTest.playerLegacy(h);return;}
             case "primitive_food_tool" -> {PrimitiveFurnitureGameTest.foodTool(h);return;}
             case "civic_tool_custody" -> {CivicToolGameTest.custody(h);return;}

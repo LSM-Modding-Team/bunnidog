@@ -274,21 +274,21 @@ terrain. A wild glade cannot gift the player's Living Keystone progression.
 
 ## Evidence and remaining work
 
-The current first-cache revision passes all 331 required native cases with the
-Java 25 build/model/localization gate. Six focused cache cases include real
+The current first-cache revision passes all 339 required native cases with the
+Java 25 build/model/localization gate. Seven focused cache cases include real
 ground payment, the exact fifteen-plank bill/remaining plank, private and foreign
 items, callback-time capacity/reach/components, rejected spawning/carrier removal,
-native installation reentry, zero-slot automation/menu access, old native
+native installation reentry/body clearance, zero-slot automation/menu access, old native
 blockstate decoding and saved stock. Native player recipe lookup distinguishes
 the cache from the unchanged table. The shared-beginner reproduction fails before
 its useful-work fix and passes afterward; one recipe per actual actor does not
 magically supply a trained installer.
 
 The unprovisioned ordinary helper reference starts with zero usable storage,
-installs a paid cache at 1,226 loaded ticks, claims two homes at 75,876, reaches
-the food reserve at 94,291, plants its real parental seed at 100,335 and hatches
-two native pups at 142,070, leaving twenty-five guavas. The separate selected
-capable-founder furnace/light/first-bed reference finishes at 23,042. The actual
+installs a paid cache at 1,364 loaded ticks, claims two homes at 51,609, reaches
+the food reserve at 118,918, plants its real parental seed at 120,882 and hatches
+two native pups at 149,684, leaving sixteen guavas. The separate selected
+capable-founder furnace/light/first-bed reference finishes at 54,558. The actual
 generated and autonomous before/after block snapshots produce the inspected
 headless cell map. These controlled native functional observations do not
 establish naturally rolled staffing, Survival duration, client/co-op feel or

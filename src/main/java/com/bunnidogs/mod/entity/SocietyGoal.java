@@ -18,19 +18,26 @@ final class SocietyGoal extends Goal {
             job=offer;
             if(job.kind()==SocietyWork.Kind.MEDICINE || job.kind()==SocietyWork.Kind.FETCH_AID || job.kind()==SocietyWork.Kind.FETCH_RESCUE) {var patient=dog.society().carePatient(job);if(patient==null || !reachable(patient.blockPosition())) {dog.society().hearth().jobs().unreachable(dog,job);continue;}}
             if(job.destination()!=null && !reachable(job.destination())) {dog.society().hearth().jobs().unreachable(dog,job);continue;}
-            for(var dir:Direction.Plane.HORIZONTAL)for(int dy:new int[]{0,-1,1,-2,-3}) {var p=dog.society().workTarget(job).relative(dir).offset(0,dy,0);if(!HomeRoutes.trailStanding(dog,p) || !workspaceSight(Vec3.atBottomCenterOf(p).add(0,dog.getEyePosition().y-dog.getY(),0)))continue;var route=dog.getNavigation().createPath(p,0);if(route!=null && route.canReach() && HomeRoutes.trailSafe(dog,route)) {path=route;stand=p;return true;}}
+            var target=dog.society().workTarget(job);
+            for(int radius:target.equals(job.target()) ? new int[]{1} : new int[]{1,2})for(var dir:Direction.Plane.HORIZONTAL)for(int dy:new int[]{0,-1,1,-2,-3}) {var p=target.relative(dir,radius).offset(0,dy,0);if(!HomeRoutes.trailStanding(dog,p) || !workspaceSight(Vec3.atBottomCenterOf(p).add(0,dog.getEyePosition().y-dog.getY(),0)))continue;var route=dog.getNavigation().createPath(p,0);if(route!=null && route.canReach() && HomeRoutes.trailSafe(dog,route)) {path=route;stand=p;return true;}}
             dog.society().hearth().jobs().unreachable(dog,job);
         }
         job=null;return false;
     }
     private boolean reachable(BlockPos target) {for(var dir:Direction.Plane.HORIZONTAL)for(int dy:new int[]{0,-1,1,-2,-3}) {var at=target.relative(dir).offset(0,dy,0);if(!HomeRoutes.trailStanding(dog,at))continue;var path=dog.getNavigation().createPath(at,0);if(path!=null && path.canReach() && HomeRoutes.trailSafe(dog,path))return true;}return false;}
-    private boolean clear(Vec3 from,BlockPos target) {
-        var at=BlockPos.containing(from);if(!dog.level().hasChunksAt(new BlockPos(Math.min(at.getX(),target.getX()),Math.min(at.getY(),target.getY()),Math.min(at.getZ(),target.getZ())),new BlockPos(Math.max(at.getX(),target.getX()),Math.max(at.getY(),target.getY()),Math.max(at.getZ(),target.getZ()))))return false;
-        var hit=dog.level().clip(new ClipContext(from,Vec3.atCenterOf(target),ClipContext.Block.COLLIDER,ClipContext.Fluid.NONE,dog));return hit.getType()==HitResult.Type.MISS || hit.getBlockPos().equals(target);
+    private BlockHitResult trace(Vec3 from,Vec3 to) {
+        var at=BlockPos.containing(from);var target=BlockPos.containing(to);if(!dog.level().hasChunksAt(new BlockPos(Math.min(at.getX(),target.getX()),Math.min(at.getY(),target.getY()),Math.min(at.getZ(),target.getZ())),new BlockPos(Math.max(at.getX(),target.getX()),Math.max(at.getY(),target.getY()),Math.max(at.getZ(),target.getZ()))))return null;
+        return dog.level().clip(new ClipContext(from,to,ClipContext.Block.COLLIDER,ClipContext.Fluid.NONE,dog));
     }
+    private boolean clear(Vec3 from,BlockPos target) {var hit=trace(from,Vec3.atCenterOf(target));return hit!=null && (hit.getType()==HitResult.Type.MISS || hit.getBlockPos().equals(target));}
     private boolean workspaceSight(Vec3 from) {
-        var target=dog.society().workTarget(job);if(target.equals(job.target()))return true;
         var feet=from.subtract(0,dog.getEyePosition().y-dog.getY(),0);
+        if(!dog.society().workspaceStand(job,feet))return false;
+        if(job.kind()==SocietyWork.Kind.CARE) {
+            var patient=dog.society().carePatient(job);if(patient==null || feet.distanceToSqr(patient.position())>6.25)return false;
+            var hit=trace(from,patient.getEyePosition());if(hit==null || hit.getType()!=HitResult.Type.MISS)return false;
+        }
+        var target=dog.society().workTarget(job);if(target.equals(job.target()))return true;
         return feet.distanceToSqr(Vec3.atCenterOf(job.target()))<=16 && feet.distanceToSqr(Vec3.atCenterOf(target))<=16 && clear(from,job.target()) && clear(from,target);
     }
     @Override public boolean canContinueToUse() {return job!=null && dog.society().owns(job) && dog.society().ready() && dog.society().workspaceAvailable(job) && ticks<240 && HomeRoutes.trailStanding(dog,stand) && HomeRoutes.trailSafe(dog,path);}
@@ -47,7 +54,7 @@ final class SocietyGoal extends Goal {
         }
         var target=dog.society().workTarget(job);dog.getLookControl().setLookAt(Vec3.atCenterOf(target));
         var hit=dog.level().clip(new ClipContext(dog.getEyePosition(),Vec3.atCenterOf(target),ClipContext.Block.COLLIDER,ClipContext.Fluid.NONE,dog));
-        if(dog.distanceToSqr(Vec3.atCenterOf(job.target()))>(job.kind()==SocietyWork.Kind.CARE || job.kind()==SocietyWork.Kind.PICKUP_RESCUE ? 6.25 : 16) || !workspaceSight(dog.getEyePosition()) || hit.getType()!=HitResult.Type.MISS && !hit.getBlockPos().equals(target)) {work=0;if(ticks%20==0)dog.getNavigation().moveTo(stand.getX()+.5,stand.getY(),stand.getZ()+.5,1);return;}
+        if(dog.distanceToSqr(Vec3.atCenterOf(job.target()))>(job.kind()==SocietyWork.Kind.PICKUP_RESCUE ? 6.25 : 16) || !workspaceSight(dog.getEyePosition()) || hit.getType()!=HitResult.Type.MISS && !hit.getBlockPos().equals(target)) {work=0;if(ticks%20==0)dog.getNavigation().moveTo(stand.getX()+.5,stand.getY(),stand.getZ()+.5,1);return;}
         dog.getNavigation().stop();dog.learning().observe(SocietyWork.routine(job.kind()),BunnidogLearning.Activity.WORKING);if(++work>=(job.kind()==SocietyWork.Kind.TEACH ? 180 : job.kind()==SocietyWork.Kind.CLIP_WOOD || job.kind()==SocietyWork.Kind.MINE_STONE ? 100 : 40)) {dog.society().perform(job);ticks=240;}
     }
     @Override public void stop() {dog.society().release();dog.courierLore().desk(false);dog.getNavigation().stop();job=null;path=null;stand=null;}

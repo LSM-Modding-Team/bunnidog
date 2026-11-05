@@ -314,6 +314,50 @@
       "guavas_left": 4,
       "suite_passed": true,
       "native_required_cases": 333
+    },
+    {
+      "run": "pause_meals_early_full_native",
+      "suite_passed": false,
+      "native_required_cases": 336,
+      "native_required_passed": 334,
+      "failed_cases": [
+        "clinic_first_aid",
+        "primitive_ai"
+      ],
+      "note": "The furniture reference showed a deceased founder and five planks stranded by the root before 2000 ticks, then no axe/bed by 120000. The separate first-aid walk also timed out with its original guava still carried; its original log lacked actual body-distance/clock diagnostics. Subsequent direct cache/furniture collision and raised-care cases reproduced missing clearance and premature block-center stopping. This is retained failed evidence, not a release gate."
+    },
+    {
+      "run": "space_care_final_full_native_family",
+      "milestone": "ordinary first cache and litter with native pauses, paid meals and actual body-space work",
+      "first_cache_at": 1364,
+      "two_claimed_homes_at": 51609,
+      "food_reserve_at": 118918,
+      "parental_seed_planted_at": 120882,
+      "loaded_ticks": 149684,
+      "pups": 2,
+      "guavas_left": 16,
+      "suite_passed": true,
+      "native_required_cases": 339,
+      "note": "Unprovisioned three ordinary Genome.DEFAULT founders, zero points/empty initial learning, native growth/rations/night rest and walking. Separate collision cases retain original parcels and healthy bystanders after both initial and callback-time obstruction; raised-care reproduction keeps the original price/range/deadline."
+    },
+    {
+      "run": "space_care_final_full_native_furniture",
+      "milestone": "ordinary helper first paid cache/table/tools/claimed Nest",
+      "loaded_ticks": 9745,
+      "guavas_left": 0,
+      "suite_passed": true,
+      "native_required_cases": 339
+    },
+    {
+      "run": "space_care_final_full_native_workshop",
+      "milestone": "first paid cache/table/tools/stone/furnace/charcoal/lights/claimed Nest",
+      "loaded_ticks": 54558,
+      "paid_initial_nests": 1,
+      "guavas_left": 0,
+      "logs_left": 2,
+      "planks_left": 13,
+      "suite_passed": true,
+      "native_required_cases": 339
     }
   ]
 }

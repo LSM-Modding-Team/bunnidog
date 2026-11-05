@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.*;
+import net.minecraft.world.phys.shapes.*;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.util.BlockSnapshot;
 import net.neoforged.neoforge.event.EventHooks;
@@ -48,6 +49,12 @@ public final class CivicCamp {
         return live() && dog.society().hearth()==home && dog.society().ready()
                 && dog.distanceToSqr(Vec3.atCenterOf(home.getBlockPos()))<=16 && dog.distanceToSqr(Vec3.atCenterOf(mat()))<=16
                 && sees(dog,home.getBlockPos()) && sees(dog,mat()) && dog.learning().witnesses(home.getBlockPos(),mat());
+    }
+    /** Prospective goal position must also clear the larger installed cache, using this actual body. */
+    public boolean cacheStand(Bunnidog dog,Vec3 feet) {
+        if(!home.attached())return false;var pos=home.getBlockPos();
+        var shape=home.getBlockState().setValue(HearthTreeBlock.CACHED,true).getCollisionShape(home.getLevel(),pos,CollisionContext.of(dog)).move(pos);
+        return !Shapes.joinIsNotEmpty(shape,Shapes.create(dog.getBoundingBox().move(feet.subtract(dog.position()))),BooleanOp.AND);
     }
     private List<ItemEntity> stock() {
         return !live() ? List.of() : home.getLevel().getEntitiesOfClass(ItemEntity.class,bounds(),item->CivicFields.available(home,item)).stream()
@@ -132,13 +139,14 @@ public final class CivicCamp {
     public boolean install(Entity actor,BooleanSupplier owned,Runnable pay,Runnable refund) {
         if(busy || !installer(actor))return false;busy=true;
         try {
-            var level=(ServerLevel)home.getLevel();var owner=home.owner();var site=home.site();var state=home.getBlockState();var pos=home.getBlockPos();
+            var level=(ServerLevel)home.getLevel();var owner=home.owner();var site=home.site();var state=home.getBlockState();var pos=home.getBlockPos();var next=state.setValue(HearthTreeBlock.CACHED,true);
             if(actor instanceof Bunnidog dog && (!EventHooks.canEntityGrief(level,dog) || !CommonHooks.canEntityDestroy(level,pos,dog))
                     || EventHooks.onBlockPlace(actor,BlockSnapshot.create(level.dimension(),level,pos),Direction.UP)
-                    || !installer(actor) || !Objects.equals(owner,home.owner()) || !site.equals(home.site()) || !state.equals(home.getBlockState()) || !owned.getAsBoolean())return false;
+                    || !installer(actor) || !Objects.equals(owner,home.owner()) || !site.equals(home.site()) || !state.equals(home.getBlockState()) || !owned.getAsBoolean()
+                    || !level.isUnobstructed(next,pos,CollisionContext.of(actor)))return false;
             pay.run();boolean placed=false;
             try {
-                placed=level.setBlock(pos,state.setValue(HearthTreeBlock.CACHED,true),3);
+                placed=level.setBlock(pos,next,3);
                 if(placed) {level.invalidateCapabilities(pos);home.evidence("build",1);}return placed;
             } finally {if(!placed)refund.run();}
         } finally {busy=false;}

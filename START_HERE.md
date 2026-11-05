@@ -7,7 +7,37 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 Previous sections retain their checkpoint's protocol/evidence; the current
 section below takes precedence.
 
-## Current — live hauling authority and family-aware workshop observation
+## Current — Hearth pauses, paid meals and physical work space
+
+Native locks, root redstone and missing loaded neighbours now pause all resident
+work at the original Hearth. Walking parcels remain owned and recoverable.
+Installed-storage meals also use native protection and recheck the exact original
+food slot, household owner, live Diet and pause state before payment. Only an
+actual consumed item resets the ration counter, heals or records a meal. A second
+real eater in a callback can pay one meal; the outer stale bill refuses.
+
+Cache installation now checks native body clearance after placement callbacks
+before consuming its real parcel or expanding the marker's collision. Primitive
+furniture does the same at commit. New native cases reproduce both unsafe
+placements and retain the original material on refusal. Cache installers select
+positions clear of the future collision shape; dual-target work can try a bounded
+second ring within its existing reach/sight/load conditions.
+
+Care also uses the actual patient's body range and eye sight when selecting a
+stand and deciding to stop walking. A raised approach reproduced the old loop:
+the block center was within reach, but the body stayed outside 2.5 blocks while
+the carer repeatedly retained its ration. The same native walk now completes
+without extending the care deadline or changing its price/range/recovery rules.
+
+Java 25 **`build checkBunnidogModel runGameTestServer` passes all 339 required
+native cases**. The ordinary unprovisioned family installed its first cache at
+1,364 loaded ticks and produced two pups at 149,684, with sixteen guavas remaining;
+the workshop completed at 54,558. The audit retains the earlier failed 336-case
+exploration. Main CI is the public JAR gate. Protocol **53** stays, and natural,
+client/co-op, multi-generation and rebalance acceptance remain pending human test.
+The previous `75a4f81` passed all 333 in main CI and published its verified JAR.
+
+## Previous — live hauling authority and family-aware workshop observation
 
 Ground pickup now rechecks actual inherited hauling capacity, the original
 household owner, source ownership and current need after native permission
