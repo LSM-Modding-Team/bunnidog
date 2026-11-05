@@ -43,6 +43,13 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
 
 ## Progress after this reference
 
+- Primitive production now counts actual usable Nest plots and real saved
+  walking bedding, keeping a modest plank reserve instead of unreachable-room
+  spares. Actual role arrival/loss changes demand, with all placement/capacity
+  bounds intact. Shared orchard tools preserve private gear, original identity,
+  native callback checks/wear and physical recovery. These close concrete
+  I4/I6 conservation gaps; they supply neither initial storage nor civilization.
+
 - Ordinary helper-profile wild founders now produce a real first litter without
   supplied food/tools/materials, learned skills or bred points. Fresh workbench
   sites align food urgency with the existing twenty-guava threshold and defer

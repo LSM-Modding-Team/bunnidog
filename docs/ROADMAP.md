@@ -68,6 +68,11 @@ The founder audit also moves standard primitive furniture assembly under actual
 learned independent Crafting, retaining Building for architecture. Ordinary
 helper-profile native cases now prove that first-bed path; all original gene
 weights, capacity limits, material/authority bounds and saved learning stay.
+The same ordinary profile now reaches an actual first litter without supplied
+food/tools/learning. Real food reserves, hungry wood/table recovery, private-tool
+custody and usable material demand close further dependency gaps. Initial
+self-made storage, missing-specialist recovery and natural multi-generation
+acceptance remain open; these references do not certify civilization or pacing.
 
 Use [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md) as the accepted gap reference.
 Shared job claims, finite public dependency plans, fitted construction crews and

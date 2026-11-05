@@ -91,6 +91,25 @@ stripped for that classification, and exact source components still determine
 the extraction. No parallel profession inventory or credited resource counter
 exists.
 
+Shared native axes follow the same private-gear policy. Ordinary damage is
+allowed, while names, enchantments and other custom components exclude a tool.
+Food-tool recovery, replacement production and public plans use that same usable
+axe predicate. A private axe neither authorizes pruning nor hides a missing tool.
+Before pruning, recheck the original exact slot/tool, actual role, household
+identity, authority, native protection, loaded surroundings, power and lock.
+Reserve that exact tool before crop/output notifications; return it with one
+wear, or break only it on its last use. If callbacks fill or replace its source,
+recover the actual remaining tool physically. No later first-match axe is worn.
+The existing shared pickaxe uses the same unchanged ordinary-wear classification.
+
+Current wild workbench sites bound Nest production by actual remaining usable
+plots and actual saved walking parcels. Ordinary craft learners can prepare
+initial furniture, but still need their own practice before placement. A room
+requires a real capable builder before creating an extra bedding bill; capacity
+loss removes the demand without granting a replacement architect. The smaller
+site keeps a twelve-plank reserve even after its workshop is complete. Native
+recipe batches may finish above that target. Older-site stock policy stays.
+
 ## Native furnace workshops
 
 ### Releasing a work site

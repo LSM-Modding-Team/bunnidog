@@ -90,6 +90,20 @@ grafting and ordinary store routes do not gain a zero-stat shortcut.
 
 ## A physical first workbench
 
+Current sites now keep a twelve-plank reserve after the primitive workshop too,
+instead of spending food work toward sixty-four. Nest production counts only
+remaining permitted targets that a real resident can furnish, with actual saved
+walking Nests already satisfying their original plots. A capable beginner may
+prepare an initial furniture recipe before mastering its placement; no skill is
+granted from the demand. A room without an actual builder creates no spare Nest
+bill. Arrival/loss of a capable architect changes that original room's demand,
+without expanding land or relaxing Building. Old sites keep their former target.
+
+The focused native policy case supplies its input stock explicitly. It proves
+home/body parcel saves, an actual withdrawal/paid replacement/return, three real
+placements, role arrival/loss, completed original workshop and exact native
+four-plank replenishment. It is separate from the unprovisioned family reference.
+
 Standard primitive furniture now belongs to learned Crafting in new workbench
 glades. A craftsperson qualifies only after personally learning Crafting;
 qualified builders retain their original path. The craftsperson may assemble

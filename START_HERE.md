@@ -7,7 +7,33 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 Previous sections retain their checkpoint's protocol/evidence; the current
 section below takes precedence.
 
-## Current — ordinary wild families preserve food for a real first litter
+## Current — original shared tools and useful primitive production
+
+Orchard workers now use only actual ordinary shared wooden axes. Normal wear
+remains usable; names, enchantments and other private components exclude a tool
+from work and from the replacement-tool stock calculation. Harvest rechecks the
+original slot/tool, role, authority, protection, loaded terrain and source power.
+The exact axe stays reserved through native block/output callbacks, then returns
+with one wear or breaks on its last use. A filled/replaced source recovers that
+same physical tool instead of wearing a keepsake or losing it.
+
+Current wild workbench sites also make Nests for real remaining usable plots,
+counting actual saved walking parcels. An unbuildable room cannot keep consuming
+grain/wood. A real architect makes its original permitted room meaningful; losing
+that role removes the production bill. Primitive sites retain twelve planks
+after their first workshop, rather than expanding to a sixty-four-plank reserve.
+Older-site stock targets and all native recipe costs remain.
+
+Java 25 **`build checkBunnidogModel runGameTestServer` passes all 321 required
+native cases**, including both tool cases and actual material-demand checks.
+The same full run repeats two native pups at **166,310 loaded ticks** and the
+paid first workshop/claimed Nest at **10,920** in its separate capable reference.
+Long native furniture/industry/growth references now use separate batches with
+the same day setup. Main CI remains this checkpoint's publication gate.
+Protocol **52** remains current;
+natural/client/co-op pacing and the rebalance candidate remain human review.
+
+## Previous — ordinary wild families preserve food for a real first litter
 
 New workbench glades now coordinate around the existing twenty-guava courtship
 reserve when real housed parents, nursery space and a capable carer are ready.
@@ -27,8 +53,9 @@ learning. The separate reserve-policy case checks actual job selection, real
 carried Nest recovery, urgent rescue supply and exact two-guava courtship.
 Java 25 **`build checkBunnidogModel runGameTestServer` passes all 318 required
 native cases**. The full run repeated the real two-pup birth at **166,084 loaded
-ticks**, with sixteen guavas remaining. Main CI remains this checkpoint's
-publication gate; protocol **52** remains current. See
+ticks**, with sixteen guavas remaining. Full main CI in `96b653e` passed and
+published the verified direct JAR;
+protocol **52** remains current. See
 [WILD_FAMILY_SPECS.md](docs/WILD_FAMILY_SPECS.md) and its observation appendix.
 
 This proves a controlled functional first litter, not natural survival rates.

@@ -156,7 +156,7 @@ public final class SocietyWork {
         if(!cargo.isEmpty())return List.of(at(Kind.DELIVER,destination!=null && l.hasChunkAt(destination) && (destination.equals(at) || h.wild().natural() && destination.equals(h.wild().nursery()) || h.sites().contains(destination) && (l.getBlockEntity(destination) instanceof FeedingTroughBlockEntity || l.getBlockEntity(destination) instanceof NurseryCradleBlockEntity c && !c.manualHatchOnly())) ? destination : at));
         boolean hungry=workSinceMeal>=6;
         if(hungry && mealSlot(h)>=0)return List.of(at(Kind.MEAL,at));
-        boolean foodTool=hungry && h.count(Items.WOODEN_AXE)==0 && h.orchard().stream().anyMatch(pos->l.hasChunkAt(pos) && l.getBlockState(pos).is(ModBlocks.GUAVA_COPPICE.get()) && l.getBlockState(pos).getValue(CoppiceBlock.AGE)==7);
+        boolean foodTool=hungry && CivicTools.axeSlot(h)<0 && h.orchard().stream().anyMatch(pos->l.hasChunkAt(pos) && l.getBlockState(pos).is(ModBlocks.GUAVA_COPPICE.get()) && l.getBlockState(pos).getValue(CoppiceBlock.AGE)==7);
         boolean preparing=dog.learning().lesson()==null && preparingFamily(h);
         boolean grow=harvestReady(),garden=gardener(),nurse=nurse();
         boolean craft=artisan();
@@ -224,7 +224,7 @@ public final class SocietyWork {
             }
             for(var pos:h.orchard())if(l.hasChunkAt(pos)) {
                 var state=l.getBlockState(pos);
-                if(state.is(ModBlocks.GUAVA_COPPICE.get()) && state.getValue(CoppiceBlock.AGE)==7 && grow && (!hungry || dog.canEat(new ItemStack(ModItems.GUAVA.get()))) && h.count(Items.WOODEN_AXE)>0 && h.room(new ItemStack(ModItems.GUAVA_LOG.get(),2)) && h.room(new ItemStack(ModItems.GUAVA.get(),4)))jobs.add(at(Kind.PRUNE,pos));
+                if(state.is(ModBlocks.GUAVA_COPPICE.get()) && state.getValue(CoppiceBlock.AGE)==7 && grow && (!hungry || dog.canEat(new ItemStack(ModItems.GUAVA.get()))) && CivicTools.axeSlot(h)>=0 && !h.isLocked() && l.hasChunksAt(at.offset(-1,-1,-1),at.offset(1,1,1)) && l.hasChunksAt(pos.offset(-1,-1,-1),pos.offset(1,1,1)) && !l.hasNeighborSignal(at) && !l.hasNeighborSignal(pos) && h.room(new ItemStack(ModItems.GUAVA_LOG.get(),2)) && h.room(new ItemStack(ModItems.GUAVA.get(),4)))jobs.add(at(Kind.PRUNE,pos));
                 if(!hungry && state.isAir() && garden && h.count(ModItems.GUAVA_COPPICE.get())>0 && ModBlocks.GUAVA_COPPICE.get().defaultBlockState().canSurvive(l,pos))jobs.add(at(Kind.PLANT,pos));
             }
         }
@@ -262,13 +262,13 @@ public final class SocietyWork {
             case FETCH_FURNACE -> 100;case LOAD_FURNACE -> 120;case EMPTY_FURNACE -> 110;
             case FETCH_PICKAXE,MINE_STONE -> 120;
             case HAUL -> scarce ? 135 : 70;case SUPPLY -> 100;
-            case PRUNE -> scarce ? 130 : 75;case PICK_FRUIT -> scarce ? 130 : 75;case CLIP_WOOD -> h.count(Items.WOODEN_AXE)==0 ? 125 : 60;case GATHER_FIELD -> 105;case HARVEST_FIELD -> h.count(Items.WHEAT)<12 ? 110 : 75;case FETCH_SEED,SOW_FIELD -> 90;case PLANT -> 85;
+            case PRUNE -> scarce ? 130 : 75;case PICK_FRUIT -> scarce ? 130 : 75;case CLIP_WOOD -> CivicTools.axeSlot(h)<0 ? 125 : 60;case GATHER_FIELD -> 105;case HARVEST_FIELD -> h.count(Items.WHEAT)<12 ? 110 : 75;case FETCH_SEED,SOW_FIELD -> 90;case PLANT -> 85;
             case BUILD,FETCH_BUILD -> (job.destination()!=null && h.construction().needsRepair(job.destination()) || h.construction().needsRepair(job.target())) ? 125 : h.wild().works().workCell(job.destination()!=null ? job.destination() : job.target()) ? 115 : 65;case TEACH -> 45;case RECORD_ROUTE,STUDY_ROUTE,RECORD_CRAFT -> 35;
             case COMPOST -> h.count(Items.BONE_MEAL)<2 ? 90 : 40;
             case COURT -> h.wild().works().workbenchPlot() ? 125 : 55;case TEND -> 60;
             case CRAFT -> switch(CivicRecipes.RecipeId.values()[job.index()]) {
-                case DRESSING -> 150;case BASKET -> 160;case AXE -> h.count(Items.WOODEN_AXE)==0 ? 145 : 40;case STICKS -> h.count(Items.WOODEN_AXE)==0 ? 142 : h.wild().works().needsPickaxe() || h.wild().works().needsTorches() ? 122 : 40;
-                case PLANKS -> h.count(Items.WOODEN_AXE)==0 ? 140 : 80;
+                case DRESSING -> 150;case BASKET -> 160;case AXE -> CivicTools.axeSlot(h)<0 ? 145 : 40;case STICKS -> CivicTools.axeSlot(h)<0 ? 142 : h.wild().works().needsPickaxe() || h.wild().works().needsTorches() ? 122 : 40;
+                case PLANKS -> CivicTools.axeSlot(h)<0 ? 140 : 80;
                 case NEST -> 90;case COPPICE -> 90;case FRAME -> h.count(ModItems.GRAFTING_FRAME.get())==0 ? 80 : 50;case INCENSE -> 20;
                 case PICKAXE -> 125;case FURNACE -> 125;case TORCH -> 100;
                 case WORKBENCH -> 146;
@@ -281,11 +281,11 @@ public final class SocietyWork {
     }
     private WorkSpecialty lastSpecialty;
     private boolean recipeNeeded(HearthTreeBlockEntity h,CivicRecipes.RecipeId recipe) {return switch(recipe) {
-        case PLANKS -> CivicRecipes.count(h,ModItems.GUAVA_PLANKS.get())<(h.wild().works().pending() ? 12 : 64);
-        case STICKS -> CivicRecipes.count(h,Items.STICK)<2 && (h.count(Items.WOODEN_AXE)==0 || h.wild().works().needsPickaxe() || h.wild().works().needsTorches());
-        case AXE -> h.count(Items.WOODEN_AXE)==0;
+        case PLANKS -> CivicRecipes.count(h,ModItems.GUAVA_PLANKS.get())<(h.wild().works().workbenchPlot() || h.wild().works().pending() ? 12 : 64);
+        case STICKS -> CivicRecipes.count(h,Items.STICK)<2 && (CivicTools.axeSlot(h)<0 || h.wild().works().needsPickaxe() || h.wild().works().needsTorches());
+        case AXE -> CivicTools.axeSlot(h)<0;
         case FRAME -> CivicRecipes.count(h,ModItems.GRAFTING_FRAME.get())<2;
-        case NEST -> CivicRecipes.count(h,ModItems.NEST.get())<4 && h.construction().cells().stream().anyMatch(c->c.item()==ModItems.NEST.get() && h.construction().canBuild(c));
+        case NEST -> h.wild().works().workbenchPlot() ? CivicRecipes.count(h,ModItems.NEST.get())<nestDemand(h) : CivicRecipes.count(h,ModItems.NEST.get())<4 && h.construction().cells().stream().anyMatch(c->c.item()==ModItems.NEST.get() && h.construction().canBuild(c));
         case INCENSE -> CivicRecipes.count(h,ModItems.HEARTH_INCENSE.get())<8 && h.count(ModItems.GUAVA.get())>24;
         case DRESSING -> dressingNeeded(h);
         case COPPICE -> h.authorized() && h.orchard().stream().anyMatch(p->dog.level().hasChunkAt(p) && dog.level().getBlockState(p).isAir()) && CivicRecipes.count(h,ModItems.GUAVA_COPPICE.get())<2;
@@ -295,6 +295,15 @@ public final class SocietyWork {
         case BASKET -> CivicRescue.needsBasket(h);
         case WORKBENCH -> h.wild().works().needsWorkbench();
     };}
+    private int nestDemand(HearthTreeBlockEntity h) {
+        var residents=h.residents();
+        return (int)Math.min(4,h.construction().cells().stream().filter(cell->cell.item()==ModItems.NEST.get() && h.construction().canBuild(cell))
+                .filter(cell->residents.stream().noneMatch(d->cell.pos().equals(d.society().buildTarget())))
+                .filter(cell->residents.stream().anyMatch(d->d.society().buildingReady(cell)
+                        // A real first recipe may teach the craftsperson before it can place this original furniture.
+                        || h.wild().works().workCell(cell.pos()) && d.society().pioneer(Learning.Routine.CRAFT)))
+                .count());
+    }
     private boolean canStartFamily(HearthTreeBlockEntity h) {
         return h.count(ModItems.GUAVA.get())>=20 && familyOpportunity(h);
     }
@@ -319,21 +328,49 @@ public final class SocietyWork {
             case HARVEST_FIELD -> sharedCrop(h,job.expected());
             case FETCH_SEED -> job.index()>=0 && job.index()<h.getContainerSize() && sharedCrop(h,CivicFields.plant(h.getItem(job.index())));
             case HAUL -> dog.level().getBlockEntity(job.target()) instanceof FeedingTroughBlockEntity trough && sharedMeal(h,trough.food());
-            case GATHER_FIELD -> dog.level() instanceof ServerLevel level && level.getEntity(job.index()) instanceof net.minecraft.world.entity.item.ItemEntity item && (sharedMeal(h,item.getItem()) || h.count(Items.WOODEN_AXE)==0 && item.getItem().is(ModItems.GUAVA_LOG.get()));
-            case CLIP_WOOD -> h.count(Items.WOODEN_AXE)==0;
+            case GATHER_FIELD -> dog.level() instanceof ServerLevel level && level.getEntity(job.index()) instanceof net.minecraft.world.entity.item.ItemEntity item && (sharedMeal(h,item.getItem()) || CivicTools.axeSlot(h)<0 && item.getItem().is(ModItems.GUAVA_LOG.get()));
+            case CLIP_WOOD -> CivicTools.axeSlot(h)<0;
             case CRAFT -> job.index()>=0 && job.index()<CivicRecipes.RecipeId.values().length && switch(CivicRecipes.RecipeId.values()[job.index()]) {
                 case DRESSING,BASKET -> true; // Existing patient needs remain ahead of a future litter.
-                case PLANKS -> h.count(Items.WOODEN_AXE)==0 || CivicRescue.needsBasket(h) && CivicRecipes.count(h,ModItems.GUAVA_PLANKS.get())<6;
-                case STICKS,AXE,WORKBENCH -> h.count(Items.WOODEN_AXE)==0;
+                case PLANKS -> CivicTools.axeSlot(h)<0 || CivicRescue.needsBasket(h) && CivicRecipes.count(h,ModItems.GUAVA_PLANKS.get())<6;
+                case STICKS,AXE,WORKBENCH -> CivicTools.axeSlot(h)<0;
                 default -> false;
             };
-            case FETCH_BUILD,BUILD -> h.count(Items.WOODEN_AXE)==0 && h.wild().works().workbench().equals(job.destination()!=null ? job.destination() : job.target());
+            case FETCH_BUILD,BUILD -> CivicTools.axeSlot(h)<0 && h.wild().works().workbench().equals(job.destination()!=null ? job.destination() : job.target());
             default -> false;
         };
     }
     public static boolean communitySeed(ItemStack stack,HearthTreeBlockEntity h) {return com.bunnidogs.mod.item.SeedItem.read(stack).isPresent() && h.site().toString().equals(stack.get(ModItems.HEARTH_SITE.get()));}
     private boolean grief(ServerLevel l,BlockPos p) {return EventHooks.canEntityGrief(l,dog) && CommonHooks.canEntityDestroy(l,p,dog);}
     private boolean place(ServerLevel l,BlockPos p,BlockState before,BlockState next) {return grief(l,p) && !EventHooks.onBlockPlace(dog,BlockSnapshot.create(l.dimension(),l,p),Direction.UP) && ready() && hearth()!=null && hearth().attached() && l.getBlockState(p).equals(before) && next.canSurvive(l,p) && l.setBlock(p,next,3);}
+    private boolean pruneReady(HearthTreeBlockEntity h,ServerLevel l,Job job,UUID owner) {
+        var pos=job.target();var root=h.getBlockPos();
+        return ready() && harvestReady() && hearth()==h && h.attached() && h.authorized() && Objects.equals(h.owner(),owner)
+                && !h.isLocked() && l.hasChunksAt(root.offset(-1,-1,-1),root.offset(1,1,1)) && !l.hasNeighborSignal(root)
+                && l.hasChunksAt(pos.offset(-1,-1,-1),pos.offset(1,1,1)) && l.getWorldBorder().isWithinBounds(pos) && !l.hasNeighborSignal(pos)
+                && h.orchard().contains(pos) && job.expected().is(ModBlocks.GUAVA_COPPICE.get()) && job.expected().getValue(CoppiceBlock.AGE)==7
+                && l.getBlockState(pos).equals(job.expected()) && job.expected().canSurvive(l,pos) && dog.learning().witnesses(pos,pos)
+                && h.room(new ItemStack(ModItems.GUAVA_LOG.get(),2)) && h.room(new ItemStack(ModItems.GUAVA.get(),4));
+    }
+    private boolean prune(Job job) {
+        var h=hearth();var l=(ServerLevel)dog.level();int slot=CivicTools.axeSlot(h);var owner=h.owner();
+        if(slot<0 || !pruneReady(h,l,job,owner))return false;var original=h.getItem(slot).copy();
+        if(!grief(l,job.target()) || EventHooks.onBlockPlace(dog,BlockSnapshot.create(l.dimension(),l,job.target()),Direction.UP)
+                || !pruneReady(h,l,job,owner) || !ItemStack.matches(h.getItem(slot),original))return false;
+        // Reserve this exact tool before block/output notifications can move stock or replace its slot.
+        var tool=h.takeExact(slot,1);
+        try {
+            if(!ItemStack.matches(tool,original) || !pruneReady(h,l,job,owner) || !l.setBlock(job.target(),job.expected().setValue(CoppiceBlock.AGE,0),3))return false;
+            tool.setDamageValue(tool.getDamageValue()+1);if(tool.getDamageValue()>=tool.getMaxDamage())tool.shrink(1);
+            CivicFields.scatter(h,job.target(),List.of(new ItemStack(ModItems.GUAVA_LOG.get(),2),new ItemStack(ModItems.GUAVA.get(),4)));
+            h.evidence("timber",1);h.evidence("harvest",4);return true;
+        } finally {
+            if(!tool.isEmpty()) {
+                if(h.attached() && Objects.equals(h.owner(),owner) && h.getItem(slot).isEmpty())h.setItem(slot,tool);
+                else if(!h.attached() || !Objects.equals(h.owner(),owner) || !h.put(tool))dog.spawnAtLocation(l,tool);
+            }
+        }
+    }
     private boolean paidPlace(HearthTreeBlockEntity h,ServerLevel l,BlockPos p,BlockState before,BlockState after,Item cost) {
         if(!after.getCollisionShape(l,p).isEmpty() && !l.getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class,new net.minecraft.world.phys.AABB(p),e->e.isAlive() && !e.isSpectator()).isEmpty())return false;
         ItemStack held=ItemStack.EMPTY;for(int slot=0;slot<h.getContainerSize();slot++)if(h.getItem(slot).is(cost) && CivicRecipes.ordinary(h.getItem(slot))) {held=h.takeExact(slot,1);break;}
@@ -509,7 +546,7 @@ public final class SocietyWork {
             case FETCH_BUILD -> {ok=collectBuild(job);}
             case BUILD -> {ok=build(job);if(ok && structuralBuildingReady())learned=Learning.Routine.BUILD;}
             case PLANT -> {if(gardener() && h.authorized() && h.orchard().contains(job.target()) && h.count(ModItems.GUAVA_COPPICE.get())>0 && job.expected().isAir() && paidPlace(h,l,job.target(),job.expected(),ModBlocks.GUAVA_COPPICE.get().defaultBlockState(),ModItems.GUAVA_COPPICE.get())) {ok=true;}learned=Learning.Routine.GARDEN;}
-            case PRUNE -> {if(harvestReady() && h.orchard().contains(job.target()) && h.count(Items.WOODEN_AXE)>0 && job.expected().is(ModBlocks.GUAVA_COPPICE.get()) && job.expected().getValue(CoppiceBlock.AGE)==7 && h.room(new ItemStack(ModItems.GUAVA_LOG.get(),2)) && h.room(new ItemStack(ModItems.GUAVA.get(),4)) && place(l,job.target(),job.expected(),job.expected().setValue(CoppiceBlock.AGE,0))) {CivicFields.scatter(h,job.target(),List.of(new ItemStack(ModItems.GUAVA_LOG.get(),2),new ItemStack(ModItems.GUAVA.get(),4)));for(int i=0;i<27;i++)if(h.getItem(i).is(Items.WOODEN_AXE)) {var axe=h.getItem(i);axe.setDamageValue(axe.getDamageValue()+1);if(axe.getDamageValue()>=axe.getMaxDamage())axe.shrink(1);h.setChanged();break;}h.evidence("timber",1);h.evidence("harvest",4);ok=true;}learned=Learning.Routine.HARVEST;}
+            case PRUNE -> {ok=prune(job);learned=Learning.Routine.HARVEST;}
             case HAUL -> {if(knows(Learning.Routine.DELIVERY) && Supplying.qualified(dog.stats()) && h.sites().contains(job.target()) && l.getBlockEntity(job.target()) instanceof FeedingTroughBlockEntity t && t.getBlockState().getValue(FeedingTroughBlock.TENDING) && !t.residentsPaused() && !t.food().isEmpty() && com.bunnidogs.mod.item.GuavaItem.tierOf(t.food())==0 && t.food().getCount()>8 && h.room(t.food().copyWithCount(Math.min(8,t.food().getCount()-8)))) {cargo=t.takeSurplus(t.food().copy(),8);destination=h.getBlockPos();parcelOwner=h.owner();grownCargo=cargo.is(ModItems.GUAVA.get());ok=!cargo.isEmpty();}}
             case SUPPLY -> {if(!knows(Learning.Routine.DELIVERY) || !Supplying.qualified(dog.stats()) || h.count(ModItems.GUAVA.get())<=24)break;for(var p:h.sites())if((job.index()<0 || job.index()<h.sites().size() && p.equals(h.sites().get(job.index()))) && l.hasChunkAt(p) && l.getBlockEntity(p) instanceof FeedingTroughBlockEntity t && t.getBlockState().getValue(FeedingTroughBlock.TENDING) && !t.residentsPaused() && t.food().getCount()<8 && t.canInsert(new ItemStack(ModItems.GUAVA.get()))) {cargo=h.take(ModItems.GUAVA.get(),4);destination=p;parcelOwner=h.owner();grownCargo=true;ok=true;break;}}
             case DELIVER -> {if(cargo.isEmpty())break;

@@ -94,4 +94,31 @@ final class PrimitiveFurnitureGameTest {
         h.assertTrue(WildFamilyGameTest.act(c,worker,SocietyWork.Kind.GATHER_FIELD,food.target(),food.index()) && WildFamilyGameTest.act(c,worker,SocietyWork.Kind.DELIVER,home.getBlockPos()),"A real one-item guava parcel reaches the original common store");WildFamilyGameTest.at(worker,home.getBlockPos());
         h.assertTrue(worker.society().plan().kind()==SocietyWork.Kind.MEAL && WildFamilyGameTest.act(c,worker,SocietyWork.Kind.MEAL,home.getBlockPos()) && home.count(ModItems.GUAVA.get())==0 && worker.stats().equals(Stats.ZERO),"The recovered real guava pays the same existing ration before ordinary work resumes; the emergency exception grants no free food or body points");WildFamilyGameTest.clean(c);h.succeed();
     }
+    private static boolean offered(WildFamilyGameTest.Site c,Bunnidog dog,CivicRecipes.RecipeId recipe) {
+        WildFamilyGameTest.at(dog,c.home().getBlockPos());return dog.society().offers().stream().anyMatch(job->job.kind()==SocietyWork.Kind.CRAFT && job.index()==recipe.ordinal());
+    }
+    static void materialDemand(GameTestHelper h) {
+        var c=setup(h);var home=c.home();var carrier=c.dogs().getFirst();var producer=c.dogs().get(1);
+        // Stock is supplied only for this production/custody policy case; the native family is unprovisioned.
+        home.put(new ItemStack(ModItems.GUAVA_LOG.get(),2));
+        for(var recipe:new CivicRecipes.RecipeId[]{CivicRecipes.RecipeId.PLANKS,CivicRecipes.RecipeId.PLANKS,CivicRecipes.RecipeId.WORKBENCH})h.assertTrue(craft(c,carrier,recipe),"The actual primitive workshop payments teach its assembler");
+        h.assertTrue(WildFamilyGameTest.build(c,carrier,home.construction().cell(home.wild().works().workbench())),"The real table is carried and placed before larger native recipes");
+        home.put(new ItemStack(Items.WOODEN_AXE));home.put(new ItemStack(ModItems.NEST.get(),3));home.put(new ItemStack(Items.WHEAT,9));home.put(new ItemStack(ModItems.GUAVA_PLANKS.get(),8));
+        h.assertTrue(!offered(c,producer,CivicRecipes.RecipeId.NEST),"Three real Nests cover the three original plots; an architect-less room does not create a fourth reserve bill");
+        var first=home.wild().beds().getFirst();WildFamilyGameTest.at(carrier,home.getBlockPos());
+        h.assertTrue(carrier.society().perform(new SocietyWork.Job(SocietyWork.Kind.FETCH_BUILD,home.getBlockPos(),-1,home.getBlockState(),null,first)) && home.count(ModItems.NEST.get())==2,"One original Nest actually leaves common stock in a walking parcel");
+        var saved=home.saveWithFullMetadata(h.getLevel().registryAccess());home.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),saved));SocietyGameTest.rest(carrier);
+        h.assertTrue(!offered(c,producer,CivicRecipes.RecipeId.NEST) && first.equals(carrier.society().buildTarget()),"Actual saved walking bedding still satisfies its original target after home and body reload, without a virtual reservation");
+        var withdrawn=home.take(ModItems.NEST.get(),1);h.assertTrue(withdrawn.getCount()==1 && offered(c,producer,CivicRecipes.RecipeId.NEST) && craft(c,producer,CivicRecipes.RecipeId.NEST) && !offered(c,producer,CivicRecipes.RecipeId.NEST),"Withdrawing one real Nest creates exactly one native replacement bill; that paid result ends the deficit");
+        h.assertTrue(WildFamilyGameTest.act(c,carrier,SocietyWork.Kind.DELIVER,home.getBlockPos()) && home.count(ModItems.NEST.get())==3,"The saved original parcel returns without triggering a fourth recipe");
+        for(var at:home.wild().beds())h.assertTrue(WildFamilyGameTest.build(c,carrier,home.construction().cell(at)),"The trained craftsperson places each actual original Nest");
+        h.assertTrue(!offered(c,producer,CivicRecipes.RecipeId.NEST),"After all original plots are occupied, an unbuildable room cannot keep consuming grain and planks");
+        var architect=c.dogs().get(2);architect.setGenome(SocietyGameTest.bright());
+        h.assertTrue(offered(c,producer,CivicRecipes.RecipeId.NEST),"A real independently capable architect makes the original permitted room a meaningful additional bedding target");architect.setGenome(new Genome(architect.genome().packed(),0));
+        h.assertTrue(!offered(c,producer,CivicRecipes.RecipeId.NEST),"Losing that actual role removes the room bill without granting any resident architectural capacity");
+        home.put(new ItemStack(Items.FURNACE));home.put(new ItemStack(Items.TORCH,4));for(var cell:home.wild().works().cells())if(cell.item()==Items.FURNACE || cell.item()==Items.TORCH)h.assertTrue(WildFamilyGameTest.build(c,carrier,cell),"Real original furnace/light parcels complete the primitive worksite");
+        h.assertTrue(!home.wild().works().pending(),"All nine original primitive plots have actual native blocks and paid-placement receipts");home.put(new ItemStack(ModItems.GUAVA_PLANKS.get(),12-home.count(ModItems.GUAVA_PLANKS.get())));home.put(new ItemStack(ModItems.GUAVA_LOG.get()));
+        h.assertTrue(home.count(ModItems.GUAVA_PLANKS.get())==12 && !offered(c,producer,CivicRecipes.RecipeId.PLANKS),"A completed primitive workshop does not spend food work making an unnecessary sixty-four-plank stockpile");home.take(ModItems.GUAVA_PLANKS.get(),1);
+        h.assertTrue(offered(c,producer,CivicRecipes.RecipeId.PLANKS) && craft(c,producer,CivicRecipes.RecipeId.PLANKS) && home.count(ModItems.GUAVA_PLANKS.get())==15 && home.count(ModItems.GUAVA_LOG.get())==0,"A real reserve shortfall still triggers the normal native four-plank batch with exact log payment");WildFamilyGameTest.clean(c);h.succeed();
+    }
 }

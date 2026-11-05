@@ -5,6 +5,21 @@ validated pushes. It supersedes the previous finite rebalance delivery stop.
 Prioritize accepted unfinished professions, practical education, wild continuity
 and civilization. Keep the shipped rebalance candidate pending human testing;
 do not blindly retune it merely to fill another batch.
+Shared orchard tools now exclude named/enchanted/custom gear while accepting
+ordinary native wear. Preserve exact original slot/tool reservation through
+native protection, block/output callbacks, full-source recovery and one paid wear.
+Plans, emergency food work and replacements must use the same usable-tool rule;
+powered/locked/unloaded sources pause. Pickaxes retain their existing predicate.
+New wild workbench sites now count actual usable Nest targets and saved walking
+parcels, including craft learners at original plots without giving them placement
+experience. Architect-less rooms create no spare bedding bills; actual capable
+builders restore those original permitted targets. Keep the twelve-plank
+primitive reserve, older-site targets and exact native costs. Java 25 build,
+model/localization and all 321 native cases pass, including focused tool and
+material-demand checks. The full run repeats two actual pups at 166,310 ticks.
+Main CI remains this checkpoint's publication gate. First-litter CI `96b653e`
+passed and published its verified JAR. Human pacing, initial storage and wider
+continuity remain open.
 The latest ordinary helper reference now reaches an actual no-provisioning first
 litter. Read the reserve coordination/evidence in `docs/WILD_FAMILY_SPECS.md`.
 Keep the current workbench-only twenty-guava urgency, actual parents/nursery/carer
