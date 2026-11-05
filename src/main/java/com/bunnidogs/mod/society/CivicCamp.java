@@ -39,6 +39,11 @@ public final class CivicCamp {
                 && level.getBlockState(at.below()).isFaceSturdy(level,at.below(),Direction.UP);
     }
     public boolean available() {return live();}
+    /** Actual paid cache only; looking at a recipe or stock never creates a movement request. */
+    public boolean cachePending() {
+        return live() && (stock().stream().anyMatch(item->item.getItem().is(ModItems.ROOT_CACHE.get()))
+                || home.residents().stream().anyMatch(d->d.society().campCacheCarrier(home)));
+    }
     private boolean sees(Entity actor,BlockPos pos) {
         var level=actor.level();var from=actor.blockPosition();
         if(!level.hasChunksAt(new BlockPos(Math.min(from.getX(),pos.getX()),Math.min(from.getY(),pos.getY()),Math.min(from.getZ(),pos.getZ())),new BlockPos(Math.max(from.getX(),pos.getX()),Math.max(from.getY(),pos.getY()),Math.max(from.getZ(),pos.getZ()))))return false;

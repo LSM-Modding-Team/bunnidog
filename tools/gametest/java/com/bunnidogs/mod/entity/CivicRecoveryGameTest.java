@@ -1,0 +1,81 @@
+package com.bunnidogs.mod.entity;
+
+import com.bunnidogs.mod.genetics.*;
+import com.bunnidogs.mod.registry.*;
+import com.bunnidogs.mod.society.*;
+import java.util.*;
+import net.minecraft.core.*;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.ProblemReporter;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.*;
+import net.minecraft.world.phys.*;
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
+
+/** Real original shared cargo can be recovered from native death drops; no body, stock or tool is created. */
+final class CivicRecoveryGameTest {
+    private static void collect(WildFamilyGameTest.Site c,Bunnidog dog,ItemEntity item,boolean started) {
+        if(!started)SocietyGameTest.rest(dog);item.setNoPickUpDelay();
+        for(var direction:Direction.Plane.HORIZONTAL)for(int radius:new int[]{1,2}) {
+            var at=item.blockPosition().relative(direction,radius);if(!HomeRoutes.trailStanding(dog,at))continue;dog.snapTo(Vec3.atBottomCenterOf(at));dog.setOnGround(true);
+            if(dog.distanceToSqr(item)>9 || !CivicFields.visible(dog,item))continue;
+            c.h().assertTrue(dog.society().perform(new SocietyWork.Job(SocietyWork.Kind.GATHER_FIELD,item.blockPosition(),item.getId(),dog.level().getBlockState(item.blockPosition()))),"A qualified actual resident picks the real original public supply");return;
+        }
+        c.h().fail("The controlled physical source must have a real clear nearby work position");
+    }
+    private static ItemEntity originalLog(WildFamilyGameTest.Site c,Bunnidog dog,int index) {
+        c.h().assertTrue(WildFamilyGameTest.act(c,dog,SocietyWork.Kind.CLIP_WOOD,c.home().wild().timber().get(index)),"One original finite log is actually harvested");
+        return c.h().getLevel().getEntitiesOfClass(ItemEntity.class,new AABB(c.home().getBlockPos()).inflate(24),e->e.getItem().is(ModItems.GUAVA_LOG.get()) && c.home().site().toString().equals(e.getItem().get(ModItems.FARM_ORIGIN.get()))).getFirst();
+    }
+    private static ItemEntity deathDrop(WildFamilyGameTest.Site c,Bunnidog dog) {
+        var event=new LivingDropsEvent(dog,c.h().getLevel().damageSources().generic(),new ArrayList<>(),false);SocietyEvents.drops(event);SocietyEvents.drops(event);
+        c.h().assertTrue(event.getDrops().size()==1 && dog.society().cargoEmpty(),"Repeated native drop processing moves the one original walking parcel out of its carrier exactly once");return event.getDrops().iterator().next();
+    }
+    private static ItemEntity reload(WildFamilyGameTest.Site c,ItemEntity drop) {
+        var level=c.h().getLevel();var out=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess());drop.saveWithoutId(out);
+        var copy=new ItemEntity(level,drop.getX(),drop.getY(),drop.getZ(),ItemStack.EMPTY);copy.load(TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),out.buildResult()));drop.discard();copy.setDeltaMovement(Vec3.ZERO);copy.setNoPickUpDelay();
+        c.h().assertTrue(level.addFreshEntity(copy),"The native saved item entity returns to the actual world once");return copy;
+    }
+    static void stock(GameTestHelper h) {
+        var c=PrimitiveFurnitureGameTest.setup(h,false);var carrier=c.dogs().getFirst();var hauler=c.dogs().get(1);collect(c,carrier,originalLog(c,carrier,0),false);var learning=hauler.learning().knowledge();var drop=reload(c,deathDrop(c,carrier));
+        h.assertTrue(drop.getItem().is(ModItems.GUAVA_LOG.get()) && drop.getItem().getCount()==1 && c.home().site().toString().equals(drop.getItem().get(ModItems.FARM_ORIGIN.get())) && c.home().owner().equals(drop.getTarget()) && CivicFields.available(c.home(),drop),"The actual original death cargo preserves its household site and original target owner through native item saves");
+        collect(c,hauler,drop,false);h.assertTrue(hauler.learning().knowledge().equals(learning),"Finding a lost parcel grants no learned routine");h.assertTrue(WildFamilyGameTest.act(c,hauler,SocietyWork.Kind.DELIVER,c.home().getBlockPos()) && c.home().count(ModItems.GUAVA_LOG.get())==1 && !drop.isAlive() && !c.home().wild().timberAvailable(c.home().wild().timber().getFirst()) && c.dogs().stream().allMatch(d->d.stats().equals(Stats.ZERO)),"The original source returns physically once without replenishing its finite log, creating materials or adding body points");WildFamilyGameTest.clean(c);h.succeed();
+    }
+    static void ai(GameTestHelper h) {
+        var c=PrimitiveFurnitureGameTest.setup(h,false);var home=c.home();var carrier=c.dogs().getFirst();var hauler=c.dogs().get(1);var axe=new ItemStack(Items.WOODEN_AXE);axe.setDamageValue(5);axe.set(ModItems.FARM_ORIGIN.get(),home.site().toString());
+        // One provided original public tool isolates autonomous recovery rather than its already-tested recipe.
+        var original=new ItemEntity(h.getLevel(),home.getBlockPos().getX()+.5,home.getBlockPos().getY()+.2,home.getBlockPos().getZ()-.5,axe);original.setTarget(home.owner());original.setNoPickUpDelay();h.assertTrue(h.getLevel().addFreshEntity(original),"The one public tool fixture exists physically before its carrier picks it");collect(c,carrier,original,false);var drop=reload(c,deathDrop(c,carrier));carrier.discard();long started=h.getLevel().getGameTime();hauler.setNoAi(false);
+        h.succeedWhen(()->{int slot=CivicTools.axeSlot(home);h.assertTrue(slot>=0 && home.getItem(slot).getDamageValue()==5 && home.count(Items.WOODEN_AXE)==1 && !drop.isAlive() && hauler.society().cargoEmpty(),"The surviving zero-point resident must physically walk both recovery legs for the one original worn axe; stock="+home.count(Items.WOODEN_AXE)+", active="+hauler.society().active()+", cargo="+hauler.society().workSupplies()+", at="+hauler.position());h.assertTrue(home.residents().size()==2 && hauler.stats().equals(Stats.ZERO) && hauler.learning().knowledge().progress(Learning.Routine.CRAFT)==0,"Carrier removal supplies neither another founder, repaired gear, crafting knowledge nor body points");com.bunnidogs.mod.BunnidogsMod.LOGGER.info("CIVIC_TOOL_RECOVERY_COMPLETE loaded_ticks={} native_wear={}",h.getLevel().getGameTime()-started,home.getItem(slot).getDamageValue());WildFamilyGameTest.clean(c);});
+    }
+    static void authority(GameTestHelper h) {
+        var c=PrimitiveFurnitureGameTest.setup(h,false);var home=c.home();var carrier=c.dogs().getFirst();collect(c,carrier,originalLog(c,carrier,0),false);var owner=home.owner();var tag=home.saveWithFullMetadata(h.getLevel().registryAccess());var changed=tag.copy();changed.putString("Owner",UUID.randomUUID().toString());home.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),changed));var drop=reload(c,deathDrop(c,carrier));
+        h.assertTrue(owner.equals(drop.getTarget()) && home.site().toString().equals(drop.getItem().get(ModItems.FARM_ORIGIN.get())) && !CivicFields.available(home,drop),"Death preserves the original parcel authority after a household transfer; the replacement owner gains no automatic claim");home.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),tag));
+        h.assertTrue(CivicFields.available(home,drop),"Restoring the original authority makes its same real saved parcel recoverable");var exact=drop.getItem().copy();drop.getItem().set(ModItems.FARM_ORIGIN.get(),UUID.randomUUID().toString());h.assertTrue(!CivicFields.available(home,drop),"Matching owners cannot claim a foreign site's physical supplies");drop.setItem(exact);WildFamilyGameTest.clean(c);h.succeed();
+    }
+    static void tools(GameTestHelper h) {
+        var c=PrimitiveFurnitureGameTest.setup(h,false);var home=c.home();var carrier=c.dogs().getFirst();var hauler=c.dogs().get(1);var tool=new ItemStack(Items.WOODEN_PICKAXE);tool.setDamageValue(5);home.put(tool);var stone=home.wild().works().stones().stream().filter(home.wild().works()::canMine).findFirst().orElseThrow();WildFamilyGameTest.at(carrier,home.getBlockPos());
+        // One explicit worn-tool fixture isolates custody; existing native workshop chains prove paid tool origin.
+        h.assertTrue(carrier.society().perform(new SocietyWork.Job(SocietyWork.Kind.FETCH_PICKAXE,home.getBlockPos(),-1,home.getBlockState(),null,stone)) && home.count(Items.WOODEN_PICKAXE)==0,"The real public worn tool is loaned into its original mining parcel before carrier loss");var drop=reload(c,deathDrop(c,carrier));
+        h.assertTrue(CivicTools.usablePickaxe(drop.getItem()) && drop.getItem().getDamageValue()==5 && CivicFields.available(home,drop),"Original owner/site-marked native wear is public recoverable gear, without being repaired or replaced");collect(c,hauler,drop,false);h.assertTrue(!home.wild().works().needsPickaxe(),"The actual owned tool walking back already covers its original bill through a normal short cooldown");
+        // Explicit affordable replacement inputs test availability without actually creating another tool.
+        home.put(new ItemStack(ModItems.GUAVA_PLANKS.get(),3));home.put(new ItemStack(Items.STICK,2));h.getLevel().setBlock(home.wild().works().workbench(),Blocks.CRAFTING_TABLE.defaultBlockState(),3);float health=hauler.getHealth();hauler.setHealth(hauler.getMaxHealth()*.5F);WildFamilyGameTest.at(carrier,home.getBlockPos());
+        h.assertTrue(home.wild().works().needsPickaxe() && carrier.society().offers().stream().anyMatch(j->j.kind()==SocietyWork.Kind.CRAFT && j.index()==CivicRecipes.RecipeId.PICKAXE.ordinal()) && hauler.society().workSupplies().getDamageValue()==5,"An actually injured unavailable carrier cannot freeze a healthy craftsperson's affordable replacement indefinitely; its original tool remains aboard");hauler.setHealth(health);
+        h.assertTrue(!home.wild().works().needsPickaxe() && WildFamilyGameTest.act(c,hauler,SocietyWork.Kind.DELIVER,home.getBlockPos()) && CivicTools.pickaxeSlot(home)>=0 && ItemStack.matches(tool,home.getItem(CivicTools.pickaxeSlot(home))) && home.count(Items.WOODEN_PICKAXE)==1,"Restoring the actual returner again covers the bill, then returns exactly its original worn pickaxe without a repair or duplicate");
+        var privateTool=tool.copy();privateTool.set(DataComponents.CUSTOM_NAME,Component.literal("Private remembered pickaxe"));privateTool.set(ModItems.FARM_ORIGIN.get(),home.site().toString());var personal=new ItemEntity(h.getLevel(),home.getBlockPos().getX()+.5,home.getBlockPos().getY()+.2,home.getBlockPos().getZ()-.5,privateTool.copy());personal.setTarget(home.owner());personal.setNoPickUpDelay();h.assertTrue(h.getLevel().addFreshEntity(personal) && !CivicFields.available(home,personal),"A named private tool stays private even beside the right household with its origin/owner markers");WildFamilyGameTest.at(hauler,home.getBlockPos());
+        h.assertTrue(!hauler.society().perform(new SocietyWork.Job(SocietyWork.Kind.GATHER_FIELD,personal.blockPosition(),personal.getId(),h.getLevel().getBlockState(personal.blockPosition()))) && personal.isAlive() && ItemStack.matches(privateTool,personal.getItem()) && hauler.society().cargoEmpty(),"Actual collection also preserves the full named private tool rather than treating its ordinary wear as public ownership");WildFamilyGameTest.clean(c);h.succeed();
+    }
+    static void axe(GameTestHelper h) {
+        var c=PrimitiveFurnitureGameTest.setup(h,false);var home=c.home();var worker=c.dogs().getFirst();var crafter=c.dogs().get(1);
+        for(int i=0;i<2;i++) {collect(c,worker,originalLog(c,worker,i),false);h.assertTrue(WildFamilyGameTest.act(c,worker,SocietyWork.Kind.DELIVER,home.getBlockPos()),"Two actual harvest/pickup/return cycles pay all six chores before the hungry recovery");}
+        // Explicit competing-recipe fixtures; recovery must use the one actual floor tool before a new paid bill.
+        home.put(new ItemStack(ModItems.GUAVA_PLANKS.get(),3));home.put(new ItemStack(Items.STICK,2));h.getLevel().setBlock(home.wild().works().workbench(),Blocks.CRAFTING_TABLE.defaultBlockState(),3);var axe=new ItemStack(Items.WOODEN_AXE);axe.setDamageValue(5);axe.set(ModItems.FARM_ORIGIN.get(),home.site().toString());var item=new ItemEntity(h.getLevel(),home.getBlockPos().getX()+.5,home.getBlockPos().getY()+.2,home.getBlockPos().getZ()-.5,axe);item.setTarget(home.owner());item.setNoPickUpDelay();h.assertTrue(h.getLevel().addFreshEntity(item),"The public worn-axe fixture is an actual original item entity");WildFamilyGameTest.at(worker,home.getBlockPos());var recovery=worker.society().plan();WildFamilyGameTest.at(crafter,home.getBlockPos());
+        h.assertTrue(recovery!=null && recovery.kind()==SocietyWork.Kind.GATHER_FIELD && recovery.index()==item.getId() && crafter.society().offers().stream().anyMatch(j->j.kind()==SocietyWork.Kind.CRAFT && j.index()==CivicRecipes.RecipeId.AXE.ordinal()),"The genuinely hungry worker offers useful worn-axe recovery; merely viewing it reserves no tool or other's recipe");h.assertTrue(worker.society().claim(recovery) && crafter.society().offers().stream().noneMatch(j->j.kind()==SocietyWork.Kind.CRAFT && j.index()==CivicRecipes.RecipeId.AXE.ordinal()),"Only the actual original started pickup suppresses another tool bill");worker.society().release();
+        h.assertTrue(crafter.society().offers().stream().anyMatch(j->j.kind()==SocietyWork.Kind.CRAFT && j.index()==CivicRecipes.RecipeId.AXE.ordinal()),"Canceling the actual pickup releases that need; a stale plan cannot hold it indefinitely");h.assertTrue(worker.society().claim(recovery),"The actual worker restarts its original pickup");collect(c,worker,item,true);worker.society().release();WildFamilyGameTest.at(crafter,home.getBlockPos());
+        h.assertTrue(!crafter.society().perform(new SocietyWork.Job(SocietyWork.Kind.CRAFT,home.getBlockPos(),CivicRecipes.RecipeId.AXE.ordinal(),home.getBlockState())) && home.count(ModItems.GUAVA_PLANKS.get())==3 && home.count(Items.STICK)==2,"The same original owned walking axe also invalidates a stale replacement recipe before its native payment");h.assertTrue(WildFamilyGameTest.act(c,worker,SocietyWork.Kind.DELIVER,home.getBlockPos()) && home.count(Items.WOODEN_AXE)==1 && home.getItem(CivicTools.axeSlot(home)).getDamageValue()==5 && WildFamilyGameTest.act(c,worker,SocietyWork.Kind.PRUNE,home.orchard().getFirst()),"The recovered tool reaches real stock before one actual paid pruning use");
+        var food=h.getLevel().getEntitiesOfClass(ItemEntity.class,new AABB(home.getBlockPos()).inflate(24),e->e.getItem().is(ModItems.GUAVA.get())).getFirst();collect(c,worker,food,false);h.assertTrue(WildFamilyGameTest.act(c,worker,SocietyWork.Kind.DELIVER,home.getBlockPos()) && WildFamilyGameTest.act(c,worker,SocietyWork.Kind.MEAL,home.getBlockPos()) && home.count(ModItems.GUAVA.get())==0 && home.count(Items.WOODEN_AXE)==1 && home.getItem(CivicTools.axeSlot(home)).getDamageValue()==6 && worker.learning().knowledge().progress(Learning.Routine.CRAFT)==0 && worker.stats().equals(Stats.ZERO),"The same worn tool takes one native wear and unlocks one actually hauled/paid meal, without a duplicate axe, free ration, repair or taught craft");WildFamilyGameTest.clean(c);h.succeed();
+    }
+}

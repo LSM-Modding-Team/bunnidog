@@ -11,6 +11,9 @@
 > [HOUSEHOLD_COMMONS_SPECS.md](HOUSEHOLD_COMMONS_SPECS.md) now implements shared
 > job claims, finite public dependency plans, fitted construction crews/repair
 > and material fields. Primitive wild bootstrap and broader civilization remain.
+> [CARGO_RECOVERY_SPECS.md](CARGO_RECOVERY_SPECS.md) preserves real public supplies
+> through carrier loss and adds safe idle-body cooperation at the first paid
+> cache. Material recovery does not replace lost specialist education.
 
 Design direction, 2026-10-21, originally planned against `0c92ded`.
 **I1 and initial I2 are now implemented**: full cognitive genetics, migration,

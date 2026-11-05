@@ -81,6 +81,22 @@ final class TrailGoal extends Goal {
                     && path.getEndNode().asBlockPos().distSqr(centre)+1>=dog.blockPosition().distSqr(centre)) continue;
             dog.getNavigation().moveTo(path,1.1); return;
         }
+        // Native shortest paths do not treat a former enemy as an obstacle. If
+        // every direct approach crosses it, first walk a real safe nearby leg.
+        if(dog.combat().retreating()) {
+            around.clear();var here=dog.blockPosition();
+            for(int[] offset:new int[][]{{-2,0},{2,0},{0,-2},{0,2},{-1,-1},{-1,1},{1,-1},{1,1}})
+                for(int y:new int[]{0,1,-1}) {
+                    var pos=here.offset(offset[0],y,offset[1]);
+                    if(HomeRoutes.trailStanding(dog,pos) && dog.combat().rally(pos) && !crowded(pos))around.add(pos);
+                }
+            around.sort(Comparator.comparingDouble(pos->pos.distSqr(centre)+.1*pos.distSqr(here)));attempts=0;
+            for(var pos:around) {
+                if(++attempts>4)break;
+                var path=dog.getNavigation().createPath(pos,0);
+                if(path!=null && path.canReach() && dog.combat().rally(path)) {dog.getNavigation().moveTo(path,1.1);return;}
+            }
+        }
         dog.getNavigation().stop();
     }
 }

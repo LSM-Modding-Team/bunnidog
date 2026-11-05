@@ -68,6 +68,14 @@ original owner through callback/commit; a changed cache owner leaves the actual
 parcel on its carrier for safe later recovery. Source/parcel saves and original
 component identity remain authoritative.
 
+Original public cargo also keeps its saved owner/site through native death drops,
+so another capable resident can physically recover it near permitted plots.
+Ordinary worn shared tools are eligible; private custom gear and occupied rescue
+baskets retain their existing rules. Only real started recovery or an available
+original tool carrier can postpone replacement. See
+[CARGO_RECOVERY_SPECS.md](CARGO_RECOVERY_SPECS.md) for custody, priority, controlled
+native evidence and the distinction from surviving specialist education.
+
 Family preparation also defers an optional eighth quarry stone even when seven
 real cobblestone and a usable shared pickaxe exist. Paid courtship releases that
 work again. Its native policy fixture supplies those explicit inputs; autonomous

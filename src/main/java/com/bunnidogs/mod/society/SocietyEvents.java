@@ -2,7 +2,6 @@ package com.bunnidogs.mod.society;
 
 import com.bunnidogs.mod.BunnidogsMod;
 import com.bunnidogs.mod.entity.Bunnidog;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 
@@ -15,7 +14,7 @@ public final class SocietyEvents {
         event.setCanceled(true);event.setCancellationResult(result);
     }
     @SubscribeEvent public static void drops(net.neoforged.neoforge.event.entity.living.LivingDropsEvent event) {
-        if(event.getEntity() instanceof Bunnidog dog && dog.level() instanceof net.minecraft.server.level.ServerLevel level) {var stack=dog.society().deathCargo();if(!stack.isEmpty())event.getDrops().add(new ItemEntity(level,dog.getX(),dog.getY(),dog.getZ(),stack));}
+        if(event.getEntity() instanceof Bunnidog dog && dog.level() instanceof net.minecraft.server.level.ServerLevel level) {var drop=dog.society().deathDrop(level);if(drop!=null)event.getDrops().add(drop);}
     }
     private SocietyEvents() {}
 }

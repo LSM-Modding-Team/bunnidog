@@ -7,7 +7,41 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 Previous sections retain their checkpoint's protocol/evidence; the current
 section below takes precedence.
 
-## Current — Hearth pauses, paid meals and physical work space
+## Current — original cargo recovery and safe cooperation
+
+Public household cargo now keeps its saved original site/owner through native
+death drops and item saves. Another qualified resident can recover the same
+physical supply near permitted plots and walk it home. Shared ordinary wooden
+tools keep their native wear; named/custom gear and occupied rescue baskets keep
+their original private rules. Started recovery and available original carriers
+cover actual tool bills; mere offer viewing reserves nothing. Cancellation,
+injury, authority loss and existing path backoff release replacement demand.
+See [CARGO_RECOVERY_SPECS.md](docs/CARGO_RECOVERY_SPECS.md) for exact evidence scope.
+
+An idle resident that legally fits beside the bare marker can still block the
+future cache. With a real paid cache waiting, it can now walk clear on a bounded
+safe native route, respecting power/locks, explicit activity and safety. It earns
+no meal, routine or body points. Native placement still refuses occupied space.
+The focused missing-movement reproduction fails before this fallback and passes
+afterward, installing the same original paid cache.
+
+Companion regrouping can also take a safe nearby detour when its former enemy
+blocks every direct approach to the keeper. The native enemy-between-keeper case
+with intact AI fails before the fallback and passes afterward; all ten companion
+cases pass. Original path threat clearance, terrain, party spacing and combat
+numbers remain.
+
+Java 25 **`build checkBunnidogModel runGameTestServer` passes all 346 required
+native cases**. The ordinary unprovisioned family installed its cache at 1,430
+loaded ticks, claimed two homes at 71,445 and produced two pups at 149,821 with
+eighteen guavas left. The separate workshop completed at 48,401. Autonomous
+recovery returned the same worn axe in 196 ticks. The audit retains the earlier
+343-case success and 344-case failure that exposed the idle-body/cache and
+recall gaps. Main CI remains the public JAR gate. The earlier `4ee8af8` passed all
+339 in main CI and published its verified direct JAR. Protocol 53 and pending
+human natural/client/co-op/multi-generation/rebalance acceptance remain.
+
+## Previous — Hearth pauses, paid meals and physical work space
 
 Native locks, root redstone and missing loaded neighbours now pause all resident
 work at the original Hearth. Walking parcels remain owned and recoverable.

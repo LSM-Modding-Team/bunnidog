@@ -5,6 +5,23 @@ validated pushes. It supersedes the previous finite rebalance delivery stop.
 Prioritize accepted unfinished professions, practical education, wild continuity
 and civilization. Keep the shipped rebalance candidate pending human testing;
 do not blindly retune it merely to fill another batch.
+Current original-cargo recovery/idle-body cooperation/companion-detour batch
+passes Java 25 build/model/localization and all 346 native cases. Read
+docs/CARGO_RECOVERY_SPECS.md. Preserve original saved site/parcel owner, one
+native drop, normal item lifetime, worn public gear and private/occupied baskets.
+Only started eligible recovery or available original carriers cover replacement
+bills; offer viewing reserves nothing. The native event-handler/item-save cases
+are distinct from a whole combat death; the autonomous survivor walks both legs.
+An idle body can safely walk clear of an actual paid waiting cache without
+learning, food, harm or force. Root pauses and explicit activity still govern it.
+The obstruction reproduction fails before this movement fallback and passes
+afterward. Companion recall can take a safe nearby leg around its former enemy
+when direct paths fail. The intact-AI enemy-between-keeper reproduction fails
+before/pass after; retain native threat clearance, safe loaded paths and stats.
+Full 346 repeats first cache 1430, two pups 149821 (18 guavas), workshop 48401
+and same worn-axe autonomous return 196. Keep the earlier 343 success and 344
+failure in the observation audit. Main CI remains the direct-JAR gate; natural
+attrition/specialist education/client/co-op/multi-generation acceptance stay open.
 Current Hearth pause/meal/placement/care polish passes Java 25 build/model/
 localization and all 339 native cases. Keep native lock/root power/loaded-bound
 pauses in actual readiness, exact original paid meal slots and post-callback

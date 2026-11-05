@@ -10,10 +10,10 @@ import net.minecraft.world.level.ClipContext;
 
 /** Real path/visible work at each station; competing safety, conversation and recall goals retain priority. */
 final class SocietyGoal extends Goal {
-    private final Bunnidog dog;private SocietyWork.Job job;private Path path;private BlockPos stand;private int ticks,work;private long search;
+    private final Bunnidog dog;private SocietyWork.Job job;private Path path;private BlockPos stand;private int ticks,work;private long search;private boolean clearing;
     SocietyGoal(Bunnidog d) {dog=d;setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK));}
     @Override public boolean canUse() {
-        if(dog.level().getGameTime()<search)return false;search=dog.level().getGameTime()+40;
+        if(dog.level().getGameTime()<search)return false;search=dog.level().getGameTime()+40;clearing=false;
         for(var offer:dog.society().offers()) {
             job=offer;
             if(job.kind()==SocietyWork.Kind.MEDICINE || job.kind()==SocietyWork.Kind.FETCH_AID || job.kind()==SocietyWork.Kind.FETCH_RESCUE) {var patient=dog.society().carePatient(job);if(patient==null || !reachable(patient.blockPosition())) {dog.society().hearth().jobs().unreachable(dog,job);continue;}}
@@ -22,7 +22,17 @@ final class SocietyGoal extends Goal {
             for(int radius:target.equals(job.target()) ? new int[]{1} : new int[]{1,2})for(var dir:Direction.Plane.HORIZONTAL)for(int dy:new int[]{0,-1,1,-2,-3}) {var p=target.relative(dir,radius).offset(0,dy,0);if(!HomeRoutes.trailStanding(dog,p) || !workspaceSight(Vec3.atBottomCenterOf(p).add(0,dog.getEyePosition().y-dog.getY(),0)))continue;var route=dog.getNavigation().createPath(p,0);if(route!=null && route.canReach() && HomeRoutes.trailSafe(dog,route)) {path=route;stand=p;return true;}}
             dog.society().hearth().jobs().unreachable(dog,job);
         }
-        job=null;return false;
+        job=null;clearing=false;
+        if(dog.society().shouldClearCache()) {
+            var home=dog.society().hearth();double nearest=Double.POSITIVE_INFINITY;
+            for(var dir:Direction.Plane.HORIZONTAL)for(int dy:new int[]{0,-1,1}) {
+                var p=home.getBlockPos().relative(dir,2).offset(0,dy,0);var feet=Vec3.atBottomCenterOf(p);
+                if(feet.distanceToSqr(dog.position())>=nearest || !HomeRoutes.trailStanding(dog,p) || !home.camp().cacheStand(dog,feet))continue;
+                var route=dog.getNavigation().createPath(p,0);
+                if(route!=null && route.canReach() && HomeRoutes.trailSafe(dog,route)) {path=route;stand=p;nearest=feet.distanceToSqr(dog.position());clearing=true;}
+            }
+        }
+        return clearing;
     }
     private boolean reachable(BlockPos target) {for(var dir:Direction.Plane.HORIZONTAL)for(int dy:new int[]{0,-1,1,-2,-3}) {var at=target.relative(dir).offset(0,dy,0);if(!HomeRoutes.trailStanding(dog,at))continue;var path=dog.getNavigation().createPath(at,0);if(path!=null && path.canReach() && HomeRoutes.trailSafe(dog,path))return true;}return false;}
     private BlockHitResult trace(Vec3 from,Vec3 to) {
@@ -40,11 +50,12 @@ final class SocietyGoal extends Goal {
         var target=dog.society().workTarget(job);if(target.equals(job.target()))return true;
         return feet.distanceToSqr(Vec3.atCenterOf(job.target()))<=16 && feet.distanceToSqr(Vec3.atCenterOf(target))<=16 && clear(from,job.target()) && clear(from,target);
     }
-    @Override public boolean canContinueToUse() {return job!=null && dog.society().owns(job) && dog.society().ready() && dog.society().workspaceAvailable(job) && ticks<240 && HomeRoutes.trailStanding(dog,stand) && HomeRoutes.trailSafe(dog,path);}
-    @Override public void start() {ticks=work=0;if(!dog.society().claim(job)) {job=null;return;}dog.learning().observe(SocietyWork.routine(job.kind()),BunnidogLearning.Activity.WALKING);dog.courierLore().desk(job.kind()==SocietyWork.Kind.RECORD_ROUTE || job.kind()==SocietyWork.Kind.STUDY_ROUTE);dog.getNavigation().moveTo(path,1);}
+    @Override public boolean canContinueToUse() {return (clearing ? dog.society().shouldClearCache() : job!=null && dog.society().owns(job) && dog.society().ready() && dog.society().workspaceAvailable(job)) && ticks<240 && HomeRoutes.trailStanding(dog,stand) && HomeRoutes.trailSafe(dog,path);}
+    @Override public void start() {ticks=work=0;if(clearing) {dog.getNavigation().moveTo(path,1);return;}if(!dog.society().claim(job)) {job=null;return;}dog.learning().observe(SocietyWork.routine(job.kind()),BunnidogLearning.Activity.WALKING);dog.courierLore().desk(job.kind()==SocietyWork.Kind.RECORD_ROUTE || job.kind()==SocietyWork.Kind.STUDY_ROUTE);dog.getNavigation().moveTo(path,1);}
     @Override public boolean requiresUpdateEveryTick() {return true;}
     @Override public void tick() {
         if(!canContinueToUse())return;ticks++;
+        if(clearing)return;
         if(job.kind()==SocietyWork.Kind.GATHER_FIELD) {
             var home=dog.society().hearth();var level=(net.minecraft.server.level.ServerLevel)dog.level();
             if(!(level.getEntity(job.index()) instanceof net.minecraft.world.entity.item.ItemEntity item) || !com.bunnidogs.mod.society.CivicFields.available(home,item)) {ticks=240;return;}
@@ -57,5 +68,5 @@ final class SocietyGoal extends Goal {
         if(dog.distanceToSqr(Vec3.atCenterOf(job.target()))>(job.kind()==SocietyWork.Kind.PICKUP_RESCUE ? 6.25 : 16) || !workspaceSight(dog.getEyePosition()) || hit.getType()!=HitResult.Type.MISS && !hit.getBlockPos().equals(target)) {work=0;if(ticks%20==0)dog.getNavigation().moveTo(stand.getX()+.5,stand.getY(),stand.getZ()+.5,1);return;}
         dog.getNavigation().stop();dog.learning().observe(SocietyWork.routine(job.kind()),BunnidogLearning.Activity.WORKING);if(++work>=(job.kind()==SocietyWork.Kind.TEACH ? 180 : job.kind()==SocietyWork.Kind.CLIP_WOOD || job.kind()==SocietyWork.Kind.MINE_STONE ? 100 : 40)) {dog.society().perform(job);ticks=240;}
     }
-    @Override public void stop() {dog.society().release();dog.courierLore().desk(false);dog.getNavigation().stop();job=null;path=null;stand=null;}
+    @Override public void stop() {if(!clearing) {dog.society().release();dog.courierLore().desk(false);}dog.getNavigation().stop();job=null;path=null;stand=null;clearing=false;}
 }

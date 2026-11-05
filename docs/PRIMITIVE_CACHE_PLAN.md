@@ -5,9 +5,9 @@ Residents make their actual first Root Cache from original ground materials,
 carry it and install it before ordinary common storage opens. The original
 site, community owner, frozen founders and block entity survive that transition.
 Existing glades and player Hearths retain complete storage by default.
-Java 25 build/model/localization and all 339 required native cases pass. The
-ordinary family installs its cache at 1,364 loaded ticks and produces two actual
-pups at 149,684; the separate workshop reference completes at 54,558. The native
+Java 25 build/model/localization and all 346 required native cases pass. The
+ordinary family installs its cache at 1,430 loaded ticks and produces two actual
+pups at 149,821; the separate workshop reference completes at 48,401. The native
 generated/before/after cell map and actual exported marker/cache geometry are
 inspected headlessly. Main CI remains the public JAR gate; natural pacing and
 multiple generations remain pending human test. Protocol 53 requires matching
@@ -68,6 +68,11 @@ lookup must distinguish the cache from the unchanged table.
    expands into the actual full cache shape. A bystander cannot be boxed in by
    that transition. The installer's prospective stand clears the new shape too;
    an obstructed installation preserves its actual paid parcel for later retry.
+   With a real paid cache waiting, an otherwise idle calm household resident can
+   walk clear on an actual safe nearby route. The fallback respects work pauses
+   and explicit activity; it grants no skill, meal or body points and moves no
+   other body. A native obstruction reproduction fails before it and walks clear
+   afterward. See [CARGO_RECOVERY_SPECS.md](CARGO_RECOVERY_SPECS.md).
 6. Larger recipes still require the paid physical table. Retain distinct
    Crafting/Building, original furniture versus room permissions, recorded actual
    examples, ordinary worn tools and exact original parcel returns.

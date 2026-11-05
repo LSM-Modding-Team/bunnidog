@@ -19,6 +19,7 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 /** Grain/material farming is a profession; the worker need not personally eat the crop. */
 public final class CivicFields {
     private CivicFields() {}
+    public static boolean publicSupply(ItemStack stack) {return CivicRecipes.ordinary(stack) || CivicTools.usableAxe(stack) || CivicTools.usablePickaxe(stack);}
     public static BlockState plant(ItemStack seed) {
         if(seed.is(Items.WHEAT_SEEDS))return Blocks.WHEAT.defaultBlockState();if(seed.is(Items.BEETROOT_SEEDS))return Blocks.BEETROOTS.defaultBlockState();
         if(seed.is(Items.CARROT))return Blocks.CARROTS.defaultBlockState();if(seed.is(Items.POTATO))return Blocks.POTATOES.defaultBlockState();return null;
@@ -56,7 +57,7 @@ public final class CivicFields {
         return home.authorized() && home.orchard().stream().anyMatch(pos->pos.distSqr(item)<=9 && level.hasChunkAt(pos) && level.getBlockState(pos).is(ModBlocks.GUAVA_COPPICE.get()) && !level.hasNeighborSignal(pos));
     }
     public static boolean available(HearthTreeBlockEntity home,ItemEntity item) {
-        return home.attached() && item!=null && item.isAlive() && !item.hasPickUpDelay() && !item.isOnFire() && !item.isPassenger() && !item.isVehicle() && CivicRecipes.ordinary(item.getItem())
+        return home.attached() && item!=null && item.isAlive() && !item.hasPickUpDelay() && !item.isOnFire() && !item.isPassenger() && !item.isVehicle() && publicSupply(item.getItem())
                 && home.site().toString().equals(item.getItem().get(ModItems.FARM_ORIGIN.get())) && Objects.equals(item.getTarget(),home.owner())
                 && home.getLevel().hasChunkAt(item.blockPosition()) && nearWorkPlot(home,item.blockPosition());
     }

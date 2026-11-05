@@ -287,6 +287,7 @@ public final class CompanionCombat {
         return retreatFrom==null || !retreatFrom.isAlive() || pos.distSqr(retreatFrom.blockPosition())>=
                 Math.min(16,dog.blockPosition().distSqr(retreatFrom.blockPosition())+1);
     }
+    boolean retreating() {return regrouping && retreatFrom!=null && retreatFrom.isAlive();}
     boolean rally(Path path) {
         if (!HomeRoutes.trailSafe(dog,path)) return false;
         if (retreatFrom==null || !retreatFrom.isAlive()) return true;

@@ -11,6 +11,8 @@ public final class CivicTools {
     }
     public static boolean usableAxe(ItemStack stack) {return usable(stack,Items.WOODEN_AXE);}
     public static boolean usablePickaxe(ItemStack stack) {return usable(stack,Items.WOODEN_PICKAXE);}
+    /** Only an actual started pickup or original owned walking tool can postpone another paid tool bill. */
+    public static boolean recovering(HearthTreeBlockEntity home,Item tool) {return home.residents().stream().anyMatch(d->d.society().recoveringTool(home,tool));}
     public static int axeSlot(HearthTreeBlockEntity home) {
         for(int slot=0;slot<home.getContainerSize();slot++)if(usableAxe(home.getItem(slot)))return slot;return -1;
     }

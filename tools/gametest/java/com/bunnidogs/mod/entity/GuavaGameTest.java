@@ -71,10 +71,12 @@ public final class GuavaGameTest extends GameTestInstance {
         event.registerTest(id("primitive_family"),new GuavaGameTest("primitive_family",new TestData<>(continuity,id("crown_arena"),300000,0,true)));
         event.registerTest(id("primitive_family_reserve"),new GuavaGameTest("primitive_family_reserve",new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_family_carer"),new GuavaGameTest("primitive_family_carer",new TestData<>(environment,id("crown_arena"),300,0,true)));
-        for(String name:new String[]{"primitive_cache_payment","primitive_cache_safety","primitive_cache_callbacks","primitive_cache_meals","primitive_cache_player_legacy","primitive_cache_shared_learning","primitive_cache_collision"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
+        for(String name:new String[]{"primitive_cache_payment","primitive_cache_safety","primitive_cache_callbacks","primitive_cache_meals","primitive_cache_player_legacy","primitive_cache_shared_learning","primitive_cache_collision","primitive_cache_clearance"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_food_tool"),new GuavaGameTest("primitive_food_tool",new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"civic_tool_custody","civic_tool_callbacks"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"civic_haul_capacity","civic_haul_authority"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
+        for(String name:new String[]{"civic_recovery_stock","civic_recovery_authority","civic_recovery_tools","civic_recovery_axe"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
+        event.registerTest(id("civic_recovery_ai"),new GuavaGameTest("civic_recovery_ai",new TestData<>(environment,id("crown_arena"),600,0,true)));
         for(String name:new String[]{"hearth_pause_power","hearth_pause_lock","hearth_pause_meals"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_material_demand"),new GuavaGameTest("primitive_material_demand",new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_diet_meals"),new GuavaGameTest("primitive_diet_meals",new TestData<>(environment,id("crown_arena"),300,0,true)));
@@ -110,7 +112,7 @@ public final class GuavaGameTest extends GameTestInstance {
         for (String name : new String[]{"apex_tactics", "apex_variants", "apex_attacks", "apex_blast", "apex_support", "apex_focus", "boats", "signs", "transport", "rehoming", "wayfinding", "worldgen_signs", "interaction_discovery", "interaction_conversation", "interaction_commands", "interaction_stations", "station_hands", "station_inventory", "station_inventory_machines", "calipers_readings", "entrance_trails", "sampling", "adaptations", "camouflage", "camouflage_sculk", "breeder", "breeding_barn", "breeder_venues", "island_refuge", "island_noise", "coastal_traits", "kelp_gardening", "shore_meals", "cave_sight", "genetic_discoveries", "trail_training", "trail_walking", "pedigree_comparator", "bundle_packs", "bundle_travel", "phasing", "swimming", "snow_routes", "fleece", "splicing", "registry", "lineage_names", "table_planning", "table_automation", "juicer", "breeding_pen", "pen_safety", "pen_callbacks", "pelt_rugs", "specimen_jar", "show", "grooming", "cold_care", "settlement", "apex", "fixtures", "regional_farms", "orchard", "orchard_picking", "sapling_station", "gardening", "cactus_gardening", "mushroom_gardening", "melon_gardening", "fruit_foraging", "regional_meals", "loose_food", "food_gathering", "pantry", "fishing", "hunt_safety", "chorus_care", "refuge", "guarding", "scouting", "resident_finder", "storm_shelter", "recovery_rest", "trough_automation", "bell_calls", "trough_filters", "care_dispensers", "basket", "basket_dispenser", "basket_callbacks", "cultivation", "nest_markers", "nest_signals", "night_meals", "nursery", "seed_recovery", "cradle_storage", "cradle_hatching", "cradle_spawn_refusal", "crop_harvest", "composting", "work_modes", "work_pause", "hand_care", "cradle_controls", "work_census", "trough_supply", "supply_callbacks", "garden_restoration", "nursery_workers", "nursery_treatment"}) {
             event.registerTest(id(name), new GuavaGameTest(name, new TestData<>(name.equals("orchard") || name.equals("orchard_picking") ? orchard : environment, id(name.startsWith("apex_") ? "apex_arena" : name.equals("trail_walking") ? "trail_corridor" : "empty"), name.equals("apex_tactics") ? 260 : name.equals("cave_sight") || name.equals("storm_shelter") ? 1200 : name.equals("nest_signals") || name.equals("juicer") || name.equals("breeding_pen") || name.equals("trail_walking") ? 180 : 100, 0, true)));
         }
-        for (String name:new String[]{"learning_ai","learning_feedback","learning_harvest","learning_delivery","learning_limits","learning_legacy","cognitive_genetics","commissions","commission_callbacks","trail_provisions","care_menus","care_stations","first_litter","workshop_controls","signal_controls","apex_preparation","family_goals","companion_fight","companion_rescue","companion_roster","companion_crossfire","companion_genetics","companion_focus","companion_lookout","companion_hold","companion_party"})
+        for (String name:new String[]{"learning_ai","learning_feedback","learning_harvest","learning_delivery","learning_limits","learning_legacy","cognitive_genetics","commissions","commission_callbacks","trail_provisions","care_menus","care_stations","first_litter","workshop_controls","signal_controls","apex_preparation","family_goals","companion_fight","companion_recall_detour","companion_rescue","companion_roster","companion_crossfire","companion_genetics","companion_focus","companion_lookout","companion_hold","companion_party"})
             event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id(name.equals("family_goals") ? "family_workshop" : "empty"),name.equals("learning_ai") ? com.bunnidogs.mod.genetics.Gardening.SEARCH_INTERVAL + com.bunnidogs.mod.genetics.Gardening.MAX_VISIT + 40 : name.equals("companion_roster") ? 260 : name.equals("first_litter") ? 180 : name.equals("companion_party") ? 120 : 100,0,true)));
     }
     @Override public MapCodec<GuavaGameTest> codec() { return CODEC; }
@@ -241,8 +243,14 @@ public final class GuavaGameTest extends GameTestInstance {
             case "primitive_cache_meals" -> {PrimitiveCacheGameTest.meals(h);return;}
             case "primitive_cache_shared_learning" -> {PrimitiveCacheGameTest.sharedLearning(h);return;}
             case "primitive_cache_collision" -> {PrimitiveCacheGameTest.collision(h);return;}
+            case "primitive_cache_clearance" -> {PrimitiveCacheGameTest.clearance(h);return;}
             case "civic_haul_capacity" -> {CivicHaulGameTest.capacity(h);return;}
             case "civic_haul_authority" -> {CivicHaulGameTest.authority(h);return;}
+            case "civic_recovery_stock" -> {CivicRecoveryGameTest.stock(h);return;}
+            case "civic_recovery_ai" -> {CivicRecoveryGameTest.ai(h);return;}
+            case "civic_recovery_authority" -> {CivicRecoveryGameTest.authority(h);return;}
+            case "civic_recovery_tools" -> {CivicRecoveryGameTest.tools(h);return;}
+            case "civic_recovery_axe" -> {CivicRecoveryGameTest.axe(h);return;}
             case "hearth_pause_power" -> {HearthPauseGameTest.pause(h,false);return;}
             case "hearth_pause_lock" -> {HearthPauseGameTest.pause(h,true);return;}
             case "hearth_pause_meals" -> {HearthPauseGameTest.meals(h);return;}
@@ -375,6 +383,7 @@ public final class GuavaGameTest extends GameTestInstance {
             case "trail_training" -> TrailGameTest.training(h);
             case "trail_walking" -> { TrailGameTest.walking(h); return; }
             case "companion_fight" -> { CompanionCombatGameTest.fight(h); return; }
+            case "companion_recall_detour" -> { CompanionCombatGameTest.recallDetour(h); return; }
             case "companion_rescue" -> { CompanionCombatGameTest.rescue(h); return; }
             case "companion_roster" -> { CompanionCombatGameTest.roster(h); return; }
             case "companion_crossfire" -> { CompanionCombatGameTest.crossfire(h); return; }

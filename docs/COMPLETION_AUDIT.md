@@ -43,6 +43,15 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
 
 ## Progress after this reference
 
+- Original public cargo now remains identifiable through native death drops and
+  item saves for real household recovery. Ordinary worn tools retain their wear;
+  actual started/available recovery covers replacement bills without making
+  offer viewing a reservation. Idle residents can physically clear a waiting
+  paid cache, and recalled companions can take safe detours around their former
+  enemy. Focused native reproductions cover these movement gaps. Final full
+  validation is recorded in `../START_HERE.md`; natural attrition and specialist
+  knowledge continuity remain distinct unfinished work.
+
 - Native Hearth locks/root power now pause resident work consistently. Meals pay
   exact original compatible food after protection/callback checks. Cache/furniture
   placement rechecks body clearance before paying or expanding solid collision;

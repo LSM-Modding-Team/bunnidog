@@ -29,7 +29,7 @@ public final class HearthAgenda {
         if(CivicRescue.needsBasket(home))return Need.RESCUE;
         if(home.count(ModItems.GUAVA.get())<SocietyWork.foodReserve(home))return Need.FOOD;
         if(home.residents().stream().anyMatch(d->(d.clinic().ready() || d.combat().canResidentAid()) && d.homeNest()!=null && d.homeNest().distSqr(d.blockPosition())<=9))return Need.CARE;
-        if(CivicTools.axeSlot(home)<0)return Need.TOOL;
+        if(CivicTools.axeSlot(home)<0 && !CivicTools.recovering(home,Items.WOODEN_AXE))return Need.TOOL;
         if(home.wild().works().needsWorkbench() || home.wild().works().needsFurnace() || home.wild().works().needsTorches())return Need.WORKSHOP;
         if(home.construction().cells().stream().anyMatch(home.construction()::canBuild))return Need.HOUSING;
         if(home.sites().stream().anyMatch(at->home.getLevel().hasChunkAt(at) && home.getLevel().getBlockEntity(at) instanceof com.bunnidogs.mod.block.NurseryCradleBlockEntity cradle && cradle.seed().isPresent()))return Need.FAMILY;
@@ -37,7 +37,7 @@ public final class HearthAgenda {
     }
     private List<CivicRecipes.RecipeId> dependencies(Need purpose) {
         var result=new ArrayList<CivicRecipes.RecipeId>();
-        boolean axe=CivicTools.axeSlot(home)<0;
+        boolean axe=CivicTools.axeSlot(home)<0 && !CivicTools.recovering(home,Items.WOODEN_AXE);
         boolean nest=purpose==Need.HOUSING && home.construction().cells().stream().anyMatch(c->c.item()==ModItems.NEST.get() && home.construction().canBuild(c)) && CivicRecipes.count(home,ModItems.NEST.get())==0;
         if(home.wild().works().needsWorkbench()) {if(CivicRecipes.count(home,ModItems.GUAVA_PLANKS.get())<4)result.add(CivicRecipes.RecipeId.PLANKS);result.add(CivicRecipes.RecipeId.WORKBENCH);}
         if(purpose==Need.CARE && home.count(ModItems.HEARTH_POULTICE.get())<4)result.add(CivicRecipes.RecipeId.DRESSING);
@@ -88,7 +88,7 @@ public final class HearthAgenda {
     private boolean missing(CivicRecipes.RecipeId step) {return switch(step) {
         case PLANKS -> CivicRecipes.count(home,ModItems.GUAVA_PLANKS.get())<plankTarget();
         case STICKS -> CivicRecipes.count(home,Items.STICK)<2;
-        case AXE -> CivicTools.axeSlot(home)<0;
+        case AXE -> CivicTools.axeSlot(home)<0 && !CivicTools.recovering(home,Items.WOODEN_AXE);
         case NEST -> CivicRecipes.count(home,ModItems.NEST.get())==0;
         case FRAME -> CivicRecipes.count(home,ModItems.GRAFTING_FRAME.get())==0;
         case DRESSING -> home.count(ModItems.HEARTH_POULTICE.get())<4;

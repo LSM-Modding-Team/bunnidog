@@ -358,6 +358,74 @@
       "planks_left": 13,
       "suite_passed": true,
       "native_required_cases": 339
+    },
+    {
+      "run": "cargo_recovery_early_full_native",
+      "suite_passed": true,
+      "native_required_cases": 343,
+      "first_cache_at": 1508,
+      "two_claimed_homes_at": 129459,
+      "food_reserve_at": 155030,
+      "parental_seed_planted_at": 166779,
+      "loaded_ticks": 220312,
+      "pups": 2,
+      "guavas_left": 24,
+      "workshop_loaded_ticks": 71614,
+      "note": "Initial four recovery cases, before autonomous recovery and safe clearance/detour additions. Real ordinary family growth/rations/night rest; no supplied resources or education."
+    },
+    {
+      "run": "cargo_recovery_344_exploratory",
+      "suite_passed": false,
+      "native_required_cases": 344,
+      "native_required_passed": 341,
+      "failed_cases": [
+        "primitive_ai",
+        "wild_works_ai",
+        "companion_fight"
+      ],
+      "note": "At tick 2000 an actual idle empty-handed founder overlapped the future cache while another carried the paid cache. Native placement safely refused; finite floor goods later expired. Separate uncontrolled recall stayed at distance 25 with no target. Controlled idle-cache and intact-AI enemy-between-keeper cases subsequently reproduced missing safe movement and pass after their fixes. Family still produced two pups at 190016 with sixteen guavas. Failed evidence is retained rather than rerun away."
+    },
+    {
+      "run": "recovery_clearance_final_full_native_family",
+      "milestone": "ordinary helper first cache and native litter with original cargo recovery and safe idle-body cooperation",
+      "first_cache_at": 1430,
+      "two_claimed_homes_at": 71445,
+      "food_reserve_at": 125954,
+      "parental_seed_planted_at": 129399,
+      "loaded_ticks": 149821,
+      "pups": 2,
+      "guavas_left": 18,
+      "suite_passed": true,
+      "native_required_cases": 346,
+      "note": "Actual unprovisioned three Genome.DEFAULT founders, zero points and empty learning. Eight cache/five recovery native cases and intact-AI recall-detour reproduction pass with unchanged protection, native growth, meals, threat clearance and combat numbers. Natural staffing, attrition, specialist education and multiple generations remain separate human acceptance."
+    },
+    {
+      "run": "recovery_clearance_final_full_native_furniture",
+      "loaded_ticks": 29728,
+      "guavas_left": 0,
+      "suite_passed": true,
+      "native_required_cases": 346
+    },
+    {
+      "run": "recovery_clearance_final_full_native_workshop",
+      "milestone": "first paid cache/table/tools/stone/furnace/charcoal/lights/claimed Nest",
+      "loaded_ticks": 48401,
+      "paid_initial_nests": 1,
+      "guavas_left": 3,
+      "logs_left": 2,
+      "planks_left": 13,
+      "suite_passed": true,
+      "native_required_cases": 346
+    },
+    {
+      "run": "recovery_clearance_final_full_native_worn_axe",
+      "milestone": "one surviving zero-point resident walks both original public-tool recovery legs",
+      "loaded_ticks": 196,
+      "native_wear": 5,
+      "tool_count": 1,
+      "suite_passed": true,
+      "native_required_cases": 346,
+      "note": "One explicit original public worn-axe fixture isolates recovery. Carrier picks actual item, native death-drop handler replay/save/reload preserves it, original carrier is removed, intact survivor AI returns exactly one tool. Does not claim a complete native combat-death simulation or naturally observed mortality."
     }
   ]
 }

@@ -77,7 +77,7 @@ public final class WildWorks {
     }
     public boolean needsPickaxe() {
         return needsStone() && WildForaging.pickaxeSlot(home)<0
-                && home.residents().stream().noneMatch(dog->dog.society().miningTool());
+                && !CivicTools.recovering(home,Items.WOODEN_PICKAXE);
     }
     public boolean needsFurnace() {
         return enabled() && home.attached() && home.construction().canBuild(cells().getFirst()) && CivicRecipes.count(home,Items.FURNACE)==0 && !onWay(furnace());

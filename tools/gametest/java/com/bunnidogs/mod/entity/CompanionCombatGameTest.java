@@ -95,6 +95,12 @@ public final class CompanionCombatGameTest {
             dog.discard(); enemy.discard(); h.succeed();
         });
     }
+    public static void recallDetour(GameTestHelper h) {
+        floor(h);var dog=dog(h,9,true);dog.setNoAi(true);var keeper=keeper(h,dog);CareMenu.openCombat(keeper,dog);var menu=(CareMenu)keeper.containerMenu;
+        h.assertTrue(menu.clickMenuButton(keeper,menu.buttonId(CombatPanel.ASSIST)),"The actual keeper selects its ordinary companion");keeper.closeContainer();var enemy=h.spawnWithNoFreeWill(EntityTypes.HUSK,6,Y+1,2);
+        h.assertTrue(dog.combat().focus(keeper,enemy) && dog.getTarget()==enemy,"The visible actual enemy is remembered before recall");keeper.setPos(dog.position().add(-5,0,0));double distance=dog.distanceToSqr(keeper);float health=dog.getHealth(),enemyHealth=enemy.getHealth();dog.combat().recall(keeper);dog.setNoAi(false);
+        h.succeedWhen(()->{h.assertTrue(dog.getTarget()==null && dog.distanceToSqr(keeper)<distance,"A recalled companion must walk a safe detour when its former enemy stands between it and its keeper; dog="+dog.position()+", keeper="+keeper.position()+", enemy="+enemy.position()+", intent="+dog.combat().intent()+", path="+dog.getNavigation().getPath());h.assertTrue(dog.getHealth()==health && enemy.getHealth()==enemyHealth && dog.stats().equals(Stats.ZERO),"The real detour neither trades hits nor changes body points");dog.discard();enemy.discard();});
+    }
     public static void rescue(GameTestHelper h) {
         floor(h); var dog=dog(h,2,false); var keeper=keeper(h,dog); var level=h.getLevel();
         dog.setCustomName(Component.literal("Bracken")); dog.setStats(Stats.of(20,0,0,0,0));

@@ -133,6 +133,11 @@ The fighting goal owns movement ahead of ordinary following and home chores;
 bonded retaliation cannot overwrite its target or cancel recall. Routes use
 real safe dry native walking; a brief path interruption gets a bounded retry,
 then a refusal and regroup. Locked doors, holes and unsafe terrain remain real.
+If the former enemy blocks every direct safe approach to the keeper, regrouping
+can first try a nearby real detour leg. It retains the same path threat clearance,
+dry loaded standing cells and party spacing. A controlled native enemy-between-
+keeper case with intact AI fails before this fallback and passes afterward,
+without trading hits or changing body points; all ten companion cases pass.
 Fire/water danger or the genetic health threshold triggers retreat. Re-entry
 requires a higher health margin, proximity to the keeper and quiet safe time,
 or an explicit accepted Assist/Focus. Incoming damage never cancels regrouping.
