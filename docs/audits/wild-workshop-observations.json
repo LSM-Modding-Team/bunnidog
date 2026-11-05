@@ -1,5 +1,5 @@
 {
-  "scope": "Controlled native functional observations with three selected capable zero-point founders, empty stores, actual generated resources, native meal payments and crop/coppice regrowth. Excludes natural founder selection, player work and long-term Survival rates. GameTest executes native ticks faster than wall time. Geometry/stock evidence is in WildWorksGameTest and art/wild_glade/. Fresh rest-plot revision: controlled transactions prove all three paid Nests, with explicitly advanced crop age. Native walking/growth/ration/night scenarios prove the first claimed paid Nest plus the original furnace/lights; they do not certify all-three or natural multi-generation continuity.",
+  "scope": "Controlled native functional observations with three selected capable zero-point founders, empty stores, actual generated resources, native meal payments and crop/coppice regrowth. Excludes natural founder selection, player work and long-term Survival rates. GameTest executes native ticks faster than wall time. Geometry/stock evidence is in WildWorksGameTest and art/wild_glade/. Fresh rest-plot revision: controlled transactions prove all three paid Nests, with explicitly advanced crop age. Native walking/growth/ration/night scenarios prove the first claimed paid Nest plus the original furnace/lights; they do not certify all-three or natural multi-generation continuity. Ordinary-helper first-litter references freeze three Genome.DEFAULT founders instead of the elite selected profile; all retain zero points and empty initial learning. Native crop growth, meals, walking, courtship, soil planting and hatch remain real. These references do not measure natural random-founder Survival rates.",
   "observations": [
     {
       "run": "focused_wild_works",
@@ -90,6 +90,67 @@
       "guavas_left": 1,
       "suite_passed": true,
       "native_required_cases": 315
+    },
+    {
+      "run": "ordinary_family_before_coordination",
+      "milestone": "real first litter",
+      "loaded_ticks": 180000,
+      "max_guavas": 10,
+      "residents": 3,
+      "parental_seed_planted": false,
+      "suite_passed": false,
+      "note": "Exploration exposed optional work/rations preventing the existing twenty-guava courtship reserve. The original ready parents and empty farmland nursery remained valid."
+    },
+    {
+      "run": "ordinary_family_coordination_short_observation",
+      "milestone": "real first litter",
+      "loaded_ticks": 180000,
+      "two_claimed_homes_at": 123017,
+      "food_reserve_at": 166604,
+      "parental_seed_planted_at": 167469,
+      "crop_age_at_cutoff": 2,
+      "max_guavas": 20,
+      "residents": 3,
+      "suite_passed": false,
+      "note": "Real coordination reached courtship/planting. The remaining native crop wait exceeded this exploratory bound; the current functional observation allows 300000 ticks, without changing game growth."
+    },
+    {
+      "run": "ordinary_family_coordination_focused",
+      "milestone": "real first native litter without supplied food, materials, tools, learning or bred points",
+      "two_claimed_homes_at": 99634,
+      "food_reserve_at": 146644,
+      "parental_seed_planted_at": 147737,
+      "loaded_ticks": 176920,
+      "pups": 2,
+      "guavas_left": 18,
+      "suite_passed": true,
+      "native_required_cases": 2,
+      "note": "The second case supplies beds/stock only for focused reserve/parcel/payment policy, separate from this autonomous first-litter reference."
+    },
+    {
+      "run": "ordinary_family_coordination_full_native",
+      "milestone": "real first native litter without supplied food, materials, tools, learning or bred points",
+      "two_claimed_homes_at": 74013,
+      "food_reserve_at": 142811,
+      "parental_seed_planted_at": 145266,
+      "loaded_ticks": 166084,
+      "pups": 2,
+      "guavas_left": 16,
+      "suite_passed": true,
+      "native_required_cases": 318,
+      "note": "Includes the actual urgent basket and hungry wood/table/tool/meal recovery cases. Native growth observation has a dedicated same-condition environment batch."
+    },
+    {
+      "run": "food_coordination_full_native_workshop",
+      "milestone": "paid table plus furnace/four lights and first claimed paid Nest",
+      "loaded_ticks": 83228,
+      "paid_initial_nests": 1,
+      "guavas_left": 0,
+      "logs_left": 2,
+      "planks_left": 13,
+      "suite_passed": true,
+      "native_required_cases": 318,
+      "note": "Separate capable-founder reference, retaining native walking/growth/meals/night rest."
     }
   ]
 }

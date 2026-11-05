@@ -56,10 +56,15 @@ public final class GuavaGameTest extends GameTestInstance {
     public static void registerTests(RegisterGameTestsEvent event) {
         // Work scenarios require daytime even when the development world is reused between runs.
         var environment = event.registerEnvironment(id("guava_integration"), new TestEnvironmentDefinition.Functions(java.util.Optional.of(id("test_setup")),java.util.Optional.empty()));
+        // Long native growth waits run alone, rather than keeping forty-nine unrelated arenas ticking.
+        var continuity = event.registerEnvironment(id("wild_continuity"), new TestEnvironmentDefinition.Functions(java.util.Optional.of(id("test_setup")),java.util.Optional.empty()));
         event.registerTest(id("crown_citadel"),new GuavaGameTest("crown_citadel",new TestData<>(environment,id("crown_citadel"),480,0,true)));
         for(String name:new String[]{"wild_genesis","wild_founder_veto","wild_materials","wild_nursery","wild_nursery_veto","wild_limits","wild_worldgen","wild_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("wild_ai") ? 3600 : 180,0,true)));
         for(String name:new String[]{"wild_bench_safety","wild_bench_legacy","wild_bench_handoffs"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"primitive_furniture","primitive_limits","primitive_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("primitive_ai") ? 120000 : 240,0,true)));
+        event.registerTest(id("primitive_family"),new GuavaGameTest("primitive_family",new TestData<>(continuity,id("crown_arena"),300000,0,true)));
+        event.registerTest(id("primitive_family_reserve"),new GuavaGameTest("primitive_family_reserve",new TestData<>(environment,id("crown_arena"),300,0,true)));
+        event.registerTest(id("primitive_food_tool"),new GuavaGameTest("primitive_food_tool",new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"wild_works_chain","wild_works_safety","wild_works_legacy","wild_works_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("wild_works_ai") ? 120000 : 240,0,true)));
         for(String name:new String[]{"wild_rest_safety","wild_rest_legacy"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"fields_coppice","fields_journey","fields_protection","fields_ownership","fields_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("fields_ai") ? 760 : 160,0,true)));
@@ -210,6 +215,9 @@ public final class GuavaGameTest extends GameTestInstance {
             case "primitive_furniture" -> {PrimitiveFurnitureGameTest.furniture(h);return;}
             case "primitive_limits" -> {PrimitiveFurnitureGameTest.limits(h);return;}
             case "primitive_ai" -> {PrimitiveFurnitureGameTest.ai(h);return;}
+            case "primitive_family" -> {PrimitiveFurnitureGameTest.family(h);return;}
+            case "primitive_family_reserve" -> {PrimitiveFurnitureGameTest.familyReserve(h);return;}
+            case "primitive_food_tool" -> {PrimitiveFurnitureGameTest.foodTool(h);return;}
             case "wild_materials" -> {WildFamilyGameTest.materials(h);return;}
             case "wild_nursery" -> {WildFamilyGameTest.nursery(h,false);return;}
             case "wild_nursery_veto" -> {WildFamilyGameTest.nursery(h,true);return;}

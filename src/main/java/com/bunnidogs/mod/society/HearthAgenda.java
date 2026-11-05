@@ -27,7 +27,7 @@ public final class HearthAgenda {
     }
     private Need scanNeed() {
         if(CivicRescue.needsBasket(home))return Need.RESCUE;
-        if(home.count(ModItems.GUAVA.get())<16)return Need.FOOD;
+        if(home.count(ModItems.GUAVA.get())<SocietyWork.foodReserve(home))return Need.FOOD;
         if(home.residents().stream().anyMatch(d->(d.clinic().ready() || d.combat().canResidentAid()) && d.homeNest()!=null && d.homeNest().distSqr(d.blockPosition())<=9))return Need.CARE;
         if(home.count(Items.WOODEN_AXE)==0)return Need.TOOL;
         if(home.wild().works().needsWorkbench() || home.wild().works().needsFurnace() || home.wild().works().needsTorches())return Need.WORKSHOP;

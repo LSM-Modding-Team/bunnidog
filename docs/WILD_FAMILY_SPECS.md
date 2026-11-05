@@ -195,6 +195,32 @@ are two ready, housed parents, enough food and room for another generation.
 The existing courtship produces the actual parental seed. Another in-flight
 seed, existing pups or occupied nursery prevents repeated family initiation.
 
+Current workbench glades use a twenty-guava food target, matching the existing
+courtship threshold instead of easing food urgency at sixteen. When two housed
+parents are ready, an empty nursery is usable and a real capable carer exists,
+autonomous helpers defer optional stockpiles, bedding and workshop expansion.
+They continue actual compatible food gathering/planting, emergency axe/table
+preparation, urgent patient supplies/care and already-paid walking parcels.
+Material wheat is not a meal for a plain-Diet family. Explicit player lessons
+retain their chosen focus. Courtship takes precedence over optional work when
+the original reserve is available, still spending exactly two guavas.
+
+This coordination is recomputed from actual residents, food, parents and seed
+custody. It stores no virtual food or persistent family lock. Courtship, a real
+seed, occupied soil, pups, lost parents or a missing carer end the preparation
+window. Older sites without the workbench revision retain their sixteen-guava
+food target and former work priorities. Food yields, six-operation rations,
+birth costs, inherited limits and native crop growth are unchanged.
+
+The food-tool recovery path also includes the missing physical dependencies.
+When a hungry resident has no axe and a real ripe Coppice is waiting, it can
+clip remaining original fallen wood, haul that actual marked wood and place its
+paid primitive table. The existing hand recipes/axe recipe then unlock pruning
+and a real meal. This exception permits neither unrelated construction nor a
+free ration. A native case follows two original logs through table/sticks, the
+last real log, native axe, orchard harvest and walked guava payment; it supplies
+no stock. This closes the former hungry-table/last-log deadlock.
+
 The carer walks that exact seed to the reserved farmland and plants a real Seed
 Crop, preserving its full components. It grows normally; zero Bloom does not
 accelerate it. At maturity the carer uses the existing safe nursery pad/crowding
@@ -207,6 +233,29 @@ survive ordinary native saves/unloads; unloaded work pauses without forcing
 terrain. A wild glade cannot gift the player's Living Keystone progression.
 
 ## Evidence and remaining work
+
+The ordinary `Genome.DEFAULT` helper reference now reaches a real first litter
+without supplied food, tools, materials, education or bred points. One focused
+observation housed two parents at **99,634** loaded ticks, reached the original
+reserve at **146,644**, planted its native parental seed at **147,737**, and
+hatched **two pups at 176,920** with eighteen guavas remaining. Children have
+actual household membership and empty personal learning; parents retain their
+original genes, zero bred points and no architecture experience.
+
+The first exploration before coordination never exceeded ten guavas in 180,000
+ticks. After the fix another 180,000-tick observation had two homes at 123,017,
+food ready at 166,604 and soil planted at 167,469, still at crop age two when
+the run ended. The litter scenario now allows 300,000 loaded ticks to include
+that independent native growth wait. This changes only its observation bound;
+it does not accelerate the crop or certify natural pacing. A separate policy
+case supplies its own beds/stock to check actual offers, original parcel safety,
+compatible food, urgent basket availability, exact courtship payment and release
+of optional work after parents court. See the observation appendix below.
+The full 318-case native gate also passes, repeating two pups at **166,084**
+loaded ticks with sixteen guavas remaining. Its older first-tool scenario now
+passes alongside the explicit hungry wood/table recovery case. The long family
+growth check runs in its own native environment batch with the same day setup;
+it does not keep forty-nine unrelated arenas ticking throughout that wait.
 
 The original eight native scenarios cover detached WorldGenRegion/ProtoChunk configuration
 and native saves; empty genesis/private stores/no founder respawn or spawn-veto retry; physical

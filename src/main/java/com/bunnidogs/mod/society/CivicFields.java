@@ -24,6 +24,7 @@ public final class CivicFields {
         if(seed.is(Items.CARROT))return Blocks.CARROTS.defaultBlockState();if(seed.is(Items.POTATO))return Blocks.POTATOES.defaultBlockState();return null;
     }
     public static Item seed(BlockState crop) {return crop.is(Blocks.WHEAT) ? Items.WHEAT_SEEDS : crop.is(Blocks.BEETROOTS) ? Items.BEETROOT_SEEDS : crop.is(Blocks.CARROTS) ? Items.CARROT : crop.is(Blocks.POTATOES) ? Items.POTATO : null;}
+    public static Item product(BlockState crop) {return crop.is(Blocks.WHEAT) ? Items.WHEAT : crop.is(Blocks.BEETROOTS) ? Items.BEETROOT : crop.is(Blocks.CARROTS) ? Items.CARROT : crop.is(Blocks.POTATOES) ? Items.POTATO : null;}
     public static boolean plot(HearthTreeBlockEntity home,BlockPos crop) {return home.attached() && home.sites().contains(crop.below()) && home.getLevel().hasChunkAt(crop) && home.getLevel().getBlockState(crop.below()).is(Blocks.FARMLAND) && home.getLevel().getWorldBorder().isWithinBounds(crop) && !home.getLevel().hasNeighborSignal(crop.below());}
     public static int seedSlot(HearthTreeBlockEntity home) {
         // Keep one renewable grain line ahead of optional meal crops; planted crops retain their own seed type.

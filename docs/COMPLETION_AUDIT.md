@@ -43,6 +43,15 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
 
 ## Progress after this reference
 
+- Ordinary helper-profile wild founders now produce a real first litter without
+  supplied food/tools/materials, learned skills or bred points. Fresh workbench
+  sites align food urgency with the existing twenty-guava threshold and defer
+  optional chores while actual housed parents prepare. Existing paid parcels,
+  useful compatible food, urgent care and explicit lessons retain their bounds.
+  One native observation reached two pups at 176,920 loaded ticks; this advances
+  functional I7 evidence without establishing natural rates or multi-generation
+  survival. Initial storage, specialist recovery and human acceptance remain open.
+
 - The founder-role audit exposed a first-bed architect bottleneck. Personally
   trained independent craftspeople can now assemble only new glades' original
   primitive furniture plots, with real payments, original cargo/authority and

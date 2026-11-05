@@ -7,7 +7,35 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 Previous sections retain their checkpoint's protocol/evidence; the current
 section below takes precedence.
 
-## Current — ordinary craftspeople can furnish a primitive home
+## Current — ordinary wild families preserve food for a real first litter
+
+New workbench glades now coordinate around the existing twenty-guava courtship
+reserve when real housed parents, nursery space and a capable carer are ready.
+Optional stockpiling pauses while useful compatible food work, emergency tool
+preparation, urgent care supplies, paid parcels and explicit lessons continue.
+The policy uses actual world state, releases when parents court, and changes no
+food yield, ration cost, native birth/growth rule, genes or older-site target.
+Hungry workers can also finish the actual original wood/table dependencies
+needed for an axe when ripe orchard food is waiting, then pay their normal meal.
+The new native recovery case closes that earlier food-tool deadlock without
+supplying materials or extending the ration budget.
+
+The ordinary helper reference produced two native pups in **176,920 loaded
+ticks**, without supplied materials/food/tools/learning or bred points. Original
+parents retain their actual limits; pups have household membership and empty
+learning. The separate reserve-policy case checks actual job selection, real
+carried Nest recovery, urgent rescue supply and exact two-guava courtship.
+Java 25 **`build checkBunnidogModel runGameTestServer` passes all 318 required
+native cases**. The full run repeated the real two-pup birth at **166,084 loaded
+ticks**, with sixteen guavas remaining. Main CI remains this checkpoint's
+publication gate; protocol **52** remains current. See
+[WILD_FAMILY_SPECS.md](docs/WILD_FAMILY_SPECS.md) and its observation appendix.
+
+This proves a controlled functional first litter, not natural survival rates.
+The long waits, random staffing, self-made initial cache and multi-generation/
+client/co-op acceptance remain open. Rebalancing remains pending human test.
+
+## Previous — ordinary craftspeople can furnish a primitive home
 
 Trained independent craftspeople in new workbench glades can now assemble only
 their original nine table/furnace/light/Nest plots. This breaks the first-bed

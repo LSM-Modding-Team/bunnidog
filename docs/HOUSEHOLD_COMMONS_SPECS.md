@@ -35,6 +35,15 @@ when it is the missing link to that food. A ration is one actual compatible
 ordinary food item from the common inventory, not a breeding gesture or a new
 universal starvation timer.
 
+In current wild workbench glades, food urgency now matches the existing twenty-
+guava family threshold. Real housed parents, nursery space and a capable carer
+create a temporary preparation window: helpers prioritize useful compatible
+food and defer optional reserves/workshop/bedding. Urgent care supplies, actual
+paid parcels and explicit lessons remain available. Courtship releases that
+window from actual parental state; no stored lock or virtual ration is created.
+Earlier sites keep their former food target. See the first-litter evidence and
+its natural-pacing limits in [WILD_FAMILY_SPECS.md](WILD_FAMILY_SPECS.md).
+
 ## Crafting uses actual recipes
 
 In new wild workbench sites, learned independent Crafting also covers assembly

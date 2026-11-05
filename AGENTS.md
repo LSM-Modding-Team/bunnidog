@@ -5,6 +5,22 @@ validated pushes. It supersedes the previous finite rebalance delivery stop.
 Prioritize accepted unfinished professions, practical education, wild continuity
 and civilization. Keep the shipped rebalance candidate pending human testing;
 do not blindly retune it merely to fill another batch.
+The latest ordinary helper reference now reaches an actual no-provisioning first
+litter. Read the reserve coordination/evidence in `docs/WILD_FAMILY_SPECS.md`.
+Keep the current workbench-only twenty-guava urgency, actual parents/nursery/carer
+checks, useful compatible food, emergency tools, urgent care supplies and already-
+paid parcels. Explicit lessons retain focus, and real courtship releases the
+preparation window. Older-site targets, food yields, six-operation rations,
+native growth/birth and all genetic/stat/learning boundaries stay. First-litter
+native proof is separate from natural pacing/multi-generation human acceptance;
+the initial self-made cache and missing-specialist recovery remain unfinished.
+Ration exhaustion must still permit the bounded actual wood/table dependencies
+for a missing axe when ripe orchard food is available. Keep finite original log
+permissions, real marked hauling/paid table, original native recipes and the final
+paid meal; never permit unrelated hungry construction or gift a ration.
+Java 25 build/model/localization and all 318 native cases pass locally; the full
+run repeats the actual two-pup litter at 166,084 loaded ticks. Main CI remains
+this checkpoint's publication gate. The prior furniture checkpoint's CI passed.
 Practical Crafting/Building education now uses distinct appended l3 personal
 routines; read `docs/WORKSHOP_LEARNING_SPECS.md`. Preserve exact old l1/l2 adult
 Garden-master job compatibility, old pup/current-beginner/future-opaque data,
