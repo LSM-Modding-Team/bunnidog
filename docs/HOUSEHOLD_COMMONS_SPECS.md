@@ -61,6 +61,16 @@ the household gains neither healing nor a new permanent reservation.
 
 ## Crafting uses actual recipes
 
+New natural camps first use their actual marked ground resources for delivery,
+meals and hand crafting. The marker has no usable inventory until someone carries
+and installs its paid three-plank Root Cache. This uses the same original block
+entity/site/owner; older sites keep complete storage and their original stock.
+The distinct hand recipe leaves vanilla's four-plank table available. If actual
+beginners split their first recipes, further useful paid plank work can teach an
+installer without producing another cache or granting another resident's skill.
+See [PRIMITIVE_CACHE_PLAN.md](PRIMITIVE_CACHE_PLAN.md) for physical custody and
+the separate native/human evidence bounds.
+
 In new wild workbench sites, learned independent Crafting also covers assembly
 of only their original primitive furniture plots. Real carried materials and
 placement protections remain; this supplies neither general room permission
@@ -90,7 +100,7 @@ expert loss, gaining skill only through its own real paid recipe. Full-store
 native slot replacement, named covers, actual examples and original authority
 remain; see [WORKSHOP_RECORDS_SPECS.md](WORKSHOP_RECORDS_SPECS.md).
 
-The finite civic recipe vocabulary currently includes guava planks, native
+The finite civic recipe vocabulary currently includes the Root Cache, guava planks, native
 sticks/wooden axes, Grafting Frames, Nests, Hearth Incense, dressings and Coppices.
 Actual loaded recipe IDs, matching grids, results and remainders are authoritative.
 This corrects the old approximate axe/incense costs: an axe uses planks and

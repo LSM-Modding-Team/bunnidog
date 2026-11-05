@@ -43,6 +43,17 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
 
 ## Progress after this reference
 
+- New natural camps now make their first usable storage from real ground
+  resources. A bare marker exposes zero inventory slots; native hand recipes,
+  compatible ground meals and real cargo lead to a paid same-entity cache
+  installation. A distinct three-plank recipe preserves the vanilla table;
+  four original finite logs cover the fifteen-plank tool/table/cache bill with
+  one real plank left. Original site/owner/founders, old stock/defaults and
+  exact native callbacks remain. Shared beginners still need actual personal
+  work before one becomes an installer. See [PRIMITIVE_CACHE_PLAN.md](PRIMITIVE_CACHE_PLAN.md).
+  Natural staffing, pacing, client/co-op and multiple generations remain human
+  acceptance; no historical completion percentage is recomputed from test counts.
+
 - Primitive production now counts actual usable Nest plots and real saved
   walking bedding, keeping a modest plank reserve instead of unreachable-room
   spares. Actual role arrival/loss changes demand, with all placement/capacity
@@ -57,7 +68,8 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
   useful compatible food, urgent care and explicit lessons retain their bounds.
   One native observation reached two pups at 176,920 loaded ticks; this advances
   functional I7 evidence without establishing natural rates or multi-generation
-  survival. Initial storage, specialist recovery and human acceptance remain open.
+  survival. This earlier checkpoint left initial storage open; specialist recovery
+  and human acceptance remain open after the later paid-cache implementation.
 
 - The founder-role audit exposed a first-bed architect bottleneck. Personally
   trained independent craftspeople can now assemble only new glades' original
@@ -86,8 +98,8 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
   real harvest/replant work can teach Gardening without borrowing Crafting
   experience. Old glades receive no new plots or replaced beds. Controlled paid
   construction and autonomous first-bed/workshop evidence are distinct; the
-  initial root cache, complete staffing and multi-generation continuity remain
-  unfinished. See [WILD_FAMILY_SPECS.md](WILD_FAMILY_SPECS.md).
+  complete staffing and multi-generation continuity remain unfinished after
+  the later paid initial cache. See [WILD_FAMILY_SPECS.md](WILD_FAMILY_SPECS.md).
 
 - Practical workshop education now separates Crafting/Building from Gardening,
   with real paid lessons, resident supervision and expert-loss replacement.
@@ -122,7 +134,8 @@ skills separate, and avoid replacing discoverable gameplay with tutorial UI.
   frozen genomes, empty education, gene-limited primitive discovery, physical
   wood/food/material hauling and native parental-seed soil nurseries. See
   [WILD_FAMILY_SPECS.md](WILD_FAMILY_SPECS.md). This advances I7/I8 without claiming
-  resident-made initial caches, furnace/light workshops or complete civilization.
+  those later resident-made initial caches/furnace/light workshops or complete
+  civilization at that checkpoint.
 
 - Native furnace workshops now add real craftspeople/courier handoffs through
   explicitly linked Furnaces, Blast Furnaces and Smokers. Inputs, fuel, native
@@ -159,7 +172,7 @@ increments. Newly reported regressions still take priority.
 | Existing-work integration / professions | Expand workshop/production professions and dependencies beyond the shipped practical Craft/Build education, forecasts and physical records; preserve useful limited animals. |
 | Construction | More plan composition than cardinal rooms; safe durable repair/revision under interference; reconcile cross-chunk hard-crash receipts without duplicating/refunding unrelated stock. |
 | Planning / culture | Broader bounded dependency coordination and discovery, construction/recipe knowledge handoffs and essential-role replacement beyond the current finite recipes/routes. |
-| Wild family bootstrap | Preserve real natural food/wood/stone/tools, the paid workbench/Nests, crops/furnace/light and soil nursery. Finish the self-made initial cache, independent missing-specialist recovery and natural multi-generation continuity without player provisioning or inherited skills. |
+| Wild family bootstrap | Preserve real natural food/wood/stone/tools, the paid initial cache/workbench/Nests, crops/furnace/light and soil nursery. Finish independent missing-specialist recovery and natural multi-generation continuity without player provisioning or inherited skills. |
 | Living settlements | Fresh qualified wilderness sites, explicit finite reserves, actual resident-led infrastructure, missing-specialist recovery, relationships and protected player adoption; never activate old builds implicitly. |
 | Communities | Two independently functioning households must negotiate and physically exchange real goods/knowledge with bounded loaded routes and actual return/ownership behavior. |
 | Civic rescue | Preserve the implemented local paid pickup/transport/first-aid chain and original authority. Extend broader recovery institutions and primitive supplies; establish natural/client/co-op and interruption/unload acceptance. Existing wound care remains distinct. |
@@ -167,9 +180,10 @@ increments. Newly reported regressions still take priority.
 | Advanced expression / tuning | Useful advanced public works and cultural differences, plus measured loaded-area CPU/entity budgets and actual natural/client/multiplayer acceptance. |
 
 The first wild glade now closes the player-supplied food/wood, taught primitive
-routine and glass-Cradle circles through actual work and a soil nursery. Its
-initial empty root cache/Nests remain generated infrastructure. Native stone/
-furnace/light dependencies now ship for fresh sites. Next: finish self-made
-initial infrastructure, specialist replacement and protected adoption before
+routine and glass-Cradle circles through actual work and a soil nursery. New
+sites now also pay for their first cache, table and Nests; original empty plots
+and finite natural resources remain generated infrastructure. Native stone/
+furnace/light dependencies ship for fresh sites. Next: specialist replacement
+and protected adoption before
 inter-community trade.
 Natural multi-generation/client evidence remains outstanding.

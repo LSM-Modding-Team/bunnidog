@@ -25,9 +25,12 @@ public final class WildFamilyGameTest {
     record Site(GameTestHelper h,HearthTreeBlockEntity home,List<Bunnidog> dogs) {}
     static Site setup(GameTestHelper h,boolean bright) {return setup(h,bright,true);}
     static Site setup(GameTestHelper h,boolean bright,boolean spawn) {
+        return setup(h,bright,spawn,false);
+    }
+    static Site setup(GameTestHelper h,boolean bright,boolean spawn,boolean camp) {
         var level=h.getLevel();var at=h.absolutePos(new BlockPos(32,180,32));
         for(int x=-9;x<=9;x++)for(int z=-10;z<=12;z++) {level.setBlock(at.offset(x,-1,z),Blocks.DIRT.defaultBlockState(),2);for(int y=0;y<6;y++)level.setBlock(at.offset(x,y,z),Blocks.AIR.defaultBlockState(),2);}
-        h.assertTrue(WildFamilyFeature.generate(level,at,591L),"A clear natural glade generates through the registered feature");var home=(HearthTreeBlockEntity)level.getBlockEntity(at);
+        h.assertTrue(WildFamilyFeature.generate(level,at,591L,camp),"A clear natural glade generates through the registered feature");var home=(HearthTreeBlockEntity)level.getBlockEntity(at);
         if(bright) {var tag=home.saveWithFullMetadata(level.registryAccess());var genes=new net.minecraft.nbt.ListTag();for(int i=0;i<3;i++)genes.add(net.minecraft.nbt.StringTag.valueOf(SocietyGameTest.bright().toString()));tag.put("WildFounders",genes);home.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),tag));}
         if(spawn)for(int i=0;i<3;i++)home.wild().tick();var dogs=home.residents();dogs.forEach(d->{d.setNoAi(true);d.setOnGround(true);});h.assertTrue(!spawn || dogs.size()==3,"Three finite natural founder attempts produce actual residents");return new Site(h,home,dogs);
     }

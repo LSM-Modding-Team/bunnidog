@@ -88,6 +88,7 @@ public final class ModItems {
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<Boolean>> GROUND_REMNANT=COMPONENTS.registerComponentType("ground_remnant",b->b.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL));
     public static final DeferredHolder<DataComponentType<?>,DataComponentType<Integer>> HUNT_MARKS=COMPONENTS.registerComponentType("hunt_marks",b->b.persistent(Codec.intRange(0,63)).networkSynchronized(ByteBufCodecs.VAR_INT));
     public static final DeferredItem<BlockItem> HEARTH_TREE=ITEMS.registerSimpleBlockItem(ModBlocks.HEARTH_TREE);
+    public static final DeferredItem<com.bunnidogs.mod.society.RootCacheItem> ROOT_CACHE=ITEMS.registerItem("root_cache",com.bunnidogs.mod.society.RootCacheItem::new,p->p.stacksTo(1).component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.root_cache")))));
     public static final DeferredItem<BlockItem> GUAVA_COPPICE=ITEMS.registerSimpleBlockItem(ModBlocks.GUAVA_COPPICE);
     public static final DeferredItem<Item> LIVING_KEYSTONE=ITEMS.registerSimpleItem("living_keystone",p->p.rarity(Rarity.EPIC).fireResistant().component(DataComponents.LORE,new ItemLore(List.of(Component.translatable("tooltip.bunnidogs.living_keystone")))));
     public static final DeferredItem<Item> GRAFTING_FRAME=ITEMS.registerSimpleItem("grafting_frame");
@@ -599,7 +600,7 @@ public final class ModItems {
             for(var item:List.of(SOVEREIGN_CORE.get(),SOVEREIGN_LANCE.get(),SOVEREIGN_ELYTRA.get(),CONCORD_STANDARD.get(),CROWN_SIGIL.get(),CROWN_TROPHY.get()))event.accept(item);
             for(var item:java.util.List.of(APEX_FANG.get(),VITALITY_ARTIFACT.get(),AERIAL_ARTIFACT.get(),CATACLYSM_CORE.get(),VOLATILE_CHARGE.get(),CATACLYSM_TOTEM.get(),FIREBALL_LAUNCHER.get(),GENETIC_VACUUM.get(),ABYSSAL_FLASK.get()))event.accept(item);
             for(var item:java.util.List.of(ROOTSTONE.get(),WARREN_ANCHOR.get(),WARREN_WARD.get(),RESONANT_EYE.get(),APEX_MARROW.get(),PRISM_LENS.get(),CHORUS_HEART.get(),VOLATILE_HEART.get(),HEART_SPOOL.get(),AERIAL_MEMBRANE.get(),PRISM_CELL.get(),PRISM_LANCE.get(),APEX_WING_HARNESS.get()))event.accept(item);
-            for(var item:List.of(HEARTH_TREE.get(),GUAVA_COPPICE.get(),LIVING_KEYSTONE.get(),GRAFTING_FRAME.get(),HEARTH_INCENSE.get(),STEWARD_STAFF.get(),HEARTH_POULTICE.get(),ROUTE_NOTES.get(),CRAFT_NOTES.get()))event.accept(item);
+            for(var item:List.of(HEARTH_TREE.get(),ROOT_CACHE.get(),GUAVA_COPPICE.get(),LIVING_KEYSTONE.get(),GRAFTING_FRAME.get(),HEARTH_INCENSE.get(),STEWARD_STAFF.get(),HEARTH_POULTICE.get(),ROUTE_NOTES.get(),CRAFT_NOTES.get()))event.accept(item);
             event.accept(APEX_CREST.get());
             APEX_SIGILS.values().forEach(item->event.accept(item.get()));
             // One plain sample (the default genome, no bred points) so a sample can be had in creative mode.

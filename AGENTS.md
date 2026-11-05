@@ -5,6 +5,22 @@ validated pushes. It supersedes the previous finite rebalance delivery stop.
 Prioritize accepted unfinished professions, practical education, wild continuity
 and civilization. Keep the shipped rebalance candidate pending human testing;
 do not blindly retune it merely to fill another batch.
+The active first-cache implementation now starts new glades with a zero-slot
+marker. Preserve real ground delivery/crafting/compatible meals, original paid
+cargo, same-entity installation, old complete defaults/stock and four finite
+original logs only in this revision. Read docs/PRIMITIVE_CACHE_PLAN.md. Java 25
+build/model/localization and all 331 native cases pass; main CI is the public JAR
+gate. The ordinary family installed its cache at 1226 ticks and produced two pups
+at 142070. Actual native cell/geometry previews are inspected separately from
+natural/client/co-op/multi-generation human acceptance. An early run exposed three beginners each
+doing one recipe without an installer; the focused reproduction failed before
+the fix and passes afterward. Useful paid plank work must continue while the
+real cache has no trained installer, even above its material bill. No copied
+learning, immortal ground stock or duplicate cache. The distinct three-plank
+L avoids vanilla table collision; four logs cover the fifteen-plank bill with
+one real plank left. Six native cases cover custody, callbacks and old defaults.
+Protocol 53 is current for this new content; older summaries below are historical.
+The prior 1016be7 full main CI passed all 325 and published its verified direct JAR.
 Family preparation now requires an actually calm/available carer, using the
 existing work health/safety conditions. Genetic care potential in an injured,
 unsafe or paused sole specialist cannot indefinitely freeze complementary
@@ -26,10 +42,11 @@ orchard transaction tests now pause random growth through native scoped game
 rules; normal wild growth stays unchanged. All five focused orchard cases pass.
 Keep the roster's released body inside its actual simulated template and wait
 for native indexing; do not alter basket gameplay or party limits for a fixture.
-The next `docs/PRIMITIVE_CACHE_PLAN.md` records the real ground-stock/meal/crafting
-circle and sixteen-plank bill. It is not implemented. A generated functioning
-cache with an added payment does not satisfy that goal. Preserve old defaults,
-native ground/cargo custody and no invisible materials when implementing it.
+The earlier cache plan identified the real ground-stock/meal/crafting circle.
+Its now-implemented revision is summarized above and in
+`docs/PRIMITIVE_CACHE_PLAN.md`. A generated functioning cache with an added
+payment still does not satisfy that goal. Preserve old defaults, native
+ground/cargo custody and no invisible materials.
 Compatible native field food now remains available to a hungry capable worker;
 inedible material farming/planting waits. Preserve actual inherited Diet, native
 harvest/replant/haul/payment and six-operation rations. Meals prefer compatible

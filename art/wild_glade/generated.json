@@ -1,5 +1,7 @@
 {
   "evidence": "Actual registered feature in WorldGenRegion with unfinished detached ProtoChunks; no client rendering.",
+  "primitive_camp": true,
+  "cached": false,
   "cells": [
     {
       "x": -7,
@@ -609,6 +611,12 @@
     },
     {
       "x": -3,
+      "y": 0,
+      "z": 3,
+      "block": "bunnidogs:guava_log"
+    },
+    {
+      "x": -3,
       "y": -1,
       "z": 4,
       "block": "minecraft:grass_block"
@@ -947,7 +955,8 @@
       "x": 0,
       "y": 0,
       "z": 0,
-      "block": "bunnidogs:hearth_tree"
+      "block": "bunnidogs:hearth_tree",
+      "cached": false
     },
     {
       "x": 0,

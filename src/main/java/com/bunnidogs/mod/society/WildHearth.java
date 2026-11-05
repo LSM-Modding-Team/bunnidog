@@ -9,21 +9,22 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.storage.*;
 
-/** Empty natural stores, finite founder attempts and real genes, without gifted education. */
+/** Natural camp revision, finite founder attempts and real genes, without gifted education. */
 public final class WildHearth {
     private final HearthTreeBlockEntity home;
     private List<Genome> founders=List.of();
-    private boolean natural;
+    private boolean natural,campStart;
     private int attempts,timberTaken;
     private boolean hatching;
     private final WildWorks works;
     public WildWorks works() {return works;}
     public WildHearth(HearthTreeBlockEntity home) {this.home=home;works=new WildWorks(home);}
     public boolean natural() {return natural;}
+    public boolean campStart() {return natural && campStart;}
     public List<Genome> founders() {return founders;}
     public int doorHalf() {return founders.stream().anyMatch(g->Carrying.capacity(g)>=3) ? 1 : 0;}
     public BlockPos nursery() {return home.getBlockPos().north(5);}
-    public List<BlockPos> timber() {return List.of(home.getBlockPos().offset(-3,0,0),home.getBlockPos().offset(-3,0,1),home.getBlockPos().offset(-3,0,2));}
+    public List<BlockPos> timber() {var p=home.getBlockPos();return campStart() ? List.of(p.offset(-3,0,0),p.offset(-3,0,1),p.offset(-3,0,2),p.offset(-3,0,3)) : List.of(p.offset(-3,0,0),p.offset(-3,0,1),p.offset(-3,0,2));}
     public List<BlockPos> fruit() {return List.of(home.getBlockPos().offset(-3,0,-2),home.getBlockPos().offset(0,0,-2),home.getBlockPos().offset(3,0,-2));}
     public List<BlockPos> beds() {return List.of(home.getBlockPos().offset(-1,0,2),home.getBlockPos().offset(1,0,2),home.getBlockPos().offset(works.enabled() ? -2 : 0,0,3));}
     public List<BlockPos> fields() {return List.of(home.getBlockPos().offset(5,0,0),home.getBlockPos().offset(5,0,1),home.getBlockPos().offset(5,0,2));}
@@ -57,9 +58,13 @@ public final class WildHearth {
         } finally {hatching=false;}
     }
     /** Configure only data: worldgen block entities may have no attached Level. */
-    public boolean configure(long seed) {var rolled=new ArrayList<Genome>();for(int i=0;i<3;i++)rolled.add(Genome.randomFounder(Lineage.MEADOW,new Random(seed+i*7919L)));return configure(rolled);}
+    public boolean configure(long seed) {return configure(seed,false);}
+    public boolean configure(long seed,boolean camp) {var rolled=new ArrayList<Genome>();for(int i=0;i<3;i++)rolled.add(Genome.randomFounder(Lineage.MEADOW,new Random(seed+i*7919L)));return configure(rolled,camp);}
     public boolean configure(List<Genome> genomes) {
-        if(natural || home.owner()!=null || genomes.size()!=3)return false;natural=true;founders=List.copyOf(genomes);works.configure();home.wildOwner();home.setChanged();return true;
+        return configure(genomes,false);
+    }
+    public boolean configure(List<Genome> genomes,boolean camp) {
+        if(natural || home.owner()!=null || genomes.size()!=3)return false;natural=true;campStart=camp;founders=List.copyOf(genomes);works.configure();home.wildOwner();home.setChanged();return true;
     }
     public void tick() {
         if(!natural || !home.attached() || !(home.getLevel() instanceof ServerLevel level))return;
@@ -74,9 +79,9 @@ public final class WildHearth {
         }
         if(!home.authorized())home.construction().wildSurvey();
     }
-    public void save(ValueOutput out) {if(natural) {out.putBoolean("NaturalHousehold",true);out.putInt("FounderAttempts",attempts);out.putInt("FallenWoodUsed",timberTaken);out.store("WildFounders",com.mojang.serialization.Codec.STRING.listOf(),founders.stream().map(Genome::toString).toList());works.save(out);}}
+    public void save(ValueOutput out) {if(natural) {out.putBoolean("NaturalHousehold",true);out.putBoolean("PrimitiveCamp",campStart);out.putInt("FounderAttempts",attempts);out.putInt("FallenWoodUsed",timberTaken);out.store("WildFounders",com.mojang.serialization.Codec.STRING.listOf(),founders.stream().map(Genome::toString).toList());works.save(out);}}
     public void load(ValueInput in) {
-        natural=in.getBooleanOr("NaturalHousehold",false);attempts=in.getIntOr("FounderAttempts",0)&7;timberTaken=in.getIntOr("FallenWoodUsed",0)&7;hatching=false;
+        natural=in.getBooleanOr("NaturalHousehold",false);campStart=natural && in.getBooleanOr("PrimitiveCamp",false);attempts=in.getIntOr("FounderAttempts",0)&7;timberTaken=in.getIntOr("FallenWoodUsed",0)&(campStart ? 15 : 7);hatching=false;
         founders=in.read("WildFounders",com.mojang.serialization.Codec.STRING.listOf()).orElse(List.of()).stream().map(Genome::parse).flatMap(Optional::stream).limit(3).toList();if(founders.size()!=3) {natural=false;founders=List.of();}works.load(in,natural);
     }
 }

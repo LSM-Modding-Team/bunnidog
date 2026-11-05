@@ -32,6 +32,9 @@ public final class HearthTreeBlockEntity extends RandomizableContainerBlockEntit
     public HearthAgenda agenda() {return agenda;}
     private final WildHearth wild=new WildHearth(this);
     public WildHearth wild() {return wild;}
+    private final CivicCamp camp=new CivicCamp(this);
+    public CivicCamp camp() {return camp;}
+    public boolean cached() {return getBlockState().getValue(HearthTreeBlock.CACHED);}
     private final CivicWorkshop workshop=new CivicWorkshop(this);
     public CivicWorkshop workshop() {return workshop;}
     void wildOwner() {owner=UUID.nameUUIDFromBytes((site+":community").getBytes(java.nio.charset.StandardCharsets.UTF_8));}
@@ -65,14 +68,14 @@ public final class HearthTreeBlockEntity extends RandomizableContainerBlockEntit
                 || !level.getWorldBorder().isWithinBounds(pos) || !level.mayInteract(player,pos))return false;
         workshop.unlink(pos);sites.remove(pos);setChanged();return true;
     }
-    public int count(Item item) {int n=0;for(var s:items)if(s.is(item))n+=s.getCount();return n;}
-    public boolean room(ItemStack add) {int free=0;for(var s:items)if(s.isEmpty())free+=add.getMaxStackSize();else if(ItemStack.isSameItemSameComponents(s,add))free+=s.getMaxStackSize()-s.getCount();return free>=add.getCount();}
+    public int count(Item item) {if(!cached())return 0;int n=0;for(var s:items)if(s.is(item))n+=s.getCount();return n;}
+    public boolean room(ItemStack add) {if(!cached())return false;int free=0;for(var s:items)if(s.isEmpty())free+=add.getMaxStackSize();else if(ItemStack.isSameItemSameComponents(s,add))free+=s.getMaxStackSize()-s.getCount();return free>=add.getCount();}
     public boolean put(ItemStack add) {if(!attached() || !room(add))return false;ItemStack left;
         left=add.copy();for(var s:items)if(!s.isEmpty() && ItemStack.isSameItemSameComponents(s,left)) {int take=Math.min(left.getCount(),s.getMaxStackSize()-s.getCount());s.grow(take);left.shrink(take);}
         for(int i=0;i<items.size() && !left.isEmpty();i++)if(items.get(i).isEmpty()) {int take=Math.min(left.getCount(),left.getMaxStackSize());items.set(i,left.split(take));}setChanged();return true;
     }
     public ItemStack take(Item item,int n) {if(!attached() || count(item)<n)return ItemStack.EMPTY;var result=new ItemStack(item,n);for(var s:items)if(s.is(item)) {int take=Math.min(n,s.getCount());s.shrink(take);n-=take;if(n==0)break;}setChanged();return result;}
-    public ItemStack takeExact(int index,int n) {if(!attached() || index<0 || index>=27 || items.get(index).getCount()<n)return ItemStack.EMPTY;var result=items.get(index).split(n);setChanged();return result;}
+    public ItemStack takeExact(int index,int n) {if(!cached() || !attached() || index<0 || index>=27 || items.get(index).getCount()<n)return ItemStack.EMPTY;var result=items.get(index).split(n);setChanged();return result;}
     public void evidence(String kind,int n) {
         if(!attached() || n<=0)return;
         switch(kind) {case "harvest"->harvested=Math.min(32,harvested+n);case "haul"->hauled=Math.min(16,hauled+n);case "meal"->meals=Math.min(8,meals+n);case "timber"->timber=Math.min(8,timber+n);case "frame"->frames=Math.min(4,frames+n);case "build"->built=Math.min(100,built+n);case "nurture"->nurtured=Math.min(7,nurtured+n);case "birth"->born=1;case "court"->families=1;case "continuity"->continuity=1;default->{return;}}setChanged();updateStage();
@@ -80,7 +83,7 @@ public final class HearthTreeBlockEntity extends RandomizableContainerBlockEntit
     public int progress() {return timber>=2 && frames>=1 ? harvested>=16 && hauled>=8 && meals>=4 ? shelterComplete() && built>=8 && nurtured>=2 && born>0 && families>0 ? continuity>0 ? 4 : 3 : 2 : 1 : 0;}
     @Override public void setChanged() {super.setChanged();if(agenda!=null)agenda.invalidate();if(attached())HearthSites.register(this);if(!stageUpdating && attached()) {stageUpdating=true;try {updateStage();}finally {stageUpdating=false;}}}
     private void updateStage() {if(!attached())return;int stage=progress();if(count(ModItems.LIVING_KEYSTONE.get())==0 && stage==4)stage=3;if(getBlockState().getValue(HearthTreeBlock.STAGE)!=stage)level.setBlock(worldPosition,getBlockState().setValue(HearthTreeBlock.STAGE,stage),3);}
-    public Component need() {String need= !authorized ? "plot" : timber<2 ? "orchard" : frames<1 ? "craft" : harvested<16 ? "harvest" : hauled<8 ? "haul" : meals<4 ? "meals" : !shelterComplete() || built<8 ? "shelter" : nurtured<2 || born==0 || families==0 ? "family" : continuity==0 ? "teaching" : "fruit";return Component.translatable("message.bunnidogs.hearth.need."+need);}
+    public Component need() {String need= !cached() ? "cache" : !authorized ? "plot" : timber<2 ? "orchard" : frames<1 ? "craft" : harvested<16 ? "harvest" : hauled<8 ? "haul" : meals<4 ? "meals" : !shelterComplete() || built<8 ? "shelter" : nurtured<2 || born==0 || families==0 ? "family" : continuity==0 ? "teaching" : "fruit";return Component.translatable("message.bunnidogs.hearth.need."+need);}
     public boolean ripe() {return progress()==4 && count(ModItems.LIVING_KEYSTONE.get())==0;}
     public boolean tend() {
         if(!attached() || !ripe() || busy || count(ModItems.GUAVA.get())<16 || count(Items.BONE_MEAL)<2 || count(ModItems.GRAFTING_FRAME.get())<1 || !room(new ItemStack(ModItems.LIVING_KEYSTONE.get())))return false;
@@ -102,12 +105,20 @@ public final class HearthTreeBlockEntity extends RandomizableContainerBlockEntit
         else if(!construction.chooseBase(p))p.sendOverlayMessage(Component.translatable("message.bunnidogs.hearth.plot_blocked"));
     }
     @Override public void onLoad() {super.onLoad();if(attached())HearthSites.register(this);}
-    @Override public int getContainerSize() {return 27;}
+    @Override public int getContainerSize() {return cached() ? 27 : 0;}
+    @Override public boolean isEmpty() {return !cached() || super.isEmpty();}
+    @Override public boolean canOpen(Player player) {return cached() && permitted(player) && super.canOpen(player);}
+    @Override public ItemStack getItem(int slot) {return cached() ? super.getItem(slot) : ItemStack.EMPTY;}
+    @Override public ItemStack removeItem(int slot,int count) {return cached() ? super.removeItem(slot,count) : ItemStack.EMPTY;}
+    @Override public ItemStack removeItemNoUpdate(int slot) {return cached() ? super.removeItemNoUpdate(slot) : ItemStack.EMPTY;}
+    @Override public void setItem(int slot,ItemStack stack) {if(cached())super.setItem(slot,stack);}
+    @Override public void clearContent() {if(cached())super.clearContent();}
+    @Override public boolean canPlaceItem(int slot,ItemStack stack) {return cached() && super.canPlaceItem(slot,stack);}
     @Override protected NonNullList<ItemStack> getItems() {return items;}
     @Override protected void setItems(NonNullList<ItemStack> value) {items=value;}
     @Override protected Component getDefaultName() {return Component.translatable("block.bunnidogs.hearth_tree");}
     @Override protected AbstractContainerMenu createMenu(int id,Inventory inv) {return ChestMenu.threeRows(id,inv,this);}
-    @Override public boolean stillValid(Player p) {return permitted(p) && super.stillValid(p);}
+    @Override public boolean stillValid(Player p) {return cached() && permitted(p) && super.stillValid(p);}
     @Override protected void saveAdditional(ValueOutput o) {super.saveAdditional(o);ContainerHelper.saveAllItems(o,items);o.putString("Site",site.toString());if(owner!=null)o.putString("Owner",owner.toString());o.store("Sites",BlockPos.CODEC.listOf(),sites);o.putBoolean("Authorized",authorized);o.putIntArray("Evidence",new int[]{harvested,hauled,meals,timber,frames,built,nurtured,born,continuity,tending,families});construction.save(o);agenda.save(o);wild.save(o);workshop.save(o);}
     @Override protected void loadAdditional(ValueInput i) {super.loadAdditional(i);items=NonNullList.withSize(27,ItemStack.EMPTY);ContainerHelper.loadAllItems(i,items);try {site=UUID.fromString(i.getStringOr("Site",site.toString()));String id=i.getStringOr("Owner","");owner=id.isEmpty() ? null : UUID.fromString(id);}catch(IllegalArgumentException ignored) {}sites.clear();sites.addAll(i.read("Sites",BlockPos.CODEC.listOf()).orElse(List.of()).stream().limit(12).toList());authorized=i.getBooleanOr("Authorized",false);int[] a=i.getIntArray("Evidence").orElse(new int[0]);if(a.length>=10) {harvested=Math.clamp(a[0],0,32);hauled=Math.clamp(a[1],0,16);meals=Math.clamp(a[2],0,8);timber=Math.clamp(a[3],0,8);frames=Math.clamp(a[4],0,4);built=Math.clamp(a[5],0,100);nurtured=Math.clamp(a[6],0,7);born=Math.clamp(a[7],0,1);continuity=Math.clamp(a[8],0,1);tending=Math.clamp(a[9],0,3);families=a.length>10 ? Math.clamp(a[10],0,1) : 0;}construction.load(i,authorized);agenda.load(i);wild.load(i);workshop.load(i);}
 }

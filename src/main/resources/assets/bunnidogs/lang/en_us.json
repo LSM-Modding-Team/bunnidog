@@ -2653,5 +2653,8 @@
   "care.bunnidogs.learning.workshop": "Workshop lessons",
   "care.bunnidogs.learning.need_household": "Needs a household.",
   "measurement.bunnidogs.workshop": "Workshops",
-  "care.bunnidogs.learning.household": "Household: %s"
+  "care.bunnidogs.learning.household": "Household: %s",
+  "item.bunnidogs.root_cache": "Root Cache",
+  "tooltip.bunnidogs.root_cache": "Wooden stores for an existing wild camp.",
+  "message.bunnidogs.hearth.need.cache": "The camp needs a wooden cache."
 }

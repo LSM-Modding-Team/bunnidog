@@ -3,9 +3,9 @@ from pathlib import Path
 import json
 from PIL import Image,ImageDraw,ImageStat
 root=Path(__file__).resolve().parents[1];a=root/'src/main/resources/assets/bunnidogs'
-im=Image.new('RGB',(1150,600),'#26332e');d=ImageDraw.Draw(im);d.text((24,15),'Hearth Tree - five stages from the shipped block model geometry',fill='white')
+im=Image.new('RGB',(1150,870),'#26332e');d=ImageDraw.Draw(im);d.text((24,15),'Hearth Tree - five stages from the shipped block model geometry',fill='white')
 def draw(name,ox,oy,scale):
- model=json.loads((a/'models/block'/f'{name}.json').read_text());textures=model['textures']
+ model=json.loads((a/'models'/f'{name if "/" in name else "block/"+name}.json').read_text());textures=model['textures']
  def project(p):x,y,z=p;return (ox+(x-z)*scale,oy+(x+z)*scale*.5-y*scale)
  for el in sorted(model['elements'],key=lambda e:(sum(e['from'][::2]),e['from'][1])):
   x,y,z=el['from'];xx,yy,zz=el['to'];key=next(iter(el['faces'].values()))['texture'][1:];tex=textures[key].split(':')[1]
@@ -14,4 +14,7 @@ def draw(name,ox,oy,scale):
 for stage in range(5):draw(f'hearth_tree_{stage}',120+stage*225,220,4);d.text((80+stage*225,260),f'Stage {stage+1}',fill='#e4dbc1')
 d.text((24,320),'Renewable guava coppice - growing, young and mature',fill='white')
 for i,age in enumerate([0,3,7]):draw(f'guava_coppice_{age}',180+i*300,515,4)
-d.text((24,570),'Headless geometry/texture study. In-game lighting and player review remain separate.',fill='#c3cec5');im.save(root/'art/hearth_blocks_preview.png')
+d.text((24,570),'The new wild camp starts with a marker; the paid cache provides its first working stores.',fill='white')
+draw('hearth_tree_bare',150,735,4);draw('item/root_cache',480,735,4);draw('hearth_tree_0',820,735,4)
+for x,label in [(80,'Natural marker'),(410,'Three-plank cache'),(745,'Installed household stores')]:d.text((x,785),label,fill='#e4dbc1')
+d.text((24,840),'Headless geometry/texture study. In-game lighting and player review remain separate.',fill='#c3cec5');im.save(root/'art/hearth_blocks_preview.png')

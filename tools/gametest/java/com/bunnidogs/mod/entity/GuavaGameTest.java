@@ -70,6 +70,7 @@ public final class GuavaGameTest extends GameTestInstance {
         event.registerTest(id("primitive_family"),new GuavaGameTest("primitive_family",new TestData<>(continuity,id("crown_arena"),300000,0,true)));
         event.registerTest(id("primitive_family_reserve"),new GuavaGameTest("primitive_family_reserve",new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_family_carer"),new GuavaGameTest("primitive_family_carer",new TestData<>(environment,id("crown_arena"),300,0,true)));
+        for(String name:new String[]{"primitive_cache_payment","primitive_cache_safety","primitive_cache_callbacks","primitive_cache_meals","primitive_cache_player_legacy","primitive_cache_shared_learning"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_food_tool"),new GuavaGameTest("primitive_food_tool",new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"civic_tool_custody","civic_tool_callbacks"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_material_demand"),new GuavaGameTest("primitive_material_demand",new TestData<>(environment,id("crown_arena"),300,0,true)));
@@ -228,6 +229,12 @@ public final class GuavaGameTest extends GameTestInstance {
             case "primitive_family" -> {PrimitiveFurnitureGameTest.family(h);return;}
             case "primitive_family_reserve" -> {PrimitiveFurnitureGameTest.familyReserve(h);return;}
             case "primitive_family_carer" -> {PrimitiveFurnitureGameTest.familyCarer(h);return;}
+            case "primitive_cache_payment" -> {PrimitiveCacheGameTest.payment(h);return;}
+            case "primitive_cache_safety" -> {PrimitiveCacheGameTest.safety(h);return;}
+            case "primitive_cache_callbacks" -> {PrimitiveCacheGameTest.callbacks(h);return;}
+            case "primitive_cache_meals" -> {PrimitiveCacheGameTest.meals(h);return;}
+            case "primitive_cache_shared_learning" -> {PrimitiveCacheGameTest.sharedLearning(h);return;}
+            case "primitive_cache_player_legacy" -> {PrimitiveCacheGameTest.playerLegacy(h);return;}
             case "primitive_food_tool" -> {PrimitiveFurnitureGameTest.foodTool(h);return;}
             case "civic_tool_custody" -> {CivicToolGameTest.custody(h);return;}
             case "civic_tool_callbacks" -> {CivicToolGameTest.callbacks(h);return;}

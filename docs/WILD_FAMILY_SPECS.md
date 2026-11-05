@@ -1,4 +1,4 @@
-# Wild family glades — paid primitive workshops and first Nests
+# Wild family glades — paid caches, primitive workshops and first Nests
 
 This returns to the original Generations direction: exploring can reveal a family
 whose inherited bodies and minds affect how it actually lives. This is the first
@@ -12,8 +12,8 @@ glade, loaded generation neighbors and four clear/replaceable-plant layers. It
 never clears a tree trunk, block entity, solid obstruction or water. A failed preflight
 changes nothing. It will not activate an older warren or player Hearth.
 
-The finite starting landscape contains an **empty** common root cache (the
-existing Hearth Tree), three fallen guava logs, three hanging fruit,
+The finite starting landscape contains a natural Hearth marker with **zero
+working inventory slots**, four original fallen guava logs, three hanging fruit,
 four mature Coppices, three mature wheat plants and a separate farmland nursery.
 Fresh glades also contain two small natural stone outcrops (twelve original
 blocks) and empty, bounded plots for a native crafting table, three Nests, a
@@ -25,9 +25,13 @@ room can now use a bounded loaded walking detour around the old central Nest.
 This changes no old blocks or approved room boundaries.
 
 These natural starting objects are provided by generation. Residents must now
-craft, carry and place their initial Nests, using the native three-wheat and
-three-plank recipe. The common root cache remains generated infrastructure;
-construction of that primitive cache from raw materials remains open.
+craft, carry and install their initial cache before it exposes normal empty
+storage, then make their initial Nests with the native three-wheat/three-plank
+recipe. The cache uses three planks in a distinct hand-grid L; four planks still
+make the vanilla crafting table. Its fifteen-plank cache/table/sticks/axe/pickaxe
+bill needs four original logs, producing sixteen with one actual plank left.
+See [PRIMITIVE_CACHE_PLAN.md](PRIMITIVE_CACHE_PLAN.md) for the ground journals,
+shared-beginner learning and compatibility details.
 There is no stocked inventory, tool, glass Cradle,
 metal-workshop grant, instant food income or progression receipt.
 
@@ -60,14 +64,20 @@ spend the original permission again. Refusal before an edit can release the
 receipt only while that original source remains. Native saves retain the same
 spent bits; this grants no general tree or replacement-block permission.
 
-- Harvesters spend a longer visible work period clipping the three known fallen
+- Harvesters spend a longer visible work period clipping the known finite fallen
   logs, or pick the actual hanging ripe fruit. Used-log permissions persist:
   placing another log there never authorizes demolition of a player structure.
 - Output is real household-marked ground stock, with ordinary pickup delay,
   lifetime and protection. It is not teleported into the cache.
 - A capable beginner can carry **one** marked item home without the advanced
   Senses requirement. Existing trained/bred bulk haulers retain their advantage.
-- Primitive crafting is limited to the existing native Planks, Sticks, Wooden
+- Before storage exists, actual ground delivery, two hand recipes and compatible
+  ground meals use the clear work cell beside the marker. Native item lifetime,
+  original owner/site, sight, loaded bounds and protection remain. The cache is
+  a real carried product; only paid installation exposes the ordinary inventory.
+  Old glades retain their complete default caches, three original log permissions
+  and exact saved stock; missing new revision data adds nothing.
+- Primitive crafting is limited to the native Root Cache, Planks, Sticks, Wooden
   Crafting Table, Axe/Pickaxe, Furnace, Torch, Nest and Coppice recipes, with real exact inputs,
   outputs and remainders.
   Native recipes still determine affordability. No free grafting frames,
@@ -264,6 +274,28 @@ terrain. A wild glade cannot gift the player's Living Keystone progression.
 
 ## Evidence and remaining work
 
+The current first-cache revision passes all 331 required native cases with the
+Java 25 build/model/localization gate. Six focused cache cases include real
+ground payment, the exact fifteen-plank bill/remaining plank, private and foreign
+items, callback-time capacity/reach/components, rejected spawning/carrier removal,
+native installation reentry, zero-slot automation/menu access, old native
+blockstate decoding and saved stock. Native player recipe lookup distinguishes
+the cache from the unchanged table. The shared-beginner reproduction fails before
+its useful-work fix and passes afterward; one recipe per actual actor does not
+magically supply a trained installer.
+
+The unprovisioned ordinary helper reference starts with zero usable storage,
+installs a paid cache at 1,226 loaded ticks, claims two homes at 75,876, reaches
+the food reserve at 94,291, plants its real parental seed at 100,335 and hatches
+two native pups at 142,070, leaving twenty-five guavas. The separate selected
+capable-founder furnace/light/first-bed reference finishes at 23,042. The actual
+generated and autonomous before/after block snapshots produce the inspected
+headless cell map. These controlled native functional observations do not
+establish naturally rolled staffing, Survival duration, client/co-op feel or
+multiple generations. The observation JSON preserves the early prototype's
+shared-learning stall alongside later successes. Protocol 53 requires both
+client and server to update.
+
 Two `wild_harvest_*` native cases reproduced the previous capacity/receipt bugs
 before the fix. They now cover current capacity/reach at all three harvest paths,
 successful later retry, actual neighbor-notification reentry, one marked timber
@@ -350,7 +382,7 @@ first claimed paid bed/workshop was observed in 29,962 and 72,961 loaded ticks;
 these include native waiting and are not player-effort estimates. The observation
 appendix retains the failed larger exploratory goal alongside those successes.
 
-Still unfinished: self-made initial cache, broader physical recipe/build culture
+Still unfinished: broader physical recipe/build culture
 and records, complete essential-specialist redundancy,
 composed public works, adoption/relationships and independent
 inter-community exchange. Glade frequency, survival over multiple generations,

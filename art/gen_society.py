@@ -104,3 +104,4 @@ sheet.save(ROOT/'art/society_preview.png')
 # Personal delivery lessons extend the household without rewriting its original progression.
 import runpy
 runpy.run_path(str(ROOT/"art/gen_delivery.py"))
+runpy.run_path(str(ROOT/"art/gen_primitive_cache.py"))

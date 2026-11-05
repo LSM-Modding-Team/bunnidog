@@ -14,10 +14,10 @@ import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.transfer.item.*;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
-/** Finite practical recipe vocabulary, executed by the real recipe manager and common-store journal. */
+/** Finite practical recipes, executed by the real recipe manager and original ground/store journals. */
 public final class CivicRecipes {
-    public enum RecipeId { PLANKS,STICKS,AXE,FRAME,NEST,INCENSE,DRESSING,COPPICE,PICKAXE,FURNACE,TORCH,BASKET,WORKBENCH }
-    public static boolean needsWorkbench(RecipeId id) {return switch(id) {case PLANKS,STICKS,INCENSE,COPPICE,TORCH,WORKBENCH->false;default->true;};}
+    public enum RecipeId { PLANKS,STICKS,AXE,FRAME,NEST,INCENSE,DRESSING,COPPICE,PICKAXE,FURNACE,TORCH,BASKET,WORKBENCH,CACHE }
+    public static boolean needsWorkbench(RecipeId id) {return switch(id) {case PLANKS,STICKS,INCENSE,COPPICE,TORCH,WORKBENCH,CACHE->false;default->true;};}
     public record Plan(RecipeId id,CraftingRecipe recipe,CraftingInput input,ItemStack result,List<ItemStack> remainders) {}
     private CivicRecipes() {}
     public static boolean ordinary(ItemStack stack) {if(stack.isEmpty())return false;var plain=stack.copyWithCount(1);plain.remove(ModItems.FARM_ORIGIN.get());return ItemStack.isSameItemSameComponents(plain,new ItemStack(stack.getItem()));}
@@ -25,6 +25,12 @@ public final class CivicRecipes {
     private static Predicate<ItemStack> item(Item item) {return stack->stack.is(item);}
     public static Optional<Plan> prepare(HearthTreeBlockEntity home,RecipeId id) {
         if(!home.attached())return Optional.empty();var level=(ServerLevel)home.getLevel();
+        if(home.camp().bare())return home.camp().prepare(id);
+        var stock=new ArrayList<ItemStack>();for(int slot=0;slot<home.getContainerSize();slot++)stock.add(home.getItem(slot).copy());
+        return prepare(level,id,stock);
+    }
+    /** Read-only native recipe resolution; the caller retains each original physical source journal. */
+    static Optional<Plan> prepare(ServerLevel level,RecipeId id,List<ItemStack> stock) {
         Predicate<ItemStack> planks=stack->stack.is(ItemTags.PLANKS);
         String key,pattern;int width;Map<Character,Predicate<ItemStack>> legend;
         switch(id) {
@@ -41,20 +47,22 @@ public final class CivicRecipes {
             case TORCH -> {key="minecraft:torch";pattern="CS";width=1;legend=Map.of('C',stack->stack.is(Items.COAL) || stack.is(Items.CHARCOAL),'S',item(Items.STICK));}
             case BASKET -> {key="bunnidogs:travel_basket";pattern="P PPLPPSP";width=3;legend=Map.of('P',planks,'L',item(Items.LEATHER),'S',item(Items.LEAD));}
             case WORKBENCH -> {key="minecraft:crafting_table";pattern="PPPP";width=2;legend=Map.of('P',planks);}
+            case CACHE -> {key="bunnidogs:root_cache";pattern="PPP ";width=2;legend=Map.of('P',planks);}
             default -> throw new IllegalStateException();
         }
         var reference=level.recipeAccess().byKey(ResourceKey.create(Registries.RECIPE,Identifier.parse(key))).orElse(null);
         if(reference==null || !(reference.value() instanceof CraftingRecipe recipe))return Optional.empty();
-        int[] left=new int[home.getContainerSize()];for(int i=0;i<left.length;i++)left[i]=home.getItem(i).getCount();var grid=new ArrayList<ItemStack>();
+        int[] left=new int[stock.size()];for(int i=0;i<left.length;i++)left[i]=stock.get(i).getCount();var grid=new ArrayList<ItemStack>();
         for(char part:pattern.toCharArray()) {
             if(part==' ') {grid.add(ItemStack.EMPTY);continue;}var accepts=legend.get(part);ItemStack chosen=ItemStack.EMPTY;
-            for(int slot=0;slot<left.length;slot++)if(left[slot]>0 && ordinary(home.getItem(slot)) && accepts.test(home.getItem(slot))) {chosen=home.getItem(slot).copyWithCount(1);left[slot]--;break;}
+            for(int slot=0;slot<left.length;slot++)if(left[slot]>0 && ordinary(stock.get(slot)) && accepts.test(stock.get(slot))) {chosen=stock.get(slot).copyWithCount(1);left[slot]--;break;}
             if(chosen.isEmpty())return Optional.empty();grid.add(chosen);
         }
         var input=CraftingInput.of(width,pattern.length()/width,List.copyOf(grid));if(!recipe.matches(input,level))return Optional.empty();var result=recipe.assemble(input);
         return result.isEmpty() ? Optional.empty() : Optional.of(new Plan(id,recipe,input,result,List.copyOf(recipe.getRemainingItems(input))));
     }
     public static boolean craft(Bunnidog dog,HearthTreeBlockEntity home,RecipeId id) {
+        if(home.camp().bare())return home.camp().craft(dog,id);
         var plan=prepare(home,id).orElse(null);if(plan==null)return false;
         var level=(ServerLevel)dog.level();
         if(!EventHooks.canEntityGrief(level,dog) || !dog.society().canCraft(id) || dog.society().hearth()!=home || level.hasNeighborSignal(home.getBlockPos()))return false;

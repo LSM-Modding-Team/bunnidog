@@ -21,8 +21,8 @@ GLYPHS = {"hearth_tree": "H", "nest": "N", "guava_log": "L", "guava_coppice": "C
 
 def main():
     sources = [("Generated ProtoChunk glade", ROOT / "generated.json"),
-               ("Controlled site before work", ROOT / "start.json"),
-               ("Same site after the paid work chain", ROOT / "completed.json")]
+               ("New camp before autonomous work", ROOT / "camp_start.json"),
+               ("Same camp after autonomous paid work", ROOT / "camp_completed.json")]
     canvas = Image.new("RGB", (1550, 810), (32, 42, 38))
     draw = ImageDraw.Draw(canvas)
     font = ImageFont.truetype("DejaVuSans.ttf", 16)
@@ -49,10 +49,14 @@ def main():
                 top = max(column, key=lambda cell: cell["y"])
                 name = top["block"].split(":", 1)[1]
                 color = PALETTE.get(name, (162, 116, 163))
+                if name == "hearth_tree" and not top.get("cached", True):
+                    color = (103, 117, 72)
                 draw.rectangle((px, py, px + size - 1, py + size - 1), fill=color, outline=(50, 67, 51))
                 if name == "torch":
                     draw.ellipse((px + 2, py + 2, px + size - 3, py + size - 3), fill=(255, 235, 166))
                 glyph = str(top["y"] + 1) if name == "stone" else GLYPHS.get(name, "")
+                if name == "hearth_tree" and not top.get("cached", True):
+                    glyph = "M"
                 if glyph:
                     draw.text((px + 6, py + 3), glyph, font=small, fill=(24, 32, 27))
         for plot in snapshot.get("rest_plots", []):
@@ -69,9 +73,9 @@ def main():
         draw.text((38 + panel * 510, 612), f"{count} stone · {benches} table · {furnaces} furnace · {torches} torches · {nests} Nests", font=font, fill=(239, 232, 208))
         provenance["sources"].append({"file": path.name, "sha256": hashlib.sha256(raw).hexdigest(),
                                       "evidence": snapshot["evidence"], "native_cells": len(snapshot["cells"])})
-    draw.text((30, 670), "H: original cache  B: paid crafting table  N: nest  L: fallen log  C: coppice  g: fruit with leaf support  w: wheat", font=small, fill=(225, 223, 198))
+    draw.text((30, 670), "M: bare marker  H: installed cache  B: paid table  N: nest  L: fallen log  C: coppice  g: supported fruit  w: wheat", font=small, fill=(225, 223, 198))
     draw.text((30, 696), "F: paid native furnace  T: supported torch  Blue outline: empty paid Nest plot  1 / 2: actual stone-column height", font=small, fill=(225, 223, 198))
-    draw.text((30, 735), "Generated: actual WorldGenRegion / unfinished ProtoChunks. Controlled pair: the same empty-store site before and after native work.", font=small, fill=(184, 202, 187))
+    draw.text((30, 735), "Generated: WorldGenRegion / unfinished ProtoChunks. Native walking pair: selected capable founders; no supplied materials or learned skills.", font=small, fill=(184, 202, 187))
     draw.text((30, 759), "Schematic block map only. Natural founder selection, Survival duration and client appearance remain separate evidence.", font=small, fill=(184, 202, 187))
     ROOT.mkdir(parents=True, exist_ok=True)
     canvas.save(ROOT / "overview.png")

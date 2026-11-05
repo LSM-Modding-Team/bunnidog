@@ -1,26 +1,34 @@
-# First resident-made cache — next I7 implementation
+# First resident-made cache — implementation and evidence
 
-This is an implementation direction, **not shipped behavior**. The current
-Hearth Tree is still generated empty storage. Paying a few planks into that
-already-functional inventory would not prove residents made their first cache.
-Keep [WILD_FAMILY_SPECS.md](WILD_FAMILY_SPECS.md)'s actual first-litter evidence
-separate from this remaining dependency.
+New glades now begin at a natural marker with **zero usable inventory slots**.
+Residents make their actual first Root Cache from original ground materials,
+carry it and install it before ordinary common storage opens. The original
+site, community owner, frozen founders and block entity survive that transition.
+Existing glades and player Hearths retain complete storage by default.
+Java 25 build/model/localization and all 331 required native cases pass. The
+ordinary family installs its cache at 1,226 loaded ticks and produces two actual
+pups at 142,070; the separate workshop reference completes at 23,042. The native
+generated/before/after cell map and actual exported marker/cache geometry are
+inspected headlessly. Main CI remains the public JAR gate; natural pacing and
+multiple generations remain pending human test. Protocol 53 requires matching
+client/server content.
 
 ## The real circle and material bill
 
-Current primitive recipes read the original Hearth inventory. Haulers need that
-inventory to deliver, and hungry workers need it for meals. Removing the initial
-cache therefore requires a real ground-stock path for all three operations.
-A decorative building payment alone leaves the original circle intact.
+The former bootstrap read the original Hearth inventory for recipes, delivery
+and hungry meals. Removing that initial cache required real ground supplies
+for all three operations. This implementation closes those dependencies through
+actual paid items; a decorative building payment alone would leave them intact.
 
-A proposed hand-sized cache recipe can use four native planks. With the existing
-table (four), sticks (two planks producing four sticks), wooden axe (three) and
-pickaxe (three), the first cache/tool chain needs **sixteen planks**. The present
-three fallen logs supply only twelve. A new glade revision can record one more
-real fallen log, keeping old sites' original three positions and spent bits.
-Do not add invisible wood, replenish spent sites or require a three-by-three
-chest recipe before the first actual workbench exists. Native recipe matching,
-results and remainders must remain authoritative.
+The original four-plank proposal duplicated vanilla's two-by-two crafting-table
+recipe. The implemented cache uses a distinct three-plank L in the hand grid.
+With the table (four), sticks (two planks producing four sticks), wooden axe
+(three) and pickaxe (three), the chain spends **fifteen planks**. Three original
+logs give only twelve; four real original logs produce sixteen, leaving one
+actual plank. Only this new revision has the fourth finite log. Old positions
+and spent bits remain unchanged. There is no invisible wood, replenishment or
+three-by-three chest dependency before the first table. Native player recipe
+lookup must distinguish the cache from the unchanged table.
 
 ## One coherent implementation
 
@@ -30,18 +38,22 @@ results and remainders must remain authoritative.
    retain those identities; it must not drop/recreate the household or move
    existing stock through a temporary second inventory.
 2. Haulers carry real marked supplies to a small clear ground work area beside
-   the marker. Deposit must succeed through native item spawning before clearing
-   the original parcel. Refused spawning retains that parcel. Items keep their
+   the marker. Reserve the original parcel before native item-spawn callbacks;
+   refused spawning refunds it exactly, or returns it physically if its carrier
+   died. Only accepted spawning completes delivery. Items keep their
    normal lifetime; this is not immortal floor storage or a virtual resource list.
 3. Hand crafting resolves exact ordinary household-marked ground inputs, checks
    actual local reach/sight and native protection, and pays original item-entity
-   transaction journals. Output is real marked ground stock. Named/custom items,
+   transaction journals. Output enters actual carried cargo immediately before
+   input commit, then needs its normal physical delivery. This prevents a refused
+   output spawn from silently losing a paid recipe. Named/custom items,
    foreign origins/owners and remote items remain unavailable. Reading a recipe
    or surveying the area reserves nothing.
 4. Ground meals consume one actual compatible item through the same custody
    checks. Keep the six-operation ration budget and inherited Diet. No food is
    credited by arrival, availability scans or canceled transfers.
-5. A personally trained independent craftsperson carries the actual completed
+5. A personally trained independent craftsperson, or a genuinely capable builder,
+   carries the actual completed
    cache item and installs it at the original marker. Recheck the original site,
    owner, body, item, current state, loaded surroundings, protection and guidance
    after callbacks. Only successful physical installation enables common stock.
@@ -49,6 +61,19 @@ results and remainders must remain authoritative.
 6. Larger recipes still require the paid physical table. Retain distinct
    Crafting/Building, original furniture versus room permissions, recorded actual
    examples, ordinary worn tools and exact original parcel returns.
+
+Ground crafting supports only the two initial native recipes, Planks and Cache.
+Both normally have empty native remainders. A data pack adding unsupported
+remainders or private/custom outputs pauses this ground path before payment;
+ordinary installed-storage recipes retain their full native remainder journal.
+
+Actual beginners can split the first recipes among themselves. A paid cache and
+enough unused planks do not imply that anyone has mastered Crafting. While that
+cache has no actual qualified installer, another useful paid Planks recipe may
+continue from original ground logs even above the initial plank bill. This earns
+only its actual actor's personal practice. It cannot make a duplicate cache,
+create wood or upload another resident's skills. The native shared-learning
+case reproduces the former stall before this rule is applied.
 
 The ground area must be clear and visible, **not inside the marker's collision
 box**. Extend the current stock/station stand selection for the real ground
@@ -70,13 +95,17 @@ their bills while they travel.
   exact old blockstate defaults and a distinct inspected native preview. Keep
   any requested status brief; no profession selector, mandatory guide or HUD.
 
-## Evidence required before enabling natural generation
+## Verification and human acceptance
 
-Prove actual log → ground planks → cache → table/tools with no supplied inventory,
-food, skills or bred points. Also cover protection/capacity/visibility loss,
-failed item spawning, native reentry, original household reload, full destination,
-private/foreign stock, spent-log replacement and old-save isolation. Keep a
-separate native walking/growth/ration/night reference through the first claimed
+The native payment case follows actual log → ground planks → cache → table/tools
+with no supplied inventory, food, skills or bred points, and verifies the exact
+remaining plank. Focused cases cover protection/capacity/reach loss,
+failed item spawning, native reentry, original household reload, obstructed destination,
+private/foreign stock, shared beginner learning and old-save isolation. The
+existing timber-reentry case retains spent-log replacement coverage. The actual
+old blockstate codec, native menu provider and zero-slot automation are checked;
+detached generation still uses real WorldGenRegion/unfinished ProtoChunks.
+Keep a separate native walking/growth/ration/night reference through the first claimed
 Nest and parental seed/litter. Regenerate the actual glade cell map and inspect
 the new marker/cache states. Natural pacing, staffing, client/co-op appearance
 and multiple generations remain human acceptance after those functional gates.

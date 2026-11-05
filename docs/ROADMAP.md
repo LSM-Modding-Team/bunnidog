@@ -62,20 +62,24 @@ real expert-loss replacement. [WORKSHOP_RECORDS_SPECS.md](WORKSHOP_RECORDS_SPECS
 preserves actual paid craft procedures in books; beginners still learn through
 their own work. Fresh wild families also build their first paid Nests and actual
 native workbench. Larger recipes use that reachable visible station, and saved
-walking workshop parcels prevent duplicate material bills. The initial cache, broader construction culture
-and complete natural staffing/continuity remain open.
+walking workshop parcels prevent duplicate material bills. New camps also make
+their initial usable cache through actual ground delivery/crafting/meals and a
+paid carried installation. Broader construction culture and complete natural
+staffing/continuity remain open.
 The founder audit also moves standard primitive furniture assembly under actual
 learned independent Crafting, retaining Building for architecture. Ordinary
 helper-profile native cases now prove that first-bed path; all original gene
 weights, capacity limits, material/authority bounds and saved learning stay.
 The same ordinary profile now reaches an actual first litter without supplied
 food/tools/learning. Real food reserves, hungry wood/table recovery, private-tool
-custody and usable material demand close further dependency gaps. Initial
-self-made storage, missing-specialist recovery and natural multi-generation
+custody and usable material demand close further dependency gaps. Missing-
+specialist recovery and natural multi-generation
 acceptance remain open; these references do not certify civilization or pacing.
-The next [primitive cache direction](PRIMITIVE_CACHE_PLAN.md) records the real
-ground-stock/meal/crafting circle and sixteen-plank bootstrap bill. It is planned,
-not an already-built cache or a new cost in this release.
+The [primitive cache implementation](PRIMITIVE_CACHE_PLAN.md) records the real
+ground-stock/meal/crafting path and fifteen-plank bootstrap bill. Four original
+logs produce sixteen with one left; older glades retain their exact storage and
+three log permissions. Native functional evidence remains distinct from natural
+staffing, client appearance and human pacing acceptance.
 
 Use [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md) as the accepted gap reference.
 Shared job claims, finite public dependency plans, fitted construction crews and

@@ -2653,5 +2653,8 @@
   "care.bunnidogs.learning.workshop": "Lecciones de taller",
   "care.bunnidogs.learning.need_household": "Necesita un hogar comunitario.",
   "measurement.bunnidogs.workshop": "Talleres",
-  "care.bunnidogs.learning.household": "Hogar: %s"
+  "care.bunnidogs.learning.household": "Hogar: %s",
+  "item.bunnidogs.root_cache": "Almacén de raíces",
+  "tooltip.bunnidogs.root_cache": "Depósito de madera para un campamento silvestre existente.",
+  "message.bunnidogs.hearth.need.cache": "El campamento necesita un almacén de madera."
 }

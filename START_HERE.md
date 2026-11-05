@@ -7,7 +7,46 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 Previous sections retain their checkpoint's protocol/evidence; the current
 section below takes precedence.
 
-## Current — family preparation needs an available carer
+## Current — resident-made first cache
+
+New wild glades begin with a natural marker and zero working inventory slots.
+Residents use actual marked ground delivery, native hand recipes and compatible
+ground meals before carrying and installing their first Root Cache. The same
+block entity/site/community owner/frozen founders survive installation. Storage
+then opens empty, and other materials still need real pickup/delivery.
+
+The distinct hand recipe uses three planks in an L, preserving vanilla's four-
+plank table recipe. Four actual original logs produce sixteen planks; the cache,
+table, four sticks, axe and pickaxe spend fifteen, leaving one actual plank.
+Older saves/placed Hearths keep complete storage and their exact stock/defaults;
+missing new revision data grants neither another log nor another founder attempt.
+
+An early autonomous run exposed shared beginner learning: one successful recipe
+per resident left a paid cache with no trained installer. Existing plank stock
+suppressed further useful recipes until ground supplies expired. The focused
+native reproduction failed before the fix and passed afterward; useful paid
+plank work now continues until a real installer exists. No education, materials,
+extra tool uses or building experience are granted. Six focused cache cases cover
+native payment/menu/automation/recipe lookup, saves, private goods, protection,
+carrier removal/output cancellation/reentry and old defaults.
+
+Java 25 **`build checkBunnidogModel runGameTestServer` passes all 331 required
+native cases**. The ordinary unprovisioned family installed its cache at 1,226
+loaded ticks, claimed two homes at 75,876, planted its native parental seed at
+100,335 and produced two pups at 142,070, with twenty-five guavas remaining.
+The separate native furnace/light/first-bed reference completed at 23,042 ticks.
+The actual generated/before/after native cell map and exported block geometry
+previews are inspected; they are headless evidence. Main CI remains the public
+JAR gate. Protocol **53** requires matching client/server content.
+[PRIMITIVE_CACHE_PLAN.md](docs/PRIMITIVE_CACHE_PLAN.md) records the expanded
+implementation and exact evidence scope. The observation JSON retains the
+earlier 329/330 prototype and its learning-stall diagnostics alongside successes.
+
+Natural founder selection, pacing, client/co-op appearance, specialist continuity,
+multiple generations and the existing rebalance candidate remain pending human
+test. The prior `1016be7` passed all 325 in main CI and published its verified JAR.
+
+## Previous — family preparation needs an available carer
 
 Ready parents no longer hold their healthy helpers in food-only preparation
 when the sole family-care specialist is injured, unsafe or otherwise unable to
@@ -24,7 +63,8 @@ again produced two pups at 155,309 loaded ticks, with eleven guavas remaining.
 Main CI remains this checkpoint's publication gate. Protocol **52** stays.
 
 Natural/client/co-op pacing, multiple generations and the rebalance candidate
-remain pending human test. The initial cache plan below remains unimplemented.
+remain pending human test. At this older checkpoint the initial cache plan
+remained unimplemented; the current section above supersedes that gap.
 
 ## Previous — live harvest eligibility and original timber receipts
 

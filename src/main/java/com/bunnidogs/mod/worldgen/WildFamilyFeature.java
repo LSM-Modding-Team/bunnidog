@@ -20,10 +20,14 @@ public final class WildFamilyFeature extends Feature<NoneFeatureConfiguration> {
         }return true;
     }
     public static boolean generate(WorldGenLevel world,BlockPos at,long seed) {
+        return generate(world,at,seed,true);
+    }
+    /** Explicit revision for controlled legacy contracts and the new physical camp bootstrap. */
+    public static boolean generate(WorldGenLevel world,BlockPos at,long seed,boolean primitiveCamp) {
         if(!fits(world,at))return false;
         for(int x=-7;x<=7;x++)for(int z=-8;z<=10;z++)for(int y=0;y<4;y++)if(!world.getBlockState(at.offset(x,y,z)).isAir())world.setBlock(at.offset(x,y,z),Blocks.AIR.defaultBlockState(),2);
-        world.setBlock(at,ModBlocks.HEARTH_TREE.get().defaultBlockState(),2);
-        if(!(world.getBlockEntity(at) instanceof HearthTreeBlockEntity home) || !home.wild().configure(seed))return false;
+        world.setBlock(at,ModBlocks.HEARTH_TREE.get().defaultBlockState().setValue(HearthTreeBlock.CACHED,!primitiveCamp),2);
+        if(!(world.getBlockEntity(at) instanceof HearthTreeBlockEntity home) || !home.wild().configure(seed,primitiveCamp))return false;
         for(var stone:home.wild().works().stones())world.setBlock(stone,Blocks.STONE.defaultBlockState(),2);
         for(var pos:home.wild().timber())world.setBlock(pos,ModBlocks.GUAVA_LOG.get().defaultBlockState(),2);
         for(var pos:home.wild().fruit()) {

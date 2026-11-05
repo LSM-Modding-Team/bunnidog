@@ -14,7 +14,10 @@ import net.neoforged.neoforge.event.entity.EntityMobGriefingEvent;
 /** Ordinary helper-profile craftspeople furnish original primitive plots without acquiring architecture. */
 final class PrimitiveFurnitureGameTest {
     private static WildFamilyGameTest.Site setup(GameTestHelper h) {
-        var initial=WildFamilyGameTest.setup(h,false,false);var home=initial.home();var saved=home.saveWithFullMetadata(h.getLevel().registryAccess());var founders=new net.minecraft.nbt.ListTag();for(int i=0;i<3;i++)founders.add(net.minecraft.nbt.StringTag.valueOf(Genome.DEFAULT.toString()));saved.put("WildFounders",founders);home.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),saved));
+        return setup(h,false);
+    }
+    static WildFamilyGameTest.Site setup(GameTestHelper h,boolean camp) {
+        var initial=WildFamilyGameTest.setup(h,false,false,camp);var home=initial.home();var saved=home.saveWithFullMetadata(h.getLevel().registryAccess());var founders=new net.minecraft.nbt.ListTag();for(int i=0;i<3;i++)founders.add(net.minecraft.nbt.StringTag.valueOf(Genome.DEFAULT.toString()));saved.put("WildFounders",founders);home.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),saved));
         for(int i=0;i<3;i++)home.wild().tick();var dogs=home.residents();h.assertTrue(dogs.size()==3 && home.wild().founders().stream().allMatch(Genome.DEFAULT::equals),"The actual frozen ordinary helper-profile founders spawn once, rather than receiving an elite mind or a reroll");
         dogs.forEach(d->{d.setNoAi(true);d.setOnGround(true);h.assertTrue(d.stats().equals(Stats.ZERO) && d.learning().knowledge().equals(Learning.EMPTY) && CapabilityRules.potential(d.mind(),CapabilityRules.Task.BUILDING)==CapabilityRules.Potential.LIMITED && CapabilityRules.potential(d.mind(),CapabilityRules.Task.CRAFTING)==CapabilityRules.Potential.INDEPENDENT,"The untrained ordinary profile can learn crafting but remains genetically limited at architecture");});return new WildFamilyGameTest.Site(h,home,dogs);
     }
@@ -40,15 +43,20 @@ final class PrimitiveFurnitureGameTest {
         h.assertTrue(WildFamilyGameTest.act(c,dog,SocietyWork.Kind.DELIVER,home.getBlockPos()) && home.count(Items.CRAFTING_TABLE)==1 && dog.learning().knowledge().progress(Learning.Routine.BUILD)==0,"Safety recovery returns the exact table even after capacity loss, without fictitious architecture");WildFamilyGameTest.clean(c);h.succeed();
     }
     static void ai(GameTestHelper h) {
-        var c=setup(h);c.dogs().forEach(d->d.setNoAi(false));long started=h.getLevel().getGameTime();
+        var c=setup(h,true);h.assertTrue(c.home().getContainerSize()==0 && c.home().camp().bare(),"The autonomous reference starts before its first paid cache");c.dogs().forEach(d->d.setNoAi(false));long started=h.getLevel().getGameTime();
+        for(int checkpoint:new int[]{2000,5000,10000,40000,80000,110000})h.runAfterDelay(checkpoint,()->{
+            var home=c.home();if(home.residents().isEmpty())return;
+            com.bunnidogs.mod.BunnidogsMod.LOGGER.info("PRIMITIVE_CACHE_WAIT tick={} cached={} stock={} table={} timber_remaining={} ground={} workers={}",h.getLevel().getGameTime()-started,home.cached(),java.util.stream.IntStream.range(0,home.getContainerSize()).mapToObj(i->home.getItem(i).toString()).filter(s->!s.equals("0 minecraft:air")).toList(),h.getLevel().getBlockState(home.wild().works().workbench()),home.wild().timber().stream().filter(home.wild()::timberAvailable).count(),h.getLevel().getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class,new net.minecraft.world.phys.AABB(home.getBlockPos()).inflate(24)).stream().map(e->e.getItem()+" at="+e.position()).toList(),c.dogs().stream().map(d->"job="+d.society().active()+" cargo="+d.society().workSupplies()+" at="+d.position()+" ready="+d.society().ready()+" learning="+d.learning().knowledge()+" offers="+d.society().offers()).toList());
+        });
         h.succeedWhen(()->{var home=c.home();h.assertTrue(home.construction().owned(home.wild().works().workbench()) && home.count(Items.WOODEN_AXE)==1 && home.wild().beds().stream().anyMatch(home.construction()::owned) && c.dogs().stream().anyMatch(d->d.homeNest()!=null && home.wild().beds().contains(d.homeNest()) && home.construction().owned(d.homeNest())),"Ordinary native founders must walk, learn real crafting, make tools and build/claim their first paid Nest without an architect; logs="+home.count(ModItems.GUAVA_LOG.get())+", planks="+home.count(ModItems.GUAVA_PLANKS.get())+", wheat="+home.count(Items.WHEAT)+", jobs="+c.dogs().stream().map(d->String.valueOf(d.society().active())).toList());h.assertTrue(c.dogs().stream().allMatch(d->d.learning().knowledge().progress(Learning.Routine.BUILD)==0 && d.stats().equals(Stats.ZERO)),"The autonomous ordinary family retains its real architectural and physical limits");com.bunnidogs.mod.BunnidogsMod.LOGGER.info("PRIMITIVE_FURNITURE_COMPLETE loaded_ticks={} helper_mind={} guavas_left={}",h.getLevel().getGameTime()-started,c.dogs().getFirst().mind(),home.count(ModItems.GUAVA.get()));WildFamilyGameTest.clean(c);});
     }
     static void family(GameTestHelper h) {
-        var c=setup(h);c.dogs().forEach(d->d.setNoAi(false));long started=h.getLevel().getGameTime();
-        var maximum=new int[1];var milestones=new long[]{-1,-1,-1};
+        var c=setup(h,true);h.assertTrue(c.home().getContainerSize()==0 && c.home().camp().bare(),"The actual family reference begins without a functioning cache");c.dogs().forEach(d->d.setNoAi(false));long started=h.getLevel().getGameTime();
+        var maximum=new int[1];var milestones=new long[]{-1,-1,-1,-1};
         h.succeedWhen(()->{
             var home=c.home();maximum[0]=Math.max(maximum[0],home.count(ModItems.GUAVA.get()));var pups=home.residents().stream().filter(d->d.isBaby() && d.society().child()).toList();
             long elapsed=h.getLevel().getGameTime()-started;
+            if(milestones[3]<0 && home.cached()) {milestones[3]=elapsed;com.bunnidogs.mod.BunnidogsMod.LOGGER.info("PRIMITIVE_FAMILY_FIRST_CACHE loaded_ticks={}",elapsed);}
             if(milestones[0]<0 && c.dogs().stream().filter(d->d.homeNest()!=null).count()>=2) {milestones[0]=elapsed;com.bunnidogs.mod.BunnidogsMod.LOGGER.info("PRIMITIVE_FAMILY_TWO_HOMES loaded_ticks={}",elapsed);}
             if(milestones[1]<0 && maximum[0]>=20) {milestones[1]=elapsed;com.bunnidogs.mod.BunnidogsMod.LOGGER.info("PRIMITIVE_FAMILY_RESERVE loaded_ticks={}",elapsed);}
             if(milestones[2]<0 && h.getLevel().getBlockEntity(home.wild().nursery()) instanceof com.bunnidogs.mod.block.SeedCropBlockEntity) {milestones[2]=elapsed;com.bunnidogs.mod.BunnidogsMod.LOGGER.info("PRIMITIVE_FAMILY_PLANTED loaded_ticks={}",elapsed);}

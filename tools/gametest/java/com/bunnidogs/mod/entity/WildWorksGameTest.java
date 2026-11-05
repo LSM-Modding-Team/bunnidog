@@ -41,9 +41,9 @@ public final class WildWorksGameTest {
         for(int x=-7;x<=7;x++)for(int z=-8;z<=10;z++)for(int y=-1;y<4;y++) {
             var state=level.getBlockState(origin.offset(x,y,z));if(state.isAir())continue;
             var cell=new JsonObject();cell.addProperty("x",x);cell.addProperty("y",y);cell.addProperty("z",z);
-            cell.addProperty("block",net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString());cells.add(cell);
+            cell.addProperty("block",net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString());if(state.hasProperty(HearthTreeBlock.CACHED))cell.addProperty("cached",state.getValue(HearthTreeBlock.CACHED));cells.add(cell);
         }
-        var out=new JsonObject();out.addProperty("evidence",evidence);out.add("cells",cells);var rest=new JsonArray();
+        var out=new JsonObject();out.addProperty("evidence",evidence);out.addProperty("primitive_camp",home.wild().campStart());out.addProperty("cached",home.cached());out.add("cells",cells);var rest=new JsonArray();
         if(home.wild().works().restPlots())for(var at:home.wild().beds()) {var plot=new JsonObject();plot.addProperty("x",at.getX()-origin.getX());plot.addProperty("y",at.getY()-origin.getY());plot.addProperty("z",at.getZ()-origin.getZ());rest.add(plot);}out.add("rest_plots",rest);
         try {java.nio.file.Files.writeString(java.nio.file.Path.of(path),new GsonBuilder().setPrettyPrinting().create().toJson(out)+"\n");}
         catch(java.io.IOException error) {throw new RuntimeException(error);}
@@ -124,7 +124,8 @@ public final class WildWorksGameTest {
         WildFamilyGameTest.clean(c);h.succeed();
     }
     static void ai(GameTestHelper h) {
-        var c=WildFamilyGameTest.setup(h,true);var home=c.home();c.dogs().forEach(dog->dog.setNoAi(false));
+        var c=WildFamilyGameTest.setup(h,true,true,true);var home=c.home();h.assertTrue(home.camp().bare() && home.getContainerSize()==0,"The workshop reference begins before its actual first cache");c.dogs().forEach(dog->dog.setNoAi(false));
+        preview(h.getLevel(),home,"wild_camp_start.json","Native autonomous new-camp reference before work: four original logs, no usable cache, selected capable zero-point founders, empty education and no supplied stock/tools/food.");
         long started=h.getLevel().getGameTime();
         for(int checkpoint:new int[]{10000,40000,80000,110000})h.runAfterDelay(checkpoint,()->{
             if(home.residents().isEmpty())return;
@@ -135,6 +136,7 @@ public final class WildWorksGameTest {
                     "Actual unsupervised empty-store residents must make their workbench/stone/furnace/charcoal/lights and first Nests; guavas="+home.count(ModItems.GUAVA.get())+", logs="+home.count(ModItems.GUAVA_LOG.get())+", planks="+home.count(ModItems.GUAVA_PLANKS.get())+", sticks="+home.count(Items.STICK)+", tables="+home.count(Items.CRAFTING_TABLE)+", axes="+home.count(Items.WOODEN_AXE)+", cobble="+home.count(Items.COBBLESTONE)+", charcoal="+home.count(Items.CHARCOAL)+", torches="+home.count(Items.TORCH)+", paid_nests="+home.wild().beds().stream().filter(home.construction()::owned).count()+", plan="+home.agenda().need()+" "+home.agenda().steps()+", jobs="+c.dogs().stream().map(dog->String.valueOf(dog.society().active())+" cargo="+dog.society().workSupplies()+" ready="+dog.society().ready()+" night="+dog.homeNight()+" at="+dog.position()).toList());
             h.assertTrue(home.construction().owned(home.wild().works().workbench()) && home.wild().beds().stream().anyMatch(home.construction()::owned) && c.dogs().stream().anyMatch(dog->dog.homeNest()!=null && home.wild().beds().contains(dog.homeNest()) && home.construction().owned(dog.homeNest())),"Actual native residents build their workbench and claim their first paid Nest without a player supplying either");
             com.bunnidogs.mod.BunnidogsMod.LOGGER.info("WILD_WORKSHOP_COMPLETE loaded_ticks={} paid_initial_nests={} guavas_left={} logs_left={} planks_left={}",h.getLevel().getGameTime()-started,home.wild().beds().stream().filter(home.construction()::owned).count(),home.count(ModItems.GUAVA.get()),home.count(ModItems.GUAVA_LOG.get()),home.count(ModItems.GUAVA_PLANKS.get()));
+            preview(h.getLevel(),home,"wild_camp_completed.json","Same native autonomous site after its real ground-paid first cache, walked table/tools/stone/furnace/charcoal/lights and first claimed paid Nest. Normal growth, rations and night rest; no supplied materials or taught skills. Selected capable founder profile is separate from natural staffing/Survival/client acceptance.");
             WildFamilyGameTest.clean(c);
         });
     }

@@ -1,0 +1,115 @@
+package com.bunnidogs.mod.entity;
+
+import com.bunnidogs.mod.genetics.*;
+import com.bunnidogs.mod.registry.*;
+import com.bunnidogs.mod.society.*;
+import java.util.*;
+import java.util.function.Consumer;
+import net.minecraft.core.*;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.ProblemReporter;
+import net.minecraft.world.*;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.phys.*;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.*;
+import net.neoforged.neoforge.event.level.BlockEvent.*;
+import net.neoforged.neoforge.transfer.item.*;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+
+/** Actual ground supplies and carried native products before a household has any working inventory. */
+final class PrimitiveCacheGameTest {
+    private static List<ItemEntity> ground(WildFamilyGameTest.Site c) {return c.h().getLevel().getEntitiesOfClass(ItemEntity.class,new AABB(c.home().getBlockPos()).inflate(24));}
+    private static ItemEntity material(WildFamilyGameTest.Site c,Item item) {return ground(c).stream().filter(e->e.getItem().is(item)).findFirst().orElseThrow();}
+    private static boolean craft(WildFamilyGameTest.Site c,Bunnidog dog,CivicRecipes.RecipeId recipe) {return WildFamilyGameTest.act(c,dog,SocietyWork.Kind.CRAFT,c.home().getBlockPos(),recipe.ordinal());}
+    private static boolean deliver(WildFamilyGameTest.Site c,Bunnidog dog) {return WildFamilyGameTest.act(c,dog,SocietyWork.Kind.DELIVER,c.home().getBlockPos());}
+    private static void collect(WildFamilyGameTest.Site c,Bunnidog dog,ItemEntity item) {
+        item.setNoPickUpDelay();SocietyGameTest.rest(dog);dog.snapTo(item.position().add(1,0,0));dog.setOnGround(true);
+        c.h().assertTrue(dog.society().perform(new SocietyWork.Job(SocietyWork.Kind.GATHER_FIELD,item.blockPosition(),item.getId(),item.level().getBlockState(item.blockPosition()))),"The real untrained courier picks one original marked ground item");
+    }
+    private static void firstPlanks(WildFamilyGameTest.Site c,Bunnidog dog) {
+        c.h().assertTrue(WildFamilyGameTest.act(c,dog,SocietyWork.Kind.CLIP_WOOD,c.home().wild().timber().getFirst()),"The first real original fallen log is harvested");collect(c,dog,material(c,ModItems.GUAVA_LOG.get()));
+        c.h().assertTrue(deliver(c,dog) && c.home().getContainerSize()==0 && ground(c).stream().anyMatch(e->e.getItem().is(ModItems.GUAVA_LOG.get())),"The log is delivered to an actual ground entity while no cache inventory exists");
+        ground(c).forEach(ItemEntity::setNoPickUpDelay);
+        c.h().assertTrue(craft(c,dog,CivicRecipes.RecipeId.PLANKS) && dog.society().workSupplies().is(ModItems.GUAVA_PLANKS.get()) && dog.society().workSupplies().getCount()==4 && ground(c).stream().noneMatch(e->e.getItem().is(ModItems.GUAVA_LOG.get())),"A real native hand recipe pays the original ground log and carries its four actual planks");
+    }
+    private static void cacheParcel(WildFamilyGameTest.Site c,Bunnidog dog) {
+        firstPlanks(c,dog);c.h().assertTrue(deliver(c,dog),"The four paid planks return to the visible camp mat");ground(c).forEach(ItemEntity::setNoPickUpDelay);
+        c.h().assertTrue(craft(c,dog,CivicRecipes.RecipeId.CACHE) && dog.society().workSupplies().is(ModItems.ROOT_CACHE.get()) && ground(c).stream().filter(e->e.getItem().is(ModItems.GUAVA_PLANKS.get())).mapToInt(e->e.getItem().getCount()).sum()==1,"The distinct native three-plank recipe makes one carried cache and leaves the real fourth plank on the ground before any storage opens");
+    }
+    static void payment(GameTestHelper h) {
+        var c=PrimitiveFurnitureGameTest.setup(h,true);var home=c.home();var dog=c.dogs().getFirst();var site=home.site();var owner=home.owner();var founders=home.wild().founders();
+        h.assertTrue(home.camp().bare() && home.getContainerSize()==0 && home.isEmpty() && home.wild().timber().size()==4,"Fresh camps start with a marker, four finite original logs and no functioning inventory");
+        var plank=new ItemStack(ModItems.GUAVA_PLANKS.get());var cacheGrid=net.minecraft.world.item.crafting.CraftingInput.of(2,2,List.of(plank.copy(),plank.copy(),plank.copy(),ItemStack.EMPTY));var tableGrid=net.minecraft.world.item.crafting.CraftingInput.of(2,2,List.of(plank.copy(),plank.copy(),plank.copy(),plank.copy()));var recipes=h.getLevel().recipeAccess();
+        h.assertTrue(recipes.getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING,cacheGrid,h.getLevel()).orElseThrow().value().assemble(cacheGrid).is(ModItems.ROOT_CACHE.get()) && recipes.getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING,tableGrid,h.getLevel()).orElseThrow().value().assemble(tableGrid).is(Items.CRAFTING_TABLE),"Actual native player recipe lookup distinguishes the three-plank cache from the unchanged four-plank vanilla table");
+        h.assertTrue(net.minecraft.world.level.block.Block.getDrops(home.getBlockState(),h.getLevel(),home.getBlockPos(),home,dog,ItemStack.EMPTY).isEmpty(),"Breaking the unbuilt marker cannot award a functioning free Hearth cache");
+        home.setItem(0,new ItemStack(Items.DIAMOND));h.assertTrue(!home.put(new ItemStack(Items.DIAMOND)) && home.getItem(0).isEmpty() && home.takeExact(0,1).isEmpty(),"Direct container operations cannot hide or withdraw supplies inside the bare marker");
+        try(var tx=Transaction.openRoot()) {h.assertTrue(VanillaContainerWrapper.of(home).insert(ItemResource.of(new ItemStack(Items.DIAMOND)),1,tx)==0,"Native automation also sees zero usable slots before the cache");tx.commit();}
+        cacheParcel(c,dog);var output=net.minecraft.world.level.storage.TagValueOutput.createWithContext(ProblemReporter.DISCARDING,h.getLevel().registryAccess());dog.saveWithoutId(output);var body=output.buildResult();var saved=home.saveWithFullMetadata(h.getLevel().registryAccess());home.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),saved));dog.load(TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),body));
+        h.assertTrue(home.camp().bare() && home.getContainerSize()==0 && dog.society().campCacheCarrier(home) && !home.wild().timberAvailable(home.wild().timber().getFirst()),"Native body/home saves preserve the exact cache parcel, zero storage and original spent timber permission");
+        h.assertTrue(deliver(c,dog) && h.getLevel().getBlockEntity(home.getBlockPos())==home && home.cached() && !home.camp().bare() && home.getContainerSize()==27 && home.isEmpty() && dog.society().cargoEmpty() && site.equals(home.site()) && owner.equals(home.owner()) && founders.equals(home.wild().founders()),"Installing the one real carried cache preserves the same block entity, site, owner and founders, then exposes empty normal storage");
+        h.assertTrue(!deliver(c,dog) && dog.learning().knowledge().knows(Learning.Routine.CRAFT) && dog.learning().knowledge().progress(Learning.Routine.BUILD)==0 && dog.stats().equals(Stats.ZERO),"Replaying installation cannot duplicate a cache, teach architecture or grant physical points");
+        collect(c,dog,material(c,ModItems.GUAVA_PLANKS.get()));h.assertTrue(deliver(c,dog) && home.count(ModItems.GUAVA_PLANKS.get())==1,"The actual leftover ground plank is picked from beside the new cache and then delivered into its now-working inventory");
+        for(var log:home.wild().timber().subList(1,4))h.assertTrue(WildFamilyGameTest.act(c,dog,SocietyWork.Kind.CLIP_WOOD,log),"The remaining original finite logs supply the larger real dependency bill");WildFamilyGameTest.collectAll(c,dog);
+        for(var recipe:List.of(CivicRecipes.RecipeId.PLANKS,CivicRecipes.RecipeId.PLANKS,CivicRecipes.RecipeId.PLANKS,CivicRecipes.RecipeId.STICKS,CivicRecipes.RecipeId.WORKBENCH))h.assertTrue(craft(c,dog,recipe),"The remaining twelve planks pay their exact native recipe: "+recipe);
+        h.assertTrue(WildFamilyGameTest.build(c,dog,home.construction().cell(home.wild().works().workbench())) && craft(c,dog,CivicRecipes.RecipeId.AXE) && craft(c,dog,CivicRecipes.RecipeId.PICKAXE) && home.count(ModItems.GUAVA_PLANKS.get())==1 && home.count(Items.STICK)==0 && home.count(Items.WOODEN_AXE)==1 && home.count(Items.WOODEN_PICKAXE)==1,"Four actual original logs produce sixteen planks: three for the cache, four for the table, two for four sticks, three each for axe/pickaxe, with exactly one real plank left");WildFamilyGameTest.clean(c);h.succeed();
+    }
+    static void safety(GameTestHelper h) {
+        var c=PrimitiveFurnitureGameTest.setup(h,true);var home=c.home();var dog=c.dogs().getFirst();firstPlanks(c,dog);h.assertTrue(deliver(c,dog),"The paid planks reach the original mat");var planks=material(c,ModItems.GUAVA_PLANKS.get());planks.setNoPickUpDelay();var exact=planks.getItem().copy();
+        planks.getItem().set(DataComponents.CUSTOM_NAME,Component.literal("Family keepsake"));h.assertTrue(!craft(c,dog,CivicRecipes.RecipeId.CACHE) && planks.getItem().getCount()==4,"Named ground supplies retain their private components and cannot pay public recipes");planks.setItem(exact.copy());planks.setTarget(UUID.randomUUID());
+        h.assertTrue(!craft(c,dog,CivicRecipes.RecipeId.CACHE) && planks.getItem().getCount()==4,"A different owner's ground material is not public stock");planks.setTarget(home.owner());
+        var genome=dog.genome();for(Runnable change:new Runnable[]{()->dog.setGenome(new Genome(genome.packed(),0)),()->dog.snapTo(Vec3.atBottomCenterOf(home.getBlockPos().south(6))),()->planks.getItem().set(DataComponents.CUSTOM_NAME,Component.literal("Changed during permission"))}) {
+            boolean[] called={false};Consumer<EntityMobGriefingEvent> invalidate=e->{if(e.getEntity()==dog) {called[0]=true;change.run();}};NeoForge.EVENT_BUS.addListener(invalidate);
+            try {h.assertTrue(!craft(c,dog,CivicRecipes.RecipeId.CACHE) && called[0] && planks.getItem().getCount()==4 && dog.society().cargoEmpty() && !home.cached(),"A native permission callback changing capacity, reach or original components refuses ground payment and output");}finally {NeoForge.EVENT_BUS.unregister(invalidate);dog.setGenome(genome);planks.setItem(exact.copy());}
+        }
+        h.getLevel().setBlock(home.getBlockPos().east(),Blocks.REDSTONE_BLOCK.defaultBlockState(),3);h.assertTrue(!craft(c,dog,CivicRecipes.RecipeId.CACHE) && ItemStack.matches(planks.getItem(),exact),"Powered camps pause before any ground debit");h.getLevel().setBlock(home.getBlockPos().east(),Blocks.AIR.defaultBlockState(),3);
+        h.getLevel().setBlock(home.camp().mat(),Blocks.STONE.defaultBlockState(),3);h.assertTrue(!craft(c,dog,CivicRecipes.RecipeId.CACHE) && ItemStack.matches(planks.getItem(),exact),"An obstructed actual ground destination pauses without consuming the original paid inputs");h.getLevel().setBlock(home.camp().mat(),Blocks.AIR.defaultBlockState(),3);
+        h.assertTrue(craft(c,dog,CivicRecipes.RecipeId.CACHE),"The same actual inputs remain available after safe recovery");var cache=dog.society().workSupplies();Consumer<EntityPlaceEvent> veto=e->{if(e.getEntity()==dog)e.setCanceled(true);};NeoForge.EVENT_BUS.addListener(veto);
+        try {h.assertTrue(!deliver(c,dog) && !home.cached() && ItemStack.matches(cache,dog.society().workSupplies()),"Native placement protection retains the original paid cache parcel");}finally {NeoForge.EVENT_BUS.unregister(veto);}
+        h.assertTrue(deliver(c,dog) && home.cached(),"Removing the actual protection permits exactly the original paid cache");WildFamilyGameTest.clean(c);h.succeed();
+    }
+    static void callbacks(GameTestHelper h) {
+        var c=PrimitiveFurnitureGameTest.setup(h,true);var home=c.home();var dog=c.dogs().getFirst();var helper=c.dogs().get(1);
+        for(int i=0;i<2;i++) {var worker=c.dogs().get(i);h.assertTrue(WildFamilyGameTest.act(c,worker,SocietyWork.Kind.CLIP_WOOD,home.wild().timber().get(i)),"Two distinct real workers harvest original logs");collect(c,worker,material(c,ModItems.GUAVA_LOG.get()));}
+        var exact=dog.society().workSupplies();boolean[] called={false},reserved={false},nested={true};Consumer<EntityJoinLevelEvent> cancel=e->{if(!called[0] && e.getEntity() instanceof ItemEntity item && item.getItem().is(ModItems.GUAVA_LOG.get()) && item.blockPosition().equals(home.camp().mat())) {called[0]=true;reserved[0]=dog.society().cargoEmpty();nested[0]=deliver(c,helper);e.setCanceled(true);}};NeoForge.EVENT_BUS.addListener(cancel);
+        try {h.assertTrue(!deliver(c,dog) && called[0] && reserved[0] && !nested[0] && ItemStack.matches(exact,dog.society().workSupplies()) && ItemStack.matches(exact,helper.society().workSupplies()) && ground(c).isEmpty(),"Rejected native delivery refunds the exact original parcel, reserved before output callbacks, and a second real worker cannot reenter this camp");}finally {NeoForge.EVENT_BUS.unregister(cancel);}
+        boolean[] removed={false};Consumer<EntityJoinLevelEvent> remove=e->{if(!removed[0] && e.getEntity() instanceof ItemEntity item && item.getItem().is(ModItems.GUAVA_LOG.get()) && item.blockPosition().equals(home.camp().mat())) {removed[0]=true;helper.discard();e.setCanceled(true);}};NeoForge.EVENT_BUS.addListener(remove);
+        try {h.assertTrue(!deliver(c,helper) && removed[0] && helper.isRemoved() && helper.society().cargoEmpty() && ground(c).stream().filter(e->ItemStack.matches(exact,e.getItem())).count()==1,"If a native rejected-output callback removes the carrier after reservation, its one original parcel is recovered physically instead of being hidden on the removed body");}finally {NeoForge.EVENT_BUS.unregister(remove);}
+        h.assertTrue(deliver(c,dog),"The same original log is successfully delivered once after the callback is removed");ground(c).forEach(ItemEntity::setNoPickUpDelay);h.assertTrue(craft(c,dog,CivicRecipes.RecipeId.PLANKS) && deliver(c,dog),"Actual retry stock pays its native four-plank result");ground(c).forEach(ItemEntity::setNoPickUpDelay);h.assertTrue(craft(c,dog,CivicRecipes.RecipeId.CACHE),"Actual retry planks pay the carried cache");
+        boolean[] observed={false},paid={false},reentered={true};Consumer<NeighborNotifyEvent> notify=e->{if(!observed[0] && e.getLevel()==h.getLevel() && e.getPos().equals(home.getBlockPos()) && home.cached()) {observed[0]=true;paid[0]=dog.society().deathCargo().isEmpty();reentered[0]=home.camp().install(helper,()->true,()->{throw new AssertionError("Nested cache payment");},()->{});}};NeoForge.EVENT_BUS.addListener(notify);
+        try {h.assertTrue(deliver(c,dog) && observed[0] && paid[0] && !reentered[0] && home.cached() && h.getLevel().getBlockEntity(home.getBlockPos())==home && ground(c).stream().noneMatch(e->e.getItem().is(ModItems.ROOT_CACHE.get())),"Native cache block notifications see the real parcel already spent; death-cargo and recursive installation cannot duplicate it or replace the household");}finally {NeoForge.EVENT_BUS.unregister(notify);}
+        helper.society().returnCargo();WildFamilyGameTest.clean(c);h.succeed();
+    }
+    static void meals(GameTestHelper h) {
+        var c=PrimitiveFurnitureGameTest.setup(h,true);var home=c.home();var dog=c.dogs().getFirst();firstPlanks(c,dog);h.assertTrue(deliver(c,dog),"Actual planks remain on the mat before storage");
+        h.assertTrue(WildFamilyGameTest.act(c,dog,SocietyWork.Kind.PICK_FRUIT,home.wild().fruit().getFirst()),"A hungry-capable founder takes the real native ripe fruit");collect(c,dog,material(c,ModItems.GUAVA.get()));h.assertTrue(deliver(c,dog),"Actual compatible food is delivered physically beside the bare marker");ground(c).forEach(ItemEntity::setNoPickUpDelay);var food=material(c,ModItems.GUAVA.get());int count=food.getItem().getCount();WildFamilyGameTest.at(dog,home.getBlockPos());
+        h.assertTrue(dog.society().offers().stream().anyMatch(j->j.kind()==SocietyWork.Kind.MEAL) && WildFamilyGameTest.act(c,dog,SocietyWork.Kind.MEAL,home.getBlockPos()) && (food.isRemoved() ? 0 : food.getItem().getCount())==count-1 && !home.cached() && home.getContainerSize()==0,"A real six-operation ration is paid from compatible marked ground food before any cache, without converting the marker into hidden storage");WildFamilyGameTest.clean(c);h.succeed();
+    }
+    static void sharedLearning(GameTestHelper h) {
+        var c=PrimitiveFurnitureGameTest.setup(h,true);var home=c.home();var first=c.dogs().getFirst();var second=c.dogs().get(1);var third=c.dogs().get(2);firstPlanks(c,first);h.assertTrue(deliver(c,first),"The first beginner delivers its actual paid planks");ground(c).forEach(ItemEntity::setNoPickUpDelay);
+        h.assertTrue(craft(c,second,CivicRecipes.RecipeId.CACHE) && deliver(c,second),"A different actual beginner makes the cache and leaves the real parcel at the mat until someone has learned to install it");
+        h.assertTrue(WildFamilyGameTest.act(c,third,SocietyWork.Kind.CLIP_WOOD,home.wild().timber().get(1)),"The third beginner harvests another original log");collect(c,third,material(c,ModItems.GUAVA_LOG.get()));h.assertTrue(deliver(c,third),"The actual second log reaches the mat");ground(c).forEach(ItemEntity::setNoPickUpDelay);h.assertTrue(craft(c,third,CivicRecipes.RecipeId.PLANKS) && deliver(c,third),"The third beginner completes its first native plank recipe");ground(c).forEach(ItemEntity::setNoPickUpDelay);
+        h.assertTrue(home.camp().bare() && c.dogs().stream().noneMatch(d->d.society().canInstallCache()) && ground(c).stream().filter(e->e.getItem().is(ModItems.GUAVA_PLANKS.get())).mapToInt(e->e.getItem().getCount()).sum()==5,"Three real recipes split among three actual beginners leave a paid cache, five real planks and no mastered installer");
+        h.assertTrue(WildFamilyGameTest.act(c,first,SocietyWork.Kind.CLIP_WOOD,home.wild().timber().get(2)),"Further useful training still pays an actual third original log");collect(c,first,material(c,ModItems.GUAVA_LOG.get()));h.assertTrue(deliver(c,first),"The next real log is delivered without virtual training inputs");ground(c).forEach(ItemEntity::setNoPickUpDelay);WildFamilyGameTest.at(first,home.getBlockPos());
+        h.assertTrue(first.society().offers().stream().anyMatch(j->j.kind()==SocietyWork.Kind.CRAFT && j.index()==CivicRecipes.RecipeId.PLANKS.ordinal()),"Existing plank stock cannot suppress the next useful paid recipe while the real cache has no trained installer");
+        h.assertTrue(craft(c,first,CivicRecipes.RecipeId.PLANKS) && deliver(c,first) && first.society().canInstallCache(),"A second successful native recipe teaches only its actual craftsperson");var cache=material(c,ModItems.ROOT_CACHE.get());collect(c,first,cache);h.assertTrue(deliver(c,first) && home.cached() && ground(c).stream().filter(e->e.getItem().is(ModItems.GUAVA_PLANKS.get())).mapToInt(e->e.getItem().getCount()).sum()==9 && home.wild().timberAvailable(home.wild().timber().get(3)) && c.dogs().stream().allMatch(d->d.stats().equals(Stats.ZERO) && d.learning().knowledge().progress(Learning.Routine.BUILD)==0),"The actual trained worker picks and installs the original paid cache; all nine unused planks and the fourth original log remain, without skills or materials being copied");WildFamilyGameTest.clean(c);h.succeed();
+    }
+    static void playerLegacy(GameTestHelper h) {
+        var c=PrimitiveFurnitureGameTest.setup(h,true);var home=c.home();var dog=c.dogs().getFirst();cacheParcel(c,dog);var cache=dog.society().deathCargo();var owner=home.owner();var site=home.site();var player=ApexTypesGameTest.player(h,Vec3.atBottomCenterOf(home.getBlockPos().west(2)));player.setItemInHand(InteractionHand.OFF_HAND,cache);var use=new UseOnContext(player,InteractionHand.OFF_HAND,new BlockHitResult(Vec3.atCenterOf(home.getBlockPos()),Direction.UP,home.getBlockPos(),false));
+        h.assertTrue(home.createMenu(1,player.getInventory(),player)==null,"The native menu provider also refuses a bare marker instead of constructing hidden chest slots");
+        Consumer<EntityPlaceEvent> veto=e->{if(e.getEntity()==player)e.setCanceled(true);};NeoForge.EVENT_BUS.addListener(veto);
+        try {h.assertTrue(!player.getOffhandItem().useOn(use).consumesAction() && player.getOffhandItem().is(ModItems.ROOT_CACHE.get()) && !home.cached(),"A visitor's actual offhand contribution respects native placement cancellation and retains its original cache");}finally {NeoForge.EVENT_BUS.unregister(veto);}
+        h.assertTrue(player.getOffhandItem().useOn(use).consumesAction() && player.getOffhandItem().isEmpty() && home.cached() && owner.equals(home.owner()) && site.equals(home.site()) && !home.permitted(player),"A deliberate real contribution consumes one cache without claiming the existing community or its storage");player.discard();WildFamilyGameTest.clean(c);
+        var legacy=WildFamilyGameTest.setup(h,false);var old=legacy.home();old.put(new ItemStack(Items.COPPER_INGOT,7));var data=old.saveWithFullMetadata(h.getLevel().registryAccess());data.remove("PrimitiveCamp");var copy=(HearthTreeBlockEntity)BlockEntity.loadStatic(old.getBlockPos(),old.getBlockState(),data,h.getLevel().registryAccess());
+        var stateTag=new net.minecraft.nbt.CompoundTag();stateTag.putString("Name","bunnidogs:hearth_tree");var properties=new net.minecraft.nbt.CompoundTag();properties.putString("stage","0");stateTag.put("Properties",properties);var oldState=net.minecraft.world.level.block.state.BlockState.CODEC.parse(net.minecraft.nbt.NbtOps.INSTANCE,stateTag).getOrThrow();
+        h.assertTrue(oldState.getValue(HearthTreeBlock.CACHED),"The actual native old blockstate decoder preserves complete storage when the new property is absent");
+        h.assertTrue(ModBlocks.HEARTH_TREE.get().defaultBlockState().getValue(HearthTreeBlock.CACHED) && copy!=null && copy.cached() && !copy.wild().campStart() && copy.getContainerSize()==27 && copy.count(Items.COPPER_INGOT)==7 && copy.wild().timber().size()==3 && !copy.wild().timberAvailable(old.getBlockPos().offset(-3,0,3)),"Missing new saved flags preserves exact older cache stock, completed default state and three original timber permissions, without an added fourth source");WildFamilyGameTest.clean(legacy);h.succeed();
+    }
+}

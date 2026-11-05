@@ -3,21 +3,21 @@
   "sources": [
     {
       "file": "generated.json",
-      "sha256": "72156e92f3aec04892966f7f594062dc2aec1facbd833ed6d3764447fe454599",
+      "sha256": "a6cfaf3dda352d9643cb2cc7934ae33195f42360770062394b74df4d988aeed5",
       "evidence": "Actual registered feature in WorldGenRegion with unfinished detached ProtoChunks; no client rendering.",
-      "native_cells": 314
+      "native_cells": 315
     },
     {
-      "file": "start.json",
-      "sha256": "229fd30ad769c216cdbae9448151339b275d751cc525dcf19f8b3bd02d766eb1",
-      "evidence": "Controlled native site before work: empty inventory, selected capable zero-point founders and no supplied tools/materials.",
-      "native_cells": 314
+      "file": "camp_start.json",
+      "sha256": "1e2ca172f15a27d1654039b3214e14ba2477f54af942564177dce174104f0428",
+      "evidence": "Native autonomous new-camp reference before work: four original logs, no usable cache, selected capable zero-point founders, empty education and no supplied stock/tools/food.",
+      "native_cells": 315
     },
     {
-      "file": "completed.json",
-      "sha256": "a6c7f853a77157cb6297c524a61f81f1a50da8da37704c82ae95d63284ac5e62",
-      "evidence": "Controlled native work chain from empty stores; selected capable zero-point founders, actual native stock and world actions; not natural timing.",
-      "native_cells": 312
+      "file": "camp_completed.json",
+      "sha256": "37e81b2875544851118978fabe74f91d3e8745c9a8c74814e184a10bc7b4ab83",
+      "evidence": "Same native autonomous site after its real ground-paid first cache, walked table/tools/stone/furnace/charcoal/lights and first claimed paid Nest. Normal growth, rations and night rest; no supplied materials or taught skills. Selected capable founder profile is separate from natural staffing/Survival/client acceptance.",
+      "native_cells": 310
     }
   ]
 }

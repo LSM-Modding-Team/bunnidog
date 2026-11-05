@@ -1,5 +1,5 @@
 {
-  "scope": "Controlled native functional observations with three selected capable zero-point founders, empty stores, actual generated resources, native meal payments and crop/coppice regrowth. Excludes natural founder selection, player work and long-term Survival rates. GameTest executes native ticks faster than wall time. Geometry/stock evidence is in WildWorksGameTest and art/wild_glade/. Fresh rest-plot revision: controlled transactions prove all three paid Nests, with explicitly advanced crop age. Native walking/growth/ration/night scenarios prove the first claimed paid Nest plus the original furnace/lights; they do not certify all-three or natural multi-generation continuity. Ordinary-helper first-litter references freeze three Genome.DEFAULT founders instead of the elite selected profile; all retain zero points and empty initial learning. Native crop growth, meals, walking, courtship, soil planting and hatch remain real. These references do not measure natural random-founder Survival rates.",
+  "scope": "Controlled native functional observations with three selected capable zero-point founders, empty stores, actual generated resources, native meal payments and crop/coppice regrowth. Excludes natural founder selection, player work and long-term Survival rates. GameTest executes native ticks faster than wall time. Geometry/stock evidence is in WildWorksGameTest and art/wild_glade/. Fresh rest-plot revision: controlled transactions prove all three paid Nests, with explicitly advanced crop age. Native walking/growth/ration/night scenarios prove the first claimed paid Nest plus the original furnace/lights; they do not certify all-three or natural multi-generation continuity. Ordinary-helper first-litter references freeze three Genome.DEFAULT founders instead of the elite selected profile; all retain zero points and empty initial learning. Native crop growth, meals, walking, courtship, soil planting and hatch remain real. These references do not measure natural random-founder Survival rates. Current primitive-camp revision begins with zero usable inventory, real ground supplies/meals and paid three-plank cache installation; old empty-store observations remain historical. Four original logs produce sixteen planks, covering the fifteen-plank initial cache/tool bill. Native recipe lookup distinguishes the three-plank cache from vanilla table.",
   "observations": [
     {
       "run": "focused_wild_works",
@@ -223,6 +223,50 @@
       "suite_passed": true,
       "native_required_cases": 325,
       "note": "The separate complementary-role case supplies beds/materials for policy checks and controls the sole carer health; this autonomous first-litter reference retains its unprovisioned ordinary founders and native growth/meals/night rest."
+    },
+    {
+      "run": "primitive_cache_early_shared_learning_full_native",
+      "milestone": "first paid cache/table/tool/claimed Nest",
+      "loaded_ticks": 120000,
+      "suite_passed": false,
+      "native_required_cases": 330,
+      "native_required_passed": 329,
+      "note": "Prototype four-plank cache. Diagnostics at 2000 and 5000 ticks showed three actual beginners each at Crafting 5/6, a paid ground cache, four unused planks and two ground logs, but no qualified installer or further useful recipe. Stock then expired before the larger tool chain. The controlled shared-learning reproduction subsequently failed before the demand fix. Separate family/workshop references passed in this run; this is not a passing release."
+    },
+    {
+      "run": "primitive_cache_final_full_native_furniture",
+      "milestone": "ordinary helper-profile actual first cache/table/tools/claimed Nest",
+      "loaded_ticks": 75719,
+      "guavas_left": 3,
+      "suite_passed": true,
+      "native_required_cases": 331,
+      "note": "Three Genome.DEFAULT founders, zero points and empty initial learning; native ground/cargo custody, growth, rations, night rest and walking. New three-plank cache recipe and shared-beginner useful-work fix."
+    },
+    {
+      "run": "primitive_cache_final_full_native_family",
+      "milestone": "actual first litter after ground-paid cache with ordinary helper founders",
+      "first_cache_at": 1226,
+      "two_claimed_homes_at": 75876,
+      "food_reserve_at": 94291,
+      "parental_seed_planted_at": 100335,
+      "loaded_ticks": 142070,
+      "pups": 2,
+      "guavas_left": 25,
+      "suite_passed": true,
+      "native_required_cases": 331,
+      "note": "No supplied inventory, materials, food, tools, learning or bred points. Native parented children retain empty personal learning. Actual staffing, Survival/client/co-op and multi-generation human acceptance remain separate."
+    },
+    {
+      "run": "primitive_cache_final_full_native_workshop",
+      "milestone": "ground-paid first cache/table/tools/stone/furnace/charcoal/four lights/first claimed paid Nest",
+      "loaded_ticks": 23042,
+      "paid_initial_nests": 1,
+      "guavas_left": 0,
+      "logs_left": 2,
+      "planks_left": 13,
+      "suite_passed": true,
+      "native_required_cases": 331,
+      "note": "Separate selected capable-founder profile, zero points/empty initial learning and no supplied stock. Actual before/after block snapshots in art/wild_glade/camp_start.json and camp_completed.json."
     }
   ]
 }
