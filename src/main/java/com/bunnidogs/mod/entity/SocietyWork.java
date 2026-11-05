@@ -104,7 +104,18 @@ public final class SocietyWork {
     void release() {var h=hearth();if(h!=null)h.jobs().release(dog);active=null;}
     public Job plan() {var offered=offers();return offered.isEmpty() ? null : offered.getFirst();}
     private int mealSlot(HearthTreeBlockEntity h) {
-        for(int slot=0;slot<h.getContainerSize();slot++) {var food=h.getItem(slot);if(CivicRecipes.ordinary(food) && com.bunnidogs.mod.item.GuavaItem.tierOf(food)==0 && dog.canEat(food))return slot;}return -1;
+        int guava=-1,grain=-1,wheatReserve=-1;
+        for(int slot=0;slot<h.getContainerSize();slot++) {
+            var food=h.getItem(slot);if(!CivicRecipes.ordinary(food) || com.bunnidogs.mod.item.GuavaItem.tierOf(food)!=0 || !dog.canEat(food))continue;
+            if(food.is(ModItems.GUAVA.get())) {if(guava<0)guava=slot;continue;}
+            if(food.is(Items.WHEAT)) {
+                if(wheatReserve<0)wheatReserve=3*Math.max(0,nestDemand(h)-CivicRecipes.count(h,ModItems.NEST.get()));
+                if(CivicRecipes.count(h,Items.WHEAT)<=wheatReserve) {if(grain<0)grain=slot;continue;}
+            }
+            return slot;
+        }
+        // Preserve breeding guavas with compatible surplus; bedding grain is still a real last-resort meal.
+        return guava>=0 ? guava : grain;
     }
     /** Read-only bounded offers. The movement goal acquires a short exclusive claim only when it starts. */
     public List<Job> offers() {
@@ -200,10 +211,10 @@ public final class SocietyWork {
             }
             if(familyNurse() && canStartFamily(h))jobs.add(at(Kind.COURT,at));
         }
-        if(!hungry)for(var soil:h.sites()) {
+        for(var soil:h.sites()) {
             var pos=soil.above();if(!CivicFields.plot(h,pos))continue;var state=l.getBlockState(pos);
-            if(grow && CivicFields.seed(state)!=null && state.getBlock() instanceof CropBlock crop && crop.isMaxAge(state))jobs.add(at(Kind.HARVEST_FIELD,pos));
-            if(garden && state.isAir()) {int slot=CivicFields.seedSlot(h);if(slot>=0 && CivicFields.plant(h.getItem(slot)).canSurvive(l,pos))jobs.add(new Job(Kind.FETCH_SEED,at,slot,l.getBlockState(at),null,pos));}
+            if(grow && (!hungry || eatsCrop(state)) && CivicFields.seed(state)!=null && state.getBlock() instanceof CropBlock crop && crop.isMaxAge(state))jobs.add(at(Kind.HARVEST_FIELD,pos));
+            if(!hungry && garden && state.isAir()) {int slot=CivicFields.seedSlot(h);if(slot>=0 && CivicFields.plant(h.getItem(slot)).canSurvive(l,pos))jobs.add(new Job(Kind.FETCH_SEED,at,slot,l.getBlockState(at),null,pos));}
         }
         if(gathers())for(var item:CivicFields.drops(h))if(!hungry || dog.canEat(item.getItem()) || foodTool && item.getItem().is(ModItems.GUAVA_LOG.get()))jobs.add(new Job(Kind.GATHER_FIELD,item.blockPosition(),item.getId(),l.getBlockState(item.blockPosition())));
         if(foodTool && craft)
@@ -262,7 +273,7 @@ public final class SocietyWork {
             case FETCH_FURNACE -> 100;case LOAD_FURNACE -> 120;case EMPTY_FURNACE -> 110;
             case FETCH_PICKAXE,MINE_STONE -> 120;
             case HAUL -> scarce ? 135 : 70;case SUPPLY -> 100;
-            case PRUNE -> scarce ? 130 : 75;case PICK_FRUIT -> scarce ? 130 : 75;case CLIP_WOOD -> CivicTools.axeSlot(h)<0 ? 125 : 60;case GATHER_FIELD -> 105;case HARVEST_FIELD -> h.count(Items.WHEAT)<12 ? 110 : 75;case FETCH_SEED,SOW_FIELD -> 90;case PLANT -> 85;
+            case PRUNE -> scarce ? 130 : 75;case PICK_FRUIT -> scarce ? 130 : 75;case CLIP_WOOD -> CivicTools.axeSlot(h)<0 ? 125 : 60;case GATHER_FIELD -> 105;case HARVEST_FIELD -> workSinceMeal>=6 && eatsCrop(job.expected()) ? 135 : h.count(Items.WHEAT)<12 ? 110 : 75;case FETCH_SEED,SOW_FIELD -> 90;case PLANT -> 85;
             case BUILD,FETCH_BUILD -> (job.destination()!=null && h.construction().needsRepair(job.destination()) || h.construction().needsRepair(job.target())) ? 125 : h.wild().works().workCell(job.destination()!=null ? job.destination() : job.target()) ? 115 : 65;case TEACH -> 45;case RECORD_ROUTE,STUDY_ROUTE,RECORD_CRAFT -> 35;
             case COMPOST -> h.count(Items.BONE_MEAL)<2 ? 90 : 40;
             case COURT -> h.wild().works().workbenchPlot() ? 125 : 55;case TEND -> 60;
@@ -317,10 +328,11 @@ public final class SocietyWork {
         return nursery && list.stream().filter(d->d.readyForPen() && d.homeNest()!=null).count()>=2;
     }
     private boolean sharedMeal(HearthTreeBlockEntity h,ItemStack food) {return !food.isEmpty() && h.residents().stream().anyMatch(d->d.canEat(food));}
-    private boolean sharedCrop(HearthTreeBlockEntity h,BlockState crop) {
+    private boolean eatsCrop(BlockState crop) {
         if(crop==null)return false;var seed=CivicFields.seed(crop);var product=CivicFields.product(crop);
-        return seed!=null && sharedMeal(h,new ItemStack(seed)) || product!=null && sharedMeal(h,new ItemStack(product));
+        return seed!=null && dog.canEat(new ItemStack(seed)) || product!=null && dog.canEat(new ItemStack(product));
     }
+    private boolean sharedCrop(HearthTreeBlockEntity h,BlockState crop) {return h.residents().stream().anyMatch(d->d.society().eatsCrop(crop));}
     private boolean familySupportJob(HearthTreeBlockEntity h,Job job) {
         return switch(job.kind()) {
             case MEAL,DELIVER,COURT,FETCH_AID,FETCH_RESCUE,CARE,MEDICINE,PICKUP_RESCUE,RELEASE_RESCUE -> true;

@@ -248,6 +248,17 @@ terrain. A wild glade cannot gift the player's Living Keystone progression.
 
 ## Evidence and remaining work
 
+The native `primitive_diet_meals` case exercises an ordinary helper with the
+existing Grazer allele, keeping zero bred points and empty initial learning.
+Six actual wood/hauling operations lead to an original mature field harvest,
+real seed replanting, one-item walking food parcel and actual wheat meal with
+no supplied food. Its plain-Diet counterpart refuses that emergency crop job.
+Later stock is explicitly supplied to check compatible surplus before an earlier
+guava slot, the nine-wheat bill for three usable initial Nests, and the sole-food
+fallback. Actual chores still account for each ration cycle; workshop skills
+and body points are not awarded. This is functional Diet/coordination evidence,
+not a natural selection or Survival-rate sample.
+
 The ordinary `Genome.DEFAULT` helper reference now reaches a real first litter
 without supplied food, tools, materials, education or bred points. One focused
 observation housed two parents at **99,634** loaded ticks, reached the original

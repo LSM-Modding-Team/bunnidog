@@ -5,6 +5,18 @@ validated pushes. It supersedes the previous finite rebalance delivery stop.
 Prioritize accepted unfinished professions, practical education, wild continuity
 and civilization. Keep the shipped rebalance candidate pending human testing;
 do not blindly retune it merely to fill another batch.
+Compatible native field food now remains available to a hungry capable worker;
+inedible material farming/planting waits. Preserve actual inherited Diet, native
+harvest/replant/haul/payment and six-operation rations. Meals prefer compatible
+ordinary surplus before breeding guavas, protect the real usable-Nest wheat
+bill when other food exists, and allow that grain as the sole available meal.
+The focused diet/food case and Java 25 build/model/localization plus all 322
+native cases pass. No food yield, body points, effect or inherited skill changes.
+The prior `e716def` CI passed 320/321: the roster fixture dereferenced a just-
+released UUID before native indexing. Its follow-up waits for the actual body
+before the same membership/menu assertions and measures quiet time from its real
+hit. Preserve basket gameplay, party bounds and native timing; full main CI is
+the publication gate, not another same-callback index assumption.
 Shared orchard tools now exclude named/enchanted/custom gear while accepting
 ordinary native wear. Preserve exact original slot/tool reservation through
 native protection, block/output callbacks, full-source recovery and one paid wear.

@@ -7,7 +7,32 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 Previous sections retain their checkpoint's protocol/evidence; the current
 section below takes precedence.
 
-## Current — original shared tools and useful primitive production
+## Current — compatible field meals and real bedding reserves
+
+Hungry capable workers can now harvest mature crops their actual Diet accepts,
+then walk the real output home and pay the existing ration. Inedible material
+farming and new planting still wait. Meals prefer ordinary compatible surplus
+over breeding guavas, while preserving the actual wheat bill for usable Nest
+plots. That grain remains a last-resort meal when no other food is available.
+No Diet, yield, work budget, food effect or learned skill is granted.
+
+Java 25 **`build checkBunnidogModel runGameTestServer` passes all 322 required
+native cases**, including `primitive_diet_meals`. Its first field-to-meal chain
+uses only the actual landscape and paid chores; later choice fixtures supply
+stock explicitly. The ordinary first-litter reference repeated two pups at
+177,102 loaded ticks with seventeen guavas remaining. Protocol **52** remains
+current. Natural/client/co-op pacing and
+the rebalance candidate remain pending human test.
+
+The preceding `e716def` main CI passed 320/321: the old companion-roster fixture
+looked up a successfully released basket body in the same callback and got null.
+The follow-up waits for that actual UUID/body to enter the native index before
+testing the same party/menu rules, then counts quiet time from its real hit.
+Basket gameplay and membership rules are unchanged. The focused roster check
+passes, including the relative quiet-time follow-up. Exact full main CI remains
+this follow-up's publication gate.
+
+## Previous — original shared tools and useful primitive production
 
 Orchard workers now use only actual ordinary shared wooden axes. Normal wear
 remains usable; names, enchantments and other private components exclude a tool
@@ -29,7 +54,7 @@ native cases**, including both tool cases and actual material-demand checks.
 The same full run repeats two native pups at **166,310 loaded ticks** and the
 paid first workshop/claimed Nest at **10,920** in its separate capable reference.
 Long native furniture/industry/growth references now use separate batches with
-the same day setup. Main CI remains this checkpoint's publication gate.
+the same day setup. Its first main CI exposed the roster fixture described above.
 Protocol **52** remains current;
 natural/client/co-op pacing and the rebalance candidate remain human review.
 

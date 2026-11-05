@@ -156,7 +156,12 @@ public final class CompanionCombatGameTest {
         var basket=new ItemStack(ModItems.TRAVEL_BASKET.get()); var id=one.getUUID();
         h.assertTrue(TravelBasketItem.capture(h.getLevel(),basket,one).success()&&!reserve.combat().assist(keeper),"A packed fighter still occupies its slot");
         h.assertTrue(TravelBasketItem.release(h.getLevel(),h.absolutePos(new BlockPos(9,Y+1,2)),basket).success(),"The old selected animal can be restored from its real basket");
-        var restored=(Bunnidog)h.getLevel().getEntity(id);
+        // A successful native spawn can become visible to UUID lookup after this GameTest callback returns.
+        h.startSequence().thenWaitUntil(()->h.assertTrue(h.getLevel().getEntity(id) instanceof Bunnidog restored && restored!=one && restored.isAlive(),"The actual released identity must enter the native entity index before party-menu lookup"))
+                .thenExecute(()->rosterRestored(h,keeper,(Bunnidog)h.getLevel().getEntity(id),two,three,reserve,basket));
+    }
+    private static void rosterRestored(GameTestHelper h,ServerPlayer keeper,Bunnidog restored,Bunnidog two,Bunnidog three,Bunnidog reserve,ItemStack basket) {
+        h.assertTrue(!TravelBasketItem.occupied(basket),"Native restoration spends exactly the original basket body before the party view opens");
         h.assertTrue(restored.combat().selected()&&two.combat().selected()&&two.isAlliedTo(restored)&&restored.combat().partyCount()==3,
                 "Basket restoration retains exactly the same three party memberships and allies");
         CareMenu.openParty(keeper); var menu=(CareMenu)keeper.containerMenu;
@@ -171,7 +176,7 @@ public final class CompanionCombatGameTest {
         two.hurtServer(h.getLevel(),h.getLevel().damageSources().mobAttack(enemy),1);
         h.assertTrue(!CompanionParty.remove(keeper,reserve.getUUID())&&two.combat().selected(),"Recent combat reserves even a packed party slot");
         two.combat().recall(keeper);
-        h.runAtTickTime(220,()->{
+        h.runAfterDelay(220,()->{
             h.assertTrue(CompanionParty.remove(keeper,reserve.getUUID()),"Actual quiet loaded time allows removing a packed member without releasing it");
             keeper.setHealth(0);
             h.runAfterDelay(2,()->{

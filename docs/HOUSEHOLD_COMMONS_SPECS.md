@@ -35,6 +35,16 @@ when it is the missing link to that food. A ration is one actual compatible
 ordinary food item from the common inventory, not a breeding gesture or a new
 universal starvation timer.
 
+A hungry capable worker can also harvest an actual mature compatible food crop
+and walk its real output home. A plain-Diet resident still treats wheat as
+material and waits to harvest it until fed.
+Empty-plot planting and inedible material work still wait. An ordinary compatible
+surplus meal is selected before breeding guavas, but native wheat for actual
+usable Nest targets is preserved when another meal exists. Walking bedding
+already satisfies its original target. If grain is the only compatible food,
+the worker can still pay its ration from it instead of deadlocking behind a
+future building bill. No food, ration discount or skill comes from planning.
+
 In current wild workbench glades, food urgency now matches the existing twenty-
 guava family threshold. Real housed parents, nursery space and a capable carer
 create a temporary preparation window: helpers prioritize useful compatible

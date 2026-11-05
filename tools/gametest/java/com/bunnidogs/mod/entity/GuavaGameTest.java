@@ -69,6 +69,7 @@ public final class GuavaGameTest extends GameTestInstance {
         event.registerTest(id("primitive_food_tool"),new GuavaGameTest("primitive_food_tool",new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"civic_tool_custody","civic_tool_callbacks"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_material_demand"),new GuavaGameTest("primitive_material_demand",new TestData<>(environment,id("crown_arena"),300,0,true)));
+        event.registerTest(id("primitive_diet_meals"),new GuavaGameTest("primitive_diet_meals",new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"wild_works_chain","wild_works_safety","wild_works_legacy","wild_works_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(name.equals("wild_works_ai") ? industry : environment,id("crown_arena"),name.equals("wild_works_ai") ? 120000 : 240,0,true)));
         for(String name:new String[]{"wild_rest_safety","wild_rest_legacy"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"fields_coppice","fields_journey","fields_protection","fields_ownership","fields_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),name.equals("fields_ai") ? 760 : 160,0,true)));
@@ -225,6 +226,7 @@ public final class GuavaGameTest extends GameTestInstance {
             case "civic_tool_custody" -> {CivicToolGameTest.custody(h);return;}
             case "civic_tool_callbacks" -> {CivicToolGameTest.callbacks(h);return;}
             case "primitive_material_demand" -> {PrimitiveFurnitureGameTest.materialDemand(h);return;}
+            case "primitive_diet_meals" -> {PrimitiveFurnitureGameTest.dietMeals(h);return;}
             case "wild_materials" -> {WildFamilyGameTest.materials(h);return;}
             case "wild_nursery" -> {WildFamilyGameTest.nursery(h,false);return;}
             case "wild_nursery_veto" -> {WildFamilyGameTest.nursery(h,true);return;}

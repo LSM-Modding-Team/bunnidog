@@ -184,6 +184,19 @@
       "guavas_left": 0,
       "suite_passed": true,
       "native_required_cases": 321
+    },
+    {
+      "run": "compatible_meals_full_native_family",
+      "milestone": "ordinary helper first litter with compatible-field meal and grain-reserve policy",
+      "two_claimed_homes_at": 74679,
+      "food_reserve_at": 142352,
+      "parental_seed_planted_at": 142725,
+      "loaded_ticks": 177102,
+      "pups": 2,
+      "guavas_left": 17,
+      "suite_passed": true,
+      "native_required_cases": 322,
+      "note": "The autonomous reference retains the ordinary plain Diet. The separate native Grazer case proves original crop-to-meal work and explicitly supplied meal-choice/bedding-reserve inputs. The later focused roster case waits for actual native UUID indexing, retaining the original party assertions and actual quiet time."
     }
   ]
 }
