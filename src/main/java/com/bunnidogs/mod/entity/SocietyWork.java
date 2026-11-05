@@ -320,7 +320,7 @@ public final class SocietyWork {
         return h.count(ModItems.GUAVA.get())>=20 && familyOpportunity(h);
     }
     public static int foodReserve(HearthTreeBlockEntity h) {return h.wild().works().workbenchPlot() ? 20 : 16;}
-    private boolean preparingFamily(HearthTreeBlockEntity h) {return h.wild().works().workbenchPlot() && familyOpportunity(h) && h.residents().stream().anyMatch(d->d.society().familyNurse());}
+    private boolean preparingFamily(HearthTreeBlockEntity h) {return h.wild().works().workbenchPlot() && familyOpportunity(h) && h.residents().stream().anyMatch(d->d.society().calm() && d.society().familyNurse());}
     private boolean familyOpportunity(HearthTreeBlockEntity h) {
         var list=h.residents();if(list.size()>=8 || list.stream().anyMatch(Bunnidog::isBaby))return false;
         for(int i=0;i<h.getContainerSize();i++)if(communitySeed(h.getItem(i),h))return false;

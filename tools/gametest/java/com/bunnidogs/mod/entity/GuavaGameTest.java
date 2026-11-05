@@ -69,6 +69,7 @@ public final class GuavaGameTest extends GameTestInstance {
         for(String name:new String[]{"primitive_furniture","primitive_limits","primitive_ai"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(name.equals("primitive_ai") ? furniture : environment,id("crown_arena"),name.equals("primitive_ai") ? 120000 : 240,0,true)));
         event.registerTest(id("primitive_family"),new GuavaGameTest("primitive_family",new TestData<>(continuity,id("crown_arena"),300000,0,true)));
         event.registerTest(id("primitive_family_reserve"),new GuavaGameTest("primitive_family_reserve",new TestData<>(environment,id("crown_arena"),300,0,true)));
+        event.registerTest(id("primitive_family_carer"),new GuavaGameTest("primitive_family_carer",new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_food_tool"),new GuavaGameTest("primitive_food_tool",new TestData<>(environment,id("crown_arena"),300,0,true)));
         for(String name:new String[]{"civic_tool_custody","civic_tool_callbacks"})event.registerTest(id(name),new GuavaGameTest(name,new TestData<>(environment,id("crown_arena"),300,0,true)));
         event.registerTest(id("primitive_material_demand"),new GuavaGameTest("primitive_material_demand",new TestData<>(environment,id("crown_arena"),300,0,true)));
@@ -226,6 +227,7 @@ public final class GuavaGameTest extends GameTestInstance {
             case "primitive_ai" -> {PrimitiveFurnitureGameTest.ai(h);return;}
             case "primitive_family" -> {PrimitiveFurnitureGameTest.family(h);return;}
             case "primitive_family_reserve" -> {PrimitiveFurnitureGameTest.familyReserve(h);return;}
+            case "primitive_family_carer" -> {PrimitiveFurnitureGameTest.familyCarer(h);return;}
             case "primitive_food_tool" -> {PrimitiveFurnitureGameTest.foodTool(h);return;}
             case "civic_tool_custody" -> {CivicToolGameTest.custody(h);return;}
             case "civic_tool_callbacks" -> {CivicToolGameTest.callbacks(h);return;}

@@ -210,6 +210,19 @@
       "suite_passed": true,
       "native_required_cases": 324,
       "note": "Normal native growth/walking/meals/night rest and unchanged ordinary founder profile. Separate native checks reproduce/fix capacity loss and reentrant timber replacement. Exact orchard transaction checks use a native scoped zero-random-growth environment, restoring the original rule afterward; this autonomous reference retains normal growth."
+    },
+    {
+      "run": "available_carer_full_native_family",
+      "milestone": "ordinary helper first litter with actual available-carer preparation",
+      "two_claimed_homes_at": 78092,
+      "food_reserve_at": 126679,
+      "parental_seed_planted_at": 127931,
+      "loaded_ticks": 155309,
+      "pups": 2,
+      "guavas_left": 11,
+      "suite_passed": true,
+      "native_required_cases": 325,
+      "note": "The separate complementary-role case supplies beds/materials for policy checks and controls the sole carer health; this autonomous first-litter reference retains its unprovisioned ordinary founders and native growth/meals/night rest."
     }
   ]
 }

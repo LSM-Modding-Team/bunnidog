@@ -5,6 +5,13 @@ validated pushes. It supersedes the previous finite rebalance delivery stop.
 Prioritize accepted unfinished professions, practical education, wild continuity
 and civilization. Keep the shipped rebalance candidate pending human testing;
 do not blindly retune it merely to fill another batch.
+Family preparation now requires an actually calm/available carer, using the
+existing work health/safety conditions. Genetic care potential in an injured,
+unsafe or paused sole specialist cannot indefinitely freeze complementary
+healthy workers. The native two-crafter/one-carer case failed before the fix and
+passes afterward, with actual paid courtship after controlled recovery. All 325
+native cases and Java 25 build/model/localization pass; main CI is the gate.
+The prior `92de76b` full CI passed all 324 and published the verified JAR.
 Field/wood/fruit harvesting now rechecks live capacity, guidance and reach after
 native permission/loot callbacks. Preserve `harvestReadyAt` for real outcomes,
 including pruning. Reserve original timber permission before native block

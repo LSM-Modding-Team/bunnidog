@@ -220,7 +220,7 @@ seed, existing pups or occupied nursery prevents repeated family initiation.
 
 Current workbench glades use a twenty-guava food target, matching the existing
 courtship threshold instead of easing food urgency at sixteen. When two housed
-parents are ready, an empty nursery is usable and a real capable carer exists,
+parents are ready, an empty nursery is usable and a real capable, calm carer exists,
 autonomous helpers defer optional stockpiles, bedding and workshop expansion.
 They continue actual compatible food gathering/planting, emergency axe/table
 preparation, urgent patient supplies/care and already-paid walking parcels.
@@ -234,6 +234,13 @@ seed, occupied soil, pups, lost parents or a missing carer end the preparation
 window. Older sites without the workbench revision retain their sixteen-guava
 food target and former work priorities. Food yields, six-operation rations,
 birth costs, inherited limits and native crop growth are unchanged.
+
+An injured, unsafe, ordered or paused sole carer cannot hold that window open
+using genetic potential alone. Healthy complementary workers resume ordinary
+production until a real carer becomes available. A controlled native reference
+uses two independent crafters limited at family care and one actual specialist;
+injury releases preparation, controlled health recovery restores it, and the
+same real courtship still pays two guavas. This changes no care/healing cost.
 
 The food-tool recovery path also includes the missing physical dependencies.
 When a hungry resident has no axe and a real ripe Coppice is waiting, it can

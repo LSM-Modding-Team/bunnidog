@@ -54,6 +54,11 @@ window from actual parental state; no stored lock or virtual ration is created.
 Earlier sites keep their former food target. See the first-litter evidence and
 its natural-pacing limits in [WILD_FAMILY_SPECS.md](WILD_FAMILY_SPECS.md).
 
+The real carer must also meet ordinary calm/work health and safety conditions.
+An injured or interrupted sole specialist's potential cannot freeze healthy
+complementary workers indefinitely. Its actual recovery re-enables preparation;
+the household gains neither healing nor a new permanent reservation.
+
 ## Crafting uses actual recipes
 
 In new wild workbench sites, learned independent Crafting also covers assembly

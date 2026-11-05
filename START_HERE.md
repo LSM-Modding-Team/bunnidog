@@ -7,7 +7,26 @@ standing design latitude determine scope; a feature or push is a checkpoint.
 Previous sections retain their checkpoint's protocol/evidence; the current
 section below takes precedence.
 
-## Current — live harvest eligibility and original timber receipts
+## Current — family preparation needs an available carer
+
+Ready parents no longer hold their healthy helpers in food-only preparation
+when the sole family-care specialist is injured, unsafe or otherwise unable to
+work. The policy uses the same existing calm/health conditions as actual work;
+inherited potential alone cannot hold the window open. Recovery re-enables the
+window from live state. Food targets, costs, capacities and first-aid rules stay.
+
+The new complementary-role native case failed before the fix and now passes:
+two actual crafting-capable, care-limited parents depend on one real carer,
+resume ordinary work during its injury, and pay normal courtship after controlled
+recovery. Java 25 **`build checkBunnidogModel runGameTestServer` passes all 325
+required native cases**. Its separate unprovisioned ordinary-family reference
+again produced two pups at 155,309 loaded ticks, with eleven guavas remaining.
+Main CI remains this checkpoint's publication gate. Protocol **52** stays.
+
+Natural/client/co-op pacing, multiple generations and the rebalance candidate
+remain pending human test. The initial cache plan below remains unimplemented.
+
+## Previous — live harvest eligibility and original timber receipts
 
 Field, fallen-wood and hanging-fruit work now rechecks actual inherited capacity,
 guidance, reach and source state after permission/loot callbacks. Orchard pruning
@@ -37,7 +56,8 @@ transaction checks use a separate native environment with random growth paused
 and the prior rule automatically restored. Normal wild growth references remain
 separate and unchanged. All five focused orchard cases pass. The roster basket
 also releases within its actual eight-wide simulated template before waiting
-for native UUID visibility. Full main CI remains the publication gate.
+for native UUID visibility. Full main CI in `92de76b` passed all 324 required
+cases and published its verified direct JAR.
 
 ## Previous — compatible field meals and real bedding reserves
 
